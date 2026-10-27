@@ -31,7 +31,7 @@ line says otherwise. (est.) = engineering estimate. — = unknown.
 | SITLSRC | https://github.com/ArduPilot/ardupilot — `libraries/SITL/SIM_Plane.cpp`, `SIM_QuadPlane.cpp`; `Tools/autotest/default_params/quadplane.parm`; `Tools/autotest/pysim/vehicleinfo.json` |
 | ASPDRV | https://github.com/ArduPilot/ardupilot — `libraries/AP_Airspeed/AP_Airspeed_MS5525.cpp` (addresses 0x76, 0x77) |
 
-### ArduPilot documentation (https://ardupilot.org/plane/docs/…)
+### ArduPilot documentation (https://ardupilot.org/plane/docs/)
 | Key | Page |
 |---|---|
 | BP | common-CoreWingF405WingV2.html |

@@ -1,0 +1,122 @@
+[
+ {
+  "name": "ArduPilot Plane: QuadPlane frame setup",
+  "topic": "Flight software",
+  "url": "https://ardupilot.org/plane/docs/quadplane-frame-setup.html",
+  "why": "Motor order and prop directions for the Quad X lift layout (build step 7.2, firmware output map)."
+ },
+ {
+  "name": "ArduPilot Plane: QuadPlane building guide",
+  "topic": "Flight software",
+  "url": "https://ardupilot.org/plane/docs/quadplane-building.html",
+  "why": "How a lift + cruise quadplane is set up in ArduPlane: transition, Q-assist and the parameters in firmware/vtol_c0.param."
+ },
+ {
+  "name": "ArduPlane firmware for the CoreWing F405 Wing V2",
+  "topic": "Avionics",
+  "url": "https://firmware.ardupilot.org/Plane/stable/CoreWingF405WingV2/",
+  "why": "Confirms the chosen flight controller runs stable ArduPlane with QuadPlane support."
+ },
+ {
+  "name": "SunnySky X4110S motors",
+  "topic": "Propulsion",
+  "url": "https://sunnyskyusa.com/collections/multirotor-motors/products/sunnysky-x4110s-motors",
+  "why": "Maker page for the lift and pusher motor (165 g); its thrust table (3130 gf at 27.7 A on a 17 in prop, docs/research/budget-lift.md) drives the lift-unit choice and hover-efficiency calibration."
+ },
+ {
+  "name": "UIUC Propeller Data Site, vol. 1",
+  "topic": "Propulsion",
+  "url": "https://m-selig.ae.illinois.edu/props/volume-1/propDB-volume-1.html",
+  "why": "Measured small-propeller performance (APC 10×4.7 and 10×7) used in the configuration trade study."
+ },
+ {
+  "name": "Ovonic Roam 6S 6500 mAh LiPo (maker page)",
+  "topic": "Energy",
+  "url": "https://www.ovonicshop.com/products/ovonic-roam-series-6s-lipo-battery-6500mah-6s1p-150c-22-2v-long-range-lipo-battery-with-xt90-s-anti-spark-plug-for-6-10-inch-long-range-cenilifter-multirotor-x-class",
+  "why": "Maker spec for the 6500 mAh 6S pack class (144.3 Wh); the chosen 100C pair (Amazon B09CTRKLM4, 820 g) and this alternative are compared in docs/research/budget-energy-test.md."
+ },
+ {
+  "name": "Polymaker Fiberon PA6-CF20 technical data sheet",
+  "topic": "Materials",
+  "url": "https://fiberon.polymaker.com/wp-content/uploads/TDS_FIBERON-PA6-CF20_V1.1_EN.pdf",
+  "why": "Print settings, annealing and heat resistance of the motor mounts and pusher cup."
+ },
+ {
+  "name": "XFOIL 6.99 (Drela, MIT)",
+  "topic": "Aerodynamics",
+  "url": "https://web.mit.edu/drela/Public/web/xfoil/XFOIL6.99.zip",
+  "why": "2-D section polars of the NACA 2415 wing and NACA 0009 tail at flight Reynolds numbers."
+ },
+ {
+  "name": "AVL 3.52 (Drela, MIT)",
+  "topic": "Aerodynamics",
+  "url": "https://web.mit.edu/drela/Public/web/avl/avl352.exe",
+  "why": "Vortex-lattice trim, CL_max, neutral point and control derivatives used by sizing and the SITL model."
+ },
+ {
+  "name": "SU2 8.5.0",
+  "topic": "Aerodynamics",
+  "url": "https://github.com/su2code/SU2/releases/tag/v8.5.0",
+  "why": "RANS CFD that validates the section polars and produces the flow visualisations."
+ },
+ {
+  "name": "NeuralFoil (Sharpe)",
+  "topic": "Aerodynamics",
+  "url": "https://github.com/peterdsharpe/NeuralFoil",
+  "why": "Independent airfoil-polar estimate cross-checking XFOIL."
+ },
+ {
+  "name": "BETA Technologies ALIA",
+  "topic": "Configuration",
+  "url": "https://www.beta.team/aircraft/",
+  "why": "Full-scale reference for the lift + cruise layout C0 is modelled on."
+ },
+ {
+  "name": "NASA: VTOL urban air mobility concept vehicles (Silva et al.)",
+  "topic": "Configuration",
+  "url": "https://rotorcraft.arc.nasa.gov/Publications/files/vtol-urban-air-2.pdf",
+  "why": "NASA lift + cruise, tilt and multirotor concept vehicles, used as configuration references in the trade study."
+ },
+ {
+  "name": "FAA: register a drone (Part 107)",
+  "topic": "Regulation",
+  "url": "https://www.faa.gov/uas/getting_started/register_drone",
+  "why": "Registration needed before flight testing (compliance checklist)."
+ },
+ {
+  "name": "FAA: FAA-recognised identification areas (Remote ID)",
+  "topic": "Regulation",
+  "url": "https://www.faa.gov/uas/getting_started/remote_id/fria",
+  "why": "Where the aircraft may fly without a Remote ID module (compliance checklist)."
+ },
+ {
+  "name": "Pollet et al., fixed-wing VTOL UAV sizing (ICAS 2022)",
+  "topic": "Benchmarks",
+  "url": "https://icas.org/icas_archive/ICAS2022/data/papers/ICAS2022_0383_paper.pdf",
+  "why": "Sizing equations, stopped-prop drag model and mass fractions that C0's assumptions were checked against (docs/research/benchmarks.md)."
+ },
+ {
+  "name": "Mathur and Atkins, quadplane cruise-speed optimisation (arXiv 2411.08661)",
+  "topic": "Benchmarks",
+  "url": "https://arxiv.org/html/2411.08661v1",
+  "why": "Finds a quadplane's best cruise speed just above stall; with C0's own polar this led to the 18 m/s cruise."
+ },
+ {
+  "name": "Mathur and Atkins, quadplane wind-tunnel tests (arXiv 2301.12316)",
+  "topic": "Benchmarks",
+  "url": "https://arxiv.org/abs/2301.12316",
+  "why": "Measured quadplane drag above idealised estimates and rear-rotor thrust loss in transition."
+ },
+ {
+  "name": "Drela, MIT design rules",
+  "topic": "Benchmarks",
+  "url": "https://web.mit.edu/16.unified/www/SPRING/systems/Lab_Notes/desrules.pdf",
+  "why": "Tail-volume and static-margin ranges used to check C0's tail and CG."
+ },
+ {
+  "name": "NASA NPR 7123.1D, PDR/CDR entrance and success criteria",
+  "topic": "Review practice",
+  "url": "https://explorers.larc.nasa.gov/APSMEX25/SMEX/pdf_files/NASA02_NPR_7123_1D.pdf",
+  "why": "The review criteria this design review is checked against (Overview, review readiness)."
+ }
+]

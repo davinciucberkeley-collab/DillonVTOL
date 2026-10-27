@@ -94,8 +94,8 @@ autopilot console, the trim validation), `validation_c0.json`.
 | Output map | The model reads `SERVOn_FUNCTION/MIN/MAX/TRIM/REVERSED` | The real map of `vtol_c0.param` section 2 is flown (S1-S2 ailerons, S3 elevator, S4+S11 rudders, S5-S8 lift motors, S9 pusher). No remap file as the generic model needed. |
 | Parameters | `sitl_c0_defaults.parm` → `../vtol_c0.param` → `sitl_c0_overrides.param` | The defaults file keeps only the simulator sensor calibration from ArduPilot's `quadplane.parm`; its tuning gains (made for the generic SITL model) are left out, so the firmware defaults + `vtol_c0.param` are what flies, as on the real board. The overrides replace board-only items (DShot, BLHeli, ADC pins, UARTs, the MS5525 driver). |
 
-Data versions used for the numbers below (final for this iteration): `results.json` generated 2026-10-25
-(MTOW 6.552 kg, chord 0.2842 m, S 0.682 m²), `aero_results.json` generated 2026-10-25 with the corrected AVL
+Data versions used for the numbers below (re-run 2026-10-27 at the 18 m/s design cruise): `results.json` with Vc 18
+(MTOW 6.54 kg, chord 0.2842 m, S 0.682 m²), `aero_results.json` generated 2026-10-27 with the corrected AVL
 model (rudder derivatives now non-zero: Cnδr +0.000736/deg, CYδr −0.002116, Clδr −0.000056; aileron Clδa
 −0.006722 with adverse yaw Cnδa +0.000287; elevator CLδe 0.007386, Cmδe −0.018412, all read from
 `analysis/aero/out/avl/st_pod_trim.txt`), `cad/params.txt` rev D of 2026-10-25 (leg stations ±0.381 m from the
@@ -110,34 +110,34 @@ rudder estimate is kept only as a fallback for an st file without Cnd03.
 | Hover thrust fraction per motor at 22.2 V | 0.523 | 0.52 | TEST-PLAN C07: `sized.Tunit_g` / `params.Tmax_g` (same formula: a consistency check) |
 | Hover thrust fraction at 25.2 V (what `Q_M_THST_HOVER` learns on a full pack: ArduPilot scales thrust to `Q_M_BAT_VOLT_MAX`) | 0.451 | — (SITL learned 0.44 by the end of the run) | maker 3600 gf at 25 V, 3130 gf at 22.2 V, linear in between (EST) |
 | Hover PWM fraction (physical, expo 0.72 EST) | 0.62 at 25.2 V / 0.68 at 22.2 V | — (SITL flew 0.62–0.66, 0.64 in the final run) | |
-| Hover electrical power, 4 motors | 842 W | 916 W (−8 %) | maker thrust/power table vs the sizing's FM·η model (`sized.P_hover`) |
-| Cruise 20 m/s: α | 2.84° | 2.86° | `aero_results.trim_cruise` |
-| Cruise: elevator | −3.45° | −3.45° | AVL trim |
-| Cruise: CL | 0.382 | 0.385 | |
-| Cruise: drag = pusher thrust | 7.69 N | 7.70 N | `drag.cruise.D_N` |
-| Cruise: pusher electrical power | 233 W (6200 rpm, 14.0 A, J 0.54) | 302 W (−23 %) | `drag.cruise.P_elec_W` assumes η_prop 0.60; the APC data give η ≈ 0.74 at this J. The −23 % is the η assumption, not the drag. The SITL cruise current was 10.2 A mean. |
+| Hover electrical power, 4 motors | 839 W | 912 W (−8 %) | maker thrust/power table vs the sizing's FM·η model (`sized.P_hover`) |
+| Cruise 18 m/s: α | 3.87° | 3.90° | `aero_results.trim_cruise` |
+| Cruise: elevator | −4.06° | −4.06° | AVL trim |
+| Cruise: CL | 0.470 | 0.475 | |
+| Cruise: drag = pusher thrust | 6.77 N | 6.78 N | `drag.cruise.D_N` |
+| Cruise: pusher electrical power | 186 W (5680 rpm, J 0.53) | 239 W (−22 %) | `drag.cruise.P_elec_W` assumes η_prop 0.60; the APC data give η ≈ 0.74 at this J. The −22 % is the η assumption, not the drag. The SITL cruise current was 7.8 A mean at 24.6 V (scenario A). |
 | Pusher static thrust, full throttle, 22.2 V | 3.35 kgf at 626 W, 28 A (EST motor R, I0) | — (no vendor data for the 14x8.5 on this motor) | at 25.2 V the model gives 890 W static: above the motor's 615 W rating. Do not hold full pusher throttle static on a full pack (bench test M1). |
-| Stall speed, 1 g, trimmed | 11.75 m/s | 11.75 m/s | `stall.V_stall_mps` |
-| α / elevator at stall | 11.2° / −8.4° | 10.8° / −8.2° | `stall.trim_at_Vstall` |
-| Static margin −Cmα/CLα | 11.8 % MAC | 12.3 % | `neutral_point.static_margin_pct.CG_28pct` |
+| Stall speed, 1 g, trimmed | 11.70 m/s | 11.71 m/s | `stall.V_stall_mps` |
+| α / elevator at stall | 11.3° / −8.5° | 10.8° / −8.2° | `stall.trim_at_Vstall` |
+| Static margin −Cmα/CLα | 11.8 % MAC | 11.8 % | `neutral_point.static_margin_pct.CG_28pct` |
 
-## Scenario results on the C0 model (`results_c0.json`; final data, speed-up 5, 5.6 min wall for 1290 s of flight)
+## Scenario results on the C0 model (`results_c0.json`; re-run 2026-10-27 at AIRSPEED_CRUISE 18, speed-up 5, 1450 s of flight)
 
 | # | Scenario | Result | Transition / key numbers |
 |---|---|---|---|
-| A | QLOITER take-off → AUTO loop (6 WPs at 60 m) → NAV_VTOL_LAND | PASS, landed 0.0 m from home | Forward transition 13 s, 140 m, no altitude loss (+4.7 m), 17.5 m/s at "Transition done", peak 69.5 A. Back-transition (airbrake → position1 → position2) 7 s, 35 m, 1.6 m altitude loss, 88 A peak for a moment, pitch excursion −17°/+33° while stopping (see Gains). Learned `Q_M_THST_HOVER` 0.33 after this first flight, 0.44 by the end of the run (model prediction 0.45 on a full pack). |
-| B | FBWA transition → LOITER → RC lost | PASS (RTL → QRTL → land, no fence) | Transition 14 s, 154 m, 1.5 m loss, 18.7 m/s at done. QRTL stop 10 s, 126 m, 0 m loss, peak 58.5 A. |
+| A | QLOITER take-off → AUTO loop (6 WPs at 60 m) → NAV_VTOL_LAND | PASS, landed 0.0 m from home | Forward transition 15 s, 166 m, no altitude loss (+7.1 m), 16.0 m/s at "Transition done", peak 55.8 A. Back-transition (airbrake → position1 → position2) 4 s, 29 m, 0 m altitude loss, 79 A peak for a moment, pitch excursion −18°/+33° while stopping (see Gains). Learned `Q_M_THST_HOVER` 0.34 after this first flight, 0.44 by the end of the run (model prediction 0.45 on a full pack). |
+| B | FBWA transition → LOITER → RC lost | PASS (RTL → QRTL → land, no fence) | Transition 14 s, 157 m, 1.6 m loss, 18.7 m/s at done. QRTL stop 10 s, 123 m, 0 m loss, peak 51.2 A. |
 | C | QLOITER hover 15 m → RC lost | PASS (QLAND) | Hover: motors 0.64 PWM fraction, 37.8 A mean at 23.7–24.4 V, attitude within ±0.2°. |
 | D | FBWA with throttle low | PASS | "Transition failed, exceeded time limit" 15 s after start; QRTL after 16 s; landed. |
-| E | LOITER, `BATT_LOW_MAH` raised | PASS | "Battery 1 is low" → RTL → QRTL → land, 0 m loss in the stop, peak 74.8 A. |
-| F | QLOITER full-throttle climb | PASS, peak 112.9 m < 121.9 m | Breach at 111 m. |
+| E | LOITER, `BATT_LOW_MAH` raised | PASS | "Battery 1 is low" → RTL → QRTL → land; stop 14 s, 150 m, 66 A peak; the 6.7 m height change in the stop is QRTL's commanded descent ("Land descend started" before the hover point), not a loss. |
+| F | QLOITER full-throttle climb | PASS, peak 113.0 m < 121.9 m | Breach at 110 m (`FENCE_ALT_MAX`). |
 | G | RC only via MAVLink overrides, overrides stop in hover | PASS | QLAND 2.0 s after the overrides stopped (`RC_OVERRIDE_TIME` 3 s is the window that must expire; the previous run saw 1 s). |
 
-Cruise in A (70 s at 19.9 m/s): α 3.1°, elevator −3.5°, pusher 0.68, 10.1 A mean, pitch sd 1.5°, lift motors
-off. This matches the trim table above. Compared with the run on the pre-fix AVL file (estimated rudder, CAD
-rev C legs) every scenario result is within the run-to-run scatter: transition times unchanged (13/14 s),
-distances within 10 m, altitude losses within 0.3 m, peak currents within 17 A (B's back-transition peak fell
-from 75 to 59 A).
+Cruise in A (65 s at 18.0 m/s, `physics_log.csv` t 315–380 s): α 4.1°, elevator −4.1°, pusher 0.62, 7.8 A mean,
+pitch sd 1.1°, lift motors off. This matches the trim table above. Against the 20 m/s run of 2026-10-25 the
+forward transition is 1–2 s and 10–25 m longer (it starts from the same 16 m/s AIRSPEED_MIN but the climb to
+cruise is shallower), the back-transition stops are shorter (A 29 m vs 35 m) and the peak currents lower
+(A 79 vs 88 A, B 51 vs 59 A), as expected from the lower entry speed.
 
 ## Gains
 
@@ -147,7 +147,7 @@ defaults). `vtol_c0_sitl_tuned.param` was therefore **not** created. Two behavio
 tuned here because the model's estimates (inertia, expo, surface travel) are what sets them:
 1. The back-transition stop pitches to the 30° VTOL angle limit with the lift motors near idle (ArduPilot's
    "airbrake" phase), which stalls the C0 wing (α_stall 11°): position2 then recovers with a −17°/+33° pitch
-   swing and an 89 A peak. Altitude loss stayed under 2 m. If the real aircraft does the same, lower
+   swing and a 79–88 A peak (18 m/s run 79 A, 20 m/s run 88 A). Altitude loss stayed under 2 m. If the real aircraft does the same, lower
    `Q_TRANS_DECEL` (longer, gentler stop) or `Q_ANGLE_MAX` before changing attitude gains.
 2. QLOITER climbs overshoot the target by 3–5 m with the default `Q_P_*` position gains at the first-flight
    `Q_M_THST_HOVER` 0.25 (hover learn then corrects it). Expected; set `Q_P_D_ACC_*` from the learned value

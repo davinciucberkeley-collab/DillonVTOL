@@ -73,203 +73,203 @@
    {
     "rank": 1,
     "id": "TS-quad",
-    "total": 7.3085,
+    "total": 7.313,
     "feasible": true,
     "meetsR1": false
    },
    {
     "rank": 2,
-    "id": "TS-duo",
-    "total": 6.2714,
+    "id": "C0-b3.0",
+    "total": 6.5081,
     "feasible": true,
-    "meetsR1": false
+    "meetsR1": true
    },
    {
     "rank": 3,
-    "id": "C0-pk-Zeee6S10000",
-    "total": 6.1055,
-    "feasible": false,
+    "id": "C0-lean",
+    "total": 6.409,
+    "feasible": true,
     "meetsR1": true
    },
    {
     "rank": 4,
-    "id": "C0-pk-RobopowerUA6S3P15000",
-    "total": 5.9444,
-    "feasible": false,
+    "id": "C0-b2.8",
+    "total": 6.4037,
+    "feasible": true,
     "meetsR1": true
    },
    {
     "rank": 5,
-    "id": "C0-lean",
-    "total": 5.8717,
+    "id": "C0-pk-HOOVO6S8000",
+    "total": 6.3813,
     "feasible": true,
     "meetsR1": true
    },
    {
     "rank": 6,
-    "id": "C0-b3.0",
-    "total": 5.8575,
+    "id": "C0-b2.6",
+    "total": 6.2789,
     "feasible": true,
     "meetsR1": true
    },
    {
     "rank": 7,
-    "id": "C0-pk-Zeee6S9000",
-    "total": 5.8155,
-    "feasible": false,
-    "meetsR1": true
+    "id": "TS-duo",
+    "total": 6.2743,
+    "feasible": true,
+    "meetsR1": false
    },
    {
     "rank": 8,
-    "id": "C0-b2.8",
-    "total": 5.785,
+    "id": "C0",
+    "total": 6.2283,
     "feasible": true,
     "meetsR1": true
    },
    {
     "rank": 9,
-    "id": "C0-pk-HOOVO6S8000",
-    "total": 5.7619,
+    "id": "C0-b2.4",
+    "total": 6.2283,
     "feasible": true,
     "meetsR1": true
    },
    {
     "rank": 10,
-    "id": "C3",
-    "total": 5.721,
+    "id": "C0-pk-OvonicRoam6S",
+    "total": 6.2124,
     "feasible": true,
     "meetsR1": true
    },
    {
     "rank": 11,
-    "id": "C0-b2.6",
-    "total": 5.6977,
-    "feasible": true,
+    "id": "C0-pk-iFlightFullsendE",
+    "total": 6.1994,
+    "feasible": false,
     "meetsR1": true
    },
    {
     "rank": 12,
-    "id": "C0",
-    "total": 5.6909,
-    "feasible": true,
+    "id": "C0-pk-Zeee6S9000",
+    "total": 6.1195,
+    "feasible": false,
     "meetsR1": true
    },
    {
     "rank": 13,
-    "id": "C0-b2.4",
-    "total": 5.6909,
+    "id": "C3",
+    "total": 6.1138,
     "feasible": true,
     "meetsR1": true
    },
    {
     "rank": 14,
-    "id": "C0-pk-OvonicRoam6S",
-    "total": 5.6653,
-    "feasible": true,
-    "meetsR1": true
-   },
-   {
-    "rank": 15,
-    "id": "C0-pk-iFlightFullsendE",
-    "total": 5.5771,
+    "id": "C0-pk-Zeee6S10000",
+    "total": 6.1119,
     "feasible": false,
     "meetsR1": true
    },
    {
-    "rank": 16,
+    "rank": 15,
     "id": "C0-lean-fold",
-    "total": 5.4642,
+    "total": 6.0439,
     "feasible": true,
+    "meetsR1": true
+   },
+   {
+    "rank": 16,
+    "id": "C0-pk-RobopowerUA6S3P15000",
+    "total": 5.9514,
+    "feasible": false,
     "meetsR1": true
    },
    {
     "rank": 17,
     "id": "C0-b2.2",
-    "total": 5.4585,
+    "total": 5.9445,
     "feasible": true,
     "meetsR1": true
    },
    {
     "rank": 18,
-    "id": "C0-b2.0",
-    "total": 5.3473,
-    "feasible": true,
+    "id": "C0-fold",
+    "total": 5.8663,
+    "feasible": false,
     "meetsR1": true
    },
    {
     "rank": 19,
-    "id": "C0-fold",
-    "total": 5.2866,
-    "feasible": false,
+    "id": "C0-b2.0",
+    "total": 5.7179,
+    "feasible": true,
     "meetsR1": true
    },
    {
     "rank": 20,
     "id": "C0-pk-Auline6S2P6000",
-    "total": 5.0406,
+    "total": 5.54,
     "feasible": false,
     "meetsR1": true
    },
    {
     "rank": 21,
-    "id": "C1",
-    "total": 4.7182,
+    "id": "TA-qp",
+    "total": 4.9158,
     "feasible": false,
     "meetsR1": true
    },
    {
     "rank": 22,
-    "id": "C2",
-    "total": 4.4494,
+    "id": "C1",
+    "total": 4.7963,
     "feasible": false,
     "meetsR1": true
    },
    {
     "rank": 23,
-    "id": "TA-qp",
-    "total": 4.3736,
+    "id": "C2",
+    "total": 4.7927,
     "feasible": false,
     "meetsR1": true
    },
    {
     "rank": 24,
     "id": "TR-tri",
-    "total": 3.6112,
+    "total": 4.1716,
     "feasible": false,
     "meetsR1": false
    },
    {
     "rank": 25,
-    "id": "TR-quadF",
-    "total": 3.4661,
+    "id": "TR-bi",
+    "total": 4.0787,
     "feasible": false,
     "meetsR1": false
    },
    {
     "rank": 26,
-    "id": "TR-bi",
-    "total": 3.4548,
+    "id": "TR-quadF",
+    "total": 3.9986,
     "feasible": false,
     "meetsR1": false
    },
    {
     "rank": 27,
     "id": "BW-qp",
-    "total": 3.1709,
+    "total": 3.7183,
     "feasible": false,
     "meetsR1": true
    },
    {
     "rank": 28,
     "id": "TW-4",
-    "total": 2.6598,
+    "total": 3.1974,
     "feasible": false,
     "meetsR1": false
    },
    {
     "rank": 29,
     "id": "TR-quadA",
-    "total": 2.4724,
+    "total": 2.9879,
     "feasible": false,
     "meetsR1": false
    }
@@ -278,155 +278,155 @@
    {
     "rank": 1,
     "id": "TS-quad",
-    "total": 7.3085,
+    "total": 7.313,
     "meetsR1": false
    },
    {
     "rank": 2,
-    "id": "TS-duo",
-    "total": 6.2714,
-    "meetsR1": false
+    "id": "C0-b3.0",
+    "total": 6.5081,
+    "meetsR1": true
    },
    {
     "rank": 3,
     "id": "C0-lean",
-    "total": 5.8717,
+    "total": 6.409,
     "meetsR1": true
    },
    {
     "rank": 4,
-    "id": "C0-b3.0",
-    "total": 5.8575,
+    "id": "C0-b2.8",
+    "total": 6.4037,
     "meetsR1": true
    },
    {
     "rank": 5,
-    "id": "C0-b2.8",
-    "total": 5.785,
+    "id": "C0-pk-HOOVO6S8000",
+    "total": 6.3813,
     "meetsR1": true
    },
    {
     "rank": 6,
-    "id": "C0-pk-HOOVO6S8000",
-    "total": 5.7619,
+    "id": "C0-b2.6",
+    "total": 6.2789,
     "meetsR1": true
    },
    {
     "rank": 7,
-    "id": "C3",
-    "total": 5.721,
-    "meetsR1": true
+    "id": "TS-duo",
+    "total": 6.2743,
+    "meetsR1": false
    },
    {
     "rank": 8,
-    "id": "C0-b2.6",
-    "total": 5.6977,
+    "id": "C0",
+    "total": 6.2283,
     "meetsR1": true
    },
    {
     "rank": 9,
-    "id": "C0",
-    "total": 5.6909,
+    "id": "C0-b2.4",
+    "total": 6.2283,
     "meetsR1": true
    },
    {
     "rank": 10,
-    "id": "C0-b2.4",
-    "total": 5.6909,
+    "id": "C0-pk-OvonicRoam6S",
+    "total": 6.2124,
     "meetsR1": true
    },
    {
     "rank": 11,
-    "id": "C0-pk-OvonicRoam6S",
-    "total": 5.6653,
+    "id": "C3",
+    "total": 6.1138,
     "meetsR1": true
    },
    {
     "rank": 12,
     "id": "C0-lean-fold",
-    "total": 5.4642,
+    "total": 6.0439,
     "meetsR1": true
    },
    {
     "rank": 13,
     "id": "C0-b2.2",
-    "total": 5.4585,
+    "total": 5.9445,
     "meetsR1": true
    },
    {
     "rank": 14,
     "id": "C0-b2.0",
-    "total": 5.3473,
+    "total": 5.7179,
     "meetsR1": true
    }
   ],
   "feasibleR1": [
    {
     "rank": 1,
-    "id": "C0-lean",
-    "total": 5.8717
+    "id": "C0-b3.0",
+    "total": 6.5081
    },
    {
     "rank": 2,
-    "id": "C0-b3.0",
-    "total": 5.8575
+    "id": "C0-lean",
+    "total": 6.409
    },
    {
     "rank": 3,
     "id": "C0-b2.8",
-    "total": 5.785
+    "total": 6.4037
    },
    {
     "rank": 4,
     "id": "C0-pk-HOOVO6S8000",
-    "total": 5.7619
+    "total": 6.3813
    },
    {
     "rank": 5,
-    "id": "C3",
-    "total": 5.721
+    "id": "C0-b2.6",
+    "total": 6.2789
    },
    {
     "rank": 6,
-    "id": "C0-b2.6",
-    "total": 5.6977
+    "id": "C0",
+    "total": 6.2283
    },
    {
     "rank": 7,
-    "id": "C0",
-    "total": 5.6909
+    "id": "C0-b2.4",
+    "total": 6.2283
    },
    {
     "rank": 8,
-    "id": "C0-b2.4",
-    "total": 5.6909
+    "id": "C0-pk-OvonicRoam6S",
+    "total": 6.2124
    },
    {
     "rank": 9,
-    "id": "C0-pk-OvonicRoam6S",
-    "total": 5.6653
+    "id": "C3",
+    "total": 6.1138
    },
    {
     "rank": 10,
     "id": "C0-lean-fold",
-    "total": 5.4642
+    "total": 6.0439
    },
    {
     "rank": 11,
     "id": "C0-b2.2",
-    "total": 5.4585
+    "total": 5.9445
    },
    {
     "rank": 12,
     "id": "C0-b2.0",
-    "total": 5.3473
+    "total": 5.7179
    }
   ]
  },
  "sensitivity": {
   "method": "each weight x0.7 and x1.3 one at a time, other weights rescaled proportionally to sum 1",
   "baseWinnerFeasible": "TS-quad",
-  "baseWinnerFeasibleR1": "C0-lean",
+  "baseWinnerFeasibleR1": "C0-b3.0",
   "cases": [
    {
     "criterion": "cost",
@@ -435,11 +435,11 @@
     "winnerFeasible": "TS-quad",
     "top3Feasible": [
      "TS-quad",
-     "TS-duo",
+     "C0-b3.0",
      "C0-pk-HOOVO6S8000"
     ],
-    "winnerFeasibleR1": "C0-pk-HOOVO6S8000",
-    "winnerChanged": true
+    "winnerFeasibleR1": "C0-b3.0",
+    "winnerChanged": false
    },
    {
     "criterion": "cost",
@@ -448,11 +448,11 @@
     "winnerFeasible": "TS-quad",
     "top3Feasible": [
      "TS-quad",
-     "TS-duo",
-     "C0-lean"
+     "C0-lean",
+     "C0-b3.0"
     ],
     "winnerFeasibleR1": "C0-lean",
-    "winnerChanged": false
+    "winnerChanged": true
    },
    {
     "criterion": "energy",
@@ -461,11 +461,11 @@
     "winnerFeasible": "TS-quad",
     "top3Feasible": [
      "TS-quad",
-     "TS-duo",
-     "C0-lean"
+     "C0-lean",
+     "C0-b3.0"
     ],
     "winnerFeasibleR1": "C0-lean",
-    "winnerChanged": false
+    "winnerChanged": true
    },
    {
     "criterion": "energy",
@@ -474,11 +474,11 @@
     "winnerFeasible": "TS-quad",
     "top3Feasible": [
      "TS-quad",
-     "TS-duo",
+     "C0-b3.0",
      "C0-pk-HOOVO6S8000"
     ],
-    "winnerFeasibleR1": "C0-pk-HOOVO6S8000",
-    "winnerChanged": true
+    "winnerFeasibleR1": "C0-b3.0",
+    "winnerChanged": false
    },
    {
     "criterion": "portability",
@@ -487,10 +487,10 @@
     "winnerFeasible": "TS-quad",
     "top3Feasible": [
      "TS-quad",
-     "TS-duo",
+     "C0-b3.0",
      "C0-lean"
     ],
-    "winnerFeasibleR1": "C0-lean",
+    "winnerFeasibleR1": "C0-b3.0",
     "winnerChanged": false
    },
    {
@@ -500,10 +500,10 @@
     "winnerFeasible": "TS-quad",
     "top3Feasible": [
      "TS-quad",
-     "TS-duo",
+     "C0-b3.0",
      "C0-lean"
     ],
-    "winnerFeasibleR1": "C0-lean",
+    "winnerFeasibleR1": "C0-b3.0",
     "winnerChanged": false
    },
    {
@@ -513,10 +513,10 @@
     "winnerFeasible": "TS-quad",
     "top3Feasible": [
      "TS-quad",
-     "TS-duo",
+     "C0-b3.0",
      "C0-lean"
     ],
-    "winnerFeasibleR1": "C0-lean",
+    "winnerFeasibleR1": "C0-b3.0",
     "winnerChanged": false
    },
    {
@@ -526,10 +526,10 @@
     "winnerFeasible": "TS-quad",
     "top3Feasible": [
      "TS-quad",
-     "TS-duo",
+     "C0-b3.0",
      "C0-lean"
     ],
-    "winnerFeasibleR1": "C0-lean",
+    "winnerFeasibleR1": "C0-b3.0",
     "winnerChanged": false
    },
    {
@@ -540,9 +540,9 @@
     "top3Feasible": [
      "TS-quad",
      "TS-duo",
-     "C0-lean"
+     "C0-b3.0"
     ],
-    "winnerFeasibleR1": "C0-lean",
+    "winnerFeasibleR1": "C0-b3.0",
     "winnerChanged": false
    },
    {
@@ -552,11 +552,11 @@
     "winnerFeasible": "TS-quad",
     "top3Feasible": [
      "TS-quad",
-     "TS-duo",
-     "C0-b3.0"
+     "C0-b3.0",
+     "C0-b2.8"
     ],
     "winnerFeasibleR1": "C0-b3.0",
-    "winnerChanged": true
+    "winnerChanged": false
    },
    {
     "criterion": "schedule",
@@ -565,11 +565,11 @@
     "winnerFeasible": "TS-quad",
     "top3Feasible": [
      "TS-quad",
-     "TS-duo",
-     "C0-b3.0"
+     "C0-b3.0",
+     "TS-duo"
     ],
     "winnerFeasibleR1": "C0-b3.0",
-    "winnerChanged": true
+    "winnerChanged": false
    },
    {
     "criterion": "schedule",
@@ -578,10 +578,10 @@
     "winnerFeasible": "TS-quad",
     "top3Feasible": [
      "TS-quad",
-     "TS-duo",
+     "C0-b3.0",
      "C0-lean"
     ],
-    "winnerFeasibleR1": "C0-lean",
+    "winnerFeasibleR1": "C0-b3.0",
     "winnerChanged": false
    },
    {
@@ -591,10 +591,10 @@
     "winnerFeasible": "TS-quad",
     "top3Feasible": [
      "TS-quad",
-     "TS-duo",
+     "C0-b3.0",
      "C0-lean"
     ],
-    "winnerFeasibleR1": "C0-lean",
+    "winnerFeasibleR1": "C0-b3.0",
     "winnerChanged": false
    },
    {
@@ -604,10 +604,10 @@
     "winnerFeasible": "TS-quad",
     "top3Feasible": [
      "TS-quad",
-     "TS-duo",
+     "C0-b3.0",
      "C0-lean"
     ],
-    "winnerFeasibleR1": "C0-lean",
+    "winnerFeasibleR1": "C0-b3.0",
     "winnerChanged": false
    },
    {
@@ -617,10 +617,10 @@
     "winnerFeasible": "TS-quad",
     "top3Feasible": [
      "TS-quad",
-     "TS-duo",
+     "C0-b3.0",
      "C0-lean"
     ],
-    "winnerFeasibleR1": "C0-lean",
+    "winnerFeasibleR1": "C0-b3.0",
     "winnerChanged": false
    },
    {
@@ -630,11 +630,11 @@
     "winnerFeasible": "TS-quad",
     "top3Feasible": [
      "TS-quad",
-     "TS-duo",
-     "C0-b3.0"
+     "C0-b3.0",
+     "C0-b2.8"
     ],
     "winnerFeasibleR1": "C0-b3.0",
-    "winnerChanged": true
+    "winnerChanged": false
    }
   ],
   "winnerEverChanges": true,
@@ -645,19 +645,19 @@
     "eta_best": 0.6,
     "eta_pess": 0.3512,
     "cruise_min": {
-     "base": 13.5235,
-     "best": 14.7369,
-     "pess": 12.7701
+     "base": 17.2542,
+     "best": 18.8023,
+     "pess": 14.3537
     },
     "MTOW": {
-     "base": 6.24183,
-     "best": 6.24183,
-     "pess": 6.6644
+     "base": 6.2292,
+     "best": 6.2292,
+     "pess": 6.44975
     },
     "total": {
-     "base": 3.6112,
-     "best": 3.7931,
-     "pess": 3.119
+     "base": 4.1716,
+     "best": 4.4038,
+     "pess": 3.3848
     },
     "feasible": {
      "base": false,
@@ -665,8 +665,7 @@
      "pess": false
     },
     "pessFlags": [
-     "R6: total $2043.77 > $2,000 cap",
-     "R13: T/W 1.41 < 1.6"
+     "R13: T/W 1.46 < 1.6"
     ],
     "feasibleWinnerIfPess": "TS-quad"
    },
@@ -676,19 +675,19 @@
     "eta_best": 0.6,
     "eta_pess": 0.3512,
     "cruise_min": {
-     "base": 12.6793,
-     "best": 13.8169,
-     "pess": 11.8331
+     "base": 16.191,
+     "best": 17.6436,
+     "pess": 13.3367
     },
     "MTOW": {
-     "base": 6.60512,
-     "best": 6.60512,
-     "pess": 7.03402
+     "base": 6.59096,
+     "best": 6.59096,
+     "pess": 6.81475
     },
     "total": {
-     "base": 3.4661,
-     "best": 3.6367,
-     "pess": 3.1662
+     "base": 3.9986,
+     "best": 4.2165,
+     "pess": 3.4802
     },
     "feasible": {
      "base": false,
@@ -696,7 +695,7 @@
      "pess": false
     },
     "pessFlags": [
-     "R6: total $2139.66 > $2,000 cap"
+     "R6: total $2093.25 > $2,000 cap"
     ],
     "feasibleWinnerIfPess": "TS-quad"
    },
@@ -706,19 +705,19 @@
     "eta_best": 0.6,
     "eta_pess": 0.3512,
     "cruise_min": {
-     "base": 13.1979,
-     "best": 14.382,
-     "pess": 12.4465
+     "base": 16.5921,
+     "best": 18.0808,
+     "pess": 13.7913
     },
     "MTOW": {
-     "base": 6.96843,
-     "best": 6.96843,
-     "pess": 7.40389
+     "base": 6.95262,
+     "best": 6.95262,
+     "pess": 7.17967
     },
     "total": {
-     "base": 2.4724,
-     "best": 2.65,
-     "pess": 2.1842
+     "base": 2.9879,
+     "best": 3.2112,
+     "pess": 2.4762
     },
     "feasible": {
      "base": false,
@@ -726,7 +725,7 @@
      "pess": false
     },
     "pessFlags": [
-     "R6: total $2328.96 > $2,000 cap"
+     "R6: total $2282.55 > $2,000 cap"
     ],
     "feasibleWinnerIfPess": "TS-quad"
    },
@@ -736,19 +735,19 @@
     "eta_best": 0.6,
     "eta_pess": 0.3512,
     "cruise_min": {
-     "base": 13.4687,
-     "best": 14.6771,
-     "pess": 12.6505
+     "base": 17.018,
+     "best": 18.5449,
+     "pess": 14.0905
     },
     "MTOW": {
-     "base": 6.77834,
-     "best": 6.77834,
-     "pess": 7.19408
+     "base": 6.76511,
+     "best": 6.76511,
+     "pess": 6.98218
     },
     "total": {
-     "base": 2.6598,
-     "best": 2.8409,
-     "pess": 2.3694
+     "base": 3.1974,
+     "best": 3.4264,
+     "pess": 2.6708
     },
     "feasible": {
      "base": false,
@@ -756,7 +755,7 @@
      "pess": false
     },
     "pessFlags": [
-     "R6: total $2261.25 > $2,000 cap"
+     "R6: total $2214.84 > $2,000 cap"
     ],
     "feasibleWinnerIfPess": "TS-quad"
    },
@@ -766,19 +765,19 @@
     "eta_best": 0.6,
     "eta_pess": 0.3512,
     "cruise_min": {
-     "base": 21.2003,
-     "best": 23.1024,
-     "pess": 13.5226
+     "base": 27.183,
+     "best": 29.6218,
+     "pess": 17.3386
     },
     "MTOW": {
-     "base": 5.36081,
-     "best": 5.36081,
-     "pess": 5.36081
+     "base": 5.34975,
+     "best": 5.34975,
+     "pess": 5.34975
     },
     "total": {
-     "base": 7.3085,
-     "best": 7.3085,
-     "pess": 6.337
+     "base": 7.313,
+     "best": 7.313,
+     "pess": 6.9139
     },
     "feasible": {
      "base": true,
@@ -792,45 +791,45 @@
   "physicsStoppedPropDrag": [
    {
     "CdA_rotor_factor": 0.5,
-    "MTOW": 6.55152,
-    "LD": 8.54341,
-    "P_cruise_W": 294.914,
-    "cruise_min": 14.0317,
+    "MTOW": 6.53756,
+    "LD": 9.78309,
+    "P_cruise_W": 231.295,
+    "cruise_min": 17.9285,
     "pack": "Ovonic 6S 6500 100C (2-pack)",
     "total": 1896.79
    },
    {
     "CdA_rotor_factor": 1,
-    "MTOW": 6.55152,
-    "LD": 7.46444,
-    "P_cruise_W": 337.543,
-    "cruise_min": 12.2596,
+    "MTOW": 6.53756,
+    "LD": 8.62433,
+    "P_cruise_W": 262.372,
+    "cruise_min": 15.805,
     "pack": "Ovonic 6S 6500 100C (2-pack)",
     "total": 1896.79
    },
    {
     "CdA_rotor_factor": 2,
-    "MTOW": 6.77596,
-    "LD": 6.0328,
-    "P_cruise_W": 431.952,
-    "cruise_min": 12.7701,
-    "pack": "HOOVO 6S 8000 100C (2-pack)",
-    "total": 1964.04
+    "MTOW": 6.53756,
+    "LD": 6.9726,
+    "P_cruise_W": 324.524,
+    "cruise_min": 12.778,
+    "pack": "Ovonic 6S 6500 100C (2-pack)",
+    "total": 1896.79
    }
   ]
  },
  "reproductionCheck": {
   "C0_results_json": {
-   "MTOW": 6.55152,
-   "cruise_min": 12.2596,
+   "MTOW": 6.53756,
+   "cruise_min": 15.805,
    "total": 1896.79,
-   "boomTotal": 2.95383
+   "boomTotal": 2.94698
   },
   "C0_this_script": {
-   "MTOW": 6.55152,
-   "cruise_min": 12.2596,
+   "MTOW": 6.53756,
+   "cruise_min": 15.805,
    "total": 1896.79,
-   "boomTotal": 2.95383
+   "boomTotal": 2.94698
   }
  },
  "sources": {
@@ -892,33 +891,33 @@
     "motorOutWhy": "4 lift rotors: a quad with one motor out is not flyable (S27); QuadPlane thrust-loss is warn-only (S28). Pusher-out: separate lift system lets QAssist/VTOL recovery land it (R15)."
    },
    "metrics": {
-    "MTOW_kg": 6.55152,
-    "empty_kg_noBatt_noPayload": 5.23152,
+    "MTOW_kg": 6.53756,
+    "empty_kg_noBatt_noPayload": 5.21756,
     "battery_kg": 0.82,
     "pack": "Ovonic 6S 6500 100C (2-pack)",
     "packNote": "",
-    "S_m2": 0.682023,
-    "AR": 8.44546,
-    "chord_m": 0.284176,
-    "LD": 7.46444,
-    "CD0": 0.0445461,
-    "diskLoading_Nm2": 109.686,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 915.723,
-    "P_cruise_W": 337.543,
-    "I_hover_A": 41.2488,
-    "E_mission_Wh": 96.9559,
+    "S_m2": 0.67632,
+    "AR": 8.51667,
+    "chord_m": 0.2818,
+    "LD": 8.62433,
+    "CD0": 0.0447272,
+    "diskLoading_Nm2": 109.452,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 912.49,
+    "P_cruise_W": 262.372,
+    "I_hover_A": 41.1032,
+    "E_mission_Wh": 84.2837,
     "E_pack_Wh": 144.3,
     "E_usable_Wh": 109.668,
-    "cruise_avail_min": 12.2596,
-    "cruise_margin_pct": 22.5964,
-    "TW": 1.91101,
+    "cruise_avail_min": 15.805,
+    "cruise_margin_pct": 58.0496,
+    "TW": 1.91509,
     "TW_motorOut": 0,
-    "growth_kg": 1.27348,
+    "growth_kg": 1.28744,
     "m_lift": 0.968,
-    "m_booms": 0.626458,
-    "m_wing": 1.38969,
-    "m_tail": 0.141183,
+    "m_booms": 0.625192,
+    "m_wing": 1.37848,
+    "m_tail": 0.139711,
     "m_fixed": 2.60618,
     "extras": [],
     "cost_total_usd": 1896.79,
@@ -929,10 +928,10 @@
     "span_m": 2.4,
     "longestPiece_m": 1.2,
     "pieces": 6,
-    "gustForce_N": 10.0225,
-    "gustTilt_deg": 8.86649,
-    "exposedArea_m2": 0.199748,
-    "joinerMS_scaled": 1.74654,
+    "gustForce_N": 10.0046,
+    "gustTilt_deg": 8.86948,
+    "exposedArea_m2": 0.19939,
+    "joinerMS_scaled": 1.75027,
     "buildIndex": 16,
     "controlRisk": 2,
     "scheduleRisk": 1,
@@ -1072,7 +1071,7 @@
      "unit": 26.2,
      "ext": 52.4,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -1402,19 +1401,19 @@
    "feasible": true,
    "flags": [],
    "warnings": [
-    "R2: MTOW 6.55 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 6.54 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 3.44,
-    "energy": 2.26,
-    "portability": 7.114,
+    "energy": 5.805,
+    "portability": 7.124,
     "build": 8,
     "control": 8,
     "schedule": 9,
     "motorOut": 4,
-    "growth": 4.245
+    "growth": 4.291
    },
-   "total": 5.6909
+   "total": 6.2283
   },
   {
    "id": "C1",
@@ -1441,47 +1440,47 @@
     "motorOutWhy": "8 lift rotors: T/W with the opposite pair shut (sizing convention (n-2)/n) — survival depends on headroom and tuning; forum evidence only (S28)."
    },
    "metrics": {
-    "MTOW_kg": 8.10973,
-    "empty_kg_noBatt_noPayload": 6.45973,
-    "battery_kg": 1.15,
-    "pack": "Zeee 6S 10000 120C (2-pack)",
+    "MTOW_kg": 7.84491,
+    "empty_kg_noBatt_noPayload": 6.35861,
+    "battery_kg": 0.9863,
+    "pack": "HOOVO 6S 8000 100C (2-pack)",
     "packNote": "",
-    "S_m2": 0.84422,
-    "AR": 6.82287,
-    "chord_m": 0.351758,
-    "LD": 5.51425,
-    "CD0": 0.0611074,
-    "diskLoading_Nm2": 87.1952,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 1007.25,
-    "P_cruise_W": 565.582,
-    "I_hover_A": 45.3715,
-    "E_mission_Wh": 139.03,
-    "E_pack_Wh": 222,
-    "E_usable_Wh": 168.72,
-    "cruise_avail_min": 13.1496,
-    "cruise_margin_pct": 31.4964,
-    "TW": 1.8151,
-    "TW_motorOut": 1.36133,
-    "growth_kg": 1.09027,
+    "S_m2": 0.811551,
+    "AR": 7.09752,
+    "chord_m": 0.338146,
+    "LD": 6.3405,
+    "CD0": 0.0625461,
+    "diskLoading_Nm2": 84.3478,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 956.109,
+    "P_cruise_W": 428.235,
+    "I_hover_A": 43.068,
+    "E_mission_Wh": 113.866,
+    "E_pack_Wh": 177.6,
+    "E_usable_Wh": 134.976,
+    "cruise_avail_min": 12.9577,
+    "cruise_margin_pct": 29.5769,
+    "TW": 1.87638,
+    "TW_motorOut": 1.40728,
+    "growth_kg": 1.35509,
     "m_lift": 1.176,
-    "m_booms": 1.11666,
-    "m_wing": 1.74583,
-    "m_tail": 0.195063,
+    "m_booms": 1.10215,
+    "m_wing": 1.66834,
+    "m_tail": 0.185936,
     "m_fixed": 2.72618,
     "extras": [],
-    "cost_total_usd": 2331.42,
-    "reserve_usd": -331.42,
-    "goods_usd": 2014.89,
-    "tax_usd": 206.53,
+    "cost_total_usd": 2248.29,
+    "reserve_usd": -248.29,
+    "goods_usd": 1939.49,
+    "tax_usd": 198.8,
     "shipping_usd": 110,
     "span_m": 2.4,
     "longestPiece_m": 1.2,
     "pieces": 8,
-    "gustForce_N": 10.7075,
-    "gustTilt_deg": 7.66795,
-    "exposedArea_m2": 0.213398,
-    "joinerMS_scaled": 1.41096,
+    "gustForce_N": 10.6184,
+    "gustTilt_deg": 7.85848,
+    "exposedArea_m2": 0.211623,
+    "joinerMS_scaled": 1.45858,
     "buildIndex": 22,
     "controlRisk": 3,
     "scheduleRisk": 4,
@@ -1607,10 +1606,10 @@
     },
     {
      "cat": "Energy",
-     "item": "Zeee 6S 10000 120C — 2-pack listing (2 packs)",
+     "item": "HOOVO 6S 8000 100C — 2-pack listing (2 packs)",
      "qty": 1,
-     "unit": 275.39,
-     "ext": 275.39,
+     "unit": 199.99,
+     "ext": 199.99,
      "src": "BE §1 amazon.com",
      "note": "second pack per R7; EC5 leads: re-terminate to XT90S"
     },
@@ -1630,7 +1629,7 @@
      "unit": 26.2,
      "ext": 78.6,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 1.0375 + 0.4605 + 1.0375 + 0.4605 + 1.0875 + 1.0875 m"
+     "note": "cut list 1.0179 + 0.4605 + 1.0179 + 0.4605 + 1.0679 + 1.0679 m"
     },
     {
      "cat": "Airframe",
@@ -1959,20 +1958,22 @@
    ],
    "feasible": false,
    "flags": [
-    "R6: total $2331.42 > $2,000 cap"
+    "R6: total $2248.29 > $2,000 cap"
    ],
-   "warnings": [],
+   "warnings": [
+    "R2: MTOW 7.84 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+   ],
    "scores": {
     "cost": 0,
-    "energy": 3.15,
-    "portability": 4.823,
+    "energy": 2.958,
+    "portability": 5.009,
     "build": 5,
     "control": 7,
     "schedule": 6,
     "motorOut": 10,
-    "growth": 3.634
+    "growth": 4.517
    },
-   "total": 4.7182
+   "total": 4.7963
   },
   {
    "id": "C2",
@@ -1999,51 +2000,51 @@
     "motorOutWhy": "8 lift rotors: T/W with the opposite pair shut (sizing convention (n-2)/n) — survival depends on headroom and tuning; forum evidence only (S28)."
    },
    "metrics": {
-    "MTOW_kg": 7.19961,
-    "empty_kg_noBatt_noPayload": 5.71331,
-    "battery_kg": 0.9863,
-    "pack": "HOOVO 6S 8000 100C (2-pack)",
+    "MTOW_kg": 6.955,
+    "empty_kg_noBatt_noPayload": 5.635,
+    "battery_kg": 0.82,
+    "pack": "Ovonic 6S 6500 100C (2-pack)",
     "packNote": "",
-    "S_m2": 0.749479,
-    "AR": 7.68534,
-    "chord_m": 0.312283,
-    "LD": 7.1617,
-    "CD0": 0.0460347,
-    "diskLoading_Nm2": 154.82,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 1071.64,
-    "P_cruise_W": 386.607,
-    "I_hover_A": 48.2721,
-    "E_mission_Wh": 112.063,
-    "E_pack_Wh": 177.6,
-    "E_usable_Wh": 134.976,
-    "cruise_avail_min": 13.556,
-    "cruise_margin_pct": 35.5602,
-    "TW": 1.59482,
-    "TW_motorOut": 1.19611,
-    "growth_kg": -0.0233279,
+    "S_m2": 0.719507,
+    "AR": 8.00548,
+    "chord_m": 0.299795,
+    "LD": 8.20569,
+    "CD0": 0.0468723,
+    "diskLoading_Nm2": 149.563,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 1011.12,
+    "P_cruise_W": 293.366,
+    "I_hover_A": 45.5461,
+    "E_mission_Wh": 93.8331,
+    "E_pack_Wh": 144.3,
+    "E_usable_Wh": 109.668,
+    "cruise_avail_min": 13.2386,
+    "cruise_margin_pct": 32.3859,
+    "TW": 1.65091,
+    "TW_motorOut": 1.23818,
+    "growth_kg": 0.221287,
     "m_lift": 1.176,
-    "m_booms": 0.613239,
-    "m_wing": 1.52911,
-    "m_tail": 0.168782,
+    "m_booms": 0.606586,
+    "m_wing": 1.46564,
+    "m_tail": 0.160594,
     "m_fixed": 2.72618,
     "extras": [],
-    "cost_total_usd": 2261.01,
-    "reserve_usd": -261.01,
-    "goods_usd": 1951.03,
-    "tax_usd": 199.98,
+    "cost_total_usd": 2193.76,
+    "reserve_usd": -193.76,
+    "goods_usd": 1890.03,
+    "tax_usd": 193.73,
     "shipping_usd": 110,
     "span_m": 2.4,
     "longestPiece_m": 1.2,
     "pieces": 6,
-    "gustForce_N": 10.4403,
-    "gustTilt_deg": 8.41145,
-    "exposedArea_m2": 0.208074,
-    "joinerMS_scaled": 1.58932,
+    "gustForce_N": 10.3499,
+    "gustTilt_deg": 8.62861,
+    "exposedArea_m2": 0.206272,
+    "joinerMS_scaled": 1.64521,
     "buildIndex": 20,
     "controlRisk": 3,
     "scheduleRisk": 4,
-    "motorOutPoints": 7
+    "motorOutPoints": 10
    },
    "bom": [
     {
@@ -2165,10 +2166,10 @@
     },
     {
      "cat": "Energy",
-     "item": "HOOVO 6S 8000 100C — 2-pack listing (2 packs)",
+     "item": "Ovonic 6S 6500 100C — 2-pack listing (2 packs)",
      "qty": 1,
-     "unit": 199.99,
-     "ext": 199.99,
+     "unit": 138.99,
+     "ext": 138.99,
      "src": "BE §1 amazon.com",
      "note": "second pack per R7; EC5 leads: re-terminate to XT90S"
     },
@@ -2188,7 +2189,7 @@
      "unit": 26.2,
      "ext": 52.4,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.9807 + 0.4605 + 0.9807 + 0.4605 m"
+     "note": "cut list 0.9627 + 0.4605 + 0.9627 + 0.4605 m"
     },
     {
      "cat": "Airframe",
@@ -2517,23 +2518,22 @@
    ],
    "feasible": false,
    "flags": [
-    "R6: total $2261.01 > $2,000 cap",
-    "R13: T/W 1.59 < 1.6"
+    "R6: total $2193.76 > $2,000 cap"
    ],
    "warnings": [
-    "R2: MTOW 7.20 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 6.96 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 0,
-    "energy": 3.556,
-    "portability": 6.66,
+    "energy": 3.239,
+    "portability": 6.831,
     "build": 6,
     "control": 7,
     "schedule": 6,
-    "motorOut": 7,
-    "growth": 0
+    "motorOut": 10,
+    "growth": 0.738
    },
-   "total": 4.4494
+   "total": 4.7927
   },
   {
    "id": "C3",
@@ -2560,47 +2560,47 @@
     "motorOutWhy": "4 lift rotors: a quad with one motor out is not flyable (S27); QuadPlane thrust-loss is warn-only (S28). Pusher-out: separate lift system lets QAssist/VTOL recovery land it (R15)."
    },
    "metrics": {
-    "MTOW_kg": 6.77938,
-    "empty_kg_noBatt_noPayload": 5.29308,
-    "battery_kg": 0.9863,
-    "pack": "HOOVO 6S 8000 100C (2-pack)",
+    "MTOW_kg": 6.54074,
+    "empty_kg_noBatt_noPayload": 5.22074,
+    "battery_kg": 0.82,
+    "pack": "Ovonic 6S 6500 100C (2-pack)",
     "packNote": "",
-    "S_m2": 0.705745,
-    "AR": 8.16159,
-    "chord_m": 0.29406,
-    "LD": 6.77974,
-    "CD0": 0.0495062,
-    "diskLoading_Nm2": 128.132,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 1035.8,
-    "P_cruise_W": 384.558,
-    "I_hover_A": 46.6577,
-    "E_mission_Wh": 110.129,
-    "E_pack_Wh": 177.6,
-    "E_usable_Wh": 134.976,
-    "cruise_avail_min": 13.8768,
-    "cruise_margin_pct": 38.7678,
-    "TW": 1.98248,
+    "S_m2": 0.676649,
+    "AR": 8.51253,
+    "chord_m": 0.281937,
+    "LD": 7.80697,
+    "CD0": 0.0505209,
+    "diskLoading_Nm2": 123.621,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 987.339,
+    "P_cruise_W": 289.982,
+    "I_hover_A": 44.4747,
+    "E_mission_Wh": 92.212,
+    "E_pack_Wh": 144.3,
+    "E_usable_Wh": 109.668,
+    "cruise_avail_min": 13.6118,
+    "cruise_margin_pct": 36.1181,
+    "TW": 2.05481,
     "TW_motorOut": 0,
-    "growth_kg": 1.62062,
+    "growth_kg": 1.85926,
     "m_lift": 0.98,
-    "m_booms": 0.617627,
-    "m_wing": 1.43731,
-    "m_tail": 0.151965,
+    "m_booms": 0.611168,
+    "m_wing": 1.37912,
+    "m_tail": 0.144268,
     "m_fixed": 2.60618,
     "extras": [],
-    "cost_total_usd": 1949.25,
-    "reserve_usd": 50.75,
-    "goods_usd": 1668.25,
-    "tax_usd": 171,
+    "cost_total_usd": 1881.99,
+    "reserve_usd": 118.01,
+    "goods_usd": 1607.25,
+    "tax_usd": 164.74,
     "shipping_usd": 110,
     "span_m": 2.4,
     "longestPiece_m": 1.2,
     "pieces": 6,
-    "gustForce_N": 10.1987,
-    "gustTilt_deg": 8.72138,
-    "exposedArea_m2": 0.203259,
-    "joinerMS_scaled": 1.68783,
+    "gustForce_N": 10.1074,
+    "gustTilt_deg": 8.95489,
+    "exposedArea_m2": 0.20144,
+    "joinerMS_scaled": 1.74942,
     "buildIndex": 16,
     "controlRisk": 2,
     "scheduleRisk": 1.5,
@@ -2717,10 +2717,10 @@
     },
     {
      "cat": "Energy",
-     "item": "HOOVO 6S 8000 100C — 2-pack listing (2 packs)",
+     "item": "Ovonic 6S 6500 100C — 2-pack listing (2 packs)",
      "qty": 1,
-     "unit": 199.99,
-     "ext": 199.99,
+     "unit": 138.99,
+     "ext": 138.99,
      "src": "BE §1 amazon.com",
      "note": "second pack per R7; EC5 leads: re-terminate to XT90S"
     },
@@ -2740,7 +2740,7 @@
      "unit": 26.2,
      "ext": 52.4,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.9798 + 0.4732 + 0.9798 + 0.4732 m"
+     "note": "cut list 0.9624 + 0.4732 + 0.9624 + 0.4732 m"
     },
     {
      "cat": "Airframe",
@@ -3070,20 +3070,19 @@
    "feasible": true,
    "flags": [],
    "warnings": [
-    "R7: crash reserve $51 < $100 target",
-    "R2: MTOW 6.78 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 6.54 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
-    "cost": 1.692,
-    "energy": 3.877,
-    "portability": 6.954,
+    "cost": 3.934,
+    "energy": 3.612,
+    "portability": 7.121,
     "build": 8,
     "control": 8,
     "schedule": 8.5,
     "motorOut": 4,
-    "growth": 5.402
+    "growth": 6.198
    },
-   "total": 5.721
+   "total": 6.1138
   },
   {
    "id": "C0-lean",
@@ -3110,33 +3109,33 @@
     "motorOutWhy": "4 lift rotors: a quad with one motor out is not flyable (S27); QuadPlane thrust-loss is warn-only (S28). Pusher-out: separate lift system lets QAssist/VTOL recovery land it (R15)."
    },
    "metrics": {
-    "MTOW_kg": 6.55152,
-    "empty_kg_noBatt_noPayload": 5.23152,
+    "MTOW_kg": 6.53756,
+    "empty_kg_noBatt_noPayload": 5.21756,
     "battery_kg": 0.82,
     "pack": "Ovonic 6S 6500 100C (2-pack)",
     "packNote": "",
-    "S_m2": 0.682023,
-    "AR": 8.44546,
-    "chord_m": 0.284176,
-    "LD": 7.46444,
-    "CD0": 0.0445461,
-    "diskLoading_Nm2": 109.686,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 915.723,
-    "P_cruise_W": 337.543,
-    "I_hover_A": 41.2488,
-    "E_mission_Wh": 96.9559,
+    "S_m2": 0.67632,
+    "AR": 8.51667,
+    "chord_m": 0.2818,
+    "LD": 8.62433,
+    "CD0": 0.0447272,
+    "diskLoading_Nm2": 109.452,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 912.49,
+    "P_cruise_W": 262.372,
+    "I_hover_A": 41.1032,
+    "E_mission_Wh": 84.2837,
     "E_pack_Wh": 144.3,
     "E_usable_Wh": 109.668,
-    "cruise_avail_min": 12.2596,
-    "cruise_margin_pct": 22.5964,
-    "TW": 1.91101,
+    "cruise_avail_min": 15.805,
+    "cruise_margin_pct": 58.0496,
+    "TW": 1.91509,
     "TW_motorOut": 0,
-    "growth_kg": 1.27348,
+    "growth_kg": 1.28744,
     "m_lift": 0.968,
-    "m_booms": 0.626458,
-    "m_wing": 1.38969,
-    "m_tail": 0.141183,
+    "m_booms": 0.625192,
+    "m_wing": 1.37848,
+    "m_tail": 0.139711,
     "m_fixed": 2.60618,
     "extras": [],
     "cost_total_usd": 1830.65,
@@ -3147,10 +3146,10 @@
     "span_m": 2.4,
     "longestPiece_m": 1.2,
     "pieces": 6,
-    "gustForce_N": 10.0225,
-    "gustTilt_deg": 8.86649,
-    "exposedArea_m2": 0.199748,
-    "joinerMS_scaled": 1.74654,
+    "gustForce_N": 10.0046,
+    "gustTilt_deg": 8.86948,
+    "exposedArea_m2": 0.19939,
+    "joinerMS_scaled": 1.75027,
     "buildIndex": 16,
     "controlRisk": 3,
     "scheduleRisk": 1,
@@ -3281,7 +3280,7 @@
      "unit": 26.2,
      "ext": 52.4,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -3611,19 +3610,19 @@
    "feasible": true,
    "flags": [],
    "warnings": [
-    "R2: MTOW 6.55 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 6.54 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 5.645,
-    "energy": 2.26,
-    "portability": 7.114,
+    "energy": 5.805,
+    "portability": 7.124,
     "build": 8,
     "control": 7,
     "schedule": 9,
     "motorOut": 4,
-    "growth": 4.245
+    "growth": 4.291
    },
-   "total": 5.8717
+   "total": 6.409
   },
   {
    "id": "C0-b2.0",
@@ -3650,583 +3649,33 @@
     "motorOutWhy": "4 lift rotors: a quad with one motor out is not flyable (S27); QuadPlane thrust-loss is warn-only (S28). Pusher-out: separate lift system lets QAssist/VTOL recovery land it (R15)."
    },
    "metrics": {
-    "MTOW_kg": 7.01572,
-    "empty_kg_noBatt_noPayload": 5.52942,
-    "battery_kg": 0.9863,
-    "pack": "HOOVO 6S 8000 100C (2-pack)",
-    "packNote": "",
-    "S_m2": 0.730334,
-    "AR": 5.47695,
-    "chord_m": 0.365167,
-    "LD": 7.10735,
-    "CD0": 0.043359,
-    "diskLoading_Nm2": 117.455,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 1026.22,
-    "P_cruise_W": 379.613,
-    "I_hover_A": 46.2263,
-    "E_mission_Wh": 108.879,
-    "E_pack_Wh": 177.6,
-    "E_usable_Wh": 134.976,
-    "cruise_avail_min": 14.1248,
-    "cruise_margin_pct": 41.2483,
-    "TW": 1.78456,
-    "TW_motorOut": 0,
-    "growth_kg": 0.809282,
-    "m_lift": 0.968,
-    "m_booms": 0.66961,
-    "m_wing": 1.63337,
-    "m_tail": 0.15226,
-    "m_fixed": 2.60618,
-    "extras": [],
-    "cost_total_usd": 1964.04,
-    "reserve_usd": 35.96,
-    "goods_usd": 1681.67,
-    "tax_usd": 172.37,
-    "shipping_usd": 110,
-    "span_m": 2,
-    "longestPiece_m": 1.10764,
-    "pieces": 6,
-    "gustForce_N": 9.44837,
-    "gustTilt_deg": 7.81949,
-    "exposedArea_m2": 0.188304,
-    "joinerMS_scaled": 1.95717,
-    "buildIndex": 16,
-    "controlRisk": 2,
-    "scheduleRisk": 2,
-    "motorOutPoints": 4
-   },
-   "bom": [
-    {
-     "cat": "Lift propulsion",
-     "item": "SunnySky X4110S 400KV",
-     "qty": 4,
-     "unit": 46.99,
-     "ext": 187.96,
-     "src": "BL A3 sunnyskyusa.com",
-     "note": ""
-    },
-    {
-     "cat": "Lift propulsion",
-     "item": "JeeFly 1755 carbon prop (pair)",
-     "qty": 2,
-     "unit": 18.6,
-     "ext": 37.2,
-     "src": "BL props amazon.com/dp/B0FJ21V736",
-     "note": "$4.99 delivery, likely CN"
-    },
-    {
-     "cat": "Lift propulsion",
-     "item": "SoloGood 45A ESC (4-pack)",
-     "qty": 2,
-     "unit": 39.99,
-     "ext": 79.98,
-     "src": "BL ESCs amazon.com",
-     "note": "4 lift + pusher + 3 spare; low stock: fallback LANRC 35A"
-    },
-    {
-     "cat": "Cruise propulsion",
-     "item": "SunnySky X4110S 400KV (pusher)",
-     "qty": 1,
-     "unit": 46.99,
-     "ext": 46.99,
-     "src": "BL A3",
-     "note": "same motor as lift: one spare covers both"
-    },
-    {
-     "cat": "Cruise propulsion",
-     "item": "APC 14x8.5EP pusher prop",
-     "qty": 3,
-     "unit": 6.79,
-     "ext": 20.37,
-     "src": "PB 1c",
-     "note": ""
-    },
-    {
-     "cat": "Controls",
-     "item": "EMAX ES3005HV servo",
-     "qty": 5,
-     "unit": 19.99,
-     "ext": 99.95,
-     "src": "BA §6 shop.emax-usa.com",
-     "note": "2 ailerons, elevator, 2 rudders"
-    },
-    {
-     "cat": "Avionics",
-     "item": "CoreWing F405 Wing APP V2 (12 out, 90 A sensor)",
-     "qty": 1,
-     "unit": 67.26,
-     "ext": 67.26,
-     "src": "BA §2 readymaderc.com",
-     "note": "ArduPilot target beta-only (4.7.2-beta); fallback Matek F405-WMO $69.99"
-    },
-    {
-     "cat": "Avionics",
-     "item": "HGLRC M100-5883 GPS + compass",
-     "qty": 1,
-     "unit": 20.49,
-     "ext": 20.49,
-     "src": "BA §2 racedayquads.com",
-     "note": ""
-    },
-    {
-     "cat": "Avionics",
-     "item": "NewBeeDrone BeeID v1.1 Remote ID (FAA DoC RID000001995)",
-     "qty": 1,
-     "unit": 36.99,
-     "ext": 36.99,
-     "src": "BA §4 racedayquads.com",
-     "note": ""
-    },
-    {
-     "cat": "Avionics",
-     "item": "RadioMaster Pocket Crush ELRS",
-     "qty": 1,
-     "unit": 64.99,
-     "ext": 64.99,
-     "src": "BA §5 radiomasterrc.com",
-     "note": ""
-    },
-    {
-     "cat": "Avionics",
-     "item": "RadioMaster RP3 V2 ELRS receiver",
-     "qty": 1,
-     "unit": 19.99,
-     "ext": 19.99,
-     "src": "BA §5",
-     "note": ""
-    },
-    {
-     "cat": "Avionics",
-     "item": "Holybro MS5525DSO + PT40 airspeed",
-     "qty": 1,
-     "unit": 59.99,
-     "ext": 59.99,
-     "src": "BA §3 holybro.com",
-     "note": "ships CN"
-    },
-    {
-     "cat": "Energy",
-     "item": "HTRC C150 charger (150 W, ~6 A on 6S)",
-     "qty": 1,
-     "unit": 56.99,
-     "ext": 56.99,
-     "src": "BE §2 amazon.com/dp/B0H4QLJYHY",
-     "note": ""
-    },
-    {
-     "cat": "Airframe",
-     "item": "6061-T6 tube 1.000 x 0.035 in x 72 in (booms)",
-     "qty": 2,
-     "unit": 26.2,
-     "ext": 52.4,
-     "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
-    },
-    {
-     "cat": "Airframe",
-     "item": "6061-T6 tube 1.000 x 0.058 in x 96 in (spar sockets + gear legs)",
-     "qty": 1,
-     "unit": 53.97,
-     "ext": 53.97,
-     "src": "BF §1",
-     "note": "2 x 0.8 m sockets + 4 x 0.205 m legs + kerf"
-    },
-    {
-     "cat": "Airframe",
-     "item": "6061-T6 tube 0.875 x 0.058 in x 36 in (joiner)",
-     "qty": 1,
-     "unit": 18.45,
-     "ext": 18.45,
-     "src": "BF §1",
-     "note": "0.76 m joiner, 0.30 m engagement per side; 0.23 mm clearance"
-    },
-    {
-     "cat": "Airframe",
-     "item": "FOAMULAR NGX F-250 2 in x 4 x 8 ft (wing cores)",
-     "qty": 1,
-     "unit": 59.97,
-     "ext": 59.97,
-     "src": "BF §2 homedepot.com",
-     "note": ""
-    },
-    {
-     "cat": "Airframe",
-     "item": "FOAMULAR 150 1 in x 4 x 8 ft (tail, pod)",
-     "qty": 1,
-     "unit": 30.97,
-     "ext": 30.97,
-     "src": "BF §2 homedepot.com",
-     "note": ""
-    },
-    {
-     "cat": "Airframe",
-     "item": "Scotch heavy-duty packing tape, 6 rolls (skin)",
-     "qty": 1,
-     "unit": 19.98,
-     "ext": 19.98,
-     "src": "BF §2 amazon.com",
-     "note": ""
-    },
-    {
-     "cat": "Airframe",
-     "item": "FLY RC Amass XT90S anti-spark, 5 pairs (B0893CGLP7)",
-     "qty": 1,
-     "unit": 13.99,
-     "ext": 13.99,
-     "src": "BF §3a item 1 amazon.com",
-     "note": ""
-    },
-    {
-     "cat": "Airframe",
-     "item": "10 AWG silicone wire 5 ft red + 5 ft black (B0D968WN4W)",
-     "qty": 1,
-     "unit": 8.98,
-     "ext": 8.98,
-     "src": "BF §3a item 2 amazon.com",
-     "note": ""
-    },
-    {
-     "cat": "Airframe",
-     "item": "BNTECHGO 12 AWG silicone wire 10+10 ft (B01ABOPMEI)",
-     "qty": 1,
-     "unit": 14.98,
-     "ext": 14.98,
-     "src": "BF §3a item 3 amazon.com",
-     "note": ""
-    },
-    {
-     "cat": "Airframe",
-     "item": "300 mm servo extension leads, 10 (B0FYCJLY1V)",
-     "qty": 1,
-     "unit": 6.99,
-     "ext": 6.99,
-     "src": "BF §3a item 4 amazon.com",
-     "note": ""
-    },
-    {
-     "cat": "Airframe",
-     "item": "Nylon control horns 12 sets, M2x14 screws (B0B58ZSC8J)",
-     "qty": 1,
-     "unit": 8.98,
-     "ext": 8.98,
-     "src": "BF §3a item 7 amazon.com",
-     "note": "HS J17"
-    },
-    {
-     "cat": "Airframe",
-     "item": "Du-Bro 230 Kwik-Link 2-56 pushrods, 5 (B0006O8TAI)",
-     "qty": 1,
-     "unit": 12.48,
-     "ext": 12.48,
-     "src": "BF §3a item 8 amazon.com",
-     "note": ""
-    },
-    {
-     "cat": "Airframe",
-     "item": "Heat-shrink kit 2:1, 900 pcs (B0BG6V4HV4)",
-     "qty": 1,
-     "unit": 6.99,
-     "ext": 6.99,
-     "src": "BF §3a item 10 amazon.com",
-     "note": ""
-    },
-    {
-     "cat": "Airframe",
-     "item": "Zip ties 4/6/8/12 in, 200 (B0CSXGZXM8)",
-     "qty": 1,
-     "unit": 3.99,
-     "ext": 3.99,
-     "src": "BF §3a item 11 amazon.com",
-     "note": ""
-    },
-    {
-     "cat": "Airframe",
-     "item": "ZORZA UBEC 5 V 5 A, 2 pcs (B0CQ1R55BV)",
-     "qty": 1,
-     "unit": 9.99,
-     "ext": 9.99,
-     "src": "BF §3a item 12 amazon.com",
-     "note": ""
-    },
-    {
-     "cat": "Airframe",
-     "item": "Gorilla 5-min epoxy 0.85 oz (B001Z3C3AG)",
-     "qty": 1,
-     "unit": 5.97,
-     "ext": 5.97,
-     "src": "BF §3a item 13 amazon.com",
-     "note": ""
-    },
-    {
-     "cat": "Airframe",
-     "item": "ruthex RX-M3x5.7 heat-set inserts, 100 (B08BCRZZS3)",
-     "qty": 1,
-     "unit": 9.99,
-     "ext": 9.99,
-     "src": "HS §2c amazon.com",
-     "note": "replaces generic M3 inserts"
-    },
-    {
-     "cat": "Airframe",
-     "item": "Loctite 242 threadlocker 6 ml (B000I1RSNS)",
-     "qty": 1,
-     "unit": 7.03,
-     "ext": 7.03,
-     "src": "HS §2d amazon.com",
-     "note": "metal-to-metal threads only"
-    },
-    {
-     "cat": "Airframe",
-     "item": "A2 metric fasteners per HS §6 (14 lines: M2/M3/M5 screws, nylocks, nuts, washers)",
-     "qty": 1,
-     "unit": 22.04,
-     "ext": 22.04,
-     "src": "HS §6 boltdepot.com",
-     "note": "replaces Mywish kit B0CQWYFTXC"
-    },
-    {
-     "cat": "Airframe",
-     "item": "300 mm servo extension leads, 10 (B0FYCJLY1V), 2 more packs for the 11.8 m harness",
-     "qty": 2,
-     "unit": 6.99,
-     "ext": 13.98,
-     "src": "BF §3a item 4 amazon.com",
-     "note": "BUILD-MANUAL G2: price of 2026-10-13"
-    },
-    {
-     "cat": "Airframe",
-     "item": "ELEGOO PETG 1 kg (clamps, pod frames, gear clamps)",
-     "qty": 2,
-     "unit": 12.99,
-     "ext": 25.98,
-     "src": "BF §5",
-     "note": ""
-    },
-    {
-     "cat": "Airframe",
-     "item": "Polymaker PA6-CF20 500 g (motor mounts: HDT 173 °C)",
-     "qty": 1,
-     "unit": 39.99,
-     "ext": 39.99,
-     "src": "AM §2d",
-     "note": "PETG too close to motor heat (sec. 12)"
-    },
-    {
-     "cat": "Airframe",
-     "item": "BNTECHGO 12 AWG silicone wire, 2nd pack (ESC feeds)",
-     "qty": 1,
-     "unit": 14.98,
-     "ext": 14.98,
-     "src": "BF §3a item 3 amazon.com",
-     "note": ""
-    },
-    {
-     "cat": "Airframe",
-     "item": "14 AWG silicone wire (pusher / BEC feeds)",
-     "qty": 1,
-     "unit": 9.99,
-     "ext": 9.99,
-     "src": "BF §3b amazon.com",
-     "note": ""
-    },
-    {
-     "cat": "Airframe",
-     "item": "XT60H connectors 12 pairs (boom harness disconnects)",
-     "qty": 1,
-     "unit": 6.99,
-     "ext": 6.99,
-     "src": "BF §3b amazon.com",
-     "note": ""
-    },
-    {
-     "cat": "Airframe",
-     "item": "300 mm servo extension leads, 2nd pack",
-     "qty": 1,
-     "unit": 6.99,
-     "ext": 6.99,
-     "src": "BF §3a item 4 amazon.com",
-     "note": ""
-    },
-    {
-     "cat": "Airframe",
-     "item": "Foam-safe glue 4 oz",
-     "qty": 1,
-     "unit": 12.99,
-     "ext": 12.99,
-     "src": "BF §3b amazon.com",
-     "note": ""
-    },
-    {
-     "cat": "Airframe",
-     "item": "ShareGoo LiPo battery straps (10)",
-     "qty": 1,
-     "unit": 7.99,
-     "ext": 7.99,
-     "src": "BF §3b amazon.com",
-     "note": ""
-    },
-    {
-     "cat": "Airframe",
-     "item": "Hot-wire bow, nichrome + bench supply (wing cores)",
-     "qty": 1,
-     "unit": 40,
-     "ext": 40,
-     "src": "EST allowance",
-     "note": "not priced; borrow if a makerspace has one"
-    },
-    {
-     "cat": "Test & safety",
-     "item": "Tenergy LiPo bag",
-     "qty": 1,
-     "unit": 8.99,
-     "ext": 8.99,
-     "src": "BE §3",
-     "note": ""
-    },
-    {
-     "cat": "Test & safety",
-     "item": "Harbor Freight 0.50 cal ammo can (pack storage)",
-     "qty": 1,
-     "unit": 19.99,
-     "ext": 19.99,
-     "src": "BE §3",
-     "note": ""
-    },
-    {
-     "cat": "Test & safety",
-     "item": "Watt meter 150 A / 60 V",
-     "qty": 1,
-     "unit": 12.99,
-     "ext": 12.99,
-     "src": "BE §3",
-     "note": ""
-    },
-    {
-     "cat": "Test & safety",
-     "item": "IR thermometer",
-     "qty": 1,
-     "unit": 8.98,
-     "ext": 8.98,
-     "src": "BE §3",
-     "note": ""
-    },
-    {
-     "cat": "Test & safety",
-     "item": "20 kg load cell + HX711 kit (thrust stand)",
-     "qty": 1,
-     "unit": 8.98,
-     "ext": 8.98,
-     "src": "BE §4",
-     "note": ""
-    },
-    {
-     "cat": "Test & safety",
-     "item": "Arduino Nano clone (thrust stand)",
-     "qty": 1,
-     "unit": 8.99,
-     "ext": 8.99,
-     "src": "BE §4",
-     "note": ""
-    },
-    {
-     "cat": "Spares",
-     "item": "X4110S spare motor (lift or pusher)",
-     "qty": 1,
-     "unit": 46.99,
-     "ext": 46.99,
-     "src": "BL",
-     "note": ""
-    },
-    {
-     "cat": "Spares",
-     "item": "JeeFly 1755 spare pair (amazon.com)",
-     "qty": 1,
-     "unit": 18.6,
-     "ext": 18.6,
-     "src": "BL",
-     "note": ""
-    },
-    {
-     "cat": "Energy",
-     "item": "HOOVO 6S 8000 100C — 2-pack listing (2 packs)",
-     "qty": 1,
-     "unit": 199.99,
-     "ext": 199.99,
-     "src": "results.json packs (BE §1, 2026-10-13)",
-     "note": ""
-    }
-   ],
-   "feasible": true,
-   "flags": [],
-   "warnings": [
-    "R7: crash reserve $36 < $100 target",
-    "R2: MTOW 7.02 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
-   ],
-   "scores": {
-    "cost": 1.199,
-    "energy": 4.125,
-    "portability": 6.789,
-    "build": 8,
-    "control": 8,
-    "schedule": 8,
-    "motorOut": 4,
-    "growth": 2.698
-   },
-   "total": 5.3473
-  },
-  {
-   "id": "C0-b2.2",
-   "label": "C0 4-lift, span 2.2 m (pack re-picked)",
-   "family": "C0 span sweep",
-   "meetsR1": true,
-   "inputs": {
-    "overrides": {
-     "span": 2.2
-    },
-    "extras": [],
-    "build": {
-     "motors": 5,
-     "servos": 5,
-     "tiltAxes": 0,
-     "wingPivot": 0,
-     "wingPanels": 2,
-     "boomSegs": 4,
-     "special": 0
-    },
-    "pieces": 6,
-    "controlRiskWhy": "QuadPlane Q_FRAME_CLASS 1: the main documented ArduPilot path (S17); PX4 \"Standard VTOL\" easiest to control (S19).",
-    "scheduleRiskWhy": "Re-cut wing cores and re-run CAD/structures; same parts.",
-    "motorOutWhy": "4 lift rotors: a quad with one motor out is not flyable (S27); QuadPlane thrust-loss is warn-only (S28). Pusher-out: separate lift system lets QAssist/VTOL recovery land it (R15)."
-   },
-   "metrics": {
-    "MTOW_kg": 6.64832,
-    "empty_kg_noBatt_noPayload": 5.32832,
+    "MTOW_kg": 6.75541,
+    "empty_kg_noBatt_noPayload": 5.43541,
     "battery_kg": 0.82,
     "pack": "Ovonic 6S 6500 100C (2-pack)",
     "packNote": "",
-    "S_m2": 0.692101,
-    "AR": 6.9932,
-    "chord_m": 0.314591,
-    "LD": 7.29657,
-    "CD0": 0.0442848,
-    "diskLoading_Nm2": 111.307,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 938.288,
-    "P_cruise_W": 350.411,
-    "I_hover_A": 42.2652,
-    "E_mission_Wh": 100.104,
+    "S_m2": 0.698857,
+    "AR": 5.72363,
+    "chord_m": 0.349429,
+    "LD": 7.96068,
+    "CD0": 0.0441427,
+    "diskLoading_Nm2": 113.1,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 963.546,
+    "P_cruise_W": 293.716,
+    "I_hover_A": 43.403,
+    "E_mission_Wh": 91.777,
     "E_pack_Wh": 144.3,
     "E_usable_Wh": 109.668,
-    "cruise_avail_min": 11.6377,
-    "cruise_margin_pct": 16.3771,
-    "TW": 1.88318,
+    "cruise_avail_min": 13.6548,
+    "cruise_margin_pct": 36.5476,
+    "TW": 1.85333,
     "TW_motorOut": 0,
-    "growth_kg": 1.17668,
+    "growth_kg": 1.06959,
     "m_lift": 0.968,
-    "m_booms": 0.642663,
-    "m_wing": 1.46896,
-    "m_tail": 0.142517,
+    "m_booms": 0.661225,
+    "m_wing": 1.55617,
+    "m_tail": 0.14383,
     "m_fixed": 2.60618,
     "extras": [],
     "cost_total_usd": 1896.79,
@@ -4234,13 +3683,13 @@
     "goods_usd": 1620.67,
     "tax_usd": 166.12,
     "shipping_usd": 110,
-    "span_m": 2.2,
-    "longestPiece_m": 1.1,
+    "span_m": 2,
+    "longestPiece_m": 1.08498,
     "pieces": 6,
-    "gustForce_N": 9.70562,
-    "gustTilt_deg": 8.46712,
-    "exposedArea_m2": 0.193432,
-    "joinerMS_scaled": 1.87757,
+    "gustForce_N": 9.37797,
+    "gustTilt_deg": 8.05718,
+    "exposedArea_m2": 0.186902,
+    "joinerMS_scaled": 2.03259,
     "buildIndex": 16,
     "controlRisk": 2,
     "scheduleRisk": 2,
@@ -4380,7 +3829,7 @@
      "unit": 26.2,
      "ext": 52.4,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -4710,19 +4159,568 @@
    "feasible": true,
    "flags": [],
    "warnings": [
-    "R2: MTOW 6.65 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 6.76 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 3.44,
-    "energy": 1.638,
-    "portability": 7.046,
+    "energy": 3.655,
+    "portability": 6.971,
     "build": 8,
     "control": 8,
     "schedule": 8,
     "motorOut": 4,
-    "growth": 3.922
+    "growth": 3.565
    },
-   "total": 5.4585
+   "total": 5.7179
+  },
+  {
+   "id": "C0-b2.2",
+   "label": "C0 4-lift, span 2.2 m (pack re-picked)",
+   "family": "C0 span sweep",
+   "meetsR1": true,
+   "inputs": {
+    "overrides": {
+     "span": 2.2
+    },
+    "extras": [],
+    "build": {
+     "motors": 5,
+     "servos": 5,
+     "tiltAxes": 0,
+     "wingPivot": 0,
+     "wingPanels": 2,
+     "boomSegs": 4,
+     "special": 0
+    },
+    "pieces": 6,
+    "controlRiskWhy": "QuadPlane Q_FRAME_CLASS 1: the main documented ArduPilot path (S17); PX4 \"Standard VTOL\" easiest to control (S19).",
+    "scheduleRiskWhy": "Re-cut wing cores and re-run CAD/structures; same parts.",
+    "motorOutWhy": "4 lift rotors: a quad with one motor out is not flyable (S27); QuadPlane thrust-loss is warn-only (S28). Pusher-out: separate lift system lets QAssist/VTOL recovery land it (R15)."
+   },
+   "metrics": {
+    "MTOW_kg": 6.63239,
+    "empty_kg_noBatt_noPayload": 5.31239,
+    "battery_kg": 0.82,
+    "pack": "Ovonic 6S 6500 100C (2-pack)",
+    "packNote": "",
+    "S_m2": 0.686131,
+    "AR": 7.05404,
+    "chord_m": 0.311878,
+    "LD": 8.33086,
+    "CD0": 0.044468,
+    "diskLoading_Nm2": 111.04,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 934.557,
+    "P_cruise_W": 275.554,
+    "I_hover_A": 42.0972,
+    "E_mission_Wh": 87.4616,
+    "E_pack_Wh": 144.3,
+    "E_usable_Wh": 109.668,
+    "cruise_avail_min": 14.8353,
+    "cruise_margin_pct": 48.353,
+    "TW": 1.88771,
+    "TW_motorOut": 0,
+    "growth_kg": 1.19261,
+    "m_lift": 0.968,
+    "m_booms": 0.641217,
+    "m_wing": 1.45604,
+    "m_tail": 0.140956,
+    "m_fixed": 2.60618,
+    "extras": [],
+    "cost_total_usd": 1896.79,
+    "reserve_usd": 103.21,
+    "goods_usd": 1620.67,
+    "tax_usd": 166.12,
+    "shipping_usd": 110,
+    "span_m": 2.2,
+    "longestPiece_m": 1.1,
+    "pieces": 6,
+    "gustForce_N": 9.68951,
+    "gustTilt_deg": 8.47328,
+    "exposedArea_m2": 0.19311,
+    "joinerMS_scaled": 1.88208,
+    "buildIndex": 16,
+    "controlRisk": 2,
+    "scheduleRisk": 2,
+    "motorOutPoints": 4
+   },
+   "bom": [
+    {
+     "cat": "Lift propulsion",
+     "item": "SunnySky X4110S 400KV",
+     "qty": 4,
+     "unit": 46.99,
+     "ext": 187.96,
+     "src": "BL A3 sunnyskyusa.com",
+     "note": ""
+    },
+    {
+     "cat": "Lift propulsion",
+     "item": "JeeFly 1755 carbon prop (pair)",
+     "qty": 2,
+     "unit": 18.6,
+     "ext": 37.2,
+     "src": "BL props amazon.com/dp/B0FJ21V736",
+     "note": "$4.99 delivery, likely CN"
+    },
+    {
+     "cat": "Lift propulsion",
+     "item": "SoloGood 45A ESC (4-pack)",
+     "qty": 2,
+     "unit": 39.99,
+     "ext": 79.98,
+     "src": "BL ESCs amazon.com",
+     "note": "4 lift + pusher + 3 spare; low stock: fallback LANRC 35A"
+    },
+    {
+     "cat": "Cruise propulsion",
+     "item": "SunnySky X4110S 400KV (pusher)",
+     "qty": 1,
+     "unit": 46.99,
+     "ext": 46.99,
+     "src": "BL A3",
+     "note": "same motor as lift: one spare covers both"
+    },
+    {
+     "cat": "Cruise propulsion",
+     "item": "APC 14x8.5EP pusher prop",
+     "qty": 3,
+     "unit": 6.79,
+     "ext": 20.37,
+     "src": "PB 1c",
+     "note": ""
+    },
+    {
+     "cat": "Controls",
+     "item": "EMAX ES3005HV servo",
+     "qty": 5,
+     "unit": 19.99,
+     "ext": 99.95,
+     "src": "BA §6 shop.emax-usa.com",
+     "note": "2 ailerons, elevator, 2 rudders"
+    },
+    {
+     "cat": "Avionics",
+     "item": "CoreWing F405 Wing APP V2 (12 out, 90 A sensor)",
+     "qty": 1,
+     "unit": 67.26,
+     "ext": 67.26,
+     "src": "BA §2 readymaderc.com",
+     "note": "ArduPilot target beta-only (4.7.2-beta); fallback Matek F405-WMO $69.99"
+    },
+    {
+     "cat": "Avionics",
+     "item": "HGLRC M100-5883 GPS + compass",
+     "qty": 1,
+     "unit": 20.49,
+     "ext": 20.49,
+     "src": "BA §2 racedayquads.com",
+     "note": ""
+    },
+    {
+     "cat": "Avionics",
+     "item": "NewBeeDrone BeeID v1.1 Remote ID (FAA DoC RID000001995)",
+     "qty": 1,
+     "unit": 36.99,
+     "ext": 36.99,
+     "src": "BA §4 racedayquads.com",
+     "note": ""
+    },
+    {
+     "cat": "Avionics",
+     "item": "RadioMaster Pocket Crush ELRS",
+     "qty": 1,
+     "unit": 64.99,
+     "ext": 64.99,
+     "src": "BA §5 radiomasterrc.com",
+     "note": ""
+    },
+    {
+     "cat": "Avionics",
+     "item": "RadioMaster RP3 V2 ELRS receiver",
+     "qty": 1,
+     "unit": 19.99,
+     "ext": 19.99,
+     "src": "BA §5",
+     "note": ""
+    },
+    {
+     "cat": "Avionics",
+     "item": "Holybro MS5525DSO + PT40 airspeed",
+     "qty": 1,
+     "unit": 59.99,
+     "ext": 59.99,
+     "src": "BA §3 holybro.com",
+     "note": "ships CN"
+    },
+    {
+     "cat": "Energy",
+     "item": "Ovonic 6S 6500 100C — 2-pack listing (2 packs)",
+     "qty": 1,
+     "unit": 138.99,
+     "ext": 138.99,
+     "src": "BE §1 amazon.com",
+     "note": "second pack per R7; EC5 leads: re-terminate to XT90S"
+    },
+    {
+     "cat": "Energy",
+     "item": "HTRC C150 charger (150 W, ~6 A on 6S)",
+     "qty": 1,
+     "unit": 56.99,
+     "ext": 56.99,
+     "src": "BE §2 amazon.com/dp/B0H4QLJYHY",
+     "note": ""
+    },
+    {
+     "cat": "Airframe",
+     "item": "6061-T6 tube 1.000 x 0.035 in x 72 in (booms)",
+     "qty": 2,
+     "unit": 26.2,
+     "ext": 52.4,
+     "src": "BF §1 onlinemetals.com",
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
+    },
+    {
+     "cat": "Airframe",
+     "item": "6061-T6 tube 1.000 x 0.058 in x 96 in (spar sockets + gear legs)",
+     "qty": 1,
+     "unit": 53.97,
+     "ext": 53.97,
+     "src": "BF §1",
+     "note": "2 x 0.8 m sockets + 4 x 0.205 m legs + kerf"
+    },
+    {
+     "cat": "Airframe",
+     "item": "6061-T6 tube 0.875 x 0.058 in x 36 in (joiner)",
+     "qty": 1,
+     "unit": 18.45,
+     "ext": 18.45,
+     "src": "BF §1",
+     "note": "0.76 m joiner, 0.30 m engagement per side; 0.23 mm clearance"
+    },
+    {
+     "cat": "Airframe",
+     "item": "FOAMULAR NGX F-250 2 in x 4 x 8 ft (wing cores)",
+     "qty": 1,
+     "unit": 59.97,
+     "ext": 59.97,
+     "src": "BF §2 homedepot.com",
+     "note": ""
+    },
+    {
+     "cat": "Airframe",
+     "item": "FOAMULAR 150 1 in x 4 x 8 ft (tail, pod)",
+     "qty": 1,
+     "unit": 30.97,
+     "ext": 30.97,
+     "src": "BF §2 homedepot.com",
+     "note": ""
+    },
+    {
+     "cat": "Airframe",
+     "item": "Scotch heavy-duty packing tape, 6 rolls (skin)",
+     "qty": 1,
+     "unit": 19.98,
+     "ext": 19.98,
+     "src": "BF §2 amazon.com",
+     "note": ""
+    },
+    {
+     "cat": "Airframe",
+     "item": "FLY RC Amass XT90S anti-spark, 5 pairs (B0893CGLP7)",
+     "qty": 1,
+     "unit": 13.99,
+     "ext": 13.99,
+     "src": "BF §3a item 1 amazon.com",
+     "note": ""
+    },
+    {
+     "cat": "Airframe",
+     "item": "10 AWG silicone wire 5 ft red + 5 ft black (B0D968WN4W)",
+     "qty": 1,
+     "unit": 8.98,
+     "ext": 8.98,
+     "src": "BF §3a item 2 amazon.com",
+     "note": ""
+    },
+    {
+     "cat": "Airframe",
+     "item": "BNTECHGO 12 AWG silicone wire 10+10 ft (B01ABOPMEI)",
+     "qty": 1,
+     "unit": 14.98,
+     "ext": 14.98,
+     "src": "BF §3a item 3 amazon.com",
+     "note": ""
+    },
+    {
+     "cat": "Airframe",
+     "item": "300 mm servo extension leads, 10 (B0FYCJLY1V)",
+     "qty": 1,
+     "unit": 6.99,
+     "ext": 6.99,
+     "src": "BF §3a item 4 amazon.com",
+     "note": ""
+    },
+    {
+     "cat": "Airframe",
+     "item": "Nylon control horns 12 sets, M2x14 screws (B0B58ZSC8J)",
+     "qty": 1,
+     "unit": 8.98,
+     "ext": 8.98,
+     "src": "BF §3a item 7 amazon.com",
+     "note": "HS J17"
+    },
+    {
+     "cat": "Airframe",
+     "item": "Du-Bro 230 Kwik-Link 2-56 pushrods, 5 (B0006O8TAI)",
+     "qty": 1,
+     "unit": 12.48,
+     "ext": 12.48,
+     "src": "BF §3a item 8 amazon.com",
+     "note": ""
+    },
+    {
+     "cat": "Airframe",
+     "item": "Heat-shrink kit 2:1, 900 pcs (B0BG6V4HV4)",
+     "qty": 1,
+     "unit": 6.99,
+     "ext": 6.99,
+     "src": "BF §3a item 10 amazon.com",
+     "note": ""
+    },
+    {
+     "cat": "Airframe",
+     "item": "Zip ties 4/6/8/12 in, 200 (B0CSXGZXM8)",
+     "qty": 1,
+     "unit": 3.99,
+     "ext": 3.99,
+     "src": "BF §3a item 11 amazon.com",
+     "note": ""
+    },
+    {
+     "cat": "Airframe",
+     "item": "ZORZA UBEC 5 V 5 A, 2 pcs (B0CQ1R55BV)",
+     "qty": 1,
+     "unit": 9.99,
+     "ext": 9.99,
+     "src": "BF §3a item 12 amazon.com",
+     "note": ""
+    },
+    {
+     "cat": "Airframe",
+     "item": "Gorilla 5-min epoxy 0.85 oz (B001Z3C3AG)",
+     "qty": 1,
+     "unit": 5.97,
+     "ext": 5.97,
+     "src": "BF §3a item 13 amazon.com",
+     "note": ""
+    },
+    {
+     "cat": "Airframe",
+     "item": "ruthex RX-M3x5.7 heat-set inserts, 100 (B08BCRZZS3)",
+     "qty": 1,
+     "unit": 9.99,
+     "ext": 9.99,
+     "src": "HS §2c amazon.com",
+     "note": "replaces generic M3 inserts"
+    },
+    {
+     "cat": "Airframe",
+     "item": "Loctite 242 threadlocker 6 ml (B000I1RSNS)",
+     "qty": 1,
+     "unit": 7.03,
+     "ext": 7.03,
+     "src": "HS §2d amazon.com",
+     "note": "metal-to-metal threads only"
+    },
+    {
+     "cat": "Airframe",
+     "item": "A2 metric fasteners per HS §6 (14 lines: M2/M3/M5 screws, nylocks, nuts, washers)",
+     "qty": 1,
+     "unit": 22.04,
+     "ext": 22.04,
+     "src": "HS §6 boltdepot.com",
+     "note": "replaces Mywish kit B0CQWYFTXC"
+    },
+    {
+     "cat": "Airframe",
+     "item": "300 mm servo extension leads, 10 (B0FYCJLY1V), 2 more packs for the 11.8 m harness",
+     "qty": 2,
+     "unit": 6.99,
+     "ext": 13.98,
+     "src": "BF §3a item 4 amazon.com",
+     "note": "BUILD-MANUAL G2: price of 2026-10-13"
+    },
+    {
+     "cat": "Airframe",
+     "item": "ELEGOO PETG 1 kg (clamps, pod frames, gear clamps)",
+     "qty": 2,
+     "unit": 12.99,
+     "ext": 25.98,
+     "src": "BF §5",
+     "note": ""
+    },
+    {
+     "cat": "Airframe",
+     "item": "Polymaker PA6-CF20 500 g (motor mounts: HDT 173 °C)",
+     "qty": 1,
+     "unit": 39.99,
+     "ext": 39.99,
+     "src": "AM §2d",
+     "note": "PETG too close to motor heat (sec. 12)"
+    },
+    {
+     "cat": "Airframe",
+     "item": "BNTECHGO 12 AWG silicone wire, 2nd pack (ESC feeds)",
+     "qty": 1,
+     "unit": 14.98,
+     "ext": 14.98,
+     "src": "BF §3a item 3 amazon.com",
+     "note": ""
+    },
+    {
+     "cat": "Airframe",
+     "item": "14 AWG silicone wire (pusher / BEC feeds)",
+     "qty": 1,
+     "unit": 9.99,
+     "ext": 9.99,
+     "src": "BF §3b amazon.com",
+     "note": ""
+    },
+    {
+     "cat": "Airframe",
+     "item": "XT60H connectors 12 pairs (boom harness disconnects)",
+     "qty": 1,
+     "unit": 6.99,
+     "ext": 6.99,
+     "src": "BF §3b amazon.com",
+     "note": ""
+    },
+    {
+     "cat": "Airframe",
+     "item": "300 mm servo extension leads, 2nd pack",
+     "qty": 1,
+     "unit": 6.99,
+     "ext": 6.99,
+     "src": "BF §3a item 4 amazon.com",
+     "note": ""
+    },
+    {
+     "cat": "Airframe",
+     "item": "Foam-safe glue 4 oz",
+     "qty": 1,
+     "unit": 12.99,
+     "ext": 12.99,
+     "src": "BF §3b amazon.com",
+     "note": ""
+    },
+    {
+     "cat": "Airframe",
+     "item": "ShareGoo LiPo battery straps (10)",
+     "qty": 1,
+     "unit": 7.99,
+     "ext": 7.99,
+     "src": "BF §3b amazon.com",
+     "note": ""
+    },
+    {
+     "cat": "Airframe",
+     "item": "Hot-wire bow, nichrome + bench supply (wing cores)",
+     "qty": 1,
+     "unit": 40,
+     "ext": 40,
+     "src": "EST allowance",
+     "note": "not priced; borrow if a makerspace has one"
+    },
+    {
+     "cat": "Test & safety",
+     "item": "Tenergy LiPo bag",
+     "qty": 1,
+     "unit": 8.99,
+     "ext": 8.99,
+     "src": "BE §3",
+     "note": ""
+    },
+    {
+     "cat": "Test & safety",
+     "item": "Harbor Freight 0.50 cal ammo can (pack storage)",
+     "qty": 1,
+     "unit": 19.99,
+     "ext": 19.99,
+     "src": "BE §3",
+     "note": ""
+    },
+    {
+     "cat": "Test & safety",
+     "item": "Watt meter 150 A / 60 V",
+     "qty": 1,
+     "unit": 12.99,
+     "ext": 12.99,
+     "src": "BE §3",
+     "note": ""
+    },
+    {
+     "cat": "Test & safety",
+     "item": "IR thermometer",
+     "qty": 1,
+     "unit": 8.98,
+     "ext": 8.98,
+     "src": "BE §3",
+     "note": ""
+    },
+    {
+     "cat": "Test & safety",
+     "item": "20 kg load cell + HX711 kit (thrust stand)",
+     "qty": 1,
+     "unit": 8.98,
+     "ext": 8.98,
+     "src": "BE §4",
+     "note": ""
+    },
+    {
+     "cat": "Test & safety",
+     "item": "Arduino Nano clone (thrust stand)",
+     "qty": 1,
+     "unit": 8.99,
+     "ext": 8.99,
+     "src": "BE §4",
+     "note": ""
+    },
+    {
+     "cat": "Spares",
+     "item": "X4110S spare motor (lift or pusher)",
+     "qty": 1,
+     "unit": 46.99,
+     "ext": 46.99,
+     "src": "BL",
+     "note": ""
+    },
+    {
+     "cat": "Spares",
+     "item": "JeeFly 1755 spare pair (amazon.com)",
+     "qty": 1,
+     "unit": 18.6,
+     "ext": 18.6,
+     "src": "BL",
+     "note": ""
+    }
+   ],
+   "feasible": true,
+   "flags": [],
+   "warnings": [
+    "R2: MTOW 6.63 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+   ],
+   "scores": {
+    "cost": 3.44,
+    "energy": 4.835,
+    "portability": 7.057,
+    "build": 8,
+    "control": 8,
+    "schedule": 8,
+    "motorOut": 4,
+    "growth": 3.975
+   },
+   "total": 5.9445
   },
   {
    "id": "C0-b2.4",
@@ -4749,33 +4747,33 @@
     "motorOutWhy": "4 lift rotors: a quad with one motor out is not flyable (S27); QuadPlane thrust-loss is warn-only (S28). Pusher-out: separate lift system lets QAssist/VTOL recovery land it (R15)."
    },
    "metrics": {
-    "MTOW_kg": 6.55152,
-    "empty_kg_noBatt_noPayload": 5.23152,
+    "MTOW_kg": 6.53756,
+    "empty_kg_noBatt_noPayload": 5.21756,
     "battery_kg": 0.82,
     "pack": "Ovonic 6S 6500 100C (2-pack)",
     "packNote": "",
-    "S_m2": 0.682023,
-    "AR": 8.44546,
-    "chord_m": 0.284176,
-    "LD": 7.46444,
-    "CD0": 0.0445461,
-    "diskLoading_Nm2": 109.686,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 915.723,
-    "P_cruise_W": 337.543,
-    "I_hover_A": 41.2488,
-    "E_mission_Wh": 96.9559,
+    "S_m2": 0.67632,
+    "AR": 8.51667,
+    "chord_m": 0.2818,
+    "LD": 8.62433,
+    "CD0": 0.0447272,
+    "diskLoading_Nm2": 109.452,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 912.49,
+    "P_cruise_W": 262.372,
+    "I_hover_A": 41.1032,
+    "E_mission_Wh": 84.2837,
     "E_pack_Wh": 144.3,
     "E_usable_Wh": 109.668,
-    "cruise_avail_min": 12.2596,
-    "cruise_margin_pct": 22.5964,
-    "TW": 1.91101,
+    "cruise_avail_min": 15.805,
+    "cruise_margin_pct": 58.0496,
+    "TW": 1.91509,
     "TW_motorOut": 0,
-    "growth_kg": 1.27348,
+    "growth_kg": 1.28744,
     "m_lift": 0.968,
-    "m_booms": 0.626458,
-    "m_wing": 1.38969,
-    "m_tail": 0.141183,
+    "m_booms": 0.625192,
+    "m_wing": 1.37848,
+    "m_tail": 0.139711,
     "m_fixed": 2.60618,
     "extras": [],
     "cost_total_usd": 1896.79,
@@ -4786,10 +4784,10 @@
     "span_m": 2.4,
     "longestPiece_m": 1.2,
     "pieces": 6,
-    "gustForce_N": 10.0225,
-    "gustTilt_deg": 8.86649,
-    "exposedArea_m2": 0.199748,
-    "joinerMS_scaled": 1.74654,
+    "gustForce_N": 10.0046,
+    "gustTilt_deg": 8.86948,
+    "exposedArea_m2": 0.19939,
+    "joinerMS_scaled": 1.75027,
     "buildIndex": 16,
     "controlRisk": 2,
     "scheduleRisk": 1,
@@ -4929,7 +4927,7 @@
      "unit": 26.2,
      "ext": 52.4,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -5259,19 +5257,19 @@
    "feasible": true,
    "flags": [],
    "warnings": [
-    "R2: MTOW 6.55 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 6.54 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 3.44,
-    "energy": 2.26,
-    "portability": 7.114,
+    "energy": 5.805,
+    "portability": 7.124,
     "build": 8,
     "control": 8,
     "schedule": 9,
     "motorOut": 4,
-    "growth": 4.245
+    "growth": 4.291
    },
-   "total": 5.6909
+   "total": 6.2283
   },
   {
    "id": "C0-b2.6",
@@ -5298,33 +5296,33 @@
     "motorOutWhy": "4 lift rotors: a quad with one motor out is not flyable (S27); QuadPlane thrust-loss is warn-only (S28). Pusher-out: separate lift system lets QAssist/VTOL recovery land it (R15)."
    },
    "metrics": {
-    "MTOW_kg": 6.47494,
-    "empty_kg_noBatt_noPayload": 5.15494,
+    "MTOW_kg": 6.4625,
+    "empty_kg_noBatt_noPayload": 5.1425,
     "battery_kg": 0.82,
     "pack": "Ovonic 6S 6500 100C (2-pack)",
     "packNote": "",
-    "S_m2": 0.674052,
-    "AR": 10.0289,
-    "chord_m": 0.259251,
-    "LD": 7.5953,
-    "CD0": 0.0447584,
-    "diskLoading_Nm2": 108.404,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 898.054,
-    "P_cruise_W": 327.85,
-    "I_hover_A": 40.4529,
-    "E_mission_Wh": 94.5552,
+    "S_m2": 0.66856,
+    "AR": 10.1113,
+    "chord_m": 0.257138,
+    "LD": 8.85959,
+    "CD0": 0.0449377,
+    "diskLoading_Nm2": 108.196,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 895.208,
+    "P_cruise_W": 252.474,
+    "I_hover_A": 40.3247,
+    "E_mission_Wh": 81.866,
     "E_pack_Wh": 144.3,
     "E_usable_Wh": 109.668,
-    "cruise_avail_min": 12.7658,
-    "cruise_margin_pct": 27.6581,
-    "TW": 1.93361,
+    "cruise_avail_min": 16.6071,
+    "cruise_margin_pct": 66.0711,
+    "TW": 1.93733,
     "TW_motorOut": 0,
-    "growth_kg": 1.35006,
+    "growth_kg": 1.3625,
     "m_lift": 0.968,
-    "m_booms": 0.613178,
-    "m_wing": 1.3265,
-    "m_tail": 0.141082,
+    "m_booms": 0.612052,
+    "m_wing": 1.31659,
+    "m_tail": 0.139675,
     "m_fixed": 2.60618,
     "extras": [],
     "cost_total_usd": 1896.79,
@@ -5335,10 +5333,10 @@
     "span_m": 2.6,
     "longestPiece_m": 1.3,
     "pieces": 6,
-    "gustForce_N": 10.3425,
-    "gustTilt_deg": 9.25113,
-    "exposedArea_m2": 0.206125,
-    "joinerMS_scaled": 1.63125,
+    "gustForce_N": 10.3227,
+    "gustTilt_deg": 9.25123,
+    "exposedArea_m2": 0.205731,
+    "joinerMS_scaled": 1.6344,
     "buildIndex": 16,
     "controlRisk": 2,
     "scheduleRisk": 2,
@@ -5478,7 +5476,7 @@
      "unit": 26.2,
      "ext": 52.4,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -5808,19 +5806,19 @@
    "feasible": true,
    "flags": [],
    "warnings": [
-    "R2: MTOW 6.47 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 6.46 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 3.44,
-    "energy": 2.766,
-    "portability": 7.168,
+    "energy": 6.607,
+    "portability": 7.176,
     "build": 8,
     "control": 8,
     "schedule": 8,
     "motorOut": 4,
-    "growth": 4.5
+    "growth": 4.542
    },
-   "total": 5.6977
+   "total": 6.2789
   },
   {
    "id": "C0-b2.8",
@@ -5847,33 +5845,33 @@
     "motorOutWhy": "4 lift rotors: a quad with one motor out is not flyable (S27); QuadPlane thrust-loss is warn-only (S28). Pusher-out: separate lift system lets QAssist/VTOL recovery land it (R15)."
    },
    "metrics": {
-    "MTOW_kg": 6.41313,
-    "empty_kg_noBatt_noPayload": 5.09313,
+    "MTOW_kg": 6.40184,
+    "empty_kg_noBatt_noPayload": 5.08184,
     "battery_kg": 0.82,
     "pack": "Ovonic 6S 6500 100C (2-pack)",
     "packNote": "",
-    "S_m2": 0.667621,
-    "AR": 11.7432,
-    "chord_m": 0.238436,
-    "LD": 7.69893,
-    "CD0": 0.0449333,
-    "diskLoading_Nm2": 107.37,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 883.917,
-    "P_cruise_W": 320.351,
-    "I_hover_A": 39.8161,
-    "E_mission_Wh": 92.6771,
+    "S_m2": 0.662283,
+    "AR": 11.8378,
+    "chord_m": 0.23653,
+    "LD": 9.05024,
+    "CD0": 0.0451114,
+    "diskLoading_Nm2": 107.181,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 881.343,
+    "P_cruise_W": 244.835,
+    "I_hover_A": 39.7001,
+    "E_mission_Wh": 79.9766,
     "E_pack_Wh": 144.3,
     "E_usable_Wh": 109.668,
-    "cruise_avail_min": 13.1823,
-    "cruise_margin_pct": 31.823,
-    "TW": 1.95224,
+    "cruise_avail_min": 17.2763,
+    "cruise_margin_pct": 72.7626,
+    "TW": 1.95569,
     "TW_motorOut": 0,
-    "growth_kg": 1.41187,
+    "growth_kg": 1.42316,
     "m_lift": 0.968,
-    "m_booms": 0.602088,
-    "m_wing": 1.27493,
-    "m_tail": 0.141928,
+    "m_booms": 0.601072,
+    "m_wing": 1.26602,
+    "m_tail": 0.140564,
     "m_fixed": 2.60618,
     "extras": [],
     "cost_total_usd": 1896.79,
@@ -5884,10 +5882,10 @@
     "span_m": 2.8,
     "longestPiece_m": 1.4,
     "pieces": 6,
-    "gustForce_N": 10.6652,
-    "gustTilt_deg": 9.6247,
-    "exposedArea_m2": 0.212555,
-    "joinerMS_scaled": 1.52934,
+    "gustForce_N": 10.6435,
+    "gustTilt_deg": 9.62211,
+    "exposedArea_m2": 0.212122,
+    "joinerMS_scaled": 1.53203,
     "buildIndex": 16,
     "controlRisk": 2,
     "scheduleRisk": 2,
@@ -6027,7 +6025,7 @@
      "unit": 26.2,
      "ext": 52.4,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -6357,19 +6355,19 @@
    "feasible": true,
    "flags": [],
    "warnings": [
-    "R2: MTOW 6.41 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 6.40 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 3.44,
-    "energy": 3.182,
-    "portability": 7.211,
+    "energy": 7.276,
+    "portability": 7.219,
     "build": 8,
     "control": 8,
     "schedule": 8,
     "motorOut": 4,
-    "growth": 4.706
+    "growth": 4.744
    },
-   "total": 5.785
+   "total": 6.4037
   },
   {
    "id": "C0-b3.0",
@@ -6396,33 +6394,33 @@
     "motorOutWhy": "4 lift rotors: a quad with one motor out is not flyable (S27); QuadPlane thrust-loss is warn-only (S28). Pusher-out: separate lift system lets QAssist/VTOL recovery land it (R15)."
    },
    "metrics": {
-    "MTOW_kg": 6.3624,
-    "empty_kg_noBatt_noPayload": 5.0424,
+    "MTOW_kg": 6.35204,
+    "empty_kg_noBatt_noPayload": 5.03204,
     "battery_kg": 0.82,
     "pack": "Ovonic 6S 6500 100C (2-pack)",
     "packNote": "",
-    "S_m2": 0.662339,
-    "AR": 13.5882,
-    "chord_m": 0.22078,
-    "LD": 7.78213,
-    "CD0": 0.0450795,
-    "diskLoading_Nm2": 106.52,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 872.382,
-    "P_cruise_W": 314.419,
-    "I_hover_A": 39.2965,
-    "E_mission_Wh": 91.1757,
+    "S_m2": 0.657131,
+    "AR": 13.6959,
+    "chord_m": 0.219044,
+    "LD": 9.20641,
+    "CD0": 0.0452566,
+    "diskLoading_Nm2": 106.347,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 870.035,
+    "P_cruise_W": 238.809,
+    "I_hover_A": 39.1908,
+    "E_mission_Wh": 78.4698,
     "E_pack_Wh": 144.3,
     "E_usable_Wh": 109.668,
-    "cruise_avail_min": 13.5289,
-    "cruise_margin_pct": 35.2885,
-    "TW": 1.96781,
+    "cruise_avail_min": 17.8384,
+    "cruise_margin_pct": 78.3843,
+    "TW": 1.97102,
     "TW_motorOut": 0,
-    "growth_kg": 1.4626,
+    "growth_kg": 1.47296,
     "m_lift": 0.968,
-    "m_booms": 0.59268,
-    "m_wing": 1.23202,
-    "m_tail": 0.143518,
+    "m_booms": 0.591755,
+    "m_wing": 1.22392,
+    "m_tail": 0.142185,
     "m_fixed": 2.60618,
     "extras": [],
     "cost_total_usd": 1896.79,
@@ -6433,10 +6431,10 @@
     "span_m": 3,
     "longestPiece_m": 1.5,
     "pieces": 6,
-    "gustForce_N": 10.9901,
-    "gustTilt_deg": 9.98965,
-    "exposedArea_m2": 0.219031,
-    "joinerMS_scaled": 1.43876,
+    "gustForce_N": 10.9664,
+    "gustTilt_deg": 9.98452,
+    "exposedArea_m2": 0.21856,
+    "joinerMS_scaled": 1.44111,
     "buildIndex": 16,
     "controlRisk": 2,
     "scheduleRisk": 2,
@@ -6576,7 +6574,7 @@
      "unit": 26.2,
      "ext": 52.4,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -6906,19 +6904,19 @@
    "feasible": true,
    "flags": [],
    "warnings": [
-    "R2: MTOW 6.36 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 6.35 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 3.44,
-    "energy": 3.529,
-    "portability": 7.246,
+    "energy": 7.838,
+    "portability": 7.254,
     "build": 8,
     "control": 8,
     "schedule": 8,
     "motorOut": 4,
-    "growth": 4.875
+    "growth": 4.91
    },
-   "total": 5.8575
+   "total": 6.5081
   },
   {
    "id": "C0-pk-OvonicRoam6S",
@@ -6945,33 +6943,33 @@
     "motorOutWhy": "4 lift rotors: a quad with one motor out is not flyable (S27); QuadPlane thrust-loss is warn-only (S28). Pusher-out: separate lift system lets QAssist/VTOL recovery land it (R15)."
    },
    "metrics": {
-    "MTOW_kg": 6.49382,
-    "empty_kg_noBatt_noPayload": 5.21682,
+    "MTOW_kg": 6.48011,
+    "empty_kg_noBatt_noPayload": 5.20311,
     "battery_kg": 0.777,
     "pack": "Ovonic Roam 6S 6500 150C",
     "packNote": "",
-    "S_m2": 0.676018,
-    "AR": 8.52049,
-    "chord_m": 0.281674,
-    "LD": 7.45026,
-    "CD0": 0.0447056,
-    "diskLoading_Nm2": 108.72,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 902.397,
-    "P_cruise_W": 335.208,
-    "I_hover_A": 40.6485,
-    "E_mission_Wh": 95.9745,
+    "S_m2": 0.670378,
+    "AR": 8.59216,
+    "chord_m": 0.279324,
+    "LD": 8.61391,
+    "CD0": 0.0448879,
+    "diskLoading_Nm2": 108.491,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 899.244,
+    "P_cruise_W": 260.381,
+    "I_hover_A": 40.5065,
+    "E_mission_Wh": 83.3632,
     "E_pack_Wh": 144.3,
     "E_usable_Wh": 109.668,
-    "cruise_avail_min": 12.4511,
-    "cruise_margin_pct": 24.5106,
-    "TW": 1.92799,
+    "cruise_avail_min": 16.0615,
+    "cruise_margin_pct": 60.6145,
+    "TW": 1.93207,
     "TW_motorOut": 0,
-    "growth_kg": 1.33118,
+    "growth_kg": 1.34489,
     "m_lift": 0.968,
-    "m_booms": 0.625125,
-    "m_wing": 1.37788,
-    "m_tail": 0.139633,
+    "m_booms": 0.623873,
+    "m_wing": 1.36688,
+    "m_tail": 0.13818,
     "m_fixed": 2.60618,
     "extras": [],
     "cost_total_usd": 1902.29,
@@ -6982,10 +6980,10 @@
     "span_m": 2.4,
     "longestPiece_m": 1.2,
     "pieces": 6,
-    "gustForce_N": 10.0037,
-    "gustTilt_deg": 8.92742,
-    "exposedArea_m2": 0.199371,
-    "joinerMS_scaled": 1.76206,
+    "gustForce_N": 9.98582,
+    "gustTilt_deg": 8.9303,
+    "exposedArea_m2": 0.199016,
+    "joinerMS_scaled": 1.76578,
     "buildIndex": 16,
     "controlRisk": 2,
     "scheduleRisk": 1.5,
@@ -7116,7 +7114,7 @@
      "unit": 26.2,
      "ext": 52.4,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -7456,19 +7454,19 @@
    "flags": [],
    "warnings": [
     "R7: crash reserve $98 < $100 target",
-    "R2: MTOW 6.49 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 6.48 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 3.257,
-    "energy": 2.451,
-    "portability": 7.154,
+    "energy": 6.061,
+    "portability": 7.164,
     "build": 8,
     "control": 8,
     "schedule": 8.5,
     "motorOut": 4,
-    "growth": 4.437
+    "growth": 4.483
    },
-   "total": 5.6653
+   "total": 6.2124
   },
   {
    "id": "C0-pk-HOOVO6S8000",
@@ -7495,33 +7493,33 @@
     "motorOutWhy": "4 lift rotors: a quad with one motor out is not flyable (S27); QuadPlane thrust-loss is warn-only (S28). Pusher-out: separate lift system lets QAssist/VTOL recovery land it (R15)."
    },
    "metrics": {
-    "MTOW_kg": 6.77596,
-    "empty_kg_noBatt_noPayload": 5.28966,
+    "MTOW_kg": 6.761,
+    "empty_kg_noBatt_noPayload": 5.2747,
     "battery_kg": 0.9863,
     "pack": "HOOVO 6S 8000 100C (2-pack)",
     "packNote": "",
-    "S_m2": 0.705388,
-    "AR": 8.16572,
-    "chord_m": 0.293912,
-    "LD": 7.51636,
-    "CD0": 0.0439517,
-    "diskLoading_Nm2": 113.444,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 968.429,
-    "P_cruise_W": 346.695,
-    "I_hover_A": 43.6229,
-    "E_mission_Wh": 100.824,
+    "S_m2": 0.699436,
+    "AR": 8.23521,
+    "chord_m": 0.291432,
+    "LD": 8.66104,
+    "CD0": 0.0441282,
+    "diskLoading_Nm2": 113.193,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 964.874,
+    "P_cruise_W": 270.189,
+    "I_hover_A": 43.4628,
+    "E_mission_Wh": 87.9148,
     "E_pack_Wh": 177.6,
     "E_usable_Wh": 134.976,
-    "cruise_avail_min": 15.9105,
-    "cruise_margin_pct": 59.105,
-    "TW": 1.84771,
+    "cruise_avail_min": 20.4507,
+    "cruise_margin_pct": 104.507,
+    "TW": 1.8518,
     "TW_motorOut": 0,
-    "growth_kg": 1.04904,
+    "growth_kg": 1.064,
     "m_lift": 0.968,
-    "m_booms": 0.631645,
-    "m_wing": 1.43658,
-    "m_tail": 0.147246,
+    "m_booms": 0.630324,
+    "m_wing": 1.4245,
+    "m_tail": 0.145697,
     "m_fixed": 2.60618,
     "extras": [],
     "cost_total_usd": 1964.04,
@@ -7532,10 +7530,10 @@
     "span_m": 2.4,
     "longestPiece_m": 1.2,
     "pieces": 6,
-    "gustForce_N": 10.0949,
-    "gustTilt_deg": 8.63824,
-    "exposedArea_m2": 0.20119,
-    "joinerMS_scaled": 1.68869,
+    "gustForce_N": 10.0766,
+    "gustTilt_deg": 8.64163,
+    "exposedArea_m2": 0.200826,
+    "joinerMS_scaled": 1.69242,
     "buildIndex": 16,
     "controlRisk": 2,
     "scheduleRisk": 1.5,
@@ -7666,7 +7664,7 @@
      "unit": 26.2,
      "ext": 52.4,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -8006,19 +8004,19 @@
    "flags": [],
    "warnings": [
     "R7: crash reserve $36 < $100 target",
-    "R2: MTOW 6.78 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 6.76 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 1.199,
-    "energy": 5.911,
-    "portability": 6.957,
+    "energy": 10,
+    "portability": 6.967,
     "build": 8,
     "control": 8,
     "schedule": 8.5,
     "motorOut": 4,
-    "growth": 3.497
+    "growth": 3.547
    },
-   "total": 5.7619
+   "total": 6.3813
   },
   {
    "id": "C0-pk-Zeee6S9000",
@@ -8045,33 +8043,33 @@
     "motorOutWhy": "4 lift rotors: a quad with one motor out is not flyable (S27); QuadPlane thrust-loss is warn-only (S28). Pusher-out: separate lift system lets QAssist/VTOL recovery land it (R15)."
    },
    "metrics": {
-    "MTOW_kg": 6.97979,
-    "empty_kg_noBatt_noPayload": 5.34379,
+    "MTOW_kg": 6.96388,
+    "empty_kg_noBatt_noPayload": 5.32788,
     "battery_kg": 1.136,
     "pack": "Zeee 6S 9000 100C (2-pack)",
     "packNote": "",
-    "S_m2": 0.726607,
-    "AR": 7.92725,
-    "chord_m": 0.302753,
-    "LD": 7.55922,
-    "CD0": 0.043445,
-    "diskLoading_Nm2": 116.856,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 1017.49,
-    "P_cruise_W": 355.099,
-    "I_hover_A": 45.8329,
-    "E_mission_Wh": 104.405,
+    "S_m2": 0.720425,
+    "AR": 7.99529,
+    "chord_m": 0.300177,
+    "LD": 8.68937,
+    "CD0": 0.0436175,
+    "diskLoading_Nm2": 116.59,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 1013.62,
+    "P_cruise_W": 277.389,
+    "I_hover_A": 45.6586,
+    "E_mission_Wh": 91.2814,
     "E_pack_Wh": 199.8,
     "E_usable_Wh": 151.848,
-    "cruise_avail_min": 18.0163,
-    "cruise_margin_pct": 80.163,
-    "TW": 1.79375,
+    "cruise_avail_min": 23.1007,
+    "cruise_margin_pct": 131.007,
+    "TW": 1.79785,
     "TW_motorOut": 0,
-    "growth_kg": 0.845214,
+    "growth_kg": 0.861117,
     "m_lift": 0.968,
-    "m_booms": 0.636356,
-    "m_wing": 1.48046,
-    "m_tail": 0.152794,
+    "m_booms": 0.634983,
+    "m_wing": 1.46755,
+    "m_tail": 0.151173,
     "m_fixed": 2.60618,
     "extras": [],
     "cost_total_usd": 2010.46,
@@ -8082,10 +8080,10 @@
     "span_m": 2.4,
     "longestPiece_m": 1.2,
     "pieces": 6,
-    "gustForce_N": 10.1591,
-    "gustTilt_deg": 8.44223,
-    "exposedArea_m2": 0.20247,
-    "joinerMS_scaled": 1.63937,
+    "gustForce_N": 10.1406,
+    "gustTilt_deg": 8.44599,
+    "exposedArea_m2": 0.2021,
+    "joinerMS_scaled": 1.64312,
     "buildIndex": 16,
     "controlRisk": 2,
     "scheduleRisk": 1.5,
@@ -8216,7 +8214,7 @@
      "unit": 26.2,
      "ext": 52.4,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -8557,19 +8555,19 @@
     "R6: total $2010.46 > $2,000 cap"
    ],
    "warnings": [
-    "R2: MTOW 6.98 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 6.96 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 0,
-    "energy": 8.016,
-    "portability": 6.814,
+    "energy": 10,
+    "portability": 6.825,
     "build": 8,
     "control": 8,
     "schedule": 8.5,
     "motorOut": 4,
-    "growth": 2.817
+    "growth": 2.87
    },
-   "total": 5.8155
+   "total": 6.1195
   },
   {
    "id": "C0-pk-iFlightFullsendE",
@@ -8596,33 +8594,33 @@
     "motorOutWhy": "4 lift rotors: a quad with one motor out is not flyable (S27); QuadPlane thrust-loss is warn-only (S28). Pusher-out: separate lift system lets QAssist/VTOL recovery land it (R15)."
    },
    "metrics": {
-    "MTOW_kg": 6.78097,
-    "empty_kg_noBatt_noPayload": 5.29097,
+    "MTOW_kg": 6.76599,
+    "empty_kg_noBatt_noPayload": 5.27599,
     "battery_kg": 0.99,
     "pack": "iFlight Fullsend E 6S 8000 60C",
     "packNote": "",
-    "S_m2": 0.70591,
-    "AR": 8.15968,
-    "chord_m": 0.294129,
-    "LD": 7.51747,
-    "CD0": 0.0439389,
-    "diskLoading_Nm2": 113.528,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 969.622,
-    "P_cruise_W": 346.9,
-    "I_hover_A": 43.6767,
-    "E_mission_Wh": 100.911,
+    "S_m2": 0.699952,
+    "AR": 8.22913,
+    "chord_m": 0.291647,
+    "LD": 8.66179,
+    "CD0": 0.0441152,
+    "diskLoading_Nm2": 113.277,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 966.06,
+    "P_cruise_W": 270.365,
+    "I_hover_A": 43.5162,
+    "E_mission_Wh": 87.9968,
     "E_pack_Wh": 177.6,
     "E_usable_Wh": 134.976,
-    "cruise_avail_min": 15.8919,
-    "cruise_margin_pct": 58.9189,
-    "TW": 1.84634,
+    "cruise_avail_min": 20.4257,
+    "cruise_margin_pct": 104.257,
+    "TW": 1.85043,
     "TW_motorOut": 0,
-    "growth_kg": 1.04403,
+    "growth_kg": 1.05901,
     "m_lift": 0.968,
-    "m_booms": 0.631761,
-    "m_wing": 1.43765,
-    "m_tail": 0.147382,
+    "m_booms": 0.630438,
+    "m_wing": 1.42554,
+    "m_tail": 0.145831,
     "m_fixed": 2.60618,
     "extras": [],
     "cost_total_usd": 2014.75,
@@ -8633,10 +8631,10 @@
     "span_m": 2.4,
     "longestPiece_m": 1.2,
     "pieces": 6,
-    "gustForce_N": 10.0965,
-    "gustTilt_deg": 8.63329,
-    "exposedArea_m2": 0.201222,
-    "joinerMS_scaled": 1.68744,
+    "gustForce_N": 10.0782,
+    "gustTilt_deg": 8.63669,
+    "exposedArea_m2": 0.200857,
+    "joinerMS_scaled": 1.69117,
     "buildIndex": 16,
     "controlRisk": 2,
     "scheduleRisk": 1.5,
@@ -8767,7 +8765,7 @@
      "unit": 26.2,
      "ext": 52.4,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -9108,19 +9106,19 @@
     "R6: total $2014.75 > $2,000 cap"
    ],
    "warnings": [
-    "R2: MTOW 6.78 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 6.77 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 0,
-    "energy": 5.892,
-    "portability": 6.953,
+    "energy": 10,
+    "portability": 6.964,
     "build": 8,
     "control": 8,
     "schedule": 8.5,
     "motorOut": 4,
-    "growth": 3.48
+    "growth": 3.53
    },
-   "total": 5.5771
+   "total": 6.1994
   },
   {
    "id": "C0-pk-Zeee6S10000",
@@ -9147,33 +9145,33 @@
     "motorOutWhy": "4 lift rotors: a quad with one motor out is not flyable (S27); QuadPlane thrust-loss is warn-only (S28). Pusher-out: separate lift system lets QAssist/VTOL recovery land it (R15)."
    },
    "metrics": {
-    "MTOW_kg": 6.99894,
-    "empty_kg_noBatt_noPayload": 5.34894,
+    "MTOW_kg": 6.98296,
+    "empty_kg_noBatt_noPayload": 5.33296,
     "battery_kg": 1.15,
     "pack": "Zeee 6S 10000 120C (2-pack)",
     "packNote": "",
-    "S_m2": 0.728602,
-    "AR": 7.90555,
-    "chord_m": 0.303584,
-    "LD": 7.56305,
-    "CD0": 0.0433989,
-    "diskLoading_Nm2": 117.177,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 1022.16,
-    "P_cruise_W": 355.894,
-    "I_hover_A": 46.0433,
-    "E_mission_Wh": 104.745,
+    "S_m2": 0.722402,
+    "AR": 7.97341,
+    "chord_m": 0.301001,
+    "LD": 8.69181,
+    "CD0": 0.0435709,
+    "diskLoading_Nm2": 116.91,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 1018.27,
+    "P_cruise_W": 278.073,
+    "I_hover_A": 45.8681,
+    "E_mission_Wh": 91.6019,
     "E_pack_Wh": 222,
     "E_usable_Wh": 168.72,
-    "cruise_avail_min": 20.7855,
-    "cruise_margin_pct": 107.855,
-    "TW": 1.78884,
+    "cruise_avail_min": 26.6398,
+    "cruise_margin_pct": 166.398,
+    "TW": 1.79294,
     "TW_motorOut": 0,
-    "growth_kg": 0.826061,
+    "growth_kg": 0.842044,
     "m_lift": 0.968,
-    "m_booms": 0.636799,
-    "m_wing": 1.48464,
-    "m_tail": 0.153317,
+    "m_booms": 0.635422,
+    "m_wing": 1.47166,
+    "m_tail": 0.151691,
     "m_fixed": 2.60618,
     "extras": [],
     "cost_total_usd": 2047.17,
@@ -9184,10 +9182,10 @@
     "span_m": 2.4,
     "longestPiece_m": 1.2,
     "pieces": 6,
-    "gustForce_N": 10.1651,
-    "gustTilt_deg": 8.42433,
-    "exposedArea_m2": 0.202589,
-    "joinerMS_scaled": 1.63489,
+    "gustForce_N": 10.1465,
+    "gustTilt_deg": 8.42812,
+    "exposedArea_m2": 0.202218,
+    "joinerMS_scaled": 1.63863,
     "buildIndex": 16,
     "controlRisk": 2,
     "scheduleRisk": 1.5,
@@ -9318,7 +9316,7 @@
      "unit": 26.2,
      "ext": 52.4,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -9659,19 +9657,19 @@
     "R6: total $2047.17 > $2,000 cap"
    ],
    "warnings": [
-    "R2: MTOW 7.00 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 6.98 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 0,
     "energy": 10,
-    "portability": 6.801,
+    "portability": 6.812,
     "build": 8,
     "control": 8,
     "schedule": 8.5,
     "motorOut": 4,
-    "growth": 2.754
+    "growth": 2.807
    },
-   "total": 6.1055
+   "total": 6.1119
   },
   {
    "id": "C0-pk-RobopowerUA6S3P15000",
@@ -9698,33 +9696,33 @@
     "motorOutWhy": "4 lift rotors: a quad with one motor out is not flyable (S27); QuadPlane thrust-loss is warn-only (S28). Pusher-out: separate lift system lets QAssist/VTOL recovery land it (R15)."
    },
    "metrics": {
-    "MTOW_kg": 7.27414,
-    "empty_kg_noBatt_noPayload": 5.42414,
+    "MTOW_kg": 7.25681,
+    "empty_kg_noBatt_noPayload": 5.40681,
     "battery_kg": 1.35,
     "pack": "RobopowerUA 6S3P 15000 Li-ion (P50B)",
     "packNote": "",
-    "S_m2": 0.757234,
-    "AR": 7.60663,
-    "chord_m": 0.315514,
-    "LD": 7.61439,
-    "CD0": 0.0427637,
-    "diskLoading_Nm2": 121.782,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 1090.32,
-    "P_cruise_W": 367.386,
-    "I_hover_A": 50.478,
-    "E_mission_Wh": 109.69,
+    "S_m2": 0.750714,
+    "AR": 7.67269,
+    "chord_m": 0.312798,
+    "LD": 8.72257,
+    "CD0": 0.0429309,
+    "diskLoading_Nm2": 121.492,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 1085.97,
+    "P_cruise_W": 287.952,
+    "I_hover_A": 50.2764,
+    "E_mission_Wh": 96.2574,
     "E_pack_Wh": 324,
     "E_usable_Wh": 246.24,
-    "cruise_avail_min": 32.3008,
-    "cruise_margin_pct": 223.008,
-    "TW": 1.72117,
+    "cruise_avail_min": 41.2516,
+    "cruise_margin_pct": 312.516,
+    "TW": 1.72527,
     "TW_motorOut": 0,
-    "growth_kg": 0.550858,
+    "growth_kg": 0.568185,
     "m_lift": 0.968,
-    "m_booms": 0.643155,
-    "m_wing": 1.54594,
-    "m_tail": 0.160869,
+    "m_booms": 0.641708,
+    "m_wing": 1.53178,
+    "m_tail": 0.159143,
     "m_fixed": 2.60618,
     "extras": [],
     "cost_total_usd": 2349.93,
@@ -9735,10 +9733,10 @@
     "span_m": 2.4,
     "longestPiece_m": 1.2,
     "pieces": 6,
-    "gustForce_N": 10.2494,
-    "gustTilt_deg": 8.17631,
-    "exposedArea_m2": 0.204269,
-    "joinerMS_scaled": 1.57303,
+    "gustForce_N": 10.2304,
+    "gustTilt_deg": 8.18059,
+    "exposedArea_m2": 0.203891,
+    "joinerMS_scaled": 1.57679,
     "buildIndex": 16,
     "controlRisk": 2,
     "scheduleRisk": 2,
@@ -9869,7 +9867,7 @@
      "unit": 26.2,
      "ext": 52.4,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -10210,19 +10208,19 @@
     "R6: total $2349.93 > $2,000 cap"
    ],
    "warnings": [
-    "R2: MTOW 7.27 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 7.26 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 0,
     "energy": 10,
-    "portability": 6.608,
+    "portability": 6.62,
     "build": 8,
     "control": 8,
     "schedule": 8,
     "motorOut": 4,
-    "growth": 1.836
+    "growth": 1.894
    },
-   "total": 5.9444
+   "total": 5.9514
   },
   {
    "id": "C0-pk-Auline6S2P6000",
@@ -10249,33 +10247,33 @@
     "motorOutWhy": "4 lift rotors: a quad with one motor out is not flyable (S27); QuadPlane thrust-loss is warn-only (S28). Pusher-out: separate lift system lets QAssist/VTOL recovery land it (R15)."
    },
    "metrics": {
-    "MTOW_kg": 6.24978,
-    "empty_kg_noBatt_noPayload": 5.15578,
+    "MTOW_kg": 6.2371,
+    "empty_kg_noBatt_noPayload": 5.1431,
     "battery_kg": 0.594,
     "pack": "Auline 6S2P 6000 Li-ion (V45)",
     "packNote": "",
-    "S_m2": 0.650615,
-    "AR": 8.85316,
-    "chord_m": 0.27109,
-    "LD": 7.38621,
-    "CD0": 0.0454125,
-    "diskLoading_Nm2": 104.635,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 847.029,
-    "P_cruise_W": 325.409,
-    "I_hover_A": 39.2143,
-    "E_mission_Wh": 91.8805,
+    "S_m2": 0.64524,
+    "AR": 8.92691,
+    "chord_m": 0.26885,
+    "LD": 8.56506,
+    "CD0": 0.0456004,
+    "diskLoading_Nm2": 104.422,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 844.195,
+    "P_cruise_W": 252.046,
+    "I_hover_A": 39.0831,
+    "E_mission_Wh": 79.5275,
     "E_pack_Wh": 129.6,
     "E_usable_Wh": 98.496,
-    "cruise_avail_min": 11.2198,
-    "cruise_margin_pct": 12.1978,
-    "TW": 2.00327,
+    "cruise_avail_min": 14.5155,
+    "cruise_margin_pct": 45.1547,
+    "TW": 2.00734,
     "TW_motorOut": 0,
-    "growth_kg": 1.57522,
+    "growth_kg": 1.5879,
     "m_lift": 0.968,
-    "m_booms": 0.619486,
-    "m_wing": 1.329,
-    "m_tail": 0.133112,
+    "m_booms": 0.618292,
+    "m_wing": 1.31888,
+    "m_tail": 0.131741,
     "m_fixed": 2.60618,
     "extras": [],
     "cost_total_usd": 2107.36,
@@ -10286,10 +10284,10 @@
     "span_m": 2.4,
     "longestPiece_m": 1.2,
     "pieces": 6,
-    "gustForce_N": 9.92247,
-    "gustTilt_deg": 9.19613,
-    "exposedArea_m2": 0.197753,
-    "joinerMS_scaled": 1.83086,
+    "gustForce_N": 9.90501,
+    "gustTilt_deg": 9.19857,
+    "exposedArea_m2": 0.197405,
+    "joinerMS_scaled": 1.83458,
     "buildIndex": 16,
     "controlRisk": 2,
     "scheduleRisk": 2,
@@ -10420,7 +10418,7 @@
      "unit": 26.2,
      "ext": 52.4,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -10761,20 +10759,19 @@
     "R6: total $2107.36 > $2,000 cap"
    ],
    "warnings": [
-    "R10 met but below the 11.5 min design margin",
-    "R2: MTOW 6.25 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 6.24 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 0,
-    "energy": 1.22,
-    "portability": 7.325,
+    "energy": 4.515,
+    "portability": 7.334,
     "build": 8,
     "control": 8,
     "schedule": 8,
     "motorOut": 4,
-    "growth": 5.251
+    "growth": 5.293
    },
-   "total": 5.0406
+   "total": 5.54
   },
   {
    "id": "C0-fold",
@@ -10802,33 +10799,33 @@
     "motorOutWhy": "4 lift rotors: a quad with one motor out is not flyable (S27); QuadPlane thrust-loss is warn-only (S28). Pusher-out: separate lift system lets QAssist/VTOL recovery land it (R15)."
    },
    "metrics": {
-    "MTOW_kg": 6.60532,
-    "empty_kg_noBatt_noPayload": 5.28532,
+    "MTOW_kg": 6.59113,
+    "empty_kg_noBatt_noPayload": 5.27113,
     "battery_kg": 0.82,
     "pack": "Ovonic 6S 6500 100C (2-pack)",
     "packNote": "",
-    "S_m2": 0.687629,
-    "AR": 8.37661,
-    "chord_m": 0.286512,
-    "LD": 8.55025,
-    "CD0": 0.0379474,
-    "diskLoading_Nm2": 110.587,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 928.243,
-    "P_cruise_W": 297.1,
-    "I_hover_A": 41.8127,
-    "E_mission_Wh": 90.7719,
+    "S_m2": 0.681867,
+    "AR": 8.4474,
+    "chord_m": 0.284111,
+    "LD": 9.78442,
+    "CD0": 0.0380728,
+    "diskLoading_Nm2": 110.35,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 924.935,
+    "P_cruise_W": 233.16,
+    "I_hover_A": 41.6637,
+    "E_mission_Wh": 79.9682,
     "E_pack_Wh": 144.3,
     "E_usable_Wh": 109.668,
-    "cruise_avail_min": 13.8161,
-    "cruise_margin_pct": 38.1612,
-    "TW": 1.89544,
+    "cruise_avail_min": 17.6428,
+    "cruise_margin_pct": 76.4276,
+    "TW": 1.89952,
     "TW_motorOut": 0,
-    "growth_kg": 1.21968,
+    "growth_kg": 1.23387,
     "m_lift": 1.008,
-    "m_booms": 0.627703,
-    "m_wing": 1.40081,
-    "m_tail": 0.142633,
+    "m_booms": 0.626423,
+    "m_wing": 1.38939,
+    "m_tail": 0.141142,
     "m_fixed": 2.60618,
     "extras": [],
     "cost_total_usd": 2000.61,
@@ -10839,10 +10836,10 @@
     "span_m": 2.4,
     "longestPiece_m": 1.2,
     "pieces": 6,
-    "gustForce_N": 10.0401,
-    "gustTilt_deg": 8.81053,
-    "exposedArea_m2": 0.200097,
-    "joinerMS_scaled": 1.73231,
+    "gustForce_N": 10.022,
+    "gustTilt_deg": 8.81361,
+    "exposedArea_m2": 0.199738,
+    "joinerMS_scaled": 1.73604,
     "buildIndex": 16,
     "controlRisk": 2,
     "scheduleRisk": 2,
@@ -10973,7 +10970,7 @@
      "unit": 26.2,
      "ext": 52.4,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -11305,19 +11302,19 @@
     "R6: total $2000.61 > $2,000 cap"
    ],
    "warnings": [
-    "R2: MTOW 6.61 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 6.59 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 0,
-    "energy": 3.816,
-    "portability": 7.076,
+    "energy": 7.643,
+    "portability": 7.086,
     "build": 8,
     "control": 8,
     "schedule": 8,
     "motorOut": 4,
-    "growth": 4.066
+    "growth": 4.113
    },
-   "total": 5.2866
+   "total": 5.8663
   },
   {
    "id": "C0-lean-fold",
@@ -11345,33 +11342,33 @@
     "motorOutWhy": "4 lift rotors: a quad with one motor out is not flyable (S27); QuadPlane thrust-loss is warn-only (S28). Pusher-out: separate lift system lets QAssist/VTOL recovery land it (R15)."
    },
    "metrics": {
-    "MTOW_kg": 6.60532,
-    "empty_kg_noBatt_noPayload": 5.28532,
+    "MTOW_kg": 6.59113,
+    "empty_kg_noBatt_noPayload": 5.27113,
     "battery_kg": 0.82,
     "pack": "Ovonic 6S 6500 100C (2-pack)",
     "packNote": "",
-    "S_m2": 0.687629,
-    "AR": 8.37661,
-    "chord_m": 0.286512,
-    "LD": 8.55025,
-    "CD0": 0.0379474,
-    "diskLoading_Nm2": 110.587,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 928.243,
-    "P_cruise_W": 297.1,
-    "I_hover_A": 41.8127,
-    "E_mission_Wh": 90.7719,
+    "S_m2": 0.681867,
+    "AR": 8.4474,
+    "chord_m": 0.284111,
+    "LD": 9.78442,
+    "CD0": 0.0380728,
+    "diskLoading_Nm2": 110.35,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 924.935,
+    "P_cruise_W": 233.16,
+    "I_hover_A": 41.6637,
+    "E_mission_Wh": 79.9682,
     "E_pack_Wh": 144.3,
     "E_usable_Wh": 109.668,
-    "cruise_avail_min": 13.8161,
-    "cruise_margin_pct": 38.1612,
-    "TW": 1.89544,
+    "cruise_avail_min": 17.6428,
+    "cruise_margin_pct": 76.4276,
+    "TW": 1.89952,
     "TW_motorOut": 0,
-    "growth_kg": 1.21968,
+    "growth_kg": 1.23387,
     "m_lift": 1.008,
-    "m_booms": 0.627703,
-    "m_wing": 1.40081,
-    "m_tail": 0.142633,
+    "m_booms": 0.626423,
+    "m_wing": 1.38939,
+    "m_tail": 0.141142,
     "m_fixed": 2.60618,
     "extras": [],
     "cost_total_usd": 1934.47,
@@ -11382,10 +11379,10 @@
     "span_m": 2.4,
     "longestPiece_m": 1.2,
     "pieces": 6,
-    "gustForce_N": 10.0401,
-    "gustTilt_deg": 8.81053,
-    "exposedArea_m2": 0.200097,
-    "joinerMS_scaled": 1.73231,
+    "gustForce_N": 10.022,
+    "gustTilt_deg": 8.81361,
+    "exposedArea_m2": 0.199738,
+    "joinerMS_scaled": 1.73604,
     "buildIndex": 16,
     "controlRisk": 3,
     "scheduleRisk": 2,
@@ -11507,7 +11504,7 @@
      "unit": 26.2,
      "ext": 52.4,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -11838,19 +11835,19 @@
    "flags": [],
    "warnings": [
     "R7: crash reserve $66 < $100 target",
-    "R2: MTOW 6.61 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 6.59 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 2.184,
-    "energy": 3.816,
-    "portability": 7.076,
+    "energy": 7.643,
+    "portability": 7.086,
     "build": 8,
     "control": 7,
     "schedule": 8,
     "motorOut": 4,
-    "growth": 4.066
+    "growth": 4.113
    },
-   "total": 5.4642
+   "total": 6.0439
   },
   {
    "id": "TR-tri",
@@ -11888,33 +11885,33 @@
     "motorOutWhy": "3 rotors: no hover motor-out. A front-motor loss in cruise leaves asymmetric thrust and no separate VTOL system."
    },
    "metrics": {
-    "MTOW_kg": 6.24183,
-    "empty_kg_noBatt_noPayload": 4.92183,
+    "MTOW_kg": 6.2292,
+    "empty_kg_noBatt_noPayload": 4.9092,
     "battery_kg": 0.82,
     "pack": "Ovonic 6S 6500 100C (2-pack)",
     "packNote": "",
-    "S_m2": 0.649787,
-    "AR": 8.86444,
-    "chord_m": 0.270745,
-    "LD": 9.19202,
-    "CD0": 0.0351941,
-    "diskLoading_Nm2": 139.336,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 1024.34,
-    "P_cruise_W": 284.579,
-    "I_hover_A": 46.1414,
-    "E_mission_Wh": 92.956,
+    "S_m2": 0.644424,
+    "AR": 8.93822,
+    "chord_m": 0.26851,
+    "LD": 10.509,
+    "CD0": 0.0352969,
+    "diskLoading_Nm2": 139.054,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 1020.95,
+    "P_cruise_W": 223.571,
+    "I_hover_A": 45.9888,
+    "E_mission_Wh": 82.6375,
     "E_pack_Wh": 144.3,
     "E_usable_Wh": 109.668,
-    "cruise_avail_min": 13.5235,
-    "cruise_margin_pct": 35.2353,
-    "TW": 1.50437,
+    "cruise_avail_min": 17.2542,
+    "cruise_margin_pct": 72.5423,
+    "TW": 1.50742,
     "TW_motorOut": 0,
-    "growth_kg": -0.373076,
+    "growth_kg": -0.360454,
     "m_lift": 0.726,
-    "m_booms": 0.619302,
-    "m_wing": 1.32744,
-    "m_tail": 0.131906,
+    "m_booms": 0.618111,
+    "m_wing": 1.31735,
+    "m_tail": 0.130558,
     "m_fixed": 2.61718,
     "extras": [
      {
@@ -11931,10 +11928,10 @@
     "span_m": 2.4,
     "longestPiece_m": 1.2,
     "pieces": 6,
-    "gustForce_N": 9.8966,
-    "gustTilt_deg": 9.18405,
-    "exposedArea_m2": 0.197238,
-    "joinerMS_scaled": 1.83319,
+    "gustForce_N": 9.87955,
+    "gustTilt_deg": 9.18676,
+    "exposedArea_m2": 0.196898,
+    "joinerMS_scaled": 1.83691,
     "buildIndex": 22,
     "controlRisk": 5,
     "scheduleRisk": 6,
@@ -12056,7 +12053,7 @@
      "unit": 26.2,
      "ext": 52.4,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -12403,24 +12400,24 @@
    ],
    "feasible": false,
    "flags": [
-    "R13: T/W 1.50 < 1.6"
+    "R13: T/W 1.51 < 1.6"
    ],
    "warnings": [
     "R7: crash reserve $70 < $100 target",
     "R1 (Given): not lift + cruise with stopped lift rotors — needs the team to change the project definition",
-    "R2: MTOW 6.24 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 6.23 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 2.33,
-    "energy": 3.524,
-    "portability": 7.331,
+    "energy": 7.254,
+    "portability": 7.34,
     "build": 5,
     "control": 5,
     "schedule": 4,
     "motorOut": 1,
     "growth": 0
    },
-   "total": 3.6112
+   "total": 4.1716
   },
   {
    "id": "TR-quadF",
@@ -12457,33 +12454,33 @@
     "motorOutWhy": "4 lift rotors: no hover motor-out (S27). Cruise: one front-motor loss -> asymmetric thrust; rear pair can still restart for VTOL landing."
    },
    "metrics": {
-    "MTOW_kg": 6.60512,
-    "empty_kg_noBatt_noPayload": 5.28512,
+    "MTOW_kg": 6.59096,
+    "empty_kg_noBatt_noPayload": 5.27096,
     "battery_kg": 0.82,
     "pack": "Ovonic 6S 6500 100C (2-pack)",
     "packNote": "",
-    "S_m2": 0.687608,
-    "AR": 8.37687,
-    "chord_m": 0.286503,
-    "LD": 8.55022,
-    "CD0": 0.0379477,
-    "diskLoading_Nm2": 110.584,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 928.196,
-    "P_cruise_W": 323.747,
-    "I_hover_A": 41.8106,
-    "E_mission_Wh": 95.2109,
+    "S_m2": 0.681849,
+    "AR": 8.44761,
+    "chord_m": 0.284104,
+    "LD": 9.78442,
+    "CD0": 0.0380731,
+    "diskLoading_Nm2": 110.347,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 924.896,
+    "P_cruise_W": 254.073,
+    "I_hover_A": 41.662,
+    "E_mission_Wh": 83.452,
     "E_pack_Wh": 144.3,
     "E_usable_Wh": 109.668,
-    "cruise_avail_min": 12.6793,
-    "cruise_margin_pct": 26.7933,
-    "TW": 1.8955,
+    "cruise_avail_min": 16.191,
+    "cruise_margin_pct": 61.9099,
+    "TW": 1.89957,
     "TW_motorOut": 0,
-    "growth_kg": 1.21988,
+    "growth_kg": 1.23404,
     "m_lift": 0.968,
-    "m_booms": 0.627698,
-    "m_wing": 1.40077,
-    "m_tail": 0.141479,
+    "m_booms": 0.62642,
+    "m_wing": 1.38935,
+    "m_tail": 0.140013,
     "m_fixed": 2.64718,
     "extras": [
      {
@@ -12500,10 +12497,10 @@
     "span_m": 2.4,
     "longestPiece_m": 1.2,
     "pieces": 6,
-    "gustForce_N": 10.0141,
-    "gustTilt_deg": 8.78836,
-    "exposedArea_m2": 0.199579,
-    "joinerMS_scaled": 1.73236,
+    "gustForce_N": 9.99651,
+    "gustTilt_deg": 8.79173,
+    "exposedArea_m2": 0.199229,
+    "joinerMS_scaled": 1.73608,
     "buildIndex": 23,
     "controlRisk": 5.5,
     "scheduleRisk": 6,
@@ -12625,7 +12622,7 @@
      "unit": 26.2,
      "ext": 52.4,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -12976,19 +12973,19 @@
    ],
    "warnings": [
     "R1 (Given): not lift + cruise with stopped lift rotors — needs the team to change the project definition",
-    "R2: MTOW 6.61 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 6.59 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 0,
-    "energy": 2.679,
-    "portability": 7.076,
+    "energy": 6.191,
+    "portability": 7.086,
     "build": 4.5,
     "control": 4.5,
     "schedule": 4,
     "motorOut": 2,
-    "growth": 4.066
+    "growth": 4.113
    },
-   "total": 3.4661
+   "total": 3.9986
   },
   {
    "id": "TR-quadA",
@@ -13030,33 +13027,33 @@
     "motorOutWhy": "4 rotors: no hover motor-out (S27). Cruise: 3 remaining rotors can still provide thrust."
    },
    "metrics": {
-    "MTOW_kg": 6.96843,
-    "empty_kg_noBatt_noPayload": 5.64843,
+    "MTOW_kg": 6.95262,
+    "empty_kg_noBatt_noPayload": 5.63262,
     "battery_kg": 0.82,
     "pack": "Ovonic 6S 6500 100C (2-pack)",
     "packNote": "",
-    "S_m2": 0.725429,
-    "AR": 7.94013,
-    "chord_m": 0.302262,
-    "LD": 9.94875,
-    "CD0": 0.0312399,
-    "diskLoading_Nm2": 116.667,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 1014.74,
-    "P_cruise_W": 293.541,
-    "I_hover_A": 45.7089,
-    "E_mission_Wh": 94.0229,
+    "S_m2": 0.719261,
+    "AR": 8.00822,
+    "chord_m": 0.299692,
+    "LD": 11.2014,
+    "CD0": 0.0313077,
+    "diskLoading_Nm2": 116.402,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 1010.89,
+    "P_cruise_W": 234.11,
+    "I_hover_A": 45.5355,
+    "E_mission_Wh": 83.9467,
     "E_pack_Wh": 144.3,
     "E_usable_Wh": 109.668,
-    "cruise_avail_min": 13.1979,
-    "cruise_margin_pct": 31.9787,
-    "TW": 1.79667,
+    "cruise_avail_min": 16.5921,
+    "cruise_margin_pct": 65.9211,
+    "TW": 1.80076,
     "TW_motorOut": 0,
-    "growth_kg": 0.856566,
+    "growth_kg": 0.872383,
     "m_lift": 0.968,
-    "m_booms": 0.636094,
-    "m_wing": 1.47799,
-    "m_tail": 0.151172,
+    "m_booms": 0.634725,
+    "m_wing": 1.46513,
+    "m_tail": 0.149583,
     "m_fixed": 2.91518,
     "extras": [
      {
@@ -13078,10 +13075,10 @@
     "span_m": 2.4,
     "longestPiece_m": 1.2,
     "pieces": 6,
-    "gustForce_N": 10.1269,
-    "gustTilt_deg": 8.42935,
-    "exposedArea_m2": 0.201828,
-    "joinerMS_scaled": 1.64204,
+    "gustForce_N": 10.1088,
+    "gustTilt_deg": 8.43338,
+    "exposedArea_m2": 0.201467,
+    "joinerMS_scaled": 1.64578,
     "buildIndex": 31,
     "controlRisk": 7,
     "scheduleRisk": 7,
@@ -13194,7 +13191,7 @@
      "unit": 26.2,
      "ext": 52.4,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -13554,19 +13551,19 @@
    ],
    "warnings": [
     "R1 (Given): not lift + cruise with stopped lift rotors — needs the team to change the project definition",
-    "R2: MTOW 6.97 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 6.95 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 0,
-    "energy": 3.198,
-    "portability": 6.822,
+    "energy": 6.592,
+    "portability": 6.833,
     "build": 0.5,
     "control": 3,
     "schedule": 3,
     "motorOut": 2,
-    "growth": 2.855
+    "growth": 2.908
    },
-   "total": 2.4724
+   "total": 2.9879
   },
   {
    "id": "TR-bi",
@@ -13622,7 +13619,7 @@
      "nLift": 2,
      "nBooms": 1,
      "boomTotalLen": 1.6,
-     "tailAreaRatio": 0.222587,
+     "tailAreaRatio": 0.222123,
      "mGear": 0.44318
     },
     "extras": [
@@ -13647,33 +13644,33 @@
     "motorOutWhy": "2 rotors: any motor loss is unrecoverable in hover or cruise."
    },
    "metrics": {
-    "MTOW_kg": 6.08792,
-    "empty_kg_noBatt_noPayload": 4.76792,
+    "MTOW_kg": 6.07732,
+    "empty_kg_noBatt_noPayload": 4.75732,
     "battery_kg": 0.82,
     "pack": "Ovonic 6S 6500 100C (2-pack)",
     "packNote": "",
-    "S_m2": 0.633767,
-    "AR": 9.08851,
-    "chord_m": 0.26407,
-    "LD": 10.762,
-    "CD0": 0.0292555,
-    "diskLoading_Nm2": 261.835,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 1187.39,
-    "P_cruise_W": 217.552,
-    "I_hover_A": 53.4862,
-    "E_mission_Wh": 89.0318,
+    "S_m2": 0.628713,
+    "AR": 9.16158,
+    "chord_m": 0.261964,
+    "LD": 12.1849,
+    "CD0": 0.0292929,
+    "diskLoading_Nm2": 261.378,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 1184.37,
+    "P_cruise_W": 172.632,
+    "I_hover_A": 53.3501,
+    "E_mission_Wh": 81.4107,
     "E_pack_Wh": 144.3,
     "E_usable_Wh": 109.668,
-    "cruise_avail_min": 15.6914,
-    "cruise_margin_pct": 56.9139,
-    "TW": 1.90541,
+    "cruise_avail_min": 19.8211,
+    "cruise_margin_pct": 98.2112,
+    "TW": 1.90874,
     "TW_motorOut": 0,
-    "growth_kg": 1.16208,
+    "growth_kg": 1.17268,
     "m_lift": 0.916,
     "m_booms": 0.336,
-    "m_wing": 1.29755,
-    "m_tail": 0.131194,
+    "m_wing": 1.28827,
+    "m_tail": 0.129876,
     "m_fixed": 2.58718,
     "extras": [
      {
@@ -13691,9 +13688,9 @@
     "longestPiece_m": 1.2,
     "pieces": 4,
     "gustForce_N": 9.68397,
-    "gustTilt_deg": 9.2134,
+    "gustTilt_deg": 9.2292,
     "exposedArea_m2": 0.193,
-    "joinerMS_scaled": 1.87954,
+    "joinerMS_scaled": 1.88281,
     "buildIndex": 18,
     "controlRisk": 9,
     "scheduleRisk": 8.5,
@@ -13788,7 +13785,7 @@
      "unit": 26.2,
      "ext": 26.2,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -14148,19 +14145,19 @@
    ],
    "warnings": [
     "R1 (Given): not lift + cruise with stopped lift rotors — needs the team to change the project definition",
-    "R2: MTOW 6.09 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 6.08 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 0,
-    "energy": 5.691,
-    "portability": 8.638,
+    "energy": 9.821,
+    "portability": 8.646,
     "build": 7,
     "control": 1,
     "schedule": 1.5,
     "motorOut": 0,
-    "growth": 3.874
+    "growth": 3.909
    },
-   "total": 3.4548
+   "total": 4.0787
   },
   {
    "id": "TW-4",
@@ -14174,7 +14171,7 @@
      "nLift": 4,
      "nBooms": 1,
      "boomTotalLen": 2.2,
-     "tailAreaRatio": 0.222587,
+     "tailAreaRatio": 0.222123,
      "CdA_rotor": 0.0007,
      "etaProp": 0.5506
     },
@@ -14210,33 +14207,33 @@
     "motorOutWhy": "4 wing rotors: no hover motor-out; cruise motor-out leaves 3 rotors."
    },
    "metrics": {
-    "MTOW_kg": 6.77834,
-    "empty_kg_noBatt_noPayload": 5.45834,
+    "MTOW_kg": 6.76511,
+    "empty_kg_noBatt_noPayload": 5.44511,
     "battery_kg": 0.82,
     "pack": "Ovonic 6S 6500 100C (2-pack)",
     "packNote": "",
-    "S_m2": 0.705636,
-    "AR": 8.16285,
-    "chord_m": 0.294015,
-    "LD": 9.57442,
-    "CD0": 0.0329531,
-    "diskLoading_Nm2": 113.483,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 968.996,
-    "P_cruise_W": 296.695,
-    "I_hover_A": 43.6485,
-    "E_mission_Wh": 92.5157,
+    "S_m2": 0.699861,
+    "AR": 8.2302,
+    "chord_m": 0.291609,
+    "LD": 10.8438,
+    "CD0": 0.0330199,
+    "diskLoading_Nm2": 113.262,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 965.851,
+    "P_cruise_W": 235.308,
+    "I_hover_A": 43.5068,
+    "E_mission_Wh": 82.1447,
     "E_pack_Wh": 144.3,
     "E_usable_Wh": 109.668,
-    "cruise_avail_min": 13.4687,
-    "cruise_margin_pct": 34.6868,
-    "TW": 1.84706,
+    "cruise_avail_min": 17.018,
+    "cruise_margin_pct": 70.1801,
+    "TW": 1.85067,
     "TW_motorOut": 0,
-    "growth_kg": 1.04666,
+    "growth_kg": 1.05989,
     "m_lift": 0.968,
     "m_booms": 0.447,
-    "m_wing": 1.43709,
-    "m_tail": 0.146071,
+    "m_wing": 1.42536,
+    "m_tail": 0.144574,
     "m_fixed": 2.96018,
     "extras": [
      {
@@ -14263,10 +14260,10 @@
     "span_m": 2.4,
     "longestPiece_m": 1.2,
     "pieces": 4,
-    "gustForce_N": 35.406,
-    "gustTilt_deg": 28.0415,
-    "exposedArea_m2": 0.705636,
-    "joinerMS_scaled": 1.68809,
+    "gustForce_N": 35.1162,
+    "gustTilt_deg": 27.8928,
+    "exposedArea_m2": 0.699861,
+    "joinerMS_scaled": 1.69139,
     "buildIndex": 27,
     "controlRisk": 8,
     "scheduleRisk": 9,
@@ -14388,7 +14385,7 @@
      "unit": 26.2,
      "ext": 52.4,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -14776,19 +14773,19 @@
    "warnings": [
     "R16: 28° tilt needed to hold against an 8 m/s gust in hover (planform exposed)",
     "R1 (Given): not lift + cruise with stopped lift rotors — needs the team to change the project definition",
-    "R2: MTOW 6.78 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 6.77 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 0,
-    "energy": 3.469,
-    "portability": 8.155,
+    "energy": 7.018,
+    "portability": 8.164,
     "build": 2.5,
     "control": 2,
     "schedule": 1,
     "motorOut": 2,
-    "growth": 3.489
+    "growth": 3.533
    },
-   "total": 2.6598
+   "total": 3.1974
   },
   {
    "id": "TS-quad",
@@ -14805,7 +14802,7 @@
      "tailAreaRatio": 0.06,
      "CdA_rotor": 0,
      "etaProp": 0.5506,
-     "CLmax": 0.928333,
+     "CLmax": 0.934167,
      "CD0_clean": 0.0226,
      "mGear": 0.08,
      "mServos": 0.0864
@@ -14826,33 +14823,33 @@
     "motorOutWhy": "4 rotors: no hover motor-out (S27); in cruise 3 rotors keep it flying but it cannot hover to land."
    },
    "metrics": {
-    "MTOW_kg": 5.36081,
-    "empty_kg_noBatt_noPayload": 4.04081,
+    "MTOW_kg": 5.34975,
+    "empty_kg_noBatt_noPayload": 4.02975,
     "battery_kg": 0.82,
     "pack": "Ovonic 6S 6500 100C (2-pack)",
     "packNote": "",
-    "S_m2": 0.669688,
-    "AR": 8.60102,
-    "chord_m": 0.279037,
-    "LD": 9.89696,
-    "CD0": 0.0276261,
-    "diskLoading_Nm2": 89.7518,
-    "wingLoading_Nm2": 78.5029,
-    "P_hover_W": 662.832,
-    "P_cruise_W": 227.003,
-    "I_hover_A": 29.8573,
-    "E_mission_Wh": 67.293,
+    "S_m2": 0.664134,
+    "AR": 8.67295,
+    "chord_m": 0.276722,
+    "LD": 11.3837,
+    "CD0": 0.0276985,
+    "diskLoading_Nm2": 89.5667,
+    "wingLoading_Nm2": 78.9962,
+    "P_hover_W": 660.679,
+    "P_cruise_W": 177.253,
+    "I_hover_A": 29.7603,
+    "E_mission_Wh": 58.9057,
     "E_pack_Wh": 144.3,
     "E_usable_Wh": 109.668,
-    "cruise_avail_min": 21.2003,
-    "cruise_margin_pct": 112.003,
-    "TW": 2.33547,
+    "cruise_avail_min": 27.183,
+    "cruise_margin_pct": 171.83,
+    "TW": 2.34029,
     "TW_motorOut": 0,
-    "growth_kg": 2.46419,
+    "growth_kg": 2.47525,
     "m_lift": 0.968,
     "m_booms": 0.2835,
-    "m_wing": 1.36554,
-    "m_tail": 0.0373686,
+    "m_wing": 1.3548,
+    "m_tail": 0.0370587,
     "m_fixed": 1.8864,
     "extras": [],
     "cost_total_usd": 1727.52,
@@ -14863,10 +14860,10 @@
     "span_m": 2.4,
     "longestPiece_m": 1.2,
     "pieces": 3,
-    "gustForce_N": 33.6023,
-    "gustTilt_deg": 32.5856,
-    "exposedArea_m2": 0.669688,
-    "joinerMS_scaled": 2.13447,
+    "gustForce_N": 33.3236,
+    "gustTilt_deg": 32.4229,
+    "exposedArea_m2": 0.664134,
+    "joinerMS_scaled": 2.13888,
     "buildIndex": 10,
     "controlRisk": 6,
     "scheduleRisk": 6.5,
@@ -14988,7 +14985,7 @@
      "unit": 26.2,
      "ext": 26.2,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -15318,21 +15315,21 @@
    "feasible": true,
    "flags": [],
    "warnings": [
-    "R16: 33° tilt needed to hold against an 8 m/s gust in hover (planform exposed)",
+    "R16: 32° tilt needed to hold against an 8 m/s gust in hover (planform exposed)",
     "R1 (Given): not lift + cruise with stopped lift rotors — needs the team to change the project definition",
-    "R2: MTOW 5.36 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 5.35 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 9.083,
     "energy": 10,
-    "portability": 9.747,
+    "portability": 9.755,
     "build": 10,
     "control": 4,
     "schedule": 3.5,
     "motorOut": 2,
-    "growth": 8.214
+    "growth": 8.251
    },
-   "total": 7.3085
+   "total": 7.313
   },
   {
    "id": "TS-duo",
@@ -15389,7 +15386,7 @@
      "nBooms": 0,
      "boomTotalLen": 0,
      "tailAreaRatio": 0.06,
-     "CLmax": 0.928333,
+     "CLmax": 0.934167,
      "CD0_clean": 0.0226,
      "mGear": 0.08,
      "mServos": 0.0864
@@ -15410,33 +15407,33 @@
     "motorOutWhy": "2 rotors: any motor loss is unrecoverable."
    },
    "metrics": {
-    "MTOW_kg": 4.84144,
-    "empty_kg_noBatt_noPayload": 3.52144,
+    "MTOW_kg": 4.8326,
+    "empty_kg_noBatt_noPayload": 3.5126,
     "battery_kg": 0.82,
     "pack": "Ovonic 6S 6500 100C (2-pack)",
     "packNote": "",
-    "S_m2": 0.604808,
-    "AR": 9.52368,
-    "chord_m": 0.252003,
-    "LD": 11.9162,
+    "S_m2": 0.599933,
+    "AR": 9.60107,
+    "chord_m": 0.249972,
+    "LD": 13.6479,
     "CD0": 0.0226,
-    "diskLoading_Nm2": 208.225,
-    "wingLoading_Nm2": 78.5029,
-    "P_hover_W": 852.736,
-    "P_cruise_W": 156.252,
-    "I_hover_A": 38.4115,
-    "E_mission_Wh": 63.9413,
+    "diskLoading_Nm2": 207.845,
+    "wingLoading_Nm2": 78.9962,
+    "P_hover_W": 850.591,
+    "P_cruise_W": 122.559,
+    "I_hover_A": 38.3149,
+    "E_mission_Wh": 58.2305,
     "E_pack_Wh": 144.3,
     "E_usable_Wh": 109.668,
-    "cruise_avail_min": 27.5589,
-    "cruise_margin_pct": 175.589,
-    "TW": 2.39598,
+    "cruise_avail_min": 35.1818,
+    "cruise_margin_pct": 251.818,
+    "TW": 2.40036,
     "TW_motorOut": 0,
-    "growth_kg": 2.40856,
+    "growth_kg": 2.4174,
     "m_lift": 0.916,
     "m_booms": 0,
-    "m_wing": 1.2453,
-    "m_tail": 0.0337483,
+    "m_wing": 1.23672,
+    "m_tail": 0.0334763,
     "m_fixed": 1.8264,
     "extras": [],
     "cost_total_usd": 1856.31,
@@ -15447,10 +15444,10 @@
     "span_m": 2.4,
     "longestPiece_m": 1.2,
     "pieces": 3,
-    "gustForce_N": 30.3469,
-    "gustTilt_deg": 32.5856,
-    "exposedArea_m2": 0.604808,
-    "joinerMS_scaled": 2.36344,
+    "gustForce_N": 30.1022,
+    "gustTilt_deg": 32.4229,
+    "exposedArea_m2": 0.599933,
+    "joinerMS_scaled": 2.36777,
     "buildIndex": 6,
     "controlRisk": 7,
     "scheduleRisk": 7,
@@ -15875,9 +15872,9 @@
    "feasible": true,
    "flags": [],
    "warnings": [
-    "R16: 33° tilt needed to hold against an 8 m/s gust in hover (planform exposed)",
+    "R16: 32° tilt needed to hold against an 8 m/s gust in hover (planform exposed)",
     "R1 (Given): not lift + cruise with stopped lift rotors — needs the team to change the project definition",
-    "R2: MTOW 4.84 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 4.83 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 4.79,
@@ -15887,9 +15884,9 @@
     "control": 3,
     "schedule": 3,
     "motorOut": 0,
-    "growth": 8.029
+    "growth": 8.058
    },
-   "total": 6.2714
+   "total": 6.2743
   },
   {
    "id": "BW-qp",
@@ -15925,33 +15922,33 @@
     "motorOutWhy": "4 lift rotors: a quad with one motor out is not flyable (S27); QuadPlane thrust-loss is warn-only (S28). Pusher-out: separate lift system lets QAssist/VTOL recovery land it (R15)."
    },
    "metrics": {
-    "MTOW_kg": 6.70449,
-    "empty_kg_noBatt_noPayload": 5.38449,
+    "MTOW_kg": 6.69646,
+    "empty_kg_noBatt_noPayload": 5.37646,
     "battery_kg": 0.82,
     "pack": "Ovonic 6S 6500 100C (2-pack)",
     "packNote": "",
-    "S_m2": 0.69795,
-    "AR": 8.25274,
-    "chord_m": 0.290812,
-    "LD": 7.51189,
-    "CD0": 0.0459166,
-    "diskLoading_Nm2": 112.247,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 951.501,
-    "P_cruise_W": 343.243,
-    "I_hover_A": 42.8604,
-    "E_mission_Wh": 99.4961,
+    "S_m2": 0.692761,
+    "AR": 8.31455,
+    "chord_m": 0.28865,
+    "LD": 8.82152,
+    "CD0": 0.046077,
+    "diskLoading_Nm2": 112.113,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 949.608,
+    "P_cruise_W": 262.742,
+    "I_hover_A": 42.7751,
+    "E_mission_Wh": 85.9952,
     "E_pack_Wh": 144.3,
     "E_usable_Wh": 109.668,
-    "cruise_avail_min": 11.7781,
-    "cruise_margin_pct": 17.7807,
-    "TW": 1.86741,
+    "cruise_avail_min": 15.4059,
+    "cruise_margin_pct": 54.0595,
+    "TW": 1.86965,
     "TW_motorOut": 0,
-    "growth_kg": 1.12051,
+    "growth_kg": 1.12854,
     "m_lift": 0.968,
-    "m_booms": 0.629994,
-    "m_wing": 1.42787,
-    "m_tail": 0.14531,
+    "m_booms": 0.628842,
+    "m_wing": 1.42234,
+    "m_tail": 0.143963,
     "m_fixed": 2.71332,
     "extras": [
      {
@@ -15968,10 +15965,10 @@
     "span_m": 2.4,
     "longestPiece_m": 1.2,
     "pieces": 10,
-    "gustForce_N": 10.0721,
-    "gustTilt_deg": 8.70946,
-    "exposedArea_m2": 0.200734,
-    "joinerMS_scaled": 1.70669,
+    "gustForce_N": 10.056,
+    "gustTilt_deg": 8.70607,
+    "exposedArea_m2": 0.200415,
+    "joinerMS_scaled": 1.70874,
     "buildIndex": 28,
     "controlRisk": 3,
     "scheduleRisk": 8,
@@ -16111,7 +16108,7 @@
      "unit": 26.2,
      "ext": 52.4,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -16475,15 +16472,15 @@
    ],
    "scores": {
     "cost": 0,
-    "energy": 1.778,
-    "portability": 5.807,
+    "energy": 5.406,
+    "portability": 5.812,
     "build": 2,
     "control": 7,
     "schedule": 2,
     "motorOut": 4,
-    "growth": 3.735
+    "growth": 3.762
    },
-   "total": 3.1709
+   "total": 3.7183
   },
   {
    "id": "TA-qp",
@@ -16497,7 +16494,7 @@
      "m_spar": 1.01286,
      "nBooms": 4,
      "boomTotalLen": 1.32,
-     "CdA_boom": 0.000393884,
+     "CdA_boom": 0.000396241,
      "tailAreaRatio": 0.1,
      "mFus": 0.847059
     },
@@ -16517,33 +16514,33 @@
     "motorOutWhy": "4 lift rotors: a quad with one motor out is not flyable (S27); QuadPlane thrust-loss is warn-only (S28). Pusher-out: separate lift system lets QAssist/VTOL recovery land it (R15)."
    },
    "metrics": {
-    "MTOW_kg": 6.51562,
-    "empty_kg_noBatt_noPayload": 5.19562,
+    "MTOW_kg": 6.51019,
+    "empty_kg_noBatt_noPayload": 5.19019,
     "battery_kg": 0.82,
     "pack": "Ovonic 6S 6500 100C (2-pack)",
     "packNote": "",
-    "S_m2": 0.678286,
-    "AR": 8.49199,
-    "chord_m": 0.282619,
-    "LD": 7.58203,
-    "CD0": 0.0437854,
-    "diskLoading_Nm2": 109.085,
-    "wingLoading_Nm2": 94.2035,
-    "P_hover_W": 907.42,
-    "P_cruise_W": 330.487,
-    "I_hover_A": 40.8748,
-    "E_mission_Wh": 95.4109,
+    "S_m2": 0.673489,
+    "AR": 8.55248,
+    "chord_m": 0.28062,
+    "LD": 8.76079,
+    "CD0": 0.0439092,
+    "diskLoading_Nm2": 108.994,
+    "wingLoading_Nm2": 94.7954,
+    "P_hover_W": 906.167,
+    "P_cruise_W": 257.204,
+    "I_hover_A": 40.8183,
+    "E_mission_Wh": 83.1413,
     "E_pack_Wh": 144.3,
     "E_usable_Wh": 109.668,
-    "cruise_avail_min": 12.5884,
-    "cruise_margin_pct": 25.8837,
-    "TW": 1.92154,
+    "cruise_avail_min": 16.1881,
+    "cruise_margin_pct": 61.881,
+    "TW": 1.92314,
     "TW_motorOut": 0,
-    "growth_kg": 1.30938,
+    "growth_kg": 1.31481,
     "m_lift": 0.968,
     "m_booms": 0.4042,
-    "m_wing": 1.4071,
-    "m_tail": 0.0630806,
+    "m_wing": 1.40212,
+    "m_tail": 0.0626345,
     "m_fixed": 2.85324,
     "extras": [],
     "cost_total_usd": 2013.86,
@@ -16555,9 +16552,9 @@
     "longestPiece_m": 1.2,
     "pieces": 5,
     "gustForce_N": 9.68397,
-    "gustTilt_deg": 8.61801,
+    "gustTilt_deg": 8.62509,
     "exposedArea_m2": 0.193,
-    "joinerMS_scaled": 1.75616,
+    "joinerMS_scaled": 1.75762,
     "buildIndex": 18,
     "controlRisk": 3.5,
     "scheduleRisk": 6.5,
@@ -16697,7 +16694,7 @@
      "unit": 26.2,
      "ext": 26.2,
      "src": "BF §1 onlinemetals.com",
-     "note": "cut list 0.991 + 0.4859 + 0.991 + 0.4859 m"
+     "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
     },
     {
      "cat": "Airframe",
@@ -17057,19 +17054,19 @@
    ],
    "warnings": [
     "Spar: half-chord wing (t ≈ 18 mm) does not fit the 25.4 mm socket tube; spar redesign —",
-    "R2: MTOW 6.52 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
+    "R2: MTOW 6.51 kg below the 8–15 kg working target (accepted for C0 pending sign-off)"
    ],
    "scores": {
     "cost": 0,
-    "energy": 2.588,
-    "portability": 7.739,
+    "energy": 6.188,
+    "portability": 7.743,
     "build": 7,
     "control": 6.5,
     "schedule": 3.5,
     "motorOut": 4,
-    "growth": 4.365
+    "growth": 4.383
    },
-   "total": 4.3736
+   "total": 4.9158
   }
  ]
 }

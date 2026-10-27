@@ -17,13 +17,13 @@
   Beta  =   0.00000     qc/2V =   0.00000
   Mach  =     0.000     rb/2V =  -0.00000     r'b/2V =  -0.00000
 
-  CXtot =   0.01482     Cltot =   0.00000     Cl'tot =   0.00000
-  CYtot =   0.00000     Cmtot =  -0.08240
-  CZtot =  -0.51727     Cntot =   0.00000     Cn'tot =  -0.00000
+  CXtot =   0.01433     Cltot =   0.00000     Cl'tot =   0.00000
+  CYtot =   0.00000     Cmtot =  -0.08241
+  CZtot =  -0.51731     Cntot =   0.00000     Cn'tot =  -0.00000
 
   CLtot =   0.51705
-  CDtot =   0.02130
-  CDvis =   0.01114     CDind = 0.0101559
+  CDtot =   0.02179
+  CDvis =   0.01164     CDind = 0.0101559
   CLff  =   0.51772     CDff  = 0.0104296    | Trefftz
   CYff  =   0.00000         e =    0.9686    | Plane  
 

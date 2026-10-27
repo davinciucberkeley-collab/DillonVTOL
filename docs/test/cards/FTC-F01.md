@@ -8,7 +8,7 @@ DBF-TP-001 rev B · Test F01 · Review step: F3 (start); ArduPilot QuadPlane tun
 
 **Weather limits:** Steady <= 3 m/s EST, gusts <= 5 m/s EST; 10-30 degC.
 
-**Predicted:** Hover throttle ~0.52 = 1,638 g / 3,130 g (results.json sized.Tunit_g v0.4, params.Tmax_g); hover current 41.2 A at 22.2 V (sized.I_hover); hover power 916 W (sized.P_hover).
+**Predicted:** Hover throttle ~0.52 = 1,634 g / 3,130 g (results.json sized.Tunit_g v0.4, params.Tmax_g); hover current 41.1 A at 22.2 V (sized.I_hover); hover power 916 W (sized.P_hover).
 
 **Crew:** TD, SO, PIC, GCS (VO = SO) · **Duration:** 1 session, 2 packs
 
@@ -49,7 +49,7 @@ QTUN.ThO (hover throttle), ATT roll/pitch vs DesRoll/DesPitch, VIBE X/Y/Z and Cl
 - [ ] No oscillation at any point; attitude error < 15 deg (review F2).
 - [ ] VIBE < 30 m/s2, clipping 0 (ArduPilot measuring vibration, checked 2026-10-21).
 - [ ] Hover output < 60 % (review F2); expected ~0.52 = 1,638 / 3,130 g (calc; results.json sized.Tunit_g v0.4; the param-file comment ~0.52 uses the 6.45 kg value 1,612.6 g).
-- [ ] Hover current 41.2 A +-15 % EST (results.json sized.I_hover v0.4).
+- [ ] Hover current 41.1 A +-15 % EST (results.json sized.I_hover v0.4).
 - [ ] Motors <= 80 degC EST after landing.
 
 ## Run log

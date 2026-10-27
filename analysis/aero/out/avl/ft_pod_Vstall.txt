@@ -13,22 +13,22 @@
 
  Run case:  -unnamed-                              
 
-  Alpha =  10.82167     pb/2V =  -0.00000     p'b/2V =  -0.00000
+  Alpha =  10.82186     pb/2V =  -0.00000     p'b/2V =  -0.00000
   Beta  =   0.00000     qc/2V =  -0.00000
   Mach  =     0.000     rb/2V =  -0.00000     r'b/2V =  -0.00000
 
-  CXtot =   0.13259     Cltot =   0.00000     Cl'tot =   0.00000
+  CXtot =   0.13205     Cltot =   0.00000     Cl'tot =   0.00000
   CYtot =   0.00000     Cmtot =   0.00000
-  CZtot =  -1.06209     Cntot =  -0.00000     Cn'tot =  -0.00000
+  CZtot =  -1.06220     Cntot =  -0.00000     Cn'tot =  -0.00000
 
   CLtot =   1.06810
-  CDtot =   0.06917
-  CDvis =   0.02627     CDind = 0.0429047
+  CDtot =   0.06973
+  CDvis =   0.02683     CDind = 0.0429048
   CLff  =   1.07468     CDff  = 0.0444894    | Trefftz
   CYff  =   0.00000         e =    0.9784    | Plane  
 
    aileron         =   0.00000
-   elevator        =  -8.19429
+   elevator        =  -8.19657
    rudder          =   0.00000
 
  ---------------------------------------------------------------

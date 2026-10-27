@@ -8,7 +8,7 @@ DBF-TP-001 rev B · Test F11 · Review step: F7 preparation · Requirements: R9,
 
 **Weather limits:** Steady <= 5 m/s, gusts <= 8 m/s.
 
-**Predicted:** 58.6 Wh for the half mission; full mission 96.9 Wh delivered = 102.0 Wh from the pack at 95 % efficiency (results.json sized.E_Wh v0.4, base.etaBatt).
+**Predicted:** 52.3 Wh for the half mission (cruise at 18 m/s); full mission 84.3 Wh delivered = 88.7 Wh from the pack at 95 % efficiency (results.json sized.E_Wh v0.4, base.etaBatt).
 
 **Crew:** TD, SO, PIC, GCS · **Duration:** 1 session, 2 packs
 
@@ -21,7 +21,7 @@ DBF-TP-001 rev B · Test F11 · Review step: F7 preparation · Requirements: R9,
 - [ ] Packs >= 4.15 V/cell; pack strapped (J18); plugged in LAST through the XT90-S.
 - [ ] GCS: firmware hash ____; parameters checked with check_params.py; FENCE_ALT_MAX = site ceiling; FENCE_RADIUS = ____ m; EKF/GPS ok (sats >= 10, HDOP <= 1.5); compass consistent; airspeed 0 +-1 m/s, blow test >= 6 m/s.
 - [ ] RC: arm switch CH5 off, mode CH6 in slot for this card, E-stop CH7 off, Q_ASSIST CH8 auto, RTL CH9 off; LQ >= 90 %.
-- [ ] Range: crew line 30 m upwind, fire bag + extinguisher + first aid at the line, spectators behind, no people downrange, sky scan.
+- [ ] Range: crew line 30 m crosswind of the take-off point, clear of the transition run (TEST-PLAN §4 rule 6), fire bag + extinguisher + first aid at the line, spectators behind, no people downrange, sky scan.
 - [ ] Crew brief: TD states the build-up points, abort word "ABORT", who calls what. Timer ready.
 
 ## Hover limits on this aircraft (R14 accepted limitation, DESIGN-BASIS.md)
@@ -31,11 +31,11 @@ Hover-only flights: <= 5 m AGL and <= 60 s per hover; cool motors < 45 degC betw
 Start every transition at the upwind field edge and turn as soon as 'Transition done' appears: a straight transition reached the 300 m fence circle ~6 s after transition end in SITL. Telemetry: CRSF on the handset (or the ELRS MAVLink overlay); no separate radio.
 
 ## Back-transition watch (C0 SITL model; firmware/sitl/README.md 'Gains' item 1)
-In the C0 airframe model the back-transition airbrake pitches the nose to the 30 deg VTOL angle limit with the lift motors near idle, which briefly stalls the wing (alpha_stall ~11 deg); position2 then recovers with a -17/+33 deg pitch swing and an 89 A peak; altitude loss stayed under 2 m (1.7 m in scenario A, firmware/sitl/results_c0.json). Back-transition only at >= 30 m AGL, wings level, into wind. Watch for pitch-up past 30 deg, a wing drop, sink > 2 m or current > 85 A. If seen: land, review ATT / QTUN / BAT, and lower Q_TRANS_DECEL first (2.0 now; a gentler, longer stop: v^2 / 2a = 133 m at 1.5 m/s2 from 20 m/s, calc) before Q_ANGLE_MAX or any attitude gain.
+In the C0 airframe model the back-transition airbrake pitches the nose to the 30 deg VTOL angle limit with the lift motors near idle, which briefly stalls the wing (alpha_stall ~11 deg); position2 then recovers with a -18/+33 deg pitch swing and a 79 A peak; altitude loss stayed under 2 m (0 m in scenario A of the 2026-10-27 run at 18 m/s, 1.7 m in the 20 m/s run; firmware/sitl/results_c0.json). Back-transition only at >= 30 m AGL, wings level, into wind. Watch for pitch-up past 30 deg, a wing drop, sink > 2 m or current > 85 A. If seen: land, review ATT / QTUN / BAT, and lower Q_TRANS_DECEL first (2.0 now; a gentler, longer stop: v^2 / 2a = 108 m at 1.5 m/s2 from 18 m/s, calc) before Q_ANGLE_MAX or any attitude gain.
 
 ## Build-up points (in order; stop and review the log between points when the card says so)
 1. [ ] VTOL take-off to 30 m, hover 60 s total (take-off + climb).
-2. [ ] Transition; cruise 5 min at 20 m/s on a racetrack inside the fence; log current.
+2. [ ] Transition; cruise 5 min at 18 m/s (AIRSPEED_CRUISE) on a racetrack inside the fence; log current.
 3. [ ] Back-transition at home; hover 60 s; vertical landing.
 4. [ ] Read BAT.CurrTot / EnrgTot: compute the energy fraction used against C11 usable.
 
@@ -49,7 +49,7 @@ BAT EnrgTot/CurrTot per phase (log_summary.py phase table); MODE timeline; ARSP 
 
 ## Pass criteria
 - [ ] All phases present in the MODE timeline in order; no failsafe.
-- [ ] Energy used <= 60 % of C11 usable Wh (half mission 58.6 Wh = (916 x 120 + 337 x 300)/3600 Wh, calc from results.json v0.4 P_hover, P_cruise; 58.6/109.7 = 53 %, with 60 % as the limit EST).
+- [ ] Energy used <= 60 % of C11 usable Wh (half mission 52.3 Wh = (912.5 x 120 + 262.4 x 300)/3600 Wh, calc from results.json v0.4 P_hover, P_cruise at 18 m/s; 52.3/109.7 = 48 %, with 60 % as the limit EST).
 - [ ] Hover and cruise currents within +-15 % of F03/F08 values.
 
 ## Run log

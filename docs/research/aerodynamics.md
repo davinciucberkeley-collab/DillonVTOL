@@ -25,17 +25,17 @@ Sections 3 to 9 record the analysis of the v0.3.1 geometry (chord 239 mm, bare r
 | Quantity | v0.4 value |
 |---|---|
 | Wing | S 0.682 m², chord 284.2 mm, AR 8.45, MTOW 6.552 kg |
-| Cruise Reynolds number | 3.89×10⁵ |
+| Cruise Reynolds number | 3.50×10⁵ (18 m/s, chord 284.2 mm) |
 | CL_max, aircraft trimmed | 1.114 (section 1.30 adopted from wind-tunnel data) |
 | Stall speed at MTOW | 11.75 m/s (design target 11.75, results.json base.Vs; R11: ≤ 12, margin 2.1 %) |
-| CD0, with faired legs | 0.0400 |
-| Cruise L/D at 20 m/s | 8.35 |
-| Cruise electrical power | 302 W (sizing design value 337 W) |
-| Cruise available | 13.7 min (sizing 12.3 min); bare round legs 8.6 min |
+| CD0, with faired legs | 0.0411 |
+| Cruise L/D at 18 m/s | 9.48 (max 11.93 at 12.9 m/s) |
+| Cruise electrical power | 239 W (sizing design value 262 W) |
+| Cruise available | 17.3 min (sizing 15.8 min); bare round legs 11.2 min |
 | Neutral point, AVL with pod | 39.8 % MAC; static margin 11.8 % at the 28 % CG, 5.1 % with the bay empty |
-| CFD | §6 and §11, re-run 2026-10-25 on the final chord (284 mm, Re 3.89×10⁵): all 29 SU2 cases usable, 23 converged, three-mesh GCI now defined; SU2 is a cross-check and feeds no sizing number (CL_max and stall above unchanged by the re-run) |
+| CFD | §6 re-run 2026-10-27 at the 18 m/s design cruise (chord 284.2 mm, Re 3.50×10⁵): 28 of 29 SU2 cases usable, 24 converged; L1 SA α 2° unusable, so the three-mesh GCI is defined at α 10° only (§11 flow visualisation still at 20 m/s, 2026-10-25); SU2 is a cross-check and feeds no sizing number (CL_max and stall above unchanged by the re-run) |
 
-Rows generated from `analysis/aero/aero_results.json` (generated 2026-10-25) and `analysis/results.json` `base.Vs`. The 2026-10-25 iteration re-sized the wing to the 11.75 m/s design stall target (`docs/research/stall-margin.md`), which gives 2.1 % margin to the R11 limit of 12 m/s.
+Rows generated from `analysis/aero/aero_results.json` (re-generated 2026-10-27 at the 18 m/s design cruise; `docs/research/benchmarks.md`) and `analysis/results.json` `base.Vs`. The 2026-10-25 iteration re-sized the wing to the 11.75 m/s design stall target (`docs/research/stall-margin.md`), which gives 2.1 % margin to the R11 limit of 12 m/s.
 
 ## 1. Tools and versions (all checked 2026-10-21)
 
@@ -85,7 +85,7 @@ Cruise CL = 2W/(ρ V² S) = 0.432 (model.js F5).
 | NACA 0009 tail cruise | 1.04e5 | 9 | 0.827 (8.5°) | 0.802 (8.0°) | 6.48 | −0.1° | −0.002 | 0.0119 |
 
 Published data at the relevant Re: Genç, Lock and Kaynak (AIAA ATIO 2008, abstract at
-https://avesis.erciyes.edu.tr/yayin/0e967406-3720-4460-b125-1dec2b27685c, checked 2026-10-21)
+https://avesis.erciyes.edu.tr/yayin/0e967406-3720-4460-b125-1dec2b27685c, checked 2026-10-21; that page now returns 404, citation page https://avesis.erciyes.edu.tr/activitycitation/index/1/0e967406-3720-4460-b125-1dec2b27685c, checked 2026-10-26)
 measured a NACA 2415 at Re 2e5 with **CL_max 1.3 at a 12° stall**; Genç, Karasu and Açıkel
 (Exp. Thermal Fluid Sci. 39 (2012) 252–264, DOI 10.1016/j.expthermflusci.2012.01.029, abstract
 only read) report mild stall at the upper end of Re 0.5–3e5 and abrupt stall at the lower end.
@@ -168,28 +168,28 @@ is within authority but with modest margin (the trim at CL 1.13 is ~−8.5°, ES
 See §6 details below (filled from `out/su2_2d.json`; `plots/su2_mesh_study.png`,
 `plots/su2_convergence.png`, `plots/cp_distributions.png`).
 
-**Status 2026-10-25, design v0.4 final wing (chord 284.2 mm, Re 3.89×10⁵): complete, all three meshes converged.** Set-up: incompressible RANS (SU2 INC_RANS, FDS + MUSCL, Venkatakrishnan limiter, adaptive CFL), SA fully turbulent, SST + Langtry–Menter transition as a sensitivity set, gmsh hybrid meshes with a quad boundary layer: L1 55,384 cells, L2 130,792, L3 267,902 (`out/mesh_2d.json`). The meshes are in chord units and Re enters through the viscosity, so they were not regenerated; first-cell y⁺ ≈ (h₁/c) Re √(Cf/2) with Cf 0.0045 gives 1.85 / 0.92 / 0.46 on L1 / L2 / L3 at Re 3.89×10⁵ (`mesh_2d.py` docstring). Medium-mesh numerics (all L2 cases, `su2_2d.numerics`): CFL 1 adaptive to 20, limiter never frozen, 6,000 iterations; L1 and L3 keep CFL 2 → 50 with the limiter frozen after 300 iterations. The 2026-10-23 matrix at the 263 mm chord (Re 3.60×10⁵) left 13 of 29 cases unusable, including both L2 mesh-study points; with the L2 numerics above every case converged or stayed usable on its first attempt, so no safe-numerics retry ran.
+**Status 2026-10-27, design v0.4 wing at the 18 m/s design cruise (chord 284.2 mm, Re 3.50×10⁵, `out/su2_2d.json` `Re` 350257): complete; 28 of 29 cases usable, L1 SA α 2° unusable.** Set-up: incompressible RANS (SU2 INC_RANS, FDS + MUSCL, Venkatakrishnan limiter, adaptive CFL), SA fully turbulent, SST + Langtry–Menter transition as a sensitivity set, gmsh hybrid meshes with a quad boundary layer: L1 58,646 cells, L2 131,432, L3 267,902 (`out/mesh_2d.json`, re-meshed by `run_all.py` 2026-10-27). The meshes are in chord units and Re enters through the viscosity; first-cell y⁺ ≈ (h₁/c) Re √(Cf/2) with Cf 0.0045 and h₁/c 1×10⁻⁴ / 5×10⁻⁵ / 2.5×10⁻⁵ (`out/mesh_2d.json` `h1`) gives 1.66 / 0.83 / 0.42 on L1 / L2 / L3 at Re 3.50×10⁵ (formula from the `mesh_2d.py` docstring). Medium-mesh numerics (all L2 cases, `su2_2d.numerics`): CFL 1 adaptive to 20, limiter never frozen, 6,000 iterations; L1 and L3 keep CFL 2 → 50 with the limiter frozen after 300 iterations. The 2026-10-23 matrix at the 263 mm chord (Re 3.60×10⁵) left 13 of 29 cases unusable, including both L2 mesh-study points. In the 2026-10-27 run every L2 and L3 case was usable on its first attempt (`out/su2/*/done.txt` `attempt=1`); L1 SA α 2° was not, and its safe-numerics retry (CFL 0.5 → 10, 8,000 iterations, `attempt=2`) also failed: the pressure residual rose (log10 rms[P] −3.79 → −2.47, `su2_2d.json` `unusable_cases`).
 
 | Case | CL | CD | Status |
 |---|---|---|---|
-| L1 SA α 10° | 1.047 | 0.0440 | converged |
-| L2 SA α 10° | 1.121 | 0.0327 | converged |
-| L3 SA α 10° | 1.172 | 0.0278 | converged |
-| L1 SA α 2° | 0.403 | 0.0160 | usable, force history not steady (4,000 iterations) |
-| L2 SA α 2° | 0.407 | 0.0151 | converged |
-| L3 SA α 2° | 0.414 | 0.0147 | converged |
-| L2 SST-LM α 10° / 2° | 1.066 / 0.458 | 0.0327 / 0.0115 | converged |
-| XFOIL (Ncrit 9, Re 3.89×10⁵), α 10° / 2° | 1.207 / 0.447 | 0.0182 / 0.0088 | transitional |
+| L1 SA α 10° | 1.043 | 0.0445 | converged |
+| L2 SA α 10° | 1.116 | 0.0330 | converged |
+| L3 SA α 10° | 1.167 | 0.0283 | converged |
+| L1 SA α 2° | — | — | unusable: pressure residual did not drop, also on the CFL-0.5 retry (8,000 iterations) |
+| L2 SA α 2° | 0.406 | 0.0155 | converged |
+| L3 SA α 2° | 0.412 | 0.0150 | converged |
+| L2 SST-LM α 10° / 2° | 1.056 / 0.460 | 0.0335 / 0.0120 | converged |
+| XFOIL (Ncrit 9, Re 3.50×10⁵), α 10° / 2° | 1.202 / 0.453 | 0.0186 / 0.0092 | transitional |
 
-Source: `out/su2_2d.json` `mesh_study`, `polar_L2_SSTLM`; XFOIL from `aero_results.json` `section_polars.n2415_cruise_ncrit9.table`.
+Source: `out/su2_2d.json` `mesh_study`, `polar_L2_SSTLM`, `unusable_cases`; XFOIL from `aero_results.json` `section_polars.n2415_cruise_ncrit9.table`.
 
-**Mesh study.** L2 → L3 changes lift by 1.5 % at 2° and 4.4 % at 10°, drag by 3.2 % and 17.7 %; L1 → L3 by 2.6 % / 10.7 % in lift. Grid convergence index (Celik et al. 2008, r = √2, Fs 1.25) on the fine mesh: CL 6.0 % at 2° (observed order p 0.77, extrapolated 0.434) and 12.5 % at 10° (p 1.05, extrapolated 1.290); CD 4.8 % at 2° (p 1.73, 0.0141) and 16.7 % at 10° (p 2.43, 0.0240). The observed orders below 2 and the non-uniform refinement (surface ×√2, wall-normal ×2 per level) make the GCI indicative only (EST): the fine mesh is not mesh-independent at 10°, where lift is still rising and drag falling with refinement.
+**Mesh study.** Change relative to the fine mesh, (f_L3 − f_coarser)/f_L3: L2 → L3 changes lift by 1.5 % at 2° ((0.4121 − 0.4059)/0.4121) and 4.4 % at 10° ((1.1666 − 1.1158)/1.1666), drag by −3.2 % and −16.9 %; L1 → L3 at 10° by 10.6 % in lift and −57.6 % in drag ((0.0283 − 0.0445)/0.0283); L1 → L3 at 2° is — (L1 unusable). Grid convergence index (Celik et al. 2008, r = √2, Fs 1.25) on the fine mesh needs all three meshes, so at 2° it is undefined in this run (`mesh_study.alpha_2.GCI_CL.note`); the only 2° evidence is the two-mesh L2 → L3 change above, which is small but gives no observed order or error band. At 10°: CL 12.7 % (observed order p 1.03, extrapolated 1.285) and CD 15.1 % (p 2.53, extrapolated 0.0248). The observed CL order below 2 and the non-uniform refinement (surface ×√2, wall-normal ×2 per level) make the GCI indicative only (EST): the fine mesh is not mesh-independent at 10°, where lift is still rising and drag falling with refinement.
 
-**Validation.** On L3, SA lift is 2.9 % below XFOIL at 10° and 7.4 % below at 2°, and SA drag is 1.5–1.7 times XFOIL's (0.0147 vs 0.0088 at 2°): the signature of a fully turbulent model at a Reynolds number where the real boundary layer stays laminar over much of the chord. The SST-LM transition model on L2 brings the 2° point to within 2.6 % of XFOIL in lift and to 0.0115 in drag. Section CL_max: SA on L2, converged points only, **1.210 at 13°** (falling to 1.073 at 16°); SST-LM 1.066 at 10° (12° is 1.068 but not steady); XFOIL 1.363 at 16.5°, Genç, Lock and Kaynak (2008) 1.30 at 12° (`aero_results.json` `CL_max_2D`). The RANS CL_max sits 7 % below the adopted tunnel value, the expected low bias of steady RANS near stall at low Re.
+**Validation.** On L3, SA lift is 2.9 % below XFOIL at 10° ((1.1666 − 1.2016)/1.2016) and 9.0 % below at 2° ((0.4121 − 0.4528)/0.4528), and SA drag is 1.5–1.6 times XFOIL's (0.0283/0.0186 = 1.52 at 10°; 0.0150/0.0092 = 1.63 at 2°): the signature of a fully turbulent model at a Reynolds number where the real boundary layer stays laminar over much of the chord. The SST-LM transition model on L2 brings the 2° point to within 1.6 % of XFOIL in lift ((0.4601 − 0.4528)/0.4528) and to 0.0120 in drag. Section CL_max: SA on L2, converged points only, **1.186 at 12°** (falling to 1.005 at 17°, the last converged point); SST-LM 1.056 at 10° (12° is 1.063 but not steady); XFOIL 1.362 at 19.5° at Re 3.50×10⁵ (`CL_max_2D.xfoil_cruise_Re`; the polar is flat at 1.35–1.36 from 16° to 21°), Genç, Lock and Kaynak (2008) 1.30 at 12° (`aero_results.json` `CL_max_2D`). The RANS CL_max sits 8.8 % below the adopted tunnel value ((1.186 − 1.30)/1.30), the expected low bias of steady RANS near stall at low Re.
 
-**Convergence.** All 29 cases usable (finite forces, falling pressure residual, CD > 0, |CL| ≤ 2.5); 23 have a steady force history over the last 300 iterations. Not steady: L1 SA 2°, L2 SA 17°, 18° and 20° (post-stall; 20° reads CL 1.156 with CD 0.287, an unsteady mean, not a lift recovery), and L2 SST-LM 12° and 16°. The L2 SA sweep is now converged at every angle from −4° to 16° (13 of 16 points; 3 of 16 before). **Conclusion for the design:** the section CL_max and drag used in the sizing rest on XFOIL, NeuralFoil and the wind-tunnel data; the CFD agrees with them within about 3–7 % in lift below stall and is a cross-check, not a source. `aero_results.json` `CL_max_3D.adopted` (1.114) and the 11.75 m/s stall speed are unchanged by the re-run. The SU2 fully turbulent wing profile drag estimate at cruise (`drag.wing_profile_estimates.su2_SA_fully_turbulent`) is 0.0140 on S_ref against XFOIL's 0.0079 used in the build-up.
+**Convergence.** 28 of 29 cases usable (finite forces, falling pressure residual, CD > 0, |CL| ≤ 2.5; `su2_2d.json` `cases`); 24 of them have a steady force history over the last 300 iterations. Unusable: L1 SA 2° (`unusable_cases`). Usable but not steady: L2 SA 18° and 20° (post-stall; 20° reads CL 1.193 with CD 0.310, an unsteady mean, not a lift recovery), and L2 SST-LM 12° and 16°. The L2 SA sweep is converged at every angle from −4° to 17° (14 of 16 points). **Conclusion for the design:** the section CL_max and drag used in the sizing rest on XFOIL, NeuralFoil and the wind-tunnel data; the CFD agrees with XFOIL within about 3–9 % in lift at 2° and 10° and is a cross-check, not a source. `aero_results.json` `CL_max_3D.adopted` (1.121, Vs 11.71 m/s; `stall.sizing_CL_max` 1.114 → 11.75 m/s) does not use the CFD and is unchanged by the re-run; the lower SU2 CL_max (1.186, against 1.210 at Re 3.89×10⁵) changes no stall conclusion. The SU2 fully turbulent wing profile drag estimate at cruise (`drag.wing_profile_estimates.su2_SA_fully_turbulent`) is 0.0151 on S_ref against XFOIL's 0.0087 (`xfoil_ncrit9`) used in the build-up.
 
-Wall-clock (`out/su2_2d.json` per-case `wall_s`, 4 threads per case, 5 cases sharing 20 logical CPUs while a SOLIDWORKS job also ran): L1 10–13 min, L2 SA 24–42 min, L2 SST-LM 36–50 min, L3 37–40 min per case; 230 min for the full matrix.
+Wall-clock (`out/su2_2d.json` per-case `wall_s`, 4 threads per case, 5 cases sharing 20 logical CPUs): L1 11 min (27 min for the failed 2° retry), L2 SA 18–68 min, L2 SST-LM 29–85 min, L3 42–43 min per case; 287 min for the full matrix (`wall_s_total` 17,235 s).
 
 Flow-field pictures of these cases (0° to 15°, fine mesh) and 3-D streamlines over the aircraft: §11.
 
@@ -260,7 +260,7 @@ BOM line yet, EST < $10). The 10 min floor corresponds to ≤ 436 W electrical c
 1. **CD0 does not hold.** 0.081 vs 0.059. The bare 1 in round gear legs are 45 % of the
    total drag (ΔCD 0.036); the sizing's "clean airframe incl. gear 0.030" implicitly assumed
    faired or absent gear. Action: add teardrop fairings to the four legs (or retractable/
-   removable legs) and carry CD0 ≈ 0.052–0.055 in sizing.mjs; re-check the pusher at 20 m/s
+   removable legs) and carry CD0 ≈ 0.052–0.055 in sizing.mjs; re-check the pusher at cruise speed (then 20 m/s; now 18 m/s)
    (APC 14×8.5 at 479 W electrical is near the X4110S continuous rating, —, not on the page read).
 2. **R10 endurance fails with round legs** (9.1 min < 10); met with fairings (14.6 min).
 3. **Stall speed 12.4 m/s vs R11 ≤ 12.** CL_max,3D 1.13 (sizing 1.2). Options: accept 12.4 (R11 is
@@ -281,7 +281,7 @@ BOM line yet, EST < $10). The 10 min floor corresponds to ≤ 436 W electrical c
 
 ## 10. What the team must measure
 
-- M1 Glide/power test: at 20 m/s level flight read the watt-meter; > 420 W electrical confirms the
+- M1 Glide/power test: at 18 m/s (design cruise) level flight read the watt-meter; > 420 W electrical confirms the
   high-drag case and fails R10 (threshold from §8: 10 min requires ≤ 436 W).
 - M2 Stall test at altitude at MTOW: airspeed at the pitch break; > 12.5 m/s fails R11 even with
   the 3 % relaxation; also confirms the elevator reserve (expect −9° at 12 m/s).
@@ -289,7 +289,7 @@ BOM line yet, EST < $10). The 10 min floor corresponds to ≤ 436 W electrical c
   prop EST (Cd 0.06) is low and a prop-parking (azimuth) scheme is needed.
 - M4 CG and static margin: weigh at the two legs, confirm 28 % ± 2 % MAC with and without the
   payload allowance; fly a trim-speed sweep to check dδe/dCL is negative (positive = unstable).
-- M5 Gear fairing A/B: time-to-climb or watt-meter at 20 m/s with and without the fairings.
+- M5 Gear fairing A/B: time-to-climb or watt-meter at 18 m/s with and without the fairings.
 
 ## 11. Flow visualisation (2026-10-24, re-run 2026-10-25 on the final chord)
 
@@ -351,8 +351,8 @@ overshoot on the coarsest surface spacing at the leading edge).
   x/c ≈ 0.60 to about 0.2 c behind the trailing edge, visible as the closed streamline loop in
   `flow_15.png`. SA fully turbulent still gives a small lift increase from 12° to 15° (1.282 →
   1.304) with drag almost doubling (0.036 → 0.066): the model is at the top of its lift curve, not past
-  it. (The L2 sweep of §6 peaks earlier, 1.210 at 13°: the fine mesh carries the attached flow further.)
-  XFOIL (transitional, Ncrit 9, Re 3.89×10⁵) puts CL_max at 1.363 and the Genç, Lock and Kaynak (2008) tunnel
+  it. (The L2 sweep of §6, at Re 3.50×10⁵, peaks earlier, 1.186 at 12°: the fine mesh carries the attached flow further.)
+  XFOIL (transitional, Ncrit 9, at the 18 m/s design cruise Re 3.50×10⁵) puts CL_max at 1.362 and the Genç, Lock and Kaynak (2008) tunnel
   data at 1.30 with stall at 12° (`aero_results.json` `CL_max_2D`), so the pictures show the SA
   trailing-edge-separation route to stall, which is later and softer than the laminar-separation route
   the real wing at Re 2–4×10⁵ is likely to take.

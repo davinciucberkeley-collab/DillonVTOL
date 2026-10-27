@@ -17,7 +17,7 @@ const IN = 0.0254;
 // ---------- shared inputs ----------
 const BASE = {
   rho: 1.225,            // ISA sea level, kg/m^3 (EST: hot day lowers it; slider)
-  Vs: 11.75, Vc: 20,     // design stall target 11.75 m/s = R11 limit 12 m/s less a 4 % CL_max margin (docs/research/stall-margin.md, adopted 2026-10-25); cruise 18–22 m/s midpoint
+  Vs: 11.75, Vc: 18,     // design stall target 11.75 m/s = R11 limit 12 m/s less a 4 % CL_max margin (docs/research/stall-margin.md, adopted 2026-10-25); cruise 18 m/s = R11 lower bound, closest to best L/D (analysis/cruise_speed_trade.mjs, docs/research/benchmarks.md, adopted 2026-10-26)
   CLmax: AEROR.CL_max_3D.adopted,   // AERO: aero_results.json CL_max_3D.adopted (critical-section method, trimmed); was 1.2 EST
   span: 2.4,             // R3 (2–3 m); 1.2 m halves fit R4 1.5 m envelope
   e: 0.80,               // EST Oswald factor
@@ -247,7 +247,7 @@ function bom(res, lean=false){
   return { lines:L, goods:+goods.toFixed(2), shipping, tax:+tax.toFixed(2), crash:+crash.toFixed(2), total:+total.toFixed(2), tubes25:tubes, fees, cap:2000 };
 }
 
-const out = { generated:'2026-10-25', base:BASE, cruiseMarginMin:CRUISE_MARGIN_MIN, packs:PACKS, concepts:{} };
+const out = { generated:'2026-10-27', base:BASE, cruiseMarginMin:CRUISE_MARGIN_MIN, packs:PACKS, concepts:{} };
 for(const k of Object.keys(CONCEPTS)){
   const res = run(k);
   res.bom = bom(res); res.bomLean = bom(res, true);

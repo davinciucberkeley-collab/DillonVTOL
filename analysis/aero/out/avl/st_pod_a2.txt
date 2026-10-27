@@ -17,13 +17,13 @@
   Beta  =   0.00000     qc/2V =   0.00000
   Mach  =     0.000     rb/2V =  -0.00000     r'b/2V =  -0.00000
 
-  CXtot =  -0.00377     Cltot =   0.00000     Cl'tot =   0.00000
+  CXtot =  -0.00426     Cltot =   0.00000     Cl'tot =   0.00000
   CYtot =   0.00000     Cmtot =  -0.05433
-  CZtot =  -0.33100     Cntot =   0.00000     Cn'tot =  -0.00000
+  CZtot =  -0.33102     Cntot =  -0.00000     Cn'tot =  -0.00000
 
   CLtot =   0.33067
-  CDtot =   0.01532
-  CDvis =   0.01096     CDind = 0.0043586
+  CDtot =   0.01581
+  CDvis =   0.01145     CDind = 0.0043586
   CLff  =   0.33052     CDff  = 0.0043993    | Trefftz
   CYff  =   0.00000         e =    0.9359    | Plane  
 
@@ -38,20 +38,20 @@
                              alpha                beta
                   ----------------    ----------------
  z' force CL |    CLa =   5.266052    CLb =  -0.000000
- y  force CY |    CYa =   0.000000    CYb =  -0.187772
- x  force CD |    CDa =   0.127160    CDb =  -0.000000
+ y  force CY |    CYa =   0.000000    CYb =  -0.188267
+ x  force CD |    CDa =   0.126955    CDb =  -0.000000
  x' mom.  Cl'|    Cla =   0.000000    Clb =  -0.010423
- y  mom.  Cm |    Cma =  -0.617302    Cmb =   0.000000
- z' mom.  Cn'|    Cna =  -0.000000    Cnb =   0.040805
+ y  mom.  Cm |    Cma =  -0.617566    Cmb =   0.000000
+ z' mom.  Cn'|    Cna =  -0.000000    Cnb =   0.040836
 
                      roll rate  p'      pitch rate  q'        yaw rate  r'
                   ----------------    ----------------    ----------------
- z' force CL |    CLp =  -0.000000    CLq =   7.878431    CLr =   0.000000
- y  force CY |    CYp =   0.004651    CYq =   0.000000    CYr =   0.094857
- x  force CD |    CDp =  -0.000000    CDq =   0.066990    CDr =   0.000000
- x' mom.  Cl'|    Clp =  -0.534364    Clq =   0.000000    Clr =   0.091213
- y  mom.  Cm |    Cmp =  -0.000000    Cmq =  -9.633410    Cmr =  -0.000000
- z' mom.  Cn'|    Cnp =  -0.023269    Cnq =  -0.000000    Cnr =  -0.048130
+ z' force CL |    CLp =  -0.000000    CLq =   7.878961    CLr =   0.000000
+ y  force CY |    CYp =   0.004651    CYq =   0.000000    CYr =   0.094919
+ x  force CD |    CDp =  -0.000000    CDq =   0.066707    CDr =   0.000000
+ x' mom.  Cl'|    Clp =  -0.534435    Clq =   0.000000    Clr =   0.091213
+ y  mom.  Cm |    Cmp =  -0.000000    Cmq =  -9.634914    Cmr =  -0.000000
+ z' mom.  Cn'|    Cnp =  -0.023300    Cnq =  -0.000000    Cnr =  -0.048286
 
                   aileron      d01     elevator     d02     rudder       d03 
                   ----------------    ----------------    ----------------
@@ -66,6 +66,6 @@
 
 
 
- Neutral point  Xnp =   0.112882
+ Neutral point  Xnp =   0.112897
 
- Clb Cnr / Clr Cnb  =   0.134783    (  > 1 if spirally stable )
+ Clb Cnr / Clr Cnb  =   0.135119    (  > 1 if spirally stable )

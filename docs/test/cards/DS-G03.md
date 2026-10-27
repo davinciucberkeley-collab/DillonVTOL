@@ -10,7 +10,7 @@ Restraint: ____ ties, rated ____ kg each, to the leg clamps (total > 12.5 kgf). 
 | 3 | FBWA pusher 100 % | 10 s | | | | | | | |
 | 4 | hover + pusher 75 % (transition) | 10 s | | | | | ≤ 85 A total | | |
 
-Predicted: 41.2 A hover at 22.2 V, 43.6 A at 21 V, 75.7 A transition (results.json sized v0.4).
+Predicted: 41.1 A hover at 22.2 V, 43.5 A at 21 V, 68.4 A transition (results.json sized v0.4).
 
 ## Temperatures within 30 s (IR)
 | M1 | M2 | M3 | M4 | pusher | ESC1 | ESC2 | ESC3 | ESC4 | ESC pusher | XT90-S | XT60H max | pack lead | FC board | pack |

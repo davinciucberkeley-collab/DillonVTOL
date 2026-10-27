@@ -1,0 +1,10 @@
+# CAD views composited into the test-plan and build-manual diagrams by docs/figures/make_figures.py, and extra
+# build-manual figures. Rendered by cad/BuildFigs.cs (format in its header) into docs/figures/cad/.
+# id | asm | view | rotX | rotY | zoom | focus | context | ghost
+v_c0_side        | C | *Front     | 0 | 0 | all | | * |
+v_c0_front       | C | *Right     | 0 | 0 | all | | * |
+v_c0_iso         | C | *Isometric | 0 | 0 | all | | * |
+v_lift_unit      | C | *Isometric | 0 | 0 | all | | Lift_Motor-1,Motor_Mount_Upper-1,Motor_Mount_Cap-1,Prop_Plate-1,Lift_Prop-1 |
+v_lift_unit_side | C | *Front     | 0 | 0 | all | | Lift_Motor-1,Motor_Mount_Upper-1,Motor_Mount_Cap-1,Prop_Plate-1,Lift_Prop-1 |
+v_wing_front     | C | *Right     | 0 | 0 | all | | Wing_Panel_L,Wing_Panel_R,Aileron_L,Aileron_R,Wing_Saddle,Spar_Tube,Wing_Joiner |
+v_pusher_unit    | C | *Isometric | 0 | 0 | all | | Pusher_Motor,Pusher_Adapter,Prop_Washer,Pusher_Prop_14in,Pusher_Cup |

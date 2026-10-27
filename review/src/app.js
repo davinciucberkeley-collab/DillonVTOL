@@ -463,10 +463,10 @@ function touchGate(view){
   if(window.IntersectionObserver) new IntersectionObserver(es=>es.forEach(en=>{ if(!en.isIntersecting) arm(false); })).observe(view);
 }
 
-const CHARTS = {tradeChart:()=>drawTrade(), dragChart:()=>drawDrag(), polarChart:()=>drawPolar(), tornado:()=>drawTornado(), packChart:()=>drawPack(), capChart:()=>drawCap(), dutyChart:()=>drawDuty(), cgChart:()=>drawCG(), stateSvg:()=>drawState(), gantt:()=>drawGantt()};
+const CHARTS = {speedChart:()=>drawSpeed(), benchChart:()=>drawBench(), tradeChart:()=>drawTrade(), dragChart:()=>drawDrag(), polarChart:()=>drawPolar(), tornado:()=>drawTornado(), packChart:()=>drawPack(), capChart:()=>drawCap(), dutyChart:()=>drawDuty(), cgChart:()=>drawCG(), stateSvg:()=>drawState(), gantt:()=>drawGantt()};
 // charts in a hidden chapter measure zero width, so only the visible chapter's charts are drawn; print draws all
 // a chart in a hidden tab is skipped here and draws when its tab opens
-function redrawIn(sec){ for(const id in CHARTS){ const e=document.getElementById(id); if(e && (!sec || sec.contains(e)) && !e.closest('[hidden]')) CHARTS[id](); } if(CV && CV.refresh && (!sec || sec.contains($('#cadView')))) CV.refresh(); FlowViz.redraw(); if(!sec || sec.contains($('#thermViz'))) ThermViz.redraw(); }
+function redrawIn(sec){ if(!sec || sec.id==='sources') Sources.redraw(); for(const id in CHARTS){ const e=document.getElementById(id); if(e && (!sec || sec.contains(e)) && !e.closest('[hidden]')) CHARTS[id](); } if(CV && CV.refresh && (!sec || sec.contains($('#cadView')))) CV.refresh(); FlowViz.redraw(); if(!sec || sec.contains($('#thermViz'))) ThermViz.redraw(); if(!sec || sec.contains($('#fieldViz'))) FieldViz.redraw(); }
 function redrawAll(){ redrawIn(null); }
 function lazyCad(){ const v=$('#cadView'); if(!v) return;
   if(!('IntersectionObserver' in window)){ initCad(); return; }
@@ -577,7 +577,7 @@ function aeroText(){
       ['CL_max, aircraft trimmed', fmt(AD.CL_max_3D.adopted,2), 'critical-section method on the AVL span loading'],
       ['Stall speed at MTOW', fmt(st.V_stall_mps,2)+' m/s', 'R11 needs ≤ 12 m/s'],
       ['Zero-lift drag CD0', fmt(dr.CD0_total,4), 'component build-up'],
-      ['Cruise L/D at 20 m/s', fmt(dr.cruise&&dr.cruise.LD,2), 'max '+fmt(dr.cruise&&dr.cruise.LD_max,1)+' at '+fmt(dr.cruise&&dr.cruise.V_at_LDmax_mps,1)+' m/s'],
+      ['Cruise L/D at '+fmt(B.Vc,0)+' m/s', fmt(dr.cruise&&dr.cruise.LD,2), 'max '+fmt(dr.cruise&&dr.cruise.LD_max,1)+' at '+fmt(dr.cruise&&dr.cruise.V_at_LDmax_mps,1)+' m/s'],
       ['Cruise electrical power', fmt(mis.P_cruise_W,0)+' W', 'cross-check; the design value is the sizing\'s '+fmt(s0.P_cruise,0)+' W, the more cautious'],
       ['Neutral point, with pod', fmt(np.AVL_pod_pct_MAC,1)+' % MAC', 'AVL; '+fmt(np.pod_shift_pct_MAC,1)+' % MAC from the pod'],
       ['Trim at cruise', 'α '+fmt(AD.trim_cruise.alpha_deg,1)+'°, elevator '+fmt(AD.trim_cruise.elevator_deg,1)+'°', 'AVL'] ];
@@ -644,6 +644,99 @@ function drawPolar(){
   describe(svg, `NACA 2415 section lift curve at Re ${Math.round(sp.Re/1000)} thousand. XFOIL CL max ${fmt(sp.CL_max,2)} at ${sp.alpha_CLmax_deg} degrees; NeuralFoil ${fmt(sp.neuralfoil_CL_max,2)}; wind tunnel 1.30 at 12 degrees; aircraft trimmed CL max ${fmt(AD.CL_max_3D.adopted,2)}.${su2.length?' SU2 points: '+su2.map(q=>fmt(q[1],2)+' at '+q[0]+' degrees').join(', ')+'.':''}`);
 }
 
+// ---------- issue 6: margins, traceability, readiness, risk grid, benchmarks ----------
+function marginTable(){
+  const tb=$('#marginTable tbody'); if(!tb) return;
+  const C=get('C0'), AD_=AEROD, rows=[];
+  const add=(what,val,lim,unit,kind,href,d,note)=>rows.push({what,val,lim,unit,kind,href,d,note});
+  add('Take-off mass (R2 hard cap)', C.sized.m, 25, 'kg', 'max', '#mass', 2);
+  add('Hover thrust-to-weight (R13)', C.sized.TW, 1.6, '', 'min', '#propulsion', 2, 'maker data at nominal voltage; the thrust stand confirms (C07)');
+  add('Stall speed (R11)', AD_.stall.V_stall_mps, 12, 'm/s', 'max', '#aero', 2, 'the stall test decides (F09)');
+  const tc=Math.min(C.sized.t_cruise_avail_min, (AD_.mission&&AD_.mission.t_cruise_avail_min)||Infinity);
+  add('Cruise time on one pack (R10)', tc, 10, 'min', 'min', '#aero', 1, 'the lower of the sizing and drag build-up figures, after hover, transitions and 20 % reserve');
+  add('Static margin with payload or ballast', 100*C.geo.SM, 5, '% MAC', 'min', '#cg', 1, 'fly with 0.5 kg of ballast when there is no payload');
+  add('Committed spend (R6)', C.bom.total, 2000, '$', 'max', '#budget', 0);
+  add('Crash reserve (R7)', C.bom.crash, 100, '$', 'min', '#budget', 0);
+  const th=document.getElementById('thermData'); let T=null; try{ T=th?JSON.parse(th.textContent):null; }catch(e){}
+  // thermal: mission cases only (the 'bound' cases are steady-state limits, not flights); the tightest two
+  const F=T&&T.findings?T.findings.filter(f=>f.limit_C!=null&&!/bound/.test(f.case)):[], seen={};
+  F.sort((a,b)=>a.margin_K-b.margin_K).filter(f=>!seen[f.component]&&(seen[f.component]=1)).slice(0,2).forEach(w=>add('Thermal, mission on a 35 °C day: '+w.component.replace(/\s*\(.*\)/,'').toLowerCase(), w.peak_C, w.limit_C, '°C', 'max', '#sim-heat', 1, w.case+(/pusher/i.test(w.component)?'; heat load estimated, measure first (G03)':'')));
+  rows.forEach(r=>{
+    const m=r.kind==='max'?(r.lim-r.val)/r.lim:(r.val-r.lim)/r.lim, st=m<0?'fail':m<0.10?'risk':'met', lab=m<0?'not met':m<0.10?'tight':'met';
+    // margin shown in the quantity's own terms where a percentage misleads: kelvin for temperature, points for % MAC
+    const gap=r.kind==='max'?r.lim-r.val:r.val-r.lim, mtxt=r.unit==='°C'?`${gap>0?'+':''}${fmt(gap,1)} K`:r.unit==='% MAC'?`${gap>0?'+':''}${fmt(gap,1)} points`:`${fmt(100*m,0)} %`;
+    const v=r.unit==='$'?fmtUSD(r.val):fmt(r.val,r.d)+(r.unit?' '+r.unit:''), l=r.unit==='$'?fmtUSD(r.lim):fmt(r.lim,r.d)+(r.unit?' '+r.unit:'');
+    tb.insertAdjacentHTML('beforeend',`<tr><td><a href="${r.href}">${r.what}</a></td><td class="n">${v}</td><td class="n">${r.kind==='max'?'≤ ':'≥ '}${l}</td><td class="n">${mtxt}</td><td><span class="chip ${st}">${lab}</span></td><td>${r.note||''}</td></tr>`); });
+}
+function traceCols(){
+  const tb=$('#reqTable tbody'); if(!tb) return; const M={A:'analysis',I:'inspection',D:'demonstration',T:'test'};
+  const by={}; TESTS.forEach(t=>(t.Requirements||'').split(/[;,\s]+/).filter(x=>/^R\d+$/.test(x)).forEach(q=>(by[q]=by[q]||[]).push(t)));
+  let covered=0;
+  [...tb.rows].forEach(tr=>{ const id=tr.cells[0].textContent.trim(), ts=by[id]||[]; if(ts.length) covered++;
+    const meth=[...new Set(ts.flatMap(t=>(t.Method||'').split(/[;,\s]+/)).filter(x=>M[x]))].map(x=>M[x]).join(', ')||'—';
+    const ids=ts.map(t=>t.ID); const shown=ids.slice(0,6).join(', ')+(ids.length>6?` +${ids.length-6} more`:'');
+    tr.insertAdjacentHTML('beforeend',`<td>${meth}</td><td>${shown||'—'}</td>`); });
+  const n=tb.rows.length, c=$('#readyTrace'); if(c) c.innerHTML=covered===n?`<span class="chip met">met</span> all ${n} have a closing test`:`<span class="chip risk">risk</span> ${covered} of ${n} have a closing test`;
+  const f=$('#findTable tbody'); const fc=$('#readyFind'); if(f&&fc){ const open=[...f.rows].filter(r=>/open/.test(r.cells[5].textContent)).length; fc.innerHTML=open?`<span class="chip risk">risk</span> ${open} open, each with a planned test or decision`:'<span class="chip met">met</span>'; }
+}
+function riskGrid(){
+  const g=$('#riskGrid'), tb=$('#riskTable tbody'); if(!g||!tb) return; const lab=['low','medium','high'];
+  const cell={}; [...tb.rows].forEach(r=>{ const k=r.dataset.l+'-'+r.dataset.i; (cell[k]=cell[k]||[]).push(r.cells[0].textContent.trim()); });
+  let h='<div class="rg-y">Likelihood</div><div class="rg">';
+  for(let l=3;l>=1;l--){ h+=`<div class="rg-l">${lab[l-1]}</div>`; for(let i=1;i<=3;i++){ const s=l*i, c=s>=6?'hi':s>=3?'md':'lo'; h+=`<div class="rg-c ${c}"><span class="rg-ids">${(cell[l+'-'+i]||[]).join(' ')}</span></div>`; } }
+  h+='<div></div>'+lab.map(x=>`<div class="rg-b">${x}</div>`).join('')+'</div><div class="rg-x">Impact</div>';
+  g.innerHTML=h;
+}
+const num1 = s => { const m=String(s||'').replace(/−/g,'-').match(/-?\d+(\.\d+)?/g); if(!m) return null; const v=m.map(Number); return v.length>1?(v[0]+v[1])/2:v[0]; };
+function benchText(){
+  const T=BENCH.trade, b=T.rows.find(r=>r.Vc===T.baselineVc), s=T.rows.find(r=>r.Vc===get('C0').params.Vc)||b, v=$('#benchVerdict');
+  const n=BENCH.aircraft.filter(a=>!/^C0/.test(a.name)).length;
+  if(v) v.innerHTML=`<b>Checked against ${n} published aircraft and 37 values from the literature, C0 is a typical small lift + cruise design, sized for a short mission; the one clear gain was flying slower.</b> Cruising at ${s.Vc} m/s instead of ${b.Vc} m/s, still inside R11, cuts cruise power from ${fmt(b.P_cruise_W,0)} W to ${fmt(s.P_cruise_W,0)} W and lifts the cruise time the pack allows from ${fmt(b.t_cruise_avail_min,1)} to ${fmt(s.t_cruise_avail_min,1)} min, with no change to the wing, mass or cost.`;
+  const tb=$('#speedTable tbody'); if(tb) T.rows.forEach(r=>tb.insertAdjacentHTML('beforeend',`<tr${r.Vc===s.Vc?' class="hl"':''}><td class="n">${r.Vc}</td><td>${r.inR11?'yes':'no'}</td><td class="n">${fmt(r.LD,2)}</td><td class="n">${fmt(r.P_cruise_W,0)}</td><td class="n">${r.dP_pct>0?'+':''}${fmt(r.dP_pct,0)} %</td><td class="n">${fmt(r.t_cruise_avail_min,1)}</td></tr>`));
+  const h=x=>String(x==null?'':x).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+  const bt=$('#benchTable tbody'); if(bt) BENCH.aircraft.forEach(a=>{ const c0=/^C0/.test(a.name), u=/^https?:/.test(a.source_url)?h(a.source_url):'';
+    bt.insertAdjacentHTML('beforeend',`<tr${c0?' class="hl"':''}><td>${u?`<a href="${u}" rel="noopener" target="_blank">${h(a.name)}</a>`:h(a.name)}</td><td>${h((a.configuration||'').replace(/^CONTRAST:\s*/,''))}</td><td class="n">${a.mtow_kg||'—'}</td><td class="n">${a.wingspan_m||'—'}</td><td class="n">${a.wing_loading_kgm2_DERIVED||'—'}</td><td class="n">${a.disk_loading_Nm2_DERIVED||'—'}</td><td class="n">${a.cruise_speed_ms||'—'}</td><td class="n">${a.endurance_min||'—'}</td><td class="n">${a.battery_Wh_per_kg_MTOW_DERIVED||'—'}</td></tr>`); });
+}
+function drawSpeed(){
+  const svg=$('#speedChart'); if(!svg) return; clear(svg); const T=BENCH.trade, R=T.rows, V=get('C0').params.Vc;
+  const W=640,H=300,l=56,r=56,t=34,b=42, v0=14,v1=22, p0=0,p1=Math.ceil(Math.max(...R.map(q=>q.P_cruise_W))/100)*100, m1=Math.ceil(Math.max(...R.map(q=>q.t_cruise_avail_min))/5)*5;
+  const x=v=>l+(W-l-r)*(v-v0)/(v1-v0), y=v=>t+(H-t-b)*(1-(v-p0)/(p1-p0)), y2=v=>t+(H-t-b)*(1-v/m1);
+  el('rect',{x:x(T.R11[0]),y:t,width:x(T.R11[1])-x(T.R11[0]),height:H-t-b,fill:css('--surface-2')},svg);
+  el('text',{x:(x(T.R11[0])+x(T.R11[1]))/2,y:t+14,'text-anchor':'middle',fill:css('--fg-3')},svg,'R11 cruise band');
+  for(let v=p0; v<=p1; v+=100){ el('line',{x1:l,x2:W-r,y1:y(v),y2:y(v),class:'grid'},svg); el('text',{x:l-6,y:y(v)+4,'text-anchor':'end'},svg,v); }
+  for(let v=0; v<=m1; v+=5) el('text',{x:W-r+6,y:y2(v)+4},svg,v);
+  for(let v=v0; v<=v1; v++) el('text',{x:x(v),y:H-b+16,'text-anchor':'middle'},svg,v);
+  el('text',{x:(l+W-r)/2,y:H-6,'text-anchor':'middle'},svg,'cruise speed, m/s');
+  el('text',{x:14,y:(t+H-b)/2,transform:`rotate(-90 14 ${(t+H-b)/2})`,'text-anchor':'middle'},svg,'cruise power, W');
+  el('text',{x:W-12,y:(t+H-b)/2,transform:`rotate(90 ${W-12} ${(t+H-b)/2})`,'text-anchor':'middle'},svg,'cruise time, min');
+  const path=(f,col,dash)=>el('path',{d:R.map((q,i)=>(i?'L':'M')+x(q.Vc).toFixed(1)+' '+f(q).toFixed(1)).join(''),fill:'none',stroke:css(col),'stroke-width':2,'stroke-dasharray':dash||''},svg);
+  path(q=>y(q.P_cruise_W),'--c1'); path(q=>y2(q.t_cruise_avail_min),'--c2','6 4');
+  el('line',{x1:l,x2:W-r,y1:y2(10),y2:y2(10),stroke:css('--warn'),'stroke-dasharray':'2 3'},svg); el('text',{x:x(20.5),y:y2(10)+16,'text-anchor':'middle',fill:css('--warn')},svg,'R10 needs 10 min');
+  R.forEach(q=>{ const g=el('g',{},svg); const on=q.Vc===V;
+    el('circle',{cx:x(q.Vc),cy:y(q.P_cruise_W),r:on?6:4,fill:css('--c1'),stroke:css('--surface'),'stroke-width':2},g);
+    el('circle',{cx:x(q.Vc),cy:y2(q.t_cruise_avail_min),r:on?6:4,fill:css('--c2'),stroke:css('--surface'),'stroke-width':2},g);
+    el('title',{},g,`${q.Vc} m/s: ${fmt(q.P_cruise_W,0)} W, L/D ${fmt(q.LD,2)}, ${fmt(q.t_cruise_avail_min,1)} min of cruise`); });
+  const s=R.find(q=>q.Vc===V); if(s){ el('line',{x1:x(V),x2:x(V),y1:t+20,y2:H-b,stroke:css('--fg-3'),'stroke-dasharray':'3 3'},svg); el('text',{x:x(V)+6,y:t+34,fill:css('--fg')},svg,`C0 cruise: ${V} m/s, ${fmt(s.P_cruise_W,0)} W`); }
+  let kx=l+4; [['--c1','cruise power',''],['--c2','cruise time on the pack','6 4']].forEach(([c,n,d])=>{ el('line',{x1:kx,x2:kx+22,y1:t-16,y2:t-16,stroke:css(c),'stroke-width':2,'stroke-dasharray':d},svg); el('text',{x:kx+28,y:t-12},svg,n); kx+=n.length*7+52; });
+  describe(svg, 'Cruise power and cruise time against speed. '+R.map(q=>`${q.Vc} m/s: ${fmt(q.P_cruise_W,0)} W, ${fmt(q.t_cruise_avail_min,1)} min`).join('; ')+`. C0 now cruises at ${V} m/s.`);
+}
+function drawBench(){
+  const svg=$('#benchChart'); if(!svg) return; clear(svg);
+  const pts=BENCH.aircraft.map(a=>({n:a.name, c0:/^C0/.test(a.name), alt:/^CONTRAST/.test(a.configuration||''), m:num1(a.mtow_kg), e:num1(a.battery_Wh_per_kg_MTOW_DERIVED), end:a.endurance_min})).filter(p=>p.m!=null&&p.e!=null);
+  const W=640,H=340,l=56,r=20,t=34,b=44, x0=0,x1=Math.ceil(Math.max(...pts.map(p=>p.m))/5)*5, y0=0,y1=Math.ceil(Math.max(...pts.map(p=>p.e))/20)*20;
+  const x=v=>l+(W-l-r)*(v-x0)/(x1-x0), y=v=>t+(H-t-b)*(1-(v-y0)/(y1-y0));
+  for(let v=y0; v<=y1; v+=20){ el('line',{x1:l,x2:W-r,y1:y(v),y2:y(v),class:'grid'},svg); el('text',{x:l-6,y:y(v)+4,'text-anchor':'end'},svg,v); }
+  for(let v=x0; v<=x1; v+=5) el('text',{x:x(v),y:H-b+16,'text-anchor':'middle'},svg,v);
+  el('text',{x:(l+W-r)/2,y:H-8,'text-anchor':'middle'},svg,'take-off mass, kg');
+  el('text',{x:14,y:(t+H-b)/2,transform:`rotate(-90 14 ${(t+H-b)/2})`,'text-anchor':'middle'},svg,'battery energy per kg of aircraft, Wh/kg');
+  pts.filter(p=>!p.c0).forEach(p=>{ const g=el('g',{},svg); el('circle',{cx:x(p.m),cy:y(p.e),r:6,fill:p.alt?css('--surface'):css('--c5'),stroke:css('--c5'),'stroke-width':2},g); el('title',{},g,`${p.n}: ${fmt(p.m,1)} kg, ${fmt(p.e,0)} Wh/kg, endurance ${p.end||'—'} min`); });
+  pts.filter(p=>p.c0).forEach(p=>{ const g=el('g',{},svg); el('circle',{cx:x(p.m),cy:y(p.e),r:8,fill:css('--c1'),stroke:css('--surface'),'stroke-width':2},g); el('title',{},g,`C0: ${fmt(p.m,2)} kg, ${fmt(p.e,0)} Wh/kg, 12-minute mission`); el('text',{x:x(p.m)+12,y:y(p.e)+4,fill:css('--fg')},svg,'C0 (12 min mission)'); });
+  let kx=l+4; [['lift + cruise',css('--c5')],['tilt-rotor or tailsitter',css('--surface')]].forEach(([n,f])=>{ el('circle',{cx:kx+6,cy:t-16,r:6,fill:f,stroke:css('--c5'),'stroke-width':2},svg); el('text',{x:kx+18,y:t-12},svg,n); kx+=n.length*7+40; });
+  el('circle',{cx:kx+6,cy:t-16,r:7,fill:css('--c1')},svg); el('text',{x:kx+18,y:t-12},svg,'C0');
+  const c=pts.find(p=>p.c0), o=pts.filter(p=>!p.c0).map(p=>p.e);
+  describe(svg, `Battery energy per kilogram of aircraft against take-off mass for ${pts.length} aircraft. C0 carries ${fmt(c.e,0)} Wh/kg; the others carry ${fmt(Math.min(...o),0)} to ${fmt(Math.max(...o),0)} Wh/kg because they are built for one to four hours of flight.`);
+}
+
 // ---------- build and test summaries (docs/build, docs/test) ----------
 function buildText(){
   const v=$('#buildVerdict'); if(v) v.innerHTML = `<b>The build is written down to the screw: ${BUILD.wps.length} work packages, ${BUILD.steps} numbered steps, about ${BUILD.total} person-hours of labour and ${BUILD.machine} hours of printer and oven time.</b> Every step lists its parts, fasteners with torque, tools, a measurable check and a time estimate. The printer is the critical path, so printing starts the week Order B arrives. A drill press, soldering station, torque driver and filament dryer are assumed from a campus makerspace; each has a zero-cost fallback in the manual except the soldering station.`;
@@ -696,7 +789,7 @@ let curSec=null;
 
 
 // ---------- boot ----------
-numberHeadings(); buildNav(); xrefs(); fill(); derived(); tables(); hardware(); tradeText(); aeroText(); buildText(); testText(); drawings(); numberFigures(); sortable(); summarise(); measurements(); a11yNames();
+numberHeadings(); buildNav(); xrefs(); fill(); derived(); tables(); hardware(); tradeText(); aeroText(); buildText(); testText(); traceCols(); marginTable(); riskGrid(); benchText(); drawings(); numberFigures(); sortable(); summarise(); measurements(); a11yNames();
 set('cadTris', MESH_META.tris.toLocaleString('en-US')); set('cadComps', MESH_META.comps); set('escHoverA', fmt(s0.I_hover/4,1));
 $$('[data-cad="parts"]').forEach(e=>e.textContent=MESH_META.files); $$('[data-cad="comps"]').forEach(e=>e.textContent=MESH_META.comps);
 $$('main a[href^="#"]').forEach(a=>{ const t=a.textContent.trim(); if(!/^§\s?\d+$/.test(t)) return; const sec=document.getElementById(a.getAttribute('href').slice(1)); const s=sec&&(sec.closest('section.sec')); if(s) a.setAttribute('aria-label', `${t} ${s.dataset.title}`); });

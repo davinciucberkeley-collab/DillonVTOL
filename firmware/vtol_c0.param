@@ -110,7 +110,7 @@ ARSPD_USE,1               # use airspeed for control [PD]
 ARSPD_TUBE_ORDR,2         # (default) auto-detect pitot/static tube order [PD]
 AIRSPEED_STALL,12         # stall at MTOW, R11 [DB R11; RJ base.Vs]
 AIRSPEED_MIN,16           # forward transition completes here [TR]; >= 1.3 x 12 = 15.6 m/s [DB R11; RV]
-AIRSPEED_CRUISE,20        # R11 cruise 18-22 m/s; sizing Vc = 20 [RJ base.Vc; RV]
+AIRSPEED_CRUISE,18        # R11 cruise 18-22 m/s; sizing Vc = 18, the band edge nearest best L/D (analysis/cruise_speed_trade.mjs: -22 % cruise power vs 20) [RJ base.Vc; RV]
 AIRSPEED_MAX,25           # >= 1.5 x AIRSPEED_MIN = 24 [PD]; must stay below level speed at THR_MAX - check in flight (est.)
 Q_ASSIST_SPEED,13         # 3 m/s below AIRSPEED_MIN when an airspeed sensor is fitted [PD; RV]
 Q_ASSIST_ANGLE,30         # (default) attitude-error assist [PD]
@@ -118,7 +118,7 @@ Q_ASSIST_ALT,20           # lift motors assist if a fixed-wing mode descends bel
 Q_TRANSITION_MS,5000      # (default) lift motors taper over 5 s after AIRSPEED_MIN [TR; RV]
 Q_TRANS_FAIL,15           # cancel a forward transition that has not reached AIRSPEED_MIN in 15 s [RV] (est.)
 Q_TRANS_FAIL_ACT,1        # on timeout go to QRTL [PD values; RV]
-Q_TRANS_DECEL,2.0         # (default) back-transition stopping-distance decel: 20 m/s -> 100 m (v^2/2a) [PD]
+Q_TRANS_DECEL,2.0         # (default) back-transition stopping-distance decel: 18 m/s -> 81 m (v^2/2a); 20 m/s -> 100 m [PD]
 Q_BACKTRANS_MS,3000       # (default) pitch-limit ramp entering VTOL position modes [PD]
 Q_TRAN_PIT_MAX,3          # (default) max pitch during AUTO forward transition [PD]
 TKOFF_THR_MAX,75          # AUTO forward transitions run the pusher at TKOFF_THR_MAX [TR]; 75 % trims the 75.7 A transition peak (est., v0.4) until bench test M4 [RJ I_trans]
@@ -128,7 +128,7 @@ THR_MAX,85                # pusher cap: C0 SITL model gives ~890 W at 100 % on a
 # 7. Return, VTOL land, arming
 # ---------------------------------------------------------------------------------------------
 Q_RTL_MODE,1              # RTL flies home fixed-wing, then switches to QRTL inside RTL_RADIUS and lands vertically [PD; RV]
-RTL_RADIUS,100            # QRTL switch radius = stopping distance at 20 m/s and 2 m/s/s (100 m) [PD; formula above]
+RTL_RADIUS,100            # QRTL switch radius >= stopping distance at 20 m/s and 2 m/s/s (100 m), so it also covers the 18 m/s cruise (81 m) [PD; formula above]
 RTL_ALTITUDE,60           # fixed-wing return altitude above home (default 100); stays below the 110 m fence (est.)
 Q_RTL_ALT,15              # (default) VTOL approach altitude in QRTL [PD]
 Q_OPTIONS,262144          # bit 18 ARMVTOL: arming allowed only in VTOL modes [PD]

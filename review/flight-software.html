@@ -786,6 +786,67 @@ h1{font-weight:600}
 .th-img{display:block;width:100%;height:auto;background:#111}
 .th-img[hidden],.th-canvas[hidden]{display:none}
 
+/* sources: search bar, key-source table, register grouped in disclosures */
+.srcbar{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:16px 0 8px}
+.srcbar label{font-weight:600;font-size:.875rem;color:var(--fg-2)}
+.srcbar input{flex:1 1 18rem;min-height:44px;padding:0 12px;border:1px solid var(--line-3);border-radius:var(--r-s);background:var(--surface);color:var(--fg);font:inherit}
+.srcstatus{font-size:.875rem;color:var(--fg-2)}
+.srcu{font:500 .75rem var(--f-mono);color:var(--fg-3);margin-top:2px;overflow-wrap:anywhere}
+.srcf{color:var(--fg-3);margin-left:1px}
+#srcKey td:first-child,.srcreg td:first-child{min-width:14rem;max-width:34rem;overflow-wrap:anywhere}
+.srcgrp{border:1px solid var(--line-2);border-radius:var(--r);margin:8px 0;background:var(--surface)}
+.srcgrp>summary{display:flex;align-items:center;gap:10px;min-height:48px;padding:0 14px;cursor:pointer;font-weight:600}
+.srcgrp>summary .srcn{font:500 .8125rem var(--f-mono);color:var(--fg-3)}
+.srcgrp .tbl{margin:0;padding:0 8px 8px}
+.srcgrp td code{font-size:.8125rem}
+@media print{.srcbar{display:none}.srcgrp{break-inside:auto}}
+
+/* issue 6: start-here guide, risk grid, highlighted trade rows */
+.starthere{margin:20px 0 28px;padding:16px 20px 12px;background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r)}
+.starthere{margin-top:8px}
+.sh-steps{margin:0 0 10px;padding-left:1.3em}
+.sh-steps li{margin:.45em 0;max-width:72ch}
+.sh-key{margin:8px 0 4px;font-size:.875rem;color:var(--fg-2);max-width:none;line-height:1.9}
+kbd{font:500 .8125rem var(--f-mono);padding:1px 6px;border:1px solid var(--line-3);border-bottom-width:2px;border-radius:4px;background:var(--surface-2);color:var(--fg)}
+.riskgrid{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto auto;align-items:center;gap:6px 10px;max-width:30rem;margin:12px 0 18px}
+.rg-y{writing-mode:vertical-rl;transform:rotate(180deg);font-size:.8125rem;color:var(--fg-2);grid-row:1}
+.rg{display:grid;grid-template-columns:4.5rem repeat(3,minmax(0,1fr));gap:4px}
+.rg-l,.rg-b{font-size:.75rem;color:var(--fg-3);text-align:center;align-self:center}
+.rg-c{min-height:52px;border-radius:var(--r-s);display:flex;align-items:center;justify-content:center;padding:4px;border:1px solid var(--line-2)}
+.rg-c.lo{background:var(--ok-soft)} .rg-c.md{background:var(--warn-soft)} .rg-c.hi{background:var(--bad-soft)}
+.rg-ids{font:600 .8125rem var(--f-mono);color:var(--fg);text-align:center;word-spacing:4px}
+.rg-x{grid-column:2;text-align:center;font-size:.8125rem;color:var(--fg-2)}
+tr.hl td{background:var(--accent-soft)}
+
+.srcchk{display:inline-flex;align-items:center;gap:6px;min-height:44px;font-size:.875rem;color:var(--fg-2);cursor:pointer}
+.srcchk input{width:18px;height:18px;accent-color:var(--accent)}
+.srclinks{font-size:.875rem;color:var(--fg-2)}
+.srcarch{font-size:.8125rem;margin-left:4px}
+
+/* 3-D results explorer: a dark field stage (as the thermal camera), case buttons above, scale and help below */
+.fieldviz{padding:0}
+.fieldviz figcaption{padding:12px 16px 6px}
+.fz-top{display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:0 12px 10px;border-bottom:1px solid var(--line)}
+.fz-top .seg{border:0;background:none;padding:0;gap:2px;flex-wrap:wrap}
+.fz-top .seg button{padding:0 12px}.fz-top .seg button:not([aria-pressed="true"]){background:var(--surface-2)}
+.fz-tools{margin-left:auto;display:flex;gap:6px}
+.fz-tools button{min-height:36px;padding:0 12px;border:1px solid var(--line-3);border-radius:var(--r-s);background:var(--surface);color:var(--fg);font:500 .8125rem var(--f-body);cursor:pointer}
+.fz-tools button:hover{border-color:var(--accent)}
+.fz-stage{position:relative;overflow:hidden}
+.fz-stage canvas{display:block;width:100%;aspect-ratio:16/9;background:#2a2f36;touch-action:none;cursor:grab}
+.fz-stage canvas:active{cursor:grabbing}
+.fz-tip{position:absolute;transform:translate(12px,-120%);padding:6px 10px;border-radius:6px;background:rgba(14,17,22,.92);color:#fff;font:500 .8125rem var(--f-mono);pointer-events:none;white-space:nowrap}
+.fz-scale{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;padding:10px 16px 0;font:500 .8125rem var(--f-mono);color:var(--fg-2)}
+.fz-bar{flex:1 1 12rem;height:10px;border-radius:5px}
+.fz-ref{flex-basis:100%;font-family:var(--f-body);color:var(--fg-3)}
+.fz-note{margin:6px 16px 0;font-size:.875rem;color:var(--fg-2);max-width:none}
+.fz-help{margin:6px 16px 12px;font-size:.8125rem;color:var(--fg-3);max-width:none}
+@media (max-width:560px){.fz-stage canvas{aspect-ratio:4/3}.fz-tools{margin-left:0}}
+@media print{.fz-top,.fz-stage,.fz-help{display:none}}
+
+/* sources search: placeholder at body-text contrast (UA grey was 3.8:1 on the dark surface) */
+.srcbar input::placeholder{color:var(--fg-2);opacity:1}
+
 /* ---------- companion document page ---------- */
 /* reader: one section (or work package) at a time; side contents on wide screens, a section menu on narrow ones.
    Without the script, in "Full document" mode and in print every section shows. */
@@ -823,6 +884,23 @@ html.paged .pager{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:40p
   .pgbar label{font:600 .8125rem var(--f-body);color:var(--fg-2)}
   .pgbar select{flex:1;min-width:0;min-height:44px;padding:0 10px;border:1px solid var(--line-3);border-radius:var(--r-s);background:var(--surface);color:var(--fg);font:inherit;font-size:.9375rem}
 }
+/* one step at a time inside a long page (a work package's steps, a test series' tests) */
+.unitnav{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:14px 0 18px;padding:10px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.unitnav .ulab{font:600 .8125rem var(--f-body);color:var(--fg-2);margin-right:4px}
+.unitnav button{min-height:36px;min-width:44px;padding:0 10px;border:1px solid var(--line-3);border-radius:var(--r-s);background:var(--surface);color:var(--fg-2);font:600 .8125rem var(--f-mono);cursor:pointer}
+.unitnav button:hover{color:var(--fg);border-color:var(--fg-2)}
+.unitnav button[aria-current="step"]{background:var(--accent);border-color:var(--accent);color:var(--accent-fg,#fff)}
+.unitnav button.udone{border-color:var(--ok);color:var(--ok)}
+.unitnav button.udone[aria-current="step"]{background:var(--ok);color:#fff}
+.unitnav .uall{margin-left:auto;font-family:var(--f-body);font-weight:500}
+.ufoot{display:flex;justify-content:space-between;gap:12px;margin:24px 0 8px}
+.ufoot button{min-height:44px;padding:8px 14px;border:1px solid var(--line-2);border-radius:var(--r);background:var(--surface);color:var(--fg);font:inherit;font-size:.9375rem;text-align:left;cursor:pointer}
+.ufoot button span{display:block;font:500 .75rem var(--f-mono);color:var(--fg-3);text-transform:uppercase;letter-spacing:.05em}
+.ufoot .unx{margin-left:auto;text-align:right}
+.ufoot button:hover{border-color:var(--accent)}
+html.paged .pg:not(.allunits) .unit:not(.on){display:none}
+html.paged .pg.allunits .ufoot,html:not(.paged) .ufoot,html:not(.paged) .unitnav{display:none}
+@media print{.unitnav,.ufoot{display:none!important}.unit{display:block!important}}
 html:not(.paged) .side{margin:0 0 32px}
 html:not(.paged) .side ol ol{display:flex;flex-wrap:wrap;gap:0 6px}
 @media print{html.paged .pg{display:block}.side,.pgbar,.pager,#allBtn{display:none!important}}
@@ -830,6 +908,14 @@ html:not(.paged) .side ol ol{display:flex;flex-wrap:wrap;gap:0 6px}
 .docfig{margin:4px 0 24px;max-width:46rem}
 .docfig img{display:block;width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:6px}
 .docfig figcaption{margin-top:6px;font-size:.8125rem;line-height:1.45;color:var(--fg-2);max-width:62ch}
+.docfig img{cursor:zoom-in}
+.docfig .zhint{display:block;margin-top:2px;font-size:.75rem;color:var(--fg-3)}
+.figdlg{width:100vw;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;border:0;background:rgba(10,12,16,.94)}
+.figdlg::backdrop{background:rgba(10,12,16,.6)}
+.figdlg .fdscroll{position:absolute;inset:0;overflow:auto;-webkit-overflow-scrolling:touch}
+.figdlg img{display:block;width:max(100%,1400px);max-width:none;height:auto;margin:0 auto;background:#fff}
+@media (min-width:1500px){.figdlg img{width:1400px;margin:24px auto}}
+.figdlg .fdclose{position:fixed;top:12px;right:12px;z-index:2;min-width:44px;min-height:44px;padding:0 14px;border:1px solid rgba(255,255,255,.4);border-radius:8px;background:rgba(14,17,22,.9);color:#fff;font:600 .9375rem system-ui,sans-serif;cursor:pointer}
 .doc h2{margin-top:64px;padding-top:18px;border-top:1px solid var(--line);font-size:1.5rem;letter-spacing:-.02em}
 .doc h3{margin-top:40px;padding-top:12px;border-top:1px solid var(--line-2);font-size:1.25rem}
 .doc h4{margin-top:28px;font-size:1.125rem}
@@ -1007,7 +1093,7 @@ header.top h1{font:600 2rem/1.15 var(--f-display);letter-spacing:-.025em;max-wid
 <tr><td>S11</td><td>5 (TIM1)</td><td>Rudder R</td><td class="n">21</td></tr>
 <tr><td>S12 (LED)</td><td>5</td><td>unused</td><td class="n">0</td></tr>
 </tbody></table></div>
-<p>The review (<a class="rref" href="./#controls">§17</a> "Outputs and wiring") puts the lift motors on S7–S10 and the rudders on S5–S6. S7 shares timer group S5–S7 with S5 and S6, so DShot on S7 would force both rudder outputs into DShot. The map above keeps every servo out of a DShot group. It also matches ArduPilot's QuadPlane convention of lift motors on outputs 5–8 (quadplane-frame-setup.html). <code>tools/check_params.py --corewing</code> checks this automatically.</p>
+<p>The review (<a class="rref" href="./#controls">§18</a> "Outputs and wiring") puts the lift motors on S7–S10 and the rudders on S5–S6. S7 shares timer group S5–S7 with S5 and S6, so DShot on S7 would force both rudder outputs into DShot. The map above keeps every servo out of a DShot group. It also matches ArduPilot's QuadPlane convention of lift motors on outputs 5–8 (quadplane-frame-setup.html). <code>tools/check_params.py --corewing</code> checks this automatically.</p>
 <nav class="pager" aria-label="Previous and next section"><a class="pv" href="#3-first-flash-dfu"><span>Previous</span>First flash (DFU)</a><a class="nx" href="#5-load-the-parameters"><span>Next</span>Load the parameters</a></nav></section>
 <section class="pg" id="pg-5-load-the-parameters" data-id="5-load-the-parameters">
 <h2 id="5-load-the-parameters">5. Load the parameters</h2>
@@ -1063,9 +1149,9 @@ header.top h1{font:600 2rem/1.15 var(--f-display);letter-spacing:-.025em;max-wid
 <nav class="pager" aria-label="Previous and next section"><a class="pv" href="#7-motor-order-direction-and-servo-checks"><span>Previous</span>Motor order, direction and servo checks</a><a class="nx" href="#9-first-flight-build-up"><span>Next</span>First-flight build-up</a></nav></section>
 <section class="pg" id="pg-9-first-flight-build-up" data-id="9-first-flight-build-up">
 <h2 id="9-first-flight-build-up">9. First-flight build-up</h2>
-<p>Fly at a site that allows the test (review <a class="rref" href="./#schedule">§15</a>). Hover tests: ≤ 5 m AGL, ≤ 60 s per hover (review <a class="rref" href="./#controls">§17</a>, R14). Transitions: ≥ 30 m AGL, into wind. Wind ≤ 5 m/s, gusts ≤ 8 m/s (R16). The full checklists are in <code>checklists.md</code>.</p>
+<p>Fly at a site that allows the test (review <a class="rref" href="./#schedule">§16</a>). Hover tests: ≤ 5 m AGL, ≤ 60 s per hover (review <a class="rref" href="./#controls">§18</a>, R14). Transitions: ≥ 30 m AGL, into wind. Wind ≤ 5 m/s, gusts ≤ 8 m/s (R16). The full checklists are in <code>checklists.md</code>.</p>
 <h3 id="9-1-sitl-rehearsal-every-pilot-before-any-flight">9.1 SITL rehearsal (every pilot, before any flight)</h3>
-<p>Use the <b>C0 airframe model</b>, not the generic QuadPlane: <code>sitl\run_c0_sitl.ps1 -SitlExe &lt;ArduPlane.exe&gt;</code> starts <code>sitl/c0_physics.py</code> (a 6-DOF model built from the repo's mass, geometry, AVL aero, motor and prop data) and ArduPlane 4.7.2 SITL on its JSON physics interface; connect Mission Planner to TCP 127.0.0.1:5760 and fly with the Pocket Crush as a USB joystick: QSTABILIZE take-off, QLOITER, FBWA transition, CRUISE, QLOITER back-transition, QLAND. Practise the E-stop and RTL switches. Expect what the model shows (<code>sitl/README.md</code>, C0 section): hover at about 0.62–0.66 output, 37–38 A; forward transition 13–15 s and 140–170 m; a 30° nose-up, stalled-wing "airbrake" phase at the start of every back-transition; cruise at 20 m/s with the pusher at about 0.7. <code>sitl/mission_test.py --model JSON:127.0.0.1 --physics sitl/c0_physics.py ...</code> runs the seven scripted scenarios (§11). Add <code>-Wind "5,270"</code> (5 m/s from the west) to rehearse the R16 wind limit.</p>
+<p>Use the <b>C0 airframe model</b>, not the generic QuadPlane: <code>sitl\run_c0_sitl.ps1 -SitlExe &lt;ArduPlane.exe&gt;</code> starts <code>sitl/c0_physics.py</code> (a 6-DOF model built from the repo's mass, geometry, AVL aero, motor and prop data) and ArduPlane 4.7.2 SITL on its JSON physics interface; connect Mission Planner to TCP 127.0.0.1:5760 and fly with the Pocket Crush as a USB joystick: QSTABILIZE take-off, QLOITER, FBWA transition, CRUISE, QLOITER back-transition, QLAND. Practise the E-stop and RTL switches. Expect what the model shows (<code>sitl/README.md</code>, C0 section): hover at about 0.62–0.66 output, 37–38 A; forward transition 13–15 s and 140–170 m; a 30° nose-up, stalled-wing "airbrake" phase at the start of every back-transition; cruise at 18 m/s (AIRSPEED_CRUISE; SITL re-run 2026-10-27) with the pusher at about 0.6. <code>sitl/mission_test.py --model JSON:127.0.0.1 --physics sitl/c0_physics.py ...</code> runs the seven scripted scenarios (§11). Add <code>-Wind "5,270"</code> (5 m/s from the west) to rehearse the R16 wind limit.</p>
 <h3 id="9-2-tethered-bench-run">9.2 Tethered bench run</h3>
 <p>Props on, aircraft tied down to a heavy base, battery on, <code>vtol_c0_hover_phase.param</code> loaded. QSTABILIZE, arm, raise throttle to light the skids. Check for oscillation, vibration and current (≈ 41.2 A hover at full weight; results.json <code>C0.sized.I_hover</code>).</p>
 <h3 id="9-3-first-lift-off-qstabilize-tuning-process-steps-5-6">9.3 First lift-off (QSTABILIZE): tuning-process steps 5–6</h3>
@@ -1073,9 +1159,9 @@ header.top h1{font:600 2rem/1.15 var(--f-display);letter-spacing:-.025em;max-wid
 <h3 id="9-4-qhover-hover-throttle-notch">9.4 QHOVER, hover throttle, notch</h3>
 <ol><li>Take off in QSTABILIZE to 5 m, switch to QHOVER for ≥ 30 s with no inputs. <code>Q_M_HOVER_LEARN,2</code> saves the hover throttle. Expect about 0.52 (est.) from 1637.9 g needed / 3130 g max per motor (results.json <code>C0.sized.Tunit_g</code>, <code>params.Tmax_g</code>). Above 0.6 means the thrust margin is short (tuning-process step 7, "should be ~0.3–0.6").</li><li>Then set <code>Q_P_D_ACC_P = 0.1 × Q_M_THST_HOVER</code> and <code>Q_P_D_ACC_I = 0.2 × Q_M_THST_HOVER</code> (tuning-process step 7).</li><li><b>Notch setup within the 60 s hover limit.</b> The tuning-process page asks for a 2-minute no-input hover. The review limits test hovers to 60 s (R14 mitigation). Two other ArduPilot sources cover the shorter hover:<ul><li>The batch-sampler page asks for "a regular flight (not just a gentle hover) of at least 1 minute" (common-imu-batchsampling.html). One 60 s QHOVER with <code>INS_LOG_BAT_MASK,1</code> and <code>INS_LOG_BAT_OPT,4</code> (pre + post filter, both already set) meets that.</li><li>Throttle-based notch tracking needs only the hover noise frequency and the hover thrust. Hover-thrust learning needs "no pilot stick input for at least 10 seconds" (same page; <code>Q_M_HOVER_LEARN,2</code>).</li><li>Procedure: fly two separate 60 s no-input QHOVER flights on a calm day. Open each .BIN in <a href="https://firmware.ardupilot.org/Tools/WebTools/FilterReview/" rel="noopener" target="_blank">firmware.ardupilot.org/Tools/WebTools/FilterReview</a> (or Mission Planner &gt; Setup &gt; Advanced &gt; FFT &gt; "IMU Batch Sample"). Accept the peak only if both flights agree within about 10 % (est.); the average is <code>hover_freq</code>. More batches per flight are available by lowering <code>INS_LOG_BAT_LGIN</code> (batch page: "can be lowered to increase accuracy").</li><li>Set the throttle-based notch (common-throttle-based-notch.html): <code>INS_HNTCH_ENABLE,1</code>, reboot, <code>INS_HNTCH_MODE,1</code>, <code>INS_HNTCH_FREQ</code> = hover_freq, <code>INS_HNTCH_BW</code> = hover_freq/2, <code>INS_HNTCH_REF</code> = learned <code>Q_M_THST_HOVER</code>. Leave <code>INS_HNTCH_HMNCS</code> at its default 3 (1st + 2nd harmonic). The in-flight FFT auto-setup is not available (<code>!HAL_GYROFFT_ENABLED</code>).</li><li>Fly one more 60 s hover and check that the post-filter spectrum shows the peak attenuated. Then set <code>INS_LOG_BAT_MASK,0</code> to free RAM (batch page note).</li></ul></li><li>Then QLOITER: position hold within about 2 m in light wind (est.).</li><li>Manual roll/pitch tune, then QAUTOTUNE (in the build) per tuning-process steps 10+ and qautotune-mode.html.</li></ol>
 <h3 id="9-5-fixed-wing-preparation">9.5 Fixed-wing preparation</h3>
-<ul><li>Airspeed ratio: <code>ARSPD_AUTOCAL,1</code> for a 5-minute loiter, then back to 0 (calibrating-an-airspeed-sensor.html). Review <a class="rref" href="./#controls">M17.1</a> failure threshold: &gt; 10 % error puts the real transition speed under R11's 15.6 m/s.</li><li>Fixed-wing gains start at firmware defaults. Run AUTOTUNE in FBWA after the first transitions (automatic-tuning-with-autotune.html).</li></ul>
+<ul><li>Airspeed ratio: <code>ARSPD_AUTOCAL,1</code> for a 5-minute loiter, then back to 0 (calibrating-an-airspeed-sensor.html). Review <a class="rref" href="./#controls">M18.1</a> failure threshold: &gt; 10 % error puts the real transition speed under R11's 15.6 m/s.</li><li>Fixed-wing gains start at firmware defaults. Run AUTOTUNE in FBWA after the first transitions (automatic-tuning-with-autotune.html).</li></ul>
 <h3 id="9-6-first-transitions">9.6 First transitions</h3>
-<ol><li>Load <code>vtol_c0.param</code> again (removes the hover-phase overlay). Check <code>Q_ASSIST_SPEED</code> = 13.</li><li>QLOITER to ≥ 30 m, nose into wind, with the longest clear line ahead.</li><li>Switch to <b>FBWA</b> and push the throttle to about 70 %. The lift motors hold height. At <code>AIRSPEED_MIN</code> 16 m/s they taper out over 5 s. In SITL this took 10–11 s from mode change to "Transition done" on the generic model (sitl/results) and 13–15 s, 140–170 m on the C0 airframe model (sitl/results_c0.json).</li><li><b>Start the turn as soon as "Transition done" appears.</b> In SITL, a straight FBWA transition reached the 300 m fence circle about 6 s after transition end (first SITL run, scenario B, 2026-10-21). Start transitions from the upwind edge of the field.</li><li>Back-transition: select QLOITER (or QHOVER). The pusher stops at once and the lift motors brake the aircraft (quadplane-transitions.html). Allow about 100 m stopping distance at 20 m/s (2 m/s² decel). In the C0 airframe model the airbrake phase pitches to the 30° VTOL limit and briefly stalls the wing (−17°/+33° swing, ≤ 2 m altitude loss, sitl/README.md Gains item 1); if the aircraft does this, lower <code>Q_TRANS_DECEL</code> first (gentler, longer stop), then <code>Q_ANGLE_MAX</code>, before any attitude gain. The test cards F06–F13 carry this as a watch item.</li><li>Check in the log: the transition current peak against the 75.7 A estimate (results.json <code>C0.sized.I_trans</code>), battery sag, and time to <code>AIRSPEED_MIN</code>. Review <a class="rref" href="./#controls">M17.2</a> failure threshold: &gt; 15 s or &gt; 100 m.</li><li>Only then: CRUISE circuits, RTL test at altitude, and the full R9 mission in AUTO (<code>sitl/mission_test.py</code> scenario A is the template: NAV_WAYPOINTs then NAV_VTOL_LAND).</li></ol>
+<ol><li>Load <code>vtol_c0.param</code> again (removes the hover-phase overlay). Check <code>Q_ASSIST_SPEED</code> = 13.</li><li>QLOITER to ≥ 30 m, nose into wind, with the longest clear line ahead.</li><li>Switch to <b>FBWA</b> and push the throttle to about 70 %. The lift motors hold height. At <code>AIRSPEED_MIN</code> 16 m/s they taper out over 5 s. In SITL this took 10–11 s from mode change to "Transition done" on the generic model (sitl/results) and 13–15 s, 140–170 m on the C0 airframe model (sitl/results_c0.json).</li><li><b>Start the turn as soon as "Transition done" appears.</b> In SITL, a straight FBWA transition reached the 300 m fence circle about 6 s after transition end (first SITL run, scenario B, 2026-10-21). Start transitions from the upwind edge of the field.</li><li>Back-transition: select QLOITER (or QHOVER). The pusher stops at once and the lift motors brake the aircraft (quadplane-transitions.html). Allow about 81 m stopping distance at the 18 m/s cruise (18² / (2 × 2 m/s² decel)). In the C0 airframe model the airbrake phase pitches to the 30° VTOL limit and briefly stalls the wing (−17°/+33° swing, ≤ 2 m altitude loss, sitl/README.md Gains item 1); if the aircraft does this, lower <code>Q_TRANS_DECEL</code> first (gentler, longer stop), then <code>Q_ANGLE_MAX</code>, before any attitude gain. The test cards F06–F13 carry this as a watch item.</li><li>Check in the log: the transition current peak against the 75.7 A estimate (results.json <code>C0.sized.I_trans</code>), battery sag, and time to <code>AIRSPEED_MIN</code>. Review <a class="rref" href="./#controls">M18.2</a> failure threshold: &gt; 15 s or &gt; 100 m.</li><li>Only then: CRUISE circuits, RTL test at altitude, and the full R9 mission in AUTO (<code>sitl/mission_test.py</code> scenario A is the template: NAV_WAYPOINTs then NAV_VTOL_LAND).</li></ol>
 <nav class="pager" aria-label="Previous and next section"><a class="pv" href="#8-failsafe-configuration-and-bench-tests"><span>Previous</span>Failsafe configuration and bench tests</a><a class="nx" href="#10-decisions-that-changed-the-review-s-controls-chapter"><span>Next</span>Decisions that changed the review's controls chapter</a></nav></section>
 <section class="pg" id="pg-10-decisions-that-changed-the-review-s-controls-chapter" data-id="10-decisions-that-changed-the-review-s-controls-chapter">
 <h2 id="10-decisions-that-changed-the-review-s-controls-chapter">10. Decisions that changed the review's controls chapter</h2>
@@ -1095,6 +1181,48 @@ header.top h1{font:600 2rem/1.15 var(--f-display);letter-spacing:-.025em;max-wid
 // theme: shared with the design review (same storage key)
 (()=>{ const b=document.getElementById('themeBtn'), r=document.documentElement; const lab=()=>{ b.textContent = r.dataset.theme==='light'?'Dark theme':'Light theme'; };
   lab(); b.addEventListener('click',()=>{ r.dataset.theme = r.dataset.theme==='light'?'dark':'light'; try{ localStorage.setItem('vtol-theme', r.dataset.theme); }catch(e){} lab(); }); })();
+// steps: a page with four or more steps (or tests) shows one at a time, with a strip of step chips and next/previous
+(()=>{ document.querySelectorAll('.pg').forEach(pg=>{
+  const kids=[...pg.children].filter(n=>!n.classList.contains('pager'));
+  const isStep=n=>n.classList&&n.classList.contains('step'), isTest=n=>n.tagName==='H4';
+  const hasSteps=kids.filter(isStep).length>=4, hasTests=!hasSteps&&kids.filter(isTest).length>=4;
+  if(!hasSteps&&!hasTests) return;
+  const starts=n=>(hasSteps?isStep(n):isTest(n))||(n.tagName==='P'&&/traveler\s*$/i.test(n.textContent.trim()));
+  const units=[]; let cur=null;
+  kids.forEach(n=>{ if(starts(n)){ cur=document.createElement('div'); cur.className='unit'; n.before(cur); units.push(cur); } if(cur) cur.appendChild(n); });
+  units.forEach(u=>{ const f=u.firstElementChild; let lab, title;
+    if(isStep(f)){ const h=f.querySelector('h4'); lab=(h.querySelector('.sno')||h).textContent.trim(); title=h.textContent.replace(lab,'').trim(); u.id='u-'+h.id; }
+    else if(f.tagName==='H4'){ const t=f.textContent.trim(); lab=t.split(/:\s|\s+[—–-]\s+/)[0]; title=t.slice(lab.length).replace(/^(:|\s*[—–-])\s*/,''); u.id='u-'+f.id; }
+    else { lab='Traveler'; title=f.textContent.trim(); }
+    u.dataset.lab=lab; u.dataset.title=title; });
+  const nav=document.createElement('nav'); nav.className='unitnav'; nav.setAttribute('aria-label', (hasSteps?'Steps':'Tests')+' on this page');
+  const q=t=>String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+  nav.innerHTML='<span class="ulab">'+(hasSteps?'Steps':'Tests')+'</span>'+units.map((u,i)=>'<button type="button" data-u="'+i+'" title="'+q(u.dataset.title)+'">'+q(u.dataset.lab)+'</button>').join('')+'<button type="button" class="uall" aria-pressed="false">All on one page</button>';
+  units[0].before(nav);
+  units.forEach((u,i)=>{ const p=units[i-1], x=units[i+1]; if(!p&&!x) return;
+    const ft=document.createElement('div'); ft.className='ufoot';
+    ft.innerHTML=(p?'<button type="button" class="upv" data-u="'+(i-1)+'"><span>Previous</span>'+q(p.dataset.lab+' '+p.dataset.title)+'</button>':'')+(x?'<button type="button" class="unx" data-u="'+(i+1)+'"><span>Next</span>'+q(x.dataset.lab+' '+x.dataset.title)+'</button>':'');
+    u.appendChild(ft); });
+  const show=(i,scroll)=>{ units.forEach((u,k)=>u.classList.toggle('on',k===i)); nav.querySelectorAll('button[data-u]').forEach(b=>{ if(+b.dataset.u===i) b.setAttribute('aria-current','step'); else b.removeAttribute('aria-current'); });
+    if(scroll) nav.scrollIntoView({block:'start'}); };
+  pg._unit=el=>{ const u=el&&el.closest('.unit'); const i=u?units.indexOf(u):-1; show(i<0?0:i,false); };
+  pg._units=()=>units.forEach((u,i)=>{ const b=nav.querySelector('button[data-u="'+i+'"]'); const st=u.querySelectorAll('.step'); b.classList.toggle('udone', st.length>0&&[...st].every(x=>x.classList.contains('isdone'))); });
+  pg.addEventListener('click',e=>{ const b=e.target.closest('button[data-u]'); if(b&&pg.contains(b)){ const i=+b.dataset.u; show(i,true); if(b.closest('.ufoot')){ const h=units[i].querySelector('h4')||units[i].firstElementChild; if(h){ h.setAttribute('tabindex','-1'); h.focus({preventScroll:true}); } } return; }
+    const a=e.target.closest('.uall'); if(a){ const on=!pg.classList.contains('allunits'); pg.classList.toggle('allunits',on); a.setAttribute('aria-pressed',on?'true':'false'); a.textContent=on?'One at a time':'All on one page'; } });
+  show(0,false);
+}); })();
+// figures: tap or click to see the figure at full size in a scrollable viewer (Esc or Close to leave)
+(()=>{ const figs=document.querySelectorAll('.docfig img'); if(!figs.length||!window.HTMLDialogElement) return;
+  const d=document.createElement('dialog'); d.className='figdlg'; d.setAttribute('aria-label','Figure at full size');
+  d.innerHTML='<button type="button" class="fdclose">Close</button><div class="fdscroll"><img alt=""></div>'; document.body.appendChild(d);
+  const im=d.querySelector('img'); let back=null;
+  d.querySelector('.fdclose').addEventListener('click',()=>d.close());
+  d.addEventListener('close',()=>{ im.removeAttribute('src'); if(back) back.focus(); });
+  figs.forEach(f=>{ f.tabIndex=0; f.setAttribute('role','button'); f.title='Open the figure at full size';
+    const c=f.parentNode.querySelector('figcaption'); if(c){ const h=document.createElement('span'); h.className='zhint'; h.textContent='Tap or click the figure to enlarge it.'; c.appendChild(h); }
+    const open=()=>{ back=f; im.src=f.src; im.alt=f.alt; d.showModal(); d.querySelector('.fdscroll').scrollTo(0,0); };
+    f.addEventListener('click',open); f.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(); } }); });
+})();
 // reader: show the page holding the target of the address (a section, work package, step or any anchor)
 (()=>{ const R=document.documentElement, pgs=[...document.querySelectorAll('.pg')]; if(!pgs.length) return;
   const sel=document.getElementById('pgSel'), all=document.getElementById('allBtn');
@@ -1104,7 +1232,7 @@ header.top h1{font:600 2rem/1.15 var(--f-display);letter-spacing:-.025em;max-wid
   function show(hash, scroll){
     const id=decodeURIComponent((hash||'').replace(/^#/,'')); const el=id?document.getElementById(id):null;
     const pg=pageOf(el)||pgs[0];
-    pgs.forEach(p=>p.classList.toggle('on', p===pg));
+    pgs.forEach(p=>p.classList.toggle('on', p===pg)); if(pg._unit) pg._unit(el);
     const pid=pg.dataset.id; sel.value=pid;
     links.forEach(a=>{ if(a.dataset.pg===pid) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
     if(scroll){ const first=pg.firstElementChild; if(!el || el===first || el.id===pid) scrollTo(0,0); else el.scrollIntoView(); }
@@ -1115,7 +1243,7 @@ header.top h1{font:600 2rem/1.15 var(--f-display);letter-spacing:-.025em;max-wid
   sel.addEventListener('change',()=>{ location.hash=sel.value; });
   all.addEventListener('click',()=>{ setFull(!full); show(location.hash, false); });
   // per-page count of steps marked Done (from the check-off below); refreshed on every change
-  window.dbfCounts=()=>{ links.forEach(a=>{ const p=document.getElementById('pg-'+a.dataset.pg); if(!p) return; const st=p.querySelectorAll('.step'); const c=a.querySelector('.cnt'); if(!st.length){ c.textContent=''; return; } const d=p.querySelectorAll('.step.isdone').length; c.textContent=d+'/'+st.length; c.classList.toggle('all', d===st.length); }); };
+  window.dbfCounts=()=>{ pgs.forEach(p=>p._units&&p._units()); links.forEach(a=>{ const p=document.getElementById('pg-'+a.dataset.pg); if(!p) return; const st=p.querySelectorAll('.step'); const c=a.querySelector('.cnt'); if(!st.length){ c.textContent=''; return; } const d=p.querySelectorAll('.step.isdone').length; c.textContent=d+'/'+st.length; c.classList.toggle('all', d===st.length); }); };
 })();
 // running head: the section being read; step check-off kept in this browser only (a shop convenience, not a record)
 (()=>{ const rh=document.getElementById('runhead'), sec=document.getElementById('rhSec'), toc=document.getElementById('contents');

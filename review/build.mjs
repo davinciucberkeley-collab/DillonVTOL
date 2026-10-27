@@ -35,6 +35,8 @@ const csvRows = s => { const out = []; let row = [], f = '', q = false;
     if (q) { if (ch === '"') { if (s[i + 1] === '"') { f += '"'; i++; } else q = false; } else f += ch; }
     else if (ch === '"') q = true; else if (ch === ',') { row.push(f); f = ''; } else if (ch === '\n' || ch === '\r') { if (ch === '\r' && s[i + 1] === '\n') i++; row.push(f); if (row.some(x => x !== '')) out.push(row); row = []; f = ''; } else f += ch; }
   if (f || row.length) { row.push(f); out.push(row); } return out; };
+// benchmarks (analysis/benchmarks/build_bench.py, analysis/cruise_speed_trade.mjs)
+const bm = csvRows(r('../analysis/benchmarks/aircraft.csv')); const BENCH = { aircraft: bm.slice(1).filter(c => c.length > 2).map(c => Object.fromEntries(bm[0].map((h, i) => [h, c[i]]))), trade: JSON.parse(r('../analysis/cruise_speed_trade.json')) };
 const tm = csvRows(r('../docs/test/test-matrix.csv')); const TESTS = tm.slice(1).map(c => Object.fromEntries(tm[0].map((h, i) => [h, c[i]])));
 const manual = r('../docs/build/BUILD-MANUAL.md');
 const WPS = [...manual.matchAll(/^\|\s*(\d+)\s*\|\s*([^|]+?)\s*\|\s*([\d.]+)[^|]*\|\s*([^|]*?)\s*\|/gm)].map(m => ({ wp: +m[1], title: m[2], labour: +m[3], machine: m[4] }));
@@ -72,6 +74,10 @@ const FLOW2 = (() => { const f = new URL('../analysis/aero/out/flowviz/flow2d.js
 const FLOW3 = (() => { const f = new URL('../analysis/aero/out/flowviz/flow3d.json', import.meta.url); if (!existsSync(f)) { console.log('flow3d.json missing'); return null; } const d = JSON.parse(readFileSync(f, 'utf8')); const q = v => Math.round(v * 1e4) / 1e4;
   d.streamlines = d.streamlines.map(l => ({ xyz: l.xyz.map(q), s: l.s.map(v => Math.round(v * 1e3) / 1e3) })); for (const g of Object.values(d.panels)) if (g && g.quads) { g.quads = g.quads.map(qq => qq.map(q)); delete g.gamma; } return d; })();
 // thermal fields and findings (cad/Thermal.cs → analysis/thermal/thermal_report.py)
+// source register (analysis/sources.py): every URL the repository cites, plus the hand-picked key sources
+const SOURCES = (() => { const f = new URL('../analysis/sources.json', import.meta.url); if (!existsSync(f)) { console.log('sources.json missing'); return null; } return JSON.parse(readFileSync(f, 'utf8')); })();
+// FEA fields for the 3-D explorer (cad/SimFields.cs -> analysis/fea_fields.py)
+const FEA = (() => { const f = new URL('../analysis/fea_fields.json', import.meta.url); if (!existsSync(f)) { console.log('fea_fields.json missing'); return null; } return JSON.parse(readFileSync(f, 'utf8')); })();
 const THERM = (() => { const f = new URL('../analysis/thermal/thermal_results.json', import.meta.url); if (!existsSync(f)) { console.log('thermal_results.json missing'); return null; } return JSON.parse(readFileSync(f, 'utf8')); })();
 const MESH = packMesh(); console.log('CAD mesh:', Object.keys(MESH.parts).length, 'parts,', MESH.comps.length, 'components,', MESH.tris, 'triangles');
 const html = `<title>Lift + Cruise VTOL Review</title>
@@ -87,9 +93,11 @@ ${r('./src/style.css')}
 ${FLOW2 ? `<script type="application/json" id="flow2dData">${JSON.stringify(FLOW2).replace(/</g, '\\u003c')}</script>` : ''}
 ${FLOW3 ? `<script type="application/json" id="flow3dData">${JSON.stringify(FLOW3).replace(/</g, '\\u003c')}</script>` : ''}
 ${THERM ? `<script type="application/json" id="thermData">${js(THERM)}</script>` : ''}
+${SOURCES ? `<script type="application/json" id="sourcesData">${js(SOURCES)}</script>` : ''}
+${FEA ? `<script type="application/json" id="feaData">${js(FEA)}</script>` : ''}
 <script type="application/json" id="meshData">${JSON.stringify(MESH).replace(/</g, '\\u003c')}</script>
 ${r('./src/body.html').replace(/DESIGN-BASIS\.md v\d+\.\d+(?:\.\d+)?/g, 'DESIGN-BASIS.md v' + BASIS_VER).split('{{BASIS_VER}}').join(BASIS_VER)}
-<script>const DATA = ${js(data)}; const V02 = ${js(v02)}; const SIM = ${js(sim)}; const AERO = ${js(aero)}; const IMG = ${js(IMG)}; const CADP = ${js(cadp)}; let MESH = null; const MESH_META = ${JSON.stringify({ tris: MESH.tris, comps: MESH.comps.length, files: new Set(Object.keys(MESH.parts).map(k => k.split('~')[0])).size })}; const TRADE = ${js(TRADE)}; const AEROD = ${js(AEROD)}; const TESTS = ${js(TESTS)}; const BUILD = ${js(BUILD)}; const HW = ${js(HW)};</script>
+<script>const DATA = ${js(data)}; const V02 = ${js(v02)}; const SIM = ${js(sim)}; const AERO = ${js(aero)}; const IMG = ${js(IMG)}; const CADP = ${js(cadp)}; let MESH = null; const MESH_META = ${JSON.stringify({ tris: MESH.tris, comps: MESH.comps.length, files: new Set(Object.keys(MESH.parts).map(k => k.split('~')[0])).size })}; const TRADE = ${js(TRADE)}; const AEROD = ${js(AEROD)}; const TESTS = ${js(TESTS)}; const BENCH = ${js(BENCH)}; const BUILD = ${js(BUILD)}; const HW = ${js(HW)};</script>
 <script>
 ${r('../analysis/model.js')}
 </script>
@@ -100,6 +108,8 @@ ${r('./src/cadviewer.js')}
 ${r('./src/flowviz.js')}
 ${r('./src/shell.js')}
 ${r('./src/thermviz.js')}
+${r('./src/sources.js')}
+${r('./src/fieldviz.js')}
 ${r('./src/app.js')}
 </script>
 `;
@@ -127,7 +137,7 @@ for (const [src, out, docNo, kicker] of pages) {
   const md = r(src), rev = (md.match(/\|\s*Revision\s*\|\s*([A-Z])\b/) || [])[1];
   const no = docNo + (rev ? ' · Rev ' + rev : '');
   // figures embedded as data URIs (the companion pages stay self-contained); paths are relative to the Markdown file
-  const img = p => { const f = new URL(p, new URL(src, import.meta.url)); if (!existsSync(f)) return null; const ext = p.split('.').pop().toLowerCase(); return `data:image/${ext === 'jpg' ? 'jpeg' : ext};base64,` + readFileSync(f).toString('base64'); };
+  const img = p => { const f = new URL(p, new URL(src, import.meta.url)); if (!existsSync(f)) return null; const ext = p.split('.').pop().toLowerCase(); return `data:image/${ext === 'jpg' ? 'jpeg' : ext === 'svg' ? 'svg+xml' : ext};base64,` + readFileSync(f).toString('base64'); };
   writeSafe(new URL('./' + out, import.meta.url), docPage({ md, css: r('./src/style.css'), fontLink, docNo: no, kicker, back: './', chapters: CHAPTERS, img }));
   writeSafe(new URL('../' + out, import.meta.url), docPage({ md, css: r('./src/style.css'), fontLink, docNo: no, kicker, back: 'VTOL-Review.html', chapters: CHAPTERS, img }));
   console.log('wrote', out);

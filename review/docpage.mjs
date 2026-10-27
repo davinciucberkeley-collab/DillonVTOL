@@ -233,6 +233,23 @@ html.paged .pager{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:40p
   .pgbar label{font:600 .8125rem var(--f-body);color:var(--fg-2)}
   .pgbar select{flex:1;min-width:0;min-height:44px;padding:0 10px;border:1px solid var(--line-3);border-radius:var(--r-s);background:var(--surface);color:var(--fg);font:inherit;font-size:.9375rem}
 }
+/* one step at a time inside a long page (a work package's steps, a test series' tests) */
+.unitnav{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:14px 0 18px;padding:10px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.unitnav .ulab{font:600 .8125rem var(--f-body);color:var(--fg-2);margin-right:4px}
+.unitnav button{min-height:36px;min-width:44px;padding:0 10px;border:1px solid var(--line-3);border-radius:var(--r-s);background:var(--surface);color:var(--fg-2);font:600 .8125rem var(--f-mono);cursor:pointer}
+.unitnav button:hover{color:var(--fg);border-color:var(--fg-2)}
+.unitnav button[aria-current="step"]{background:var(--accent);border-color:var(--accent);color:var(--accent-fg,#fff)}
+.unitnav button.udone{border-color:var(--ok);color:var(--ok)}
+.unitnav button.udone[aria-current="step"]{background:var(--ok);color:#fff}
+.unitnav .uall{margin-left:auto;font-family:var(--f-body);font-weight:500}
+.ufoot{display:flex;justify-content:space-between;gap:12px;margin:24px 0 8px}
+.ufoot button{min-height:44px;padding:8px 14px;border:1px solid var(--line-2);border-radius:var(--r);background:var(--surface);color:var(--fg);font:inherit;font-size:.9375rem;text-align:left;cursor:pointer}
+.ufoot button span{display:block;font:500 .75rem var(--f-mono);color:var(--fg-3);text-transform:uppercase;letter-spacing:.05em}
+.ufoot .unx{margin-left:auto;text-align:right}
+.ufoot button:hover{border-color:var(--accent)}
+html.paged .pg:not(.allunits) .unit:not(.on){display:none}
+html.paged .pg.allunits .ufoot,html:not(.paged) .ufoot,html:not(.paged) .unitnav{display:none}
+@media print{.unitnav,.ufoot{display:none!important}.unit{display:block!important}}
 html:not(.paged) .side{margin:0 0 32px}
 html:not(.paged) .side ol ol{display:flex;flex-wrap:wrap;gap:0 6px}
 @media print{html.paged .pg{display:block}.side,.pgbar,.pager,#allBtn{display:none!important}}
@@ -240,6 +257,14 @@ html:not(.paged) .side ol ol{display:flex;flex-wrap:wrap;gap:0 6px}
 .docfig{margin:4px 0 24px;max-width:46rem}
 .docfig img{display:block;width:100%;height:auto;background:#fff;border:1px solid var(--line);border-radius:6px}
 .docfig figcaption{margin-top:6px;font-size:.8125rem;line-height:1.45;color:var(--fg-2);max-width:62ch}
+.docfig img{cursor:zoom-in}
+.docfig .zhint{display:block;margin-top:2px;font-size:.75rem;color:var(--fg-3)}
+.figdlg{width:100vw;height:100dvh;max-width:none;max-height:none;margin:0;padding:0;border:0;background:rgba(10,12,16,.94)}
+.figdlg::backdrop{background:rgba(10,12,16,.6)}
+.figdlg .fdscroll{position:absolute;inset:0;overflow:auto;-webkit-overflow-scrolling:touch}
+.figdlg img{display:block;width:max(100%,1400px);max-width:none;height:auto;margin:0 auto;background:#fff}
+@media (min-width:1500px){.figdlg img{width:1400px;margin:24px auto}}
+.figdlg .fdclose{position:fixed;top:12px;right:12px;z-index:2;min-width:44px;min-height:44px;padding:0 14px;border:1px solid rgba(255,255,255,.4);border-radius:8px;background:rgba(14,17,22,.9);color:#fff;font:600 .9375rem system-ui,sans-serif;cursor:pointer}
 .doc h2{margin-top:64px;padding-top:18px;border-top:1px solid var(--line);font-size:1.5rem;letter-spacing:-.02em}
 .doc h3{margin-top:40px;padding-top:12px;border-top:1px solid var(--line-2);font-size:1.25rem}
 .doc h4{margin-top:28px;font-size:1.125rem}
@@ -313,6 +338,48 @@ ${body}
 // theme: shared with the design review (same storage key)
 (()=>{ const b=document.getElementById('themeBtn'), r=document.documentElement; const lab=()=>{ b.textContent = r.dataset.theme==='light'?'Dark theme':'Light theme'; };
   lab(); b.addEventListener('click',()=>{ r.dataset.theme = r.dataset.theme==='light'?'dark':'light'; try{ localStorage.setItem('vtol-theme', r.dataset.theme); }catch(e){} lab(); }); })();
+// steps: a page with four or more steps (or tests) shows one at a time, with a strip of step chips and next/previous
+(()=>{ document.querySelectorAll('.pg').forEach(pg=>{
+  const kids=[...pg.children].filter(n=>!n.classList.contains('pager'));
+  const isStep=n=>n.classList&&n.classList.contains('step'), isTest=n=>n.tagName==='H4';
+  const hasSteps=kids.filter(isStep).length>=4, hasTests=!hasSteps&&kids.filter(isTest).length>=4;
+  if(!hasSteps&&!hasTests) return;
+  const starts=n=>(hasSteps?isStep(n):isTest(n))||(n.tagName==='P'&&/traveler\\s*$/i.test(n.textContent.trim()));
+  const units=[]; let cur=null;
+  kids.forEach(n=>{ if(starts(n)){ cur=document.createElement('div'); cur.className='unit'; n.before(cur); units.push(cur); } if(cur) cur.appendChild(n); });
+  units.forEach(u=>{ const f=u.firstElementChild; let lab, title;
+    if(isStep(f)){ const h=f.querySelector('h4'); lab=(h.querySelector('.sno')||h).textContent.trim(); title=h.textContent.replace(lab,'').trim(); u.id='u-'+h.id; }
+    else if(f.tagName==='H4'){ const t=f.textContent.trim(); lab=t.split(/:\\s|\\s+[—–-]\\s+/)[0]; title=t.slice(lab.length).replace(/^(:|\\s*[—–-])\\s*/,''); u.id='u-'+f.id; }
+    else { lab='Traveler'; title=f.textContent.trim(); }
+    u.dataset.lab=lab; u.dataset.title=title; });
+  const nav=document.createElement('nav'); nav.className='unitnav'; nav.setAttribute('aria-label', (hasSteps?'Steps':'Tests')+' on this page');
+  const q=t=>String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');
+  nav.innerHTML='<span class="ulab">'+(hasSteps?'Steps':'Tests')+'</span>'+units.map((u,i)=>'<button type="button" data-u="'+i+'" title="'+q(u.dataset.title)+'">'+q(u.dataset.lab)+'</button>').join('')+'<button type="button" class="uall" aria-pressed="false">All on one page</button>';
+  units[0].before(nav);
+  units.forEach((u,i)=>{ const p=units[i-1], x=units[i+1]; if(!p&&!x) return;
+    const ft=document.createElement('div'); ft.className='ufoot';
+    ft.innerHTML=(p?'<button type="button" class="upv" data-u="'+(i-1)+'"><span>Previous</span>'+q(p.dataset.lab+' '+p.dataset.title)+'</button>':'')+(x?'<button type="button" class="unx" data-u="'+(i+1)+'"><span>Next</span>'+q(x.dataset.lab+' '+x.dataset.title)+'</button>':'');
+    u.appendChild(ft); });
+  const show=(i,scroll)=>{ units.forEach((u,k)=>u.classList.toggle('on',k===i)); nav.querySelectorAll('button[data-u]').forEach(b=>{ if(+b.dataset.u===i) b.setAttribute('aria-current','step'); else b.removeAttribute('aria-current'); });
+    if(scroll) nav.scrollIntoView({block:'start'}); };
+  pg._unit=el=>{ const u=el&&el.closest('.unit'); const i=u?units.indexOf(u):-1; show(i<0?0:i,false); };
+  pg._units=()=>units.forEach((u,i)=>{ const b=nav.querySelector('button[data-u="'+i+'"]'); const st=u.querySelectorAll('.step'); b.classList.toggle('udone', st.length>0&&[...st].every(x=>x.classList.contains('isdone'))); });
+  pg.addEventListener('click',e=>{ const b=e.target.closest('button[data-u]'); if(b&&pg.contains(b)){ const i=+b.dataset.u; show(i,true); if(b.closest('.ufoot')){ const h=units[i].querySelector('h4')||units[i].firstElementChild; if(h){ h.setAttribute('tabindex','-1'); h.focus({preventScroll:true}); } } return; }
+    const a=e.target.closest('.uall'); if(a){ const on=!pg.classList.contains('allunits'); pg.classList.toggle('allunits',on); a.setAttribute('aria-pressed',on?'true':'false'); a.textContent=on?'One at a time':'All on one page'; } });
+  show(0,false);
+}); })();
+// figures: tap or click to see the figure at full size in a scrollable viewer (Esc or Close to leave)
+(()=>{ const figs=document.querySelectorAll('.docfig img'); if(!figs.length||!window.HTMLDialogElement) return;
+  const d=document.createElement('dialog'); d.className='figdlg'; d.setAttribute('aria-label','Figure at full size');
+  d.innerHTML='<button type="button" class="fdclose">Close</button><div class="fdscroll"><img alt=""></div>'; document.body.appendChild(d);
+  const im=d.querySelector('img'); let back=null;
+  d.querySelector('.fdclose').addEventListener('click',()=>d.close());
+  d.addEventListener('close',()=>{ im.removeAttribute('src'); if(back) back.focus(); });
+  figs.forEach(f=>{ f.tabIndex=0; f.setAttribute('role','button'); f.title='Open the figure at full size';
+    const c=f.parentNode.querySelector('figcaption'); if(c){ const h=document.createElement('span'); h.className='zhint'; h.textContent='Tap or click the figure to enlarge it.'; c.appendChild(h); }
+    const open=()=>{ back=f; im.src=f.src; im.alt=f.alt; d.showModal(); d.querySelector('.fdscroll').scrollTo(0,0); };
+    f.addEventListener('click',open); f.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(); } }); });
+})();
 // reader: show the page holding the target of the address (a section, work package, step or any anchor)
 (()=>{ const R=document.documentElement, pgs=[...document.querySelectorAll('.pg')]; if(!pgs.length) return;
   const sel=document.getElementById('pgSel'), all=document.getElementById('allBtn');
@@ -322,7 +389,7 @@ ${body}
   function show(hash, scroll){
     const id=decodeURIComponent((hash||'').replace(/^#/,'')); const el=id?document.getElementById(id):null;
     const pg=pageOf(el)||pgs[0];
-    pgs.forEach(p=>p.classList.toggle('on', p===pg));
+    pgs.forEach(p=>p.classList.toggle('on', p===pg)); if(pg._unit) pg._unit(el);
     const pid=pg.dataset.id; sel.value=pid;
     links.forEach(a=>{ if(a.dataset.pg===pid) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
     if(scroll){ const first=pg.firstElementChild; if(!el || el===first || el.id===pid) scrollTo(0,0); else el.scrollIntoView(); }
@@ -333,7 +400,7 @@ ${body}
   sel.addEventListener('change',()=>{ location.hash=sel.value; });
   all.addEventListener('click',()=>{ setFull(!full); show(location.hash, false); });
   // per-page count of steps marked Done (from the check-off below); refreshed on every change
-  window.dbfCounts=()=>{ links.forEach(a=>{ const p=document.getElementById('pg-'+a.dataset.pg); if(!p) return; const st=p.querySelectorAll('.step'); const c=a.querySelector('.cnt'); if(!st.length){ c.textContent=''; return; } const d=p.querySelectorAll('.step.isdone').length; c.textContent=d+'/'+st.length; c.classList.toggle('all', d===st.length); }); };
+  window.dbfCounts=()=>{ pgs.forEach(p=>p._units&&p._units()); links.forEach(a=>{ const p=document.getElementById('pg-'+a.dataset.pg); if(!p) return; const st=p.querySelectorAll('.step'); const c=a.querySelector('.cnt'); if(!st.length){ c.textContent=''; return; } const d=p.querySelectorAll('.step.isdone').length; c.textContent=d+'/'+st.length; c.classList.toggle('all', d===st.length); }); };
 })();
 // running head: the section being read; step check-off kept in this browser only (a shop convenience, not a record)
 (()=>{ const rh=document.getElementById('runhead'), sec=document.getElementById('rhSec'), toc=document.getElementById('contents');

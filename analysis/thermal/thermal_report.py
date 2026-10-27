@@ -182,6 +182,14 @@ rows = []
 def row(component, case, T, lim, lim_src, note=''):
     rows.append(dict(component=component, case=case, peak_C=None if T is None else round(T, 1), peak_std_C=None if T is None else round(T - (T_HOT - T_STD), 1),
                      limit_C=lim, limit_src=lim_src, margin_K=None if T is None or lim is None else round(lim - T, 1), status=status(T, lim), note=note))
+def _batt73():
+    """battery rise rescaled from the run's 7.5 mOhm/cell to the current C11 limit (I^2 R heat; the model is linear in it)"""
+    t, amb = g('pod_mission_end_Battery'), INP['ambient']['hot_C']
+    if t is None: return '—'
+    r = (t - amb) * INP['loads']['R_cell_test_plan_now_ohm'] / (INP['loads']['R_pack_ohm'] / 6)
+    return f'{r:.1f} K rise, {amb + r:.1f} C'
+
+
 row('Lift motor can', 'hover 60 s (flight limit)', g('lift_hover60_Motor'), LIM['motor_can_C'], 'test plan abort table (EST)')
 row('Lift motor can', 'hover 90 s (bench C08)', g('lift_hover90_Motor'), LIM['motor_can_C'], 'test plan C08 (EST)')
 row('Lift motor can', 'mission peak', g('lift_mission_max_Motor'), LIM['motor_can_C'], 'test plan (EST)')
@@ -193,11 +201,11 @@ row('Lift ESC (boom, prop wash)', 'steady hover (bound)', g('lift_steady_ESC'), 
 row('PA6-CF motor mount', 'hover 90 s', g('lift_hover90_Mount'), LIM['pa6cf_HDT_C'], 'Polymaker TDS HDT 1.8 MPa')
 row('PA6-CF motor mount', 'mission peak', g('lift_mission_max_Mount'), LIM['pa6cf_HDT_C'], 'Polymaker TDS HDT 1.8 MPa')
 row('PA6-CF motor mount', 'steady hover (bound)', g('lift_steady_Mount'), LIM['pa6cf_HDT_C'], 'Polymaker TDS HDT 1.8 MPa', 'a PETG mount (HDT 68 C) would fail here')
-row('Battery pack (Ovonic 6S 6500)', 'mission end (hot day)', g('pod_mission_end_Battery'), LIM['lipo_C'], 'test plan C11 / rule 8 (EST)', 'R_pack at 7.5 mOhm/cell (C11 limit at run time; now 7.3 mOhm: 28.3 K rise, 63 C)')
+row('Battery pack (Ovonic 6S 6500)', 'mission end (hot day)', g('pod_mission_end_Battery'), LIM['lipo_C'], 'test plan C11 / rule 8 (EST)', 'R_pack at 7.5 mOhm/cell (C11 limit at run time; at the current 7.3 mOhm limit: ' + _batt73() + ')')
 row('Battery pack (Ovonic 6S 6500)', 'mission peak', g('pod_mission_max_Battery'), LIM['lipo_C'], 'test plan C11 / rule 8 (EST)')
 row('Flight controller (pod bay)', 'mission peak', g('pod_mission_max_FC'), None, '— (CoreWing publishes no limit)')
 row('XPS pod foam', 'mission peak', g('pod_mission_max_Foam'), LIM['xps_C'], 'FOAMULAR data sheet max use 165 F')
-row('Pusher motor can', 'after 600 s cruise', g('pusher_endcruise_Motor'), LIM['motor_can_C'], 'test plan (EST)', 'X4110S in the closed PA6-CF cup; loss 38 W EST (15 % x 75 %), no bell self-pumping')
+row('Pusher motor can', 'after 600 s cruise', g('pusher_endcruise_Motor'), LIM['motor_can_C'], 'test plan (EST)', f"X4110S in the closed PA6-CF cup; loss {INP['loads']['pusher_motor_W']:.1f} W EST (15 % x 75 %), no bell self-pumping")
 row('Pusher motor can', 'steady cruise (bound)', g('pusher_steady_Motor'), LIM['motor_can_C'], 'test plan (EST)')
 row('PA6-CF pusher cup', 'steady cruise (bound)', max([x for x in (g('pusher_steady_CupFloor'), g('pusher_steady_CupWall')) if x is not None] or [None]), LIM['pa6cf_HDT_C'], 'Polymaker TDS')
 
@@ -205,8 +213,7 @@ row('PA6-CF pusher cup', 'steady cruise (bound)', max([x for x in (g('pusher_ste
 def decimate(f, key, cell):
     nodes, tris, T = f['nodes'], f['tris'], f['fields'][key]
     used = np.unique(tris); q = np.floor(nodes[used] / cell).astype(np.int64)
-    keys = q[:, 0] * 73856093 ^ q[:, 1] * 19349663 ^ q[:, 2] * 83492791
-    uniq, inv = np.unique(keys, return_inverse=True)
+    uniq, inv = np.unique(q, axis=0, return_inverse=True); inv = inv.ravel()   # exact cells (a hashed key merged distant cells)
     remap = np.full(len(nodes), -1, int); remap[used] = inv
     nv = len(uniq); V = np.zeros((nv, 3)); Tv = np.zeros(nv); cnt = np.zeros(nv)
     np.add.at(V, inv, nodes[used]); np.add.at(Tv, inv, np.nan_to_num(T[used], nan=T_HOT)); np.add.at(cnt, inv, 1)

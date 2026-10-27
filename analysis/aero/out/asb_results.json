@@ -241,33 +241,33 @@
  "aerobuildup_cruise": [
   {
    "alpha_deg": 0,
-   "CL": 0.219062,
-   "CD": 0.0161795,
-   "Cm": -0.0385354
+   "CL": 0.217766,
+   "CD": 0.0166909,
+   "Cm": -0.0382759
   },
   {
    "alpha_deg": 2,
-   "CL": 0.427675,
-   "CD": 0.0229059,
-   "Cm": -0.109285
+   "CL": 0.429241,
+   "CD": 0.0235494,
+   "Cm": -0.107232
   },
   {
    "alpha_deg": 3,
-   "CL": 0.540393,
-   "CD": 0.0285527,
-   "Cm": -0.139859
+   "CL": 0.544702,
+   "CD": 0.0293596,
+   "Cm": -0.140002
   },
   {
    "alpha_deg": 4,
-   "CL": 0.650836,
-   "CD": 0.035481,
-   "Cm": -0.160099
+   "CL": 0.656065,
+   "CD": 0.0363838,
+   "Cm": -0.160793
   },
   {
    "alpha_deg": 6,
-   "CL": 0.854742,
-   "CD": 0.0521589,
-   "Cm": -0.192211
+   "CL": 0.857678,
+   "CD": 0.0529795,
+   "Cm": -0.191815
   }
  ],
  "summary": {
@@ -281,5 +281,5 @@
   "aerobuildup_alpha_CLmax_deg": 18.0,
   "note": "AeroBuildup CL_max is for the whole aircraft at elevator 0 (untrimmed), V = 12 m/s; the wing-alone 3-D value is in aero_results.json"
  },
- "wall_s": 4.41144
+ "wall_s": 5.27725
 }

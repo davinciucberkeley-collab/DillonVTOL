@@ -1,0 +1,2932 @@
+{
+ "checked": "2026-10-27",
+ "counts": {
+  "dead": 4,
+  "ok": 462,
+  "unverified": 106
+ },
+ "links": {
+  "http://www.carbonfibertubeshop.com/medium%20tubing.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "http://www.carbonfibertubeshop.com/tube%20properties.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "http://www.hobbywing.com/en/products/xrotor-x6-plus269": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.hobbywing.com/en/products/xrotor-x6-plus269",
+   "status": "ok"
+  },
+  "http://www.w3.org/2000/svg": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://3djake.com/ruthex/threaded-insert-m3-100-pieces": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.3djake.com/ruthex/threaded-insert-m3-100-pieces",
+   "status": "ok"
+  },
+  "https://997rcraceway.com/products/bafbatsafe-bat-safe-lipo-battery-charging-safe-box": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://997rcraceway.com/products/mg996r-hobby-porter-servo-analog-digital-metal-gear-servo-90-180-360": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://aiaa.org/wp-content/uploads/2026/06/Top-3-Design-Reports_2026.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://aifitlab.com/products/kst-x20-1806-servo-motor": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://alcobrametals.com/?p=91925": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://alcobrametals.com/product/5-od-x-058-wall-6061t6-alum-drawn-smls-wwt-700-6f/",
+   "status": "ok"
+  },
+  "https://amablog.modelaircraft.org/amagov/?p=7634": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://amablog.modelaircraft.org/amagov/2025/02/14/frias-versus-rides-explained/",
+   "status": "ok"
+  },
+  "https://amesweb.info/fits-tolerances/iso-2768-linear-dimensions-tolerances.aspx": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://aopa.org/news-and-media/all-news/2024/april/24/beta-achieves-manned-evtol-transition": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://api.openalex.org/works/doi:10.1109%2FICRA.2017.7989452": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://api.semanticscholar.org/graph/v1/paper/DOI:10.1016/j.ast.2020.106429?fields=title": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://archive.org/wayback/available?url=": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/copter/docs/connect-escs-and-motors.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/airspeed.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/apms-failsafe-function.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/common-CoreWingF405WingV2.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/common-KakuteF4-Wing.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/common-MicoAir743.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/common-MicoAir743v2.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/common-blheli32-passthru.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/common-dshot-escs.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/common-foxeerh743v1.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/common-holybro-pixhawk6C.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/common-kakuteh7wing.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/common-limited-firmware.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/common-loading-firmware-onto-chibios-only-boards.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/common-makeflyeasy-fighter-vtol.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/common-makeflyeasy-striver-mini-vtol.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/common-matekf405-te.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/common-matekh743-wing.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/common-speedybeef405-mini.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/common-speedybeef405wing.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/guide-tailsitter.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/guide-tilt-rotor.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/parameters.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/parameters.html#q-assist-speed": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/quadplane-building.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/quadplane-flying.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/quadplane-frame-setup.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/quadplane-parameters.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/quadplane-reliability.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/quadplane-thrust-loss.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/quadplane-tips.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/quadplane-transitions.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/quadplane-vtol-tuning-process.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/plane/docs/quadplane-weathervaning.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/planner/docs/mission-planner-installation.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ardupilot.org/planner/docs/mission-planner-simulation.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://arxiv.org/abs/2301.12316": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://arxiv.org/html/2112.02872v2": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://arxiv.org/html/2301.12316": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://arxiv.org/html/2301.12316v1": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://arxiv.org/html/2411.08661v1": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://arxiv.org/pdf/1801.02938": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://arxiv.org/pdf/2205.05533": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://arxiv.org/pdf/2511.04251": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://assets.testequity.com/te1/Documents/pdf/loctite/Loctite_1329505_243_Technical-Datasheet_0125.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://autotest.ardupilot.org/Parameters/ArduPlane/apm.pdef.xml": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://autotest.ardupilot.org/Parameters/versioned/Plane/stable-4.7.1/apm.pdef.xml": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://avesis.erciyes.edu.tr/activitycitation/index/1/0e967406-3720-4460-b125-1dec2b27685c": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://avesis.erciyes.edu.tr/yayin/0e967406-3720-4460-b125-1dec2b27685c": {
+   "checked": "2026-10-27",
+   "code": 404,
+   "status": "dead"
+  },
+  "https://avy.eu/product/aera": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://betafpv.com/products/elrs-lite-receiver": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://betafpv.com/products/elrs-nano-receiver": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://betafpv.com/products/literadio-4-radio-transmitter": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://bluemark.io/2022/11/remote-id-db120-add-on/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://boltdepot.com/Product-Details?product=4513": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://boltdepot.com/Product-Details?product=4792": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://boltdepot.com/Product-Details?product=4794": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://boltdepot.com/Product-Details?product=6365": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://boltdepot.com/Product-Details?product=6379": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://boltdepot.com/Product-Details?product=6381": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://boltdepot.com/Product-Details?product=6382": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://boltdepot.com/Product-Details?product=6383": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://boltdepot.com/Product-Details?product=6384": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://boltdepot.com/Product-Details?product=6385": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://boltdepot.com/Product-Details?product=6386": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://boltdepot.com/Product-Details?product=6387": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://boltdepot.com/Product-Details?product=6635": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://boltdepot.com/Product-Details?product=7219": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://boltdepot.com/Product-Details?product=7362": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://boltdepot.com/Service": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://bzbuas.com/shop/236004352-freeman-2100-diy-kit-467": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.bzbuas.com/shop/236004352-freeman-2100-diy-kit-467",
+   "status": "ok"
+  },
+  "https://cad.onshape.com/help/es/Content/Document/documents.htm": {
+   "checked": "2026-10-27",
+   "code": 302,
+   "status": "unverified"
+  },
+  "https://cdn.shopify.com/s/files/1/2024/0305/files/SunnySky_X3108S_KV900_Data_3.jpg": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://cdn.shopify.com/s/files/1/2024/0305/files/WeChatImage_20230918141609.png?v=1695061136": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://cdn.shopify.com/s/files/1/2024/0305/files/X4110S.jpg?v=1553581346": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://chinahobbyline.com/pages/shipping-policy": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://chinahobbyline.com/products.json": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://cnckitchen.com/blog/how-to-use-our-threaded-insert-removal-tool": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://colorfabb.com/lw-pla-natural": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://convertibleuav.readthedocs.io/en/latest/README.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://crafter.fastenal.com/static-assets/pdfs/technical-resources/Torque-Tension-Relationship-for-Metric-Stainless-Steel-Fasteners-A2-and-A4-70-Feb-2016.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://custom.ardupilot.org": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://dbf.engineering.cornell.edu/reports/report_22-23.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://digital.wpi.edu/downloads/1c18dj389?locale=de": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://discuss.ardupilot.org/t/a-tale-of-two-quadplanes/18856": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://discuss.ardupilot.org/t/ardupilot-flying-on-the-cl84-tiltwing-vtol-aircraft/14353": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://discuss.ardupilot.org/t/arduplane-tilt-quadplanes-with-all-four-motors-tilting/23794": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://discuss.ardupilot.org/t/copter-tailsitters/45514": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://discuss.ardupilot.org/t/dual-motor-tailsitters/15302?page=53": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://discuss.ardupilot.org/t/missing-parameters-arspd-fbw-min-and-arspd-fbw-max-on-speedybee-f405-wing-with-quadplane-configuration-body/129425": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://discuss.ardupilot.org/t/parameter-setting-for-bicopter-with-tilt-rotors/91020": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://discuss.ardupilot.org/t/quadplane-failed-to-complete-transition-and-motors-then-turned-off-causing-crash/140907": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://discuss.ardupilot.org/t/quadplane-ranger-fell-out-of-sky/63807": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://discuss.ardupilot.org/t/questions-and-observations-from-my-quadplane-maiden/10035": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://discuss.ardupilot.org/t/skywalker-x8-quadplane-build-4/42083": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://discuss.ardupilot.org/t/tailsitter-struggling-to-go-back-to-hover-in-windy-conditions/74586": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://discuss.ardupilot.org/t/tilt-servos-failing-frequently/68185": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://discuss.ardupilot.org/t/vtol-quadplane-align-brake-props-in-plane-mode/78897": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://discuss.ardupilot.org/t/weak-thrust-vtol/91975": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://discuss.ardupilot.org/t/would-it-be-possible-for-arducopter-to-recover-from-losing-a-motor/114978": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://docs.deltaquad.com/evo/vehicle-specifications": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://docs.holybro.com/autopilot/pixhawk-6c-mini/technical-specification": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://docs.holybro.com/autopilot/pixhawk-6c/technical-specification": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://docs.px4.io/main/en/advanced_config/parameter_reference.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://docs.px4.io/main/en/advanced_config/parameter_reference",
+   "status": "ok"
+  },
+  "https://docs.px4.io/main/en/config/actuators": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://docs.px4.io/main/en/frames_vtol/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://docs.px4.io/main/en/frames_vtol/tailsitter.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://docs.px4.io/main/en/frames_vtol/tailsitter",
+   "status": "ok"
+  },
+  "https://docs.px4.io/main/en/frames_vtol/vtol_quadplane_foxtech_loong_2160.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://docs.px4.io/main/en/frames_vtol/vtol_quadplane_foxtech_loong_2160",
+   "status": "ok"
+  },
+  "https://docs.px4.io/v1.16/en/flight_controller/cubepilot_cube_orange": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://docs.px4.io/v1.17/en/config_vtol/vtol_quad_configuration.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://docs.px4.io/v1.17/en/config_vtol/vtol_quad_configuration",
+   "status": "ok"
+  },
+  "https://docs.px4.io/v1.17/ko/frames_vtol/vtol_quadplane_foxtech_loong_2160": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://docs.qgroundcontrol.com/master/en/qgc-user-guide/getting_started/download_and_install.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://dragonplate.com/carbon-fiber-roll-wrapped-twill-tube-0625-id-x-24-gloss-finish": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://dragonplate.com/carbon-fiber-roll-wrapped-twill-tube-0625-id-x-72-gloss-finish": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://dragonplate.com/carbon-fiber-roll-wrapped-twill-tube-0875-id-x-24-gloss-finish": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://dragonplate.com/carbon-fiber-roll-wrapped-twill-tube-1125-id-x-24-gloss-finish": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://dragonplate.com/dragonplate-weights-specs": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://dronetag.com/products/beacon/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.dronetag.com/products/beacon",
+   "status": "ok"
+  },
+  "https://electrical.sdsu.edu/design-day/files/2026/joint-quetzal.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://en.wikipedia.org/wiki/6061_aluminium_alloy": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://en.wikipedia.org/wiki/NACA_airfoil": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://engineering.purdue.edu/~andrisan/Courses/AAE451_Fall_2007/AAE451_Buffer_F07/Schedule.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://engineering.purdue.edu/Courses",
+   "status": "ok"
+  },
+  "https://eprints.soton.ac.uk/477495": {
+   "checked": "2026-10-27",
+   "code": 401,
+   "status": "unverified"
+  },
+  "https://esc-configurator.com/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://explorers.larc.nasa.gov/APSMEX25/SMEX/pdf_files/NASA02_NPR_7123_1D.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://extremeflightrc.com/products/savox-sv1270tgp-servo": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://faa.psiexams.com/FAA/login": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://fablab.gsd.harvard.edu/health-and-safety/standard-operating-procedure-sop/hot-wire-foam-cutting-eps-and-xps": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://fablab.gsd.harvard.edu/health-and-safety/standard-operating-procedure-sop/hot-wire-foam-cutting-eps-and-xps/",
+   "status": "ok"
+  },
+  "https://fiberon.polymaker.com/wp-content/uploads/TDS_FIBERON-PA6-CF20_V1.1_EN.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://firmware.ardupilot.org/Plane/stable/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://firmware.ardupilot.org/Plane/stable/CoreWingF405WingV2/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://firmware.ardupilot.org/Plane/stable/CoreWingF405WingV2/features.txt": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://firmware.ardupilot.org/Tools/MissionPlanner/MissionPlanner-latest.msi": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://firmware.ardupilot.org/Tools/MissionPlanner/sitl/PlaneStable/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://firmware.ardupilot.org/Tools/WebTools/FilterReview/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://gator-rc.com/gator-25mm-carbon-fiber-wing-tube-and-sleeve-gc1002": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.gator-rc.com/products/gator-25mm-carbon-fiber-wing-tube-and-sleeve-gc1002",
+   "status": "ok"
+  },
+  "https://genstattu.com/battery-for-long-range-drone": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://genstattu.com/tattu-30c-uav-battery.html": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://genstattu.com/tattu-plus-16000mah-6s-15c-22-2v-lipo-battery-pack-with-xt90s/": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://genstattu.com/tattu-plus-25c-22000mah-6s1p-xt90-smart-lipo-battery.html": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://github.com/ArduPilot/ardupilot": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://github.com/ArduPilot/ardupilot/blob/master/Tools/autotest/default_params/quadplane.parm": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://github.com/ArduPilot/ardupilot/releases": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://github.com/ArduPilot/ardupilot/tree/master/libraries/AP_HAL_ChibiOS/hwdef/CoreWingF405WingV2": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://github.com/ExpressLRS/ExpressLRS": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://github.com/ExpressLRS/ExpressLRS-Configurator/releases": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://github.com/PX4/PX4-Autopilot/releases": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://github.com/bird-sanctuary/bluejay": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://github.com/peterdsharpe/AeroSandbox": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://github.com/peterdsharpe/NeuralFoil": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://github.com/su2code/SU2/releases/download/v8.5.0/SU2-v8.5.0-win64-omp.zip": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://release-assets.githubusercontent.com/github-production-release-asset/11036316/da566625-422b-42d9-8987-e3b381f4f6af?sp=r&sv=2018-11-09&sr=b&spr=https&se=2026-10-27T11%3A30%3A22Z&rscd=attachment%3B+filename%3DSU2-v8.5.0-win64-omp.zip&rsct=application%2Foctet-stream&skoid=96c2d410-5711-43a1-aedd-ab1947aa7ab0&sktid=398a6654-997b-47e9-b12b-9515b896b4de&skt=2026-10-27T10%3A30%3A18Z&ske=2026-10-27T11%3A30%3A22Z&sks=b&skv=2018-11-09&sig=6xvw8drNAT6%2BSjaAhbCdguE9HxHb3QiUnHzBSA1RWt4%3D&jwt=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmVsZWFzZS1hc3NldHMuZ2l0aHVidXNlcmNvbnRlbnQuY29tIiwia2V5Ijoia2V5MSIsImV4cCI6MTc5MzEwMDQwNiwibmJmIjoxNzkzMDk4NjA2LCJwYXRoIjoicmVsZWFzZWFzc2V0cHJvZHVjdGlvbi5ibG9iLmNvcmUud2luZG93cy5uZXQifQ.tkHNWuvOAmUj1ybWWhI_aFS_lsugh6PMKSmK9P07IA8&response-content-disposition=attachment%3B%20filename%3DSU2-v8.5.0-win64-omp.zip&response-content-type=application%2Foctet-stream",
+   "status": "ok"
+  },
+  "https://github.com/su2code/SU2/releases/tag/v8.5.0": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://goodwinds.com/product-category/carbon-fiberglass/carbon/wrapped/cylindrical-tubes/": {
+   "checked": "2026-10-27",
+   "code": 520,
+   "status": "unverified"
+  },
+  "https://goodwinds.com/shipping/": {
+   "checked": "2026-10-27",
+   "code": 520,
+   "status": "unverified"
+  },
+  "https://hobbyking.com/en_us/catalogsearch/result/?q=carbon+tube+22mm": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://holybro.com/collections/power-modules-pdbs": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://holybro.com/products/digital-air-speed-sensor": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://holybro.com/products/digital-air-speed-sensor-standard",
+   "status": "ok"
+  },
+  "https://holybro.com/products/digital-air-speed-sensor-standard": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://holybro.com/products/dronecan-pm08-power-module-14s-200a": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://holybro.com/products/kakute-f405-wing-mini": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://holybro.com/products/kakute-h743-wing": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://holybro.com/products/m10-gps": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://holybro.com/products/micro-m10-gps": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://holybro.com/products/micro-power-module-pm06-v2": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://holybro.com/products/pixhawk-6c": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://holybro.com/products/pixhawk-6c-mini": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://holybro.com/products/pm02-v3-12s-power-module": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://holybro.com/products/remote-id": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://holybro.com/products/sik-telemetry-radio-v3": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://horizonhobby.com/product/sky-remote-id-module/SPMA9500.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.horizonhobby.com/product/sky-remote-id-module/SPMA9500.html",
+   "status": "ok"
+  },
+  "https://icas.org/ICAS_ARCHIVE/ICAS2012/PAPERS/438.PDF": {
+   "checked": "2026-10-27",
+   "code": null,
+   "error": "TimeoutError",
+   "status": "unverified"
+  },
+  "https://icas.org/icas_archive/ICAS2022/data/papers/ICAS2022_0383_paper.pdf": {
+   "checked": "2026-10-27",
+   "code": null,
+   "error": "TimeoutError",
+   "status": "unverified"
+  },
+  "https://image-ppubs.uspto.gov/dirsearch-public/print/downloadPdf/10501195": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://images.thdstatic.com/catalog/pdfImages/42/42a0ae07-0b4c-4678-bfee-da8123394cf8.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ir.unikl.edu.my/xmlui/handle/123456789/26065?show=full": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://irlock.com/products/cube-orange-plus-standard-set": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://jlc3dp.com/help/article/threaded-insert-service": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://jouav.com/products/cw-007.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.jouav.com/products/cw-007.html",
+   "status": "ok"
+  },
+  "https://jrnl.nau.edu.ua/index.php/SBT/article/view/16377/23673": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://jrnl.kai.edu.ua/index.php/SBT/article/view/16377/23673",
+   "status": "ok"
+  },
+  "https://m-selig.ae.illinois.edu/props/volume-1/data/apce_10x7_pg0812_4007.txt": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://m-selig.ae.illinois.edu/props/volume-1/data/apcsf_10x4.7_kt0836_4014.txt": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://m-selig.ae.illinois.edu/props/volume-1/propDB-volume-1.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://m-selig.ae.illinois.edu/pubs/DetersSelig-2008-AIAA-2008-6246-MicroProps.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://m-selig.web.engr.illinois.edu/pubs/BrandtSelig-2011-AIAA-2011-1255-LRN-Propellers.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://m.media-amazon.com/images/I/71GdKpgIq0L._SL1100_.jpg": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://matterhackers.com/store/l/bambu-lab-petg-basic-filament-175mm-1kg/sk/MEQ3G60P": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.matterhackers.com/store/l/bambu-lab-petg-basic-filament-175mm-1kg/sk/MEQ3G60P",
+   "status": "ok"
+  },
+  "https://mdpi-res.com/d_attachment/aerospace/aerospace-03-00032/article_deploy/aerospace-03-00032.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://mdpi-res.com/d_attachment/aerospace/aerospace-06-00026/article_deploy/aerospace-06-00026.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://newbeedrone.com/products/isdt-k2-air-dual-channel-smart-charger": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://newbeedrone.com/products/newbeedrone-beeid-v1-1-m10q-gps-module-with-remoteid-drone-tracker": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://newbeedrone.com/products/newbeedrone-nitro-nectar-gold-50xg-21700-10000mah-6s2p-high-rate-battery": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://newbeedrone.com/products/speedybee-f405-wing-app-fixed-wing-flight-controller": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://newbeedrone.com/products/toolkitrc-m7ac-100w-ac-300w-dc-15a-2-6s-multi-function-ac-smart-balance-charger": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ntrs.nasa.gov/api/citations/19760003933/downloads/19760003933.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ntrs.nasa.gov/api/citations/20170007194/downloads/20170007194.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://ntrs.nasa.gov/citations/20140001088": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://oercs.berkeley.edu/policies/campus-policy-library/unmanned-aircraft-system-drone-policy": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7070741": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://plot.ardupilot.org/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://pmc.ncbi.nlm.nih.gov/articles/PMC6456499/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://pollen.am/design_for_3d_printing_holes": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://pollen.am/design_for_3d_printing_holes/",
+   "status": "ok"
+  },
+  "https://polymaker.com/wp-content/uploads/TDS_PolyLite_LW-PLA_v7.0_2026-04-09.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://publications.sto.nato.int/publications/STO%20Meeting%20Proceedings/STO-MP-AVT-323/MP-AVT-323-27.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://pypi.org/project/gmsh/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://pyrodrone.com/collections/all-inventory/products/matek-pm12s-3-power-module-12s-input-bec": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://pyrodrone.com/collections/chargers-1/brand_toolkitrc": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://pyrodrone.com/collections/power-supply": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://pyrodrone.com/collections/power-supply/products/pyrodrone-power-supply-v2-400w-16-7a-24v-updated-plug-and-play-most-chargers": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://pyrodrone.com/pages/shipping-policy": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://pyrodrone.com/products/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://pyrodrone.com/products/foxeer-m10q-250-5883-gps-and-compass-module": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://pyrodrone.com/products/lumenier-remote-id-module-ndaa": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://pyrodrone.com/products/matek-f405-wmo-wing-flight-controller": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://pyrodrone.com/products/matek-m10q-5883-gps-module-gps-compass": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://pyrodrone.com/products/micoair-h743-v2-2-6s-flight-controller-with-bluetooth-and-pre-loaded-with-ardupilot-30-30mm": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://pyrodrone.com/products/phoenix-uas-mrid-remote-id-module-no-gps": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://pyrodrone.com/products/toolkitrc-wm150-advanced-watt-power-meter": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://racedayquads.com/products/betafpv-lipo-safety-hand-bag": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.racedayquads.com/products/betafpv-lipo-safety-hand-bag",
+   "status": "ok"
+  },
+  "https://racedayquads.com/products/hota-d6-pro-325w-15a-1-6s-dual-channel-ac-dc-smart-charger-w-wireless-charging-xt60": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.racedayquads.com/products/hota-d6-pro-325w-15a-1-6s-dual-channel-ac-dc-smart-charger-w-wireless-charging-xt60",
+   "status": "ok"
+  },
+  "https://racedayquads.com/products/matek-h743-wlite-wing-flight-controller": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.racedayquads.com/products/matek-h743-wlite-wing-flight-controller",
+   "status": "ok"
+  },
+  "https://racedayquads.com/products/t-motor-at115a-6-14s-vtol-fixed-wing-single-esc": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.racedayquads.com/products/t-motor-at115a-6-14s-vtol-fixed-wing-single-esc",
+   "status": "ok"
+  },
+  "https://radiomasterrc.com/collections/radio-controller": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://radiomasterrc.com/collections/receivers": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://rc-modelshop.com/product/agf-rc-servo-b53chn-v2-20-5kg-0-06s-8-4v/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://rcdrone.top/products/makeflyeasy-freeman-2300-rc-plane": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://rcdrone.top/sw/products/rcdrone-cnc-aluminum-folding-arm-joint-25mm-28mm-30mm-35mm-40mm-carbon-fiber-tube-clamp-for-agricultural-drone-uav-frame": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://readymaderc.com/products/details/85786-speedybee-f405-wing-app-fixed-wing-flight-controller": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.readymaderc.com/products/details/85786-speedybee-f405-wing-app-fixed-wing-flight-controller",
+   "status": "ok"
+  },
+  "https://readymaderc.com/products/details/85971-emax-es3005-analog-waterproof-servo": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.readymaderc.com/products/details/85971-emax-es3005-analog-waterproof-servo",
+   "status": "ok"
+  },
+  "https://readymaderc.com/products/details/86023-hitec-d645mw-32-bit-high-torque-metal-gear-servo": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.readymaderc.com/products/details/86024-hitec-d645mw-32-bit-high-torque-metal-gear-servo",
+   "status": "ok"
+  },
+  "https://readymaderc.com/products/details/tattu-6s-30c-12000mah-ec5": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.readymaderc.com/products/details/tattu-6s-30c-12000mah-ec5",
+   "status": "ok"
+  },
+  "https://rotorcraft.arc.nasa.gov/Publications/files/72-2016-374.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://rotorcraft.arc.nasa.gov/Publications/files/vtol-urban-air-2.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://sameday.dollartree.com/store/dollar-tree/products/22660723-readi-board-20-x-30-x-3-16-white-foam-board-25-ct": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://shop.emax-usa.com/products/es3005hv-high-voltage-servo": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://sites.utexas.edu/sirohi/files/2017/07/031_cameron16_joa.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://sites.utexas.edu/sirohi/wp-content/uploads/sites/6029/2017/07/031_cameron16_joa.pdf",
+   "status": "ok"
+  },
+  "https://speedymetals.com/p-4568-78-od-x-0049-wall-tube-6061-t6-aluminum.aspx": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://speedymetals.com/p-4585-1-od-x-035-wall-tube-6061-t6-aluminum.aspx": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://speedymetals.com/p-4587-1-od-x-058-wall-tube-6061-t6-aluminum.aspx": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://store.freeflysystems.com/products/carbon-tube-25-x-250mm-kit-for-cargo-landing-gear": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://store.hobbyetc.com/parts/view/68829": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://store.potensic.com/products/rid-916": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://store.tmotor.com/categorys/uav-mult-motor-antigravity-type": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://store.tmotor.com/goods.php?id=698": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://store.tmotor.com/goods.php?id=794": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://store.tmotor.com/goods.php?id=922": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://store.tmotor.com/product/alpha-60a-6s-esc.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://store.tmotor.com/product/at4130-long-shaft-fixed-wing-motor.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://store.tmotor.com/product/flame-60a-12s-V2-esc.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://store.tmotor.com/product/mn2806-motor-antigravity-type.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://store.tmotor.com/product/mn4014-kv330-motor-navigator-type.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://store.tmotor.com/product/mn5008-kv340-motor-antigravity-type.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://store.tmotor.com/product/vl5009-brushless-motor-for-uavs.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://sunnyskyusa.com/collections/multirotor-motors/products/sunnysky-v2216-motors": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://sunnyskyusa.com/collections/multirotor-motors/products/sunnysky-v3508-motor": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://sunnyskyusa.com/collections/multirotor-motors/products/sunnysky-x3108s-motors": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://sunnyskyusa.com/collections/multirotor-motors/products/sunnysky-x4110s-motors": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://sunnyskyusa.com/collections/multirotor-motors/products/x3515s": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://sunnyskyusa.com/products/eolo-cn11-4-5-prop": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://sunnyskyusa.com/products/eolo-cn15-5-5-prop": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://sunnyskyusa.com/search?q=eolo+cn": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://swehb.nasa.gov/display/SWEHBVD/SWE-152+-+Review+Requirements+Mapping+Matrices": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://swehb.nasa.gov/spaces/SWEHBVD/pages/102695508/SWE-152+-+Review+Requirements+Mapping+Matrices",
+   "status": "ok"
+  },
+  "https://uasdoc.faa.gov/api/v1/publicDOCRev?pageIndex=0&itemsPerPage=5000": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://uasdoc.faa.gov/listDocs": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://uav-en.tmotor.com/2024/VL-Series-Propulsion-System_1108/1250.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://uscomposites.com/cloth.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://web.mit.edu/16.unified/www/SPRING/systems/Lab_Notes/desrules.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://web.mit.edu/drela/Public/web/avl/avl352.exe": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://web.mit.edu/drela/Public/web/xfoil/XFOIL6.99.zip": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://west3d.com/products/ambrosia-petg-filament-of-the-gods-1kg-bambu-ams-friendly-cardboard-spools-premium-3d-printing-filament": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://west3d.com/products/polymaker-fiberon-engineering-filament-pa6-cf20": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://west3d.com/products/polymaker-polylite-lw-pla-lightweight-pla-800g": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://westsystem.com/?p=419": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.westsystem.com/price-list/",
+   "status": "ok"
+  },
+  "https://wingcopter.com/wingcopter-198": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://wingcopter.com/wp-content/uploads/2021/02/Technical-Details-Wingcopter-178-Heavy-Lift-A-Delivery-Variant-1-1.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://wingtra.com/wingtraone-gen-ii-drone/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://wrekd.com/products/6s2p-21-6v-molicel-p50b-10000mah-li-ion-battery-pack": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://wrekd.com/products/6s3p-21-6v-molicel-p42a-12600mah-li-ion-battery-pack": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://wrekd.com/products/6s3p-21-6v-molicel-p50b-15000mah-li-ion-battery-pack": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://wrekd.com/products/6s4p-21-6v-molicel-p42a-16800mah-li-ion-battery-pack": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://wrekd.com/products/6s4p-21-6v-molicel-p50b-20000mah-li-ion-battery-pack": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://wrekd.com/products/hglrc-m100-5883-micro-gps-w-compass-10th-gen-oh": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://wrekd.com/products/hitec-hs-5485hb-standard-karbonite-digital-sport-servo": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://wrekd.com/products/hobbywing-skywalker-v2-3-7-wing-60a-esc": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://wrekd.com/products/matek-h743-wing-v3-flight-controller": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://wrekd.com/products/powerhobby-329tg-aluminum-high-torque-speed-titanium-gear-24kg-digital-servo": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://wrekd.com/products/powerhobby-lp200-low-profile-high-speed-metal-gear-waterproof-hv-servo": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://wrekd.com/products/speedybee-f405-wing-app-2-6s-fixed-wing-flight-controller": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://www.3dprintergear.com.au/assets/files/technical-data-sheet%20(1).pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.aa.washington.edu/files/research/dbf/2015DBF_University%20of%20Washington.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.adrenalinercracing.com/collections/airplane-parts/products/hangar-9-ultracote-bright-yellow-6-5": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.aircraftspruce.com/catalog/cmpages/styrofoam.php": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.aircraftspruce.com/catalog/mepages/alumtube_6061t6.php": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.aircraftspruce.com/catalog/wppages/domplywood2.php": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.akkuteile.de/en/molicel-inr21700-p45b-4500mah-45a-li-ion-battery-3-6v-3-7v_100852_3119": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.albanycountyfasteners.com/media/6b/b8/g0/1764944339/clearance-hole-chart.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.amazon.com/",
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0000223UR": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B000087KUA": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0006N6MFI": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0006O31M4": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0006O4FWO": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0006O8TAI": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0006O8TY4": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B000BOG8MY": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B000BZYYH4": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B000I1RSNS": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B000J05FJW": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B001Z3C3AG": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0038DZZJC": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B003FHR2QK": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0043XATSI": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B004GHJ9NW": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B00DMI632G": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B00YV6Y2MG": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B00YV707V0": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B011BQW9Y6": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B017TFR6SM": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B01ABOPMEI": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B01ABOPO2S": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B01MFA2EEE": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B01N2131ZG": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B01N6584SD": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B01NBTEXOF": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B06ZY34369": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B071CHGWRM": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B074QZMLQF": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0783SG446": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B07DD9L6P6": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B07KKP6D3Z": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B07QWS4VM8": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B07S6DQ3XN": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B07XG3RM58": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0893CGLP7": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B08BCRZZS3": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B08K1BVGN9": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B08R79J6CH": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B096K9Y5JZ": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0B15KTV8F": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0B58ZSC8J": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0BG6V4HV4": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0BVMMBG2N": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0C4TNQZYY": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0C5QY73WC": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0C77JSR14": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0CQ1R55BV": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0CQWYFTXC": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0CSXGZXM8": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0D1KC72YP": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0D2HQPNG9": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0D41Y3WWZ": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0D53ZNHSV": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0D968WN4W": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0DJQVGSBC": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0DJS3PJVX": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0DPBP1N59": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0DQ5S3T6Z": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0F5HC24VM": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0FG2964F5": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0FG8CV6KP": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0FGV5FCBN": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0FJ21V736": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0FMDSM1VG": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0FRM9N2CS": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0FYCJLY1V": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0GFVY568B": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0GPZ6WR48": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0GPZYQK94": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0GSHH21LC": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/dp/B0H7J994N4": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/s?k=6061+aluminum+round+tube+1+inch+OD": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.amazon.com/s?k=carbon+fiber+tube+22mm+1000mm": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.andymark.com/products/1-2-in-id-1-1-8-in-od-sealed-flanged-bearing-fr82rs": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://andymark.com/products/1-2-in-id-1-1-8-in-od-sealed-flanged-bearing-fr82rs",
+   "status": "ok"
+  },
+  "https://www.apcprop.com/files/PER3_14x10E.dat": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.apcprop.com/files/PER3_14x85E.dat": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.apcprop.com/product/11x4-5mr/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.apcprop.com/product/11x4-5mr/?v=0b3b97fa6688",
+   "status": "ok"
+  },
+  "https://www.apcprop.com/product/13x8ep/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.apcprop.com/product/13x8ep/?v=0b3b97fa6688",
+   "status": "ok"
+  },
+  "https://www.apcprop.com/product/14x7ep/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.apcprop.com/product/14x7ep/?v=0b3b97fa6688",
+   "status": "ok"
+  },
+  "https://www.apcprop.com/product/14x8-5ep/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.apcprop.com/product/14x8-5ep/?v=0b3b97fa6688",
+   "status": "ok"
+  },
+  "https://www.apcprop.com/product/15x5-5mr/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.apcprop.com/product/15x5-5mr/?v=0b3b97fa6688",
+   "status": "ok"
+  },
+  "https://www.apcprop.com/product/15x5-5mrp/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.apcprop.com/product/15x5-5mrp/?v=0b3b97fa6688",
+   "status": "ok"
+  },
+  "https://www.apcprop.com/product/15x8e/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.apcprop.com/product/15x8e/?v=0b3b97fa6688",
+   "status": "ok"
+  },
+  "https://www.apcprop.com/product/16x5-5mr/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.apcprop.com/product/16x5-5mr/?v=0b3b97fa6688",
+   "status": "ok"
+  },
+  "https://www.beta.team/aircraft/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://beta.team/aircraft",
+   "status": "ok"
+  },
+  "https://www.buddyrc.com/products/sunnysky-v5210-motor": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.cdtfa.ca.gov/taxes-and-fees/SalesTaxRates10-1-26.xlsx": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://cdtfa.ca.gov/taxes-and-fees/SalesTaxRates10-1-26.xlsx",
+   "status": "ok"
+  },
+  "https://www.cdtfa.ca.gov/taxes-and-fees/rates.aspx": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://cdtfa.ca.gov/taxes-and-fees/rates.aspx",
+   "status": "ok"
+  },
+  "https://www.cdtfa.ca.gov/taxes-and-fees/sales-use-tax-rates.htm": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://cdtfa.ca.gov/taxes-and-fees/sales-use-tax-rates.htm",
+   "status": "ok"
+  },
+  "https://www.cefns.nau.edu/capstone/projects/ME/2018/SAEAero/teaminfo/2017_Oral_Presentation_Score_Sheet_12_09_2016.pdf": {
+   "checked": "2026-10-27",
+   "code": null,
+   "error": "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)",
+   "status": "unverified"
+  },
+  "https://www.corewing.com/en/app/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.cstsales.com/carbon_tube.html": {
+   "checked": "2026-10-27",
+   "code": 404,
+   "status": "dead"
+  },
+  "https://www.danenergy.com/catalog/lithium-ion-battery-packs/premium-high-density-amprius-sa112-li-ion-battery-6500mah-20-8v-13a-max-tn6s1p-sa112": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.deltaquad.com/cargo": {
+   "archive": "http://web.archive.org/web/20240915005043/https://www.deltaquad.com/cargo/",
+   "checked": "2026-10-27",
+   "code": 404,
+   "status": "dead"
+  },
+  "https://www.deltaquad.com/resources/technical-specifications": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.droneblog.com/dronetag-mini-commercial-rid-unit-review/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.dronefly.com/dronebeacon-db120-remoteid-broadcast-module-with-battery.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.dronefly.com/products/dronebeacon-db120-remoteid-broadcast-module-with-battery",
+   "status": "ok"
+  },
+  "https://www.easycomposites.co.uk/25mm-roll-wrapped-carbon-fibre-tube-metric": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.expresslrs.org/quick-start/binding/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.expresslrs.org/software/mavlink/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.faa.gov/uas/commercial_operators/become_a_drone_pilot": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.faa.gov/uas/educational_users/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.faa.gov/uas/educational_users",
+   "status": "ok"
+  },
+  "https://www.faa.gov/uas/getting_started/register_drone": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.faa.gov/uas/getting_started/remote_id/fria": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.faa.gov/uas/recreational_flyers/knowledge_test_updates": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.farnell.com/datasheets/2722597.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.fau.edu/engineering/senior-design/projects/fall2020/hybrid-fixed-wing-quad-rotor-drone/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.ferntech.co.nz/trinity-f90-plus-fixed-wing-mapping-drone": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.fibreglast.com/product/6_oz_Fabric_38_inch_wide_259": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.fibreglast.com/products/6-oz-fabric-38-inch-wide-259",
+   "status": "ok"
+  },
+  "https://www.flyingtech.co.uk/product/3k-16mm-carbon-fibre-tube-multicopter-boom/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.flyingtech.co.uk/product/dys-d4215-21-650kv-multirotor-brushless-disc-motor/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.flyingtech.co.uk/product/matek-h743-wing-v3-ardupilot-flight-controller/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.flyingtech.co.uk/product/tarot-25-to-16mm-landing-gear-with-quick-release-tl8x028/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.flyingtech.co.uk/product/tarot-25mm-aluminium-motor-mount-tl25a3/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.flyingtech.co.uk/product/tarot-4114-320kv-6s-multirotor-brushless-motor-tl100b08-01/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.flyingtech.co.uk/product/tarot-ultra-lightweight-magnesium-alloy-motor-mount-25mm-tl68b52/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.fpv24.com/en/heewing/heewing-t2-cruza-vtol-fpv-glider-airplane-pnp-black": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.fpvfaster.com.au/products/hee-wing-t1-ranger-twin-motor-wing-vtol-pnp-w-fc": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.fpvfaster.com/products/hee-wing-t1-ranger-twin-motor-wing-vtol-pnp-w-fc?shpxid=99fcea9a-5781-427d-a072-91045ff6426f",
+   "status": "ok"
+  },
+  "https://www.fujipress.jp/jrm/rb/robot003700020510/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.fzt.haw-hamburg.de/pers/Scholz/Aero/AERO_PUB_INCAS_TailVolume_Vol13No3_2021.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.fzt.haw-hamburg.de/pers/Scholz/Airport2030/Airport2030_PUB_CEAS_11-10-24.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.gator-rc.com/products/gator-rc-one-inch-carbon-fiber-wing-tube": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.gator-rc.com/products/secraft-6mm-wing-bolts": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.genstattu.com/ta-30c-16000-6s1p-xt90.html": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.getfpv.com/corewing-f405-wing-v2-flight-controller-stack.html": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.getfpv.com/speedybee-f405-wing-app-flight-controller.html": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.getfpv.com/sunnysky-x4110s-400kv.html": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.getfpv.com/tattu-10000mah-6s-25c-lipo-battery.html": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.gpsworld.com/autel-robotics-tilt-rotor-dragonfish-lite-and-pro-uavs-available-in-us/": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.harborfreight.com/50-caliber-metal-ammo-can-63750.html": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.hobbylobby.com/art-supplies/project-supplies/poster-projects/white---foam-board---20-x-30/p/101651": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.hobbywing.com/en/news/info/100": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.hobbywing.com/en/products/cmx6se": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.hobbywingdirect.com/collections/x-series": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.hobbywingdirect.com/products/eps-esc-foc-h60": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.hobbywingdirect.com/products/eps-ips-x6se": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.hobbywingdirect.com/products/eps-prop-1860": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.hobbywingdirect.com/products/skywalker-esc-100a": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.hobbywingdirect.com/products/xrotor-40a-esc": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.homedepot.com/p/100320352": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.homedepot.com/s/aluminum%20round%20tube%201%20in": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.homedepot.com/s/foamular%20150": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.homedepot.com/s/foamular%202%20in%20x%204%20ft%20x%208%20ft": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.icas.org/icas_archive/ICAS2022/data/papers/ICAS2022_0576_paper.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.jouav.com/flightSystem/cw-25e.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.jouav.com/products/cw-20e.html",
+   "status": "ok"
+  },
+  "https://www.jouav.com/products/cw-007.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.law.cornell.edu/cfr/text/14/107.51": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.law.cornell.edu/cfr/text/14/89.115": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.law.cornell.edu/uscode/text/49/44809": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.ligpower.com/product/20x6-polish-carbon-fiber-propeller.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.ligpower.com/product/at-75a-6s-fixed-wing-esc.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.ligpower.com/product/mn5008-kv340-motor-antigravity-type.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.ligpower.com/product/mn501-s-kv240-motor-navigator-type.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.ligpower.com/product/v505-vtol-motor.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.ligpower.com/product/v60a-bldc-foc-drone-esc.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.lowes.com/search?searchTerm=foamular%20xps%202%20in": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.makeflyeasy.com/index.php/%e5%a5%8b%e6%96%97%e8%80%85mini-vtol/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.makeflyeasy.com/index.php/%e5%a5%8b%e6%96%97%e8%80%85vtol/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.mateksys.com/?portfolio=f405-wmo": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.mateksys.com/?portfolio=h743-wlite": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.mateksys.com/?portfolio=h7a3-wing": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.matterhackers.com/r/xFvGl8": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.matterhackers.com/downloads/AMIfv96uePGNl6uCG4_4umLgzAGMF6TOviPoY35CRaBRO1ZvIiMuRDdpCvQaRagWGGjIrIcTWsjiZNrE4uzw8CyM-4sD12crNuS3E5s45m8LPUhsimZBhkKT2n3MINXbmTMlK2xT9fTrvYtdUKZ-a2ax0Oe43SuiaibSafMb3CmmZpJxJ8suKiPdyYIakaslljsDvJppnsagdhotsMf7vA-cYV-4elOvbvIGSiyV3sjNCrDrG3p7Bncvb_OxFt1rIX2Sz9cG0p4U",
+   "status": "ok"
+  },
+  "https://www.mcmaster.com/tubing/fabrication~cold-drawn": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.mcmaster.com/products/tubing/fabrication~cold-drawn/",
+   "status": "ok"
+  },
+  "https://www.mdpi.com/2226-4310/9/2/71": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.metalsdepot.com/aluminum-products/aluminum-round-tube": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.modelaircraft.org/join": {
+   "checked": "2026-10-27",
+   "code": 500,
+   "status": "unverified"
+  },
+  "https://www.modelaircraft.org/membership-options": {
+   "checked": "2026-10-27",
+   "code": 500,
+   "status": "unverified"
+  },
+  "https://www.muginuav.com/product/mugin-2-pro/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.muginuav.com/product/mugin-2-pro-2930mm-h-tail-full-carbon-fiber-vtol-uav-platform/",
+   "status": "ok"
+  },
+  "https://www.nasa.gov/reference/3-5-project-phase-b-preliminary-design-and-technology-completion/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.nasa.gov/reference/3-6-project-phase-c-final-design-and-fabrication/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.nasa.gov/reference/6-7-technical-assessment/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.nasa.gov/reference/appendix-d-requirements-verification-matrix/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.nasa.gov/wp-content/uploads/2015/10/s3001_guidelines_for_risk_management_-_ver_g_-_10-25-2017.pdf": {
+   "archive": "http://web.archive.org/web/20250530064614/https://www.nasa.gov/wp-content/uploads/2015/10/s3001_guidelines_for_risk_management_-_ver_g_-_10-25-2017.pdf",
+   "checked": "2026-10-27",
+   "code": 404,
+   "status": "dead"
+  },
+  "https://www.nextfpv.com/products/tattu-22000mah-22-2v-25c-6s1p-lipo-battery-with-as150-xt150-plug": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.onlinemetals.com/en/buy/aluminum/0-875-od-x-0-035-wall-x-0-805-id-aluminum-round-tube-6061-t6-drawn/pid/20531": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.onlinemetals.com/en/buy/aluminum/0-875-od-x-0-058-wall-x-0-759-id-aluminum-round-tube-6061-t6-drawn/pid/6891": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.onlinemetals.com/en/buy/aluminum/0-875-od-x-0-065-wall-x-0-745-id-aluminum-round-tube-6061-t6-drawn/pid/6982": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.onlinemetals.com/en/buy/aluminum/1-125-od-x-0-058-wall-x-1-009-id-aluminum-round-tube-6061-t6-drawn/pid/6996": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.onlinemetals.com/en/buy/aluminum/1-od-x-0-035-wall-x-0-93-id-aluminum-round-tube-6061-t6-drawn/pid/1211": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.onlinemetals.com/en/buy/aluminum/1-od-x-0-049-wall-x-0-902-id-aluminum-round-tube-6061-t6-drawn/pid/4341": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.onlinemetals.com/en/buy/aluminum/1-od-x-0-058-wall-x-0-884-id-aluminum-round-tube-6061-t6-drawn/pid/4342": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.onlinemetals.com/en/buy/aluminum/1-od-x-0-065-wall-x-0-87-id-aluminum-round-tube-6061-t6-drawn/pid/1212": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.onlinemetals.com/en/faq": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.ovonicshop.com/products/ovonic-roam-series-6s-lipo-battery-6500mah-6s1p-150c-22-2v-long-range-lipo-battery-with-xt90-s-anti-spark-plug-for-6-10-inch-long-range-cenilifter-multirotor-x-class": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.progressiverc.com/products/matek-150a-current-sensor": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.progressiverc.com/products/matek-digital-airspeed-sensor": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.progressiverc.com/products/matek-f405-wmn-flight-controller": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.progressiverc.com/products/speedybee-f405-wing-app-flight-controller": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.progressiverc.com/products/speedybee-f405-wing-mini-flight-controller": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.racedayquads.com/pages/shipping-policy-1": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.racedayquads.com/products/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.racedayquads.com/products/auline-18650-v45-6s2p-6000mah-22-2v-90a-li-ion-battery-xt60": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.racedayquads.com/products/emax-es08md-ii-12g-digital-metal-gear-servo": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.racedayquads.com/products/emax-es3054-17g-metal-gear-digital-servo": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.racedayquads.com/products/hglrc-m100-5883-gps-module-10th-gen": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.racedayquads.com/products/holybro-kakute-3-8s-fixed-wing-flight-controller": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.racedayquads.com/products/matek-analog-airspeed-sensor-aspd-4525": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.racedayquads.com/products/matek-digital-airspeed-sensor-aspd-dlvr": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.racedayquads.com/products/matek-f405-wte-wing-flight-controller": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.racedayquads.com/products/matek-m10q-5883-gnss-compass": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.racedayquads.com/products/newbeedrone-beeid-v1-1-m10q-gps-module-remote-id": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.racedayquads.com/products/radiomaster-pocket-crush-rc-transmitter-elrs-2-4ghz-choose-your-color": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.racedayquads.com/products/rdq-bn-880-flight-control-gps-module-dual-module-compass-with-cable": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.racedayquads.com/products/robopowerua-15000mah-6s-li-ion-battery-xt60": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.racedayquads.com/products/speedybee-f405-wing-app-fixed-wing-flight-controller": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.racedayquads.com/products/speedybee-f405-wing-mini-2-6s-fixed-wing-flight-controller": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.radiomasterrc.com/products/pocket-crush-radio-controller": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://www.radiomasterrc.com/products/pocket-radio-controller-m2": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://www.radiomasterrc.com/products/rp3-expresslrs-2-4ghz-nano-receiver": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://www.radiomasterrc.com/products/t8l-radio-controller": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://www.radiomasterrc.com/products/xr1-nano-multi-frequency-expresslrs-receiver": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://www.rccorner.ae/tattu-10000mah-22-2v-25c-6s1p-lipo-battery-pack": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.readymaderc.com/products/details/85596-tarot-brushless-motor-high-efficiency-6s-4114-320kv": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.readymaderc.com/products/details/86190-strix-flat-epp-foam-10mm-thick-1m-x-0-6m-10-pack": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.readymaderc.com/products/details/86418-matek-h7a3-wing-flight-controller": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.readymaderc.com/products/details/86775-sunnysky-x-series-v3-x4120-480kv-brushless-motor": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.robotshop.com/products/iflight-xing-4214-x-class-motor-400kv": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.rockwestcomposites.com/45001.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.rockwestcomposites.com/45002.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.rockwestcomposites.com/45167.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.rockwestcomposites.com/45593.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.rockwestcomposites.com/45626-f5-5.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.rockwestcomposites.com/46642.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.rockwestcomposites.com/pbrt-1618.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.rotorama.com/product/emax-es3005hv": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.ruko.net/products/ruko-r111-remote-id-module": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://www.sciencedirect.com/science/article/abs/pii/S1270963820311111": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.servocity.com/2000-series-dual-mode-servo-25-2/": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.servocity.com/compact-servoblock-43mm-width-for-standard-size-h25t-spline-servo-hub-shaft/": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.simscale.com/projects/NHOBUU/cfd-drone/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.skyraccoon.com/aircraft/E-flite_Convergence_EFL11075": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.sparkfun.com/load-cell-10kg-straight-bar-tal220.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.sparkfun.com/sparkfun-load-cell-amplifier-hx711.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.speedybee.com/flight-controller/": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://www.st.com/en/development-tools/stm32cubeprog.html": {
+   "checked": "2026-10-27",
+   "code": null,
+   "error": "TimeoutError",
+   "status": "unverified"
+  },
+  "https://www.suasnews.com/2019/01/foxtech-baby-shark-260-vtol/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.sunnyskyusa.com/products/eolo-cn17-6-2-prop": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://www.sunnyskyusa.com/products/sunnysky-x4120": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://www.towerpro.com.tw/product/mg996r/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://towerpro.com.tw/product/mg996r/",
+   "status": "ok"
+  },
+  "https://www.tytorobotics.com/pages/flight-stand-15": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://www.tytorobotics.com/pages/series-1580-1585": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://www.tytorobotics.com/pages/series-1780": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://www.tytorobotics.com/products/series-1580-test-stand-bundle": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://www.unmannedtechshop.co.uk/de/products/flywoo-explorer-molicell-p45b-21700-6s2p-9000mah-lionpack-battery": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://www.unmannedtechshop.co.uk/fr/products/flywoo-explorer-molicell-p45b-21700-6s2p-9000mah-lionpack-battery": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://www.uscomposites.com/epoxy.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.ust-media.com/ust-magazine/UST008/files/assets/basic-html/page-23.html": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.vision-systems.com/embedded/article/16750971/uav-with-fixed-wing-and-quadrotor-hybrid-design-to-be-shown-at-xponential": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.walmart.com/ip/352244652": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "final": "https://www.walmart.com/ip/seort/352244652",
+   "status": "ok"
+  },
+  "https://www.waveshare.com/mg996r-servo.htm": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.westsystem.com/app/uploads/2022/09/105_205-207-Combined.pdf": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www.worldronemarket.com/product/toolkitrc-m8s-400w-18a-charger/": {
+   "checked": "2026-10-27",
+   "code": 200,
+   "status": "ok"
+  },
+  "https://www1.grc.nasa.gov/beginners-guide-to-aeronautics/shape-effects-on-drag/": {
+   "checked": "2026-10-27",
+   "code": null,
+   "error": "[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1081)",
+   "status": "unverified"
+  },
+  "https://xometry.pro/en/articles/3d-printing-tolerances/": {
+   "checked": "2026-10-27",
+   "code": 403,
+   "status": "unverified"
+  },
+  "https://zeeebattery.com/pages/shipping-policy": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://zeeebattery.com/products/zeee-6s-lipo-battery-10000mah-22-2v-120c-ec5": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  },
+  "https://zeeebattery.com/products/zeee-6s-lipo-battery-9000mah-22-2v-100c-ec5": {
+   "checked": "2026-10-27",
+   "code": 429,
+   "status": "unverified"
+  }
+ }
+}

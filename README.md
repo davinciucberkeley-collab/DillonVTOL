@@ -11,7 +11,7 @@ A hybrid VTOL with four vertical lift rotors for takeoff and landing, and a push
 | Test and evaluation plan DBF-TP-001 | [`test-plan.html`](test-plan.html) · source [`docs/test/TEST-PLAN.md`](docs/test/TEST-PLAN.md) |
 | Flight software setup DBF-SW-001 | [`flight-software.html`](flight-software.html) · source [`firmware/README.md`](firmware/README.md) |
 | Hot-wire templates (1:1) | [`templates.html`](templates.html) |
-| Drawing set DBF-DRW-001 rev B (9 sheets) | [`cad/drawings/DBF-DRW-001.PDF`](cad/drawings/DBF-DRW-001.PDF) |
+| Drawing set DBF-DRW-001 rev E (9 sheets) | [`cad/drawings/DBF-DRW-001.PDF`](cad/drawings/DBF-DRW-001.PDF) |
 
 ## Current design (v0.4.0, 2026-10-21)
 
@@ -20,14 +20,14 @@ The numbers below come from `analysis/results.json` (sizing) and `analysis/aero/
 | | |
 |---|---|
 | Layout | C0: 4-lift twin-boom quadplane, H-tail with twin rudders on the booms, pusher on the pod; best of 29 configurations that keep the lift rotors stopped in cruise (`analysis/tradestudy.json`) |
-| Span / wing | 2.4 m, 0.632 m² (chord 263 mm), NACA 2415, XPS foam core with packing-tape skin |
-| MTOW | 6.43 kg (hard cap 25 kg; below the 8–15 kg working target, pending sign-off) |
+| Span / wing | 2.4 m, 0.682 m² (chord 284.2 mm, AR 8.45; CAD rev D, `cad/params.txt` chord, `analysis/aero/aero_results.json` `geometry`), NACA 2415, XPS foam core with packing-tape skin; re-sizing at the adopted CL_max 1.121 would give 0.676 m² (chord 281.8 mm, `analysis/results.json` C0 `sized`), the CAD keeps the slightly larger wing |
+| MTOW | 6.54 kg sizing (`analysis/results.json` C0 `sized.m`; CAD rev D built to 6.55 kg, `cad/params.txt` mtow) (hard cap 25 kg; below the 8–15 kg working target, pending sign-off) |
 | Lift / pusher | 5 × SunnySky X4110S 400KV; 17 in lift props; APC 14×8.5EP pusher |
-| Hover / cruise | 888 W / 323 W at 20 m/s (aero build-up 297 W); hover T/W 1.95 on maker data |
-| Energy | 2 × Ovonic 6S 6500 mAh LiPo; 13.1 min cruise available after 2 min hover + 20 % reserve (needs the printed leg fairings) |
-| Aerodynamics | CD0 0.0427, L/D 8.3 at cruise; stall 12.05 m/s predicted (R11 ≤ 12, at the limit); neutral point 40.4 % MAC with the pod |
-| Structure | 6061-T6 booms, spar sockets and a 0.76 m slip-fit joiner; joiner reserve factor 1.78 on yield at 4.5 g |
-| CAD | SOLIDWORKS rev B: 75 part files, 397 components including every screw, nut, washer and insert; interference-checked |
+| Hover / cruise | 912 W / 262 W at 18 m/s (aero build-up 239 W); hover T/W 1.92 on maker data (`analysis/results.json` `sized`, `analysis/aero/aero_results.json` `drag.cruise`) |
+| Energy | 2 × Ovonic 6S 6500 mAh LiPo; 15.8 min cruise available at 18 m/s after 2 min hover + 20 % reserve (needs the printed leg fairings) |
+| Aerodynamics | CD0 0.0411, L/D 9.5 at 18 m/s cruise; stall 11.71 m/s predicted at the adopted CL_max 1.121 (design target 11.75 m/s; R11 ≤ 12, margin 2.4 %; `aero_results.json` `stall`); neutral point 39.8 % MAC with the pod (AVL, `aero_results.json` `neutral_point`; static margin 11.8 % at the 28 % CG) |
+| Structure | 6061-T6 booms, spar sockets and a 0.76 m slip-fit joiner; joiner reserve factor 1.75 on yield at 4.5 g (275 / 157.1 MPa, `analysis/results.json` C0 `struct.MS_J`, `struct.sigJ`) |
+| CAD | SOLIDWORKS model rev D (drawing set DBF-DRW-001 rev E): 75 part files (`cad/model/*.SLDPRT` in git), 397 components including every screw, nut, washer and insert; interference-checked (`cad/README.md`) |
 | Avionics | CoreWing F405 Wing V2 + ArduPlane 4.7.2 stable QuadPlane; parameter file `firmware/vtol_c0.param` checked, SITL scenarios A–G pass |
 | Budget | **$1,896.79 committed** (goods $1,620.67 + 10.25 % tax + $110 shipping estimate); **$103.21 reserve** |
 

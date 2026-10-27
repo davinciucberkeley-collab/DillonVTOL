@@ -258,7 +258,7 @@ ArduPlane 4.7.2 SITL on its JSON physics interface; connect Mission Planner to T
 Pocket Crush as a USB joystick: QSTABILIZE take-off, QLOITER, FBWA transition, CRUISE, QLOITER back-transition,
 QLAND. Practise the E-stop and RTL switches. Expect what the model shows (`sitl/README.md`, C0 section): hover at
 about 0.62–0.66 output, 37–38 A; forward transition 13–15 s and 140–170 m; a 30° nose-up, stalled-wing
-"airbrake" phase at the start of every back-transition; cruise at 20 m/s with the pusher at about 0.7.
+"airbrake" phase at the start of every back-transition; cruise at 18 m/s (AIRSPEED_CRUISE; SITL re-run 2026-10-27) with the pusher at about 0.6.
 `sitl/mission_test.py --model JSON:127.0.0.1 --physics sitl/c0_physics.py ...` runs the seven scripted scenarios
 (§11). Add `-Wind "5,270"` (5 m/s from the west) to rehearse the R16 wind limit.
 
@@ -314,7 +314,7 @@ results.json `C0.sized.I_hover`).
    fence circle about 6 s after transition end (first SITL run, scenario B, 2026-10-21). Start transitions from
    the upwind edge of the field.
 5. Back-transition: select QLOITER (or QHOVER). The pusher stops at once and the lift motors brake the aircraft
-   (quadplane-transitions.html). Allow about 100 m stopping distance at 20 m/s (2 m/s² decel). In the C0 airframe model the airbrake phase pitches to the 30° VTOL limit and briefly stalls the wing (−17°/+33° swing, ≤ 2 m altitude loss, sitl/README.md Gains item 1); if the aircraft does this, lower `Q_TRANS_DECEL` first (gentler, longer stop), then `Q_ANGLE_MAX`, before any attitude gain. The test cards F06–F13 carry this as a watch item.
+   (quadplane-transitions.html). Allow about 81 m stopping distance at the 18 m/s cruise (18² / (2 × 2 m/s² decel)). In the C0 airframe model the airbrake phase pitches to the 30° VTOL limit and briefly stalls the wing (−17°/+33° swing, ≤ 2 m altitude loss, sitl/README.md Gains item 1); if the aircraft does this, lower `Q_TRANS_DECEL` first (gentler, longer stop), then `Q_ANGLE_MAX`, before any attitude gain. The test cards F06–F13 carry this as a watch item.
 6. Check in the log: the transition current peak against the 75.7 A estimate (results.json `C0.sized.I_trans`),
    battery sag, and time to `AIRSPEED_MIN`. Review M[controls].2 failure threshold: > 15 s or > 100 m.
 7. Only then: CRUISE circuits, RTL test at altitude, and the full R9 mission in AUTO (`sitl/mission_test.py`
