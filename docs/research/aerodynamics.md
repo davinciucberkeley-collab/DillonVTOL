@@ -33,7 +33,7 @@ Sections 3 to 9 record the analysis of the v0.3.1 geometry (chord 239 mm, bare r
 | Cruise electrical power | 239 W (sizing design value 262 W) |
 | Cruise available | 17.3 min (sizing 15.8 min); bare round legs 11.2 min |
 | Neutral point, AVL with pod | 39.8 % MAC; static margin 11.8 % at the 28 % CG, 5.1 % with the bay empty |
-| CFD | §6 re-run 2026-10-27 at the 18 m/s design cruise (chord 284.2 mm, Re 3.50×10⁵): 28 of 29 SU2 cases usable, 24 converged; L1 SA α 2° unusable, so the three-mesh GCI is defined at α 10° only (§11 flow visualisation still at 20 m/s, 2026-10-25); SU2 is a cross-check and feeds no sizing number (CL_max and stall above unchanged by the re-run) |
+| CFD | §6 re-run 2026-10-27 at the 18 m/s design cruise (chord 284.2 mm, Re 3.50×10⁵): 28 of 29 SU2 cases usable, 24 converged; L1 SA α 2° unusable, so the three-mesh GCI is defined at α 10° only (§11 flow visualisation re-run at 18 m/s on 2026-10-27); SU2 is a cross-check and feeds no sizing number (CL_max and stall above unchanged by the re-run) |
 
 Rows generated from `analysis/aero/aero_results.json` (re-generated 2026-10-27 at the 18 m/s design cruise; `docs/research/benchmarks.md`) and `analysis/results.json` `base.Vs`. The 2026-10-25 iteration re-sized the wing to the 11.75 m/s design stall target (`docs/research/stall-margin.md`), which gives 2.1 % margin to the R11 limit of 12 m/s.
 
@@ -291,7 +291,7 @@ BOM line yet, EST < $10). The 10 min floor corresponds to ≤ 436 W electrical c
   payload allowance; fly a trim-speed sweep to check dδe/dCL is negative (positive = unstable).
 - M5 Gear fairing A/B: time-to-climb or watt-meter at 18 m/s with and without the fairings.
 
-## 11. Flow visualisation (2026-10-24, re-run 2026-10-25 on the final chord)
+## 11. Flow visualisation (2026-10-24, re-run 2026-10-25 on the final chord, re-run 2026-10-27 at 18 m/s)
 
 The client asked to see the air move, not only the coefficients. Two data sets feed the review page's
 animated flow views; both are produced by scripts in `analysis/aero/` and written to
@@ -302,7 +302,7 @@ Raw solver volume files (about 30 MB per case) stay in `out/su2_flow/` and are g
 
 **Method.** Same solver and numerics as the converged cases of §6 (SU2 8.5.0 win64-omp, INC_RANS,
 FDS + MUSCL with the Venkatakrishnan limiter frozen after 300 iterations, implicit Euler, CFL 2
-adaptive to 50; Spalart–Allmaras, fully turbulent; chord 1, Re 3.89×10⁵ (chord 284.2 mm, 20 m/s) through the constant
+adaptive to 50; Spalart–Allmaras, fully turbulent; chord 1, Re 3.47×10⁵ (`flow2d.json` `Re`: 18 m/s on the 281.8 mm chord that `results.json` `sized.chord` gives after the CL_max update; the CAD wing stays 284.2 mm, Re 3.50×10⁵, 0.8 % higher, as used in §6) through the constant
 viscosity), with the volume solution written as the ASCII restart (`OUTPUT_FILES= (SURFACE_CSV, CSV)`),
 which SU2 8.5 writes with PointID, x, y, pressure and velocity. All five angles ran on the fine gmsh
 4.15.2 mesh L3 (267,902 cells, 143,665 nodes, quad boundary layer y⁺ < 1), five concurrent cases at
@@ -316,24 +316,26 @@ speed in the file 1.0000 at every angle), so u/V∞ and v/V∞ are read directly
 
 | α | CL | CD | CM c/4 | Iterations | Force history | Cp at stagnation | Cp min (wall) | Upper-surface separation (est.) | Wall-clock |
 |---|---|---|---|---|---|---|---|---|---|
-| 0° | 0.203 | 0.0140 | 0.043 | 2,789 (Cauchy stop) | steady, σ(CL) 6×10⁻⁶ | 1.03 | −0.65 | none | 42 min |
-| 4° | 0.622 | 0.0162 | 0.039 | 2,384 (Cauchy stop) | steady, σ(CL) 1×10⁻⁵ | 1.02 | −1.22 | none | 37 min |
-| 8° | 1.012 | 0.0223 | 0.034 | 2,246 (Cauchy stop) | steady, σ(CL) 2×10⁻⁴ | 1.01 | −2.52 | none | 34 min |
-| 12° | 1.282 | 0.0362 | 0.021 | 3,913 (Cauchy stop) | steady, σ(CL) 2×10⁻⁴ | 1.00 | −4.28 | x/c ≈ 0.88 | 50 min |
-| 15° | 1.304 | 0.0658 | 0.020 | 6,000 (full count) | steady, σ(CL) 1×10⁻³ | 1.01 | −5.18 | x/c ≈ 0.60 | 62 min |
+| 0° | 0.202 | 0.0143 | 0.042 | 2,790 (Cauchy stop) | steady, σ(CL) 6×10⁻⁶ | 1.03 | −0.65 | none | 43 min |
+| 4° | 0.619 | 0.0166 | 0.039 | 2,381 (Cauchy stop) | steady, σ(CL) 1×10⁻⁵ | 1.02 | −1.21 | none | 39 min |
+| 8° | 1.008 | 0.0228 | 0.034 | 2,293 (Cauchy stop) | steady, σ(CL) 2×10⁻⁴ | 1.01 | −2.51 | none | 36 min |
+| 12° | 1.274 | 0.0369 | 0.021 | 3,867 (Cauchy stop) | steady, σ(CL) 2×10⁻⁴ | 1.00 | −4.25 | x/c ≈ 0.87 | 52 min |
+| 15° | 1.289 | 0.0673 | 0.020 | 6,000 (full count) | steady, σ(CL) 9×10⁻⁴ | 1.01 | −5.11 | x/c ≈ 0.59 | 63 min |
 
 Source: `out/flowviz/flow2d.json` (per-angle `CL`, `CD`, `CM`, `iters`, `CL_std_last300`,
 `Cp_stag_max`, `Cp_min_wall`, `x_sep_upper_est`, `wall_s`); σ(CL) is the standard deviation over the
 last 300 iterations, the steady criterion of `su2_2d.parse_case` (< 2×10⁻³). The five cases ran
-together on 20 logical CPUs while a SOLIDWORKS job shared the machine. Change from the 263 mm chord
-run (Re 3.60×10⁵, 2026-10-24): CL +0.2 to +0.8 %, CD −1.3 to −1.7 %, wall Cp minima within 0.05.
+together on 20 logical CPUs, 63.7 min for the set (run log, 2026-10-27). Change from the 20 m/s run
+(Re 3.89×10⁵, 2026-10-25; (f_18 − f_20)/f_20): CL −0.4 to −1.2 %, CD +1.9 to +2.6 %, wall Cp minima
+within 0.08 (largest at 15°, −5.18 → −5.11). That run had moved CL +0.2 to +0.8 % and CD −1.3 to −1.7 %
+from the 263 mm chord run (Re 3.60×10⁵, 2026-10-24).
 
 **Convergence.** All five cases converged on L3: four stopped on the Cauchy criterion, the 15° case ran
-its full 6,000 iterations with the force history steady over the last 300 (σ(CL) 1.0×10⁻³, inside the
+its full 6,000 iterations with the force history steady over the last 300 (σ(CL) 9.4×10⁻⁴, inside the
 criterion). No case fell back to the coarse mesh, so no field is a time average or a labelled last
 iterate; the `converged` flag and `field_note` in the JSON record this per angle. The new points sit
-on the §6 fine-mesh curve: L3 gave CL 0.414 at 2° and 1.172 at 10° (`out/su2_2d.json`), and the new
-0°–12° values interpolate them with a slope of 0.10 per degree. Stagnation Cp reads 1.00–1.03 at every
+on the §6 fine-mesh curve: L3 gave CL 0.412 at 2° and 1.167 at 10° (`out/su2_2d.json`), and the new
+0°–12° values interpolate them with a slope of 0.10 per degree ((1.008 − 0.202)/8°). Stagnation Cp reads 1.00–1.03 at every
 angle, which checks the Cp = 2 p convention at the stagnation point (1.03 at 0° is the limiter
 overshoot on the coarsest surface spacing at the leading edge).
 
@@ -342,15 +344,15 @@ overshoot on the coarsest surface spacing at the leading edge).
   lower surface (x/c 0.01, y/c −0.02 at 8°) and walks further aft on the lower surface as α rises;
   the velocity-magnitude field is dark there and in the no-slip layer along the wall.
 - *Suction peak*: the bright band over the leading edge is the upper-surface acceleration; the
-  grid maximum of |V|/V∞ (unmasked points of `flow2d.json`) is 1.27 at 0°, 1.79 at 8° and 2.37 at 15°
-  (the wall Cp minimum −5.18 at 15° corresponds to |V|/V∞ = √(1 − Cp) ≈ 2.49 at the boundary-layer
+  grid maximum of |V|/V∞ (unmasked points of `flow2d.json`) is 1.27 at 0°, 1.78 at 8° and 2.36 at 15°
+  (the wall Cp minimum −5.11 at 15° corresponds to |V|/V∞ = √(1 − Cp) ≈ 2.47 at the boundary-layer
   edge, closer to the wall than the 0.011 c grid spacing).
 - *Separation onset*: at 0°, 4° and 8° the near-wall flow (probed 0.5 % c off the upper surface) runs
   from leading to trailing edge without reversing. At 12° a reversed-flow pocket appears at the
-  trailing edge (from x/c ≈ 0.88); at 15° it has grown into a closed recirculation bubble from
-  x/c ≈ 0.60 to about 0.2 c behind the trailing edge, visible as the closed streamline loop in
-  `flow_15.png`. SA fully turbulent still gives a small lift increase from 12° to 15° (1.282 →
-  1.304) with drag almost doubling (0.036 → 0.066): the model is at the top of its lift curve, not past
+  trailing edge (from x/c ≈ 0.87); at 15° it has grown into a closed recirculation bubble from
+  x/c ≈ 0.59 to about 0.2 c behind the trailing edge, visible as the closed streamline loop in
+  `flow_15.png`. SA fully turbulent still gives a small lift increase from 12° to 15° (1.274 →
+  1.289) with drag almost doubling (0.037 → 0.067): the model is at the top of its lift curve, not past
   it. (The L2 sweep of §6, at Re 3.50×10⁵, peaks earlier, 1.186 at 12°: the fine mesh carries the attached flow further.)
   XFOIL (transitional, Ncrit 9, at the 18 m/s design cruise Re 3.50×10⁵) puts CL_max at 1.362 and the Genç, Lock and Kaynak (2008) tunnel
   data at 1.30 with stall at 12° (`aero_results.json` `CL_max_2D`), so the pictures show the SA
@@ -371,22 +373,24 @@ overshoot on the coarsest surface spacing at the leading edge).
 
 **Method.** AeroSandbox 4.2.10 `VortexLatticeMethod` on the v0.4 wing, H-tail and twin fins of
 `asb_model.airplane()` (results.json span 2.4 m and chord 0.284 m; tail from cad/params.txt), 24
-spanwise × 8 chordwise panels per surface half (1,152 panels), cruise 20 m/s at the AVL-trimmed
-α = 2.86° (`aero_results.json` `trim_cruise`); the elevator deflection and the pod are not in the
-lattice. The VLM gives CL 0.411 and CDi 0.0064 against AVL's trimmed 0.385 (with −3.45° elevator)
-and 0.0060 (`out/flow3d_summary.json`, `aero_results.json` `trim_cruise`; re-run 2026-10-25). Streamlines are integrated with fourth-order Runge–Kutta along the unit velocity
+spanwise × 8 chordwise panels per surface half (1,152 panels), cruise 18 m/s at the AVL-trimmed
+α = 3.90° (`aero_results.json` `trim_cruise`); the elevator deflection and the pod are not in the
+lattice. The VLM gives CL 0.505 and CDi 0.0095 against AVL's trimmed 0.475 (with −4.06° elevator)
+and 0.0089 (`out/flow3d_summary.json`, `aero_results.json` `trim_cruise`; re-run 2026-10-27), i.e.
+6.5 % and 7.3 % above AVL ((0.505 − 0.475)/0.475, (0.0095 − 0.0089)/0.0089), most of the gap being
+(est.) the elevator trim load on the tail, which the lattice omits. Streamlines are integrated with fourth-order Runge–Kutta along the unit velocity
 direction (free stream + horseshoe-vortex induced velocity from `get_velocity_at_points`, vortex core
 regularised to 4 mm for the field evaluation only), 5 mm step, 400 steps (2.0 m of path), from 120
 seeds on a plane 0.4 m ahead of the wing: three rows across the span at ±60 mm about the chord
 line, dense rows from 0.95 to 1.12 semi-spans at both tips, and a row at the tailplane height.
 
 **What the image shows** (`plots/flow_3d.png`). Over the wing the streamlines speed up on the upper
-surface (|V|/V∞ up to 1.08, red) and slow underneath (0.94, blue), and leave the trailing edge
+surface (|V|/V∞ up to 1.10, red) and slow underneath (0.95, blue; `flow3d_summary.json` `speed_ratio_range`), and leave the trailing edge
 deflected downward; the rear projection shows the sheet behind the wing displaced down by the
 downwash and, outboard of each tip, the lines curling up and inboard around the tip vortex. A
-wing-only lattice evaluated at the tailplane quarter chord gives a downwash of −1.7° across the
-tail span (`out/flow3d_summary.json` `downwash_at_htail`, mean −1.67°), i.e. ε/α ≈ 0.6 at this lift
-(2.86° of free-stream incidence, VLM CL ≈ 0.41), the order AVL's tail contribution to Cmα in §4 implies.
+wing-only lattice evaluated at the tailplane quarter chord gives a downwash of −1.9° to −2.2° across the
+tail span (`out/flow3d_summary.json` `downwash_at_htail`, mean −2.02°), i.e. ε/α ≈ 2.02/3.90 ≈ 0.52 at this lift
+(3.90° of free-stream incidence, VLM CL ≈ 0.51), the order AVL's tail contribution to Cmα in §4 implies.
 
 **Web export** `out/flowviz/flow3d.json` (354 KB), CAD / review-viewer frame (X forward from the
 wing leading edge, Y up, Z right, metres): `panels.{wing,htail,fin}.quads` as flat 12-value corner

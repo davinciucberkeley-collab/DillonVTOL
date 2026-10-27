@@ -538,8 +538,8 @@ kbd{font:500 .6875rem/1 var(--f-mono);color:var(--fg-3);border:1px solid var(--l
 .sechead{padding:4px 0 0;margin:0 0 6px;border:0}
 .sechead h2{font-size:1.625rem}
 section.sec.has-tabs .sechead{margin-bottom:14px}
-.tabbar{display:flex;gap:2px;overflow-x:auto;margin:0 0 22px;border-bottom:1px solid var(--line);scrollbar-width:none}
-.tabbar::-webkit-scrollbar{display:none}
+.tabbar{display:flex;gap:2px;overflow-x:auto;margin:0 0 22px;border-bottom:1px solid var(--line);scrollbar-width:thin;scrollbar-color:var(--line-3) transparent}
+.tabbar::-webkit-scrollbar{height:6px}.tabbar::-webkit-scrollbar-thumb{background:var(--line-3);border-radius:3px}   /* visible, so tabs past the edge are discoverable */
 .tabbar a{flex:none;display:inline-flex;align-items:center;min-height:40px;padding:0 12px;margin-bottom:-1px;border-bottom:2px solid transparent;color:var(--fg-3);font-size:.875rem;font-weight:500;text-decoration:none;white-space:nowrap}
 .tabbar a:hover{color:var(--fg);text-decoration:none}
 .tabbar a[aria-selected="true"]{color:var(--fg);border-bottom-color:var(--accent)}

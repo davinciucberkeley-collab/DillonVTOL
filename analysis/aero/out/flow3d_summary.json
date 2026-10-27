@@ -1,15 +1,15 @@
 {
- "generated": "2026-10-25 04:42",
+ "generated": "2026-10-27 10:43",
  "tool": "AeroSandbox 4.2.10 VortexLatticeMethod (PyPI, checked 2026-10-21)",
  "script": "analysis/aero/flowfield_3d.py",
  "model": "wing + H-tail + twin fins from asb_model.airplane(); pod ignored by the VLM; no control-surface deflection; inviscid potential flow (no separation)",
  "condition": {
-  "V_mps": 20,
-  "alpha_deg": 2.86416,
+  "V_mps": 18,
+  "alpha_deg": 3.89765,
   "alpha_source": "aero_results.json trim_cruise.alpha_deg (AVL trim at cruise CL)",
-  "CL_vlm": 0.410798,
-  "CDi_vlm": 0.00636672,
-  "Cm_vlm": -0.0771124
+  "CL_vlm": 0.50534,
+  "CDi_vlm": 0.00951906,
+  "Cm_vlm": -0.0966425
  },
  "frame": "CAD / review viewer frame: X forward from the wing leading edge, Y up, Z right (starboard), metres",
  "lattice": {
@@ -19,17 +19,17 @@
  },
  "streamlines_note": "RK4 along the unit velocity direction, step 0.005 m, 400 steps, every 5th point kept; xyz is a flat list [X0,Y0,Z0, X1,Y1,Z1, ...]; s is |V|/Vinf at each kept point",
  "downwash_at_htail": {
-  "x_cad": -0.841357,
-  "epsilon_deg_mean": -1.67436,
+  "x_cad": -0.838628,
+  "epsilon_deg_mean": -2.01899,
   "epsilon_deg_by_y": [
-   -1.623,
-   -1.633,
-   -1.651,
-   -1.657,
-   -1.635,
-   -1.59,
-   -1.821,
-   -1.785
+   -1.955,
+   -1.969,
+   -1.991,
+   -1.997,
+   -1.969,
+   -1.91,
+   -2.206,
+   -2.154
   ],
   "y_stations_m": [
    0.05,
@@ -50,7 +50,7 @@
   "fin": 384
  },
  "speed_ratio_range": [
-  0.93587,
-  1.077
+  0.950082,
+  1.10497
  ]
 }

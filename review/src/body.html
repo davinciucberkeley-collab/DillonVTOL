@@ -543,38 +543,49 @@
   </ol></div>
 </section>
 
-<section class="sec" id="simulation" data-title="Simulation and verification" data-group="verify" data-n="0">
+<section class="sec" id="simulation" data-title="Simulation and verification" data-group="verify" data-n="0" data-tabs="1">
   <div class="sechead"><h2><span class="secno">0</span> Simulation and verification</h2></div>
   <p class="verdict"><b>Every SOLIDWORKS Simulation result agrees with its hand calculation within 15 %, and every margin passes.</b> Each FEA model uses the same idealisation as its hand calc (rigid root, joiner modelled as continuous with its sockets), so the FEA confirms the hand calcs rather than independently validating them. The rev B slip-fit joiner carries bending the same way once seated; the studies were not re-run on the rev B clamps. Clamp compliance would lower the boom frequency. The studies are FEA of the boom and the spar/joiner, a boom modal study and a lift-motor thermal study. A vortex-lattice model confirms the wing-and-tail neutral point and lift slope; AVL adds the pod, which moves the neutral point forward (<a class="xref" href="#aero">§4</a>). An independent Python check re-derives every sizing formula and the BOM. SOLIDWORKS Flow Simulation would not load on this licence, so the CFD runs in SU2 (<a class="xref" href="#aero">§4</a>).</p>
   <p class="src">cad/Sim.cs → cad/sim/results.txt and *.SLDPRT (studies inside); analysis/vlm.mjs → aero.json; analysis/verify.py</p>
 
-  <h3 id="sim-table">Results against hand calcs</h3>
+  <h3 id="sim-table">Results and independent checks</h3>
+  <h4 id="sim-hand">Against the hand calculations</h4>
   <div class="tbl"><table id="simTable"><thead><tr><th>Study</th><th>Quantity</th><th class="n">FEA / model</th><th class="n">Hand / sizing</th><th class="n">Diff</th><th>Margin</th></tr></thead><tbody></tbody></table></div>
   <div class="grid2" id="simImages"></div>
   <p class="src">SOLIDWORKS 2025 Simulation (Educational licence, watermark on plots). Linear static, 2nd-order tets ≈ 3 mm; 6061-T6 (SS) library material. Simplified load-path models: boom arm cantilevered at the spar clamp with a tip block sized to the lift-unit mass (motor + ESC + prop + mount, <span data-k="SIM.boom_tip_mass_target" data-d="3"></span> kg); spar + joiner half-span fixed at the centreline, carrying a uniform load scaled to the elliptic root moment.</p>
 
-  <h3 id="sim-thermal">Motor heat: steady FEA and 90 s hover</h3>
-  <p>Heat into each lift motor is estimated at 20 % of the hover input (<span data-k="SIM.motor_Q" data-d="1"></span> W) <span class="est">est</span>, with prop-wash convection at 50 W/m²K <span class="est">est</span> and 35 °C ambient. Steady-state FEA gives <span data-k="SIM.motor_T_steady" data-d="0"></span> °C, a bulk-temperature estimate for unlimited hover. Hover lasts 60–90 s, so the time response decides. The lumped estimate for a 90 s hover is <b id="thermLumped"></b> °C (band <span id="thermBand"></span> °C for c = 385–500 J/kgK; time constant <span id="thermTau"></span> s). Three back-to-back 90 s runs with 30 s rests would reach about <span id="thermT3b"></span> °C, so T3 cools the motor to 45 °C between runs.</p>
-  <div class="chain">
-    <div class="box"><div class="l">h·A from steady FEA</div><div class="v"><span id="thermHA"></span> W/K</div><div class="f">Q / (T_ss − T_amb)</div></div><span class="arr" aria-hidden="true">→</span>
-    <div class="box"><div class="l">Heat capacity</div><div class="v"><span id="thermMC"></span> J/K</div><div class="f">m c = 0.165 kg × 470 J/kgK (est, Cu/steel/Al mix)</div></div><span class="arr" aria-hidden="true">→</span>
-    <div class="box"><div class="l">Time constant</div><div class="v"><span id="thermTau2"></span> s</div><div class="f">τ = m c / (h A)</div></div><span class="arr" aria-hidden="true">→</span>
-    <div class="box"><div class="l">T after 90 s</div><div class="v ok-t"><span id="thermLumped2"></span> °C</div><div class="f">T_amb + ΔT_ss (1 − e^(−t/τ))</div></div>
-  </div>
-  <p class="src">The 90 s value here is lumped capacitance; the SOLIDWORKS transient study in the next section (cad/Thermal.cs) gives 77.2 °C for the same case. Motor heat capacity uses a mass-weighted c of 470 J/kgK <span class="est">est</span>. Copper (385) and steel (460) have lower c than aluminium (896), so an all-aluminium assumption would understate the temperature rise.</p>
+  <h4 id="sim-aero">Aerodynamics: vortex lattice</h4>
+  <div class="tbl"><table id="aeroTable"><thead><tr><th>Quantity</th><th class="n">VLM</th><th class="n">Sizing estimate</th><th>Comment</th></tr></thead><tbody></tbody></table></div>
+  <p class="src">analysis/vlm.mjs: horseshoe vortices, wing 48 × 4 + tail 16 × 2 panels, cosine spanwise spacing (Katz &amp; Plotkin, Low-Speed Aerodynamics, ch. 12). Inviscid; stopped rotors, booms and fuselage excluded.</p>
+  <div class="decision"><b class="q">Stopped-rotor and boom drag is still an estimate.</b><div>SOLIDWORKS Flow Simulation does not run on this licence, so the CFD in <a class="xref" href="#aero">§4</a> uses SU2 on the wing section. The four stopped motors, mounts and props come from handbook coefficients (Hoerner), and together they are the largest term in cruise drag after the wing; a 3-D CFD of a stopped rotor is beyond what a 2-D study can show.</div><div class="rec"><b>Recommended:</b> the car-roof drag test (<a class="xref" href="#mass">§4</a> M3) on one stopped motor and prop at <span data-k="C0.params.Vc" data-d="0"></span> m/s measures the term directly, for the cost of a luggage scale. <b>Alternative:</b> ask the department whether the Education licence includes Flow Simulation and run an external-flow study on cad/model/VTOL_Concept.SLDASM.</div></div>
+
+  <h4 id="sim-verify">Independent checks (analysis/verify.py)</h4>
+  <div class="tbl"><table id="verifyTable"><thead><tr><th>Check group</th><th>What is re-derived</th><th>Result</th></tr></thead><tbody>
+    <tr><td>Sizing F1–F12</td><td>Every formula for C0–C3, from the stored inputs, without model.js</td><td class="ok">pass</td></tr>
+    <tr><td>BOM</td><td>Line sums, tax, committed total, reserve, cap</td><td class="ok">pass (C1/C2 flagged over cap)</td></tr>
+    <tr><td>Structures</td><td>Root moment, joiner stress, boom deflection</td><td class="ok">pass</td></tr>
+    <tr><td>FEA vs hand</td><td>Boom stress, deflection, mode; spar stress; motor steady temperature (±15 %)</td><td class="ok">pass</td></tr>
+    <tr><td>VLM vs sizing</td><td>Neutral point and lift slope (±10 %); e assumption below inviscid e</td><td class="ok">pass</td></tr>
+    <tr><td>Project audit (workflow)</td><td>Six reviewers (citations, engineering, budget, requirements, CAD/sim, page), an adversarial verifier and a completeness critic</td><td class="warn">79 confirmed findings fixed in v0.3.1 or listed as open items; 2 rejected</td></tr>
+  </tbody></table></div>
+  <div class="measure"><h3 class="mh">What the team must measure</h3><ol>
+    <li><span class="id">M1</span><div><b>FEA boundary check.</b> <span class="how">Dial gauge or ruler on the boom tip with the measured clamp, under a known hanging weight.</span> <span class="fail">Deflection over 1.5 × the FEA value means clamp compliance dominates. Re-run the boom modal study with the measured stiffness before transition tests (R9).</span></div></li>
+    <li><span class="id">M2</span><div><b>Motor temperature curve.</b> <span class="how">IR thermometer every 15 s during T3.</span> <span class="fail">A measured time constant under 100 s, or a 90 s value over 80 °C, invalidates the lumped model and the hover limits (R9).</span></div></li>
+  </ol></div>
 
   <h3 id="sim-3d">Explore the results in 3-D</h3>
-  <p>The stress and temperature fields from SOLIDWORKS Simulation on the real meshes. Rotate and zoom into any area and hover to read the value there; "Go to the peak" flies to the highest stress or temperature.</p>
-  <figure class="chart fieldviz" id="fieldViz"><figcaption>SOLIDWORKS Simulation results on the analysed parts: choose a result</figcaption>
+  <p>The whole aircraft, with each SOLIDWORKS Simulation result drawn at its place on it. The coloured parts are the study meshes (stress or temperature); the grey parts are the CAD assembly outside that study, and the parts that surround a result are drawn faint so it shows through. Each study is a separate simplified model of one load path or heat source, so this is not a whole-aircraft analysis. The boom result is shown on the two front arms, the ones its 0.462 m arm represents; the rear arms are shorter and stay grey. Rotate and zoom into any area and hover to read the value there; "Go to the peak" flies to the highest stress or temperature.</p>
+  <figure class="chart fieldviz" id="fieldViz"><figcaption>SOLIDWORKS Simulation results placed on the whole aircraft (grey: outside the study shown): choose a result</figcaption>
     <div class="fz-top"><div class="seg" id="fzCases" role="group" aria-label="Result shown"></div><span class="fz-tools"><button type="button" id="fzHot">Go to the peak</button><button type="button" id="fzReset">Reset view</button></span></div>
     <div class="fz-stage"><canvas id="fzCanvas" tabindex="0" role="img" aria-label="3-D result field; use the arrow keys to rotate, plus and minus to zoom, h for the peak"></canvas><div class="fz-tip" id="fzTip" hidden></div></div>
     <div class="fz-scale" id="fzScale"></div>
     <p class="fz-note" id="fzNote"></p>
     <p class="fz-help">Drag to rotate · scroll or pinch to zoom · shift-drag or right-drag to pan · double-click to reset · hover to read a value · keyboard: arrows, + and −, h</p>
   </figure>
-  <p class="src">cad/SimFields.cs (nodal von Mises and displacement from the fine-mesh static studies saved by cad/Sim.cs; the von Mises column is matched to SOLIDWORKS' own maximum) → analysis/fea_fields.py → analysis/fea_fields.json; thermal fields from cad/Thermal.cs → analysis/thermal/thermal_results.json. Meshes reduced by vertex clustering for the web: each cluster keeps its peak stress, so the hot spots survive.</p>
+  <p class="src">cad/SimFields.cs (nodal von Mises and displacement from the fine-mesh static studies saved by cad/Sim.cs; the von Mises column is matched to SOLIDWORKS' own maximum) → analysis/fea_fields.py → analysis/fea_fields.json; thermal fields from cad/Thermal.cs → analysis/thermal/thermal_results.json. Meshes reduced by vertex clustering for the web: each cluster keeps its peak stress, so the hot spots survive. Aircraft: the CAD assembly mesh of <a class="xref" href="#model3d">§2</a> (cad/mesh, cad/params.txt comp lines). Each study is placed from the CAD positions and cad/params.txt, not by eye (boom root at the wing quarter chord, x = −c/4, since its arm feaBoomL = xFront + c/4; spar at sparX, sparY, mirrored; lift unit on each Lift_Motor; pod by the battery and flight-controller positions; pusher by the cup floor and motor can); the derivation is in review/src/fieldviz.js place(). Where a model and the CAD differ (pod cylinder position, pusher cup, front ESC side), the note under the view says so.</p>
 
-  <h3 id="sim-heat">Heat dissipation across the aircraft</h3>
+  <h3 id="sim-heat">Heat dissipation</h3>
+  <h4 id="sim-heat-air">Across the aircraft</h4>
   <p id="thVerdict">SOLIDWORKS Simulation thermal studies of the four heat sources the mission loads: each lift unit (motor, PA6-CF mount, boom, ESC), the pod (battery and flight controller in the foam bays) and the pusher. Each is a chained transient through the mission (60 s hover, 20 s transition, 600 s cruise, 20 s transition, 60 s hover) on a 35 °C day, with convection from prop wash in hover and the free stream in cruise. Heat loads are loss estimates <span class="est">est</span>; the bench and flight tests that replace them are listed below.</p>
   <figure class="chart thermviz" id="thermViz"><figcaption>Temperature fields from SOLIDWORKS Simulation, shown as a thermal camera would see them</figcaption>
     <div class="th-bar"><div class="seg" id="thCases" role="group" aria-label="Thermal case"></div></div>
@@ -598,24 +609,15 @@
   </details>
   <p class="src">cad/Thermal.cs (SOLIDWORKS Simulation 2025 thermal, steady and chained transient; the transient API now saves every step) ← analysis/thermal/thermal_inputs.py (loads and film coefficients with sources) → cad/sim/thermal/results.txt → analysis/thermal/thermal_report.py → analysis/thermal/thermal_results.json and img/. Validation: motor-only steady 143.9 °C = Sim.cs; 90 s transient 77.2 °C vs lumped 77.0 °C. Correlations, materials and limitations: docs/research/thermal.md</p>
 
-  <h3 id="sim-aero">Aerodynamics: vortex lattice</h3>
-  <div class="tbl"><table id="aeroTable"><thead><tr><th>Quantity</th><th class="n">VLM</th><th class="n">Sizing estimate</th><th>Comment</th></tr></thead><tbody></tbody></table></div>
-  <p class="src">analysis/vlm.mjs: horseshoe vortices, wing 48 × 4 + tail 16 × 2 panels, cosine spanwise spacing (Katz &amp; Plotkin, Low-Speed Aerodynamics, ch. 12). Inviscid; stopped rotors, booms and fuselage excluded.</p>
-  <div class="decision"><b class="q">Stopped-rotor and boom drag is still an estimate.</b><div>SOLIDWORKS Flow Simulation does not run on this licence, so the CFD in <a class="xref" href="#aero">§4</a> uses SU2 on the wing section. The four stopped motors, mounts and props come from handbook coefficients (Hoerner), and together they are the largest term in cruise drag after the wing; a 3-D CFD of a stopped rotor is beyond what a 2-D study can show.</div><div class="rec"><b>Recommended:</b> the car-roof drag test (<a class="xref" href="#mass">§4</a> M3) on one stopped motor and prop at <span data-k="C0.params.Vc" data-d="0"></span> m/s measures the term directly, for the cost of a luggage scale. <b>Alternative:</b> ask the department whether the Education licence includes Flow Simulation and run an external-flow study on cad/model/VTOL_Concept.SLDASM.</div></div>
-
-  <h3 id="sim-verify">Independent checks (analysis/verify.py)</h3>
-  <div class="tbl"><table id="verifyTable"><thead><tr><th>Check group</th><th>What is re-derived</th><th>Result</th></tr></thead><tbody>
-    <tr><td>Sizing F1–F12</td><td>Every formula for C0–C3, from the stored inputs, without model.js</td><td class="ok">pass</td></tr>
-    <tr><td>BOM</td><td>Line sums, tax, committed total, reserve, cap</td><td class="ok">pass (C1/C2 flagged over cap)</td></tr>
-    <tr><td>Structures</td><td>Root moment, joiner stress, boom deflection</td><td class="ok">pass</td></tr>
-    <tr><td>FEA vs hand</td><td>Boom stress, deflection, mode; spar stress; motor steady temperature (±15 %)</td><td class="ok">pass</td></tr>
-    <tr><td>VLM vs sizing</td><td>Neutral point and lift slope (±10 %); e assumption below inviscid e</td><td class="ok">pass</td></tr>
-    <tr><td>Project audit (workflow)</td><td>Six reviewers (citations, engineering, budget, requirements, CAD/sim, page), an adversarial verifier and a completeness critic</td><td class="warn">79 confirmed findings fixed in v0.3.1 or listed as open items; 2 rejected</td></tr>
-  </tbody></table></div>
-  <div class="measure"><h3 class="mh">What the team must measure</h3><ol>
-    <li><span class="id">M1</span><div><b>FEA boundary check.</b> <span class="how">Dial gauge or ruler on the boom tip with the measured clamp, under a known hanging weight.</span> <span class="fail">Deflection over 1.5 × the FEA value means clamp compliance dominates. Re-run the boom modal study with the measured stiffness before transition tests (R9).</span></div></li>
-    <li><span class="id">M2</span><div><b>Motor temperature curve.</b> <span class="how">IR thermometer every 15 s during T3.</span> <span class="fail">A measured time constant under 100 s, or a 90 s value over 80 °C, invalidates the lumped model and the hover limits (R9).</span></div></li>
-  </ol></div>
+  <h4 id="sim-thermal">One lift motor: steady FEA and 90 s hover</h4>
+  <p>Heat into each lift motor is estimated at 20 % of the hover input (<span data-k="SIM.motor_Q" data-d="1"></span> W) <span class="est">est</span>, with prop-wash convection at 50 W/m²K <span class="est">est</span> and 35 °C ambient. Steady-state FEA gives <span data-k="SIM.motor_T_steady" data-d="0"></span> °C, a bulk-temperature estimate for unlimited hover. Hover lasts 60–90 s, so the time response decides. The lumped estimate for a 90 s hover is <b id="thermLumped"></b> °C (band <span id="thermBand"></span> °C for c = 385–500 J/kgK; time constant <span id="thermTau"></span> s). Three back-to-back 90 s runs with 30 s rests would reach about <span id="thermT3b"></span> °C, so T3 cools the motor to 45 °C between runs.</p>
+  <div class="chain">
+    <div class="box"><div class="l">h·A from steady FEA</div><div class="v"><span id="thermHA"></span> W/K</div><div class="f">Q / (T_ss − T_amb)</div></div><span class="arr" aria-hidden="true">→</span>
+    <div class="box"><div class="l">Heat capacity</div><div class="v"><span id="thermMC"></span> J/K</div><div class="f">m c = 0.165 kg × 470 J/kgK (est, Cu/steel/Al mix)</div></div><span class="arr" aria-hidden="true">→</span>
+    <div class="box"><div class="l">Time constant</div><div class="v"><span id="thermTau2"></span> s</div><div class="f">τ = m c / (h A)</div></div><span class="arr" aria-hidden="true">→</span>
+    <div class="box"><div class="l">T after 90 s</div><div class="v ok-t"><span id="thermLumped2"></span> °C</div><div class="f">T_amb + ΔT_ss (1 − e^(−t/τ))</div></div>
+  </div>
+  <p class="src">The 90 s value here is lumped capacitance; the SOLIDWORKS transient study in "Across the aircraft" above (cad/Thermal.cs) gives 77.2 °C for the same case. Motor heat capacity uses a mass-weighted c of 470 J/kgK <span class="est">est</span>. Copper (385) and steel (460) have lower c than aluminium (896), so an all-aluminium assumption would understate the temperature rise.</p>
 </section>
 
 <section class="sec" id="benchmarks" data-title="Benchmarks" data-group="verify" data-n="0">

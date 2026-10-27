@@ -272,8 +272,10 @@ class Scene:
         return self.objs[name]
 
     def phone(self, name, loc, rot=(70, 0, 0)):
-        ob = self.box(name, loc, (0.075, 0.009, 0.155), RS.mat('phone', (0.06, 0.06, 0.07), 0.2, coat=1.0), 0.006)
-        ob.rotation_euler = tuple(math.radians(r) for r in rot); return ob
+        # built at the origin, then tilted and moved, so the tilt turns it about its own centre
+        ob = self.box(name, (0, 0, 0), (0.075, 0.009, 0.155), RS.mat('phone', (0.06, 0.06, 0.07), 0.2, coat=1.0), 0.003)   # bevel under half the 9 mm thickness or the mesh collapses
+        ob.rotation_euler = tuple(math.radians(r) for r in rot); ob.location = Vector(loc) + ob.location
+        bpy.context.view_layer.update(); return ob
 
     def laptop(self, name, loc):
         self.box(name, (loc[0], loc[1], loc[2] + 0.01), (0.34, 0.24, 0.02), RS.mat('laptop', (0.6, 0.62, 0.65), 0.3, metal=0.6))

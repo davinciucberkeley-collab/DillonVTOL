@@ -558,7 +558,7 @@ class Thermal
         double bl = bL / 2 + 0.005, bayBot = -0.080 - D("yPod");   // BuildVtol.cs Fuselage(): battery bay from y = -0.080 (global) 60 mm up, 60 wide
         double Tamb = I("ambient.hot_K");
         ModelDoc2 d = NewPart();
-        Sk(d, "Right Plane"); Circ(d, 0, 0, Rr); EndSk(d); Ext(d, 0, -L / 2, L / 2, false, "FoamBody");   // a body takes the name of the last feature that modifies it, so the last cut is named "Foam"
+        Sk(d, "Right Plane"); Circ(d, 0, 0, Rr); EndSk(d); Ext(d, 0, -L, 0, false, "FoamBody");   // pod runs aft from its nose at local 0 (global x 0.45) to -fusL (was centred on the nose, 2026-10-27 fix)   // a body takes the name of the last feature that modifies it, so the last cut is named "Foam"
         Sk(d, "Top Plane"); Rect(d, bx - bl, -0.030, bx + bl, 0.030); EndSk(d); CutRange(d, 1, bayBot, bayBot + 0.060, "battery bay");
         Sk(d, "Top Plane"); Rect(d, bayX0, -bayZ, bayX1, bayZ); EndSk(d); CutRange(d, 1, bayY0, bayY1, "Foam");
         Sk(d, "Top Plane"); Rect(d, bx - bL / 2, -bW / 2, bx + bL / 2, bW / 2); EndSk(d); Ext(d, 1, bayBot + 0.003, bayBot + 0.003 + bH, false, "Battery");

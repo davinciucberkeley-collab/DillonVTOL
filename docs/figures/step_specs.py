@@ -289,7 +289,7 @@ def b_7_5(S):
 
 def b_7_7(S):
     S.assembly(focus=[], context=['Boom_Front-1', 'Boom_Rear_Stub-1', 'Splice_Plug-1'] + UNIT(1)[:3], lift=0.15)
-    S.vise('vise', (0.0, -0.4337, 0.0)); S.phone('phone', (0.35, -0.25, 0.12))
+    S.vise('vise', (0.0, -0.4337, 0.0)); S.phone('phone', (0.18, -0.70, 0.085))   # in the open, in front of the vise (not hidden under the motor)
     S.label('vise', 'Clamp at the wing-clamp station (526.2 mm)'); S.label('Lift_Motor-1', 'Tap the front motor; phone app records the ringing'); S.label('phone', 'Spectrum app: first bending mode near 32 Hz')
     S.view(30, 25, lens=40)
 

@@ -1,7 +1,7 @@
 """3-D streamlines over the v0.4 lifting surfaces (wing, H-tail, twin fins) from the AeroSandbox vortex-lattice model.
 
 AeroSandbox 4.2.10 (PyPI, https://github.com/peterdsharpe/AeroSandbox, checked 2026-10-21) VortexLatticeMethod,
-same geometry as asb_model.airplane() (results.json v0.4 span/chord, cad/params.txt tail), cruise 20 m/s at the AVL
+same geometry as asb_model.airplane() (results.json v0.4 span/chord, cad/params.txt tail), cruise speed (common.V_CRUISE) at the AVL
 trimmed angle of attack (aero_results.json trim_cruise.alpha_deg; elevator not modelled, control surfaces are not
 part of the VLM geometry; the pod is ignored by the VLM).  Streamlines are integrated with RK4 (fixed spatial step)
 through the free-stream + horseshoe-vortex induced velocity field (VortexLatticeMethod.get_velocity_at_points),
@@ -137,7 +137,7 @@ def plot(P, S, pan, res):
     ax2.set_title("rear projection (Z, Y): downwash behind the wing, roll-up around the tips", fontsize=10)
     sm = cm.ScalarMappable(norm=norm, cmap=cmap); sm.set_array([])
     cb = fig.colorbar(sm, ax=ax2, shrink=0.95, pad=0.015); cb.set_label("|V| / V∞ along the streamline")
-    fig.suptitle(f"Streamlines over the v0.4 lifting surfaces — AeroSandbox {asb.__version__} VLM, cruise 20 m/s, α = {ALPHA:.2f}° (AVL trim), "
+    fig.suptitle(f"Streamlines over the v0.4 lifting surfaces — AeroSandbox {asb.__version__} VLM, cruise {V_INF:g} m/s, α = {ALPHA:.2f}° (AVL trim), "
                  f"CL {float(res['CL']):.3f}; inviscid potential flow, pod not modelled", fontsize=10)
     fig.savefig(PLOTS / "flow_3d.png", bbox_inches="tight"); plt.close(fig)
 

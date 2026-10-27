@@ -83,6 +83,7 @@ def part_material(part):
     if n.startswith(('Lift_Motor', 'Pusher_Motor')): return mat('motor', (0.09, 0.09, 0.1), 0.35, metal=0.8)
     if n.startswith(('Motor_Mount', 'Pusher_Cup')): return mat('PA6-CF', (0.13, 0.13, 0.14), 0.6)
     if n.startswith('Battery_6S'): return mat('battery', (0.12, 0.25, 0.55), 0.5)
+    if n.startswith(('Flight_Controller', 'ESC', 'Receiver', 'GPS')): return mat('circuit board', (0.05, 0.22, 0.12), 0.4)   # electronics read as boards, not as printed parts
     if n[:1] in 'FNWI' and n[1:3].isdigit(): return mat('steel', (0.62, 0.63, 0.65), 0.3, metal=1.0)
     c = META.get(n, {}).get('c', [0.55, 0.57, 0.6])
     return mat('PETG ' + n, tuple(c), 0.5)

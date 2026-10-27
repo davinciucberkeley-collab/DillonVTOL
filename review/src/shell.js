@@ -25,7 +25,7 @@ const Shell = (()=>{
   }
   // ---------- sub-tabs: one panel per h3; content before the first h3 is the Summary panel ----------
   function buildTabs(s){
-    const hs=[...s.querySelectorAll(':scope > h3[id]')]; if(hs.length<TAB_MIN || s.dataset.nonum) return;
+    const hs=[...s.querySelectorAll(':scope > h3[id]')]; if((hs.length<TAB_MIN && !s.dataset.tabs) || s.dataset.nonum) return;   // data-tabs: tabs even with fewer sub-sections
     const head=s.querySelector(':scope > .sechead'); const tabs=[{id:s.id+'-summary', label:'Summary'}];
     const summary=document.createElement('div'); summary.className='tabpanel'; summary.dataset.tab=tabs[0].id;
     let panel=summary; const panels=[summary], measures=[];
