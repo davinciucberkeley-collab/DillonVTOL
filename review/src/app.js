@@ -466,7 +466,7 @@ function touchGate(view){
 const CHARTS = {speedChart:()=>drawSpeed(), benchChart:()=>drawBench(), tradeChart:()=>drawTrade(), dragChart:()=>drawDrag(), polarChart:()=>drawPolar(), tornado:()=>drawTornado(), packChart:()=>drawPack(), capChart:()=>drawCap(), dutyChart:()=>drawDuty(), cgChart:()=>drawCG(), stateSvg:()=>drawState(), gantt:()=>drawGantt()};
 // charts in a hidden chapter measure zero width, so only the visible chapter's charts are drawn; print draws all
 // a chart in a hidden tab is skipped here and draws when its tab opens
-function redrawIn(sec){ if(!sec || sec.id==='sources') Sources.redraw(); for(const id in CHARTS){ const e=document.getElementById(id); if(e && (!sec || sec.contains(e)) && !e.closest('[hidden]')) CHARTS[id](); } if(CV && CV.refresh && (!sec || sec.contains($('#cadView')))) CV.refresh(); FlowViz.redraw(); if(!sec || sec.contains($('#thermViz'))) ThermViz.redraw(); if(!sec || sec.contains($('#fieldViz'))) FieldViz.redraw(); }
+function redrawIn(sec){ if(!sec || sec.id==='sources') Sources.redraw(); for(const id in CHARTS){ const e=document.getElementById(id); if(e && (!sec || sec.contains(e)) && !e.closest('[hidden]')) CHARTS[id](); } if(CV && CV.refresh && (!sec || sec.contains($('#cadView')))) CV.refresh(); FlowViz.redraw(); if(!sec || sec.contains($('#thermViz'))) ThermViz.redraw(); if(!sec || sec.contains($('#fieldViz'))) FieldViz.redraw(); if(!sec || sec.contains($('#cfdViz'))) CfdViz.redraw(); if(!sec || sec.contains($('#claimsMap'))) ClaimsMap.redraw(); }
 function redrawAll(){ redrawIn(null); }
 function lazyCad(){ const v=$('#cadView'); if(!v) return;
   if(!('IntersectionObserver' in window)){ initCad(); return; }

@@ -298,15 +298,21 @@ def surface_cp(d: Path):
         out["Cfx"] = data[:, icf].tolist()
     return out
 
-def gci(f1, f2, f3, r=math.sqrt(2.0), Fs=1.25):
-    """Celik et al., J. Fluids Eng. 130 (2008) 078001: f1 fine, f2 medium, f3 coarse, constant ratio r."""
+def gci(f1, f2, f3, r21=math.sqrt(2.0), r32=None, Fs=1.25):
+    """Celik et al., J. Fluids Eng. 130 (2008) 078001: f1 fine, f2 medium, f3 coarse; r21, r32 the grid refinement
+    ratios (2-D: sqrt of the cell-count ratios). Unequal ratios are solved by the paper's fixed-point iteration for p.
+    Until 2026-10-29 this assumed r = sqrt(2) for both steps, which understated the uncertainty (audit AERO-04)."""
+    r32 = r21 if r32 is None else r32
     e32, e21 = f3 - f2, f2 - f1
     if abs(e21) < 1e-12 or abs(e32) < 1e-12 or e32 / e21 <= 0:
         return {"p": None, "GCI_fine_pct": None, "f_ext": None, "note": "oscillatory or converged to round-off; GCI undefined"}
-    p = abs(math.log(abs(e32 / e21))) / math.log(r)
-    f_ext = (r**p * f1 - f2) / (r**p - 1)
+    s = 1.0 if e32 / e21 > 0 else -1.0
+    p = abs(math.log(abs(e32 / e21))) / math.log(r21)
+    for _ in range(200):
+        p = abs(math.log(abs(e32 / e21)) + math.log((r21 ** p - s) / (r32 ** p - s))) / math.log(r21)
+    f_ext = (r21**p * f1 - f2) / (r21**p - 1)
     ea = abs((f1 - f2) / f1) if f1 else float("nan")
-    return {"p": p, "GCI_fine_pct": 100 * Fs * ea / (r**p - 1), "f_ext": f_ext, "e21_pct": 100 * ea}
+    return {"p": p, "GCI_fine_pct": 100 * Fs * ea / (r21**p - 1), "f_ext": f_ext, "e21_pct": 100 * ea, "r21": r21, "r32": r32}
 
 def _clean(o):
     """non-finite floats -> None (NaN/Inf are not valid JSON)"""
@@ -362,7 +368,9 @@ def assemble(parsed: dict, wall_s_total, extra=None):
         excluded = {f"L{L}": (ran[L]["reason"] if ran[L] else "not run") for L in (1, 2, 3) if not ok[L]}
         val = lambda L, k: ok[L][k] if ok[L] else None
         if all(ok.values()):
-            g_cl, g_cd = gci(ok[3]["CL"], ok[2]["CL"], ok[1]["CL"]), gci(ok[3]["CD"], ok[2]["CD"], ok[1]["CD"])
+            n = {L: mesh_info.get(f"L{L}", {}).get("cells") for L in (1, 2, 3)}
+            rr = (math.sqrt(n[3] / n[2]), math.sqrt(n[2] / n[1])) if all(n.values()) else (math.sqrt(2.0), math.sqrt(2.0))   # 2-D: h ~ N^-1/2
+            g_cl, g_cd = gci(ok[3]["CL"], ok[2]["CL"], ok[1]["CL"], *rr), gci(ok[3]["CD"], ok[2]["CD"], ok[1]["CD"], *rr)
         else:
             g_cl = g_cd = {"p": None, "GCI_fine_pct": None, "f_ext": None,
                            "note": "GCI needs all three meshes usable; excluded: " + ", ".join(excluded)}

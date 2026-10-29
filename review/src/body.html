@@ -385,6 +385,62 @@
     <div class="fv-foot"><div class="fv-legend" id="fvLegend"></div><p class="fv-read" id="fvRead" aria-live="polite"></p></div>
   </figure>
   <p class="src">2-D: analysis/aero/flowfield_2d.py → out/flowviz/flow2d.json (SU2 8.5.0 incompressible RANS, Spalart–Allmaras fully turbulent, fine mesh unless labelled; field resampled to a 220 × 128 grid; motion slowed for viewing). 3-D: analysis/aero/flowfield_3d.py → out/flowviz/flow3d.json (AeroSandbox 4.2.10 vortex lattice, 120 streamlines, RK4). Static renders: analysis/aero/plots/flow_*.png. Method, convergence and limits: docs/research/aerodynamics.md §11</p>
+  <h3 id="ae-cfd3d">Whole aircraft: 3-D CFD</h3>
+  <p class="verdict" id="cfVerdict"></p>
+  <p>This is a real solver run on the complete aircraft: SU2 solved the incompressible Euler equations on a gmsh tetrahedral mesh of the wing, pod, canopy, booms, clamps and motor mounts, stopped lift motors, pusher motor, tail, fins and faired landing gear. Everything in the view is read from the solver's own files. Use the layers to switch between flow, pressure and the computational mesh, and hover the surface to read Cp.</p>
+  <figure class="fieldviz cfdviz" id="cfdViz">
+    <figcaption>Full-aircraft flow at cruise. Select a simulated condition; nothing is interpolated between cases.</figcaption>
+    <div class="fz-top cf-top">
+      <div class="seg" role="group" aria-label="Flight condition"><button type="button" aria-pressed="true">Cruise, 18 m/s</button><button type="button" disabled title="Not simulated: needs rotating-rotor or actuator-disk modelling of four 17 in lift rotors (see the limits below)">Hover: not run</button><button type="button" disabled title="Not simulated: needs rotor modelling and a transient or quasi-steady set of tilted-wake cases">Transition: not run</button></div>
+      <div class="seg" id="cfCases" role="group" aria-label="Angle of attack"></div>
+      <div class="seg" id="cfField" role="group" aria-label="Surface colour"><button type="button" data-f="cp" aria-pressed="true">Cp</button><button type="button" data-f="s">Speed</button><button type="button" data-f="grey">Plain</button></div>
+      <div class="fz-tools" id="cfCam"><button type="button" data-cam="iso">3/4</button><button type="button" data-cam="front">Front</button><button type="button" data-cam="top">Top</button><button type="button" data-cam="side">Side</button><button type="button" data-cam="rear">Rear</button><button type="button" data-cam="tip">Wing tip</button></div>
+    </div>
+    <div class="cf-layers" id="cfLayers" role="group" aria-label="Layers">
+      <span class="cf-lgrp">Flow</span>
+      <label><input type="checkbox" value="surface"> Surface field</label>
+      <label><input type="checkbox" value="stream"> Streamlines</label>
+      <label><input type="checkbox" value="planes"> Wake planes</label>
+      <label><input type="checkbox" value="sym"> Symmetry-plane slice</label>
+      <span class="seg cf-mini" id="cfPlaneF" role="group" aria-label="Wake-plane quantity"><button type="button" data-p="cp" aria-pressed="true">Cp</button><button type="button" data-p="omx">Vorticity</button></span>
+      <span class="cf-lgrp">Mesh</span>
+      <label><input type="checkbox" value="wall"> Surface mesh</label>
+      <label><input type="checkbox" value="symmesh"> Symmetry-plane mesh</label>
+      <label><input type="checkbox" value="cut"> Volume cut (element quality)</label>
+      <label class="cf-mir"><input type="checkbox" id="cfMirror" checked> Mirror to port</label>
+      <button type="button" class="fv-play" id="cfPlay" aria-pressed="false">Pause particles</button>
+    </div>
+    <div class="fz-stage"><canvas id="cfCanvas" tabindex="0" role="img" aria-label="Whole-aircraft CFD view"></canvas><div class="fz-tip" id="cfTip" hidden></div></div>
+    <div class="fz-scale cf-legend" id="cfLegend"></div>
+    <p class="fz-note" id="cfNote" aria-live="polite">Open this tab to load the CFD data.</p>
+    <p class="fz-help">Drag to rotate · wheel or pinch to zoom · shift-drag or right-drag to pan · double-click to reset · hover the surface for Cp and speed. The run is a half model with a symmetry plane, mirrored to port for display.</p>
+  </figure>
+  <div id="cfNums"></div>
+  <figure class="chart"><figcaption>Solver history for the selected case: pressure residual and lift coefficient</figcaption><div class="svgwrap"><svg id="cfHist" viewBox="0 0 640 220" role="img" aria-label="Residual and CL history"></svg></div></figure>
+  <h4 id="ae-cfd3d-results">Results, convergence and checks</h4>
+  <div class="tbl"><table id="cfCaseTable"><thead><tr><th>Case</th><th class="n">α</th><th class="n">Tets</th><th class="n">CL</th><th class="n">CMy</th><th class="n">CDi Trefftz</th><th class="n">Own CL integration</th><th class="n">Iterations</th><th class="n">rms p drop</th></tr></thead><tbody></tbody></table></div>
+  <div class="tbl"><table id="cfCheckTable"><thead><tr><th>Check</th><th>Status</th><th>Result</th></tr></thead><tbody></tbody></table></div>
+  <h4 id="ae-cfd3d-mesh">Computational mesh</h4>
+  <div class="tbl"><table id="cfMeshTable"><thead><tr><th>Level</th><th class="n">Tetrahedra</th><th class="n">Nodes</th><th class="n">Wing triangles</th><th class="n">Wall size mm</th><th class="n">TE size mm</th><th class="n">min SICN</th><th class="n">1 % SICN</th><th class="n">mean SICN</th></tr></thead><tbody></tbody></table></div>
+  <div class="cf-patches" id="cfMeshCmp"></div>
+  <details class="more"><summary>Mesh strategy, domain and solver settings</summary>
+    <ul class="cf-list">
+      <li><b>Mesher:</b> gmsh 4.15.2 (OpenCASCADE geometry, Frontal-Delaunay surfaces, HXT tetrahedra, Netgen optimiser). Linear tetrahedra, linear wall triangles, no prism layer (inviscid run).</li>
+      <li><b>Sizing:</b> curvature (24 elements per 2π radius), distance-to-wall threshold from the wall size to 0.9 m, trailing-edge lines and their end points (0.6 mm), boxes around the aircraft, its wake and the starboard tip-vortex path. The three levels differ only by one length scale (1.5 / 1.0 / 0.72).</li>
+      <li><b>Domain:</b> half model (starboard), symmetry plane at the centreline; box 8 m ahead of the nose, 16 m behind, 8 m above and below, 10 m outboard. Far field: SU2 MARKER_FAR; walls: slip (MARKER_EULER).</li>
+      <li><b>Solver:</b> SU2 8.5.0 (win64, OpenMP, 20 threads), INC_EULER, constant density 1.225 kg/m³, FDS upwind with MUSCL and Venkatakrishnan limiter, implicit Euler with adaptive CFL 5–30, FGMRES/ILU. Stop on a Cauchy criterion (CL, CD, CMy, 200 iterations, 1e-6) or 3000 iterations.</li>
+      <li><b>References:</b> S 0.682 m² (CAD wing 0.2842 × 2.4 m), c 0.2842 m, moment about the design CG (x = −0.0789 m from the LE, on the chord line; the CG height is not tracked by the sizing).</li>
+      <li><b>Not modelled:</b> viscosity (no skin friction, no physical separation, no stall), propellers (power off), control deflections (0°), sideslip (β 0°). Lift, pitching moment, pressure distribution, induced drag, downwash and tip vortices are what this run resolves.</li>
+    </ul>
+  </details>
+  <details class="more"><summary>CFD geometry against the SOLIDWORKS model: what was simplified and why</summary>
+    <p>The outer mould line was rebuilt in gmsh from the same <code>cad/params.txt</code> parameters and placements as the SOLIDWORKS parts (analysis/cfd3d/build_geometry.py). The raw STEP fuses into 0.1 mm bore gaps, 1.2 mm clamp split gaps, open hinge gaps and fastener holes, each of which a volume mesh would have to resolve. Each rebuilt part is compared with its STEP solid below.</p>
+    <div class="tbl"><table id="cfGeoTable"><thead><tr><th>CAD parts</th><th>CFD representation</th><th>Differences</th></tr></thead><tbody></tbody></table></div>
+    <div class="tbl"><table id="cfFidTable"><thead><tr><th>Part</th><th class="n">STEP solids</th><th class="n">Largest bounding-box difference, mm</th><th>Note</th></tr></thead><tbody></tbody></table></div>
+  </details>
+  <div class="blocked"><b>Hover and transition CFD are not run.</b> Both need the four 17 in lift rotors modelled: an actuator disk is available in SU2 only for the compressible solver, and resolved rotating blades need a sliding or overset mesh and hours per revolution on this workstation. Interpolating or inventing those fields would misrepresent them, so the view offers cruise only. The cruise runs are power-off (no pusher slipstream), at 0° elevator (not trimmed), and inviscid, so drag is not predicted.</div>
+  <p class="src">analysis/cfd3d/build_geometry.py → out/oml_half.brep, oml_fidelity.json; build_mesh.py → out/L1–L3/mesh.su2, mesh_stats.json; run_cases.py → out/cases/*/ (case.cfg, su2.log, history.csv, restart_flow.csv, forces_breakdown.dat) and out/cfd3d_results.json; postprocess.py → out/post/*.json, out/viz/cfd3d_viz.json; verify_cfd.py → analysis/validation/claims_cfd.json. Run on 2026-10-29.</p>
+
   <h3 id="ae-stab">Stability</h3>
   <p id="stabNote"></p>
   <details class="more"><summary>AVL stability derivatives at cruise trim</summary>
@@ -545,7 +601,7 @@
 
 <section class="sec" id="simulation" data-title="Simulation and verification" data-group="verify" data-n="0" data-tabs="1">
   <div class="sechead"><h2><span class="secno">0</span> Simulation and verification</h2></div>
-  <p class="verdict"><b>Every SOLIDWORKS Simulation result agrees with its hand calculation within 15 %, and every margin passes.</b> Each FEA model uses the same idealisation as its hand calc (rigid root, joiner modelled as continuous with its sockets), so the FEA confirms the hand calcs rather than independently validating them. The rev B slip-fit joiner carries bending the same way once seated; the studies were not re-run on the rev B clamps. Clamp compliance would lower the boom frequency. The studies are FEA of the boom and the spar/joiner, a boom modal study and a lift-motor thermal study. A vortex-lattice model confirms the wing-and-tail neutral point and lift slope; AVL adds the pod, which moves the neutral point forward (<a class="xref" href="#aero">§4</a>). An independent Python check re-derives every sizing formula and the BOM. SOLIDWORKS Flow Simulation would not load on this licence, so the CFD runs in SU2 (<a class="xref" href="#aero">§4</a>).</p>
+  <p class="verdict"><b>Every SOLIDWORKS Simulation result agrees with its hand calculation within 15 %, and every margin passes on the loads the studies were given; the 2026-10-29 audit found that those loads understate the lift-unit mass by 37 % and that no landing case exists (<a class="xref" href="#validation">Validation matrix</a> STR-05, STR-11).</b> An independent gmsh and C3D10 re-solve of the boom study, with no SOLIDWORKS code in the loop, is in the validation matrix. Each FEA model uses the same idealisation as its hand calc (rigid root, joiner modelled as continuous with its sockets), so the FEA confirms the hand calcs rather than independently validating them. The rev B slip-fit joiner carries bending the same way once seated; the studies were not re-run on the rev B clamps. Clamp compliance would lower the boom frequency. The studies are FEA of the boom and the spar/joiner, a boom modal study and a lift-motor thermal study. A vortex-lattice model confirms the wing-and-tail neutral point and lift slope; AVL adds the pod, which moves the neutral point forward (<a class="xref" href="#aero">§4</a>). An independent Python check re-derives every sizing formula and the BOM. SOLIDWORKS Flow Simulation would not load on this licence, so the CFD runs in SU2: 2-D sections and, since 2026-10-29, the whole aircraft in 3-D (<a class="xref" href="#aero">§4</a>).</p>
   <p class="src">cad/Sim.cs → cad/sim/results.txt and *.SLDPRT (studies inside); analysis/vlm.mjs → aero.json; analysis/verify.py</p>
 
   <h3 id="sim-table">Results and independent checks</h3>
@@ -557,7 +613,7 @@
   <h4 id="sim-aero">Aerodynamics: vortex lattice</h4>
   <div class="tbl"><table id="aeroTable"><thead><tr><th>Quantity</th><th class="n">VLM</th><th class="n">Sizing estimate</th><th>Comment</th></tr></thead><tbody></tbody></table></div>
   <p class="src">analysis/vlm.mjs: horseshoe vortices, wing 48 × 4 + tail 16 × 2 panels, cosine spanwise spacing (Katz &amp; Plotkin, Low-Speed Aerodynamics, ch. 12). Inviscid; stopped rotors, booms and fuselage excluded.</p>
-  <div class="decision"><b class="q">Stopped-rotor and boom drag is still an estimate.</b><div>SOLIDWORKS Flow Simulation does not run on this licence, so the CFD in <a class="xref" href="#aero">§4</a> uses SU2 on the wing section. The four stopped motors, mounts and props come from handbook coefficients (Hoerner), and together they are the largest term in cruise drag after the wing; a 3-D CFD of a stopped rotor is beyond what a 2-D study can show.</div><div class="rec"><b>Recommended:</b> the car-roof drag test (<a class="xref" href="#mass">§4</a> M3) on one stopped motor and prop at <span data-k="C0.params.Vc" data-d="0"></span> m/s measures the term directly, for the cost of a luggage scale. <b>Alternative:</b> ask the department whether the Education licence includes Flow Simulation and run an external-flow study on cad/model/VTOL_Concept.SLDASM.</div></div>
+  <div class="decision"><b class="q">Stopped-rotor and boom drag is still an estimate.</b><div>The whole-aircraft CFD in <a class="xref" href="#aero">§4</a> is inviscid, so it resolves lift, moment and induced drag but not the skin friction and base drag of the four stopped motors, mounts and booms. Those still come from handbook coefficients (Hoerner), and together they are the largest term in cruise drag after the wing. A viscous full-aircraft run needs prism layers on every part and is the next CFD step.</div><div class="rec"><b>Recommended:</b> the car-roof drag test (<a class="xref" href="#mass">§4</a> M3) on one stopped motor and prop at <span data-k="C0.params.Vc" data-d="0"></span> m/s measures the term directly, for the cost of a luggage scale. <b>Alternative:</b> ask the department whether the Education licence includes Flow Simulation and run an external-flow study on cad/model/VTOL_Concept.SLDASM.</div></div>
 
   <h4 id="sim-verify">Independent checks (analysis/verify.py)</h4>
   <div class="tbl"><table id="verifyTable"><thead><tr><th>Check group</th><th>What is re-derived</th><th>Result</th></tr></thead><tbody>
@@ -618,6 +674,34 @@
     <div class="box"><div class="l">T after 90 s</div><div class="v ok-t"><span id="thermLumped2"></span> °C</div><div class="f">T_amb + ΔT_ss (1 − e^(−t/τ))</div></div>
   </div>
   <p class="src">The 90 s value here is lumped capacitance; the SOLIDWORKS transient study in "Across the aircraft" above (cad/Thermal.cs) gives 77.2 °C for the same case. Motor heat capacity uses a mass-weighted c of 470 J/kgK <span class="est">est</span>. Copper (385) and steel (460) have lower c than aluminium (896), so an all-aluminium assumption would understate the temperature rise.</p>
+</section>
+
+<section class="sec" id="validation" data-title="Validation matrix" data-group="verify" data-n="0" data-tabs="1">
+  <div class="sechead"><h2><span class="secno">0</span> Validation matrix</h2></div>
+  <p class="verdict" id="vmVerdict"><b>Every major engineering claim in this review, checked for evidence that its computation ran, whether it reproduces, and whether an independent calculation agrees.</b> A picture of a simulation is not counted as evidence. Where two checks share inputs or assumptions, the matrix says so rather than counting them as independent.</p>
+  <div class="kpis cf-k" id="vmKpis"></div>
+  <p class="src">analysis/validation/build_matrix.py → validation_matrix.json and docs/validation/VALIDATION-MATRIX.md, merging claims_aero.json (check_aero.py), claims_struct.json (check_struct.py) and claims_cfd.json (analysis/cfd3d/verify_cfd.py). Audit date 2026-10-29.</p>
+
+  <h3 id="vm-map">Claims map</h3>
+  <p>Each SOLIDWORKS part is coloured by the worst status among the claims about its component: <span class="chip fail">Failed</span> <span class="chip open">Unverified</span> <span class="chip risk">Partially Verified</span> <span class="chip met">Verified</span>; fasteners are grey. Click a part, or a component below, to list its claims with the equations, inputs, assumptions, evidence and independent check behind each one.</p>
+  <figure class="fieldviz vmviz" id="claimsMap">
+    <div class="fz-top"><div class="seg vm-chips" id="vmChips" role="group" aria-label="Component"></div></div>
+    <div class="fz-stage"><canvas id="vmCanvas" tabindex="0" role="img" aria-label="Aircraft coloured by verification status"></canvas></div>
+    <p class="fz-note" id="vmHint" aria-live="polite">Hover a part to see its status; click to list its claims.</p>
+  </figure>
+  <div id="vmPanel" class="vm-panel"></div>
+
+  <h3 id="vm-table">All claims</h3>
+  <div class="vm-filter"><label>Status <select id="vmFStatus"><option value="">All</option><option>Failed</option><option>Unverified</option><option>Partially Verified</option><option>Verified</option></select></label>
+    <label>Discipline <select id="vmFDisc"></select></label><label>Search <input type="search" id="vmFText" placeholder="ID or words"></label><span id="vmCount" class="vm-n"></span></div>
+  <div class="tbl"><table id="vmTable"><thead><tr><th>ID</th><th>Component</th><th>Discipline</th><th>Claim</th><th>Status</th><th class="n">Independent Δ</th><th>Why</th></tr></thead><tbody></tbody></table></div>
+
+  <h3 id="vm-mfg">Manufacturing readiness</h3>
+  <p>Whether each subsystem is specified well enough to build: dimensions, tolerances, fits, fasteners, adhesives and assembly order, checked against the CAD, the drawings and the hardware specification.</p>
+  <div class="tbl"><table id="vmMfg"><thead><tr><th>Subsystem</th><th>Level</th><th>What blocks it</th></tr></thead><tbody></tbody></table></div>
+  <h4 id="vm-stacks">Tolerance stacks</h4>
+  <div class="tbl"><table id="vmStacks"><thead><tr><th>Stack</th><th class="n">Worst case</th><th class="n">RSS</th><th>Requirement</th><th>Verdict</th></tr></thead><tbody></tbody></table></div>
+  <p class="src">analysis/validation/manufacturing_readiness.json (check_struct.py), from cad/params.txt, cad/hardware.json, docs/research/hardware-spec.md, cad/drawings/ and docs/build/</p>
 </section>
 
 <section class="sec" id="benchmarks" data-title="Benchmarks" data-group="verify" data-n="0">

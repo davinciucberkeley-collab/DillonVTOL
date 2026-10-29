@@ -847,6 +847,60 @@ tr.hl td{background:var(--accent-soft)}
 /* sources search: placeholder at body-text contrast (UA grey was 3.8:1 on the dark surface) */
 .srcbar input::placeholder{color:var(--fg-2);opacity:1}
 
+/* ---------- whole-aircraft CFD explorer (review/src/cfdviz.js) ---------- */
+.cf-top .seg button[disabled]{opacity:.55;cursor:not-allowed}
+.cf-layers{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;padding:10px 16px;border-bottom:1px solid var(--line);font-size:.875rem}
+.cf-layers label{display:inline-flex;align-items:center;gap:6px;min-height:32px;cursor:pointer;color:var(--fg)}
+.cf-lgrp{font:600 .75rem/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--fg-3)}
+.cf-mini button{min-height:30px;padding:0 10px}
+.cf-mir{margin-left:auto}
+.cf-legend .cf-lk{flex-basis:100%;font-family:var(--f-body);color:var(--fg-2)}
+.cf-k{grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))}
+.cf-k .kpi{grid-template-columns:1fr;border-right:1px solid var(--line)}
+.cf-k .kpi .v{text-align:left}
+.cf-res{stroke:var(--accent);stroke-width:1.6}
+.cf-cl{stroke:var(--fg-2);stroke-width:1.4;stroke-dasharray:4 3}
+.cf-patches{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:12px 0}
+.cf-patch{margin:0;border:1px solid var(--line-2);border-radius:var(--r);background:var(--surface);padding:8px}
+.cf-patch svg{display:block;width:100%;height:auto}
+.cf-patch figcaption{font:500 .8125rem var(--f-mono);color:var(--fg-2);padding-top:6px}
+.cf-wire{fill:none;stroke:var(--fg-2);stroke-width:.35}
+.cf-list li{margin:6px 0}
+.blocked{margin:16px 0;padding:14px 18px;border:1px solid var(--bad-line);border-radius:var(--r);background:var(--bad-soft);color:var(--fg);max-width:78ch}
+.blocked b{color:var(--bad)}
+@media (max-width:560px){.cf-mir{margin-left:0}}
+@media print{.cf-layers{display:none}}
+
+/* ---------- validation matrix and claims map (review/src/claimsmap.js) ---------- */
+.vm-chips button{display:inline-flex;align-items:center;gap:6px;padding:0 10px}
+.vm-dot{display:inline-block;width:10px;height:10px;border-radius:50%}
+.vm-n{font:500 .8125rem var(--f-mono);color:var(--fg-3)}
+.vm-panel{margin:12px 0 20px}
+.vm-ph{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:6px 0 10px}
+.vm-ph h4{margin:0}
+.vm-card{border:1px solid var(--line-2);border-left:4px solid var(--line-3);border-radius:var(--r);background:var(--surface);padding:12px 16px;margin:10px 0;max-width:none}
+.vm-card.vm-met{border-left-color:var(--ok)} .vm-card.vm-risk{border-left-color:var(--warn)} .vm-card.vm-open{border-left-color:var(--open)} .vm-card.vm-fail{border-left-color:var(--bad)}
+.vm-card header{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.vm-id{font:600 .875rem var(--f-mono)}
+.vm-disc{font:500 .8125rem var(--f-mono);color:var(--fg-3)}
+.vm-claim{margin:8px 0 6px;font-weight:500}
+.vm-num{display:flex;flex-wrap:wrap;gap:6px 18px;font:500 .875rem var(--f-mono);color:var(--fg-2)}
+.vm-num b{color:var(--fg);font-variant-numeric:tabular-nums}
+.vm-why{margin:8px 0 4px;color:var(--fg-2)}
+.vm-card details{margin-top:6px}
+.vm-card summary{cursor:pointer;min-height:32px;display:flex;align-items:center;color:var(--accent)}
+.vm-card h5{margin:10px 0 4px;font:600 .8125rem var(--f-body);letter-spacing:.03em;text-transform:uppercase;color:var(--fg-3)}
+.vm-card ul{margin:0;padding-left:18px}
+.vm-eq code,.vm-ev code{font-size:.8125rem;word-break:break-word}
+.vm-in{display:grid;grid-template-columns:minmax(8rem,max-content) 1fr;gap:2px 12px;margin:0;font-size:.875rem}
+.vm-in dt{font-family:var(--f-mono);color:var(--fg-2)} .vm-in dd{margin:0;word-break:break-word}
+.vm-filter{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:10px 0}
+.vm-filter select,.vm-filter input{min-height:36px;margin-left:6px;padding:0 8px;border:1px solid var(--line-3);border-radius:var(--r-s);background:var(--surface);color:var(--fg);font:inherit}
+.vm-ul{margin:0;padding-left:18px}
+#vmTable td:nth-child(4),#vmTable td:nth-child(7){min-width:14rem}
+.cf-top .fz-tools{flex-wrap:wrap}
+@media (max-width:560px){.cf-top .fz-tools{margin-left:0}.cf-top .fz-tools button{padding:0 10px}.cf-layers{padding:10px 12px;gap:4px 12px}.vm-chips button{padding:0 8px}}
+
 /* ---------- companion document page ---------- */
 /* reader: one section (or work package) at a time; side contents on wide screens, a section menu on narrow ones.
    Without the script, in "Full document" mode and in print every section shows. */
@@ -1093,7 +1147,7 @@ header.top h1{font:600 2rem/1.15 var(--f-display);letter-spacing:-.025em;max-wid
 <tr><td>S11</td><td>5 (TIM1)</td><td>Rudder R</td><td class="n">21</td></tr>
 <tr><td>S12 (LED)</td><td>5</td><td>unused</td><td class="n">0</td></tr>
 </tbody></table></div>
-<p>The review (<a class="rref" href="VTOL-Review.html#controls">§18</a> "Outputs and wiring") puts the lift motors on S7–S10 and the rudders on S5–S6. S7 shares timer group S5–S7 with S5 and S6, so DShot on S7 would force both rudder outputs into DShot. The map above keeps every servo out of a DShot group. It also matches ArduPilot's QuadPlane convention of lift motors on outputs 5–8 (quadplane-frame-setup.html). <code>tools/check_params.py --corewing</code> checks this automatically.</p>
+<p>The review (<a class="rref" href="VTOL-Review.html#controls">§19</a> "Outputs and wiring") puts the lift motors on S7–S10 and the rudders on S5–S6. S7 shares timer group S5–S7 with S5 and S6, so DShot on S7 would force both rudder outputs into DShot. The map above keeps every servo out of a DShot group. It also matches ArduPilot's QuadPlane convention of lift motors on outputs 5–8 (quadplane-frame-setup.html). <code>tools/check_params.py --corewing</code> checks this automatically.</p>
 <nav class="pager" aria-label="Previous and next section"><a class="pv" href="#3-first-flash-dfu"><span>Previous</span>First flash (DFU)</a><a class="nx" href="#5-load-the-parameters"><span>Next</span>Load the parameters</a></nav></section>
 <section class="pg" id="pg-5-load-the-parameters" data-id="5-load-the-parameters">
 <h2 id="5-load-the-parameters">5. Load the parameters</h2>
@@ -1149,7 +1203,7 @@ header.top h1{font:600 2rem/1.15 var(--f-display);letter-spacing:-.025em;max-wid
 <nav class="pager" aria-label="Previous and next section"><a class="pv" href="#7-motor-order-direction-and-servo-checks"><span>Previous</span>Motor order, direction and servo checks</a><a class="nx" href="#9-first-flight-build-up"><span>Next</span>First-flight build-up</a></nav></section>
 <section class="pg" id="pg-9-first-flight-build-up" data-id="9-first-flight-build-up">
 <h2 id="9-first-flight-build-up">9. First-flight build-up</h2>
-<p>Fly at a site that allows the test (review <a class="rref" href="VTOL-Review.html#schedule">§16</a>). Hover tests: ≤ 5 m AGL, ≤ 60 s per hover (review <a class="rref" href="VTOL-Review.html#controls">§18</a>, R14). Transitions: ≥ 30 m AGL, into wind. Wind ≤ 5 m/s, gusts ≤ 8 m/s (R16). The full checklists are in <code>checklists.md</code>.</p>
+<p>Fly at a site that allows the test (review <a class="rref" href="VTOL-Review.html#schedule">§17</a>). Hover tests: ≤ 5 m AGL, ≤ 60 s per hover (review <a class="rref" href="VTOL-Review.html#controls">§19</a>, R14). Transitions: ≥ 30 m AGL, into wind. Wind ≤ 5 m/s, gusts ≤ 8 m/s (R16). The full checklists are in <code>checklists.md</code>.</p>
 <h3 id="9-1-sitl-rehearsal-every-pilot-before-any-flight">9.1 SITL rehearsal (every pilot, before any flight)</h3>
 <p>Use the <b>C0 airframe model</b>, not the generic QuadPlane: <code>sitl\run_c0_sitl.ps1 -SitlExe &lt;ArduPlane.exe&gt;</code> starts <code>sitl/c0_physics.py</code> (a 6-DOF model built from the repo's mass, geometry, AVL aero, motor and prop data) and ArduPlane 4.7.2 SITL on its JSON physics interface; connect Mission Planner to TCP 127.0.0.1:5760 and fly with the Pocket Crush as a USB joystick: QSTABILIZE take-off, QLOITER, FBWA transition, CRUISE, QLOITER back-transition, QLAND. Practise the E-stop and RTL switches. Expect what the model shows (<code>sitl/README.md</code>, C0 section): hover at about 0.62–0.66 output, 37–38 A; forward transition 13–15 s and 140–170 m; a 30° nose-up, stalled-wing "airbrake" phase at the start of every back-transition; cruise at 18 m/s (AIRSPEED_CRUISE; SITL re-run 2026-10-27) with the pusher at about 0.6. <code>sitl/mission_test.py --model JSON:127.0.0.1 --physics sitl/c0_physics.py ...</code> runs the seven scripted scenarios (§11). Add <code>-Wind "5,270"</code> (5 m/s from the west) to rehearse the R16 wind limit.</p>
 <h3 id="9-2-tethered-bench-run">9.2 Tethered bench run</h3>
@@ -1159,9 +1213,9 @@ header.top h1{font:600 2rem/1.15 var(--f-display);letter-spacing:-.025em;max-wid
 <h3 id="9-4-qhover-hover-throttle-notch">9.4 QHOVER, hover throttle, notch</h3>
 <ol><li>Take off in QSTABILIZE to 5 m, switch to QHOVER for ≥ 30 s with no inputs. <code>Q_M_HOVER_LEARN,2</code> saves the hover throttle. Expect about 0.52 (est.) from 1637.9 g needed / 3130 g max per motor (results.json <code>C0.sized.Tunit_g</code>, <code>params.Tmax_g</code>). Above 0.6 means the thrust margin is short (tuning-process step 7, "should be ~0.3–0.6").</li><li>Then set <code>Q_P_D_ACC_P = 0.1 × Q_M_THST_HOVER</code> and <code>Q_P_D_ACC_I = 0.2 × Q_M_THST_HOVER</code> (tuning-process step 7).</li><li><b>Notch setup within the 60 s hover limit.</b> The tuning-process page asks for a 2-minute no-input hover. The review limits test hovers to 60 s (R14 mitigation). Two other ArduPilot sources cover the shorter hover:<ul><li>The batch-sampler page asks for "a regular flight (not just a gentle hover) of at least 1 minute" (common-imu-batchsampling.html). One 60 s QHOVER with <code>INS_LOG_BAT_MASK,1</code> and <code>INS_LOG_BAT_OPT,4</code> (pre + post filter, both already set) meets that.</li><li>Throttle-based notch tracking needs only the hover noise frequency and the hover thrust. Hover-thrust learning needs "no pilot stick input for at least 10 seconds" (same page; <code>Q_M_HOVER_LEARN,2</code>).</li><li>Procedure: fly two separate 60 s no-input QHOVER flights on a calm day. Open each .BIN in <a href="https://firmware.ardupilot.org/Tools/WebTools/FilterReview/" rel="noopener" target="_blank">firmware.ardupilot.org/Tools/WebTools/FilterReview</a> (or Mission Planner &gt; Setup &gt; Advanced &gt; FFT &gt; "IMU Batch Sample"). Accept the peak only if both flights agree within about 10 % (est.); the average is <code>hover_freq</code>. More batches per flight are available by lowering <code>INS_LOG_BAT_LGIN</code> (batch page: "can be lowered to increase accuracy").</li><li>Set the throttle-based notch (common-throttle-based-notch.html): <code>INS_HNTCH_ENABLE,1</code>, reboot, <code>INS_HNTCH_MODE,1</code>, <code>INS_HNTCH_FREQ</code> = hover_freq, <code>INS_HNTCH_BW</code> = hover_freq/2, <code>INS_HNTCH_REF</code> = learned <code>Q_M_THST_HOVER</code>. Leave <code>INS_HNTCH_HMNCS</code> at its default 3 (1st + 2nd harmonic). The in-flight FFT auto-setup is not available (<code>!HAL_GYROFFT_ENABLED</code>).</li><li>Fly one more 60 s hover and check that the post-filter spectrum shows the peak attenuated. Then set <code>INS_LOG_BAT_MASK,0</code> to free RAM (batch page note).</li></ul></li><li>Then QLOITER: position hold within about 2 m in light wind (est.).</li><li>Manual roll/pitch tune, then QAUTOTUNE (in the build) per tuning-process steps 10+ and qautotune-mode.html.</li></ol>
 <h3 id="9-5-fixed-wing-preparation">9.5 Fixed-wing preparation</h3>
-<ul><li>Airspeed ratio: <code>ARSPD_AUTOCAL,1</code> for a 5-minute loiter, then back to 0 (calibrating-an-airspeed-sensor.html). Review <a class="rref" href="VTOL-Review.html#controls">M18.1</a> failure threshold: &gt; 10 % error puts the real transition speed under R11's 15.6 m/s.</li><li>Fixed-wing gains start at firmware defaults. Run AUTOTUNE in FBWA after the first transitions (automatic-tuning-with-autotune.html).</li></ul>
+<ul><li>Airspeed ratio: <code>ARSPD_AUTOCAL,1</code> for a 5-minute loiter, then back to 0 (calibrating-an-airspeed-sensor.html). Review <a class="rref" href="VTOL-Review.html#controls">M19.1</a> failure threshold: &gt; 10 % error puts the real transition speed under R11's 15.6 m/s.</li><li>Fixed-wing gains start at firmware defaults. Run AUTOTUNE in FBWA after the first transitions (automatic-tuning-with-autotune.html).</li></ul>
 <h3 id="9-6-first-transitions">9.6 First transitions</h3>
-<ol><li>Load <code>vtol_c0.param</code> again (removes the hover-phase overlay). Check <code>Q_ASSIST_SPEED</code> = 13.</li><li>QLOITER to ≥ 30 m, nose into wind, with the longest clear line ahead.</li><li>Switch to <b>FBWA</b> and push the throttle to about 70 %. The lift motors hold height. At <code>AIRSPEED_MIN</code> 16 m/s they taper out over 5 s. In SITL this took 10–11 s from mode change to "Transition done" on the generic model (sitl/results) and 13–15 s, 140–170 m on the C0 airframe model (sitl/results_c0.json).</li><li><b>Start the turn as soon as "Transition done" appears.</b> In SITL, a straight FBWA transition reached the 300 m fence circle about 6 s after transition end (first SITL run, scenario B, 2026-10-21). Start transitions from the upwind edge of the field.</li><li>Back-transition: select QLOITER (or QHOVER). The pusher stops at once and the lift motors brake the aircraft (quadplane-transitions.html). Allow about 81 m stopping distance at the 18 m/s cruise (18² / (2 × 2 m/s² decel)). In the C0 airframe model the airbrake phase pitches to the 30° VTOL limit and briefly stalls the wing (−17°/+33° swing, ≤ 2 m altitude loss, sitl/README.md Gains item 1); if the aircraft does this, lower <code>Q_TRANS_DECEL</code> first (gentler, longer stop), then <code>Q_ANGLE_MAX</code>, before any attitude gain. The test cards F06–F13 carry this as a watch item.</li><li>Check in the log: the transition current peak against the 75.7 A estimate (results.json <code>C0.sized.I_trans</code>), battery sag, and time to <code>AIRSPEED_MIN</code>. Review <a class="rref" href="VTOL-Review.html#controls">M18.2</a> failure threshold: &gt; 15 s or &gt; 100 m.</li><li>Only then: CRUISE circuits, RTL test at altitude, and the full R9 mission in AUTO (<code>sitl/mission_test.py</code> scenario A is the template: NAV_WAYPOINTs then NAV_VTOL_LAND).</li></ol>
+<ol><li>Load <code>vtol_c0.param</code> again (removes the hover-phase overlay). Check <code>Q_ASSIST_SPEED</code> = 13.</li><li>QLOITER to ≥ 30 m, nose into wind, with the longest clear line ahead.</li><li>Switch to <b>FBWA</b> and push the throttle to about 70 %. The lift motors hold height. At <code>AIRSPEED_MIN</code> 16 m/s they taper out over 5 s. In SITL this took 10–11 s from mode change to "Transition done" on the generic model (sitl/results) and 13–15 s, 140–170 m on the C0 airframe model (sitl/results_c0.json).</li><li><b>Start the turn as soon as "Transition done" appears.</b> In SITL, a straight FBWA transition reached the 300 m fence circle about 6 s after transition end (first SITL run, scenario B, 2026-10-21). Start transitions from the upwind edge of the field.</li><li>Back-transition: select QLOITER (or QHOVER). The pusher stops at once and the lift motors brake the aircraft (quadplane-transitions.html). Allow about 81 m stopping distance at the 18 m/s cruise (18² / (2 × 2 m/s² decel)). In the C0 airframe model the airbrake phase pitches to the 30° VTOL limit and briefly stalls the wing (−17°/+33° swing, ≤ 2 m altitude loss, sitl/README.md Gains item 1); if the aircraft does this, lower <code>Q_TRANS_DECEL</code> first (gentler, longer stop), then <code>Q_ANGLE_MAX</code>, before any attitude gain. The test cards F06–F13 carry this as a watch item.</li><li>Check in the log: the transition current peak against the 75.7 A estimate (results.json <code>C0.sized.I_trans</code>), battery sag, and time to <code>AIRSPEED_MIN</code>. Review <a class="rref" href="VTOL-Review.html#controls">M19.2</a> failure threshold: &gt; 15 s or &gt; 100 m.</li><li>Only then: CRUISE circuits, RTL test at altitude, and the full R9 mission in AUTO (<code>sitl/mission_test.py</code> scenario A is the template: NAV_WAYPOINTs then NAV_VTOL_LAND).</li></ol>
 <nav class="pager" aria-label="Previous and next section"><a class="pv" href="#8-failsafe-configuration-and-bench-tests"><span>Previous</span>Failsafe configuration and bench tests</a><a class="nx" href="#10-decisions-that-changed-the-review-s-controls-chapter"><span>Next</span>Decisions that changed the review's controls chapter</a></nav></section>
 <section class="pg" id="pg-10-decisions-that-changed-the-review-s-controls-chapter" data-id="10-decisions-that-changed-the-review-s-controls-chapter">
 <h2 id="10-decisions-that-changed-the-review-s-controls-chapter">10. Decisions that changed the review's controls chapter</h2>

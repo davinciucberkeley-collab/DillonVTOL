@@ -1,0 +1,430 @@
+
+-------------------------------------------------------------------------
+|    ___ _   _ ___                                                      |
+|   / __| | | |_  )   Release 8.5.0 "Harrier"                           |
+|   \__ \ |_| |/ /                                                      |
+|   |___/\___//___|   Suite (Computational Fluid Dynamics Code)         |
+|                                                                       |
+-------------------------------------------------------------------------
+| SU2 Project Website: https://su2code.github.io                        |
+|                                                                       |
+| The SU2 Project is maintained by the SU2 Foundation                   |
+| (http://su2foundation.org)                                            |
+-------------------------------------------------------------------------
+| Copyright 2012-2026, SU2 Contributors                                 |
+|                                                                       |
+| SU2 is free software; you can redistribute it and/or                  |
+| modify it under the terms of the GNU Lesser General Public            |
+| License as published by the Free Software Foundation; either          |
+| version 2.1 of the License, or (at your option) any later version.    |
+|                                                                       |
+| SU2 is distributed in the hope that it will be useful,                |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of        |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU      |
+| Lesser General Public License for more details.                       |
+|                                                                       |
+| You should have received a copy of the GNU Lesser General Public      |
+| License along with SU2. If not, see <http://www.gnu.org/licenses/>.   |
+-------------------------------------------------------------------------
+
+Parsing config file for zone 0
+
+----------------- Physical Case Definition ( Zone 0 ) -------------------
+Incompressible Euler equations.
+No restart solution, use the values at infinity (freestream).
+Dimensional simulation.
+The reference area is 0.341011 m^2.
+The semi-span will be computed using the max y(3D) value.
+The reference length is 0.284176 m.
+Surface(s) where the force coefficients are evaluated and 
+their reference origin for moment computation: 
+   - wing (0.078904, 0, 0).
+   - htail (0.078904, 0, 0).
+   - fins (0.078904, 0, 0).
+   - pod (0.078904, 0, 0).
+   - booms (0.078904, 0, 0).
+   - motors (0.078904, 0, 0).
+   - gear (0.078904, 0, 0) m.
+Surface(s) plotted in the output file: wing, htail, fins, pod, booms, motors, gear.
+Input mesh file name: ../../L3/mesh.su2
+
+--------------- Space Numerical Integration ( Zone 0 ) ------------------
+Flux difference splitting (FDS) upwind scheme for the flow inviscid terms.
+Second order integration in space, with slope limiter.
+Venkatakrishnan slope-limiting method, with constant: 0.05.
+The reference element size is: 1. 
+Gradient for upwind reconstruction: Green-Gauss.
+Gradient for viscous and source terms: Green-Gauss.
+
+--------------- Time Numerical Integration  ( Zone 0 ) ------------------
+Local time stepping (steady state simulation).
+Euler implicit method for the flow equations.
+FGMRES is used for solving the linear system.
+Using a ILU(0) preconditioning.
+Convergence criteria of the linear solver: 0.0001.
+Max number of linear iterations: 10.
+CFL adaptation. Factor down: 0.5, factor up: 1.1,
+                lower limit: 1, upper limit: 30,
+                acceptable linear residual: 0.001'
+                starting iteration: 0.
+Courant-Friedrichs-Lewy number:        5
+
+------------------ Convergence Criteria  ( Zone 0 ) ---------------------
+Maximum number of solver subiterations: 2500.
+Begin convergence monitoring at iteration 300.
+Residual minimum value: 1e-14.
+Cauchy series min. value: 1e-05.
+Number of Cauchy elements: 200.
+Begin windowed time average at iteration 0.
+
+-------------------- Output Information ( Zone 0 ) ----------------------
+File writing frequency: 
++------------------------------------+
+|                     File| Frequency|
++------------------------------------+
+|            RESTART_ASCII|       500|
+|              SURFACE_CSV|       500|
++------------------------------------+
+Writing the convergence history file every 1 inner iterations.
+Writing the screen convergence history every 10 inner iterations.
+The tabular file format is CSV (.csv).
+Convergence history file name: history.
+Forces breakdown file name: forces_breakdown.dat.
+Surface file name: surface_flow.
+Volume file name: vol_solution.
+Restart file name: restart_flow.csv.
+
+------------- Config File Boundary Information ( Zone 0 ) ---------------
++-----------------------------------------------------------------------+
+|                        Marker Type|                        Marker Name|
++-----------------------------------------------------------------------+
+|                         Euler wall|                               wing|
+|                                   |                              htail|
+|                                   |                               fins|
+|                                   |                                pod|
+|                                   |                              booms|
+|                                   |                             motors|
+|                                   |                               gear|
++-----------------------------------------------------------------------+
+|                          Far-field|                           farfield|
++-----------------------------------------------------------------------+
+|                     Symmetry plane|                           symmetry|
++-----------------------------------------------------------------------+
+
+-------------------- Output Preprocessing ( Zone 0 ) --------------------
+
+WARNING: SURFACE_PRESSURE_DROP can only be computed for at least 2 surfaces (outlet, inlet, ...)
+
+Screen output fields: INNER_ITER, RMS_PRESSURE, RMS_VELOCITY-X, LIFT, DRAG, MOMENT_Y
+History output group(s): ITER, RMS_RES, AERO_COEFF, CAUCHY
+Convergence field(s): LIFT, DRAG, MOMENT_Y
+Warning: No (valid) fields chosen for time convergence monitoring. Time convergence monitoring inactive.
+Volume output fields: COORDINATES, SOLUTION, PRIMITIVE
+
+------------------- Geometry Preprocessing ( Zone 0 ) -------------------
+Three dimensional problem.
+792641 grid points.
+4592028 volume elements.
+9 surface markers.
+63080 boundary elements in index 0 (Marker = wing).
+20372 boundary elements in index 1 (Marker = htail).
+11872 boundary elements in index 2 (Marker = fins).
+14348 boundary elements in index 3 (Marker = pod).
+40758 boundary elements in index 4 (Marker = booms).
+1736 boundary elements in index 5 (Marker = motors).
+19364 boundary elements in index 6 (Marker = gear).
+36074 boundary elements in index 7 (Marker = symmetry).
+7498 boundary elements in index 8 (Marker = farfield).
+4592028 tetrahedra.
+Setting point connectivity.
+Renumbering points (Reverse Cuthill McKee Ordering).
+Recomputing point connectivity.
+Setting element connectivity.
+Checking the numerical grid orientation.
+All volume elements are correctly oriented.
+There has been a re-orientation of 215102 TRIANGLE surface elements.
+Identifying edges and vertices.
+Setting the control volume structure.
+Volume of the computational grid: 3839.98.
+Searching for the closest normal neighbors to the surfaces.
+Storing a mapping from global to local point index.
+Compute the surface curvature.
+Max K: 25241.8. Mean K: 490.974. Standard deviation K: 1243.08.
+Computing mesh quality statistics for the dual control volumes.
++--------------------------------------------------------------+
+|           Mesh Quality Metric|        Minimum|        Maximum|
++--------------------------------------------------------------+
+|    Orthogonality Angle (deg.)|        45.2417|        82.8851|
+|     CV Face Area Aspect Ratio|        1.04926|        1194.29|
+|           CV Sub-Volume Ratio|              1|        16000.7|
++--------------------------------------------------------------+
+Finding max control volume width.
+Semi-span length = 1.2 m.
+Wetted area = 1.23629 m^2.
+Area projection in the x-plane = 0.0917666 m^2, y-plane = 0.102185 m^2, z-plane = 0.46883 m^2.
+Max. coordinate in the x-direction = 1.03598 m, y-direction = 1.2 m, z-direction = 0.197445 m.
+Min. coordinate in the x-direction = -0.45 m, y-direction = -8.16116e-17 m, z-direction = -0.2497 m.
+Computing wall distances.
+
+-------------------- Solver Preprocessing ( Zone 0 ) --------------------
+Incompressible flow: rho_ref, vel_ref, temp_ref, p_ref
+are set to 1.0 in order to perform a dimensional calculation.
+Force coefficients computed using initial values.
+The reference area for force coeffs. is 0.341011 m^2.
+The reference length for force coeffs. is 0.284176 m.
+The pressure is decomposed into thermodynamic and dynamic components.
+The initial value of the dynamic pressure is 0.
+Mach number: 0.0528684, computed using the Bulk modulus.
+For external flows, the initial state is imposed at the far-field.
+Angle of attack (deg): 4, computed using the initial velocity.
+Side slip angle (deg): 0, computed using the initial velocity.
+SI units only. The grid should be dimensional (meters).
+No energy equation.
+
+-- Models:
++------------------------------------------------------------------------------+
+|          Viscosity Model|        Conductivity Model|              Fluid Model|
++------------------------------------------------------------------------------+
+|                        -|                         -|         CONSTANT_DENSITY|
++------------------------------------------------------------------------------+
+-- Fluid properties:
++------------------------------------------------------------------------------+
+|                  Name|    Dim. value|    Ref. value|      Unit|Non-dim. value|
++------------------------------------------------------------------------------+
+|          Bulk Modulus|        142000|             1|        Pa|        142000|
++------------------------------------------------------------------------------+
+-- Initial and free-stream conditions:
++------------------------------------------------------------------------------+
+|                  Name|    Dim. value|    Ref. value|      Unit|Non-dim. value|
++------------------------------------------------------------------------------+
+|      Dynamic Pressure|             0|             1|        Pa|             0|
+|        Total Pressure|        198.45|             1|        Pa|        198.45|
+|               Density|         1.225|             1|    kg/m^3|         1.225|
+|            Velocity-X|       17.9562|             1|       m/s|       17.9562|
+|            Velocity-Y|             0|             1|       m/s|             0|
+|            Velocity-Z|       1.25562|             1|       m/s|       1.25562|
+|    Velocity Magnitude|            18|             1|       m/s|            18|
++------------------------------------------------------------------------------+
+|           Mach Number|             -|             -|         -|     0.0528684|
++------------------------------------------------------------------------------+
+All ranks use edge coloring.
+Among the ranks that use edge coloring,
+         the minimum efficiency is 0.971648,
+         the maximum number of colors is 24,
+         the minimum edge color group size is 512.
+Initialize Jacobian structure (Euler). MG level: 0.
+
+------------------- Numerics Preprocessing ( Zone 0 ) -------------------
+
+----------------- Integration Preprocessing ( Zone 0 ) ------------------
+
+------------------- Iteration Preprocessing ( Zone 0 ) ------------------
+Euler/Navier-Stokes/RANS fluid iteration.
+
+------------------------------ Begin Solver -----------------------------
+
+Simulation Run using the Single-zone Driver
++-----------------------------------------------------------------------------+
+|  Inner_Iter|      rms[P]|      rms[U]|          CL|          CD|         CMy|
++-----------------------------------------------------------------------------+
+|           0|   -4.526030|   -3.418856|    0.503640|    0.677422|   -0.370876|
+|          10|   -4.864957|   -3.257378|    0.668848|    0.164702|   -0.229589|
+|          20|   -4.796856|   -3.209283|    0.386053|    0.016899|   -0.087742|
+|          30|   -4.704796|   -3.158135|    0.230964|    0.050689|   -0.109302|
+|          40|   -4.710155|   -3.071121|    0.387155|    0.040445|   -0.153042|
+|          50|   -4.913177|   -3.235059|    0.439790|    0.063802|   -0.142772|
+|          60|   -4.810659|   -3.144382|    0.465623|    0.053872|   -0.132136|
+|          70|   -4.930607|   -3.256544|    0.394866|    0.038336|   -0.088983|
+|          80|   -5.217540|   -3.367057|    0.447196|    0.046800|   -0.074440|
+|          90|   -5.356369|   -3.417240|    0.474327|    0.046699|   -0.075223|
+|         100|   -5.273707|   -3.557347|    0.454445|    0.037999|   -0.069588|
+|         110|   -5.243856|   -3.408694|    0.488938|    0.043830|   -0.072564|
+|         120|   -5.402883|   -3.562194|    0.481886|    0.037239|   -0.067642|
+|         130|   -5.550343|   -3.732513|    0.489985|    0.041464|   -0.071004|
+|         140|   -5.733194|   -3.685483|    0.495879|    0.037677|   -0.069097|
+|         150|   -6.027898|   -3.816725|    0.494243|    0.036144|   -0.069519|
+|         160|   -5.976076|   -3.915755|    0.501061|    0.039215|   -0.070742|
+|         170|   -6.027925|   -3.992156|    0.498549|    0.038396|   -0.070363|
+|         180|   -5.974483|   -3.978250|    0.497751|    0.036488|   -0.070614|
+|         190|   -6.027235|   -4.002980|    0.499608|    0.036741|   -0.071496|
+|         200|   -6.041002|   -3.966619|    0.499700|    0.037555|   -0.071435|
+|         210|   -6.150940|   -4.015721|    0.498832|    0.037333|   -0.071030|
+|         220|   -6.026885|   -3.899813|    0.497691|    0.036795|   -0.071012|
+|         230|   -6.171982|   -3.996683|    0.497704|    0.037077|   -0.071186|
+|         240|   -6.103417|   -4.041188|    0.497869|    0.036944|   -0.070669|
+|         250|   -6.244684|   -4.149282|    0.496464|    0.036883|   -0.069934|
+|         260|   -6.333105|   -4.232477|    0.496186|    0.037353|   -0.069703|
+|         270|   -6.475502|   -4.352990|    0.495778|    0.037073|   -0.069281|
+|         280|   -6.543885|   -4.379103|    0.495152|    0.036766|   -0.068735|
+|         290|   -6.705371|   -4.521481|    0.495002|    0.037090|   -0.068396|
+|         300|   -6.793833|   -4.609806|    0.494684|    0.037297|   -0.068073|
+|         310|   -6.741281|   -4.639222|    0.494071|    0.037094|   -0.067732|
+|         320|   -6.807697|   -4.737379|    0.493917|    0.036954|   -0.067544|
+|         330|   -6.726006|   -4.755533|    0.493901|    0.037114|   -0.067362|
+|         340|   -6.852218|   -4.836539|    0.493588|    0.037185|   -0.067125|
+|         350|   -6.814638|   -4.816686|    0.493334|    0.037109|   -0.067042|
+|         360|   -6.933445|   -4.953816|    0.493322|    0.037094|   -0.067009|
+|         370|   -6.901861|   -4.910023|    0.493309|    0.037088|   -0.066928|
+|         380|   -7.054193|   -4.996046|    0.493204|    0.037113|   -0.066856|
+|         390|   -7.068197|   -5.001843|    0.493108|    0.037167|   -0.066842|
+|         400|   -7.151634|   -5.079419|    0.493078|    0.037141|   -0.066843|
+|         410|   -7.198066|   -5.123359|    0.493059|    0.037076|   -0.066822|
+|         420|   -7.200765|   -5.144313|    0.493051|    0.037091|   -0.066799|
+|         430|   -7.340343|   -5.212901|    0.493033|    0.037158|   -0.066786|
+|         440|   -7.347461|   -5.285952|    0.492976|    0.037134|   -0.066777|
+|         450|   -7.426242|   -5.373164|    0.492960|    0.037092|   -0.066780|
+|         460|   -7.374841|   -5.409823|    0.492992|    0.037105|   -0.066777|
+|         470|   -7.475384|   -5.474338|    0.492979|    0.037132|   -0.066760|
+|         480|   -7.459936|   -5.510739|    0.492940|    0.037129|   -0.066755|
+|         490|   -7.529651|   -5.589265|    0.492933|    0.037114|   -0.066760|
+|         500|   -7.568813|   -5.722893|    0.492946|    0.037106|   -0.066762|
++-----------------------------------------------------------------------+
+|        File Writing Summary       |              Filename             |
++-----------------------------------------------------------------------+
+|SU2 ASCII restart                  |restart_flow.csv                   |
+
+Writing the forces breakdown file (forces_breakdown.dat).
+|CSV file                           |surface_flow.csv                   |
+
+Writing the forces breakdown file (forces_breakdown.dat).
++-----------------------------------------------------------------------+
++-----------------------------------------------------------------------------+
+|  Inner_Iter|      rms[P]|      rms[U]|          CL|          CD|         CMy|
++-----------------------------------------------------------------------------+
+|         510|   -7.538819|   -5.649543|    0.492954|    0.037107|   -0.066751|
+|         520|   -7.717031|   -5.796344|    0.492945|    0.037118|   -0.066744|
+|         530|   -7.631454|   -5.765077|    0.492930|    0.037126|   -0.066745|
+|         540|   -7.705665|   -5.857671|    0.492926|    0.037118|   -0.066747|
+|         550|   -7.739101|   -5.981799|    0.492929|    0.037106|   -0.066745|
+|         560|   -7.692256|   -5.907881|    0.492934|    0.037105|   -0.066742|
+|         570|   -7.738450|   -5.990619|    0.492935|    0.037116|   -0.066738|
+|         580|   -7.756443|   -6.038845|    0.492927|    0.037123|   -0.066735|
+|         590|   -7.760693|   -6.046115|    0.492919|    0.037116|   -0.066735|
+|         600|   -7.793207|   -6.187404|    0.492920|    0.037108|   -0.066736|
+|         610|   -7.835008|   -6.159106|    0.492928|    0.037107|   -0.066734|
+|         620|   -7.839447|   -6.173978|    0.492930|    0.037112|   -0.066729|
+|         630|   -8.091545|   -6.258941|    0.492933|    0.037109|   -0.066730|
+|         640|   -8.113697|   -6.293309|    0.492931|    0.037107|   -0.066726|
+|         650|   -8.155928|   -6.367344|    0.492929|    0.037109|   -0.066725|
+|         660|   -8.097054|   -6.281421|    0.492922|    0.037110|   -0.066723|
+|         670|   -8.100614|   -6.251764|    0.492918|    0.037106|   -0.066724|
+|         680|   -7.836607|   -6.335959|    0.492921|    0.037107|   -0.066728|
+|         690|   -7.836616|   -6.240179|    0.492923|    0.037106|   -0.066724|
+|         700|   -7.864724|   -6.318648|    0.492923|    0.037109|   -0.066722|
+|         710|   -7.848308|   -6.347890|    0.492920|    0.037113|   -0.066723|
+|         720|   -7.828580|   -6.287597|    0.492917|    0.037112|   -0.066724|
+|         730|   -7.830307|   -6.367557|    0.492917|    0.037109|   -0.066724|
+|         740|   -7.823663|   -6.349283|    0.492919|    0.037107|   -0.066724|
+|         750|   -7.983116|   -6.482235|    0.492924|    0.037108|   -0.066725|
+|         760|   -8.433866|   -6.634377|    0.492924|    0.037107|   -0.066724|
+|         770|   -8.456641|   -6.666997|    0.492923|    0.037105|   -0.066721|
+|         780|   -8.486874|   -6.709894|    0.492922|    0.037105|   -0.066720|
+|         790|   -8.535124|   -6.802650|    0.492922|    0.037106|   -0.066719|
+|         800|   -8.465354|   -6.659082|    0.492919|    0.037107|   -0.066718|
+|         810|   -8.505427|   -6.697245|    0.492917|    0.037105|   -0.066719|
+|         820|   -7.876990|   -6.473343|    0.492917|    0.037110|   -0.066723|
+|         830|   -7.845957|   -6.389310|    0.492918|    0.037112|   -0.066724|
+|         840|   -7.864134|   -6.433937|    0.492918|    0.037113|   -0.066723|
+|         850|   -7.857457|   -6.424370|    0.492916|    0.037114|   -0.066723|
+|         860|   -7.863895|   -6.445084|    0.492916|    0.037112|   -0.066723|
+|         870|   -7.930171|   -6.527182|    0.492916|    0.037110|   -0.066723|
+|         880|   -7.828875|   -6.396159|    0.492917|    0.037112|   -0.066723|
+|         890|   -8.624971|   -6.893347|    0.492921|    0.037108|   -0.066723|
+|         900|   -8.765602|   -7.021869|    0.492920|    0.037106|   -0.066721|
+|         910|   -8.809361|   -7.056500|    0.492919|    0.037104|   -0.066719|
+|         920|   -8.853447|   -7.117170|    0.492919|    0.037105|   -0.066718|
+|         930|   -8.880467|   -7.190662|    0.492918|    0.037105|   -0.066718|
+|         940|   -8.804578|   -6.995730|    0.492917|    0.037105|   -0.066717|
+|         950|   -8.490418|   -6.996349|    0.492916|    0.037105|   -0.066718|
+|         960|   -7.850836|   -6.428633|    0.492916|    0.037111|   -0.066723|
+|         970|   -7.880553|   -6.480430|    0.492916|    0.037112|   -0.066723|
+|         980|   -7.879268|   -6.487161|    0.492916|    0.037113|   -0.066723|
+|         990|   -7.822057|   -6.400758|    0.492914|    0.037113|   -0.066723|
+|        1000|   -7.831935|   -6.417775|    0.492915|    0.037112|   -0.066723|
++-----------------------------------------------------------------------+
+|        File Writing Summary       |              Filename             |
++-----------------------------------------------------------------------+
+|SU2 ASCII restart                  |restart_flow.csv                   |
+
+Writing the forces breakdown file (forces_breakdown.dat).
+|CSV file                           |surface_flow.csv                   |
+
+Writing the forces breakdown file (forces_breakdown.dat).
++-----------------------------------------------------------------------+
++-----------------------------------------------------------------------------+
+|  Inner_Iter|      rms[P]|      rms[U]|          CL|          CD|         CMy|
++-----------------------------------------------------------------------------+
+|        1010|   -7.830484|   -6.413007|    0.492915|    0.037113|   -0.066723|
+|        1020|   -8.386825|   -6.901213|    0.492919|    0.037109|   -0.066723|
+|        1030|   -8.929269|   -7.330529|    0.492919|    0.037107|   -0.066722|
+|        1040|   -9.068011|   -7.420430|    0.492918|    0.037105|   -0.066719|
+|        1050|   -9.129347|   -7.490957|    0.492918|    0.037104|   -0.066718|
+|        1060|   -9.216543|   -7.572385|    0.492917|    0.037105|   -0.066718|
+|        1070|   -9.225794|   -7.478904|    0.492917|    0.037105|   -0.066718|
+|        1080|   -9.222242|   -7.413704|    0.492916|    0.037104|   -0.066718|
+|        1090|   -8.660526|   -7.367250|    0.492917|    0.037104|   -0.066717|
+|        1100|   -7.839711|   -6.416608|    0.492915|    0.037113|   -0.066723|
+|        1110|   -8.014726|   -6.626274|    0.492916|    0.037111|   -0.066723|
+|        1120|   -7.819365|   -6.398571|    0.492914|    0.037114|   -0.066725|
+|        1130|   -7.847827|   -6.454495|    0.492915|    0.037112|   -0.066725|
+|        1140|   -7.802467|   -6.382721|    0.492915|    0.037114|   -0.066725|
+|        1150|   -7.796669|   -6.379784|    0.492915|    0.037114|   -0.066725|
+|        1160|   -7.779478|   -6.360867|    0.492915|    0.037114|   -0.066725|
+|        1170|   -8.107224|   -6.726606|    0.492918|    0.037110|   -0.066724|
+|        1180|   -8.988183|   -7.415669|    0.492919|    0.037107|   -0.066722|
+|        1190|   -9.175820|   -7.566301|    0.492918|    0.037105|   -0.066720|
+|        1200|   -9.252934|   -7.682886|    0.492917|    0.037104|   -0.066719|
+|        1210|   -9.373887|   -7.796250|    0.492917|    0.037105|   -0.066718|
+|        1220|   -9.589685|   -7.881413|    0.492917|    0.037105|   -0.066718|
+|        1230|   -9.775907|   -8.098398|    0.492917|    0.037105|   -0.066718|
+|        1240|   -9.527919|   -7.941066|    0.492916|    0.037105|   -0.066718|
+|        1250|   -7.800768|   -6.363451|    0.492913|    0.037110|   -0.066719|
+|        1260|   -7.808592|   -6.385209|    0.492914|    0.037110|   -0.066721|
+|        1270|   -7.782950|   -6.365650|    0.492914|    0.037110|   -0.066721|
+|        1280|   -7.782895|   -6.365752|    0.492914|    0.037110|   -0.066721|
+|        1290|   -7.781530|   -6.365543|    0.492914|    0.037111|   -0.066722|
+|        1300|   -8.832628|   -7.237561|    0.492919|    0.037108|   -0.066725|
+|        1310|   -9.088851|   -7.495664|    0.492918|    0.037105|   -0.066721|
+|        1320|   -9.165479|   -7.652360|    0.492918|    0.037104|   -0.066719|
+|        1330|   -9.248355|   -7.740606|    0.492917|    0.037104|   -0.066719|
+|        1340|   -9.279320|   -7.827590|    0.492917|    0.037105|   -0.066719|
+|        1350|   -9.311929|   -7.870015|    0.492916|    0.037105|   -0.066718|
+
+----------------------------- Solver Exit -------------------------------
+All convergence criteria satisfied.
++-----------------------------------------------------------------------+
+|      Convergence Field     |     Value    |   Criterion  |  Converged |
++-----------------------------------------------------------------------+
+|                  Cauchy[CL]|   1.22214e-06|       < 1e-05|         Yes|
+|                  Cauchy[CD]|   9.85857e-06|       < 1e-05|         Yes|
+|                 Cauchy[CMy]|    9.7946e-06|       < 1e-05|         Yes|
++-----------------------------------------------------------------------+
+-------------------------------------------------------------------------
++-----------------------------------------------------------------------+
+|        File Writing Summary       |              Filename             |
++-----------------------------------------------------------------------+
+|SU2 ASCII restart                  |restart_flow.csv                   |
+
+Writing the forces breakdown file (forces_breakdown.dat).
+|CSV file                           |surface_flow.csv                   |
+
+Writing the forces breakdown file (forces_breakdown.dat).
++-----------------------------------------------------------------------+
+
+--------------------------- Finalizing Solver ---------------------------
+Deleted CNumerics container.
+Deleted CIntegration container.
+Deleted CSolver container.
+Deleted CIteration container.
+Deleted CInterface container.
+Deleted CGeometry container.
+Deleted CFreeFormDefBox class.
+Deleted CSurfaceMovement class.
+Deleted CVolumetricMovement class.
+Deleted CConfig container.
+Deleted nInst container.
+Deleted COutput class.
+-------------------------------------------------------------------------
+
+------------------------- Exit Success (SU2_CFD) ------------------------
+

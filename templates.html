@@ -845,6 +845,60 @@ tr.hl td{background:var(--accent-soft)}
 /* sources search: placeholder at body-text contrast (UA grey was 3.8:1 on the dark surface) */
 .srcbar input::placeholder{color:var(--fg-2);opacity:1}
 
+/* ---------- whole-aircraft CFD explorer (review/src/cfdviz.js) ---------- */
+.cf-top .seg button[disabled]{opacity:.55;cursor:not-allowed}
+.cf-layers{display:flex;flex-wrap:wrap;align-items:center;gap:6px 14px;padding:10px 16px;border-bottom:1px solid var(--line);font-size:.875rem}
+.cf-layers label{display:inline-flex;align-items:center;gap:6px;min-height:32px;cursor:pointer;color:var(--fg)}
+.cf-lgrp{font:600 .75rem/1 var(--f-mono);letter-spacing:.06em;text-transform:uppercase;color:var(--fg-3)}
+.cf-mini button{min-height:30px;padding:0 10px}
+.cf-mir{margin-left:auto}
+.cf-legend .cf-lk{flex-basis:100%;font-family:var(--f-body);color:var(--fg-2)}
+.cf-k{grid-template-columns:repeat(auto-fit,minmax(15rem,1fr))}
+.cf-k .kpi{grid-template-columns:1fr;border-right:1px solid var(--line)}
+.cf-k .kpi .v{text-align:left}
+.cf-res{stroke:var(--accent);stroke-width:1.6}
+.cf-cl{stroke:var(--fg-2);stroke-width:1.4;stroke-dasharray:4 3}
+.cf-patches{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin:12px 0}
+.cf-patch{margin:0;border:1px solid var(--line-2);border-radius:var(--r);background:var(--surface);padding:8px}
+.cf-patch svg{display:block;width:100%;height:auto}
+.cf-patch figcaption{font:500 .8125rem var(--f-mono);color:var(--fg-2);padding-top:6px}
+.cf-wire{fill:none;stroke:var(--fg-2);stroke-width:.35}
+.cf-list li{margin:6px 0}
+.blocked{margin:16px 0;padding:14px 18px;border:1px solid var(--bad-line);border-radius:var(--r);background:var(--bad-soft);color:var(--fg);max-width:78ch}
+.blocked b{color:var(--bad)}
+@media (max-width:560px){.cf-mir{margin-left:0}}
+@media print{.cf-layers{display:none}}
+
+/* ---------- validation matrix and claims map (review/src/claimsmap.js) ---------- */
+.vm-chips button{display:inline-flex;align-items:center;gap:6px;padding:0 10px}
+.vm-dot{display:inline-block;width:10px;height:10px;border-radius:50%}
+.vm-n{font:500 .8125rem var(--f-mono);color:var(--fg-3)}
+.vm-panel{margin:12px 0 20px}
+.vm-ph{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;margin:6px 0 10px}
+.vm-ph h4{margin:0}
+.vm-card{border:1px solid var(--line-2);border-left:4px solid var(--line-3);border-radius:var(--r);background:var(--surface);padding:12px 16px;margin:10px 0;max-width:none}
+.vm-card.vm-met{border-left-color:var(--ok)} .vm-card.vm-risk{border-left-color:var(--warn)} .vm-card.vm-open{border-left-color:var(--open)} .vm-card.vm-fail{border-left-color:var(--bad)}
+.vm-card header{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
+.vm-id{font:600 .875rem var(--f-mono)}
+.vm-disc{font:500 .8125rem var(--f-mono);color:var(--fg-3)}
+.vm-claim{margin:8px 0 6px;font-weight:500}
+.vm-num{display:flex;flex-wrap:wrap;gap:6px 18px;font:500 .875rem var(--f-mono);color:var(--fg-2)}
+.vm-num b{color:var(--fg);font-variant-numeric:tabular-nums}
+.vm-why{margin:8px 0 4px;color:var(--fg-2)}
+.vm-card details{margin-top:6px}
+.vm-card summary{cursor:pointer;min-height:32px;display:flex;align-items:center;color:var(--accent)}
+.vm-card h5{margin:10px 0 4px;font:600 .8125rem var(--f-body);letter-spacing:.03em;text-transform:uppercase;color:var(--fg-3)}
+.vm-card ul{margin:0;padding-left:18px}
+.vm-eq code,.vm-ev code{font-size:.8125rem;word-break:break-word}
+.vm-in{display:grid;grid-template-columns:minmax(8rem,max-content) 1fr;gap:2px 12px;margin:0;font-size:.875rem}
+.vm-in dt{font-family:var(--f-mono);color:var(--fg-2)} .vm-in dd{margin:0;word-break:break-word}
+.vm-filter{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin:10px 0}
+.vm-filter select,.vm-filter input{min-height:36px;margin-left:6px;padding:0 8px;border:1px solid var(--line-3);border-radius:var(--r-s);background:var(--surface);color:var(--fg);font:inherit}
+.vm-ul{margin:0;padding-left:18px}
+#vmTable td:nth-child(4),#vmTable td:nth-child(7){min-width:14rem}
+.cf-top .fz-tools{flex-wrap:wrap}
+@media (max-width:560px){.cf-top .fz-tools{margin-left:0}.cf-top .fz-tools button{padding:0 10px}.cf-layers{padding:10px 12px;gap:4px 12px}.vm-chips button{padding:0 8px}}
+
 ul.tpl{list-style:none;margin:16px 0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(16rem,1fr));gap:16px;max-width:none}
 ul.tpl li{max-width:none}
 ul.tpl a{display:flex;flex-direction:column;gap:8px;padding:10px;background:var(--surface);border:1px solid var(--line-2);border-radius:var(--r);color:var(--fg);text-decoration:none}

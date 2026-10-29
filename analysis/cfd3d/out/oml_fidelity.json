@@ -1,0 +1,519 @@
+{
+ "generated": "2026-10-29 01:18",
+ "script": "analysis/cfd3d/build_geometry.py",
+ "gmsh": "4.15.2",
+ "source_step": "cad/model/VTOL_Concept.STEP",
+ "params": "cad/params.txt",
+ "volumes_after_fuse": 1,
+ "half_volumes_after_fuse": 1,
+ "surfaces": 330,
+ "bbox_m": [
+  -1.03598,
+  -0.2497,
+  -1.20001,
+  0.45,
+  0.19745,
+  1.20001
+ ],
+ "defeaturing": [
+  {
+   "cad_parts": "Wing panels, saddle, ailerons",
+   "cfd_representation": "One extrusion of the NACA 2415 section over the full 2.4 m span",
+   "differences": "Ailerons at 0 deg with the 2 % tape-hinge gaps sealed; spar socket, pockets and saddle tabs removed; trailing edge closed (aero TE coefficient, as the 2-D SU2 meshes), CAD TE is 0.9 mm thick"
+  },
+  {
+   "cad_parts": "H_Tail + Elevator",
+   "cfd_representation": "One NACA 0009 extrusion, chord hC, span hSpan",
+   "differences": "Elevator at 0 deg, hinge gap sealed; the aft 30 % outboard of the elevator (inside the fin shoes in CAD) filled; crush-sleeve holes removed"
+  },
+  {
+   "cad_parts": "Fin + Rudder",
+   "cfd_representation": "Ruled loft of the full NACA 0009 section, root vC to 65 % tip, 35 % c LE sweep",
+   "differences": "Rudder at 0 deg, gap sealed; the 2 mm notch between shoe and rudder filled"
+  },
+  {
+   "cad_parts": "Fin_Shoe",
+   "cfd_representation": "Thickened section extrusion + 32 x 46 flange",
+   "differences": "Extended 2 mm down into the stabiliser so no crevice forms under the flat flange"
+  },
+  {
+   "cad_parts": "Fuselage_Pod + Canopy + Pusher_Cup",
+   "cfd_representation": "Revolved pod profile (geom.pod_radius) + ellipsoid blister",
+   "differences": "Wing-root slot, bays, hatch slots, insert and radial holes removed; tail-ring bore filled (the cup is flush)"
+  },
+  {
+   "cad_parts": "Boom_Front + Boom_Rear_Stub",
+   "cfd_representation": "Solid 25.4 mm cylinders",
+   "differences": "Tube bores and open tube ends capped; splice plug internal"
+  },
+  {
+   "cad_parts": "Motor mounts, boom/gear/tail clamps",
+   "cfd_representation": "One rounded block per clamp pair (BlockBody: 46 mm wide, r 4 mm)",
+   "differences": "1.2 mm split gap, bore clearance, counterbores, insert and nut pockets filled; boom-clamp and tail-clamp tops extended 3-4 mm into the wing/stabiliser so no wedge crevice forms at the bonded joint"
+  },
+  {
+   "cad_parts": "Lift_Motor x4, Pusher_Motor",
+   "cfd_representation": "Revolved BuildVtol.Motor() profile",
+   "differences": "Bolt holes and the 4 mm shaft stub removed"
+  },
+  {
+   "cad_parts": "Landing_Leg + Gear_Fairing",
+   "cfd_representation": "Leg cylinder + dome foot; solid NACA 0033 fairing",
+   "differences": "Fairing cavity filled; fairing top extended 1 mm to meet the gear clamp (taped joint)"
+  },
+  {
+   "cad_parts": "Servos on the tail and under the wing",
+   "cfd_representation": "Boxes from the STEP bounding boxes",
+   "differences": "Horns, pushrods and clevises omitted (2 mm rods)"
+  },
+  {
+   "cad_parts": "Lift_Prop x4, Pusher_Prop_14in, Prop_Plate, prop adapter/nut",
+   "cfd_representation": "Omitted",
+   "differences": "Lift props: the CAD blade is a notional 8 mm flat planform (BuildVtol LiftProp, 'planform EST') and the parked angle is not controlled (BLHeli_S cannot park); pusher: no actuator-disk model in the incompressible solver, so cruise runs are power-off"
+  },
+  {
+   "cad_parts": "Pitot tube + clamp, fasteners, inserts, horns, pushrods",
+   "cfd_representation": "Omitted",
+   "differences": "Sub-6 mm features; local effect only"
+  }
+ ],
+ "fidelity": [
+  {
+   "part": "Wing",
+   "step_solids": [
+    "Wing_Panel_L",
+    "Wing_Panel_R",
+    "Aileron_L",
+    "Aileron_R",
+    ""
+   ],
+   "n_step": 12,
+   "n_rebuilt": 1,
+   "bbox_rebuilt_mm": [
+    -284.18,
+    -16.22,
+    -1200.0,
+    0.05,
+    26.76,
+    1200.0
+   ],
+   "bbox_step_mm": [
+    -284.18,
+    -40.0,
+    -1200.0,
+    0.15,
+    26.78,
+    1200.0
+   ],
+   "max_bbox_dev_mm": 23.78
+  },
+  {
+   "part": "H_Tail",
+   "step_solids": [
+    "H_Tail",
+    "Elevator"
+   ],
+   "n_step": 2,
+   "n_rebuilt": 1,
+   "bbox_rebuilt_mm": [
+    -917.5,
+    -14.3,
+    -458.7,
+    -815.98,
+    -5.16,
+    458.7
+   ],
+   "bbox_step_mm": [
+    -917.5,
+    -14.31,
+    -458.7,
+    -815.86,
+    -5.15,
+    458.7
+   ],
+   "max_bbox_dev_mm": 0.12
+  },
+  {
+   "part": "Fin",
+   "step_solids": [
+    "Fin",
+    "Rudder"
+   ],
+   "n_step": 4,
+   "n_rebuilt": 2,
+   "bbox_rebuilt_mm": [
+    -975.66,
+    -2.16,
+    -440.89,
+    -815.98,
+    197.45,
+    440.89
+   ],
+   "bbox_step_mm": [
+    -975.66,
+    -2.16,
+    -440.91,
+    -815.79,
+    197.45,
+    440.91
+   ],
+   "max_bbox_dev_mm": 0.19
+  },
+  {
+   "part": "Fin_Shoe",
+   "step_solids": [
+    "Fin_Shoe"
+   ],
+   "n_step": 2,
+   "n_rebuilt": 4,
+   "bbox_rebuilt_mm": [
+    -977.26,
+    -7.16,
+    -456.7,
+    -814.38,
+    17.84,
+    456.7
+   ],
+   "bbox_step_mm": [
+    -977.26,
+    -5.16,
+    -456.7,
+    -814.2,
+    17.84,
+    456.7
+   ],
+   "max_bbox_dev_mm": 2.0
+  },
+  {
+   "part": "Pod",
+   "step_solids": [
+    "Fuselage_Pod"
+   ],
+   "n_step": 1,
+   "n_rebuilt": 1,
+   "bbox_rebuilt_mm": [
+    -400.0,
+    -110.01,
+    -80.01,
+    450.0,
+    50.01,
+    80.01
+   ],
+   "bbox_step_mm": [
+    -400.0,
+    -110.19,
+    -160.37,
+    450.0,
+    50.19,
+    160.37
+   ],
+   "max_bbox_dev_mm": 80.36
+  },
+  {
+   "part": "Canopy",
+   "step_solids": [
+    "Canopy"
+   ],
+   "n_step": 1,
+   "n_rebuilt": 1,
+   "bbox_rebuilt_mm": [
+    70.0,
+    -40.0,
+    -55.0,
+    330.0,
+    70.0,
+    55.0
+   ],
+   "bbox_step_mm": [
+    50.0,
+    15.0,
+    -55.09,
+    350.0,
+    70.09,
+    55.09
+   ],
+   "max_bbox_dev_mm": 55.0
+  },
+  {
+   "part": "Lift_Motor",
+   "step_solids": [
+    "Lift_Motor"
+   ],
+   "n_step": 4,
+   "n_rebuilt": 4,
+   "bbox_rebuilt_mm": [
+    -574.08,
+    -9.0,
+    -457.7,
+    414.94,
+    23.0,
+    457.7
+   ],
+   "bbox_step_mm": [
+    -574.08,
+    -9.0,
+    -457.7,
+    414.94,
+    35.0,
+    457.7
+   ],
+   "max_bbox_dev_mm": 12.0
+  },
+  {
+   "part": "Pusher_Motor",
+   "step_solids": [
+    "Pusher_Motor"
+   ],
+   "n_step": 1,
+   "n_rebuilt": 1,
+   "bbox_rebuilt_mm": [
+    -432.0,
+    -54.0,
+    -24.0,
+    -400.0,
+    -6.0,
+    24.0
+   ],
+   "bbox_step_mm": [
+    -444.0,
+    -54.0,
+    -24.0,
+    -400.0,
+    -6.0,
+    24.0
+   ],
+   "max_bbox_dev_mm": 12.0
+  },
+  {
+   "part": "Boom_Front",
+   "step_solids": [
+    "Boom_Front"
+   ],
+   "n_step": 2,
+   "n_rebuilt": 2,
+   "bbox_rebuilt_mm": [
+    -550.08,
+    -42.7,
+    -446.4,
+    440.9,
+    -17.3,
+    446.4
+   ],
+   "bbox_step_mm": [
+    -550.08,
+    -42.7,
+    -446.4,
+    440.93,
+    -17.3,
+    446.4
+   ],
+   "max_bbox_dev_mm": 0.03
+  },
+  {
+   "part": "Boom_Rear_Stub",
+   "step_solids": [
+    "Boom_Rear_Stub"
+   ],
+   "n_step": 2,
+   "n_rebuilt": 2,
+   "bbox_rebuilt_mm": [
+    -1035.98,
+    -42.7,
+    -446.4,
+    -550.08,
+    -17.3,
+    446.4
+   ],
+   "bbox_step_mm": [
+    -1035.98,
+    -42.7,
+    -446.4,
+    -550.08,
+    -17.3,
+    446.4
+   ],
+   "max_bbox_dev_mm": 0.0
+  },
+  {
+   "part": "Motor_Mount",
+   "step_solids": [
+    "Motor_Mount_Upper",
+    "Motor_Mount_Cap"
+   ],
+   "n_step": 8,
+   "n_rebuilt": 4,
+   "bbox_rebuilt_mm": [
+    -585.08,
+    -45.0,
+    -456.7,
+    425.94,
+    -9.0,
+    456.7
+   ],
+   "bbox_step_mm": [
+    -585.08,
+    -45.0,
+    -456.7,
+    425.94,
+    -9.0,
+    456.7
+   ],
+   "max_bbox_dev_mm": 0.0
+  },
+  {
+   "part": "Boom_Clamp_F",
+   "step_solids": [
+    "Boom_Clamp_F_Upper",
+    "Boom_Clamp_F_Lower"
+   ],
+   "n_step": 4,
+   "n_rebuilt": 2,
+   "bbox_rebuilt_mm": [
+    -102.25,
+    -46.7,
+    -456.7,
+    -68.25,
+    -11.99,
+    456.7
+   ],
+   "bbox_step_mm": [
+    -102.25,
+    -46.7,
+    -456.7,
+    -68.25,
+    -15.99,
+    456.7
+   ],
+   "max_bbox_dev_mm": 4.0
+  },
+  {
+   "part": "Boom_Clamp_R",
+   "step_solids": [
+    "Boom_Clamp_R_Upper",
+    "Boom_Clamp_R_Lower"
+   ],
+   "n_step": 4,
+   "n_rebuilt": 2,
+   "bbox_rebuilt_mm": [
+    -244.34,
+    -46.7,
+    -456.7,
+    -210.34,
+    -2.16,
+    456.7
+   ],
+   "bbox_step_mm": [
+    -244.34,
+    -46.7,
+    -456.7,
+    -210.34,
+    -6.16,
+    456.7
+   ],
+   "max_bbox_dev_mm": 4.0
+  },
+  {
+   "part": "Gear_Clamp",
+   "step_solids": [
+    "Gear_Clamp_Upper",
+    "Gear_Clamp_Lower"
+   ],
+   "n_step": 8,
+   "n_rebuilt": 4,
+   "bbox_rebuilt_mm": [
+    -477.08,
+    -58.7,
+    -456.7,
+    317.94,
+    -13.3,
+    456.7
+   ],
+   "bbox_step_mm": [
+    -477.08,
+    -58.7,
+    -456.7,
+    317.94,
+    -13.3,
+    456.7
+   ],
+   "max_bbox_dev_mm": 0.0
+  },
+  {
+   "part": "Tail_Clamp",
+   "step_solids": [
+    "Tail_Clamp_Upper",
+    "Tail_Clamp_Cap"
+   ],
+   "n_step": 4,
+   "n_rebuilt": 2,
+   "bbox_rebuilt_mm": [
+    -874.88,
+    -45.0,
+    -456.7,
+    -824.88,
+    -11.3,
+    456.7
+   ],
+   "bbox_step_mm": [
+    -874.88,
+    -45.0,
+    -456.7,
+    -824.88,
+    -14.3,
+    456.7
+   ],
+   "max_bbox_dev_mm": 3.0
+  },
+  {
+   "part": "Landing_Leg",
+   "step_solids": [
+    "Landing_Leg"
+   ],
+   "n_step": 4,
+   "n_rebuilt": 8,
+   "bbox_rebuilt_mm": [
+    -480.08,
+    -249.7,
+    -453.7,
+    320.94,
+    -44.7,
+    453.7
+   ],
+   "bbox_step_mm": [
+    -480.08,
+    -249.7,
+    -453.7,
+    320.94,
+    -44.7,
+    453.7
+   ],
+   "max_bbox_dev_mm": 0.0
+  },
+  {
+   "part": "Gear_Fairing",
+   "step_solids": [
+    "Gear_Fairing"
+   ],
+   "n_step": 4,
+   "n_rebuilt": 4,
+   "bbox_rebuilt_mm": [
+    -517.2,
+    -229.7,
+    -447.3,
+    325.42,
+    -58.5,
+    447.3
+   ],
+   "bbox_step_mm": [
+    -517.2,
+    -229.7,
+    -447.34,
+    325.49,
+    -59.7,
+    447.34
+   ],
+   "max_bbox_dev_mm": 1.2
+  }
+ ],
+ "wall_s": 68.2
+}

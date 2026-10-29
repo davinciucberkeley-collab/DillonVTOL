@@ -572,21 +572,26 @@
    },
    "excluded": {},
    "GCI_CL": {
-    "p": 1.02935,
-    "GCI_fine_pct": 12.7163,
-    "f_ext": 1.28531,
-    "e21_pct": 4.36089
+    "p": 0.6091758414536969,
+    "GCI_fine_pct": 22.501627347700524,
+    "f_ext": 1.3766385881011827,
+    "e21_pct": 4.3604227561437625,
+    "r21": 1.4277015124810373,
+    "r32": 1.4970329531866402
    },
    "GCI_CD": {
-    "p": 2.52801,
-    "GCI_fine_pct": 15.0993,
-    "f_ext": 0.0248455,
-    "e21_pct": 16.9308
+    "p": 1.962681882575349,
+    "GCI_fine_pct": 20.924527722292865,
+    "f_ext": 0.023528550168765806,
+    "e21_pct": 16.93088927421354,
+    "r21": 1.4277015124810373,
+    "r32": 1.4970329531866402
    },
    "pct_change_CL_L2_L3": 4.36089,
    "pct_change_CD_L2_L3": -16.9308,
    "pct_change_CL_L1_L3": 10.5912,
-   "pct_change_CD_L1_L3": -57.5919
+   "pct_change_CD_L1_L3": -57.5919,
+   "GCI_note": "GCI recomputed 2026-10-29 with the actual refinement ratios r21, r32 (was r = sqrt(2) for both; audit AERO-04); no solver re-run"
   }
  },
  "polar_L2_SA": [

@@ -1,0 +1,90 @@
+
+-------------------------------------------------------------------------
+|    ___ _   _ ___                                                      |
+|   / __| | | |_  )   Release 8.5.0 "Harrier"                           |
+|   \__ \ |_| |/ /                                                      |
+|   |___/\___//___|   Suite (Computational Fluid Dynamics Code)         |
+|                                                                       |
+-------------------------------------------------------------------------
+| SU2 Project Website: https://su2code.github.io                        |
+|                                                                       |
+| The SU2 Project is maintained by the SU2 Foundation                   |
+| (http://su2foundation.org)                                            |
+-------------------------------------------------------------------------
+| Copyright 2012-2026, SU2 Contributors                                 |
+|                                                                       |
+| SU2 is free software; you can redistribute it and/or                  |
+| modify it under the terms of the GNU Lesser General Public            |
+| License as published by the Free Software Foundation; either          |
+| version 2.1 of the License, or (at your option) any later version.    |
+|                                                                       |
+| SU2 is distributed in the hope that it will be useful,                |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of        |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU      |
+| Lesser General Public License for more details.                       |
+|                                                                       |
+| You should have received a copy of the GNU Lesser General Public      |
+| License along with SU2. If not, see <http://www.gnu.org/licenses/>.   |
+-------------------------------------------------------------------------
+
+
+Problem definition:
+
+Incompressible Euler equations.
+Viscous and Inviscid flow: rho_ref, vel_ref, temp_ref, p_ref
+are set to 1.0 in order to perform a dimensional calculation.
+Force coefficients computed using initial values.
+The reference area for force coeffs. is 0.284176 m^2.
+The reference length for force coeffs. is 0.284176 m.
+The pressure is decomposed into thermodynamic and dynamic components.
+The initial value of the dynamic pressure is 0.
+Mach number: 0.0528684, computed using the Bulk modulus.
+For external flows, the initial state is imposed at the far-field.
+Angle of attack (deg): 0, computed using the initial velocity.
+Side slip angle (deg): 0, computed using the initial velocity.
+SI units only. The grid should be dimensional (meters).
+No energy equation.
+-- Input conditions:
+Fluid Model: CONSTANT_DENSITY 
+Thermodynamic pressure not required.
+Bulk modulus: 142000 Pa.
+Initial dynamic pressure: 0 Pa.
+Initial total pressure: 198.45 Pa.
+Initial density: 1.225 kg/m^3.
+Free-stream velocity: (18, 0) m/s. Magnitude: 18 m/s.
+-- Reference values:
+Reference pressure: 1 Pa.
+Reference density: 1 kg/m^3.
+Reference velocity: 1 m/s.
+Reference length: 1 m.
+-- Resulting non-dimensional state:
+Mach number (non-dim): 0.0528684
+Initial pressure (non-dim): 0
+Initial density (non-dim): 1.225
+Initial velocity (non-dim): (18, 0). Magnitude: 18
+
+
+Forces breakdown:
+
+Center of Pressure: X=0.004107Y+0.131535 m.
+
+NOTE: Multiply forces by the non-dimensional factor: 56.394727, and the reference factor: 1.000000
+to obtain the dimensional force.
+
+Total CL:       0.246458 | Pressure (   99%):    0.246458 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CD:       0.001012 | Pressure (   99%):    0.001012 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CL/CD:  243.462064 | Pressure (  100%):  243.462064 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMz:      0.052462 | Pressure (   99%):    0.052462 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFx:      0.001012 | Pressure (   99%):    0.001012 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFy:      0.246458 | Pressure (   99%):    0.246458 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+
+
+Surface name: wall
+
+Total CL    (   99%):    0.246458 | Pressure (   99%):    0.246458 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CD    (   99%):    0.001012 | Pressure (   99%):    0.001012 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CL/CD (  100%):  243.462064 | Pressure (  100%):  243.462064 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMz   (   99%):    0.052462 | Pressure (   99%):    0.052462 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFx   (   99%):    0.001012 | Pressure (   99%):    0.001012 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFy   (   99%):    0.246458 | Pressure (   99%):    0.246458 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+

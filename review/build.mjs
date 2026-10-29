@@ -79,6 +79,10 @@ const SOURCES = (() => { const f = new URL('../analysis/sources.json', import.me
 // FEA fields for the 3-D explorer (cad/SimFields.cs -> analysis/fea_fields.py)
 const FEA = (() => { const f = new URL('../analysis/fea_fields.json', import.meta.url); if (!existsSync(f)) { console.log('fea_fields.json missing'); return null; } return JSON.parse(readFileSync(f, 'utf8')); })();
 const THERM = (() => { const f = new URL('../analysis/thermal/thermal_results.json', import.meta.url); if (!existsSync(f)) { console.log('thermal_results.json missing'); return null; } return JSON.parse(readFileSync(f, 'utf8')); })();
+// whole-aircraft CFD (analysis/cfd3d/postprocess.py pack): already compact (gzipped typed arrays), embedded as is
+const CFD3 = (() => { const f = new URL('../analysis/cfd3d/out/viz/cfd3d_viz.json', import.meta.url); if (!existsSync(f)) { console.log('cfd3d_viz.json missing'); return null; } return readFileSync(f, 'utf8'); })();
+// engineering validation matrix (analysis/validation/build_matrix.py)
+const VALID = (() => { const f = new URL('../analysis/validation/validation_matrix.json', import.meta.url); if (!existsSync(f)) { console.log('validation_matrix.json missing'); return null; } return JSON.parse(readFileSync(f, 'utf8')); })();
 const MESH = packMesh(); console.log('CAD mesh:', Object.keys(MESH.parts).length, 'parts,', MESH.comps.length, 'components,', MESH.tris, 'triangles');
 const html = `<title>Lift + Cruise VTOL Review</title>
 <script>try{if(localStorage.getItem('vtol-theme')==='light')document.documentElement.dataset.theme='light'}catch(e){}</script>
@@ -95,6 +99,8 @@ ${FLOW3 ? `<script type="application/json" id="flow3dData">${JSON.stringify(FLOW
 ${THERM ? `<script type="application/json" id="thermData">${js(THERM)}</script>` : ''}
 ${SOURCES ? `<script type="application/json" id="sourcesData">${js(SOURCES)}</script>` : ''}
 ${FEA ? `<script type="application/json" id="feaData">${js(FEA)}</script>` : ''}
+${CFD3 ? `<script type="application/json" id="cfd3dData">${CFD3.replace(/</g, '\\u003c')}</script>` : ''}
+${VALID ? `<script type="application/json" id="validData">${js(VALID)}</script>` : ''}
 <script type="application/json" id="meshData">${JSON.stringify(MESH).replace(/</g, '\\u003c')}</script>
 ${r('./src/body.html').replace(/DESIGN-BASIS\.md v\d+\.\d+(?:\.\d+)?/g, 'DESIGN-BASIS.md v' + BASIS_VER).split('{{BASIS_VER}}').join(BASIS_VER)}
 <script>const DATA = ${js(data)}; const V02 = ${js(v02)}; const SIM = ${js(sim)}; const AERO = ${js(aero)}; const IMG = ${js(IMG)}; const CADP = ${js(cadp)}; let MESH = null; const MESH_META = ${JSON.stringify({ tris: MESH.tris, comps: MESH.comps.length, files: new Set(Object.keys(MESH.parts).map(k => k.split('~')[0])).size })}; const TRADE = ${js(TRADE)}; const AEROD = ${js(AEROD)}; const TESTS = ${js(TESTS)}; const BENCH = ${js(BENCH)}; const BUILD = ${js(BUILD)}; const HW = ${js(HW)};</script>
@@ -110,6 +116,8 @@ ${r('./src/shell.js')}
 ${r('./src/thermviz.js')}
 ${r('./src/sources.js')}
 ${r('./src/fieldviz.js')}
+${r('./src/cfdviz.js')}
+${r('./src/claimsmap.js')}
 ${r('./src/app.js')}
 </script>
 `;

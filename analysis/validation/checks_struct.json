@@ -1,0 +1,676 @@
+{
+ "generated": "2026-10-29 00:49",
+ "script": "analysis/validation/check_struct.py",
+ "material": {
+  "E_Pa": 69000000000.0,
+  "yield_min_Pa": 240000000.0,
+  "yield_typ_Pa": 270000000.0,
+  "yield_repo_Pa": 275000000.0,
+  "src": "https://en.wikipedia.org/wiki/6061_aluminium_alloy (checked 2026-10-29)"
+ },
+ "checks": {
+  "STR-01": {
+   "what": "Boom root bending stress, cantilever, tip thrust",
+   "equations": [
+    "I = pi/64 (D^4 - d^4)",
+    "sigma = P L c / I"
+   ],
+   "inputs": {
+    "L_m": 0.461982,
+    "P_N": 30.694814,
+    "D_m": 0.0254,
+    "d_m": 0.023622,
+    "I_mm4": 5147.728852770955,
+    "a_load_m (Sim.cs block centroid)": 0.4406507112699394
+   },
+   "hand_sigma_MPa": 34.98469713146965,
+   "hand_sigma_FEAgeom_MPa": 33.36933403151099,
+   "repo_hand_MPa": 34.9847,
+   "fea_coarse_MPa": 33.6944,
+   "fea_fine_MPa": 36.7722,
+   "delta_fine_vs_hand_pct": 5.11,
+   "RF_yield_min": 6.860142281583845,
+   "RF_yield_repo": 7.478475587536237,
+   "fatigue_ratio": 0.36066698073680054
+  },
+  "STR-02": {
+   "what": "Boom FEA nodal von Mises vs beam theory along the arm (fine mesh field export) + mesh convergence",
+   "equations": [
+    "sigma(x) = P (a - x) c / I, a = L - rBlk (Sim.cs tip block)"
+   ],
+   "slices": [
+    {
+     "station_m": 0.05,
+     "n_nodes": 976,
+     "fea_max_vm_MPa": 29.8,
+     "hand_MPa": 29.58,
+     "delta_pct": 0.73
+    },
+    {
+     "station_m": 0.1,
+     "n_nodes": 976,
+     "fea_max_vm_MPa": 26.0,
+     "hand_MPa": 25.8,
+     "delta_pct": 0.81
+    },
+    {
+     "station_m": 0.2,
+     "n_nodes": 976,
+     "fea_max_vm_MPa": 18.45,
+     "hand_MPa": 18.22,
+     "delta_pct": 1.22
+    },
+    {
+     "station_m": 0.3,
+     "n_nodes": 975,
+     "fea_max_vm_MPa": 10.86,
+     "hand_MPa": 10.65,
+     "delta_pct": 1.94
+    }
+   ],
+   "field_nodes": 419524,
+   "mean_abs_delta_pct": 1.1749999999999998,
+   "peak_coarse_MPa": 33.6944,
+   "peak_fine_MPa": 36.7722,
+   "peak_change_coarse_to_fine_pct": 9.13,
+   "elements": {
+    "coarse_3mm": 50583,
+    "fine_1.5mm": 253709,
+    "src": "cad/sim/*.LOG (UTF-16)"
+   },
+   "note": "peak grows 9 % on mesh halving at the fixed root face: restraint singularity, not converged; nominal stress away from the root is the comparable quantity"
+  },
+  "STR-03": {
+   "what": "Boom tip deflection",
+   "equations": [
+    "delta = P L^3 / (3 E I)",
+    "delta_tip (load at a) = P a^2 (3L - a) / (6 E I)"
+   ],
+   "hand_tip_load_at_L_mm": 2.840234257819529,
+   "hand_tip_load_at_block_mm": 2.6436590634127293,
+   "hand_at_load_mm": 2.4646906856227844,
+   "repo_hand_mm": 2.84,
+   "fea_mm": 2.70274,
+   "delta_fea_vs_FEAgeom_hand_pct": 2.23,
+   "note": "FEA root is rigid (fixed face); real root is a printed PETG split clamp bonded to a foam hardpoint, so real deflection is larger (compliance \u2014)"
+  },
+  "STR-04": {
+   "what": "Boom first bending mode, Euler-Bernoulli cantilever with tip mass (Rayleigh 0.24 m_beam)",
+   "equations": [
+    "f = 1/(2 pi) sqrt(3 E I / ((m_tip + 0.24 m_beam) L^3))"
+   ],
+   "m_beam_kg": 0.08538891249311338,
+   "k_N_per_m": 10807.14166991446,
+   "f_repo_tipmass_Hz": 32.29359618356684,
+   "f_load_at_block_centroid_Hz": 34.66668219492578,
+   "f_cad_tipmass_Hz": 27.926719958208523,
+   "repo_hand_Hz": 32.3135,
+   "fea_Hz": 34.385,
+   "delta_fea_vs_hand_pct": 6.48,
+   "delta_fea_vs_blockgeom_hand_pct": -0.81,
+   "rotor_1P_hover_Hz_EST": 85.50954338589887,
+   "rotor_2P_hover_Hz_EST": 171.01908677179773,
+   "rotor_1P_max_Hz_EST": 118.33333333333333,
+   "note": "rigid root in both hand and FEA; clamp compliance lowers f1 further (\u2014). rpm from firmware/sitl/c0_physics.py EST"
+  },
+  "STR-05": {
+   "what": "Lift-unit (boom tip) mass: sizing/FEA value vs CAD part masses",
+   "sizing_mTip_kg": 0.242,
+   "sizing_mount_kg": 0.02,
+   "cad_parts_kg": {
+    "Motor_Mount_Upper": 0.055450000000000006,
+    "Motor_Mount_Cap": 0.033280000000000004,
+    "Lift_Motor": 0.165,
+    "Lift_Prop": 0.032,
+    "Prop_Plate": 0.00558,
+    "fasteners+inserts (4 F01, 6 F02, 4 I01)": 0.014199999999999999,
+    "ESC (sizing EST)": 0.025
+   },
+   "cad_unit_kg": 0.33051,
+   "delta_pct": 36.57,
+   "note": "CAD mount alone is 89 g vs the 20 g mMount allowance (analysis/sizing.mjs X4110S)"
+  },
+  "STR-06": {
+   "what": "Wing root bending moment at ultimate (n = 4.5): elliptic vs uniform vs Schrenk",
+   "equations": [
+    "L_half = m g n / 2",
+    "M_ell = L_half 4 b_s / (3 pi)",
+    "M_uni = L_half b_s / 2",
+    "M_schrenk = (M_ell + M_uni)/2"
+   ],
+   "inputs": {
+    "mtow_params_kg": 6.551516,
+    "mtow_results_kg": 6.537558,
+    "n_ult": 4.5,
+    "n_limit": 3,
+    "FS": 1.5,
+    "semispan_m": 1.2
+   },
+   "M_elliptic_Nm": 73.64842122087899,
+   "M_uniform_Nm": 86.76500214600001,
+   "M_schrenk_Nm": 80.2067116834395,
+   "repo_params_Nm": 73.62327,
+   "repo_results_Nm": 73.466417,
+   "delta_elliptic_vs_repo_pct": 0.03,
+   "schrenk_vs_elliptic_pct": 8.9,
+   "note": "no inertia relief from wing/boom/lift-unit mass (conservative); rectangular planform -> Schrenk is the usual first estimate"
+  },
+  "STR-07": {
+   "what": "Joiner (0.875 x 0.058 in) bending stress at the centreline and reserve factor",
+   "equations": [
+    "sigma = M c / I",
+    "RF = sigma_y / sigma"
+   ],
+   "I_true_mm4": 5195.473436722815,
+   "sigma_MPa": {
+    "elliptic": 157.52521705380082,
+    "schrenk": 171.55262064903005,
+    "uniform": 185.58002424425933
+   },
+   "repo_hand_MPa": 157.454,
+   "delta_elliptic_vs_repo_pct": 0.05,
+   "RF": {
+    "elliptic_repo275": 1.7457522366471465,
+    "elliptic_min240": 1.5235655883466006,
+    "schrenk_min240": 1.3989876639133518,
+    "uniform_min240": 1.2932426373870576
+   },
+   "repo_RF": 1.7502667
+  },
+  "STR-08": {
+   "what": "Spar+joiner FEA vs beam theory on the FEA geometry (joiner OD = socket ID, bonded)",
+   "equations": [
+    "M(z) from uniform w on [fusR, fusR + sparLen]",
+    "sigma = M c / I (section per zone)"
+   ],
+   "M_centreline_Nm": 73.62327024000001,
+   "hand_root_FEAgeom_MPa": 145.094159161378,
+   "I_fea_joiner_mm4": 5696.772769916578,
+   "fea_coarse_MPa": 146.585,
+   "fea_fine_MPa": 154.668,
+   "delta_coarse_pct": 1.03,
+   "delta_fine_pct": 6.6,
+   "slices": [
+    {
+     "station_m": 0.03,
+     "n_nodes": 477,
+     "fea_max_vm_MPa": 136.86,
+     "hand_MPa": 136.03,
+     "delta_pct": 0.61
+    },
+    {
+     "station_m": 0.06,
+     "n_nodes": 488,
+     "fea_max_vm_MPa": 127.75,
+     "hand_MPa": 126.96,
+     "delta_pct": 0.62
+    },
+    {
+     "station_m": 0.2,
+     "n_nodes": 506,
+     "fea_max_vm_MPa": 41.53,
+     "hand_MPa": 41.24,
+     "delta_pct": 0.71
+    },
+    {
+     "station_m": 0.3,
+     "n_nodes": 506,
+     "fea_max_vm_MPa": 30.25,
+     "hand_MPa": 30.0,
+     "delta_pct": 0.82
+    },
+    {
+     "station_m": 0.5,
+     "n_nodes": 506,
+     "fea_max_vm_MPa": 22.37,
+     "hand_MPa": 22.1,
+     "delta_pct": 1.19
+    },
+    {
+     "station_m": 0.7,
+     "n_nodes": 506,
+     "fea_max_vm_MPa": 5.1,
+     "hand_MPa": 4.96,
+     "delta_pct": 2.75
+    }
+   ],
+   "field_nodes": 270229,
+   "stiffness_ratio_fea_over_true_joiner": 1.0964877097918475,
+   "elements": {
+    "coarse_3mm": 55584,
+    "fine_2mm": 147172
+   }
+  },
+  "STR-09": {
+   "what": "Spar tip deflection, FEA geometry, numerical double integration of M/EI",
+   "hand_tip_mm": 23.117335647439237,
+   "fea_tip_mm": 23.2137,
+   "delta_pct": 0.42,
+   "note": "FEA joiner is 9.7 % stiffer than the real joiner; real joiner + 0.23 mm slip-fit clearance + foam add rotation (\u2014)"
+  },
+  "STR-10": {
+   "what": "Boom clamp reactions into the wing hardpoints, single front motor at Tmax (differential thrust)",
+   "equations": [
+    "R_rear = T a / s",
+    "R_front = T + R_rear"
+   ],
+   "inputs": {
+    "x_front_motor": 0.39094,
+    "x_front_clamp": -0.08525,
+    "x_rear_clamp": -0.22734,
+    "arm_m": 0.47619,
+    "spacing_m": 0.14209,
+    "T_N": 30.694814
+   },
+   "rear_clamp_tension_N": 102.86834737602928,
+   "per_screw_N": 51.43417368801464,
+   "front_clamp_N": 133.56316137602929,
+   "repo_spec_value_N": 114.0,
+   "delta_pct": -9.76,
+   "rear_plate_bond_area_mm2": 2760,
+   "rear_plate_bond_stress_kPa": 37.2711403536338,
+   "m3_bolt_tension_util": 0.02271827459717961,
+   "insert_pullout_N": null,
+   "xps_bond_strength_kPa": null,
+   "note": "hardware-spec J05 uses superseded coordinates (0.3709 / -0.0716 / -0.1909); insert pull-out and XPS bond strength: \u2014"
+  },
+  "STR-11": {
+   "what": "Hard landing: front gear load into the front boom arm (static-equivalent n g)",
+   "equations": [
+    "v = sqrt(2 g h)",
+    "n = 2(1 + h/s) (linear spring, repo)",
+    "F_leg = m g n f_front / 2",
+    "M = F_leg (x_gear - x_clamp) - m_unit g n (x_motor - x_clamp)"
+   ],
+   "v_impact_mps": 2.4261079942986874,
+   "front_fraction": 0.5008750650442826,
+   "cases": {
+    "8": {
+     "F_leg_N": 128.76570694354095,
+     "M_front_clamp_Nm": 37.376409859014075,
+     "sigma_boom_MPa": 92.2116177416696,
+     "RF_min240": 2.6027089197410986,
+     "leg_axial_bearing_on_socket_MPa": 1.1629454594899111
+    },
+    "16": {
+     "F_leg_N": 257.5314138870819,
+     "M_front_clamp_Nm": 74.75281971802815,
+     "sigma_boom_MPa": 184.4232354833392,
+     "RF_min240": 1.3013544598705493,
+     "leg_axial_bearing_on_socket_MPa": 2.3258909189798223
+    },
+    "32": {
+     "F_leg_N": 515.0628277741638,
+     "M_front_clamp_Nm": 149.5056394360563,
+     "sigma_boom_MPa": 368.8464709666784,
+     "RF_min240": 0.6506772299352747,
+     "leg_axial_bearing_on_socket_MPa": 4.6517818379596445
+    }
+   },
+   "repo_strokes": [
+    {
+     "stroke": 0.02,
+     "n": 16,
+     "nSpring": 32
+    },
+    {
+     "stroke": 0.05,
+     "n": 7,
+     "nSpring": 14
+    },
+    {
+     "stroke": 0.1,
+     "n": 4,
+     "nSpring": 8
+    },
+    {
+     "stroke": 0.15,
+     "n": 3,
+     "nSpring": 6
+    }
+   ],
+   "note": "no FEA or test of this case in the repo; legs assumed vertical (axial); lift-unit mass from CAD (STR-05)"
+  },
+  "STR-12": {
+   "what": "Boom splice (J04): 2 x M3 cross-bolts at x +-18 mm carrying vertical bending as a shear couple",
+   "inputs": {
+    "m_tail_side_kg (EST roll-up)": 0.29680529,
+    "arm_m (EST)": 0.29991999999999996,
+    "n": 4.5,
+    "bolt_pitch_m": 0.036
+   },
+   "M_splice_Nm": 3.9296926605528357,
+   "F_per_bolt_N": 109.158129459801,
+   "bolt_double_shear_MPa": 10.850708693817197,
+   "bolt_shear_util": 0.025827685372847107,
+   "tube_bearing_MPa": 20.46459119981273,
+   "free_play_rotation_deg_WC": 1.2732395447351628,
+   "tail_aero_load_N": null,
+   "note": "tail aerodynamic load: \u2014 (not in repo); clamp friction of the 70 mm motor mount around the splice also carries load (\u2014)"
+  },
+  "STR-13": {
+   "what": "Wing retention bolt J10 (M5 A2-70) reacting panel torsion about the round slip-fit joiner",
+   "equations": [
+    "T = L_half (x_joiner - x_ac) c",
+    "F = T / ((0.70 - 0.30) c)"
+   ],
+   "T_panel_Nm": 2.0547109374868078,
+   "F_bolt_N": 18.07604211375,
+   "tau_bolt_MPa": 1.2729607122359154,
+   "shear_util": 0.003034522245794722,
+   "bearing_on_6p4mm_PETG_tongue_MPa": 0.5648763160546875,
+   "PETG_strength_MPa": null,
+   "Cm0": null,
+   "preload_N_repo": 1250.0,
+   "preload_bearing_MPa_repo": 27.0,
+   "note": "EST aerodynamic centre at 25 % c; NACA 2415 Cm0 not read from the repo (\u2014); PETG strength not in the repo (\u2014)"
+  },
+  "STR-14": {
+   "what": "Lift-motor reaction torque on the boom and clamp friction capacity",
+   "equations": [
+    "Q = eta P / omega",
+    "sigma_lat = Q c / I",
+    "F = T/(K d)",
+    "T_slip = mu n F r"
+   ],
+   "Q_max_Nm_EST": 0.6617259042355987,
+   "sigma_lateral_MPa": 1.6325488820702714,
+   "preload_N": {
+    "K0.16_lub": 1041.6666666666667,
+    "K0.35_dry": 476.1904761904762
+   },
+   "slip_torque_Nm": {
+    "K0.16_lub": 15.875,
+    "K0.35_dry": 7.257142857142857
+   },
+   "repo_slip_Nm": 16.0,
+   "M7_test_Nm": 4.905,
+   "note": "mu 0.3 EST (repo); bolts into brass inserts in PETG/PA6-CF are not lubricated -> K 0.35 (Fastenal dry) halves preload; insert torque-out \u2014"
+  },
+  "THM-01": {
+   "what": "Motor-only steady temperature, Sim.cs inputs (Q 45.8 W, h 50) and correlation h",
+   "equations": [
+    "T = T_amb + Q / (h A)",
+    "A = pi D H + 2 pi D^2/4"
+   ],
+   "A_m2": 0.008444601052849363,
+   "T_simcs_hand_C": 143.43886102719068,
+   "fea_simcs_C": 143.902,
+   "delta_pct_on_rise": 0.43,
+   "T_corr_hand_C": 160.92052934348595,
+   "fea_corr_C": 163.484
+  },
+  "THM-02": {
+   "what": "Film coefficients (Hilpert cylinder) in hover wash and 18 m/s cruise",
+   "equations": [
+    "v_i = sqrt(T / (2 rho A))",
+    "Re = V D / nu",
+    "Nu = C Re^m Pr^(1/3)",
+    "h = Nu k / D"
+   ],
+   "v_i_mps": 6.683891222685996,
+   "v_i_35C_mps": 6.911924300716133,
+   "rho_used": 1.225,
+   "rho_35C": 1.1455047361519344,
+   "Re_hover": 19444.04719326835,
+   "h_motor_hover": 42.90645091596605,
+   "h_motor_hover_35C": 43.805294582953664,
+   "repo_h_motor_hover": 42.90645091596605,
+   "h_motor_cruise": 84.46521180455152,
+   "repo_h_motor_cruise": 84.46521180455152,
+   "delta_hover_pct": 0.0
+  },
+  "THM-03": {
+   "what": "Lift motor heat load: 20 % rule vs I^2 R",
+   "Q_rule_W": 45.624516,
+   "I_hover_A": 10.86298,
+   "Q_I2R_W": 13.216485461804801,
+   "Q_no_load_W": null,
+   "repo_Q_W": 45.624516,
+   "note": "112 mOhm winding R is a reseller value quoted in docs/research/thermal.md; no-load current I0 not in the repo (\u2014)"
+  },
+  "THM-04": {
+   "what": "Lift motor transient (lumped capacitance) vs SOLIDWORKS lift-unit transient",
+   "equations": [
+    "T(t) = T_inf + (T0 - T_inf) exp(-t/tau)",
+    "tau = m c_p / (h A)"
+   ],
+   "C_J_per_K": 77.55,
+   "tau_hover_s": 214.03267161425524,
+   "hand_60s_C": 65.78333934427856,
+   "fea_60s_C": 62.7404,
+   "hand_90s_C": 78.22591819402774,
+   "fea_90s_C": 73.7891,
+   "hand_mission_end_C": 79.2775724214336,
+   "fea_mission_end_C": 75.4571,
+   "fea_mission_max_C": 76.2425,
+   "mission_history": [
+    [
+     "hover",
+     65.78
+    ],
+    [
+     "trans",
+     80.73
+    ],
+    [
+     "cruise",
+     35.18
+    ],
+    [
+     "trans",
+     52.86
+    ],
+    [
+     "hover",
+     79.28
+    ]
+   ],
+   "simcs_90s_hand_C": 77.00738462641677,
+   "simcs_90s_fea_C": 77.2372,
+   "delta_60_pct_on_rise": -9.89,
+   "delta_mission_pct_on_rise": -8.63,
+   "limit_C": 80.0,
+   "limit_src": "docs/test/TEST-PLAN.md abort table (EST, maker gives none)"
+  },
+  "THM-05": {
+   "what": "Lift ESC (boom underside) lumped check",
+   "A_m2": 0.003532,
+   "C_J_per_K": 22.176000000000002,
+   "hand_60s_C": 55.24473935176859,
+   "fea_60s_C": 55.5171,
+   "hand_steady_C": 95.07748737974654,
+   "fea_steady_C": 95.8628,
+   "delta_60_pct_on_rise": 1.35,
+   "limit_C": 70.0
+  },
+  "THM-06": {
+   "what": "Battery pack, adiabatic I^2 R heating over the mission",
+   "equations": [
+    "Q = I^2 R_pack",
+    "dT = sum(Q t) / (m c_p)"
+   ],
+   "I_A": {
+    "hover": 43.45192,
+    "trans": 68.439687,
+    "cruise": 11.818539
+   },
+   "R_pack_ohm": 0.045,
+   "Q_hover_W": 84.963120825888,
+   "E_J": 22398.06019164297,
+   "mcp_J_per_K": 902.0,
+   "hand_end_C": 59.831552318894644,
+   "fea_end_C": 59.2482,
+   "delta_pct_on_rise": -2.35,
+   "limit_C": 60.0
+  },
+  "THM-07": {
+   "what": "Flight controller in the closed pod bay",
+   "A_m2": 0.006184,
+   "C_J_per_K_EST": 36.0,
+   "hand_end_C": 89.26480246773701,
+   "hand_steady_C": 148.1953428201811,
+   "fea_max_C": 96.7761,
+   "delta_pct_on_rise": 13.84,
+   "limit_C": null,
+   "note": "no FC temperature limit in the repo (\u2014); cp 900 J/kgK EST"
+  },
+  "THM-08": {
+   "what": "Pusher motor after 600 s cruise (fully exposed lumped can = lower bound; FEA has the PA6-CF cup)",
+   "hand_exposed_C": 72.69083041836548,
+   "fea_endcruise_C": 80.3658,
+   "fea_steady_C": 81.4432,
+   "delta_pct_on_rise": 20.36,
+   "limit_C": 80.0,
+   "mount_steady_bound_C": 168.538,
+   "pa6cf_HDT_C": 173.0,
+   "pa6cf_HDT_stress_MPa": 1.8,
+   "motor_floor_bearing_MPa_repo": 41.0
+  },
+  "MFG-STACKS": {
+   "FT01_alt_RSS_decomposed": {
+    "nominal": 0.22899999999999565,
+    "worst_case": [
+     -0.07580000000000431,
+     0.5337999999999956
+    ],
+    "rss": [
+     0.05302363795099774,
+     0.40497636204899357
+    ],
+    "wc_half": 0.30479999999999996,
+    "rss_half": 0.17597636204899791
+   },
+   "FT01_repo_band": {
+    "nominal": 0.22899999999999565,
+    "worst_case": [
+     -0.07600000000000434,
+     0.5339999999999956
+    ],
+    "rss": [
+     0.0018150533155817106,
+     0.45618494668440956
+    ],
+    "wc_half": 0.305,
+    "rss_half": 0.22718494668441394
+   },
+   "FT06": {
+    "nominal": 0.22999999999999687,
+    "worst_case": [
+     -0.0716000000000031,
+     0.5315999999999969
+    ],
+    "rss": [
+     0.00567309568399646,
+     0.4543269043159973
+    ],
+    "wc_half": 0.3016,
+    "rss_half": 0.22432690431600041
+   },
+   "FT02": {
+    "nominal": 0.20000000000000284,
+    "worst_case": [
+     -0.10159999999999714,
+     0.5016000000000028
+    ],
+    "rss": [
+     -0.024326904315997572,
+     0.4243269043160033
+    ],
+    "wc_half": 0.3016,
+    "rss_half": 0.22432690431600041
+   },
+   "FT04": {
+    "nominal": 0.4220000000000006,
+    "worst_case": [
+     0.019000000000000572,
+     0.8250000000000006
+    ],
+    "rss": [
+     0.13702807155791702,
+     0.7069719284420841
+    ],
+    "wc_half": 0.403,
+    "rss_half": 0.2849719284420836
+   },
+   "FT04_rotation_deg": {
+    "nominal": 0.6044704738630193,
+    "wc": 1.1817254524573237
+   },
+   "socket_coax": {
+    "channel_clear_max_mm": 1.2020000000000017,
+    "theta_wc_mrad": 1.5025000000000022,
+    "theta_rss_mrad": 1.3878724402261022,
+    "lateral_at_300_wc_mm": 0.45075000000000065,
+    "lateral_at_300_rss_mm": 0.41636173206783067,
+    "nominal_joiner_clearance_mm": 0.22899999999999565
+   },
+   "J10_protrusion": {
+    "nominal": 0.5700000000000003,
+    "worst_case": [
+     -1.3299999999999996,
+     2.47
+    ],
+    "rss": [
+     -0.3839392014169454,
+     1.523939201416946
+    ],
+    "wc_half": 1.9,
+    "rss_half": 0.9539392014169457
+   },
+   "wingtip_play_mm": {
+    "nominal": 0.8549333333333172,
+    "wc": 1.9935999999999838
+   },
+   "note": "tube OD +-0.004 in, wall +-0.002 in (hardware.json FT01 source, EST for 0.875/0.058); screw length tol +-0.4 EST; printed +-0.5 (hardware.json general rule)"
+  },
+  "MFG-01": {
+   "what": "cad/params.txt vs current analysis/results.json",
+   "results_generated": "2026-10-27",
+   "pairs": {
+    "chord_m": [
+     0.284176,
+     0.28180021
+    ],
+    "mtow_kg": [
+     6.551516,
+     6.537558
+    ],
+    "feaBoomL_m": [
+     0.461982,
+     0.46034214
+    ],
+    "feaRootMomentTarget_Nm": [
+     73.62327,
+     73.466417
+    ],
+    "thermQ_W": [
+     45.786146,
+     45.624516
+    ]
+   },
+   "deltas_pct": {
+    "chord": 0.84,
+    "mtow": 0.21,
+    "Lb": 0.36,
+    "Mroot": 0.21
+   }
+  },
+  "MFG-INTF": {
+   "F06_into_spar_collar_mm": 0.9917121342881656,
+   "F11_through_horn_mm": 2.6769861428056796,
+   "F07_into_pod_mm": 0.6719875374991137,
+   "note": "interference volume / nominal screw cross-section (calc) from cad/verification.txt"
+  },
+  "MFG-MASS": {
+   "cad_total_kg": 6.357,
+   "sizing_params_kg": 6.551516,
+   "sizing_results_kg": 6.537558,
+   "mount_cad_g": 88.73,
+   "mount_sizing_g": 20.0,
+   "pa6cf_density_cad": 1230,
+   "pa6cf_density_TDS": 1170
+  }
+ },
+ "runtime_s": 0.55
+}

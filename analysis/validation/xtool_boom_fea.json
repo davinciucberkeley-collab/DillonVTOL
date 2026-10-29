@@ -1,0 +1,137 @@
+{
+ "generated": "2026-10-29 02:46",
+ "script": "analysis/validation/xtool_boom_fea.py",
+ "toolchain": "gmsh 4.15.2 2nd-order tetrahedra + numpy/scipy C3D10 solver (this script); SuperLU direct solve",
+ "inputs": {
+  "L_m": 0.461982,
+  "OD_m": 0.0254,
+  "ID_m": 0.023622,
+  "E_Pa": 69000000000.0,
+  "nu": 0.33,
+  "rho": 2700.0,
+  "m_tip_kg": 0.242,
+  "F_N": 30.694814,
+  "r_block_m": 0.02133128873006061
+ },
+ "runs": [
+  {
+   "deflection_profile": [
+    {
+     "x_m": 0.0996,
+     "fe_mm": 0.17783005502806837,
+     "beam_mm": 0.17453072367723188
+    },
+    {
+     "x_m": 0.2001,
+     "fe_mm": 0.6518241331668239,
+     "beam_mm": 0.6470948428561626
+    },
+    {
+     "x_m": 0.2997,
+     "fe_mm": 1.3285378620472506,
+     "beam_mm": 1.3223766718955208
+    },
+    {
+     "x_m": 0.4003,
+     "fe_mm": 2.134391719904183,
+     "beam_mm": 2.126694330150869
+    },
+    {
+     "x_m": 0.4411,
+     "fe_mm": 2.4757848412454306,
+     "beam_mm": 2.4683054725008984
+    }
+   ],
+   "max_defl_at_m": [
+    0.462,
+    0.0627,
+    0.0
+   ],
+   "h_m": 0.004,
+   "nodes": 23218,
+   "elements": 11931,
+   "dof": 69654,
+   "tip_deflection_mm": 2.651050752463734,
+   "max_disp_mm": 2.7025221878094827,
+   "vm_max_MPa": 32.872396268437555,
+   "vm_max_x>10mm_MPa": 32.35007988504425,
+   "sxx_x100_MPa": 25.749591166016916,
+   "beam_sxx_x100_MPa": 25.796593723128925,
+   "load_check_N_half_model": 15.347407000000002,
+   "time_s": 22.0
+  },
+  {
+   "deflection_profile": [
+    {
+     "x_m": 0.0999,
+     "fe_mm": 0.1791090734132593,
+     "beam_mm": 0.17561824595320405
+    },
+    {
+     "x_m": 0.1999,
+     "fe_mm": 0.6508349602049311,
+     "beam_mm": 0.6457342242742028
+    },
+    {
+     "x_m": 0.3,
+     "fe_mm": 1.3317067073160134,
+     "beam_mm": 1.324955840190282
+    },
+    {
+     "x_m": 0.4002,
+     "fe_mm": 2.13454879333831,
+     "beam_mm": 2.1260674999516374
+    },
+    {
+     "x_m": 0.4408,
+     "fe_mm": 2.473904695245152,
+     "beam_mm": 2.4655594492616277
+    }
+   ],
+   "max_defl_at_m": [
+    0.462,
+    0.0627,
+    0.0
+   ],
+   "h_m": 0.0025,
+   "nodes": 63523,
+   "elements": 34629,
+   "dof": 190569,
+   "tip_deflection_mm": 2.6519867144792593,
+   "max_disp_mm": 2.70346760884694,
+   "vm_max_MPa": 36.02248468956291,
+   "vm_max_x>10mm_MPa": 32.32506530206177,
+   "sxx_x100_MPa": 25.804160310036686,
+   "beam_sxx_x100_MPa": 25.796593723128925,
+   "load_check_N_half_model": 15.347407000000002,
+   "time_s": 777.9
+  }
+ ],
+ "solidworks": {
+  "boom_vm_max": 33.6944,
+  "boom_vm_max_fine": 36.7722,
+  "boom_disp_max": 2.70274,
+  "boom_hand_sigma": 34.9847,
+  "boom_hand_defl": 2.84
+ },
+ "comparison": {
+  "tip_deflection_mm": {
+   "independent_fe": 2.6519867144792593,
+   "solidworks": 2.70274,
+   "beam_PL3_3EI": 2.840234257819529,
+   "delta_vs_solidworks_pct": -1.8778456499974343
+  },
+  "vm_max_MPa": {
+   "independent_fe": 36.02248468956291,
+   "solidworks_fine": 36.7722,
+   "delta_vs_solidworks_pct": -2.0388100533476092,
+   "note": "both peaks sit on the fully fixed root edge, a stress singularity: they grow with refinement and are not a design value"
+  },
+  "sxx_x100_MPa": {
+   "independent_fe": 25.804160310036686,
+   "beam": 25.796593723128925,
+   "delta_pct": 0.029331728789356557
+  },
+  "mesh_change_tip_defl_pct": 0.035305322414341554
+ }
+}
