@@ -7,7 +7,7 @@ import json, time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
-J = lambda p: json.loads((ROOT / p).read_text()) if (ROOT / p).exists() else None
+J = lambda p: json.loads((ROOT / p).read_text(encoding="utf-8")) if (ROOT / p).exists() else None
 f3 = lambda x: "—" if x is None else f"{x:.3f}"
 f4 = lambda x: "—" if x is None else f"{x:.4f}"
 
@@ -17,7 +17,7 @@ def main():
     geo = J("analysis/cfd3d/out/oml_fidelity.json"); xt = J("analysis/validation/xtool_boom_fea.json")
     cl = {c["id"]: c for c in vm["claims"]}
     lv = {k: J(f"analysis/cfd3d/out/L{k}/mesh_stats.json") for k in (1, 2, 3)}
-    post = {p.stem: json.loads(p.read_text()) for p in (ROOT / "analysis/cfd3d/out/post").glob("*.json") if not p.stem.endswith("_viz")}
+    post = {p.stem: json.loads(p.read_text(encoding="utf-8")) for p in (ROOT / "analysis/cfd3d/out/post").glob("*.json") if not p.stem.endswith("_viz")}
     S = []
     w = S.append
     w("# Engineering validation report")
@@ -42,6 +42,12 @@ def main():
     w("| Cross-tool FEA | New: boom study re-solved with gmsh + own C3D10 solver (no SOLIDWORKS code) | `analysis/validation/xtool_boom_fea.py` |")
     w("| Agent interface | New: `tools/vtol.py` CLI with JSON output over every pipeline step, and the integration notes | `tools/vtol.py`, `docs/validation/AGENT-INTERFACE.md` |")
     w("| Review text | Simulation chapter verdict and the stopped-rotor drag card updated to match the audit | `review/src/body.html` |")
+    w("| Proof chains | New: every claim split into equations, variables and sources; arithmetic re-run from the cited files, hand-offs between claims value-checked; proof card per claim, dependency graph, equation pointers on the 3-D model | `analysis/validation/proofs.py`, `review/src/proofs.js` |")
+    w("| Source audit | New: external sources checked value by value; every URL in the docs re-tested | `analysis/validation/source_audit.json`, `link_check.py` |")
+    w("| Mesh audit | New: CFD meshes measured and scored against published gridding guidelines, with the meshing code behind each rule | `analysis/cfd3d/mesh_audit.py` |")
+    w("| 3-D CFD view | Continuous slice (drag or sweep, three directions, Cp / speed / vorticity) and a vorticity volume replace the four fixed wake planes | `review/src/cfdviz.js`, `analysis/cfd3d/postprocess.py` |")
+    w("| Website | 22 chapters merged into 12 with 2-4 tabs each; old links still resolve | `review/tools/restructure.py` |")
+    w("| Command line | Numbered menu (`VTOL.bat`), `check`, `trace`, `prove`, `strict`, `sources`, `mesh-audit` | `tools/vtol.py` |")
     w("")
     w("## Full-aircraft CFD")
     w("")
@@ -79,6 +85,44 @@ def main():
         w("")
         w("Same inputs, different mesher, element formulation and solver. The tip deflection and the stress away from the root corner agree, so the SOLIDWORKS study is reproduced. The study's load case is the separate issue: its tip mass is 37 % low (STR-05).")
         w("")
+    pr, ma = J("analysis/validation/proofs.json"), J("analysis/cfd3d/out/mesh_audit.json")
+    if pr:
+        s = pr["summary"]
+        w("## Proof chains (every claim re-run from its cited inputs)")
+        w("")
+        w(f"Source: `analysis/validation/proofs.json` (`proofs.py`, {pr['generated']}). Each input is read from the file it cites when the script runs; constants name their source.")
+        w("")
+        w(f"- {s['computed']} claims have closed-form arithmetic; {s['reproduced']} re-run to the claimed number. "
+          + "Not reproduced: " + (", ".join(c for c, p in pr["claims"].items() if p.get("result", {}).get("reproduced") is False) or "none") + ".")
+        stale = [f"{c} ({v['sym']} = {v['value']:g}, {v['from_claim']} says {v['link']['claim_value']:g})" for c, p in pr["claims"].items() for v in p.get("vars", []) if v.get("link", {}).get("state") == "stale"]
+        w(f"- {s['links']} hand-offs from one claim's result to another's input; {s['links_consistent']} carry the same number. Stale: " + ("; ".join(stale) or "none") + ".")
+        w(f"- {s['evidence_only']} claims have no closed-form arithmetic (convergence, CAD checks, drawings); their proof is the evidence files and the independent check.")
+        w("- One page per claim: `docs/validation/proofs/` (`py tools/vtol.py prove all`).")
+        w("")
+        so = pr["sources"]; cnt = {}
+        for x in so.values():
+            cnt[x["status"]] = cnt.get(x["status"], 0) + 1
+        w("## External sources")
+        w("")
+        w(f"Source: `analysis/validation/source_audit.json` (value-by-value check against each page or PDF). {len(so)} sources: " + ", ".join(f"{k.replace('_', ' ')} {v}" for k, v in sorted(cnt.items())) + ". "
+          f"{s['with_external_source']} of {s['claims']} claims rest on at least one.")
+        lc = pr.get("link_check")
+        if lc:
+            w(f"Every URL in the docs (`link_check.py`): {lc['ok']} of {lc['n']} load, {lc['dead']} dead, {lc['blocked']} block automated checks. Dead: " + ", ".join(lc.get("dead_urls", [])) + ".")
+        w("")
+    if ma:
+        MS = ma["summary"]
+        w("## CFD mesh against published standards")
+        w("")
+        w(f"Source: `analysis/cfd3d/out/mesh_audit.json` (`mesh_audit.py`, {ma['generated']}). {MS['passes']} pass, {MS['fails']} fail, {MS['not_applicable']} do not apply to an inviscid tetrahedral mesh. {MS['verdict']}")
+        w("")
+        w("What a passing mesh needs:")
+        w("")
+        for x in MS.get("what_a_passing_mesh_needs", []):
+            w(f"- {x}")
+        w("")
+        w("Standards: " + "; ".join(f"{x['source']} ({x['url']}, checked {x['checked']})" for x in {s['source']: s for s in ma["standards"]}.values()) + ".")
+        w("")
     w("## Failed claims")
     w("")
     for x in [x for x in vm["claims"] if x["status"] == "Failed"]:
@@ -109,8 +153,9 @@ def main():
     w("")
     w("1. Aerodynamics → *Whole aircraft: 3-D CFD*: rotate the aircraft, switch α 0–8°, toggle *Surface mesh* and *Volume cut* to show the real computational mesh, open the residual history.")
     w("2. The results table: SU2's CL against our own pressure integration, the three-mesh study (not yet monotone), CFD against AVL, and the 2-D check that explains the gap (CFD-12).")
-    w("3. Validation matrix → *Claims map*: click the wing, open one Verified and one Failed claim, show the evidence files and the independent check.")
-    w("4. `py tools/vtol.py claims --status Failed` and `py tools/vtol.py compare HEAD~4`: how an agent queries and diffs the design.")
+    w("3. Proof and validation → *Claims map*: click an equation pointer (STR-07 joiner stress), hover a symbol in the proof to see where its number comes from; *Proof chains*: follow AERO-22 (mass) through to AERO-20 (cruise time).")
+    w("4. Double-click `VTOL.bat`, option 3, `THM-01`: the stale convection coefficient. Then `py tools/vtol.py strict`, which blocks a release on it.")
+    w("5. Aerodynamics → 3-D CFD → mesh scorecard: why the CFD lift is mesh-limited, rule by rule with the meshing code.")
     w("")
     (ROOT / "docs/validation/VALIDATION-REPORT.md").write_text("\n".join(S) + "\n", encoding="utf-8", newline="\n")
     print("wrote docs/validation/VALIDATION-REPORT.md", len(S), "lines")

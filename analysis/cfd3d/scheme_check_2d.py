@@ -85,7 +85,7 @@ def xfoil_inviscid(alphas):
     cmd = NL.join(["PLOP", "G", "", "LOAD foil.dat", "PANE", "OPER", "PACC", "inviscid_polar.txt", ""] + [f"ALFA {a}" for a in alphas] + ["PACC", "", "QUIT", ""])
     subprocess.run([str(XFOIL)], input=cmd, cwd=w, capture_output=True, text=True, timeout=120)
     out = {}
-    for line in pol.read_text().splitlines():
+    for line in pol.read_text(encoding="utf-8").splitlines():
         parts = line.split()
         try:
             out[float(parts[0])] = float(parts[1])

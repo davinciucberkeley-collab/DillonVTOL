@@ -1,6 +1,6 @@
 # Engineering validation report
 
-Generated 2026-10-29 05:01 by `analysis/validation/report.py` from the files it cites. House style: docs/reference/REVIEW-STYLE.md.
+Generated 2026-11-01 19:04 by `analysis/validation/report.py` from the files it cites. House style: docs/reference/REVIEW-STYLE.md.
 
 ## Verdict
 
@@ -16,6 +16,12 @@ Generated 2026-10-29 05:01 by `analysis/validation/report.py` from the files it 
 | Cross-tool FEA | New: boom study re-solved with gmsh + own C3D10 solver (no SOLIDWORKS code) | `analysis/validation/xtool_boom_fea.py` |
 | Agent interface | New: `tools/vtol.py` CLI with JSON output over every pipeline step, and the integration notes | `tools/vtol.py`, `docs/validation/AGENT-INTERFACE.md` |
 | Review text | Simulation chapter verdict and the stopped-rotor drag card updated to match the audit | `review/src/body.html` |
+| Proof chains | New: every claim split into equations, variables and sources; arithmetic re-run from the cited files, hand-offs between claims value-checked; proof card per claim, dependency graph, equation pointers on the 3-D model | `analysis/validation/proofs.py`, `review/src/proofs.js` |
+| Source audit | New: external sources checked value by value; every URL in the docs re-tested | `analysis/validation/source_audit.json`, `link_check.py` |
+| Mesh audit | New: CFD meshes measured and scored against published gridding guidelines, with the meshing code behind each rule | `analysis/cfd3d/mesh_audit.py` |
+| 3-D CFD view | Continuous slice (drag or sweep, three directions, Cp / speed / vorticity) and a vorticity volume replace the four fixed wake planes | `review/src/cfdviz.js`, `analysis/cfd3d/postprocess.py` |
+| Website | 22 chapters merged into 12 with 2-4 tabs each; old links still resolve | `review/tools/restructure.py` |
+| Command line | Numbered menu (`VTOL.bat`), `check`, `trace`, `prove`, `strict`, `sources`, `mesh-audit` | `tools/vtol.py` |
 
 ## Full-aircraft CFD
 
@@ -63,6 +69,35 @@ Toolchain: gmsh 4.15.2 2nd-order tetrahedra + numpy/scipy C3D10 solver (this scr
 
 Same inputs, different mesher, element formulation and solver. The tip deflection and the stress away from the root corner agree, so the SOLIDWORKS study is reproduced. The study's load case is the separate issue: its tip mass is 37 % low (STR-05).
 
+## Proof chains (every claim re-run from its cited inputs)
+
+Source: `analysis/validation/proofs.json` (`proofs.py`, 2026-11-01 19:03). Each input is read from the file it cites when the script runs; constants name their source.
+
+- 29 claims have closed-form arithmetic; 28 re-run to the claimed number. Not reproduced: STR-05.
+- 33 hand-offs from one claim's result to another's input; 32 carry the same number. Stale: THM-01 (h = 50, THM-02 says 42.9).
+- 49 claims have no closed-form arithmetic (convergence, CAD checks, drawings); their proof is the evidence files and the independent check.
+- One page per claim: `docs/validation/proofs/` (`py tools/vtol.py prove all`).
+
+## External sources
+
+Source: `analysis/validation/source_audit.json` (value-by-value check against each page or PDF). 23 sources: confirmed 10, not fetchable 8, not found on page 1, partially confirmed 1, unreachable 3. 51 of 78 claims rest on at least one.
+Every URL in the docs (`link_check.py`): 561 of 628 load, 4 dead, 56 block automated checks. Dead: https://avesis.erciyes.edu.tr/yayin/0e967406-3720-4460-b125-1dec2b27685c, https://www.cstsales.com/carbon_tube.html, https://www.deltaquad.com/cargo, https://www.nasa.gov/wp-content/uploads/2015/10/s3001_guidelines_for_risk_management_-_ver_g_-_10-25-2017.pdf.
+
+## CFD mesh against published standards
+
+Source: `analysis/cfd3d/out/mesh_audit.json` (`mesh_audit.py`, 2026-11-01 18:42). 10 pass, 29 fail, 15 do not apply to an inviscid tetrahedral mesh. The meshes are valid (no inverted cells) and the levels are far enough apart for a grid study (r = 1.42 and 1.37), but they fail every geometric resolution guideline: wing and H-tail LE spacing is about 0.65 % of local chord against 0.1 %, the far field is about 27 chords away against 100, and the LE spacing is the same on all three levels because the fixed 24-per-turn curvature rule sets it, so the levels are not one grid family (L1 and L2 have about the same chordwise resolution, 86 and 84 equivalent points per section). That is consistent with CFD-02 (CL oscillates, no GCI), CFD-11 (Cp > 1 at an under-resolved H-tail LE) and CFD-12 (lift loss at this wall spacing in 2-D).
+
+What a passing mesh needs:
+
+- Far field at >= 100 c_ref (28.4 m) from the aircraft, and >= 100 semispans (120 m) to meet DPW-8; far cells can stay large, so the extra cost is small.
+- Wing and H-tail chordwise spacing near 0.1 % local chord at LE and TE (0.28 mm wing, 0.10 mm H-tail), graded to coarser cells mid-chord (anisotropic surface mesh or a structured surface), not isotropic 8 mm x f wall cells.
+- Spanwise spacing near 0.1 % semispan (1.2 mm) at the wing root and tip, locally.
+- Every sizing rule scaled by the level factor, including the curvature rule (elements per turn proportional to 1/f), the 0.6 mm TE-point size and MeshSizeMin, so that each regional spacing ratio equals the global r.
+- Three levels of that one family with monotone CL (Celik 2008 Step 3), so that the GCI of CFD-02 can be computed; add a finer level if CL still oscillates.
+- Pod nose spacing under 1 % c_ref (2.84 mm) for DPW-8; L3 is at 1.84 % today.
+
+Standards: AIAA DPW-4 gridding guidelines, item 2g (https://www.aiaa-dpw.org/Workshop4/gridding_guidelines_4.html, checked 2026-11-01); AIAA DPW-8/AePW-4 gridding guidelines v3 (2024-07-01), CRM slide (https://www.aiaa-dpw.org/ref/gridding_guidelines_v3_07012024.pdf, checked 2026-11-01); AIAA DPW-8/AePW-4 gridding guidelines v3, CRM slide (https://www.aiaa-dpw.org/ref/gridding_guidelines_v3_07012024.pdf, checked 2026-11-01); AIAA DPW-4 gridding guidelines, item 2h-i (medium grid) (https://www.aiaa-dpw.org/Workshop4/gridding_guidelines_4.html, checked 2026-11-01); AIAA DPW-4 gridding guidelines, item 2h-iv (https://www.aiaa-dpw.org/Workshop4/gridding_guidelines_4.html, checked 2026-11-01); AIAA DPW-4 gridding guidelines, item 2j; DPW-8 v3 'Wing TE base >> 8 cells' (https://www.aiaa-dpw.org/Workshop4/gridding_guidelines_4.html, checked 2026-11-01); AIAA DPW-8/AePW-4 gridding guidelines v3, wall-normal slide (https://www.aiaa-dpw.org/ref/gridding_guidelines_v3_07012024.pdf, checked 2026-11-01); AIAA DPW-8/AePW-4 gridding guidelines v3, wall-normal slide; DPW-4 item 2f (https://www.aiaa-dpw.org/ref/gridding_guidelines_v3_07012024.pdf, checked 2026-11-01); Celik et al. 2008, J. Fluids Eng. 130(7) 078001, Step 2 (https://qa12.asme.org/wwwasmeorg/media/ResourceFiles/Shop/Journals/JFENumAccuracy.pdf, checked 2026-11-01); NASA NPARC Alliance V&V, 'Examining Spatial (Grid) Convergence' (https://www.grc.nasa.gov/www/wind/valid/tutorial/spatconv.html, checked 2026-11-01); Celik et al. 2008, Step 3 (https://qa12.asme.org/wwwasmeorg/media/ResourceFiles/Shop/Journals/JFENumAccuracy.pdf, checked 2026-11-01); Celik et al. 2008, Step 2; DPW-4 item 2e (https://qa12.asme.org/wwwasmeorg/media/ResourceFiles/Shop/Journals/JFENumAccuracy.pdf, checked 2026-11-01); AIAA DPW-4 gridding guidelines, item 2c (https://www.aiaa-dpw.org/Workshop4/gridding_guidelines_4.html, checked 2026-11-01); gmsh 4.15.2 API docstring, getElementQualities (installed package) (py -c "import gmsh; help(gmsh.model.mesh.getElementQualities)", checked 2026-11-01).
+
 ## Failed claims
 
 - **AERO-19** (Whole aircraft): Transition: 2 x 20 s at hover power; transition power 1437 W / 68.4 A; SITL forward transition in 15 s. *The repo's own transition current (68 A) and SITL peak (79 A) exceed its 60 A continuous pack assumption; no transition corridor / wing-lift-vs-speed analysis exists.* Next: Do a transition-corridor calc and bench-test pack at 80 A for 20 s.
@@ -107,6 +142,7 @@ Same inputs, different mesher, element formulation and solver. The tip deflectio
 
 1. Aerodynamics → *Whole aircraft: 3-D CFD*: rotate the aircraft, switch α 0–8°, toggle *Surface mesh* and *Volume cut* to show the real computational mesh, open the residual history.
 2. The results table: SU2's CL against our own pressure integration, the three-mesh study (not yet monotone), CFD against AVL, and the 2-D check that explains the gap (CFD-12).
-3. Validation matrix → *Claims map*: click the wing, open one Verified and one Failed claim, show the evidence files and the independent check.
-4. `py tools/vtol.py claims --status Failed` and `py tools/vtol.py compare HEAD~4`: how an agent queries and diffs the design.
+3. Proof and validation → *Claims map*: click an equation pointer (STR-07 joiner stress), hover a symbol in the proof to see where its number comes from; *Proof chains*: follow AERO-22 (mass) through to AERO-20 (cruise time).
+4. Double-click `VTOL.bat`, option 3, `THM-01`: the stale convection coefficient. Then `py tools/vtol.py strict`, which blocks a release on it.
+5. Aerodynamics → 3-D CFD → mesh scorecard: why the CFD lift is mesh-limited, rule by rule with the meshing code.
 

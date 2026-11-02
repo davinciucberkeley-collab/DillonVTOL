@@ -39,7 +39,7 @@ def main():
         p = HERE / f
         if not p.exists():
             print("missing", f); continue
-        d = json.loads(p.read_text())
+        d = json.loads(p.read_text(encoding="utf-8"))
         sources[f] = {"generated": d.get("generated"), "author": d.get("author"), "n": len(d["claims"])}
         for c in d["claims"]:
             c["source_file"] = "analysis/validation/" + f
@@ -50,7 +50,7 @@ def main():
             claims.append(c)
     order = {s: i for i, s in enumerate(["Failed", "Unverified", "Partially Verified", "Verified"])}
     claims.sort(key=lambda c: (COMPONENTS.index(c["component"]), order[c["status"]], c["id"]))
-    mfg = json.loads((HERE / "manufacturing_readiness.json").read_text())
+    mfg = json.loads((HERE / "manufacturing_readiness.json").read_text(encoding="utf-8"))
     by = lambda k: {v: dict(Counter(c["status"] for c in claims if c[k] == v)) for v in sorted({c[k] for c in claims})}
     out = {"generated": time.strftime("%Y-%m-%d %H:%M"), "script": "analysis/validation/build_matrix.py", "sources": sources,
            "status_definitions": DEFS, "component_labels": LABEL, "component_chapter": CHAPTER,

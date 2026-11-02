@@ -1,0 +1,1108 @@
+{
+ "generated": "2026-11-01 18:40",
+ "method": "Traced each claim input in validation_matrix.json to the URL cited in docs/research, docs/build, cad/hardware.json or analysis/sizing.mjs; opened each source (WebFetch, curl for the Shopify product JSON and CDTFA xlsx, pypdf for PDFs) and compared value by value. Textbooks/software libraries recorded as not_fetchable. BOM prices spot-checked for the lines with a direct product URL; most Amazon/Home Depot BOM prices were not re-checked.",
+ "sources": [
+  {
+   "id": "SRC-01",
+   "title": "SunnySky X4110S motors (maker/US store page), KV400 thrust table",
+   "kind": "datasheet",
+   "url": "https://sunnyskyusa.com/collections/multirotor-motors/products/sunnysky-x4110s-motors",
+   "cited_in": [
+    "docs/build/BUILD-MANUAL.md:1333",
+    "docs/research/budget-lift.md:42",
+    "docs/research/budget-lift.md:116",
+    "docs/research/hardware-spec.md:23"
+   ],
+   "claims": [
+    "AERO-16",
+    "AERO-17",
+    "AERO-18",
+    "AERO-19",
+    "AERO-20",
+    "AERO-22",
+    "AERO-24",
+    "AERO-31",
+    "STR-01",
+    "STR-02",
+    "STR-03",
+    "STR-04",
+    "STR-05",
+    "STR-10",
+    "STR-14",
+    "XT-01",
+    "THM-01",
+    "THM-03",
+    "THM-04",
+    "THM-05"
+   ],
+   "values": [
+    {
+     "quantity": "17x5.8 @22.2 V, 1250 gf point",
+     "repo_value": "6.1 A / 135 W",
+     "source_value": "6.1 A / 135 W",
+     "where": "KV400 table, prop 17*5.8, 22.2 V, row 1250 gf",
+     "match": true
+    },
+    {
+     "quantity": "17x5.8 @22.2 V, 1500 gf point",
+     "repo_value": "8.1 A / 180 W",
+     "source_value": "8.1 A / 180 W (8.34 g/W)",
+     "where": "KV400 table, prop 17*5.8, 22.2 V, row 1500 gf",
+     "match": true
+    },
+    {
+     "quantity": "17x5.8 @22.2 V, 2000 gf point",
+     "repo_value": "13.1 A / 291 W",
+     "source_value": "13.1 A / 291 W (6.88 g/W)",
+     "where": "KV400 table, prop 17*5.8, 22.2 V, row 2000 gf",
+     "match": true
+    },
+    {
+     "quantity": "max thrust 17x5.8 @22.2 V",
+     "repo_value": "3130 gf, 27.7 A, 615 W",
+     "source_value": "3130 gf, 27.7 A, 615 W (5.09 g/W)",
+     "where": "KV400 table, prop 17*5.8, 22.2 V, last row",
+     "match": true
+    },
+    {
+     "quantity": "max thrust 17x5.8 @25 V",
+     "repo_value": "3600 gf @ 33.3 A",
+     "source_value": "3600 gf @ 33.3 A, 833 W",
+     "where": "KV400 table, prop 17*5.8, 25 V, last row",
+     "match": true
+    },
+    {
+     "quantity": "motor mass",
+     "repo_value": "165 g",
+     "source_value": "165 g",
+     "where": "KV400 spec block, Weight",
+     "match": true
+    },
+    {
+     "quantity": "unit price (KV400)",
+     "repo_value": "$46.99",
+     "source_value": "$46.99",
+     "where": "store variant \"400\" price (product JSON)",
+     "match": true
+    }
+   ],
+   "status": "confirmed",
+   "checked": "2026-11-01",
+   "note": "Collection URL returned HTTP 429 to WebFetch; values read from the same product via the Shopify product JSON (sunnyskyusa.com/products/sunnysky-x4110s-motors.json, HTTP 200). Page also lists Motor Resistance 107 mOhm for KV400 (repo THM-03 sensitivity uses a reseller 112 mOhm, see SRC-02), max continuous 45 A/30 s, 75 C load temperature at 100 % throttle on 17x5.8. Table is for 17x5.8; the purchased JeeFly prop is 17x5.5 (repo already flags this)."
+  },
+  {
+   "id": "SRC-02",
+   "title": "Reseller listing of X4110S KV400 winding resistance (112 mOhm)",
+   "kind": "vendor_page",
+   "url": null,
+   "cited_in": [
+    "docs/research/thermal.md:53",
+    "docs/research/thermal.md:124"
+   ],
+   "claims": [
+    "THM-03"
+   ],
+   "values": [
+    {
+     "quantity": "winding resistance",
+     "repo_value": "112 mOhm",
+     "source_value": null,
+     "where": "no URL cited for the reseller",
+     "match": null
+    }
+   ],
+   "status": "not_fetchable",
+   "checked": "2026-11-01",
+   "note": "docs/research/thermal.md attributes 112 mOhm to an unnamed reseller with no URL. The maker page (SRC-01) states 107 mOhm; used only as a sensitivity bound (I^2R ~13 W), so the 45.6 W EST heat load is unaffected."
+  },
+  {
+   "id": "SRC-03",
+   "title": "Genc, Lock, Kaynak, \"An experimental and computational study of low Re number transitional flows over an aerofoil with leading edge slat\", AIAA ATIO 2008 (abstract)",
+   "kind": "paper",
+   "url": "https://avesis.erciyes.edu.tr/yayin/0e967406-3720-4460-b125-1dec2b27685c",
+   "cited_in": [
+    "analysis/aero/assemble_results.py:51",
+    "docs/research/aerodynamics.md:87",
+    "docs/research/aerodynamics.md:88",
+    "docs/research/aerodynamics.md:188",
+    "docs/research/aerodynamics.md:357",
+    "docs/validation/VALIDATION-MATRIX.md:43"
+   ],
+   "claims": [
+    "AERO-05",
+    "AERO-06",
+    "AERO-07",
+    "AERO-08",
+    "AERO-30"
+   ],
+   "values": [
+    {
+     "quantity": "NACA 2415 2-D CL_max (no slat)",
+     "repo_value": "1.30",
+     "source_value": "1.3",
+     "where": "abstract, single-element aerofoil result",
+     "match": true,
+     "quote": "maximum lift coefficient of 1.3 at a stall angle of attack of 12"
+    },
+    {
+     "quantity": "stall angle",
+     "repo_value": "12 deg",
+     "source_value": "12 deg",
+     "where": "abstract",
+     "match": true
+    },
+    {
+     "quantity": "Reynolds number",
+     "repo_value": "2e5",
+     "source_value": "2x10^5",
+     "where": "abstract",
+     "match": true
+    }
+   ],
+   "status": "confirmed",
+   "checked": "2026-11-01",
+   "note": "The cited URL now returns 404 (as the repo notes); the abstract is live at the same id with a title slug: https://avesis.erciyes.edu.tr/yayin/0e967406-3720-4460-b125-1dec2b27685c/an-experimental-and-computational-study-of-low-re-number-transitional-flows-over-an-aerofoil-with-leading-edge-slat (HTTP 200). The citation page (activitycitation/...) loads but does not state the value. Abstract only; full paper not read."
+  },
+  {
+   "id": "SRC-04",
+   "title": "Ovonic 6S 6500 mAh 100C EC5 LiPo, 2-pack (Amazon B09CTRKLM4)",
+   "kind": "vendor_page",
+   "url": "https://www.amazon.com/dp/B09CTRKLM4",
+   "cited_in": [
+    "docs/build/BUILD-MANUAL.md:1356",
+    "docs/research/budget-energy-test.md:49",
+    "docs/research/budget-energy-test.md:104",
+    "docs/research/budget-energy-test.md:246"
+   ],
+   "claims": [
+    "AERO-17",
+    "AERO-20",
+    "AERO-21",
+    "AERO-22",
+    "AERO-24",
+    "AERO-31",
+    "THM-06"
+   ],
+   "values": [
+    {
+     "quantity": "capacity",
+     "repo_value": "6500 mAh",
+     "source_value": "6500 mAh",
+     "where": "listing title",
+     "match": true
+    },
+    {
+     "quantity": "nominal voltage",
+     "repo_value": "22.2 V (6S)",
+     "source_value": "22.2 V 6S",
+     "where": "listing title",
+     "match": true
+    },
+    {
+     "quantity": "C rating",
+     "repo_value": "100C",
+     "source_value": "100C",
+     "where": "listing title",
+     "match": true
+    },
+    {
+     "quantity": "pack mass",
+     "repo_value": "820 g",
+     "source_value": null,
+     "where": "not in first 200k of 1.25M chars of page text",
+     "match": null
+    },
+    {
+     "quantity": "price per 2-pack",
+     "repo_value": "$138.99",
+     "source_value": null,
+     "where": "buy box hides price (\"add to cart to see\")",
+     "match": null
+    },
+    {
+     "quantity": "continuous current",
+     "repo_value": "60 A (repo EST)",
+     "source_value": null,
+     "where": "not stated on page; repo labels it EST",
+     "match": null
+    }
+   ],
+   "status": "partially_confirmed",
+   "checked": "2026-11-01",
+   "note": "Energy 144.3 Wh is arithmetic (6.5 Ah x 22.2 V). Mass and price could not be read by an automated fetch."
+  },
+  {
+   "id": "SRC-05",
+   "title": "Fastenal, \"Torque Values for A2-70 or A4-70 Metric Stainless Steel Fasteners\", Feb 2016 (PDF)",
+   "kind": "datasheet",
+   "url": "https://crafter.fastenal.com/static-assets/pdfs/technical-resources/Torque-Tension-Relationship-for-Metric-Stainless-Steel-Fasteners-A2-and-A4-70-Feb-2016.pdf",
+   "cited_in": [
+    "analysis/validation/check_struct.py:19",
+    "docs/research/hardware-spec.md:95"
+   ],
+   "claims": [
+    "STR-14"
+   ],
+   "values": [
+    {
+     "quantity": "nut factor K, lubricated",
+     "repo_value": "0.16",
+     "source_value": "0.16",
+     "where": "footnote under table",
+     "match": true
+    },
+    {
+     "quantity": "nut factor K, dry",
+     "repo_value": "0.35",
+     "source_value": "0.35",
+     "where": "footnote under table",
+     "match": true
+    },
+    {
+     "quantity": "M3 tightening torque lubricated / dry",
+     "repo_value": "0.81 / 0.95 N m",
+     "source_value": "0.81 / 0.95 N m",
+     "where": "table row M3 x 0.5",
+     "match": true
+    }
+   ],
+   "status": "confirmed",
+   "checked": "2026-11-01",
+   "note": "PDF text extracted with pypdf."
+  },
+  {
+   "id": "SRC-06",
+   "title": "CDTFA California sales and use tax rates effective 1-Oct-2026 (xlsx)",
+   "kind": "dataset",
+   "url": "https://www.cdtfa.ca.gov/taxes-and-fees/SalesTaxRates10-1-26.xlsx",
+   "cited_in": [
+    "docs/research/avionics-autopilot.md:257"
+   ],
+   "claims": [
+    "AERO-31"
+   ],
+   "values": [
+    {
+     "quantity": "Berkeley combined sales tax",
+     "repo_value": "10.25 %",
+     "source_value": "0.1025",
+     "where": "sheet1 row \"Berkeley, Alameda, City\"",
+     "match": true
+    }
+   ],
+   "status": "confirmed",
+   "checked": "2026-11-01",
+   "note": ""
+  },
+  {
+   "id": "SRC-07",
+   "title": "Polymaker Fiberon PA6-CF20 technical data sheet V1.1 (PDF)",
+   "kind": "datasheet",
+   "url": "https://fiberon.polymaker.com/wp-content/uploads/TDS_FIBERON-PA6-CF20_V1.1_EN.pdf",
+   "cited_in": [
+    "docs/build/BUILD-MANUAL.md:55",
+    "docs/build/BUILD-MANUAL.md:1348",
+    "docs/research/airframe-materials.md:139"
+   ],
+   "claims": [
+    "MFG-12",
+    "THM-08"
+   ],
+   "values": [
+    {
+     "quantity": "density",
+     "repo_value": "1170 kg/m3 (1.17 g/cm3)",
+     "source_value": "1.17 g/cm3 at 23 C",
+     "where": "Physical properties, Density (ISO 1183)",
+     "match": true
+    },
+    {
+     "quantity": "HDT at 1.8 MPa",
+     "repo_value": "173 C",
+     "source_value": "173 C",
+     "where": "Thermal properties, Heat deflection temp. ISO 75 1.8MPa",
+     "match": true
+    }
+   ],
+   "status": "confirmed",
+   "checked": "2026-11-01",
+   "note": "The CAD uses 1230 kg/m3 (repo EST), already flagged in MFG-12."
+  },
+  {
+   "id": "SRC-08",
+   "title": "West3D listing, Polymaker Fiberon PA6-CF20 500 g",
+   "kind": "vendor_page",
+   "url": "https://west3d.com/products/polymaker-fiberon-engineering-filament-pa6-cf20",
+   "cited_in": [
+    "docs/build/BUILD-MANUAL.md:1347",
+    "docs/research/airframe-materials.md:139"
+   ],
+   "claims": [
+    "AERO-31"
+   ],
+   "values": [
+    {
+     "quantity": "price 500 g",
+     "repo_value": "$39.99",
+     "source_value": null,
+     "where": "—",
+     "match": null
+    }
+   ],
+   "status": "unreachable",
+   "checked": "2026-11-01",
+   "note": "HTTP 429 Too Many Requests on two attempts (WebFetch)."
+  },
+  {
+   "id": "SRC-09",
+   "title": "Wikipedia, \"6061 aluminium alloy\"",
+   "kind": "dataset",
+   "url": "https://en.wikipedia.org/wiki/6061_aluminium_alloy",
+   "cited_in": [
+    "analysis/validation/check_struct.py:14",
+    "analysis/validation/check_struct.py:55",
+    "docs/research/budget-airframe.md:22"
+   ],
+   "claims": [
+    "AERO-22",
+    "AERO-23",
+    "STR-04",
+    "XT-01"
+   ],
+   "values": [
+    {
+     "quantity": "density",
+     "repo_value": "2.70 g/cm3",
+     "source_value": "2.70 g/cm3",
+     "where": "article body",
+     "match": true
+    },
+    {
+     "quantity": "Young's modulus",
+     "repo_value": "69 GPa",
+     "source_value": "69 GPa (infobox 68 GPa)",
+     "where": "article body, \"regardless of temper\"",
+     "match": true
+    },
+    {
+     "quantity": "T6 yield (context for SOLIDWORKS 275 MPa)",
+     "repo_value": "275 MPa (SRC-10)",
+     "source_value": "min 240 MPa, typical 270 MPa",
+     "where": "Mechanical properties, T6",
+     "match": null
+    }
+   ],
+   "status": "confirmed",
+   "checked": "2026-11-01",
+   "note": "Density and E match. The repo design yield 275 MPa comes from the SOLIDWORKS library (SRC-10), not this page; Wikipedia gives 240 min / 270 typical, so the RF on yield (STR-01, STR-07) uses a typical, not minimum, value."
+  },
+  {
+   "id": "SRC-10",
+   "title": "SOLIDWORKS material library \"6061-T6 (SS)\"",
+   "kind": "dataset",
+   "url": null,
+   "cited_in": [
+    "analysis/thermal/thermal_inputs.py:180",
+    "analysis/sizing.mjs:278",
+    "cad/README.md:77",
+    "docs/research/thermal.md:91",
+    "docs/research/thermal.md:177"
+   ],
+   "claims": [
+    "STR-01",
+    "STR-02",
+    "STR-03",
+    "STR-04",
+    "STR-07",
+    "STR-08",
+    "STR-09",
+    "XT-01"
+   ],
+   "values": [
+    {
+     "quantity": "E",
+     "repo_value": "69 GPa",
+     "source_value": null,
+     "where": "SOLIDWORKS installation library",
+     "match": null
+    },
+    {
+     "quantity": "yield",
+     "repo_value": "275 MPa",
+     "source_value": null,
+     "where": "SOLIDWORKS installation library",
+     "match": null
+    },
+    {
+     "quantity": "Poisson ratio",
+     "repo_value": "0.33",
+     "source_value": null,
+     "where": "",
+     "match": null
+    },
+    {
+     "quantity": "density",
+     "repo_value": "2700 kg/m3",
+     "source_value": null,
+     "where": "",
+     "match": null
+    }
+   ],
+   "status": "not_fetchable",
+   "checked": "2026-11-01",
+   "note": "Software library on the user machine, no URL. E and density agree with SRC-09."
+  },
+  {
+   "id": "SRC-11",
+   "title": "Zoro listing, 1.000 x 0.035 in 6061-T6 drawn tube (OD/wall tolerance)",
+   "kind": "vendor_page",
+   "url": null,
+   "cited_in": [
+    "cad/hardware.json:761",
+    "docs/research/hardware-spec.md:327"
+   ],
+   "claims": [
+    "MFG-05",
+    "MFG-07",
+    "MFG-08"
+   ],
+   "values": [
+    {
+     "quantity": "OD tolerance",
+     "repo_value": "+-0.004 in",
+     "source_value": null,
+     "where": "no URL cited (\"search 2026-10-21\")",
+     "match": null
+    },
+    {
+     "quantity": "wall tolerance",
+     "repo_value": "+-0.002 in",
+     "source_value": null,
+     "where": "",
+     "match": null
+    }
+   ],
+   "status": "not_fetchable",
+   "checked": "2026-11-01",
+   "note": "No URL in the repo. A web search (2026-11-01) found Zoro 6061-T6 listings for smaller 0.035 in wall tubes showing OD +-0.003 / wall +-0.002 in, but not the 1.000 in listing, so the +-0.004 in OD value is not confirmed."
+  },
+  {
+   "id": "SRC-12",
+   "title": "Alcobra Metals, 6061-T6 drawn round tube tolerances",
+   "kind": "vendor_page",
+   "url": "https://alcobrametals.com/?p=91925",
+   "cited_in": [
+    "cad/hardware.json:761",
+    "docs/research/hardware-spec.md:329"
+   ],
+   "claims": [
+    "MFG-05",
+    "MFG-07",
+    "MFG-08"
+   ],
+   "values": [
+    {
+     "quantity": "OD tolerance, 5/8-1 in OD",
+     "repo_value": "+-0.008 in (alternative band)",
+     "source_value": "+-0.008 in",
+     "where": "tolerance table, 5/8 to 1 inch OD",
+     "match": true
+    }
+   ],
+   "status": "confirmed",
+   "checked": "2026-11-01",
+   "note": "Cited as the wider alternative band; the design values use the Zoro +-0.004 in (SRC-11)."
+  },
+  {
+   "id": "SRC-13",
+   "title": "OnlineMetals 6061-T6 drawn round tube listings (pid 1211, 4342, 6891)",
+   "kind": "vendor_page",
+   "url": "https://www.onlinemetals.com/en/buy/aluminum/1-od-x-0-035-wall-x-0-93-id-aluminum-round-tube-6061-t6-drawn/pid/1211",
+   "cited_in": [
+    "docs/build/BUILD-MANUAL.md:1354",
+    "docs/research/budget-airframe.md:80"
+   ],
+   "claims": [
+    "AERO-31",
+    "AERO-22"
+   ],
+   "values": [
+    {
+     "quantity": "1.000 x 0.035 x 72 in price",
+     "repo_value": "$26.20",
+     "source_value": null,
+     "where": "—",
+     "match": null
+    },
+    {
+     "quantity": "1.000 x 0.058 x 96 in price",
+     "repo_value": "$53.97",
+     "source_value": null,
+     "where": "—",
+     "match": null
+    },
+    {
+     "quantity": "0.875 x 0.058 x 36 in price",
+     "repo_value": "$18.45",
+     "source_value": null,
+     "where": "—",
+     "match": null
+    }
+   ],
+   "status": "unreachable",
+   "checked": "2026-11-01",
+   "note": "HTTP 403 Forbidden (WebFetch); the repo already records HTTP 403 for this site (BUILD-MANUAL.md)."
+  },
+  {
+   "id": "SRC-14",
+   "title": "APC Propellers 14x8.5EP (LP14085EP)",
+   "kind": "vendor_page",
+   "url": "https://www.apcprop.com/product/14x8-5ep/",
+   "cited_in": [
+    "docs/build/BUILD-MANUAL.md:1335",
+    "docs/research/pusher-battery-servo.md:58"
+   ],
+   "claims": [
+    "AERO-15",
+    "AERO-22",
+    "AERO-24",
+    "AERO-31"
+   ],
+   "values": [
+    {
+     "quantity": "price",
+     "repo_value": "$6.79",
+     "source_value": "$6.79",
+     "where": "product page price",
+     "match": true
+    },
+    {
+     "quantity": "mass",
+     "repo_value": "37 g",
+     "source_value": "1.31 oz (= 37.1 g, calc x28.35)",
+     "where": "product page weight",
+     "match": true
+    },
+    {
+     "quantity": "diameter",
+     "repo_value": "14 in",
+     "source_value": "14 in",
+     "where": "product name",
+     "match": true
+    }
+   ],
+   "status": "confirmed",
+   "checked": "2026-11-01",
+   "note": ""
+  },
+  {
+   "id": "SRC-15",
+   "title": "Aircraft Spruce, Styrofoam small-cell blue (01-09700)",
+   "kind": "vendor_page",
+   "url": "https://www.aircraftspruce.com/catalog/cmpages/styrofoam.php",
+   "cited_in": [
+    "docs/research/airframe-materials.md:98"
+   ],
+   "claims": [
+    "AERO-22",
+    "AERO-23",
+    "AERO-24"
+   ],
+   "values": [
+    {
+     "quantity": "XPS density",
+     "repo_value": "32 kg/m3 (2 lb/ft3)",
+     "source_value": "2 lb/ft3",
+     "where": "description \"Low density\"",
+     "match": true
+    },
+    {
+     "quantity": "1 x 24 x 48 in sheet price",
+     "repo_value": "$17.95",
+     "source_value": "$17.95",
+     "where": "part 01-09700",
+     "match": true
+    }
+   ],
+   "status": "confirmed",
+   "checked": "2026-11-01",
+   "note": "Purchased foam is FOAMULAR (density not published); the 32 kg/m3 is carried over as EST (sizing.mjs rhoFoam)."
+  },
+  {
+   "id": "SRC-16",
+   "title": "JeeFly 3K carbon prop pairs (Amazon B0FJ21V736)",
+   "kind": "vendor_page",
+   "url": "https://www.amazon.com/dp/B0FJ21V736",
+   "cited_in": [
+    "analysis/sizing.mjs:175",
+    "cad/hardware.json:937",
+    "docs/build/BUILD-MANUAL.md:1356",
+    "docs/research/budget-lift.md:94",
+    "docs/research/hardware-spec.md:160"
+   ],
+   "claims": [
+    "AERO-31"
+   ],
+   "values": [
+    {
+     "quantity": "1755 pair price",
+     "repo_value": "$18.60",
+     "source_value": null,
+     "where": "not in first 100k of 1.25M chars of page text",
+     "match": null
+    }
+   ],
+   "status": "not_found_on_page",
+   "checked": "2026-11-01",
+   "note": "Page loads; price/variant not in the portion read. Prop mass 32 g is a repo EST, not from this page."
+  },
+  {
+   "id": "SRC-17",
+   "title": "Lin et al., \"Anisotropic thermal characterisation of large-format lithium-ion pouch cells\", arXiv 2112.09768",
+   "kind": "paper",
+   "url": "https://arxiv.org/abs/2112.09768",
+   "cited_in": [
+    "analysis/thermal/thermal_inputs.py:187",
+    "docs/research/thermal.md:97"
+   ],
+   "claims": [
+    "THM-06"
+   ],
+   "values": [
+    {
+     "quantity": "cell heat capacity",
+     "repo_value": "541 J/K",
+     "source_value": "541 J/K",
+     "where": "abstract",
+     "match": true
+    },
+    {
+     "quantity": "cell mass",
+     "repo_value": "0.489 kg",
+     "source_value": "489 g",
+     "where": "abstract",
+     "match": true
+    },
+    {
+     "quantity": "specific heat used",
+     "repo_value": "1100 J/kgK",
+     "source_value": "1106 J/kgK (calc 541/0.489)",
+     "where": "derived",
+     "match": true
+    }
+   ],
+   "status": "confirmed",
+   "checked": "2026-11-01",
+   "note": "Chalmers calorimetry (~1100) is cited without a URL and was not checked."
+  },
+  {
+   "id": "SRC-18",
+   "title": "Celik et al., \"Procedure for Estimation and Reporting of Uncertainty Due to Discretization in CFD Applications\", J. Fluids Eng. 130 (2008) 078001, doi:10.1115/1.2960953",
+   "kind": "paper",
+   "url": "https://doi.org/10.1115/1.2960953",
+   "cited_in": [
+    "analysis/aero/su2_2d.py:10",
+    "analysis/aero/su2_2d.py:302",
+    "analysis/validation/check_aero.py:23",
+    "analysis/validation/check_aero.py:208",
+    "docs/research/aerodynamics.md:186",
+    "docs/validation/VALIDATION-MATRIX.md:47"
+   ],
+   "claims": [
+    "AERO-04",
+    "CFD-02"
+   ],
+   "values": [
+    {
+     "quantity": "GCI safety factor Fs (three grids)",
+     "repo_value": "1.25",
+     "source_value": null,
+     "where": "—",
+     "match": null
+    }
+   ],
+   "status": "unreachable",
+   "checked": "2026-11-01",
+   "note": "DOI resolves (302) to asmedigitalcollection.asme.org, which returned HTTP 403."
+  },
+  {
+   "id": "SRC-19",
+   "title": "International Standard Atmosphere, sea level (via Anderson, Fundamentals of Aerodynamics, App. A)",
+   "kind": "standard",
+   "url": null,
+   "cited_in": [
+    "analysis/aero/common.py:5",
+    "analysis/aero/common.py:46",
+    "analysis/aero/common.py:48",
+    "analysis/aero/common.py:49",
+    "analysis/aero/drag_buildup.py:1",
+    "analysis/validation/check_aero.py:12"
+   ],
+   "claims": [
+    "AERO-01",
+    "AERO-09",
+    "CFD-09",
+    "THM-02"
+   ],
+   "values": [
+    {
+     "quantity": "density",
+     "repo_value": "1.225 kg/m3",
+     "source_value": null,
+     "where": "Anderson App. A / ISA table (not opened)",
+     "match": null
+    },
+    {
+     "quantity": "dynamic viscosity",
+     "repo_value": "1.789e-5 Pa s",
+     "source_value": null,
+     "where": "",
+     "match": null
+    }
+   ],
+   "status": "not_fetchable",
+   "checked": "2026-11-01",
+   "note": "No URL cited."
+  },
+  {
+   "id": "SRC-20",
+   "title": "Incropera & DeWitt, Fundamentals of Heat and Mass Transfer, 6th ed. (Table A.4, eq. 7.52 + Table 7.2 Hilpert, eq. 7.30/7.38, Table 1.1)",
+   "kind": "textbook",
+   "url": null,
+   "cited_in": [
+    "analysis/thermal/thermal_inputs.py:24",
+    "analysis/thermal/thermal_inputs.py:25",
+    "analysis/thermal/thermal_inputs.py:61",
+    "analysis/thermal/thermal_inputs.py:72",
+    "analysis/thermal/thermal_inputs.py:78",
+    "analysis/thermal/thermal_inputs.py:106"
+   ],
+   "claims": [
+    "THM-01",
+    "THM-02",
+    "THM-04",
+    "THM-05",
+    "THM-07",
+    "THM-08"
+   ],
+   "values": [
+    {
+     "quantity": "air at 308 K: nu, k, Pr",
+     "repo_value": "1.65e-5 m2/s, 0.0268 W/mK, 0.706",
+     "source_value": null,
+     "where": "Table A.4",
+     "match": null
+    }
+   ],
+   "status": "not_fetchable",
+   "checked": "2026-11-01",
+   "note": "Textbook, no URL."
+  },
+  {
+   "id": "SRC-21",
+   "title": "Hoerner, Fluid-Dynamic Drag (1965), ch. III, V, VI, VIII; form factors",
+   "kind": "textbook",
+   "url": null,
+   "cited_in": [
+    "analysis/aero/drag_buildup.py:4",
+    "analysis/aero/drag_buildup.py:10",
+    "analysis/validation/check_aero.py:18",
+    "analysis/validation/check_aero.py:69",
+    "analysis/validation/check_aero.py:115",
+    "analysis/validation/check_aero.py:133"
+   ],
+   "claims": [
+    "AERO-03",
+    "AERO-12",
+    "AERO-13",
+    "AERO-29"
+   ],
+   "values": [
+    {
+     "quantity": "cylinder / strut Cd, form factor 1 + 2 t/c + 60 (t/c)^4",
+     "repo_value": "as used",
+     "source_value": null,
+     "where": "chapters as cited",
+     "match": null
+    }
+   ],
+   "status": "not_fetchable",
+   "checked": "2026-11-01",
+   "note": "Textbook, no URL."
+  },
+  {
+   "id": "SRC-22",
+   "title": "Anderson, Fundamentals of Aerodynamics (ch. 4 thin-airfoil a0 = 2 pi; Helmbold lift slope)",
+   "kind": "textbook",
+   "url": null,
+   "cited_in": [
+    "analysis/aero/common.py:48",
+    "analysis/aero/plots.py:193",
+    "analysis/validation/check_aero.py:13",
+    "analysis/validation/check_aero.py:106",
+    "analysis/sizing.mjs:123",
+    "analysis/vlm.mjs:2"
+   ],
+   "claims": [
+    "AERO-10",
+    "CFD-05"
+   ],
+   "values": [
+    {
+     "quantity": "section lift slope a0",
+     "repo_value": "2 pi /rad",
+     "source_value": null,
+     "where": "ch. 4",
+     "match": null
+    }
+   ],
+   "status": "not_fetchable",
+   "checked": "2026-11-01",
+   "note": "Textbook, no URL."
+  },
+  {
+   "id": "SRC-23",
+   "title": "Perkins & Hage, Airplane Performance, Stability and Control (fuselage K_f chart, digitised)",
+   "kind": "textbook",
+   "url": null,
+   "cited_in": [
+    "analysis/validation/check_aero.py:22",
+    "analysis/validation/check_aero.py:199",
+    "analysis/validation/check_aero.py:203",
+    "docs/validation/VALIDATION-MATRIX.md:38"
+   ],
+   "claims": [
+    "AERO-25"
+   ],
+   "values": [
+    {
+     "quantity": "K_f fuselage moment factor",
+     "repo_value": "approximate digitisation (+/-30 %)",
+     "source_value": null,
+     "where": "chart",
+     "match": null
+    }
+   ],
+   "status": "not_fetchable",
+   "checked": "2026-11-01",
+   "note": "Textbook, no URL."
+  }
+ ],
+ "claim_sources": {
+  "AERO-19": [
+   "SRC-01"
+  ],
+  "AERO-30": [
+   "SRC-03"
+  ],
+  "MFG-01": [],
+  "MFG-04": [],
+  "CFD-10": [],
+  "MFG-10": [],
+  "MFG-11": [],
+  "AERO-12": [
+   "SRC-21"
+  ],
+  "AERO-13": [
+   "SRC-21"
+  ],
+  "AERO-22": [
+   "SRC-01",
+   "SRC-04",
+   "SRC-09",
+   "SRC-13",
+   "SRC-14",
+   "SRC-15"
+  ],
+  "AERO-24": [
+   "SRC-01",
+   "SRC-04",
+   "SRC-14",
+   "SRC-15"
+  ],
+  "AERO-26": [],
+  "AERO-29": [
+   "SRC-21"
+  ],
+  "AERO-31": [
+   "SRC-01",
+   "SRC-04",
+   "SRC-06",
+   "SRC-08",
+   "SRC-13",
+   "SRC-14",
+   "SRC-16"
+  ],
+  "CFD-01": [],
+  "CFD-02": [
+   "SRC-18"
+  ],
+  "CFD-05": [
+   "SRC-22"
+  ],
+  "CFD-06": [],
+  "CFD-08": [],
+  "MFG-02": [],
+  "MFG-03": [],
+  "MFG-12": [
+   "SRC-07"
+  ],
+  "AERO-10": [
+   "SRC-22"
+  ],
+  "AERO-11": [],
+  "AERO-25": [
+   "SRC-23"
+  ],
+  "CFD-03": [],
+  "CFD-04": [],
+  "CFD-12": [],
+  "MFG-09": [],
+  "AERO-05": [
+   "SRC-03"
+  ],
+  "MFG-06": [],
+  "STR-13": [],
+  "AERO-03": [
+   "SRC-21"
+  ],
+  "AERO-04": [
+   "SRC-18"
+  ],
+  "AERO-06": [
+   "SRC-03"
+  ],
+  "AERO-07": [
+   "SRC-03"
+  ],
+  "AERO-23": [
+   "SRC-09",
+   "SRC-15"
+  ],
+  "MFG-05": [
+   "SRC-11",
+   "SRC-12"
+  ],
+  "STR-06": [],
+  "STR-07": [
+   "SRC-10"
+  ],
+  "STR-08": [
+   "SRC-10"
+  ],
+  "STR-09": [
+   "SRC-10"
+  ],
+  "AERO-01": [
+   "SRC-19"
+  ],
+  "AERO-02": [],
+  "AERO-08": [
+   "SRC-03"
+  ],
+  "AERO-09": [
+   "SRC-19"
+  ],
+  "CFD-09": [
+   "SRC-19"
+  ],
+  "CFD-11": [],
+  "AERO-27": [],
+  "AERO-28": [],
+  "CFD-07": [],
+  "STR-10": [
+   "SRC-01"
+  ],
+  "STR-12": [],
+  "MFG-08": [
+   "SRC-11",
+   "SRC-12"
+  ],
+  "STR-02": [
+   "SRC-01",
+   "SRC-10"
+  ],
+  "STR-03": [
+   "SRC-01",
+   "SRC-10"
+  ],
+  "STR-04": [
+   "SRC-01",
+   "SRC-09",
+   "SRC-10"
+  ],
+  "STR-14": [
+   "SRC-01",
+   "SRC-05"
+  ],
+  "MFG-07": [
+   "SRC-11",
+   "SRC-12"
+  ],
+  "STR-01": [
+   "SRC-01",
+   "SRC-10"
+  ],
+  "XT-01": [
+   "SRC-01",
+   "SRC-09",
+   "SRC-10"
+  ],
+  "AERO-18": [
+   "SRC-01"
+  ],
+  "STR-05": [
+   "SRC-01"
+  ],
+  "THM-03": [
+   "SRC-01",
+   "SRC-02"
+  ],
+  "AERO-16": [
+   "SRC-01"
+  ],
+  "THM-01": [
+   "SRC-01",
+   "SRC-20"
+  ],
+  "THM-02": [
+   "SRC-19",
+   "SRC-20"
+  ],
+  "THM-04": [
+   "SRC-01",
+   "SRC-20"
+  ],
+  "THM-05": [
+   "SRC-01",
+   "SRC-20"
+  ],
+  "AERO-15": [
+   "SRC-14"
+  ],
+  "AERO-14": [],
+  "THM-08": [
+   "SRC-07",
+   "SRC-20"
+  ],
+  "AERO-17": [
+   "SRC-01",
+   "SRC-04"
+  ],
+  "AERO-20": [
+   "SRC-01",
+   "SRC-04"
+  ],
+  "AERO-21": [
+   "SRC-04"
+  ],
+  "THM-06": [
+   "SRC-04",
+   "SRC-17"
+  ],
+  "STR-11": [],
+  "THM-07": [
+   "SRC-20"
+  ]
+ }
+}

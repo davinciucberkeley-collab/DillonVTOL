@@ -42,11 +42,11 @@ def gci(f1, f2, f3, r21, r32):
 
 
 def main():
-    R = json.loads((OUT / "cfd3d_results.json").read_text())
+    R = json.loads((OUT / "cfd3d_results.json").read_text(encoding="utf-8"))
     C = R["cases"]
-    post = {p.stem: json.loads(p.read_text()) for p in (OUT / "post").glob("*.json") if not p.stem.endswith("_viz")}
-    avl = json.loads((ROOT / "analysis/aero/out/avl_results.json").read_text())
-    aero = json.loads((ROOT / "analysis/aero/aero_results.json").read_text())
+    post = {p.stem: json.loads(p.read_text(encoding="utf-8")) for p in (OUT / "post").glob("*.json") if not p.stem.endswith("_viz")}
+    avl = json.loads((ROOT / "analysis/aero/out/avl_results.json").read_text(encoding="utf-8"))
+    aero = json.loads((ROOT / "analysis/aero/aero_results.json").read_text(encoding="utf-8"))
     avl_pod = {round(s["Alpha"], 1): s for s in avl["pod"]["sweep"]}
     claims = []
 
@@ -218,7 +218,7 @@ def main():
               next_step="Refine the tail and fin leading edges (curvature sizing below 0.3 mm) and re-run; check the overshoot falls with refinement.")
 
     # ---- CFD-12 scheme and resolution on the 2-D section (scheme_check_2d.py)
-    sc = json.loads((OUT / "scheme_check_2d.json").read_text()) if (OUT / "scheme_check_2d.json").exists() else None
+    sc = json.loads((OUT / "scheme_check_2d.json").read_text(encoding="utf-8")) if (OUT / "scheme_check_2d.json").exists() else None
     if sc:
         xf = sc["xfoil_cl_alpha_per_rad"]; L = sc["levels"]
         row = {k: f"{v['wall_edges']} wall edges: cl_alpha {v['cl_alpha_per_rad']:.2f} /rad, cl(4 deg) {v['cl4_vs_xfoil_pct']:+.1f} %" for k, v in L.items()}

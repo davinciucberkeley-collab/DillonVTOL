@@ -2,10 +2,16 @@
 // Data: #validData (analysis/validation/build_matrix.py -> validation_matrix.json; claims from check_aero.py, check_struct.py and
 // analysis/cfd3d/verify_cfd.py) and the SOLIDWORKS assembly mesh #meshData (review/mesh.mjs, the CAD viewer's data, parsed lazily
 // into the shared MESH). Each part is coloured by the worst status among the claims about its component; clicking a part (or a
-// component chip) lists those claims with their equations, inputs, assumptions, evidence and independent check.
+// component chip) lists those claims as proof cards (proofs.js). Equation pointers: labels anchored on the part each key
+// equation acts on (centre of that part's mesh), projected every frame, each opening its claim's proof.
 const ClaimsMap = (() => {
   const $ = s => document.querySelector(s);
-  let V = null, gl, cv, prog, buf = {}, A = null, cam, raf = 0, started = false, sel = null, pickFb = null, hoverComp = null;
+  let V = null, gl, cv, prog, buf = {}, A = null, cam, raf = 0, started = false, sel = null, pickFb = null, hoverComp = null, mfgDone = false;
+  // claim -> the part (and which copy of it) its equation acts on; label = what the equation gives
+  const PTRS = [['AERO-09', /^Wing_Panel_R$/, 0, 'cruise CL'], ['AERO-07', /^Wing_Panel_L$/, 0, 'stall speed'], ['STR-07', /^Wing_Joiner$/, 0, 'joiner stress'],
+    ['STR-01', /^Boom_Clamp_F_Upper$/, 1, 'boom root stress'], ['STR-03', /^Motor_Mount_Upper$/, 1, 'boom tip deflection'], ['STR-05', /^Motor_Mount_Cap$/, 3, 'lift-unit mass'],
+    ['THM-01', /^Lift_Motor$/, 0, 'motor temperature'], ['AERO-16', /^Lift_Prop$/, 2, 'hover power'], ['AERO-26', /^Fuselage_Pod$/, 0, 'static margin'],
+    ['AERO-27', /^H_Tail$/, 0, 'tail volume'], ['AERO-20', /^Battery_6S_LiPo$/, 0, 'cruise time'], ['AERO-14', /^Pusher_Prop_14in$/, 0, 'cruise power']];
   const ORDER = ['Failed', 'Unverified', 'Partially Verified', 'Verified'];
   const CHIP = { 'Verified': 'met', 'Partially Verified': 'risk', 'Unverified': 'open', 'Failed': 'fail' };
   const COL = { 'Failed': [0.86, 0.33, 0.33], 'Unverified': [0.6, 0.53, 0.95], 'Partially Verified': [0.92, 0.72, 0.3], 'Verified': [0.33, 0.78, 0.55], none: [0.55, 0.58, 0.62] };
@@ -26,7 +32,7 @@ const ClaimsMap = (() => {
   function chips() { const comps = Object.keys(V.component_labels);
     $('#vmChips').innerHTML = comps.map(k => { const n = V.claims.filter(c => c.component === k).length, w = worst(k);
       return `<button type="button" data-comp="${k}" aria-pressed="${k === sel}"><span class="vm-dot" style="background:rgb(${COL[w].map(x => Math.round(x * 255)).join(',')})"></span>${esc(V.component_labels[k])} <span class="vm-n">${n}</span></button>`; }).join(''); }
-  function card(c) { const ic = c.independent_check || {}, d = ic.delta_pct;
+  function cardOld(c) { const ic = c.independent_check || {}, d = ic.delta_pct;
     const val = c.value == null ? '—' : (typeof c.value === 'number' ? (Math.abs(c.value) >= 1000 ? c.value.toLocaleString(undefined, { maximumFractionDigits: 0 }) : +c.value.toPrecision(4)) : esc(c.value));
     const list = (h, a) => a && a.length ? `<h5>${h}</h5><ul>${a.map(x => `<li>${esc(x)}</li>`).join('')}</ul>` : '';
     const inputs = c.inputs && Object.keys(c.inputs).length ? `<h5>Inputs</h5><dl class="vm-in">${Object.entries(c.inputs).map(([k, v]) => `<dt>${esc(k)}</dt><dd>${esc(typeof v === 'object' ? JSON.stringify(v) : v)}</dd>`).join('')}</dl>` : '';
@@ -50,15 +56,16 @@ const ClaimsMap = (() => {
   function show(comp) { sel = comp; chips(); const list = V.claims.filter(c => !comp || c.component === comp);
     const lab = comp ? V.component_labels[comp] : 'All components', ch = comp && V.component_chapter[comp];
     const cnt = ORDER.map(s => [s, list.filter(c => c.status === s).length]).filter(([, n]) => n).map(([s, n]) => `<span class="chip ${CHIP[s]}">${n} ${s}</span>`).join(' ');
-    $('#vmPanel').innerHTML = `<div class="vm-ph"><h4>${esc(lab)}</h4><div>${cnt}</div>${ch ? `<a class="xref" href="#${ch}">Evidence chapter</a>` : ''}</div>${list.map(card).join('') || '<p>No claims recorded for this component.</p>'}`;
+    $('#vmPanel').innerHTML = `<div class="vm-ph"><h4>${esc(lab)}</h4><div>${cnt}</div>${ch ? `<a class="xref" href="#${ch}">Evidence chapter</a>` : ''}</div>${list.map(c => Proofs.card(c.id)).join('') || '<p>No claims recorded for this component.</p>'}`; Proofs.wire($('#vmPanel'));
     draw(); }
   function table() {
     const f = { st: $('#vmFStatus').value, di: $('#vmFDisc').value, q: $('#vmFText').value.toLowerCase() };
     const rows = V.claims.filter(c => (!f.st || c.status === f.st) && (!f.di || c.discipline === f.di) && (!f.q || (c.id + ' ' + c.claim + ' ' + c.status_reason).toLowerCase().includes(f.q)));
-    $('#vmTable tbody').innerHTML = rows.map(c => { const d = c.independent_check && c.independent_check.delta_pct;
-      return `<tr><td><a href="#claim-${esc(c.id)}" data-comp="${c.component}" class="vm-go">${esc(c.id)}</a></td><td>${esc(V.component_labels[c.component])}</td><td>${esc(c.discipline)}</td><td>${esc(c.claim)}</td><td><span class="chip ${CHIP[c.status]}">${esc(c.status)}</span></td><td class="n">${d == null ? '—' : (d >= 0 ? '+' : '') + (+d).toFixed(1) + ' %'}</td><td>${esc(c.status_reason)}</td></tr>`; }).join('');
+    const PR = Proofs.load() && JSON.parse(document.getElementById('proofData').textContent).claims;
+    $('#vmTable tbody').innerHTML = rows.map(c => { const r = PR && PR[c.id] && PR[c.id].result, rr = !r ? '<span class="pf-mute">evidence</span>' : r.reproduced === true ? '<span class="pf-ok">✓ same number</span>' : r.reproduced === false ? '<span class="pf-bad">✗ differs</span>' : '—';
+      return `<tr><td><a href="#pf-${esc(c.id)}" data-id="${esc(c.id)}" class="vm-go">${esc(c.id)}</a></td><td>${esc(c.claim)}</td><td><span class="chip ${CHIP[c.status]}">${esc(c.status)}</span></td><td>${rr}</td><td>${esc(c.status_reason)}</td></tr>`; }).join('');
     $('#vmCount').textContent = `${rows.length} of ${V.claims.length} claims`; }
-  function mfg() { const M = V.manufacturing, LV = { 'Ready': 'met', 'Needs minor specification': 'risk', 'Not ready': 'fail' };
+  function mfg() { if (mfgDone || !document.getElementById('vmMfg')) return; mfgDone = true; const M = V.manufacturing, LV = { 'Ready': 'met', 'Needs minor specification': 'risk', 'Not ready': 'fail' };
     $('#vmMfg tbody').innerHTML = M.subsystems.map(s => `<tr><td>${esc(s.name)}</td><td><span class="chip ${LV[s.level] || 'open'}">${esc(s.level)}</span></td><td><ul class="vm-ul">${s.blocking_items.map(b => `<li>${esc(b)}</li>`).join('')}</ul></td></tr>`).join('');
     $('#vmStacks tbody').innerHTML = (M.tolerance_stacks || []).map(t => `<tr><td>${esc(t.name)}</td><td class="n">${esc(t.worst_case)}</td><td class="n">${esc(t.rss)}</td><td>${esc(t.requirement)}</td><td>${esc(t.verdict)}</td></tr>`).join(''); }
 
@@ -74,7 +81,8 @@ const ClaimsMap = (() => {
     let vo = 0, io = 0; const names = Object.keys(V.component_labels);
     M.comps.forEach(([n, x, y, z]) => { const { v, i } = parts[n], k = v.length / 3, c = compOf(n.split('~')[0]), ci = c ? names.indexOf(c) + 1 : 0;
       for (let j = 0; j < k; j++) { P[(vo + j) * 3] = v[j * 3] + x; P[(vo + j) * 3 + 1] = v[j * 3 + 1] + y; P[(vo + j) * 3 + 2] = v[j * 3 + 2] + z; Q[(vo + j) * 3] = ci / 255; }
-      for (let j = 0; j < i.length; j++) I[io + j] = i[j] + vo; comp.push({ c, v0: vo, nv: k }); vo += k; io += i.length; });
+      let lo = [1e9, 1e9, 1e9], hi = [-1e9, -1e9, -1e9]; for (let j = 0; j < k; j++) for (let a = 0; a < 3; a++) { const q = P[(vo + j) * 3 + a]; if (q < lo[a]) lo[a] = q; if (q > hi[a]) hi[a] = q; }
+      for (let j = 0; j < i.length; j++) I[io + j] = i[j] + vo; comp.push({ c, v0: vo, nv: k, name: n.split('~')[0], ctr: lo.map((v, a) => (v + hi[a]) / 2) }); vo += k; io += i.length; });
     A = { P, C: Cc, Q, I, comp, names };
     for (const [nm, d] of [['p', P], ['q', Q]]) { buf[nm] = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buf[nm]); gl.bufferData(gl.ARRAY_BUFFER, d, gl.STATIC_DRAW); }
     buf.i = gl.createBuffer(); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buf.i); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, I, gl.STATIC_DRAW); buf.c = gl.createBuffer();
@@ -98,7 +106,26 @@ const ClaimsMap = (() => {
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buf.i); gl.drawElements(gl.TRIANGLES, A.I.length, gl.UNSIGNED_INT, 0); }
   function draw() { if (raf || !gl) return; raf = requestAnimationFrame(() => { raf = 0; const dpr = Math.min(2, window.devicePixelRatio || 1), w = cv.clientWidth, h = cv.clientHeight;
     if (cv.width !== Math.round(w * dpr) || cv.height !== Math.round(h * dpr)) { cv.width = Math.round(w * dpr); cv.height = Math.round(h * dpr); }
-    gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.viewport(0, 0, cv.width, cv.height); gl.clearColor(0.165, 0.184, 0.212, 1); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT); gl.enable(gl.DEPTH_TEST); mats(); colours(); scene(false); }); }
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.viewport(0, 0, cv.width, cv.height); gl.clearColor(0.165, 0.184, 0.212, 1); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT); gl.enable(gl.DEPTH_TEST); mats(); colours(); scene(false); pointers(); }); }
+  function project(p) { const M = MV, x = M[0] * p[0] + M[4] * p[1] + M[8] * p[2] + M[12], y = M[1] * p[0] + M[5] * p[1] + M[9] * p[2] + M[13], z = M[2] * p[0] + M[6] * p[1] + M[10] * p[2] + M[14], w = -z;
+    return [(PR[0] * x / w * 0.5 + 0.5) * cv.clientWidth, (1 - (PR[5] * y / w * 0.5 + 0.5)) * cv.clientHeight, w]; }
+  function pointers() { const lay = $('#vmPtrLayer'), svg = $('#vmLines'); if (!lay || !A) return; const on = !$('#vmPtrs') || $('#vmPtrs').checked;
+    if (!on) { lay.innerHTML = ''; svg.innerHTML = ''; return; }
+    const W = cv.clientWidth, H = cv.clientHeight, cx = W / 2, cy = H / 2, PRF = document.getElementById('proofData') && JSON.parse(document.getElementById('proofData').textContent).claims;
+    if (!lay.children.length) lay.innerHTML = PTRS.map(([id, , , lab]) => { const c = V.claims.find(x => x.id === id), r = PRF && PRF[id] && PRF[id].result;
+      return `<button type="button" class="vm-ptr vm-${CHIP[c ? c.status : 'Unverified']}" data-id="${id}" title="${esc(c ? c.claim : id)}"><span class="vm-pd"></span><b>${id}</b><span class="vm-pl"> ${esc(lab)}</span>${r && typeof r.value === 'number' ? ` <span class="vm-pv">${+r.value.toPrecision(3)} ${esc(r.unit === '-' ? '' : r.unit)}</span>` : ''}</button>`; }).join('');
+    let lines = ''; const boxes = [];
+    PTRS.forEach(([id, re, k], i) => { const el = lay.children[i], parts = A.comp.filter(p => re.test(p.name)), part = parts[Math.min(k, parts.length - 1)]; if (!part) { el.hidden = true; return; }
+      const [x, y, w] = project(part.ctr); if (w <= 0 || x < 0 || y < 0 || x > W || y > H) { el.hidden = true; return; } el.hidden = false;
+      let dx = x - cx, dy = y - cy; const l = Math.hypot(dx, dy) || 1; dx /= l; dy /= l;
+      let lx = x + dx * 54, ly = y + dy * 40; const bw = el.offsetWidth || 120, bh = el.offsetHeight || 22;
+      lx = dx < 0 ? lx - bw : lx; ly -= bh / 2; lx = Math.max(4, Math.min(W - bw - 4, lx)); ly = Math.max(4, Math.min(H - bh - 4, ly));
+      for (let it = 0, hit = true; hit && it < 12; it++) { hit = false;   // nudge a label away from every label already placed, on the side its anchor is on
+        for (const b of boxes) if (lx < b[0] + b[2] && lx + bw > b[0] && ly < b[1] + b[3] && ly + bh > b[1]) { hit = true; ly = dy >= 0 ? b[1] + b[3] + 3 : b[1] - bh - 3; } }
+      ly = Math.max(4, Math.min(H - bh - 4, ly));
+      boxes.push([lx, ly, bw, bh]); el.style.transform = `translate(${lx}px,${ly}px)`;
+      const ex = dx < 0 ? lx + bw : lx, ey = ly + bh / 2; lines += `<line x1="${x}" y1="${y}" x2="${ex}" y2="${ey}"/><circle cx="${x}" cy="${y}" r="3.5"/>`; });
+    svg.setAttribute('viewBox', `0 0 ${W} ${H}`); svg.innerHTML = lines; }
   function pickAt(mx, my) { const w = cv.width, h = cv.height; if (!w || !h) return null;
     if (!pickFb || pickFb.w !== w || pickFb.h !== h) { const fb = gl.createFramebuffer(), tx = gl.createTexture(), rb = gl.createRenderbuffer();
       gl.bindTexture(gl.TEXTURE_2D, tx); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
@@ -123,13 +150,20 @@ const ClaimsMap = (() => {
     cv.addEventListener('wheel', e => { e.preventDefault(); cam.d = Math.max(0.3, Math.min(6, cam.d * Math.exp(e.deltaY * 0.0012))); draw(); }, { passive: false });
     cv.addEventListener('dblclick', () => { reset(); draw(); });
     window.addEventListener('resize', draw); draw(); }
-  function init() { started = true; V = JSON.parse(document.getElementById('validData').textContent);
+  // data, panels and listeners once (either tab can open first); the 3-D view once its canvas is visible
+  let ready = false, gl3 = false;
+  function init() { if (ready) return; ready = true; V = V || JSON.parse(document.getElementById('validData').textContent);
     kpis(); show(null); table(); mfg();
     const discs = [...new Set(V.claims.map(c => c.discipline))].sort(); $('#vmFDisc').innerHTML = '<option value="">All disciplines</option>' + discs.map(d => `<option>${esc(d)}</option>`).join('');
     for (const id of ['#vmFStatus', '#vmFDisc', '#vmFText']) $(id).addEventListener('input', table);
     $('#vmChips').addEventListener('click', e => { const b = e.target.closest('button'); if (b) show(b.dataset.comp === sel ? null : b.dataset.comp); });
-    $('#vmTable').addEventListener('click', e => { const a = e.target.closest('.vm-go'); if (!a) return; e.preventDefault(); show(a.dataset.comp);
-      const el = document.getElementById('claim-' + a.textContent); if (el) { el.querySelector('details').open = true; el.scrollIntoView({ behavior: 'smooth', block: 'center' }); } });
-    init3d(); }
-  return { redraw() { const v = $('#claimsMap'); if (!v || v.closest('[hidden]') || !document.getElementById('validData')) return; if (!started) init(); else draw(); } };
+    $('#vmTable').addEventListener('click', e => { const a = e.target.closest('.vm-go'); if (!a) return; e.preventDefault(); Proofs.open(a.dataset.id, $('#pfPanel')); });
+    $('#vmPtrLayer').addEventListener('click', e => { const b = e.target.closest('.vm-ptr'); if (!b) return; const c = V.claims.find(x => x.id === b.dataset.id); if (c) { sel = c.component; chips(); draw(); }
+      Proofs.open(b.dataset.id, $('#vmPanel')); });
+    $('#vmPtrs').addEventListener('change', draw); }
+  const shown = el => el && !el.closest('[hidden]');
+  return { redraw() { if (!document.getElementById('validData')) return;
+    if (shown($('#vmMfg')) && !mfgDone) { V = V || JSON.parse(document.getElementById('validData').textContent); mfg(); }
+    if (!shown($('#claimsMap')) && !shown($('#vmTable'))) return;
+    init(); if (shown($('#vmCanvas'))) { if (!gl3) { gl3 = true; started = true; init3d(); } else draw(); } } };
 })();

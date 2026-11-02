@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-29",
+ "generated": "2026-11-01",
  "script": "analysis/validation/check_aero.py",
  "inputs_read_only": [
   "analysis/results.json",
@@ -439,10 +439,10 @@
    "id": "AERO-36",
    "check": "SU2 GCI_fine on CL at alpha 10 (%)",
    "independent": 22.501627347700463,
-   "repo": 12.7163,
-   "delta_pct": 76.95,
+   "repo": 22.501627347700524,
+   "delta_pct": -0.0,
    "tolerance_pct": 10.0,
-   "pass": false,
+   "pass": true,
    "shared_assumptions": "",
    "note": "order p 0.61"
   },

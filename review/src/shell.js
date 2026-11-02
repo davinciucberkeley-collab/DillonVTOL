@@ -7,7 +7,7 @@ const Shell = (()=>{
   const GROUPS = {home:'', design:'Design', verify:'Verification', program:'Program', build:'Build and software', doc:'Documentation'};
   const ICON = {overview:'space_dashboard', requirements:'fact_check', model3d:'view_in_ar', drawings:'design_services', aero:'air', structures:'architecture',
     mass:'scale', propulsion:'toys_fan', cg:'center_focus_strong', simulation:'query_stats', testing:'science', flighttest:'flight_takeoff', budget:'payments',
-    iterations:'compare', schedule:'event', build:'handyman', controls:'memory', docinfo:'info', downloads:'download'};
+    iterations:'compare', schedule:'event', build:'handyman', controls:'memory', docinfo:'info', downloads:'download', validation:'verified', sources:'menu_book'};
   const DEFAULT_TAB = {model3d:'m3-cad'};          // visual first: the CAD page opens on the model
   const TAB_MIN = 4;                               // chapters with at least this many sub-sections get tabs
   const store = { get(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }, set(k,v){ try{ localStorage.setItem(k,v); }catch(e){} } };
@@ -32,14 +32,23 @@ const Shell = (()=>{
     [...s.children].forEach(el=>{ if(el===head) return;
       if(el.matches('h3[id]')){ panel=document.createElement('div'); panel.className='tabpanel'; panel.dataset.tab=el.id; panels.push(panel);
         tabs.push({id:el.id, label:el.textContent.replace(/^\s*\d+\.\d+\s*/,'').trim()}); }
-      if(el.matches('.measure')) measures.push(el); else panel.appendChild(el); });
-    measures.forEach(m=>summary.appendChild(m));     // the chapter's "what the team must measure" box belongs to the chapter, not to its last tab
+      if(el.matches('.measure:not(.ma-need)')) measures.push(el); else panel.appendChild(el); });
+    // the chapter's "what the team must measure" boxes belong to the chapter, not to its last tab; a merged chapter gets one combined list
+    if(measures.length){ const box=measures[0], ol=box.querySelector('ol'); measures.slice(1).forEach(m=>{ const o=m.querySelector('ol'); if(ol&&o){ [...o.children].forEach(li=>ol.appendChild(li)); m.remove(); } else box.appendChild(m); });
+      const h=box.querySelector('.mh'); if(h) h.textContent='What the team must measure';
+      // folded by default: a counted heading the reader opens when they need the list (deep links and search open it)
+      if(ol && h){ const d=document.createElement('details'); d.className='measure-list'; const sm=document.createElement('summary'); sm.innerHTML=`What the team must measure <span class="mcount">${ol.children.length}</span>`;
+        d.appendChild(sm); [...box.children].filter(x=>x!==h).forEach(x=>d.appendChild(x)); h.remove(); box.appendChild(d); }
+      summary.appendChild(box); }
     if(!summary.children.length){ panels.shift(); tabs.shift(); }   // a chapter with no lead-in opens on its first sub-section
     const bar=document.createElement('div'); bar.className='tabbar'; bar.setAttribute('role','tablist'); bar.setAttribute('aria-label', s.dataset.title+' views');
     bar.innerHTML=tabs.map(t=>`<a role="tab" href="#${s.id}/${t.id}" data-tab="${t.id}" id="tab-${t.id}" aria-controls="panel-${t.id}">${t.label}</a>`).join('');
     head.after(bar); let at=bar; panels.forEach(pn=>{ pn.setAttribute('role','tabpanel'); pn.id='panel-'+pn.dataset.tab; pn.setAttribute('aria-labelledby','tab-'+pn.dataset.tab); at.after(pn); at=pn; });
     s.classList.add('has-tabs');
   }
+  // ---------- source lines: shown as one line, the full text on click (print and report view show it all) ----------
+  function foldSources(){ $$('p.src').forEach(p=>{ if(p.dataset.fold) return; p.dataset.fold=1; p.classList.add('fold'); p.tabIndex=0; p.setAttribute('role','button'); p.setAttribute('aria-expanded','false'); p.title='Show the full source';
+    const t=()=>{ const o=p.classList.toggle('open'); p.setAttribute('aria-expanded',String(o)); }; p.addEventListener('click',e=>{ if(!e.target.closest('a')) t(); }); p.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); t(); } }); }); }
   // ---------- drawing sheets: one large sheet with a rail of the nine ----------
   function buildSheets(){
     const box=$('#drawingsBox'); if(!box) return; const figs=[...box.querySelectorAll('figure.sheet')]; if(!figs.length) return;
@@ -154,7 +163,7 @@ const Shell = (()=>{
   // ---------- init ----------
   function init(opts){
     onShow = opts && opts.onShow || onShow;
-    secs = $$('section.sec');
+    secs = $$('section.sec'); foldSources();
     applyTheme(store.get('vtol-theme')==='light'?'light':'dark');
     buildSidebar(); secs.forEach(buildTabs); buildSheets();
     const issue=$('.cover .mast .org:last-child'); if(issue && $('#issueChip')) $('#issueChip').textContent = issue.textContent.replace(/\s+/g,' ').trim();

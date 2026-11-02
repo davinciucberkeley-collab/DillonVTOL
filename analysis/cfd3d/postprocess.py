@@ -39,7 +39,7 @@ def read_su2(path):
     if cache.exists() and cache.stat().st_mtime > path.stat().st_mtime:
         z = np.load(cache, allow_pickle=True)
         return z["tets"], z["pts"], z["markers"].item()
-    lines = path.read_text().splitlines()
+    lines = path.read_text(encoding="utf-8").splitlines()
     i = 0
     assert lines[0].startswith("NDIME= 3")
     ne = int(lines[1].split("=")[1]); i = 2
@@ -355,6 +355,44 @@ def b64gz(a):
     return base64.b64encode(gzip.compress(np.ascontiguousarray(a).tobytes(), 9)).decode()
 
 
+# quantisation of the 3-D volume fields (uint8, 0..254); the page maps back with the same ranges
+VOL_RANGES = {"cp": (-1.2, 1.0, "lin"), "s": (0.0, 1.6, "lin"), "w": (-1.0, 1.6, "log10")}   # w: log10(|omega| c / V_inf)
+
+
+def volume_fields(f):
+    """The case's 12 mm sampling grid (the SU2 nodal solution interpolated inside its tetrahedra, see post_case) packed for
+    the page's continuous slice and vorticity volume: Cp, |V|/V_inf and log10 |omega| c/V_inf as uint8, x-fastest (texture
+    order). |omega| is the curl of the gridded velocity (central differences, 12 mm); cells within two grid steps (24 mm) of the body
+    are set to zero because the difference stencil there straddles the wall. Solid cells hold their nearest fluid value so
+    the page's linear texture filtering does not bleed the body into the field; the fluid mask is sent separately."""
+    if not f.exists():
+        return None
+    from scipy import ndimage
+    z = np.load(f); U = z["U"].astype(np.float64); P = z["P"].astype(np.float64); solid = z["inside"]; h = float(z["gx"][1] - z["gx"][0])
+    q = 0.5 * rc.RHO * rc.V ** 2
+    d = lambda a, ax: np.gradient(a, h, axis=ax)
+    wx = d(U[..., 2], 1) - d(U[..., 1], 2); wy = d(U[..., 0], 2) - d(U[..., 2], 0); wz = d(U[..., 1], 0) - d(U[..., 0], 1)
+    w = np.sqrt(wx ** 2 + wy ** 2 + wz ** 2) * rc.C_REF / rc.V
+    near = ndimage.binary_dilation(solid, iterations=2)
+    w[near] = 0.0
+    fields = {"cp": P / q, "s": np.linalg.norm(U, axis=-1) / rc.V, "w": w}
+    idx = ndimage.distance_transform_edt(solid, return_distances=False, return_indices=True)
+    out = {}
+    for k, (lo, hi, mode) in VOL_RANGES.items():
+        a = fields[k][tuple(idx)]                                   # solid cells take the nearest fluid value
+        if mode == "log10":
+            a = np.where(a > 10 ** lo, np.log10(np.maximum(a, 1e-9)), lo)
+        b = np.round(np.clip((a - lo) / (hi - lo), 0, 1) * 254).astype(np.uint8)
+        if k == "w":
+            b[b < 8] = 0                                            # below ~0.13 c/V_inf: free stream, zeroed so it compresses
+        out[k] = b64gz(np.ascontiguousarray(b.transpose(2, 1, 0)))  # (nz, ny, nx): x fastest
+    grid = {"n": [int(len(z["gx"])), int(len(z["gy"])), int(len(z["gz"]))], "lo": [float(z["gx"][0]), float(z["gy"][0]), float(z["gz"][0])], "h": h,
+            "fluid": b64gz(np.ascontiguousarray((~solid).astype(np.uint8).transpose(2, 1, 0) * 255)),
+            "ranges": {k: list(v) for k, v in VOL_RANGES.items()},
+            "note": "SU2 nodal solution interpolated linearly inside the tetrahedra onto a 12 mm grid (starboard half); the page interpolates trilinearly between grid points of this one solution only"}
+    return {"grid": grid, "fields": out}
+
+
 def pack(level=2):
     """out/viz/cfd3d_viz.json: the wall mesh of one level (SU2 frame, quantised), per-case Cp and speed on it,
     streamlines, wake planes, symmetry slice, the tet cut, residual histories, mesh statistics and the results"""
@@ -375,11 +413,11 @@ def pack(level=2):
            "frame": "SU2 (x aft, y starboard, z up); the page maps to the CAD frame X=-x, Y=z, Z=y and mirrors to port",
            "surf": {"lo": lo.tolist(), "hi": hi.tolist(), "pos": b64gz(qP), "idx": b64gz(remap[tris].astype(np.uint32)), "nv": int(len(used)), "groups": groups},
            "symmesh": {"pos": b64gz(pts[su].astype(np.float32)), "idx": b64gz(np.vectorize(smap.get)(st).astype(np.uint32)), "n": int(len(st))},
-           "levels": {}, "cases": {}, "results": json.loads((OUT / "cfd3d_results.json").read_text()) if (OUT / "cfd3d_results.json").exists() else None}
+           "levels": {}, "cases": {}, "results": json.loads((OUT / "cfd3d_results.json").read_text(encoding="utf-8")) if (OUT / "cfd3d_results.json").exists() else None}
     for lv in (1, 2, 3):
         f = OUT / f"L{lv}" / "mesh_stats.json"
         if f.exists():
-            viz["levels"][lv] = json.loads(f.read_text())
+            viz["levels"][lv] = json.loads(f.read_text(encoding="utf-8"))
     # wing-tip patch of every level's wall mesh, for the side-by-side resolution comparison
     for lv in (1, 2, 3):
         f = OUT / f"L{lv}" / "mesh.su2"
@@ -394,7 +432,7 @@ def pack(level=2):
         if lv != level or not (OUT / "post" / f"{name}_viz.json").exists():
             continue
         z = np.load(OUT / "post" / f"{name}_viz.npz")
-        v = json.loads((OUT / "post" / f"{name}_viz.json").read_text())
+        v = json.loads((OUT / "post" / f"{name}_viz.json").read_text(encoding="utf-8"))
         cp = np.clip(np.round(z["cp"][used] * 40), -127, 127).astype(np.int8)
         sp = np.clip(np.round(z["s"][used] * 100), 0, 255).astype(np.uint8)
         head, rows = rc.read_history(rc.case_dir(name)); col = {h: i for i, h in enumerate(head)}
@@ -417,29 +455,34 @@ def pack(level=2):
         sy = v["sym"]
         sym = {k: sy[k] for k in ("nx", "nz", "x0", "z0", "h")}
         sym.update({"cp": q8(sy["cp"], 40), "s": b64gz(np.clip(np.round(np.array(sy["s"]) * 100), 0, 255).astype(np.uint8)), "inside": b64gz(np.array(sy["inside"], np.uint8))})
-        viz["cases"][name] = {"alpha": a, "cp": b64gz(cp), "s": b64gz(sp), "stream": stream, "planes": planes, "sym": sym, "hist": hist,
-                              "post": json.loads((OUT / "post" / f"{name}.json").read_text())}
+        viz["cases"][name] = {"alpha": a, "cp": b64gz(cp), "s": b64gz(sp), "stream": stream, "hist": hist,
+                              "post": json.loads((OUT / "post" / f"{name}.json").read_text(encoding="utf-8"))}
+        vol = volume_fields(OUT / "post" / f"{name}_grid.npz")
+        if vol:
+            if "vol" not in viz:
+                viz["vol"] = vol["grid"]
+            viz["cases"][name]["vol"] = vol["fields"]
         if a == 4.0:
             cut = v["cut"]
             viz["cut"] = {"x": cut["x"], "n": b64gz(np.array([len(q) // 2 for q in cut["polys"]], np.uint8)),
                           "yz": b64gz(np.concatenate([np.array(q, np.float32) for q in cut["polys"]])),
                           "q": b64gz(np.clip(np.round(np.array(cut["q"]) * 255), 0, 255).astype(np.uint8)), "count": len(cut["polys"])}
-    geo = json.loads((OUT / "oml_fidelity.json").read_text())
+    geo = json.loads((OUT / "oml_fidelity.json").read_text(encoding="utf-8"))
     notes = {"Wing": "STEP includes the saddle side tabs (removed)", "Pod": "OCC bounding box of the revolved spline is loose (pod radius 80 mm)", "Canopy": "OCC bounding box of the revolved spline is loose",
              "Lift_Motor": "4 mm shaft stub removed", "Pusher_Motor": "4 mm shaft stub removed", "Boom_Clamp_F": "top extended 4 mm into the wing (bonded joint)",
              "Boom_Clamp_R": "top extended 4 mm into the wing (bonded joint)", "Tail_Clamp": "top extended 3 mm into the stabiliser", "Fin_Shoe": "extended 2 mm into the stabiliser",
              "Gear_Fairing": "top extended 1.2 mm to the gear clamp (taped joint)", "H_Tail": "elevator gap sealed", "Fin": "rudder gap sealed"}
     viz["geometry"] = {"defeaturing": geo["defeaturing"], "fidelity": [dict(r, note=notes.get(r["part"], "")) for r in geo["fidelity"]]}
     cf = HERE.parent / "validation" / "claims_cfd.json"
-    viz["checks"] = json.loads(cf.read_text())["claims"] if cf.exists() else None
+    viz["checks"] = json.loads(cf.read_text(encoding="utf-8"))["claims"] if cf.exists() else None
     viz["post"] = {n: c["post"] for n, c in viz["cases"].items()}
     for n in rc.CASES:   # post-processed cases on other mesh levels, for the results table
         f = OUT / "post" / f"{n}.json"
         if n not in viz["post"] and f.exists():
-            viz["post"][n] = json.loads(f.read_text())
+            viz["post"][n] = json.loads(f.read_text(encoding="utf-8"))
     (OUT / "viz").mkdir(exist_ok=True)
     s = json.dumps(viz, separators=(",", ":"))
-    (OUT / "viz" / "cfd3d_viz.json").write_text(s)
+    (OUT / "viz" / "cfd3d_viz.json").write_text(s, encoding="utf-8", newline="\n")
     print("packed", len(s) // 1024, "KB,", len(viz["cases"]), "cases")
 
 

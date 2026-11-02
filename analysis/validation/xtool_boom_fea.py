@@ -191,12 +191,12 @@ def write_claim(res):
 
 def main():
     if "--claims-only" in sys.argv:
-        write_claim(json.loads((Path(__file__).parent / "xtool_boom_fea.json").read_text())); return
+        write_claim(json.loads((Path(__file__).parent / "xtool_boom_fea.json").read_text(encoding="utf-8"))); return
     gmsh.initialize(); gmsh.option.setNumber("General.Terminal", 0)
     runs = [solve(h) for h in (0.004, 0.0025)]
     gmsh.finalize()
     sw = {}
-    for line in (ROOT / "cad/sim/results.txt").read_text().splitlines():
+    for line in (ROOT / "cad/sim/results.txt").read_text(encoding="utf-8").splitlines():
         if "=" in line and not line.startswith("#"):
             k, v = line.split("=", 1); sw[k] = float(v.split("|")[0])
     I = math.pi / 64 * (OD ** 4 - ID ** 4)

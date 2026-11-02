@@ -82,6 +82,14 @@ const THERM = (() => { const f = new URL('../analysis/thermal/thermal_results.js
 // whole-aircraft CFD (analysis/cfd3d/postprocess.py pack): already compact (gzipped typed arrays), embedded as is
 const CFD3 = (() => { const f = new URL('../analysis/cfd3d/out/viz/cfd3d_viz.json', import.meta.url); if (!existsSync(f)) { console.log('cfd3d_viz.json missing'); return null; } return readFileSync(f, 'utf8'); })();
 // engineering validation matrix (analysis/validation/build_matrix.py)
+// proof chains (analysis/validation/proofs.py) and the mesh audit with the meshing code each sizing rule comes from
+const PROOF = (() => { const f = new URL('../analysis/validation/proofs.json', import.meta.url); if (!existsSync(f)) { console.log('proofs.json missing'); return null; } return JSON.parse(readFileSync(f, 'utf8')); })();
+const MESHAUD = (() => { const f = new URL('../analysis/cfd3d/out/mesh_audit.json', import.meta.url); if (!existsSync(f)) { console.log('mesh_audit.json missing'); return null; }
+  const a = JSON.parse(readFileSync(f, 'utf8')), files = {};
+  for (const st of a.strategy || []) { const m = /^(.+?):(\d+)(?:-(\d+))?$/.exec(st.code_ref || ''); if (!m) continue;
+    const src = files[m[1]] || (files[m[1]] = existsSync(new URL('../' + m[1], import.meta.url)) ? readFileSync(new URL('../' + m[1], import.meta.url), 'utf8').split(/\r?\n/) : null); if (!src) continue;
+    const a0 = +m[2], a1 = m[3] ? +m[3] : a0; st.code = { file: m[1], from: a0, lines: src.slice(a0 - 1, Math.min(a1, a0 + 11)) }; }
+  return a; })();
 const VALID = (() => { const f = new URL('../analysis/validation/validation_matrix.json', import.meta.url); if (!existsSync(f)) { console.log('validation_matrix.json missing'); return null; } return JSON.parse(readFileSync(f, 'utf8')); })();
 const MESH = packMesh(); console.log('CAD mesh:', Object.keys(MESH.parts).length, 'parts,', MESH.comps.length, 'components,', MESH.tris, 'triangles');
 const html = `<title>Lift + Cruise VTOL Review</title>
@@ -101,6 +109,8 @@ ${SOURCES ? `<script type="application/json" id="sourcesData">${js(SOURCES)}</sc
 ${FEA ? `<script type="application/json" id="feaData">${js(FEA)}</script>` : ''}
 ${CFD3 ? `<script type="application/json" id="cfd3dData">${CFD3.replace(/</g, '\\u003c')}</script>` : ''}
 ${VALID ? `<script type="application/json" id="validData">${js(VALID)}</script>` : ''}
+${PROOF ? `<script type="application/json" id="proofData">${js(PROOF)}</script>` : ''}
+${MESHAUD ? `<script type="application/json" id="meshAudit">${js(MESHAUD)}</script>` : ''}
 <script type="application/json" id="meshData">${JSON.stringify(MESH).replace(/</g, '\\u003c')}</script>
 ${r('./src/body.html').replace(/DESIGN-BASIS\.md v\d+\.\d+(?:\.\d+)?/g, 'DESIGN-BASIS.md v' + BASIS_VER).split('{{BASIS_VER}}').join(BASIS_VER)}
 <script>const DATA = ${js(data)}; const V02 = ${js(v02)}; const SIM = ${js(sim)}; const AERO = ${js(aero)}; const IMG = ${js(IMG)}; const CADP = ${js(cadp)}; let MESH = null; const MESH_META = ${JSON.stringify({ tris: MESH.tris, comps: MESH.comps.length, files: new Set(Object.keys(MESH.parts).map(k => k.split('~')[0])).size })}; const TRADE = ${js(TRADE)}; const AEROD = ${js(AEROD)}; const TESTS = ${js(TESTS)}; const BENCH = ${js(BENCH)}; const BUILD = ${js(BUILD)}; const HW = ${js(HW)};</script>
@@ -118,6 +128,7 @@ ${r('./src/sources.js')}
 ${r('./src/fieldviz.js')}
 ${r('./src/cfdviz.js')}
 ${r('./src/claimsmap.js')}
+${r('./src/proofs.js')}
 ${r('./src/app.js')}
 </script>
 `;

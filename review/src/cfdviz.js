@@ -1,15 +1,17 @@
 // ---------- Whole-aircraft 3-D CFD explorer: SU2 incompressible Euler on the gmsh tetrahedral mesh ----------
 // Data: #cfd3dData (analysis/cfd3d/postprocess.py pack -> out/viz/cfd3d_viz.json). Everything drawn comes from the solver files:
 // the wall triangles are the SU2 mesh's own wall markers, Cp and speed are its nodal solution, streamlines are traced through the
-// solution interpolated inside its tetrahedra, the wake planes and symmetry slice are samples of the same field, and the mesh
-// layers are the real wall, symmetry-plane and cut-volume elements. Frames: the data is in the SU2 frame (x aft, y starboard,
+// solution interpolated inside its tetrahedra, the movable slice and the vorticity volume sample the same field (interpolated
+// inside the tetrahedra onto a 12 mm grid, then trilinearly by the GPU between grid points of that one solution), and the mesh
+// layers are the real wall, symmetry-plane and cut-volume elements. Slice and volume need WebGL2 (3-D textures). Frames: the data is in the SU2 frame (x aft, y starboard,
 // z up); drawn in the CAD frame (X = -x, Y = z, Z = y). The half model is mirrored to port for display (symmetric case, beta 0).
 // Drag to rotate, wheel or pinch to zoom, shift-drag or right-drag to pan, double-click to reset; hover reads Cp and speed.
 // Test hook: ?cfcase=L2_a8.0 selects that case on load.
 const CfdViz = (() => {
   const $ = s => document.querySelector(s);
-  let D = null, gl, cv, progS, cam = null, raf = 0, started = false, busy = false, tip, cur = null;
-  const S = { field: 'cp', layers: new Set(['surface', 'stream', 'planes']), plane: 'cp', mirror: true, playing: true };
+  let D = null, gl, gl2 = false, cv, progS, progSl, progV, cam = null, raf = 0, started = false, busy = false, tip, cur = null;
+  const S = { field: 'cp', layers: new Set(['surface', 'stream', 'slice']), mirror: true, playing: true,
+    slice: { axis: 'z', u: 0.4, q: 'cp', sweep: false, t0: 0 }, thr: 0.3 };   // thr: volume threshold, log10(|omega| c / V_inf)
   const geo = {}, caseCache = {}, buf = {};
   // ---- colour ramps: diverging blue-white-red for Cp and vorticity, viridis-like for speed, element quality red -> green ----
   const RAMPS = {
@@ -20,7 +22,9 @@ const CfdViz = (() => {
     for (let i = 1; i < R.length; i++) if (t <= R[i][0]) { const [t0, c0] = R[i - 1], [t1, c1] = R[i], k = (t - t0) / (t1 - t0); return c0.map((v, j) => (v + (c1[j] - v) * k) / 255); }
     return R[R.length - 1][1].map(v => v / 255); };
   const FIELDS = { cp: { label: 'Pressure coefficient Cp', lo: -1.6, hi: 1.0, ramp: 'div', mid: 0 }, s: { label: 'Speed |V| / V∞', lo: 0.4, hi: 1.5, ramp: 'seq' } };
-  const PLANES = { cp: { label: 'Cp', lo: -0.08, hi: 0.08, ramp: 'div', mid: 0 }, omx: { label: 'Axial vorticity ωx·c/V∞ (sign flips on the mirrored side)', lo: -1, hi: 1, ramp: 'div', mid: 0 } };
+  // slice / volume quantities: display ranges (the packed data covers a wider range, D.vol.ranges)
+  const VQ = { cp: { label: 'Cp', lo: -0.25, hi: 0.25, ramp: 'div', mid: 0, free: 0 }, s: { label: 'Speed |V| / V∞', lo: 0.8, hi: 1.2, ramp: 'seq', free: 1 },
+    w: { label: 'Vorticity |ω|·c/V∞', lo: 0.1, hi: 20, ramp: 'seq', log: true, free: 0 } };
   const colOf = (f, v) => { if (f.mid != null) { const a = Math.max(-f.lo, f.hi); return ramp(f.ramp, 0.5 + v / (2 * a)); } return ramp(f.ramp, (v - f.lo) / (f.hi - f.lo)); };
 
   // ---- data: base64 of gzipped typed arrays, inflated with the browser's DecompressionStream ----
@@ -30,9 +34,20 @@ const CfdViz = (() => {
 
   // ---- one shader: lit surfaces (face normals from derivatives) or unlit lines and points ----
   const VS = 'attribute vec3 p; attribute vec3 c; attribute float a; uniform mat4 M, P; uniform float ps; varying vec3 vc; varying vec3 ve; varying float va; void main(){ vec4 e = M * vec4(p,1.0); ve = e.xyz; vc = c; va = a; gl_Position = P * e; gl_PointSize = ps; }';
-  const FS = '#extension GL_OES_standard_derivatives : enable\nprecision mediump float; varying vec3 vc; varying vec3 ve; varying float va; uniform float lit, alpha; void main(){ vec3 col = vc; if (lit > 0.5) { vec3 n = normalize(cross(dFdx(ve), dFdy(ve))); float d = abs(dot(n, normalize(vec3(0.3,0.6,1.0)))); col = vc * (0.45 + 0.6 * d); } gl_FragColor = vec4(col, alpha * va); }';
+  // GLSL ES 3.00 (WebGL2): slice and ray-marched volume through the 3-D textures. World (CAD) -> grid (SU2): x = -X, y = |Z| (mirror), z = Y.
+  const VS3 = '#version 300 es\nin vec3 p; uniform mat4 M, P; out vec3 wp; void main(){ wp = p; gl_Position = P * M * vec4(p, 1.0); }';
+  const GRID = 'uniform highp sampler3D T; uniform sampler2D C; uniform vec3 lo, n; uniform float h; vec2 at(vec3 w){ vec3 s = vec3(-w.x, abs(w.z), w.y); vec3 t = ((s - lo) / h + 0.5) / n; if (any(lessThan(t, vec3(0.0))) || any(greaterThan(t, vec3(1.0)))) return vec2(0.0, -1.0); return texture(T, t).rg; }';
+  const FS_SL = '#version 300 es\nprecision highp float; in vec3 wp; out vec4 o;' + GRID +
+    'void main(){ vec2 g = at(wp); if (g.y < 0.5) discard; float v = g.x * 255.0 / 254.0; vec4 c = texture(C, vec2(v, 0.5)); o = vec4(c.rgb * c.a, c.a); }';
+  const FS_V = '#version 300 es\nprecision highp float; in vec3 wp; out vec4 o; uniform vec3 eye, bmin, bmax; uniform float thr, dens;' + GRID +
+    'void main(){ vec3 d = normalize(wp - eye), iv = 1.0 / d, t0 = (bmin - eye) * iv, t1 = (bmax - eye) * iv, tn = min(t0, t1), tf = max(t0, t1);' +
+    ' float a = max(max(tn.x, tn.y), max(tn.z, 0.0)), b = min(min(tf.x, tf.y), tf.z); if (b <= a) discard; vec4 acc = vec4(0.0); float st = 0.005;' +
+    ' for (int i = 0; i < 800; i++) { float tt = a + (float(i) + 0.5) * st; if (tt > b || acc.a > 0.97) break; vec2 g = at(eye + d * tt); if (g.y < 0.5 && g.y > -0.5) break;' +
+    ' float v = g.x * 255.0 / 254.0, al = smoothstep(thr, thr + 0.06, v) * dens * st; if (al > 0.0) { vec3 c = texture(C, vec2(v, 0.5)).rgb; acc.rgb += (1.0 - acc.a) * min(al, 1.0) * c; acc.a += (1.0 - acc.a) * min(al, 1.0); } }' +
+    ' if (acc.a < 0.004) discard; o = acc; }';
+  const FS = '#extension GL_OES_standard_derivatives : enable\nprecision mediump float; varying vec3 vc; varying vec3 ve; varying float va; uniform float lit, alpha, rnd; void main(){ if (rnd > 0.5 && length(gl_PointCoord - 0.5) > 0.5) discard; vec3 col = vc; if (lit > 0.5) { vec3 n = normalize(cross(dFdx(ve), dFdy(ve))); float d = abs(dot(n, normalize(vec3(0.3,0.6,1.0)))); col = vc * (0.45 + 0.6 * d); } gl_FragColor = vec4(col, alpha * va); }';
   function prog(vs, fs) { const sh = (t, s) => { const o = gl.createShader(t); gl.shaderSource(o, s); gl.compileShader(o); if (!gl.getShaderParameter(o, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(o)); return o; };
-    const p = gl.createProgram(); gl.attachShader(p, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(p, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(p); return p; }
+    const p = gl.createProgram(); gl.attachShader(p, sh(gl.VERTEX_SHADER, vs)); gl.attachShader(p, sh(gl.FRAGMENT_SHADER, fs)); gl.linkProgram(p); if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p)); return p; }
 
   // ---- camera: orbit about a target in the CAD frame ----
   const MV = new Float32Array(16), PR = new Float32Array(16);
@@ -47,6 +62,7 @@ const CfdViz = (() => {
     const { yaw, pitch, d } = cam, cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
     const f = [-cp * sy, -sp, -cp * cy], t = cam.t, eye = [t[0] - f[0] * d, t[1] - f[1] * d, t[2] - f[2] * d];
     const r = norm(cross(f, [0, 1, 0])), u = cross(r, f);
+    cam.eye = [0, 1, 2].map(i => eye[i] + r[i] * cam.pan[0] + u[i] * cam.pan[1]);
     MV.set([r[0], u[0], -f[0], 0, r[1], u[1], -f[1], 0, r[2], u[2], -f[2], 0, -dot(r, eye) - cam.pan[0], -dot(u, eye) - cam.pan[1], dot(f, eye), 1]);
     const asp = cv.clientWidth / (cv.clientHeight || 1), n = Math.max(0.005, d * 0.03), fa = d + 8, k = 1 / Math.tan(0.35);
     PR.set([k / asp, 0, 0, 0, 0, k, 0, 0, 0, 0, (fa + n) / (n - fa), -1, 0, 0, 2 * fa * n / (n - fa), 0]);
@@ -87,29 +103,50 @@ const CfdViz = (() => {
       for (let j = 0; j < n; j++) { const q = (o + j) * 3, p = toCad(sx[q] / 1000, sx[q + 1] / 1000, sx[q + 2] / 1000); p[2] *= zs; lp.push(...p); pts.push(p); lc.push(...colOf(FIELDS.s, ss[o + j] / 100)); if (j) li.push(base + j - 1, base + j); }
       lines.push(pts); } o += n; }
     out.lp = new Float32Array(lp); out.lc = new Float32Array(lc); out.li = new Uint32Array(li); out.lines = lines;
-    // wake planes and symmetry slice (int8 / uint8 grids)
-    out.planes = []; for (const pl of c.planes) out.planes.push({ ...pl, cp: Array.from(await inflate(pl.cp, Int8Array), v => v / 100), omx: Array.from(await inflate(pl.omx, Int8Array), v => v / 20), inside: await inflate(pl.inside, Uint8Array) });
-    const sy = c.sym; out.sym = { ...sy, cp: Array.from(await inflate(sy.cp, Int8Array), v => v / 40), s: Array.from(await inflate(sy.s, Uint8Array), v => v / 100), inside: await inflate(sy.inside, Uint8Array) };
     caseCache[name] = out; return out;
   }
   function surfColours(cs) { const nv = geo.nv, f = FIELDS[S.field] || FIELDS.cp, col = new Float32Array(nv * 6);
     for (let i = 0; i < nv; i++) { const v = S.field === 's' ? cs.sp[i] / 100 : cs.cp[i] / 40, k = colOf(f, v); col.set(k, i * 3); col.set(k, (nv + i) * 3); } return col; }
-  function gridMesh(ny, nz, pos, val, f, skip, fade) { const P = [], Cc = [], I = [], Al = [], amp = Math.max(-f.lo, f.hi);
-    for (let a = 0; a < ny; a++) for (let b = 0; b < nz; b++) { const v = val[a * nz + b]; P.push(...pos(a, b)); Cc.push(...colOf(f, v)); Al.push(fade ? Math.min(1, 0.04 + Math.abs(v) / (0.45 * amp)) : 1); }
-    for (let a = 0; a + 1 < ny; a++) for (let b = 0; b + 1 < nz; b++) { const i = a * nz + b; if (skip && (skip[i] || skip[i + 1] || skip[i + nz] || skip[i + nz + 1])) continue; I.push(i, i + nz, i + 1, i + 1, i + nz, i + nz + 1); }
-    return { P: new Float32Array(P), C: new Float32Array(Cc), A: new Float32Array(Al), I: new Uint32Array(I) }; }
+  // ---- 3-D field textures (WebGL2): RG8, R = quantity (0..254 over D.vol.ranges), G = fluid mask; colour maps as 256 x 1 textures ----
+  const vtex = {}, ctex = {};
+  let fluid = null;
+  const vext = () => { const g = D.vol, hi = g.n.map((n, i) => g.lo[i] + (n - 1) * g.h); return { lo: g.lo, hi }; };
+  async function volTex(name, q) { const key = name + ':' + q; if (vtex[key]) return vtex[key];
+    for (const k of Object.keys(vtex)) if (!k.startsWith(name + ':')) { gl.deleteTexture(vtex[k]); delete vtex[k]; }   // keep only the shown case on the GPU
+    const g = D.vol, N = g.n[0] * g.n[1] * g.n[2]; if (!fluid) fluid = await inflate(g.fluid, Uint8Array);
+    const f = await inflate(D.cases[name].vol[q], Uint8Array), rg = new Uint8Array(N * 2); for (let i = 0; i < N; i++) { rg[2 * i] = f[i]; rg[2 * i + 1] = fluid[i]; }
+    const t = gl.createTexture(); gl.bindTexture(gl.TEXTURE_3D, t); gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
+    gl.texImage3D(gl.TEXTURE_3D, 0, gl.RG8, g.n[0], g.n[1], g.n[2], 0, gl.RG, gl.UNSIGNED_BYTE, rg);
+    for (const [k, v] of [[gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR], [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_R, gl.CLAMP_TO_EDGE]]) gl.texParameteri(gl.TEXTURE_3D, k, v);
+    return (vtex[key] = t); }
+  // stored value v in 0..1 -> physical value (D.vol.ranges) -> display colour
+  const phys = (q, v) => { const [lo, hi, mode] = D.vol.ranges[q], x = lo + v * (hi - lo); return mode === 'log10' ? Math.pow(10, x) : x; };
+  const unphys = (q, x) => { const [lo, hi, mode] = D.vol.ranges[q]; return ((mode === 'log10' ? Math.log10(x) : x) - lo) / (hi - lo); };
+  const vcol = (q, x) => { const f = VQ[q]; if (f.log) return ramp(f.ramp, (Math.log10(Math.max(x, 1e-6)) - Math.log10(f.lo)) / (Math.log10(f.hi) - Math.log10(f.lo))); return colOf(f, x); };
+  function cmap(q) { if (ctex[q]) return ctex[q]; const px = new Uint8Array(256 * 4);
+    // alpha: faint where the value is the free-stream one, opaque at the ends of the displayed range
+    const f = VQ[q], dn = x => f.log ? (Math.log10(Math.max(x, 1e-6)) - Math.log10(f.lo)) / (Math.log10(f.hi) - Math.log10(f.lo)) : (x - f.lo) / (f.hi - f.lo), d0 = f.log ? 0 : dn(f.free);
+    for (let i = 0; i < 256; i++) { const x = phys(q, i / 255), c = vcol(q, x), d = Math.min(1, Math.abs(dn(x) - d0) / (f.log ? 1 : Math.max(d0, 1 - d0)));
+      px.set([...c.map(x => Math.round(x * 255)), Math.round(255 * (0.18 + 0.8 * Math.min(1, d * 1.6)))], i * 4); }
+    const t = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, t); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 256, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, px);
+    for (const [k, v] of [[gl.TEXTURE_MIN_FILTER, gl.LINEAR], [gl.TEXTURE_MAG_FILTER, gl.LINEAR], [gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE], [gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE]]) gl.texParameteri(gl.TEXTURE_2D, k, v);
+    return (ctex[q] = t); }
+  // slice quad in the CAD frame: axis x = across the flow (constant X), z = spanwise (constant Z, 0 = centre plane), y = horizontal (constant Y)
+  function sliceQuad() { const { lo, hi } = vext(), u = S.slice.u, Zm = S.mirror ? -hi[1] : 0;
+    const X0 = -hi[0], X1 = -lo[0], Y0 = lo[2], Y1 = hi[2];
+    if (S.slice.axis === 'x') { const X = -(lo[0] + u * (hi[0] - lo[0])); return { at: X, P: [X, Y0, Zm, X, Y0, hi[1], X, Y1, hi[1], X, Y0, Zm, X, Y1, hi[1], X, Y1, Zm] }; }
+    if (S.slice.axis === 'z') { const Z = u * hi[1]; return { at: Z, P: [X0, Y0, Z, X1, Y0, Z, X1, Y1, Z, X0, Y0, Z, X1, Y1, Z, X0, Y1, Z] }; }
+    const Y = lo[2] + u * (hi[2] - lo[2]); return { at: Y, P: [X0, Y, Zm, X1, Y, Zm, X1, Y, hi[1], X0, Y, Zm, X1, Y, hi[1], X0, Y, hi[1]] }; }
+  // the grid box (both sides), faces wound counter-clockwise seen from outside so culling the front faces leaves the back faces for the ray march
+  function boxTris() { const { lo, hi } = vext(), mn = [-hi[0], lo[2], -hi[1]], mx = [-lo[0], hi[2], hi[1]], c = mn.map((v, i) => (v + mx[i]) / 2), e = mx.map((v, i) => (v - mn[i]) / 2), out = [];
+    for (let a = 0; a < 3; a++) for (const sg of [1, -1]) { const b = (a + 1) % 3, d = (a + 2) % 3, n = [0, 0, 0], u = [0, 0, 0], v = [0, 0, 0]; n[a] = sg;
+      if (sg > 0) { u[b] = 1; v[d] = 1; } else { u[d] = 1; v[b] = 1; }   // u x v = n
+      const corner = (su, sv) => [0, 1, 2].map(i => c[i] + (n[i] + su * u[i] + sv * v[i]) * e[i]);
+      out.push(...corner(-1, -1), ...corner(1, -1), ...corner(1, 1), ...corner(-1, -1), ...corner(1, 1), ...corner(-1, 1)); }
+    return { P: new Float32Array(out), mn, mx }; }
   function buildFields(cs) {
     vbo('sc', surfColours(cs));
     vbo('lp', cs.lp); vbo('lc', cs.lc); vbo('li', cs.li, true); geo.nl = cs.li.length;
-    const pf = PLANES[S.plane], parts = [];
-    for (const pl of cs.planes) for (const zs of [1, -1]) parts.push(gridMesh(pl.ny, pl.nz, (a, b) => { const p = toCad(pl.x, pl.y0 + a * pl.h, pl.z0 + b * pl.h); p[2] *= zs; return p; },
-      S.plane === 'omx' && zs < 0 ? pl.omx.map(v => -v) : pl[S.plane], pf, pl.inside, true));   // axial vorticity is a pseudo-scalar: mirroring flips its sign
-    const sy = cs.sym, sf = S.field === 's' ? FIELDS.s : FIELDS.cp;
-    parts.push(gridMesh(sy.nx, sy.nz, (a, b) => toCad(sy.x0 + a * sy.h, 0, sy.z0 + b * sy.h), S.field === 's' ? sy.s : sy.cp, sf, sy.inside));
-    const cat = (k, T) => { const n = parts.reduce((s, p) => s + p[k].length, 0), o = new T(n); let at = 0, base = 0; for (const p of parts) { if (k === 'I') for (let i = 0; i < p.I.length; i++) o[at + i] = p.I[i] + base; else o.set(p[k], at); at += p[k].length; base += p.P.length / 3; } return o; };
-    const nPl = cs.planes.length * 2;
-    vbo('pp', cat('P', Float32Array)); vbo('pc', cat('C', Float32Array)); vbo('pa', cat('A', Float32Array)); vbo('pi', cat('I', Uint32Array), true);
-    geo.npl = parts.slice(0, nPl).reduce((s, p) => s + p.I.length, 0); geo.nsym = parts[nPl].I.length;
     geo.part = new Float32Array(cs.lines.length * 2 * 3); vbo('qp', geo.part); vbo('qc', new Float32Array(geo.part.length).fill(1));
     legend();
   }
@@ -117,9 +154,16 @@ const CfdViz = (() => {
   // ---- drawing ----
   function use(posBuf, colBuf, lit, alpha, ps, aBuf) { gl.useProgram(progS); const la = gl.getAttribLocation(progS, 'a');
     if (aBuf) { gl.bindBuffer(gl.ARRAY_BUFFER, buf[aBuf]); gl.enableVertexAttribArray(la); gl.vertexAttribPointer(la, 1, gl.FLOAT, false, 0, 0); } else { gl.disableVertexAttribArray(la); gl.vertexAttrib1f(la, 1); }
+    gl.uniform1f(gl.getUniformLocation(progS, 'rnd'), 0);
     for (const [nm, b] of [['p', posBuf], ['c', colBuf]]) { const loc = gl.getAttribLocation(progS, nm); gl.bindBuffer(gl.ARRAY_BUFFER, buf[b]); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 3, gl.FLOAT, false, 0, 0); }
     gl.uniformMatrix4fv(gl.getUniformLocation(progS, 'M'), false, MV); gl.uniformMatrix4fv(gl.getUniformLocation(progS, 'P'), false, PR);
     gl.uniform1f(gl.getUniformLocation(progS, 'lit'), lit ? 1 : 0); gl.uniform1f(gl.getUniformLocation(progS, 'alpha'), alpha); gl.uniform1f(gl.getUniformLocation(progS, 'ps'), ps || 1); }
+  function gridUse(p, posBuf, t3, q) { gl.useProgram(p); const loc = gl.getAttribLocation(p, 'p'); gl.bindBuffer(gl.ARRAY_BUFFER, buf[posBuf]); gl.enableVertexAttribArray(loc); gl.vertexAttribPointer(loc, 3, gl.FLOAT, false, 0, 0);
+    gl.uniformMatrix4fv(gl.getUniformLocation(p, 'M'), false, MV); gl.uniformMatrix4fv(gl.getUniformLocation(p, 'P'), false, PR);
+    gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_3D, t3); gl.uniform1i(gl.getUniformLocation(p, 'T'), 0);
+    gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, cmap(q)); gl.uniform1i(gl.getUniformLocation(p, 'C'), 1); gl.activeTexture(gl.TEXTURE0);
+    const g = D.vol; gl.uniform3fv(gl.getUniformLocation(p, 'lo'), g.lo); gl.uniform3fv(gl.getUniformLocation(p, 'n'), g.n); gl.uniform1f(gl.getUniformLocation(p, 'h'), g.h); }
+  function syncSlider() { const r = $('#cfSlicePos'); if (r) r.value = Math.round(S.slice.u * 1000); const o = $('#cfSliceAt'); if (o && D.vol) { const q = sliceQuad(); o.textContent = { x: 'X', z: 'Z', y: 'Y' }[S.slice.axis] + ' = ' + q.at.toFixed(2) + ' m'; } }
   function draw() { if (!raf) raf = requestAnimationFrame(frame); }
   function frame(now) {
     raf = 0; if (!gl || !cur) return;
@@ -133,15 +177,19 @@ const CfdViz = (() => {
       if (Ly.has('surface')) gl.vertexAttrib3f(lc, 0.08, 0.09, 0.11); else gl.vertexAttrib3f(lc, 0.82, 0.85, 0.9);
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buf.se); gl.drawElements(gl.LINES, half ? geo.ne / 2 : geo.ne, gl.UNSIGNED_INT, 0); }
     if (Ly.has('stream')) { gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA); use('lp', 'lc', false, 0.6); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buf.li); gl.drawElements(gl.LINES, geo.nl, gl.UNSIGNED_INT, 0); gl.disable(gl.BLEND);
-      if (S.playing) { particles(now || 0); use('qp', 'qc', false, 1, 4 * dpr); gl.drawArrays(gl.POINTS, 0, geo.part.length / 3); } }
+      if (S.playing) { particles(now || 0); use('qp', 'qc', false, 0.9, 3.5 * dpr); gl.uniform1f(gl.getUniformLocation(progS, 'rnd'), 1); gl.drawArrays(gl.POINTS, 0, geo.part.length / 3); } }
     if (Ly.has('symmesh')) { use('yp', 'yc', false, 1); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buf.ye); gl.drawElements(gl.LINES, geo.nye, gl.UNSIGNED_INT, 0); }
     if (Ly.has('cut') && geo.ncut) { use('cp_', 'cc_', false, 1); gl.drawArrays(gl.LINES, 0, geo.ncut); }
-    if (Ly.has('planes') || Ly.has('sym')) { gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA); gl.depthMask(false);
-      use('pp', 'pc', false, 0.85, 1, 'pa'); gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, buf.pi);
-      if (Ly.has('planes')) gl.drawElements(gl.TRIANGLES, geo.npl, gl.UNSIGNED_INT, 0);
-      if (Ly.has('sym')) gl.drawElements(gl.TRIANGLES, geo.nsym, gl.UNSIGNED_INT, geo.npl * 4);
+    if (gl2 && D.vol && cur.vt) {
+      if (S.slice.sweep) { S.slice.u = 0.5 - 0.5 * Math.cos(((now || 0) - S.slice.t0) / 9000 * 2 * Math.PI); syncSlider(); }
+      gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE_MINUS_SRC_ALPHA); gl.depthMask(false);
+      if (Ly.has('slice') && cur.vt[S.slice.q]) { const q = sliceQuad(); vbo('slq', new Float32Array(q.P)); gridUse(progSl, 'slq', cur.vt[S.slice.q], S.slice.q); gl.drawArrays(gl.TRIANGLES, 0, 6); }
+      if (Ly.has('vol') && cur.vt.w) { gl.disable(gl.DEPTH_TEST); gl.enable(gl.CULL_FACE); gl.cullFace(gl.FRONT); gridUse(progV, 'box', cur.vt.w, 'w');
+        gl.uniform3fv(gl.getUniformLocation(progV, 'eye'), cam.eye); gl.uniform3fv(gl.getUniformLocation(progV, 'bmin'), geo.box.mn); gl.uniform3fv(gl.getUniformLocation(progV, 'bmax'), geo.box.mx);
+        gl.uniform1f(gl.getUniformLocation(progV, 'thr'), unphys('w', Math.pow(10, S.thr))); gl.uniform1f(gl.getUniformLocation(progV, 'dens'), 60);
+        gl.drawArrays(gl.TRIANGLES, 0, 36); gl.disable(gl.CULL_FACE); gl.enable(gl.DEPTH_TEST); }
       gl.disable(gl.BLEND); gl.depthMask(true); }
-    if (Ly.has('stream') && S.playing && !document.hidden) raf = requestAnimationFrame(frame);
+    if (((Ly.has('stream') && S.playing) || (S.slice.sweep && Ly.has('slice'))) && !document.hidden) raf = requestAnimationFrame(frame);
   }
   function particles(now) { const L = cur.lines, P = geo.part; let k = 0;
     for (let i = 0; i < L.length; i++) { const pts = L[i], n = pts.length; for (let j = 0; j < 2; j++) { const u = ((now * 0.015 / n + j / 2 + i * 0.137) % 1) * (n - 1), a = Math.floor(u), f = u - a, p = pts[a], q = pts[Math.min(n - 1, a + 1)];
@@ -164,11 +212,14 @@ const CfdViz = (() => {
 
   // ---- legend, numbers, residual history, mesh comparison ----
   const stopsOf = (f, lo, hi) => { const out = [], n = 30; for (let i = 0; i <= n; i++) out.push(`rgb(${colOf(f, lo + (hi - lo) * i / n).map(x => Math.round(x * 255)).join(',')}) ${(i / n * 100).toFixed(1)}%`); return out.join(','); };
-  function legend() { const f = FIELDS[S.field], pf = PLANES[S.plane], pa = Math.max(-pf.lo, pf.hi); let h = '';
+  function legend() { const f = FIELDS[S.field]; let h = '';
     if (f && S.layers.has('surface')) { const lo = f.mid != null ? -Math.max(-f.lo, f.hi) : f.lo, hi = f.mid != null ? Math.max(-f.lo, f.hi) : f.hi;
-      h += `<span class="cf-lk">Surface${S.layers.has('sym') ? ' and symmetry slice' : ''}: ${f.label}</span><span>${lo.toFixed(1)}</span><span class="fz-bar" style="background:linear-gradient(90deg,${stopsOf(f, lo, hi)})"></span><span>${hi.toFixed(1)}</span>`; }
+      h += `<span class="cf-lk">Surface: ${f.label}</span><span>${lo.toFixed(1)}</span><span class="fz-bar" style="background:linear-gradient(90deg,${stopsOf(f, lo, hi)})"></span><span>${hi.toFixed(1)}</span>`; }
     if (S.layers.has('stream')) h += `<span class="cf-lk">Streamlines: speed |V|/V∞</span><span>0.4</span><span class="fz-bar" style="background:linear-gradient(90deg,${stopsOf(FIELDS.s, 0.4, 1.5)})"></span><span>1.5</span>`;
-    if (S.layers.has('planes')) h += `<span class="cf-lk">Wake planes (X = ${(cur ? cur.planes.map(p => (-p.x).toFixed(2)).join(', ') : '')} m): ${pf.label}; faint where near zero</span><span>${(-pa).toFixed(2)}</span><span class="fz-bar" style="background:linear-gradient(90deg,${stopsOf(pf, -pa, pa)})"></span><span>${pa.toFixed(2)}</span>`;
+    const vbar = q => { const f = VQ[q], n = 30, st = []; for (let i = 0; i <= n; i++) { const x = f.log ? f.lo * Math.pow(f.hi / f.lo, i / n) : f.lo + (f.hi - f.lo) * i / n; st.push(`rgb(${vcol(q, x).map(v => Math.round(v * 255)).join(',')}) ${(i / n * 100).toFixed(1)}%`); }
+      return `<span>${f.lo}</span><span class="fz-bar" style="background:linear-gradient(90deg,${st.join(',')})"></span><span>${f.hi}</span>`; };
+    if (S.layers.has('slice') && gl2) h += `<span class="cf-lk">Slice: ${VQ[S.slice.q].label}; faint where the flow is undisturbed</span>${vbar(S.slice.q)}`;
+    if (S.layers.has('vol') && gl2) h += `<span class="cf-lk">Vortex volume: ${VQ.w.label} above ${Math.pow(10, S.thr).toFixed(1)}; not shown within 24 mm of a wall, where the 12 mm grid cannot resolve the flow</span>${vbar('w')}`;
     if (S.layers.has('cut') && D.cut) h += `<span class="cf-lk">Volume cut at X = ${(-D.cut.x).toFixed(2)} m (${D.cut.count.toLocaleString()} tetrahedra): shape quality 0 → 1</span><span class="fz-bar" style="background:linear-gradient(90deg,${[0, .3, .6, 1].map(t => `rgb(${ramp('qual', t).map(x => Math.round(x * 255)).join(',')}) ${t * 100}%`).join(',')})"></span>`;
     $('#cfLegend').innerHTML = h; }
   const f4 = x => x == null ? '—' : (+x).toFixed(4), f3 = x => x == null ? '—' : (+x).toFixed(3);
@@ -221,22 +272,35 @@ const CfdViz = (() => {
   }
 
   // ---- case selection and controls ----
-  async function choose(name) { busy = true; $('#cfNote').textContent = 'Loading ' + name + ' …'; cur = await loadCase(name); buildFields(cur); numbers(name); busy = false;
+  async function choose(name) { busy = true; $('#cfNote').textContent = 'Loading ' + name + ' …'; cur = await loadCase(name);
+    if (gl2 && D.vol && D.cases[name].vol) { $('#cfNote').textContent = 'Loading the 3-D field …'; cur.vt = { [S.slice.q]: await volTex(name, S.slice.q), w: await volTex(name, 'w') }; }
+    buildFields(cur); numbers(name); busy = false;
     const c = D.cases[name]; $('#cfNote').textContent = `Case ${name}: cruise, V∞ ${D.results.conditions.V_mps} m/s, α ${c.alpha}°, β 0°, elevator 0°, power off; mesh L${D.level} (${D.levels[D.level].tetrahedra.toLocaleString()} tetrahedra).`;
     document.querySelectorAll('#cfCases button').forEach(b => b.setAttribute('aria-pressed', b.dataset.case === name)); draw(); }
   async function init() {
     cv = $('#cfCanvas'); tip = $('#cfTip'); if (!cv) return; started = true;
     D = JSON.parse(document.getElementById('cfd3dData').textContent); tables();
     if (typeof DecompressionStream === 'undefined') { $('#cfNote').textContent = 'This browser cannot inflate the embedded CFD data (no DecompressionStream). Use a current Chrome, Edge, Firefox or Safari 16.4+.'; return; }
-    gl = cv.getContext('webgl', { antialias: true }); if (!gl || !gl.getExtension('OES_element_index_uint')) { $('#cfNote').textContent = 'WebGL with 32-bit indices is not available in this browser.'; return; }
-    gl.getExtension('OES_standard_derivatives'); progS = prog(VS, FS); gl.enable(gl.POLYGON_OFFSET_FILL); gl.polygonOffset(1, 1);
+    gl = cv.getContext('webgl2', { antialias: true }); gl2 = !!gl;
+    if (!gl) { gl = cv.getContext('webgl', { antialias: true }); if (!gl || !gl.getExtension('OES_element_index_uint')) { $('#cfNote').textContent = 'WebGL with 32-bit indices is not available in this browser.'; return; } gl.getExtension('OES_standard_derivatives'); }
+    // WebGL2 compiles the same surface shader as GLSL ES 3.00 (derivatives are core there; the 1.00 extension directive is rejected)
+    progS = gl2 ? prog('#version 300 es\n' + VS.replace(/attribute /g, 'in ').replace(/varying /g, 'out '), FS.replace(/^#extension[^\n]*\n/, '#version 300 es\n').replace(/varying /g, 'in ').replace('void main(){', 'out vec4 fragC; void main(){').replace('gl_FragColor', 'fragC')) : prog(VS, FS);
+    if (gl2 && D.vol) { progSl = prog(VS3, FS_SL); progV = prog(VS3, FS_V); } else document.querySelectorAll('.cf-gl2').forEach(e => { e.hidden = true; }); gl.enable(gl.POLYGON_OFFSET_FILL); gl.polygonOffset(1, 1);
     $('#cfNote').textContent = 'Inflating the mesh …'; await loadGeometry(); reset('iso');
+    if (gl2 && D.vol) { geo.box = boxTris(); vbo('box', geo.box.P); }
     const names = Object.keys(D.cases).sort((a, b) => D.cases[a].alpha - D.cases[b].alpha);
     $('#cfCases').innerHTML = names.map(n => `<button type="button" data-case="${n}">α ${D.cases[n].alpha}°</button>`).join('');
     $('#cfCases').addEventListener('click', e => { const b = e.target.closest('button'); if (b && !busy) choose(b.dataset.case); });
     const radio = (sel, key, attr) => document.querySelectorAll(sel + ' button').forEach(b => b.addEventListener('click', () => { S[key] = b.dataset[attr]; document.querySelectorAll(sel + ' button').forEach(x => x.setAttribute('aria-pressed', x === b)); if (cur) buildFields(cur); draw(); }));
-    radio('#cfField', 'field', 'f'); radio('#cfPlaneF', 'plane', 'p');
-    document.querySelectorAll('#cfLayers input[type=checkbox][value]').forEach(i => { i.checked = S.layers.has(i.value); i.addEventListener('change', () => { i.checked ? S.layers.add(i.value) : S.layers.delete(i.value); legend(); draw(); }); });
+    radio('#cfField', 'field', 'f');
+    document.querySelectorAll('#cfSliceAx button').forEach(b => b.addEventListener('click', () => { S.slice.axis = b.dataset.ax; S.slice.u = { x: 0.42, z: 0, y: 0.5 }[b.dataset.ax]; document.querySelectorAll('#cfSliceAx button').forEach(x => x.setAttribute('aria-pressed', x === b)); syncSlider(); draw(); }));
+    document.querySelectorAll('#cfSliceQ button').forEach(b => b.addEventListener('click', async () => { S.slice.q = b.dataset.q; document.querySelectorAll('#cfSliceQ button').forEach(x => x.setAttribute('aria-pressed', x === b));
+      if (cur && gl2 && !cur.vt[S.slice.q]) cur.vt[S.slice.q] = await volTex(cur.name, S.slice.q); legend(); draw(); }));
+    const sp = $('#cfSlicePos'); if (sp) sp.addEventListener('input', () => { S.slice.u = sp.value / 1000; S.slice.sweep = false; const b = $('#cfSweep'); if (b) { b.setAttribute('aria-pressed', 'false'); b.textContent = 'Sweep'; } syncSlider(); draw(); });
+    const sw = $('#cfSweep'); if (sw) sw.addEventListener('click', () => { S.slice.sweep = !S.slice.sweep; S.slice.t0 = performance.now() - Math.acos(1 - 2 * S.slice.u) / (2 * Math.PI) * 9000; sw.setAttribute('aria-pressed', S.slice.sweep); sw.textContent = S.slice.sweep ? 'Stop' : 'Sweep'; draw(); });
+    const th = $('#cfThr'); if (th) th.addEventListener('input', () => { S.thr = th.value / 100; legend(); draw(); });
+    syncSlider();
+    document.querySelectorAll('#cfLayers input[type=checkbox][value], #cfSliceBar input[type=checkbox][value]').forEach(i => { i.checked = S.layers.has(i.value); i.addEventListener('change', () => { i.checked ? S.layers.add(i.value) : S.layers.delete(i.value); legend(); draw(); }); });
     document.querySelectorAll('#cfCam button').forEach(b => b.addEventListener('click', () => { reset(b.dataset.cam); draw(); }));
     $('#cfMirror').addEventListener('change', e => { S.mirror = e.target.checked; draw(); });
     $('#cfPlay').addEventListener('click', e => { S.playing = !S.playing; e.target.setAttribute('aria-pressed', !S.playing); e.target.textContent = S.playing ? 'Pause particles' : 'Play particles'; draw(); });

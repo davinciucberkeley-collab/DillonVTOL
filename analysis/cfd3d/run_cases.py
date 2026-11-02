@@ -174,9 +174,9 @@ def summary():
         last = rows[-1]
         def g(k):
             return last[col[k]] if k in col else None
-        meta = json.loads((d / "run.json").read_text()) if (d / "run.json").exists() else {}
+        meta = json.loads((d / "run.json").read_text(encoding="utf-8")) if (d / "run.json").exists() else {}
         lv, a = CASES[name]
-        mstats = json.loads((OUT / f"L{lv}" / "mesh_stats.json").read_text())
+        mstats = json.loads((OUT / f"L{lv}" / "mesh_stats.json").read_text(encoding="utf-8"))
         res["cases"][name] = {"level": lv, "alpha_deg": a, "iterations": int(g("Inner_Iter")) + 1 + leg1, "warm_start": meta.get("restart_from"),
                               "CL": g("CL"), "CD": g("CD"), "CMy": g("CMy"),
                               "rms_p_first": rows[0][col["rms[P]"]], "rms_p_last": g("rms[P]"),

@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-29 05:00",
+ "generated": "2026-11-01 19:03",
  "script": "analysis/validation/build_matrix.py",
  "sources": {
   "claims_aero.json": {
@@ -13,7 +13,7 @@
    "n": 34
   },
   "claims_cfd.json": {
-   "generated": "2026-10-29 05:00",
+   "generated": "2026-11-01 19:03",
    "author": "analysis/cfd3d/verify_cfd.py",
    "n": 12
   },
@@ -337,7 +337,7 @@
      "what": "J05 load check on rev B/C coordinates (114 N vs 102.9 N now)"
     }
    ],
-   "ran_evidence": "\u00e2\u20ac\u201d",
+   "ran_evidence": "\u2014",
    "reproduced": {
     "done": true,
     "how": "cross-read spec vs params.txt and hardware.json",
@@ -421,10 +421,10 @@
     "T = m g L"
    ],
    "assumptions": [
-    "all torques EST; insert torque-out \u00e2\u20ac\u201d"
+    "all torques EST; insert torque-out \u2014"
    ],
    "inputs": {},
-   "tool": "hardware.json torque_basis / hardware-spec \u00c2\u00a72d",
+   "tool": "hardware.json torque_basis / hardware-spec \u00a72d",
    "evidence": [
     {
      "file": "cad/hardware.json",
@@ -435,7 +435,7 @@
      "what": "M3 insert torque-out coupon"
     }
    ],
-   "ran_evidence": "\u00e2\u20ac\u201d",
+   "ran_evidence": "\u2014",
    "reproduced": {
     "done": false,
     "how": "",
@@ -468,14 +468,14 @@
    "evidence": [
     {
      "file": "docs/build/BUILD-MANUAL.md",
-     "what": "2.2 \"Foam-safe glue 4 oz\"; 4.7 \"cure 24 h (glue label \u00e2\u20ac\u201d)\""
+     "what": "2.2 \"Foam-safe glue 4 oz\"; 4.7 \"cure 24 h (glue label \u2014)\""
     },
     {
      "file": "docs/research/airframe-materials.md",
      "what": "WEST 105/205 data present but not the selected adhesive"
     }
    ],
-   "ran_evidence": "\u00e2\u20ac\u201d",
+   "ran_evidence": "\u2014",
    "reproduced": {
     "done": false,
     "how": "",
@@ -1212,7 +1212,7 @@
     },
     {
      "file": "cad/drawings/DBF-DRW-001_sheet4.png",
-     "what": "CHECKED \"\u00e2\u20ac\u201d\", no approval; foam features (spar station 85.3, boom station 353.7) carry only the printed-part tolerance rule"
+     "what": "CHECKED \"\u2014\", no approval; foam features (spar station 85.3, boom station 353.7) carry only the printed-part tolerance rule"
     }
    ],
    "ran_evidence": "Drawing files written 2026-10-25 14:46.",
@@ -1732,7 +1732,7 @@
    ],
    "assumptions": [
     "socket may sit anywhere in the channel during cure",
-    "root-face squareness \u00e2\u20ac\u201d"
+    "root-face squareness \u2014"
    ],
    "inputs": {
     "channel_clear_max_mm": 1.2020000000000017,
@@ -1767,7 +1767,7 @@
     "script": "analysis/validation/check_struct.py#MFG-STACKS"
    },
    "limitations": [
-    "Root-face squareness of hot-wired cores is not specified (\u00e2\u20ac\u201d)."
+    "Root-face squareness of hot-wired cores is not specified (\u2014)."
    ],
    "next_step": "Bond both sockets with the joiner installed through the saddle on a flat jig (or bond with a dummy joiner), then check the panel seats with a 0.1 mm feeler.",
    "id": "MFG-06",
@@ -1787,7 +1787,7 @@
    ],
    "assumptions": [
     "aerodynamic centre at 25 % c EST",
-    "Cm0 \u00e2\u20ac\u201d"
+    "Cm0 \u2014"
    ],
    "inputs": {
     "chord_m": 0.284176
@@ -1821,7 +1821,7 @@
    "discipline": "structures",
    "claim": "Wing panel retention bolt J10 (one M5 A2 per side, 70 % chord) only stops the panel sliding off and rotating; bending is in the joiner.",
    "status": "Unverified",
-   "status_reason": "Audit: ~18 N bolt force at ultimate (0.3 % of M5 shear capacity, 0.6 MPa on the 6.4 mm PETG tongue) - not a strength risk. Unverified because PETG strength and the tongue-to-foam bond strength are not in the repo, and the 1,250 N preload (27 MPa on PETG) may creep (PETG properties \u00e2\u20ac\u201d).",
+   "status_reason": "Audit: ~18 N bolt force at ultimate (0.3 % of M5 shear capacity, 0.6 MPa on the 6.4 mm PETG tongue) - not a strength risk. Unverified because PETG strength and the tongue-to-foam bond strength are not in the repo, and the 1,250 N preload (27 MPa on PETG) may creep (PETG properties \u2014).",
    "source_file": "analysis/validation/claims_struct.json"
   },
   {
@@ -2237,7 +2237,7 @@
     "script": "analysis/validation/check_struct.py#STR-07"
    },
    "limitations": [
-    "Slip fit (0.23 mm nominal clearance) loads the joiner by line contact at the socket mouth and the stop; local stresses \u00e2\u20ac\u201d.",
+    "Slip fit (0.23 mm nominal clearance) loads the joiner by line contact at the socket mouth and the stop; local stresses \u2014.",
     "Fatigue: 157 MPa at ultimate = 105 MPa at limit, above the 97 MPa RR Moore fatigue strength (5e8 cycles); manoeuvre cycles are few, but gust cycles are not counted."
    ],
    "next_step": "FEA the true joiner inside the sockets with contact (or a bonded-shim variant); proof-load S01 with a Schrenk schedule to 3.0 g and inspect the sockets.",
@@ -2872,7 +2872,7 @@
    "discipline": "structures",
    "claim": "Boom-to-wing clamps: single motor at Tmax puts ~114 N tension into the rear clamp (57 N per M3 screw into inserts).",
    "status": "Unverified",
-   "status_reason": "Repo calc uses stale rev B/C coordinates (current value 102.9 N, front clamp 133.6 N). The capacity side is missing: M3 insert pull-out in PETG/PA6-CF \u00e2\u20ac\u201d, rear hardpoint 60 x 46 mm plate bond to XPS at 37 kPa (no XPS/foam-safe-glue strength in the repo, \u00e2\u20ac\u201d).",
+   "status_reason": "Repo calc uses stale rev B/C coordinates (current value 102.9 N, front clamp 133.6 N). The capacity side is missing: M3 insert pull-out in PETG/PA6-CF \u2014, rear hardpoint 60 x 46 mm plate bond to XPS at 37 kPa (no XPS/foam-safe-glue strength in the repo, \u2014).",
    "source_file": "analysis/validation/claims_struct.json"
   },
   {
@@ -2888,7 +2888,7 @@
     "tail-side mass per boom 0.30 kg EST roll-up",
     "arm 0.30 m",
     "n 4.5",
-    "tail aero load \u00e2\u20ac\u201d"
+    "tail aero load \u2014"
    ],
    "inputs": {
     "m_tail_side_kg (EST roll-up)": 0.29680529,
@@ -2921,7 +2921,7 @@
     "script": "analysis/validation/check_struct.py#STR-12"
    },
    "limitations": [
-    "Tail aerodynamic loads not in the repo (\u00e2\u20ac\u201d)."
+    "Tail aerodynamic loads not in the repo (\u2014)."
    ],
    "next_step": "Ream the cross-holes to 3.0 H8 on assembly or bond the plug; measure splice droop in M7.",
    "id": "STR-12",
@@ -2929,7 +2929,7 @@
    "discipline": "structures",
    "claim": "Boom splice J04 (printed plug + 2 x M3 cross-bolts at the rear motor) carries axial and torsional load; no strength figure is given.",
    "status": "Unverified",
-   "status_reason": "Audit EST: 109 N per bolt, 11 MPa double shear (3 % of capacity), 20 MPa wall bearing: strength is ample, but stiffness is not controlled: \u00c3\u02dc3.4 holes and the FT04 plug clearance give up to 1.3 deg of free rotation at the splice (tail incidence / pusher-tail alignment).",
+   "status_reason": "Audit EST: 109 N per bolt, 11 MPa double shear (3 % of capacity), 20 MPa wall bearing: strength is ample, but stiffness is not controlled: \u00d83.4 holes and the FT04 plug clearance give up to 1.3 deg of free rotation at the splice (tail incidence / pusher-tail alignment).",
    "source_file": "analysis/validation/claims_struct.json"
   },
   {
@@ -3064,7 +3064,7 @@
    "discipline": "structures",
    "claim": "Boom tip deflection at max thrust 2.70 mm FEA vs 2.84 mm hand (-4.8 %).",
    "status": "Partially Verified",
-   "status_reason": "Solver and hand agree within 2.2 % once the load position is matched (the repo's -4.8 % gap is the load-position difference). BC is not representative: the real root is a printed PETG split clamp bonded to a foam hardpoint, which adds rotation (stiffness \u00e2\u20ac\u201d).",
+   "status_reason": "Solver and hand agree within 2.2 % once the load position is matched (the repo's -4.8 % gap is the load-position difference). BC is not representative: the real root is a printed PETG split clamp bonded to a foam hardpoint, which adds rotation (stiffness \u2014).",
    "source_file": "analysis/validation/claims_struct.json"
   },
   {
@@ -3108,7 +3108,7 @@
     "script": "analysis/validation/check_struct.py#STR-04"
    },
    "limitations": [
-    "Root compliance lowers f1 further (\u00e2\u20ac\u201d).",
+    "Root compliance lowers f1 further (\u2014).",
     "Spool-up passes through f1 (subcritical start); not assessed.",
     "Hover rpm is an estimate (BLHeli_S has no telemetry)."
    ],
@@ -3169,7 +3169,7 @@
    "discipline": "structures",
    "claim": "Clamp friction (4 x M3 at 0.5 N m, mu 0.3) gives ~16 N m about the boom axis, so no cross-bolts are needed at the clamps.",
    "status": "Partially Verified",
-   "status_reason": "Repo arithmetic reproduced; with dry threads the capacity halves to 7.3 N m, still 11x the EST max motor reaction torque 0.66 N m (1.6 MPa lateral boom stress). Depends on insert torque-out (\u00e2\u20ac\u201d) and mu (EST); M7 test closes it.",
+   "status_reason": "Repo arithmetic reproduced; with dry threads the capacity halves to 7.3 N m, still 11x the EST max motor reaction torque 0.66 N m (1.6 MPa lateral boom stress). Depends on insert torque-out (\u2014) and mu (EST); M7 test closes it.",
    "source_file": "analysis/validation/claims_struct.json"
   },
   {
@@ -3475,7 +3475,7 @@
     "matches": true
    },
    "independent_check": {
-    "method": "copper loss I^2 R (no-load loss \u00e2\u20ac\u201d)",
+    "method": "copper loss I^2 R (no-load loss \u2014)",
     "value": 13.22,
     "repo_value": 45.62,
     "delta_pct": -71.03,
@@ -3490,7 +3490,7 @@
    "discipline": "thermal",
    "claim": "Lift motor heat 45.6 W in hover = 20 % of 228 W input (EST, 80 % motor+ESC efficiency).",
    "status": "Unverified",
-   "status_reason": "Copper loss is 13.2 W; iron/bearing loss needs the no-load current I0, which is not in the repo (\u00e2\u20ac\u201d). The 20 % rule also puts ESC loss into the motor body, double-counting the separate 9.1 W ESC load in the lift-unit model.",
+   "status_reason": "Copper loss is 13.2 W; iron/bearing loss needs the no-load current I0, which is not in the repo (\u2014). The 20 % rule also puts ESC loss into the motor body, double-counting the separate 9.1 W ESC load in the lift-unit model.",
    "source_file": "analysis/validation/claims_struct.json"
   },
   {
@@ -3741,7 +3741,7 @@
     "script": "analysis/validation/check_struct.py#THM-05"
    },
    "limitations": [
-    "SoloGood publishes no efficiency or temperature limit (\u00e2\u20ac\u201d)."
+    "SoloGood publishes no efficiency or temperature limit (\u2014)."
    ],
    "next_step": "Thermocouple on the ESC FETs during C08.",
    "id": "THM-05",
@@ -4158,7 +4158,7 @@
    "evidence": [
     {
      "file": "analysis/thermal/thermal_results.json",
-     "what": "Flight controller mission peak 96.8, limit None, status \"\u00e2\u20ac\u201d\""
+     "what": "Flight controller mission peak 96.8, limit None, status \"\u2014\""
     }
    ],
    "ran_evidence": "cad/sim/thermal/*.LOG written 2026-10-27 03:04-11:33 (lift unit 35,056 el, pod 119,514 el, pusher 51,899 el, motor-only 7,731 el); .CWR/.HTQ/.P42 present; cad/sim/thermal/results.txt generated 2026-10-27 03:03; thermal_results.json 2026-10-27T11:38. Not re-run.",
@@ -4183,7 +4183,7 @@
    "discipline": "thermal",
    "claim": "Flight controller in the closed pod bay reaches 96.8 C at mission end (no limit stated).",
    "status": "Partially Verified",
-   "status_reason": "Hand gives 89 C (FEA within 14 % of the rise). The finding is unresolved: ~90-97 C on the FC with no limit, no mitigation and no review flag. Likely over the electronics' rating (CoreWing limit \u00e2\u20ac\u201d).",
+   "status_reason": "Hand gives 89 C (FEA within 14 % of the rise). The finding is unresolved: ~90-97 C on the FC with no limit, no mitigation and no review flag. Likely over the electronics' rating (CoreWing limit \u2014).",
    "source_file": "analysis/validation/claims_struct.json"
   }
  ],
@@ -4305,8 +4305,8 @@
      "Battery-bay vents recommended by the thermal study not in CAD (THM-06)"
     ],
     "evidence": [
-     "docs/build/BUILD-MANUAL.md \u00c2\u00a78.2",
-     "docs/research/thermal.md \u00c2\u00a76"
+     "docs/build/BUILD-MANUAL.md \u00a78.2",
+     "docs/research/thermal.md \u00a76"
     ]
    },
    {
@@ -4322,7 +4322,7 @@
     ],
     "evidence": [
      "cad/sim/thermal/results.txt",
-     "docs/build/BUILD-MANUAL.md \u00c2\u00a78.2 item 5",
+     "docs/build/BUILD-MANUAL.md \u00a78.2 item 5",
      "cad/verification.txt"
     ]
    },
@@ -4499,7 +4499,7 @@
      0.137,
      0.707
     ],
-    "requirement": "\u00e2\u20ac\u201d (no alignment requirement stated); audit proposes <= 0.25 deg stub misalignment",
+    "requirement": "\u2014 (no alignment requirement stated); audit proposes <= 0.25 deg stub misalignment",
     "verdict": "Free tilt 0.6 deg nominal, 1.2 deg WC: needs a tighter plug or bonding."
    },
    {
