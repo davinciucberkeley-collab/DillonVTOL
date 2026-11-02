@@ -959,3 +959,16 @@ p.src.fold:hover{color:var(--fg-2)}p.src.fold:focus-visible{outline:2px solid va
 .measure-list[open]>summary{margin-bottom:8px}
 .report p.src.fold{display:block;-webkit-line-clamp:unset}.report p.src.fold::before{content:none}
 @media print{p.src.fold{display:block;-webkit-line-clamp:unset}p.src.fold::before{content:none}.measure-list>summary .mcount{display:none}}
+
+/* claims map: one row per claim, one proof open at a time */
+.vm-empty{color:var(--fg-2);display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.vm-rows{list-style:none;margin:8px 0;padding:0;border-top:1px solid var(--line)}
+.vm-rows li{border-bottom:1px solid var(--line)}
+.vm-row{display:flex;align-items:center;gap:10px;width:100%;min-height:40px;padding:6px 8px;background:none;border:0;color:var(--fg);text-align:left;cursor:pointer;font:inherit}
+.vm-row:hover,.vm-rows li.on>.vm-row{background:var(--surface-2)}
+.vm-row .vm-id{flex:0 0 auto;font-family:var(--f-mono);font-weight:700}
+.vm-row .chip{flex:0 0 auto}
+.vm-rt{flex:1 1 auto;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.9375rem}
+.vm-rows li.on .vm-rt{white-space:normal}
+.vm-rows .pf-card{margin:4px 0 12px}
+@media (max-width:560px){.vm-row{flex-wrap:wrap;gap:4px 8px}.vm-rt{flex-basis:100%;white-space:normal}}

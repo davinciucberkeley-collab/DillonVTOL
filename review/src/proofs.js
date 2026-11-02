@@ -123,9 +123,9 @@ const Proofs = (() => {
       ${s.note ? `<p class="pf-note">${esc(s.note)}</p>` : ''}<div class="pf-links"><span class="pf-lk">Used by</span> ${used.map(x => `<button type="button" class="pf-chip" data-claim="${esc(x)}">${esc(x)}</button>`).join(' ')}</div></article>`; }
   function open(id, panel, isSrc) { if (!panel || !load()) return; panel.innerHTML = isSrc ? srcCard(id) : card(id); wire(panel);
     const a = panel.firstElementChild; if (a) a.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); }
-  function wire(panel) { if (panel.dataset.wired) return; panel.dataset.wired = 1;
+  function wire(panel, onClaim) { if (panel.dataset.wired) return; panel.dataset.wired = 1;   // onClaim: the panel's own way to show a claim (the claims map keeps its list)
     panel.addEventListener('click', e => { const b = e.target.closest('[data-claim],[data-src]'); if (!b) return; e.preventDefault();
-      if (b.dataset.claim) open(b.dataset.claim, panel); else open(b.dataset.src, panel, true); });
+      if (b.dataset.claim) (onClaim ? onClaim(b.dataset.claim) : open(b.dataset.claim, panel)); else open(b.dataset.src, panel, true); });
     panel.addEventListener('mouseover', e => { const m = e.target.closest('.pf-v,.pf-n'); const art = e.target.closest('.pf-card'); if (!art) return;
       art.querySelectorAll('.pf-vt tr.on').forEach(r => r.classList.remove('on')); if (!m) { if (tip) tip.hidden = true; return; }
       const p = P.claims[art.dataset.id]; if (!p || !p.vars) return; const k = +m.dataset.i, v = p.vars[k];

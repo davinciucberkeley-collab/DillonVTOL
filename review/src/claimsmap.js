@@ -56,8 +56,19 @@ const ClaimsMap = (() => {
   function show(comp) { sel = comp; chips(); const list = V.claims.filter(c => !comp || c.component === comp);
     const lab = comp ? V.component_labels[comp] : 'All components', ch = comp && V.component_chapter[comp];
     const cnt = ORDER.map(s => [s, list.filter(c => c.status === s).length]).filter(([, n]) => n).map(([s, n]) => `<span class="chip ${CHIP[s]}">${n} ${s}</span>`).join(' ');
-    $('#vmPanel').innerHTML = `<div class="vm-ph"><h4>${esc(lab)}</h4><div>${cnt}</div>${ch ? `<a class="xref" href="#${ch}">Evidence chapter</a>` : ''}</div>${list.map(c => Proofs.card(c.id)).join('') || '<p>No claims recorded for this component.</p>'}`; Proofs.wire($('#vmPanel'));
+    // compact: nothing listed until a part is chosen; then one row per claim, and one proof card open at a time
+    const PR = document.getElementById('proofData') && (show.pr = show.pr || JSON.parse(document.getElementById('proofData').textContent).claims);
+    const mark = id => { const r = PR && PR[id] && PR[id].result; return !r ? '' : r.reproduced === true ? '<span class="pf-ok" title="Re-runs to the same number">✓</span>' : r.reproduced === false ? '<span class="pf-bad" title="Re-runs to a different number">✗</span>' : ''; };
+    $('#vmPanel').innerHTML = !comp ? `<p class="vm-empty">Click a part, a component above or an equation label to see its claims. ${cnt}</p>`
+      : `<div class="vm-ph"><h4>${esc(lab)}</h4><div>${cnt}</div>${ch ? `<a class="xref" href="#${ch}">Evidence chapter</a>` : ''}</div>`
+        + (list.length ? `<ul class="vm-rows">${list.map(c => `<li data-id="${esc(c.id)}"><button type="button" class="vm-row" aria-expanded="false"><span class="vm-id">${esc(c.id)}</span><span class="chip ${CHIP[c.status]}">${esc(c.status)}</span><span class="vm-rt">${esc(c.claim)}</span>${mark(c.id)}</button></li>`).join('')}</ul>` : '<p>No claims recorded for this component.</p>');
     draw(); }
+  function expand(id, scroll) { const li = document.querySelector(`#vmPanel li[data-id="${id}"]`); if (!li) return;
+    document.querySelectorAll('#vmPanel li.on').forEach(x => { if (x !== li) { x.classList.remove('on'); x.querySelector('.vm-row').setAttribute('aria-expanded', 'false'); const c = x.querySelector('.pf-card'); if (c) c.remove(); } });
+    const open = !li.classList.contains('on'); li.classList.toggle('on', open); li.querySelector('.vm-row').setAttribute('aria-expanded', String(open));
+    const c = li.querySelector('.pf-card'); if (c) c.remove();
+    if (open) { li.insertAdjacentHTML('beforeend', Proofs.card(id)); if (scroll) li.scrollIntoView({ behavior: 'smooth', block: 'start' }); } }
+  function goClaim(id) { const c = V.claims.find(x => x.id === id); if (!c) return; if (sel !== c.component) show(c.component); expand(id, true); }
   function table() {
     const f = { st: $('#vmFStatus').value, di: $('#vmFDisc').value, q: $('#vmFText').value.toLowerCase() };
     const rows = V.claims.filter(c => (!f.st || c.status === f.st) && (!f.di || c.discipline === f.di) && (!f.q || (c.id + ' ' + c.claim + ' ' + c.status_reason).toLowerCase().includes(f.q)));
@@ -158,8 +169,10 @@ const ClaimsMap = (() => {
     for (const id of ['#vmFStatus', '#vmFDisc', '#vmFText']) $(id).addEventListener('input', table);
     $('#vmChips').addEventListener('click', e => { const b = e.target.closest('button'); if (b) show(b.dataset.comp === sel ? null : b.dataset.comp); });
     $('#vmTable').addEventListener('click', e => { const a = e.target.closest('.vm-go'); if (!a) return; e.preventDefault(); Proofs.open(a.dataset.id, $('#pfPanel')); });
-    $('#vmPtrLayer').addEventListener('click', e => { const b = e.target.closest('.vm-ptr'); if (!b) return; const c = V.claims.find(x => x.id === b.dataset.id); if (c) { sel = c.component; chips(); draw(); }
-      Proofs.open(b.dataset.id, $('#vmPanel')); });
+    $('#vmPtrLayer').addEventListener('click', e => { const b = e.target.closest('.vm-ptr'); if (!b) return;
+      goClaim(b.dataset.id); });
+    $('#vmPanel').addEventListener('click', e => { const r = e.target.closest('.vm-row'); if (r) expand(r.parentElement.dataset.id, false); });
+    Proofs.wire($('#vmPanel'), goClaim);
     $('#vmPtrs').addEventListener('change', draw); }
   const shown = el => el && !el.closest('[hidden]');
   return { redraw() { if (!document.getElementById('validData')) return;

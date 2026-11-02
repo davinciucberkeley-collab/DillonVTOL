@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-01 19:03",
+ "generated": "2026-11-01 19:12",
  "script": "analysis/validation/check_struct.py",
  "material": {
   "E_Pa": 69000000000.0,
@@ -672,5 +672,5 @@
    "pa6cf_density_TDS": 1170
   }
  },
- "runtime_s": 0.61
+ "runtime_s": 0.52
 }
