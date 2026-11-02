@@ -1,0 +1,719 @@
+{
+ "script": "analysis/mass/mass_budget.py",
+ "inputs": [
+  "cad/verification.txt",
+  "docs/build/print-list.csv",
+  "analysis/results.json"
+ ],
+ "calibration": {
+  "mMount": 0.1035,
+  "boomClamp": 0.0445,
+  "mFus": 0.5672,
+  "mGear": 0.5171,
+  "mAvionics": 0.418,
+  "mPusherSet": 0.2569,
+  "mServos": 0.2656,
+  "mWingHardware": 0.2528,
+  "mFasteners": 0.1641,
+  "mTailHardware": 0.1152,
+  "sigmaTail": 0.3509,
+  "_why": {
+   "mMount": "motor mount upper + cap (PA6-CF, solid, TDS density) + steel prop plate, per lift unit",
+   "boomClamp": "splice plugs + front and rear boom clamp sets, per clamp position (2 per boom x 2 booms)",
+   "mFus": "pod foam, canopy, trays, pitot, printed frames (EST)",
+   "mGear": "legs, gear clamps, fairings, dome feet",
+   "mAvionics": "flight controller (CAD) + other avionics (EST) + printed pads",
+   "mPusherSet": "motor, prop, cup, adapter, washer, nut (ESC in mEsc)",
+   "mServos": "5 servos + trays + horns + pushrods",
+   "mWingHardware": "printed wing hardpoints, pillar, tongue, stops, saddle plates",
+   "mFasteners": "every screw, nut, washer and heat-set insert in the CAD",
+   "mTailHardware": "fin shoes, tail clamps, crush sleeves",
+   "sigmaTail": "kg/m2: CAD tail foam (stabiliser 9 mm, fins) over S_h + S_v, plus the two tape skins (2 x wGlass)"
+  },
+  "stations": {
+   "cad_noseX": 0.6,
+   "cad_chord": 0.320765,
+   "pod_from_nose": 0.4359,
+   "avionics_from_nose": 0.225,
+   "battery_fwd_limit_from_nose": 0.261,
+   "fasteners_frac_chord": -0.8291,
+   "wing_frac_chord": -0.3849,
+   "gear_frac_chord": -0.2853,
+   "_why": "group centroids of the CAD instances (mesh centroid at each comp= placement); the battery's forward limit is the CAD rev D battery station, the furthest forward the 6S pack is shown to fit in the nose taper"
+  }
+ },
+ "total_kg": 7.4159,
+ "sizing_mtow_kg": 7.4084524,
+ "groups": [
+  {
+   "group": "Wing",
+   "bottom_up_g": 1809.4,
+   "sizing_g": 1826.0,
+   "delta_g": -16.6
+  },
+  {
+   "group": "Lift units",
+   "bottom_up_g": 1270.1,
+   "sizing_g": 1302.0,
+   "delta_g": -31.9
+  },
+  {
+   "group": "Battery (placed for CG)",
+   "bottom_up_g": 820.0,
+   "sizing_g": 820.0,
+   "delta_g": 0.0
+  },
+  {
+   "group": "Booms + clamps",
+   "bottom_up_g": 743.2,
+   "sizing_g": 744.0,
+   "delta_g": -0.8
+  },
+  {
+   "group": "Fuselage pod",
+   "bottom_up_g": 567.2,
+   "sizing_g": 569.0,
+   "delta_g": -1.8
+  },
+  {
+   "group": "Landing gear",
+   "bottom_up_g": 517.1,
+   "sizing_g": 517.0,
+   "delta_g": 0.1
+  },
+  {
+   "group": "Avionics",
+   "bottom_up_g": 418.0,
+   "sizing_g": 397.0,
+   "delta_g": 21.0
+  },
+  {
+   "group": "Wiring",
+   "bottom_up_g": 370.0,
+   "sizing_g": 370.0,
+   "delta_g": 0.0
+  },
+  {
+   "group": "Servos (5)",
+   "bottom_up_g": 265.6,
+   "sizing_g": 266.0,
+   "delta_g": -0.4
+  },
+  {
+   "group": "Pusher set",
+   "bottom_up_g": 256.9,
+   "sizing_g": 257.0,
+   "delta_g": -0.1
+  },
+  {
+   "group": "Fasteners and inserts",
+   "bottom_up_g": 221.0,
+   "sizing_g": 164.0,
+   "delta_g": 57.0
+  },
+  {
+   "group": "Tail",
+   "bottom_up_g": 157.4,
+   "sizing_g": 176.0,
+   "delta_g": -18.6
+  },
+  {
+   "group": "Payload allowance (bay)",
+   "bottom_up_g": 0,
+   "sizing_g": 0,
+   "delta_g": 0
+  }
+ ],
+ "rows": [
+  {
+   "part": "Aileron_L",
+   "qty": 1,
+   "mass_g": 23.2,
+   "group": "Wing",
+   "basis": "foam: CAD volume x 32 kg/m3 (SRC-15)"
+  },
+  {
+   "part": "Aileron_R",
+   "qty": 1,
+   "mass_g": 23.2,
+   "group": "Wing",
+   "basis": "foam: CAD volume x 32 kg/m3 (SRC-15)"
+  },
+  {
+   "part": "Battery_6S_LiPo",
+   "qty": 1,
+   "mass_g": 820.0,
+   "group": "Battery (placed for CG)",
+   "basis": "vendor: fixed 820 g: Ovonic 6S 6500 (budget-energy-test.md 1)"
+  },
+  {
+   "part": "Battery_Tray",
+   "qty": 1,
+   "mass_g": 35.0,
+   "group": "Fuselage pod",
+   "basis": "printed (P21, 3 walls, 25 % gyroid, docs/build/print-list.csv)"
+  },
+  {
+   "part": "Bolt_Pillar",
+   "qty": 2,
+   "mass_g": 7.4,
+   "group": "Wing",
+   "basis": "printed (P14, 100% walls walls, 100 % \u2014, docs/build/print-list.csv)"
+  },
+  {
+   "part": "Boom_Clamp_F_Lower",
+   "qty": 2,
+   "mass_g": 27.33,
+   "group": "Booms + clamps",
+   "basis": "printed (P05, 4 walls, 40 % gyroid, docs/build/print-list.csv)"
+  },
+  {
+   "part": "Boom_Clamp_F_Upper",
+   "qty": 2,
+   "mass_g": 22.67,
+   "group": "Booms + clamps",
+   "basis": "printed (P05, 4 walls, 40 % gyroid, docs/build/print-list.csv)"
+  },
+  {
+   "part": "Boom_Clamp_R_Lower",
+   "qty": 2,
+   "mass_g": 26.73,
+   "group": "Booms + clamps",
+   "basis": "printed (P06, 4 walls, 40 % gyroid, docs/build/print-list.csv)"
+  },
+  {
+   "part": "Boom_Clamp_R_Upper",
+   "qty": 2,
+   "mass_g": 51.27,
+   "group": "Booms + clamps",
+   "basis": "printed (P06, 4 walls, 40 % gyroid, docs/build/print-list.csv)"
+  },
+  {
+   "part": "Boom_Front",
+   "qty": 2,
+   "mass_g": 385.7,
+   "group": "Booms + clamps",
+   "basis": "tube: CAD volume x 2700 kg/m3 (SRC-09)"
+  },
+  {
+   "part": "Boom_Rear_Stub",
+   "qty": 2,
+   "mass_g": 179.5,
+   "group": "Booms + clamps",
+   "basis": "tube: CAD volume x 2700 kg/m3 (SRC-09)"
+  },
+  {
+   "part": "Canopy",
+   "qty": 1,
+   "mass_g": 31.6,
+   "group": "Fuselage pod",
+   "basis": "foam: CAD volume x 32 kg/m3 (SRC-15)"
+  },
+  {
+   "part": "Control_Horn",
+   "qty": 5,
+   "mass_g": 3.8,
+   "group": "Servos (5)",
+   "basis": "CAD solid (no print-list row): 0.67 cm3 x 1140 kg/m3 (EST: nylon 6)"
+  },
+  {
+   "part": "Crush_Sleeve",
+   "qty": 4,
+   "mass_g": 1.2,
+   "group": "Tail",
+   "basis": "printed (P10, 100% walls walls, 100 % \u2014, docs/build/print-list.csv)"
+  },
+  {
+   "part": "Elevator",
+   "qty": 1,
+   "mass_g": 3.7,
+   "group": "Tail",
+   "basis": "foam: CAD volume x 32 kg/m3 (SRC-15)"
+  },
+  {
+   "part": "F01_M3x8_SHCS",
+   "qty": 20,
+   "mass_g": 19.6,
+   "group": "Fasteners and inserts",
+   "basis": "hardware: 0.12 cm3 x 7900 kg/m3 (EST: 18-8 stainless, typical 7.9 g/cm3 (vendor gives none))"
+  },
+  {
+   "part": "F02_M3x16_SHCS",
+   "qty": 36,
+   "mass_g": 51.3,
+   "group": "Fasteners and inserts",
+   "basis": "hardware: 0.18 cm3 x 7900 kg/m3 (EST: 18-8 stainless, typical 7.9 g/cm3 (vendor gives none))"
+  },
+  {
+   "part": "F03_M3x20_SHCS",
+   "qty": 16,
+   "mass_g": 26.4,
+   "group": "Fasteners and inserts",
+   "basis": "hardware: 0.21 cm3 x 7900 kg/m3 (EST: 18-8 stainless, typical 7.9 g/cm3 (vendor gives none))"
+  },
+  {
+   "part": "F04_M3x40_SHCS",
+   "qty": 8,
+   "mass_g": 22.1,
+   "group": "Fasteners and inserts",
+   "basis": "hardware: 0.35 cm3 x 7900 kg/m3 (EST: 18-8 stainless, typical 7.9 g/cm3 (vendor gives none))"
+  },
+  {
+   "part": "F05_M3x30_SHCS",
+   "qty": 4,
+   "mass_g": 8.8,
+   "group": "Fasteners and inserts",
+   "basis": "hardware: 0.28 cm3 x 7900 kg/m3 (EST: 18-8 stainless, typical 7.9 g/cm3 (vendor gives none))"
+  },
+  {
+   "part": "F06_M3x35_SHCS",
+   "qty": 4,
+   "mass_g": 9.9,
+   "group": "Fasteners and inserts",
+   "basis": "hardware: 0.31 cm3 x 7900 kg/m3 (EST: 18-8 stainless, typical 7.9 g/cm3 (vendor gives none))"
+  },
+  {
+   "part": "F07_M3x8_BHCS",
+   "qty": 11,
+   "mass_g": 7.3,
+   "group": "Fasteners and inserts",
+   "basis": "hardware: 0.08 cm3 x 7900 kg/m3 (EST: 18-8 stainless, typical 7.9 g/cm3 (vendor gives none))"
+  },
+  {
+   "part": "F08_M3x12_SHCS",
+   "qty": 4,
+   "mass_g": 4.8,
+   "group": "Fasteners and inserts",
+   "basis": "hardware: 0.15 cm3 x 7900 kg/m3 (EST: 18-8 stainless, typical 7.9 g/cm3 (vendor gives none))"
+  },
+  {
+   "part": "F09_M5x25_BHCS",
+   "qty": 2,
+   "mass_g": 9.9,
+   "group": "Fasteners and inserts",
+   "basis": "hardware: 0.62 cm3 x 7900 kg/m3 (EST: 18-8 stainless, typical 7.9 g/cm3 (vendor gives none))"
+  },
+  {
+   "part": "F10_M2x10_SHCS",
+   "qty": 20,
+   "mass_g": 8.5,
+   "group": "Fasteners and inserts",
+   "basis": "hardware: 0.05 cm3 x 7900 kg/m3 (EST: 18-8 stainless, typical 7.9 g/cm3 (vendor gives none))"
+  },
+  {
+   "part": "F11_M2x14_PAN",
+   "qty": 10,
+   "mass_g": 4.5,
+   "group": "Fasteners and inserts",
+   "basis": "hardware: 0.06 cm3 x 7900 kg/m3 (EST: 18-8 stainless, typical 7.9 g/cm3 (vendor gives none))"
+  },
+  {
+   "part": "F13_M3x8_SHCS",
+   "qty": 4,
+   "mass_g": 3.9,
+   "group": "Fasteners and inserts",
+   "basis": "hardware: 0.12 cm3 x 7900 kg/m3 (EST: 18-8 stainless, typical 7.9 g/cm3 (vendor gives none))"
+  },
+  {
+   "part": "FC_Tray",
+   "qty": 1,
+   "mass_g": 11.6,
+   "group": "Fuselage pod",
+   "basis": "printed (P18, 3 walls, 30 % gyroid, docs/build/print-list.csv)"
+  },
+  {
+   "part": "Fin",
+   "qty": 2,
+   "mass_g": 13.4,
+   "group": "Tail",
+   "basis": "foam: CAD volume x 32 kg/m3 (SRC-15)"
+  },
+  {
+   "part": "Fin_Shoe",
+   "qty": 2,
+   "mass_g": 42.0,
+   "group": "Tail",
+   "basis": "printed (P09, 3 walls, 30 % gyroid, docs/build/print-list.csv)"
+  },
+  {
+   "part": "Flight_Controller",
+   "qty": 1,
+   "mass_g": 40.0,
+   "group": "Avionics",
+   "basis": "vendor: fixed 40 g: CoreWing F405 Wing V2 (ArduPilot wiki)"
+  },
+  {
+   "part": "Fuselage_Pod",
+   "qty": 1,
+   "mass_g": 387.3,
+   "group": "Fuselage pod",
+   "basis": "foam: CAD volume x 32 kg/m3 (SRC-15)"
+  },
+  {
+   "part": "Gear_Clamp_Lower",
+   "qty": 4,
+   "mass_g": 90.21,
+   "group": "Landing gear",
+   "basis": "printed (P07, 4 walls, 40 % gyroid, docs/build/print-list.csv)"
+  },
+  {
+   "part": "Gear_Clamp_Upper",
+   "qty": 4,
+   "mass_g": 57.79,
+   "group": "Landing gear",
+   "basis": "printed (P07, 4 walls, 40 % gyroid, docs/build/print-list.csv)"
+  },
+  {
+   "part": "Gear_Fairing",
+   "qty": 4,
+   "mass_g": 100.0,
+   "group": "Landing gear",
+   "basis": "printed (P25, 1 (vase / spiralise) walls, 0 % \u2014, docs/build/print-list.csv)"
+  },
+  {
+   "part": "H_Tail",
+   "qty": 1,
+   "mass_g": 23.2,
+   "group": "Tail",
+   "basis": "foam: CAD volume x 32 kg/m3 (SRC-15)"
+  },
+  {
+   "part": "Horn_Backplate",
+   "qty": 3,
+   "mass_g": 1.1,
+   "group": "Servos (5)",
+   "basis": "CAD solid (no print-list row): 0.32 cm3 x 1140 kg/m3 (EST: nylon 6)"
+  },
+  {
+   "part": "Horn_Hardpoint",
+   "qty": 2,
+   "mass_g": 5.6,
+   "group": "Wing",
+   "basis": "printed (P16, 100% walls walls, 100 % \u2014, docs/build/print-list.csv)"
+  },
+  {
+   "part": "I01_M3_Insert",
+   "qty": 67,
+   "mass_g": 29.6,
+   "group": "Fasteners and inserts",
+   "basis": "hardware: 0.05 cm3 x 8500 kg/m3 (EST: brass, typical 8.5 g/cm3)"
+  },
+  {
+   "part": "Joiner_Stop",
+   "qty": 2,
+   "mass_g": 10.0,
+   "group": "Wing",
+   "basis": "printed (P26, 100% walls walls, 100 % \u2014, docs/build/print-list.csv)"
+  },
+  {
+   "part": "Landing_Leg",
+   "qty": 4,
+   "mass_g": 245.14,
+   "group": "Landing gear",
+   "basis": "tube: pi/4 (OD^2 - ID^2) x legLen x 2700 kg/m3 from cad/params.txt (the CAD body wrongly includes the foot as aluminium)"
+  },
+  {
+   "part": "Lift_Motor",
+   "qty": 4,
+   "mass_g": 660.0,
+   "group": "Lift units",
+   "basis": "vendor: fixed 165 g: SunnySky X4110S (budget-lift.md A3)"
+  },
+  {
+   "part": "Lift_Prop",
+   "qty": 4,
+   "mass_g": 128.0,
+   "group": "Lift units",
+   "basis": "vendor: fixed 32 g EST (analysis/sizing.mjs mProp)"
+  },
+  {
+   "part": "Motor_Mount_Cap",
+   "qty": 4,
+   "mass_g": 125.56,
+   "group": "Lift units",
+   "basis": "printed (P02, 5 walls, 100 % rectilinear, docs/build/print-list.csv)"
+  },
+  {
+   "part": "Motor_Mount_Upper",
+   "qty": 4,
+   "mass_g": 209.27,
+   "group": "Lift units",
+   "basis": "printed (P01, 5 walls, 100 % rectilinear, docs/build/print-list.csv)"
+  },
+  {
+   "part": "N01_M3_Nylock",
+   "qty": 8,
+   "mass_g": 4.4,
+   "group": "Fasteners and inserts",
+   "basis": "hardware: 0.07 cm3 x 7900 kg/m3 (EST: 18-8 stainless, typical 7.9 g/cm3 (vendor gives none))"
+  },
+  {
+   "part": "N02_M5_Nylock",
+   "qty": 2,
+   "mass_g": 2.5,
+   "group": "Fasteners and inserts",
+   "basis": "hardware: 0.16 cm3 x 7900 kg/m3 (EST: 18-8 stainless, typical 7.9 g/cm3 (vendor gives none))"
+  },
+  {
+   "part": "N03_M2_Hex_Nut",
+   "qty": 30,
+   "mass_g": 4.1,
+   "group": "Fasteners and inserts",
+   "basis": "hardware: 0.02 cm3 x 7900 kg/m3 (EST: 18-8 stainless, typical 7.9 g/cm3 (vendor gives none))"
+  },
+  {
+   "part": "N04_M6_Bullet_Nut",
+   "qty": 1,
+   "mass_g": 8.1,
+   "group": "Pusher set",
+   "basis": "hardware: 1.04 cm3 x 7850 kg/m3 (EST: carbon steel)"
+  },
+  {
+   "part": "Pitot_Clamp",
+   "qty": 1,
+   "mass_g": 9.9,
+   "group": "Fuselage pod",
+   "basis": "printed (P19, 100% walls walls, 100 % \u2014, docs/build/print-list.csv)"
+  },
+  {
+   "part": "Pitot_Tube",
+   "qty": 1,
+   "mass_g": 17.8,
+   "group": "Fuselage pod",
+   "basis": "tube: CAD volume x 2700 kg/m3 (SRC-09)"
+  },
+  {
+   "part": "Prop_Plate",
+   "qty": 4,
+   "mass_g": 22.3,
+   "group": "Lift units",
+   "basis": "CAD solid (no print-list row): 0.71 cm3 x 7850 kg/m3 (EST: carbon steel)"
+  },
+  {
+   "part": "Prop_Washer",
+   "qty": 1,
+   "mass_g": 4.3,
+   "group": "Pusher set",
+   "basis": "CAD solid (no print-list row): 0.55 cm3 x 7850 kg/m3 (EST: carbon steel)"
+  },
+  {
+   "part": "Pusher_Adapter",
+   "qty": 1,
+   "mass_g": 11.1,
+   "group": "Pusher set",
+   "basis": "CAD solid (no print-list row): 1.42 cm3 x 7850 kg/m3 (EST: carbon steel)"
+  },
+  {
+   "part": "Pusher_Cup",
+   "qty": 1,
+   "mass_g": 31.39,
+   "group": "Pusher set",
+   "basis": "printed (P03, 5 walls, 100 % rectilinear, docs/build/print-list.csv)"
+  },
+  {
+   "part": "Pusher_Motor",
+   "qty": 1,
+   "mass_g": 165.0,
+   "group": "Pusher set",
+   "basis": "vendor: fixed 165 g: SunnySky X4110S (budget-lift.md A3)"
+  },
+  {
+   "part": "Pusher_Prop_14in",
+   "qty": 1,
+   "mass_g": 37.0,
+   "group": "Pusher set",
+   "basis": "vendor: fixed 37 g: APC 14x8.5EP (pusher-battery-servo.md)"
+  },
+  {
+   "part": "Pushrod_Aileron",
+   "qty": 2,
+   "mass_g": 6.5,
+   "group": "Servos (5)",
+   "basis": "CAD solid (no print-list row): 0.42 cm3 x 7850 kg/m3 (EST: carbon steel)"
+  },
+  {
+   "part": "Pushrod_Elevator",
+   "qty": 1,
+   "mass_g": 3.2,
+   "group": "Servos (5)",
+   "basis": "CAD solid (no print-list row): 0.41 cm3 x 7850 kg/m3 (EST: carbon steel)"
+  },
+  {
+   "part": "Pushrod_Rudder",
+   "qty": 2,
+   "mass_g": 9.5,
+   "group": "Servos (5)",
+   "basis": "CAD solid (no print-list row): 0.61 cm3 x 7850 kg/m3 (EST: carbon steel)"
+  },
+  {
+   "part": "Rear_Hardpoint",
+   "qty": 2,
+   "mass_g": 68.0,
+   "group": "Wing",
+   "basis": "printed (P12, 4 walls, 100 % \u2014, docs/build/print-list.csv)"
+  },
+  {
+   "part": "Root_Tongue",
+   "qty": 2,
+   "mass_g": 15.8,
+   "group": "Wing",
+   "basis": "printed (P15, 100% walls walls, 100 % \u2014, docs/build/print-list.csv)"
+  },
+  {
+   "part": "Rudder",
+   "qty": 2,
+   "mass_g": 1.9,
+   "group": "Tail",
+   "basis": "foam: CAD volume x 32 kg/m3 (SRC-15)"
+  },
+  {
+   "part": "Servo",
+   "qty": 5,
+   "mass_g": 216.0,
+   "group": "Servos (5)",
+   "basis": "vendor: fixed 43.2 g: EMAX ES3005HV (budget-avionics.md 6)"
+  },
+  {
+   "part": "Servo_Tray",
+   "qty": 5,
+   "mass_g": 25.5,
+   "group": "Servos (5)",
+   "basis": "printed (P17, 3 walls, 30 % gyroid, docs/build/print-list.csv)"
+  },
+  {
+   "part": "Spar_Collar",
+   "qty": 2,
+   "mass_g": 76.0,
+   "group": "Wing",
+   "basis": "printed (P11, 4 walls, 100 % \u2014, docs/build/print-list.csv)"
+  },
+  {
+   "part": "Spar_Tube",
+   "qty": 2,
+   "mass_g": 478.3,
+   "group": "Wing",
+   "basis": "tube: CAD volume x 2700 kg/m3 (SRC-09)"
+  },
+  {
+   "part": "Splice_Plug",
+   "qty": 2,
+   "mass_g": 50.0,
+   "group": "Booms + clamps",
+   "basis": "printed (P04, 4 walls, 60 % gyroid, docs/build/print-list.csv)"
+  },
+  {
+   "part": "Tail_Clamp_Cap",
+   "qty": 2,
+   "mass_g": 34.12,
+   "group": "Tail",
+   "basis": "printed (P08, 4 walls, 40 % gyroid, docs/build/print-list.csv)"
+  },
+  {
+   "part": "Tail_Clamp_Upper",
+   "qty": 2,
+   "mass_g": 37.88,
+   "group": "Tail",
+   "basis": "printed (P08, 4 walls, 40 % gyroid, docs/build/print-list.csv)"
+  },
+  {
+   "part": "W01_M3_Washer",
+   "qty": 28,
+   "mass_g": 3.4,
+   "group": "Fasteners and inserts",
+   "basis": "hardware: 0.02 cm3 x 7900 kg/m3 (EST: 18-8 stainless, typical 7.9 g/cm3 (vendor gives none))"
+  },
+  {
+   "part": "Wing_Joiner",
+   "qty": 1,
+   "mass_g": 197.1,
+   "group": "Wing",
+   "basis": "tube: CAD volume x 2700 kg/m3 (SRC-09)"
+  },
+  {
+   "part": "Wing_Panel_L",
+   "qty": 1,
+   "mass_g": 334.4,
+   "group": "Wing",
+   "basis": "foam: CAD volume x 32 kg/m3 (SRC-15)"
+  },
+  {
+   "part": "Wing_Panel_R",
+   "qty": 1,
+   "mass_g": 334.4,
+   "group": "Wing",
+   "basis": "foam: CAD volume x 32 kg/m3 (SRC-15)"
+  },
+  {
+   "part": "Wing_Saddle",
+   "qty": 1,
+   "mass_g": 52.4,
+   "group": "Wing",
+   "basis": "foam: CAD volume x 32 kg/m3 (SRC-15)"
+  },
+  {
+   "part": "ESCs (4 lift + 1 pusher)",
+   "qty": 1,
+   "mass_g": 125.0,
+   "group": "Lift units",
+   "basis": "EST: 25 g each (analysis/sizing.mjs mEsc; maker mass not on the pages read)"
+  },
+  {
+   "part": "Skins: packing tape on wing and tail",
+   "qty": 1,
+   "mass_g": 113.57,
+   "group": "Wing",
+   "basis": "EST: 0.06 kg/m2 (sizing wGlass) x 1.893 m2 (both faces of S + S_h + S_v)"
+  },
+  {
+   "part": "Pod frames, rails, canopy flange (P20, P22)",
+   "qty": 1,
+   "mass_g": 74,
+   "group": "Fuselage pod",
+   "basis": "printed EST (print-list P20 65 g, P22 9 g)"
+  },
+  {
+   "part": "Saddle root plates + side tabs (P13)",
+   "qty": 1,
+   "mass_g": 70,
+   "group": "Wing",
+   "basis": "printed EST (print-list P13 2 x 35 g; part of the Wing_Saddle body in the CAD)"
+  },
+  {
+   "part": "Dome feet (P23)",
+   "qty": 1,
+   "mass_g": 24,
+   "group": "Landing gear",
+   "basis": "printed EST (print-list P23 4 x 6 g)"
+  },
+  {
+   "part": "GPS pad, harness anchors (P24)",
+   "qty": 1,
+   "mass_g": 21,
+   "group": "Avionics",
+   "basis": "printed EST (print-list P24)"
+  },
+  {
+   "part": "Avionics not modelled (GPS, receiver, Remote ID, airspeed, telemetry)",
+   "qty": 1,
+   "mass_g": 357.0,
+   "group": "Avionics",
+   "basis": "EST: sizing mAvionics 0.25 kg minus the 40 g flight controller in the CAD"
+  },
+  {
+   "part": "Wiring",
+   "qty": 1,
+   "mass_g": 370.0,
+   "group": "Wiring",
+   "basis": "EST: sizing mWiring + 4 x mWirePerLift"
+  },
+  {
+   "part": "Payload allowance",
+   "qty": 1,
+   "mass_g": 0,
+   "group": "Payload allowance (bay)",
+   "basis": "requirement R12"
+  }
+ ],
+ "est_share_kg": 1.155,
+ "note": "Printed masses are estimates until parts are weighed (test plan); everything else is CAD geometry x sourced density or a vendor mass."
+}

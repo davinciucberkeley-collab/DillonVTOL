@@ -6,8 +6,8 @@
      # Strips   = 112
      # Vortices =1440
 
-  Sref = 0.68202       Cref = 0.28418       Bref =  2.4000    
-  Xref = 0.79570E-01   Yref =  0.0000       Zref =  0.0000    
+  Sref = 0.76694       Cref = 0.31956       Bref =  2.4000    
+  Xref = 0.89480E-01   Yref =  0.0000       Zref =  0.0000    
 
  Standard axis orientation,  X fwd, Z down         
 
@@ -17,15 +17,15 @@
   Beta  =   0.00000     qc/2V =   0.00000
   Mach  =     0.000     rb/2V =  -0.00000     r'b/2V =  -0.00000
 
-  CXtot =   0.07902     Cltot =   0.00000     Cl'tot =   0.00000
-  CYtot =   0.00000     Cmtot =  -0.11787
-  CZtot =  -0.87387     Cntot =  -0.00000     Cn'tot =  -0.00000
+  CXtot =   0.07421     Cltot =   0.00000     Cl'tot =   0.00000
+  CYtot =  -0.00000     Cmtot =  -0.10522
+  CZtot =  -0.84209     Cntot =   0.00000     Cn'tot =   0.00000
 
-  CLtot =   0.87636
-  CDtot =   0.04337
-  CDvis =   0.01411     CDind = 0.0292567
-  CLff  =   0.87918     CDff  = 0.0300812    | Trefftz
-  CYff  =   0.00000         e =    0.9685    | Plane  
+  CLtot =   0.84423
+  CDtot =   0.04370
+  CDvis =   0.01321     CDind = 0.0304980
+  CLff  =   0.84734     CDff  = 0.0312928    | Trefftz
+  CYff  =  -0.00000         e =    0.9724    | Plane  
 
    aileron         =   0.00000
    elevator        =   0.00000

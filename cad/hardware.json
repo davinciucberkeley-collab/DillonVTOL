@@ -263,10 +263,10 @@
         "J07 landing leg in gear clamp socket (1 per leg)"
       ],
       "vendor": "Bolt Depot",
-      "part_no": "6385 (M3 x 30 socket cap; number and price not verified, EST)",
-      "url": "https://boltdepot.com/Product-Details?product=6385",
+      "part_no": "6385",
+      "url": "https://www.boltdepot.com/Product-Details.aspx?product=6385",
       "unit_usd": 0.1,
-      "checked": "2026-10-21",
+      "checked": "2026-11-02",
       "cad_change": "hardware-spec J07 gave M3 x 25 with an 8.0 nut pocket in the 34 mm block: the pocket would reach x -9, inside the leg tube (radius 12.7). With the nut outside the tube (bearing at -12.7) and the head seat at +13.0 the screw must be 30 long (CAD rev B, 2026-10-21)."
     },
     {
@@ -405,7 +405,7 @@
       "description": "Wing panel retention bolt (one per side, 70 % chord, through the saddle bolt pillar and the panel root tongue)",
       "standard": "ISO 7380-1 button head (vendor lists no standard; dims match)",
       "thread": "M5x0.8",
-      "length_mm": 20,
+      "length_mm": 25,
       "head_d_mm": 9.5,
       "head_h_mm": 2.75,
       "drive": "hex socket 3.0 mm",
@@ -425,7 +425,7 @@
         "af_mm": 8.0,
         "h_mm": 5.0,
         "pocket_af_mm": 8.2,
-        "pocket_depth_mm": 8.0
+        "pocket_depth_mm": 11.0
       },
       "washer": null,
       "threadlocker": "none (nylock)",
@@ -437,11 +437,11 @@
         "J10 wing panel to saddle (1 per side)"
       ],
       "vendor": "Bolt Depot",
-      "part_no": "6635",
-      "url": "https://boltdepot.com/Product-Details?product=6635",
-      "unit_usd": 0.18,
-      "checked": "2026-10-21",
-      "cad_change": "Wing_Bolt in BuildVtol.cs is M5 x 30; the section is 21.8 mm thick at 70 % chord (calc), so a 30 mm screw protrudes. Use 20 mm."
+      "part_no": "6636",
+      "url": "https://boltdepot.com/Product-Details?product=6636",
+      "unit_usd": 0.21,
+      "checked": "2026-11-02",
+      "cad_change": "rev E (2026-11-01): M5 x 25 with the nut pocket 11.0 mm deep (cad/params.txt pillarNutDepth, computed by cad/params.mjs; pocket_depth_mm above is not used for J10). Bolt Depot 6635 is M5 x 20 and never reaches the nylock in the 11.0 mm pocket: do not order it."
     },
     {
       "id": "F10",
@@ -998,7 +998,7 @@
     "cut_tubes": {
       "class": "ISO 2768-m",
       "lengths": {
-        "boom front 991.0": 0.8,
+        "boom front 1045.4 (params segF; ISO 2768-m over 1000 up to 2000 mm, checked 2026-11-02)": 1.2,
         "boom stub 485.9": 0.8,
         "spar socket 800": 0.8,
         "joiner 760": 0.8,

@@ -1,0 +1,457 @@
+{
+ "generated": "2026-11-01 22:17",
+ "script": "analysis/cfd3d/build_geometry.py",
+ "gmsh": "4.15.2",
+ "source_step": "cad/model/VTOL_Concept.STEP",
+ "params": "cad/params.txt",
+ "volumes_after_fuse": 1,
+ "half_volumes_after_fuse": 1,
+ "surfaces": 326,
+ "bbox_m": [
+  -1.07374,
+  -0.25262,
+  -1.20001,
+  0.6,
+  0.20491,
+  1.20001
+ ],
+ "fidelity": [
+  {
+   "part": "Wing",
+   "step_solids": [
+    "Wing_Panel_L",
+    "Wing_Panel_R",
+    "Aileron_L",
+    "Aileron_R",
+    ""
+   ],
+   "n_step": 12,
+   "n_rebuilt": 1,
+   "bbox_rebuilt_mm": [
+    -321.94,
+    -18.38,
+    -1200.0,
+    0.05,
+    30.32,
+    1200.0
+   ],
+   "bbox_step_mm": [
+    -320.77,
+    -40.0,
+    -1200.0,
+    0.17,
+    30.23,
+    1200.0
+   ],
+   "max_bbox_dev_mm": 21.62
+  },
+  {
+   "part": "H_Tail",
+   "step_solids": [
+    "H_Tail",
+    "Elevator"
+   ],
+   "n_step": 2,
+   "n_rebuilt": 1,
+   "bbox_rebuilt_mm": [
+    -978.51,
+    -17.22,
+    -458.7,
+    -853.74,
+    -5.98,
+    458.7
+   ],
+   "bbox_step_mm": [
+    -976.6,
+    -17.17,
+    -458.7,
+    -852.42,
+    -5.97,
+    458.7
+   ],
+   "max_bbox_dev_mm": 1.92
+  },
+  {
+   "part": "Fin",
+   "step_solids": [
+    "Fin",
+    "Rudder"
+   ],
+   "n_step": 4,
+   "n_rebuilt": 2,
+   "bbox_rebuilt_mm": [
+    -1020.06,
+    -2.99,
+    -441.19,
+    -853.74,
+    204.91,
+    441.19
+   ],
+   "bbox_step_mm": [
+    -1018.7,
+    -2.99,
+    -441.2,
+    -852.37,
+    204.67,
+    441.2
+   ],
+   "max_bbox_dev_mm": 1.37
+  },
+  {
+   "part": "Fin_Shoe",
+   "step_solids": [
+    "Fin_Shoe"
+   ],
+   "n_step": 2,
+   "n_rebuilt": 4,
+   "bbox_rebuilt_mm": [
+    -1021.66,
+    -7.99,
+    -456.7,
+    -852.14,
+    17.01,
+    456.7
+   ],
+   "bbox_step_mm": [
+    -1020.3,
+    -5.99,
+    -456.7,
+    -850.78,
+    17.01,
+    456.7
+   ],
+   "max_bbox_dev_mm": 2.0
+  },
+  {
+   "part": "Pod",
+   "step_solids": [
+    "Fuselage_Pod"
+   ],
+   "n_step": 1,
+   "n_rebuilt": 1,
+   "bbox_rebuilt_mm": [
+    -400.0,
+    -110.01,
+    -80.01,
+    600.0,
+    50.01,
+    80.01
+   ],
+   "bbox_step_mm": [
+    -400.0,
+    -110.13,
+    -160.26,
+    600.0,
+    50.13,
+    160.26
+   ],
+   "max_bbox_dev_mm": 80.25
+  },
+  {
+   "part": "Canopy",
+   "step_solids": [
+    "Canopy"
+   ],
+   "n_step": 1,
+   "n_rebuilt": 1,
+   "bbox_rebuilt_mm": [
+    220.0,
+    -40.0,
+    -55.0,
+    480.0,
+    70.0,
+    55.0
+   ],
+   "bbox_step_mm": [
+    148.5,
+    15.0,
+    -55.09,
+    500.0,
+    70.09,
+    55.09
+   ],
+   "max_bbox_dev_mm": 71.5
+  },
+  {
+   "part": "Lift_Motor",
+   "step_solids": [
+    "Lift_Motor"
+   ],
+   "n_step": 4,
+   "n_rebuilt": 4,
+   "bbox_rebuilt_mm": [
+    -611.84,
+    -11.92,
+    -457.7,
+    431.55,
+    20.08,
+    457.7
+   ],
+   "bbox_step_mm": [
+    -610.67,
+    -11.85,
+    -457.7,
+    431.04,
+    32.15,
+    457.7
+   ],
+   "max_bbox_dev_mm": 12.07
+  },
+  {
+   "part": "Pusher_Motor",
+   "step_solids": [
+    "Pusher_Motor"
+   ],
+   "n_step": 1,
+   "n_rebuilt": 1,
+   "bbox_rebuilt_mm": [
+    -432.0,
+    -54.0,
+    -24.0,
+    -400.0,
+    -6.0,
+    24.0
+   ],
+   "bbox_step_mm": [
+    -444.0,
+    -54.0,
+    -24.0,
+    -400.0,
+    -6.0,
+    24.0
+   ],
+   "max_bbox_dev_mm": 12.0
+  },
+  {
+   "part": "Boom_Front",
+   "step_solids": [
+    "Boom_Front"
+   ],
+   "n_step": 2,
+   "n_rebuilt": 2,
+   "bbox_rebuilt_mm": [
+    -587.84,
+    -45.62,
+    -446.4,
+    403.14,
+    -20.22,
+    446.4
+   ],
+   "bbox_step_mm": [
+    -586.67,
+    -45.55,
+    -446.4,
+    457.03,
+    -20.15,
+    446.4
+   ],
+   "max_bbox_dev_mm": 53.89
+  },
+  {
+   "part": "Boom_Rear_Stub",
+   "step_solids": [
+    "Boom_Rear_Stub"
+   ],
+   "n_step": 2,
+   "n_rebuilt": 2,
+   "bbox_rebuilt_mm": [
+    -1073.74,
+    -45.62,
+    -446.4,
+    -587.84,
+    -20.22,
+    446.4
+   ],
+   "bbox_step_mm": [
+    -1072.57,
+    -45.55,
+    -446.4,
+    -586.67,
+    -20.15,
+    446.4
+   ],
+   "max_bbox_dev_mm": 1.17
+  },
+  {
+   "part": "Motor_Mount",
+   "step_solids": [
+    "Motor_Mount_Upper",
+    "Motor_Mount_Cap"
+   ],
+   "n_step": 8,
+   "n_rebuilt": 4,
+   "bbox_rebuilt_mm": [
+    -622.84,
+    -47.92,
+    -456.7,
+    442.55,
+    -11.92,
+    456.7
+   ],
+   "bbox_step_mm": [
+    -621.67,
+    -47.85,
+    -456.7,
+    442.04,
+    -11.85,
+    456.7
+   ],
+   "max_bbox_dev_mm": 1.17
+  },
+  {
+   "part": "Boom_Clamp_F",
+   "step_solids": [
+    "Boom_Clamp_F_Upper",
+    "Boom_Clamp_F_Lower"
+   ],
+   "n_step": 4,
+   "n_rebuilt": 2,
+   "bbox_rebuilt_mm": [
+    -113.58,
+    -49.62,
+    -456.7,
+    -79.58,
+    -14.12,
+    456.7
+   ],
+   "bbox_step_mm": [
+    -113.23,
+    -49.55,
+    -456.7,
+    -79.23,
+    -18.05,
+    456.7
+   ],
+   "max_bbox_dev_mm": 3.93
+  },
+  {
+   "part": "Boom_Clamp_R",
+   "step_solids": [
+    "Boom_Clamp_R_Upper",
+    "Boom_Clamp_R_Lower"
+   ],
+   "n_step": 4,
+   "n_rebuilt": 2,
+   "bbox_rebuilt_mm": [
+    -274.55,
+    -49.62,
+    -456.7,
+    -240.55,
+    -2.98,
+    456.7
+   ],
+   "bbox_step_mm": [
+    -273.61,
+    -49.55,
+    -456.7,
+    -239.61,
+    -6.95,
+    456.7
+   ],
+   "max_bbox_dev_mm": 3.97
+  },
+  {
+   "part": "Gear_Clamp",
+   "step_solids": [
+    "Gear_Clamp_Upper",
+    "Gear_Clamp_Lower"
+   ],
+   "n_step": 8,
+   "n_rebuilt": 4,
+   "bbox_rebuilt_mm": [
+    -514.84,
+    -61.62,
+    -456.7,
+    334.55,
+    -16.22,
+    456.7
+   ],
+   "bbox_step_mm": [
+    -513.67,
+    -61.55,
+    -456.7,
+    334.04,
+    -16.15,
+    456.7
+   ],
+   "max_bbox_dev_mm": 1.17
+  },
+  {
+   "part": "Tail_Clamp",
+   "step_solids": [
+    "Tail_Clamp_Upper",
+    "Tail_Clamp_Cap"
+   ],
+   "n_step": 4,
+   "n_rebuilt": 2,
+   "bbox_rebuilt_mm": [
+    -912.64,
+    -47.92,
+    -456.7,
+    -862.64,
+    -14.22,
+    456.7
+   ],
+   "bbox_step_mm": [
+    -911.47,
+    -47.85,
+    -456.7,
+    -861.47,
+    -17.15,
+    456.7
+   ],
+   "max_bbox_dev_mm": 2.93
+  },
+  {
+   "part": "Landing_Leg",
+   "step_solids": [
+    "Landing_Leg"
+   ],
+   "n_step": 4,
+   "n_rebuilt": 8,
+   "bbox_rebuilt_mm": [
+    -517.84,
+    -252.62,
+    -453.7,
+    337.55,
+    -47.62,
+    453.7
+   ],
+   "bbox_step_mm": [
+    -516.67,
+    -252.55,
+    -453.7,
+    337.04,
+    -47.55,
+    453.7
+   ],
+   "max_bbox_dev_mm": 1.17
+  },
+  {
+   "part": "Gear_Fairing",
+   "step_solids": [
+    "Gear_Fairing"
+   ],
+   "n_step": 4,
+   "n_rebuilt": 4,
+   "bbox_rebuilt_mm": [
+    -554.96,
+    -232.62,
+    -447.3,
+    342.03,
+    -61.42,
+    447.3
+   ],
+   "bbox_step_mm": [
+    -553.79,
+    -232.55,
+    -447.34,
+    341.59,
+    -62.55,
+    447.34
+   ],
+   "max_bbox_dev_mm": 1.17
+  }
+ ],
+ "wall_s": 69.4
+}

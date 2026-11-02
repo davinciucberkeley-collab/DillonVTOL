@@ -475,7 +475,7 @@ class Thermal
         Mat(s2, "Motor", "motor lump (est.)", I("materials.motor.k"), I("materials.motor.cp"), I("materials.motor.rho"));
         Heat(s2, d, "Motor", Q, null); Conv(s2, Convect(Body(d, "Motor")), hh, Tamb, null);
         Mesh(s2, 0.004); Run(s2);
-        Res("motor_only_T_steady", MinMax(s2, 1)[1], "degC", "motor-only steady, Q " + Q.ToString("G4", IC) + " W, h " + hh.ToString("G4", IC) + " W/m2K (Hilpert at v_i), 35 C");
+        Res("motor_only_T_steady", MinMax(s2, 1)[1], "degC", "motor-only steady, Q " + Q.ToString("G4", IC) + " W, h " + hh.ToString("G4", IC) + " W/m2K (Hilpert at v_i), " + AmbC());
         Res("motor_only_T_hand", Tamb - 273.15 + Q / (hh * A), "degC", "hand: T_amb + Q/(h A)");
         // (c) transient 90 s with the lumped motor material (cp 470): compare review/src/app.js TH.T90 (76 C with Sim.cs inputs)
         CWStudy tr = NewStudy("Motor transient 90 s Sim-cs inputs", true);
@@ -527,20 +527,20 @@ class Thermal
         // steady hover (upper bound)
         CWStudy ss = NewStudy("Lift unit steady hover", false); setup(ss, "hover"); Mesh(ss, 0.004); Run(ss);
         var bodyOf = BodyMap(ss, d); var T0 = Temps(ss, 0); fields["steady_hover"] = T0;
-        foreach (var kv in BodyMax(T0, bodyOf)) Res("lift_steady_" + kv.Key, kv.Value, "degC", "lift unit steady hover, 35 C, max in body");
+        foreach (var kv in BodyMax(T0, bodyOf)) Res("lift_steady_" + kv.Key, kv.Value, "degC", "lift unit steady hover, " + AmbC() + ", max in body");
         PlotPng(d, ss, "THERM_Lift_Unit_steady.png");
         // hover transient 0..120 s (bench C08 is 90 s; test-plan hover-only flights <= 60 s)
         Dictionary<string, string> bo; CWStudy lastSt;
         var hov = Chain(d, "Lift hover", new List<Phase> { new Phase("hover", I("mission.hover_transient_s"), 5) }, (st, ph) => setup(st, ph.name), bodies, Tamb, 0.004, fields, new string[0], out bo, out lastSt);
         int nh = lastSt.Results.GetMaximumAvailableSteps();
         foreach (double tw in new[] { 30.0, 60.0, 90.0, 120.0 }) { int s = (int)Math.Round(tw / 5); if (s >= 1 && s <= nh) fields["hover_" + (int)tw + "s"] = Temps(lastSt, s); }
-        foreach (string b in bodies) foreach (double tw in new[] { 30.0, 60.0, 90.0, 120.0 }) Res("lift_hover" + (int)tw + "_" + b, HistAt(hov, b, tw), "degC", "lift unit hover transient from 35 C, max in body");
+        foreach (string b in bodies) foreach (double tw in new[] { 30.0, 60.0, 90.0, 120.0 }) Res("lift_hover" + (int)tw + "_" + b, HistAt(hov, b, tw), "degC", "lift unit hover transient from " + AmbC() + ", max in body");
         WriteHistory("lift_unit_hover_history.json", hov);
         // mission chain: hover 60 - transition 20 - cruise 600 (lift motors stopped, 20 m/s cooling) - transition 20 - hover 60
         var phases = new List<Phase>();
         foreach (Phase ph in MissionPhases()) phases.Add(ph);
         var mis = Chain(d, "Lift mission", phases, (st, ph) => setup(st, ph.name), bodies, Tamb, 0.004, fields, new[] { "hover1", "transition2", "hover5" }, out bo, out lastSt);
-        foreach (string b in bodies) { Res("lift_mission_max_" + b, HistMax(mis, b), "degC", "lift unit mission peak, hot day 35 C"); Res("lift_mission_end_" + b, HistAt(mis, b, I("mission.total_s")), "degC", "lift unit at mission end (after the landing hover)"); }
+        foreach (string b in bodies) { Res("lift_mission_max_" + b, HistMax(mis, b), "degC", "lift unit mission peak, design ambient " + AmbC()); Res("lift_mission_end_" + b, HistAt(mis, b, I("mission.total_s")), "degC", "lift unit at mission end (after the landing hover)"); }
         WriteHistory("lift_unit_mission_history.json", mis);
         WriteField("lift_unit", lastSt, fields, bo);
         Save(d, "THERM_Lift_Unit");
@@ -548,17 +548,21 @@ class Thermal
     }
 
     // ---------------- study P: pod = XPS foam body with battery bay + avionics bay, hot-day mission ----------------
-    // local frame: pod axis X (cylinder radius fusR, length fusL), up Y; pod local = global - (0.45, yPod, 0) (cad/params.mjs)
+    // local frame: pod axis X (cylinder radius fusR, length fusL), up Y; pod local = global - (noseX, yPod, 0), noseX = tailX + fusL (cad/params.mjs)
+    // rev 2026-11-02: nose and FC stations from params (were the fixed 0.45 / 0.225 of the 0.85 m pod; the pod nose is now further forward)
+    static string AmbC() { return (I("ambient.hot_K") - 273.15).ToString("F0", IC) + " C"; }   // design ambient for the result notes
+
     static void Pod()
     {
         double L = D("fusL"), Rr = D("fusR"), bL = D("battL"), bH = D("battH"), bW = D("battW");
         double fcL = I("fc.len_m"), fcW = I("fc.width_m"), fcH = I("fc.height_m");
         double bayY0 = D("bayY0") - D("yPod"), bayY1 = D("bayY1") - D("yPod"), bayZ = D("bayZ");
-        double bx = D("battX") - 0.45, bayX0 = D("bayX0") - 0.45, bayX1 = D("bayX1") - 0.45, fx = 0.225 - 0.45;
+        double x0 = D("tailX") + D("fusL");
+        double bx = D("battX") - x0, bayX0 = D("bayX0") - x0, bayX1 = D("bayX1") - x0, fx = (D("bayX0") + D("bayX1")) / 2 - x0;
         double bl = bL / 2 + 0.005, bayBot = -0.080 - D("yPod");   // BuildVtol.cs Fuselage(): battery bay from y = -0.080 (global) 60 mm up, 60 wide
         double Tamb = I("ambient.hot_K");
         ModelDoc2 d = NewPart();
-        Sk(d, "Right Plane"); Circ(d, 0, 0, Rr); EndSk(d); Ext(d, 0, -L, 0, false, "FoamBody");   // pod runs aft from its nose at local 0 (global x 0.45) to -fusL (was centred on the nose, 2026-10-27 fix)   // a body takes the name of the last feature that modifies it, so the last cut is named "Foam"
+        Sk(d, "Right Plane"); Circ(d, 0, 0, Rr); EndSk(d); Ext(d, 0, -L, 0, false, "FoamBody");   // pod runs aft from its nose at local 0 (global x noseX) to -fusL (was centred on the nose, 2026-10-27 fix)   // a body takes the name of the last feature that modifies it, so the last cut is named "Foam"
         Sk(d, "Top Plane"); Rect(d, bx - bl, -0.030, bx + bl, 0.030); EndSk(d); CutRange(d, 1, bayBot, bayBot + 0.060, "battery bay");
         Sk(d, "Top Plane"); Rect(d, bayX0, -bayZ, bayX1, bayZ); EndSk(d); CutRange(d, 1, bayY0, bayY1, "Foam");
         Sk(d, "Top Plane"); Rect(d, bx - bL / 2, -bW / 2, bx + bL / 2, bW / 2); EndSk(d); Ext(d, 1, bayBot + 0.003, bayBot + 0.003 + bH, false, "Battery");
@@ -583,7 +587,7 @@ class Thermal
         foreach (Phase ph in MissionPhases()) phases.Add(ph);
         Dictionary<string, string> bo; CWStudy lastSt;
         var mis = Chain(d, "Pod mission", phases, (st, ph) => setup(st, ph.name), bodies, Tamb, 0.010, fields, new[] { "hover1", "transition2", "cruise3", "hover5" }, out bo, out lastSt);
-        foreach (string b in bodies) { Res("pod_mission_max_" + b, HistMax(mis, b), "degC", "pod hot-day mission peak, max in body"); Res("pod_mission_end_" + b, HistAt(mis, b, I("mission.total_s")), "degC", "pod at mission end"); }
+        foreach (string b in bodies) { Res("pod_mission_max_" + b, HistMax(mis, b), "degC", "pod mission peak at " + AmbC() + ", max in body"); Res("pod_mission_end_" + b, HistAt(mis, b, I("mission.total_s")), "degC", "pod at mission end"); }
         WriteHistory("pod_mission_history.json", mis);
         WriteField("pod", lastSt, fields, bo);
         PlotPng(d, lastSt, "THERM_Pod_mission.png");
@@ -618,10 +622,10 @@ class Thermal
         var fields = new Dictionary<string, Dictionary<int, double>>();
         CWStudy ss = NewStudy("Pusher steady cruise", false); setup(ss); Mesh(ss, 0.003); Run(ss);
         var bodyOf = BodyMap(ss, d); var T0 = Temps(ss, 0); fields["steady_cruise"] = T0;
-        foreach (var kv in BodyMax(T0, bodyOf)) Res("pusher_steady_" + kv.Key, kv.Value, "degC", "pusher steady cruise, 35 C, max in body");
+        foreach (var kv in BodyMax(T0, bodyOf)) Res("pusher_steady_" + kv.Key, kv.Value, "degC", "pusher steady cruise, " + AmbC() + ", max in body");
         Dictionary<string, string> bo; CWStudy lastSt;
         var cr = Chain(d, "Pusher cruise", new List<Phase> { new Phase("cruise", I("mission.cruise_s"), 20) }, (st, ph) => setup(st), bodies, Tamb, 0.003, fields, new[] { "cruise" }, out bo, out lastSt);
-        foreach (string b in bodies) Res("pusher_endcruise_" + b, HistAt(cr, b, I("mission.cruise_s")), "degC", "pusher after " + I("mission.cruise_s") + " s cruise from 35 C, max in body");
+        foreach (string b in bodies) Res("pusher_endcruise_" + b, HistAt(cr, b, I("mission.cruise_s")), "degC", "pusher after " + I("mission.cruise_s") + " s cruise from " + AmbC() + ", max in body");
         WriteHistory("pusher_cruise_history.json", cr);
         WriteField("pusher", lastSt, fields, bo);
         PlotPng(d, ss, "THERM_Pusher_steady.png");

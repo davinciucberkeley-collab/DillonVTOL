@@ -43,12 +43,12 @@ for k, c in R['concepts'].items():
     Ereq = E / ((1 - p['reserve']) * p['etaBatt']); chk('F9 pack energy needed Wh', Ereq, s['Epack_req_Wh'])
     chord = S / p['span']
     sig = p['rhoFoam'] * 0.68 * p['tc'] * chord + 2 * p['wGlass'] * (1 + p['rResin'])
-    mw = S * sig + p['m_spar']; chk('F11 wing mass kg', mw, s['m_wing'])
-    mt = p['tailAreaRatio'] * S * p['sigmaTail']
+    mw = S * sig + p['m_spar'] + p.get('mWingHardware', 0); chk('F11 wing mass kg', mw, s['m_wing'])
+    mt = p['tailAreaRatio'] * S * p['sigmaTail'] + p.get('mTailHardware', 0)   # CAD hardware terms (analysis/mass/mass_budget.json calibration, model.js)
     mb = p['boomTotalLen'] * p['boomLin'] + p['nBooms'] * 2 * p['boomClamp']
     ml = p['nLift'] * (p['mMotor'] + p['mEsc'] + p['mProp'] + p['mMount'])
     mf = (p['mFus'] + p['mGear'] + p['mAvionics'] + p['mPusherSet'] + p['mServos'] + p['mWiring']
-          + p['nLift'] * p['mWirePerLift'] + p['mPayload'])
+          + p['nLift'] * p['mWirePerLift'] + p['mPayload'] + p.get('mFasteners', 0))
     mtot = mf + ml + mb + mw + mt + p['mBattFixed']
     chk('F12 MTOW closure kg', mtot, m, 2e-4)
     chk('Pack meets mission (usable >= E)', float(p['EBattFixed'] * (1 - p['reserve']) * p['etaBatt'] >= E), 1.0)

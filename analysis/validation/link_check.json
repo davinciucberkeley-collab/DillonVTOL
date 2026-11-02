@@ -1,13 +1,13 @@
 {
- "generated": "2026-11-01 18:44",
+ "generated": "2026-11-02 05:19",
  "script": "analysis/validation/link_check.py",
- "n": 628,
+ "n": 691,
  "counts": {
-  "blocked": 56,
+  "blocked": 68,
   "dead": 4,
-  "error": 3,
-  "ok": 561,
-  "server_error": 4
+  "error": 9,
+  "ok": 608,
+  "server_error": 2
  },
  "links": [
   {
@@ -140,7 +140,10 @@
     "analysis/link_status.json:56",
     "analysis/sources.json:9493",
     "cad/hardware.json:761",
-    "docs/research/hardware-spec.md:329"
+    "docs/research/hardware-spec.md:326",
+    "docs/validation/proofs/MFG-05.md:29",
+    "docs/validation/proofs/MFG-07.md:20",
+    "docs/validation/proofs/MFG-08.md:20"
    ]
   },
   {
@@ -185,7 +188,7 @@
     "analysis/link_status.json:68",
     "analysis/sources.json:9565",
     "cad/hardware.json:1009",
-    "docs/research/hardware-spec.md:362"
+    "docs/research/hardware-spec.md:359"
    ]
   },
   {
@@ -257,12 +260,23 @@
   },
   {
    "url": "https://archive.org/wayback/available?url=",
+   "status": "blocked",
+   "status_code": 429,
+   "error": "HTTP 429 Too Many Requests",
+   "ok": false,
+   "found_in": [
+    "analysis/link_status.json:88"
+   ]
+  },
+  {
+   "url": "https://ardupilot.org/copter/docs/ac_throttlemid.html",
    "status": "ok",
    "status_code": 200,
    "error": null,
    "ok": true,
    "found_in": [
-    "analysis/link_status.json:88"
+    "analysis/propulsion_data_2026-11-01.json:216",
+    "docs/research/propulsion-margin-data.md:105"
    ]
   },
   {
@@ -319,12 +333,14 @@
    "error": null,
    "ok": true,
    "found_in": [
+    "analysis/bom_savings_2026-11-01.json:257",
     "analysis/link_status.json:113",
     "analysis/sources.json:6918",
-    "docs/build/BUILD-MANUAL.md:1337",
+    "docs/build/BUILD-MANUAL.md:1336",
+    "docs/research/bom-savings.md:88",
     "docs/research/budget-avionics.md:81",
     "docs/research/budget-avionics.md:90",
-    "docs/research/hardware-spec.md:276"
+    "docs/research/hardware-spec.md:273"
    ]
   },
   {
@@ -551,11 +567,13 @@
    "ok": true,
    "found_in": [
     "analysis/link_status.json:208",
+    "analysis/propulsion_data_2026-11-01.json:420",
     "analysis/sources.json:7177",
     "analysis/sources.json:7237",
     "docs/research/avionics-autopilot.md:25",
     "docs/research/avionics-autopilot.md:31",
-    "docs/research/avionics-autopilot.md:39"
+    "docs/research/avionics-autopilot.md:39",
+    "docs/research/propulsion-margin-data.md:150"
    ]
   },
   {
@@ -568,6 +586,17 @@
     "analysis/link_status.json:213",
     "analysis/sources.json:7194",
     "docs/research/budget-avionics.md:194"
+   ]
+  },
+  {
+   "url": "https://ardupilot.org/plane/docs/qhover-mode.html",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:196",
+    "docs/research/propulsion-margin-data.md:103"
    ]
   },
   {
@@ -608,7 +637,7 @@
     "analysis/sources_key.json:5",
     "analysis/tradestudy.json:852",
     "analysis/tradestudy.mjs:43",
-    "docs/build/BUILD-MANUAL.md:778",
+    "docs/build/BUILD-MANUAL.md:777",
     "docs/build/BUILD-MANUAL.md:1350",
     "docs/research/avionics-autopilot.md:31",
     "docs/research/configurations.md:307"
@@ -686,7 +715,9 @@
    "ok": true,
    "found_in": [
     "analysis/link_status.json:258",
-    "analysis/sources.json:7247"
+    "analysis/propulsion_data_2026-11-01.json:206",
+    "analysis/sources.json:7247",
+    "docs/research/propulsion-margin-data.md:104"
    ]
   },
   {
@@ -723,6 +754,16 @@
    "found_in": [
     "analysis/link_status.json:273",
     "analysis/sources.json:7281"
+   ]
+  },
+  {
+   "url": "https://arxiv.org/abs/2112.09768",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "docs/validation/proofs/THM-06.md:21"
    ]
   },
   {
@@ -842,6 +883,27 @@
    ]
   },
   {
+   "url": "https://atoship.com/blog/ups-shipping-rates-2026",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:66"
+   ]
+  },
+  {
+   "url": "https://atta.szlcsc.com/upload/public/pdf/source/20220706/9099BAC3F8F6B9A2C79768E315F09F94.pdf",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:369",
+    "docs/research/propulsion-margin-data.md:135"
+   ]
+  },
+  {
    "url": "https://autotest.ardupilot.org/Parameters/ArduPlane/apm.pdef.xml",
    "status": "ok",
    "status_code": 200,
@@ -888,7 +950,13 @@
     "analysis/link_status.json:338",
     "analysis/sources.json:1279",
     "analysis/sources.json:1289",
-    "docs/research/aerodynamics.md:88"
+    "docs/research/aerodynamics.md:88",
+    "docs/validation/VALIDATION-REPORT.md:84",
+    "docs/validation/proofs/AERO-05.md:18",
+    "docs/validation/proofs/AERO-06.md:26",
+    "docs/validation/proofs/AERO-07.md:36",
+    "docs/validation/proofs/AERO-08.md:43",
+    "docs/validation/proofs/AERO-30.md:19"
    ]
   },
   {
@@ -914,10 +982,10 @@
   },
   {
    "url": "https://betafpv.com/products/elrs-lite-receiver",
-   "status": "blocked",
-   "status_code": 429,
-   "error": "HTTP 429 Too Many Requests",
-   "ok": false,
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
    "found_in": [
     "analysis/link_status.json:348",
     "analysis/sources.json:7335",
@@ -971,7 +1039,7 @@
     "analysis/sources.json:9600",
     "cad/hardware.json:681",
     "docs/research/hardware-spec.md:53",
-    "docs/research/hardware-spec.md:385"
+    "docs/research/hardware-spec.md:382"
    ]
   },
   {
@@ -985,7 +1053,7 @@
     "analysis/sources.json:9618",
     "cad/hardware.json:603",
     "docs/research/hardware-spec.md:50",
-    "docs/research/hardware-spec.md:382"
+    "docs/research/hardware-spec.md:379"
    ]
   },
   {
@@ -999,7 +1067,7 @@
     "analysis/sources.json:9636",
     "cad/hardware.json:621",
     "docs/research/hardware-spec.md:51",
-    "docs/research/hardware-spec.md:383"
+    "docs/research/hardware-spec.md:380"
    ]
   },
   {
@@ -1013,7 +1081,7 @@
     "analysis/sources.json:9654",
     "cad/hardware.json:480",
     "docs/research/hardware-spec.md:46",
-    "docs/research/hardware-spec.md:381"
+    "docs/research/hardware-spec.md:378"
    ]
   },
   {
@@ -1028,7 +1096,7 @@
     "cad/hardware.json:58",
     "docs/build/BUILD-MANUAL.md:1353",
     "docs/research/hardware-spec.md:47",
-    "docs/research/hardware-spec.md:372"
+    "docs/research/hardware-spec.md:369"
    ]
   },
   {
@@ -1041,7 +1109,7 @@
     "analysis/link_status.json:393",
     "analysis/sources.json:9691",
     "cad/hardware.json:399",
-    "docs/research/hardware-spec.md:373"
+    "docs/research/hardware-spec.md:370"
    ]
   },
   {
@@ -1055,7 +1123,7 @@
     "analysis/sources.json:9709",
     "cad/hardware.json:110",
     "cad/hardware.json:548",
-    "docs/research/hardware-spec.md:374"
+    "docs/research/hardware-spec.md:371"
    ]
   },
   {
@@ -1068,7 +1136,7 @@
     "analysis/link_status.json:403",
     "analysis/sources.json:9727",
     "cad/hardware.json:152",
-    "docs/research/hardware-spec.md:375"
+    "docs/research/hardware-spec.md:372"
    ]
   },
   {
@@ -1079,8 +1147,7 @@
    "ok": false,
    "found_in": [
     "analysis/link_status.json:408",
-    "analysis/sources.json:9745",
-    "docs/research/hardware-spec.md:376"
+    "analysis/sources.json:9745"
    ]
   },
   {
@@ -1091,8 +1158,7 @@
    "ok": false,
    "found_in": [
     "analysis/link_status.json:413",
-    "analysis/sources.json:9762",
-    "cad/hardware.json:267"
+    "analysis/sources.json:9762"
    ]
   },
   {
@@ -1105,7 +1171,7 @@
     "analysis/link_status.json:418",
     "analysis/sources.json:9779",
     "cad/hardware.json:310",
-    "docs/research/hardware-spec.md:377"
+    "docs/research/hardware-spec.md:374"
    ]
   },
   {
@@ -1118,7 +1184,7 @@
     "analysis/link_status.json:423",
     "analysis/sources.json:9797",
     "cad/hardware.json:217",
-    "docs/research/hardware-spec.md:378"
+    "docs/research/hardware-spec.md:375"
    ]
   },
   {
@@ -1129,10 +1195,19 @@
    "ok": false,
    "found_in": [
     "analysis/link_status.json:428",
-    "analysis/sources.json:9815",
+    "analysis/sources.json:9815"
+   ]
+  },
+  {
+   "url": "https://boltdepot.com/Product-Details?product=6636",
+   "status": "blocked",
+   "status_code": 403,
+   "error": "HTTP 403 Forbidden",
+   "ok": false,
+   "found_in": [
     "cad/hardware.json:441",
     "docs/research/hardware-spec.md:49",
-    "docs/research/hardware-spec.md:380"
+    "docs/research/hardware-spec.md:377"
    ]
   },
   {
@@ -1146,7 +1221,7 @@
     "analysis/sources.json:9833",
     "cad/hardware.json:358",
     "docs/research/hardware-spec.md:48",
-    "docs/research/hardware-spec.md:379"
+    "docs/research/hardware-spec.md:376"
    ]
   },
   {
@@ -1160,7 +1235,7 @@
     "analysis/sources.json:9851",
     "cad/hardware.json:640",
     "docs/research/hardware-spec.md:52",
-    "docs/research/hardware-spec.md:384"
+    "docs/research/hardware-spec.md:381"
    ]
   },
   {
@@ -1173,6 +1248,17 @@
     "analysis/link_status.json:443",
     "analysis/sources.json:9869",
     "docs/research/hardware-spec.md:56"
+   ]
+  },
+  {
+   "url": "https://budgetlightforum.com/t/bench-test-results-molicel-p45b-50a-4500mah-21700/70213",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:124",
+    "docs/research/propulsion-margin-data.md:75"
    ]
   },
   {
@@ -1197,6 +1283,17 @@
     "analysis/link_status.json:454",
     "analysis/sources.json:357",
     "docs/research/review-formats.md:25"
+   ]
+  },
+  {
+   "url": "https://cdn.eicom.ru/media/PDF/XT60H-M.pdf",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:399",
+    "docs/research/propulsion-margin-data.md:132"
    ]
   },
   {
@@ -1237,7 +1334,7 @@
     "cad/hardware.json:582",
     "cad/hardware.json:659",
     "cad/hardware.json:937",
-    "docs/build/BUILD-MANUAL.md:1334",
+    "docs/build/BUILD-MANUAL.md:1333",
     "docs/research/hardware-spec.md:22"
    ]
   },
@@ -1272,11 +1369,22 @@
    ]
   },
   {
-   "url": "https://chinahobbyline.com/pages/shipping-policy",
+   "url": "https://chinahobbyline.com/blogs/news/ovonic-vs-cnhl-lipo-battery-comparison",
    "status": "ok",
    "status_code": 200,
    "error": null,
    "ok": true,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:72",
+    "docs/research/propulsion-margin-data.md:64"
+   ]
+  },
+  {
+   "url": "https://chinahobbyline.com/pages/shipping-policy",
+   "status": "blocked",
+   "status_code": 429,
+   "error": "HTTP 429 Too Many Requests",
+   "ok": false,
    "found_in": [
     "analysis/link_status.json:474",
     "analysis/sources.json:5366",
@@ -1304,7 +1412,7 @@
    "found_in": [
     "analysis/link_status.json:484",
     "analysis/sources.json:9905",
-    "docs/build/BUILD-MANUAL.md:324",
+    "docs/build/BUILD-MANUAL.md:323",
     "docs/build/BUILD-MANUAL.md:1351",
     "docs/research/hardware-spec.md:88"
    ]
@@ -1342,7 +1450,8 @@
    "found_in": [
     "analysis/link_status.json:499",
     "analysis/sources.json:9923",
-    "docs/research/hardware-spec.md:95"
+    "docs/research/hardware-spec.md:95",
+    "docs/validation/proofs/STR-14.md:20"
    ]
   },
   {
@@ -1511,6 +1620,17 @@
    ]
   },
   {
+   "url": "https://discuss.ardupilot.org/t/recommended-thrust-to-weight-ratio-for-a-hybrid-vtol-uav/80510",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:236",
+    "docs/research/propulsion-margin-data.md:107"
+   ]
+  },
+  {
    "url": "https://discuss.ardupilot.org/t/skywalker-x8-quadplane-build-4/42083",
    "status": "ok",
    "status_code": 200,
@@ -1592,10 +1712,12 @@
    "ok": true,
    "found_in": [
     "analysis/link_status.json:599",
+    "analysis/propulsion_data_2026-11-01.json:246",
     "analysis/sources.json:514",
     "docs/research/airframe-materials.md:196",
     "docs/research/benchmarks.md:90",
-    "docs/research/configurations.md:329"
+    "docs/research/configurations.md:329",
+    "docs/research/propulsion-margin-data.md:108"
    ]
   },
   {
@@ -1620,6 +1742,17 @@
     "analysis/link_status.json:609",
     "analysis/sources.json:7505",
     "docs/research/avionics-autopilot.md:110"
+   ]
+  },
+  {
+   "url": "https://docs.holybro.com/power-module-and-pdb/power-module/connector-and-wire-rating",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:165",
+    "docs/research/propulsion-margin-data.md:87"
    ]
   },
   {
@@ -1699,7 +1832,9 @@
    "error": null,
    "ok": true,
    "found_in": [
-    "analysis/link_status.json:639"
+    "analysis/link_status.json:639",
+    "analysis/propulsion_data_2026-11-01.json:256",
+    "docs/research/propulsion-margin-data.md:108"
    ]
   },
   {
@@ -1770,6 +1905,17 @@
     "analysis/sources.json:7590",
     "analysis/sources.json:7880",
     "docs/research/firmware.md:67"
+   ]
+  },
+  {
+   "url": "https://doi.org/10.1115/1.2960953",
+   "status": "blocked",
+   "status_code": 403,
+   "error": "HTTP 403 Forbidden",
+   "ok": false,
+   "found_in": [
+    "docs/validation/proofs/AERO-04.md:20",
+    "docs/validation/proofs/CFD-02.md:20"
    ]
   },
   {
@@ -1866,7 +2012,11 @@
    "found_in": [
     "analysis/link_status.json:699",
     "analysis/sources.json:4013",
-    "docs/research/budget-airframe.md:22"
+    "docs/research/budget-airframe.md:22",
+    "docs/validation/proofs/AERO-22.md:35",
+    "docs/validation/proofs/AERO-23.md:39",
+    "docs/validation/proofs/STR-04.md:51",
+    "docs/validation/proofs/XT-01.md:21"
    ]
   },
   {
@@ -1879,6 +2029,17 @@
     "analysis/geometry.mjs:7",
     "analysis/link_status.json:704",
     "analysis/sources.json:1306"
+   ]
+  },
+  {
+   "url": "https://en.wikipedia.org/wiki/Nichrome",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:23",
+    "docs/research/bom-savings.md:29"
    ]
   },
   {
@@ -1990,10 +2151,10 @@
   },
   {
    "url": "https://fiberon.polymaker.com/wp-content/uploads/TDS_FIBERON-PA6-CF20_V1.1_EN.pdf",
-   "status": "ok",
-   "status_code": 200,
-   "error": null,
-   "ok": true,
+   "status": "error",
+   "status_code": null,
+   "error": "TimeoutError: The read operation timed out",
+   "ok": false,
    "found_in": [
     "analysis/link_status.json:746",
     "analysis/sources.json:63",
@@ -2001,7 +2162,9 @@
     "analysis/sources_key.json:41",
     "docs/build/BUILD-MANUAL.md:55",
     "docs/build/BUILD-MANUAL.md:1348",
-    "docs/research/airframe-materials.md:139"
+    "docs/research/airframe-materials.md:139",
+    "docs/validation/proofs/MFG-12.md:18",
+    "docs/validation/proofs/THM-08.md:19"
    ]
   },
   {
@@ -2027,7 +2190,7 @@
     "analysis/sources.json:39",
     "analysis/sources.json:7836",
     "analysis/sources_key.json:17",
-    "docs/build/BUILD-MANUAL.md:1339",
+    "docs/build/BUILD-MANUAL.md:1338",
     "docs/research/firmware.md:26"
    ]
   },
@@ -2317,6 +2480,16 @@
    ]
   },
   {
+   "url": "https://hken.rs-online.com/web/p/microcontrollers/7468217",
+   "status": "blocked",
+   "status_code": 403,
+   "error": "HTTP 403 Forbidden",
+   "ok": false,
+   "found_in": [
+    "docs/research/thermal.md:97"
+   ]
+  },
+  {
    "url": "https://hobbyking.com/en_us/catalogsearch/result/?q=carbon+tube+22mm",
    "status": "blocked",
    "status_code": 403,
@@ -2330,10 +2503,10 @@
   },
   {
    "url": "https://holybro.com/collections/power-modules-pdbs",
-   "status": "blocked",
-   "status_code": 429,
-   "error": "HTTP 429 Too Many Requests",
-   "ok": false,
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
    "found_in": [
     "analysis/link_status.json:883",
     "analysis/sources.json:8100",
@@ -2349,18 +2522,18 @@
    "found_in": [
     "analysis/link_status.json:888",
     "analysis/sources.json:8117",
-    "docs/build/BUILD-MANUAL.md:1344",
     "docs/research/avionics-autopilot.md:142",
-    "docs/research/hardware-spec.md:288"
+    "docs/research/hardware-spec.md:285"
    ]
   },
   {
    "url": "https://holybro.com/products/digital-air-speed-sensor-standard",
-   "status": "ok",
-   "status_code": 200,
-   "error": null,
-   "ok": true,
+   "status": "blocked",
+   "status_code": 429,
+   "error": "HTTP 429 Too Many Requests",
+   "ok": false,
    "found_in": [
+    "analysis/bom_savings_2026-11-01.json:102",
     "analysis/link_status.json:891",
     "analysis/link_status.json:894",
     "analysis/sources.json:8136",
@@ -2501,6 +2674,17 @@
     "analysis/link_status.json:949",
     "analysis/sources.json:8308",
     "docs/research/avionics-autopilot.md:183"
+   ]
+  },
+  {
+   "url": "https://horizonhobby.com/product/connector-ec5-device-and-ec5-battery-set/EFLAEC503.html",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:176",
+    "docs/research/propulsion-margin-data.md:89"
    ]
   },
   {
@@ -2747,6 +2931,19 @@
    ]
   },
   {
+   "url": "https://neuracing.us/product/as150u/",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:138",
+    "analysis/propulsion_data_2026-11-01.json:379",
+    "docs/build/BUILD-MANUAL.md:1345",
+    "docs/research/propulsion-margin-data.md:136"
+   ]
+  },
+  {
    "url": "https://newbeedrone.com/products/isdt-k2-air-dual-channel-smart-charger",
    "status": "ok",
    "status_code": 200,
@@ -2853,7 +3050,7 @@
    "found_in": [
     "analysis/link_status.json:1095",
     "analysis/sources.json:2354",
-    "docs/DESIGN-BASIS.md:44"
+    "docs/DESIGN-BASIS.md:45"
    ]
   },
   {
@@ -2951,10 +3148,10 @@
   },
   {
    "url": "https://pyrodrone.com/collections/all-inventory/products/matek-pm12s-3-power-module-12s-input-bec",
-   "status": "blocked",
-   "status_code": 429,
-   "error": "HTTP 429 Too Many Requests",
-   "ok": false,
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
    "found_in": [
     "analysis/link_status.json:1136",
     "analysis/sources.json:8580",
@@ -3036,6 +3233,17 @@
    ]
   },
   {
+   "url": "https://pyrodrone.com/products/htrc-lipo-charger-1-6s-ac-dc-c150-for-nicd-li-ion-life-nimh-lihv-pb-smart-battery",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:43",
+    "analysis/bom_savings_2026-11-01.json:304"
+   ]
+  },
+  {
    "url": "https://pyrodrone.com/products/lumenier-remote-id-module-ndaa",
    "status": "ok",
    "status_code": 200,
@@ -3105,6 +3313,16 @@
     "analysis/link_status.json:1196",
     "analysis/sources.json:8699",
     "docs/research/avionics-autopilot.md:234"
+   ]
+  },
+  {
+   "url": "https://qa12.asme.org/wwwasmeorg/media/ResourceFiles/Shop/Journals/JFENumAccuracy.pdf",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "docs/validation/VALIDATION-REPORT.md:99"
    ]
   },
   {
@@ -3180,6 +3398,27 @@
    ]
   },
   {
+   "url": "https://raw.githubusercontent.com/ArduPilot/ardupilot/Plane-4.5/ArduPlane/quadplane.cpp",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:431"
+   ]
+  },
+  {
+   "url": "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/ArduPlane/quadplane.cpp",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:430",
+    "docs/research/propulsion-margin-data.md:150"
+   ]
+  },
+  {
    "url": "https://rc-modelshop.com/product/agf-rc-servo-b53chn-v2-20-5kg-0-06s-8-4v/",
    "status": "ok",
    "status_code": 200,
@@ -3215,6 +3454,16 @@
    ]
   },
   {
+   "url": "https://readymaderc.com/pages/shipping-returns",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:111"
+   ]
+  },
+  {
    "url": "https://readymaderc.com/products/details/85786-speedybee-f405-wing-app-fixed-wing-flight-controller",
    "status": "ok",
    "status_code": 200,
@@ -3223,7 +3472,7 @@
    "found_in": [
     "analysis/link_status.json:1250",
     "analysis/sources.json:9096",
-    "docs/build/BUILD-MANUAL.md:1338",
+    "docs/build/BUILD-MANUAL.md:1337",
     "docs/research/budget-avionics.md:108"
    ]
   },
@@ -3237,7 +3486,7 @@
     "analysis/link_status.json:1256",
     "analysis/sources.json:9114",
     "docs/research/budget-avionics.md:337",
-    "docs/research/hardware-spec.md:268"
+    "docs/research/hardware-spec.md:265"
    ]
   },
   {
@@ -3319,10 +3568,23 @@
    "error": null,
    "ok": true,
    "found_in": [
+    "analysis/bom_savings_2026-11-01.json:120",
     "analysis/link_status.json:1289",
     "analysis/sources.json:9166",
-    "docs/build/BUILD-MANUAL.md:1336",
+    "docs/build/BUILD-MANUAL.md:1335",
     "docs/research/budget-avionics.md:336"
+   ]
+  },
+  {
+   "url": "https://shop.tmotor.com/blog/vtol-propulsion-system-selection-guide",
+   "status": "error",
+   "status_code": null,
+   "error": "URLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)",
+   "ok": false,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:226",
+    "docs/DESIGN-BASIS.md:31",
+    "docs/research/propulsion-margin-data.md:106"
    ]
   },
   {
@@ -3345,6 +3607,17 @@
    "ok": true,
    "found_in": [
     "analysis/link_status.json:1297"
+   ]
+  },
+  {
+   "url": "https://sparks.gogo.co.nz/assets/_site_/downloads/XT90S_SPEC.pdf",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:358",
+    "docs/research/propulsion-margin-data.md:134"
    ]
   },
   {
@@ -3468,6 +3741,17 @@
     "analysis/link_status.json:1345",
     "analysis/sources.json:6287",
     "docs/research/lift-propulsion.md:25"
+   ]
+  },
+  {
+   "url": "https://store.tmotor.com/goods.php?id=964",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:348",
+    "docs/research/propulsion-margin-data.md:124"
    ]
   },
   {
@@ -3601,10 +3885,30 @@
     "analysis/sources.json:45",
     "analysis/sources.json:6457",
     "analysis/sources_key.json:23",
-    "docs/build/BUILD-MANUAL.md:1333",
+    "docs/build/BUILD-MANUAL.md:1332",
     "docs/research/budget-lift.md:42",
     "docs/research/budget-lift.md:116",
-    "docs/research/hardware-spec.md:23"
+    "docs/research/hardware-spec.md:23",
+    "docs/validation/proofs/AERO-16.md:44",
+    "docs/validation/proofs/AERO-17.md:34",
+    "docs/validation/proofs/AERO-18.md:35",
+    "docs/validation/proofs/AERO-19.md:41",
+    "docs/validation/proofs/AERO-20.md:39",
+    "docs/validation/proofs/AERO-22.md:33",
+    "docs/validation/proofs/AERO-24.md:19",
+    "docs/validation/proofs/AERO-31.md:20",
+    "docs/validation/proofs/STR-01.md:38",
+    "docs/validation/proofs/STR-02.md:20",
+    "docs/validation/proofs/STR-03.md:39",
+    "docs/validation/proofs/STR-04.md:50",
+    "docs/validation/proofs/STR-05.md:41",
+    "docs/validation/proofs/STR-10.md:20",
+    "docs/validation/proofs/STR-14.md:19",
+    "docs/validation/proofs/THM-01.md:43",
+    "docs/validation/proofs/THM-03.md:33",
+    "docs/validation/proofs/THM-04.md:20",
+    "docs/validation/proofs/THM-05.md:19",
+    "docs/validation/proofs/XT-01.md:20"
    ]
   },
   {
@@ -3618,6 +3922,37 @@
     "analysis/sources.json:6476",
     "docs/research/budget-lift.md:41",
     "docs/research/budget-lift.md:107"
+   ]
+  },
+  {
+   "url": "https://sunnyskyusa.com/pages/order-and-shipping",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:57"
+   ]
+  },
+  {
+   "url": "https://sunnyskyusa.com/products.json?limit=250",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:328"
+   ]
+  },
+  {
+   "url": "https://sunnyskyusa.com/products/eolo-carbon-fiber-uav-propellers-18x6-5-inch.js",
+   "status": "blocked",
+   "status_code": 429,
+   "error": "HTTP 429 Too Many Requests",
+   "ok": false,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:327",
+    "docs/research/propulsion-margin-data.md:122"
    ]
   },
   {
@@ -3642,6 +3977,29 @@
     "analysis/link_status.json:1415",
     "analysis/sources.json:6510",
     "docs/research/budget-lift.md:92"
+   ]
+  },
+  {
+   "url": "https://sunnyskyusa.com/products/sunnysky-x4110s-motors",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:57",
+    "analysis/bom_savings_2026-11-01.json:310",
+    "analysis/propulsion_data_2026-11-01.json:13"
+   ]
+  },
+  {
+   "url": "https://sunnyskyusa.com/products/sunnysky-x4110s-motors.js",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:12",
+    "docs/research/propulsion-margin-data.md:11"
    ]
   },
   {
@@ -3801,7 +4159,8 @@
     "analysis/link_status.json:1471",
     "analysis/sources.json:4969",
     "docs/build/BUILD-MANUAL.md:1347",
-    "docs/research/airframe-materials.md:139"
+    "docs/research/airframe-materials.md:139",
+    "docs/validation/proofs/AERO-31.md:23"
    ]
   },
   {
@@ -3914,10 +4273,10 @@
   },
   {
    "url": "https://wrekd.com/products/6s4p-21-6v-molicel-p50b-20000mah-li-ion-battery-pack",
-   "status": "ok",
-   "status_code": 200,
-   "error": null,
-   "ok": true,
+   "status": "blocked",
+   "status_code": 429,
+   "error": "HTTP 429 Too Many Requests",
+   "ok": false,
    "found_in": [
     "analysis/link_status.json:1522",
     "analysis/sources.json:6680",
@@ -3958,6 +4317,16 @@
     "analysis/link_status.json:1537",
     "analysis/sources.json:6697",
     "docs/research/pusher-battery-servo.md:68"
+   ]
+  },
+  {
+   "url": "https://wrekd.com/products/matek-digital-airspeed-sensor-aspd-4525",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:32"
    ]
   },
   {
@@ -4056,6 +4425,26 @@
    ]
   },
   {
+   "url": "https://www.aiaa-dpw.org/Workshop4/gridding_guidelines_4.html",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "docs/validation/VALIDATION-REPORT.md:99"
+   ]
+  },
+  {
+   "url": "https://www.aiaa-dpw.org/ref/gridding_guidelines_v3_07012024.pdf",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "docs/validation/VALIDATION-REPORT.md:99"
+   ]
+  },
+  {
    "url": "https://www.aircraftspruce.com/catalog/cmpages/styrofoam.php",
    "status": "ok",
    "status_code": 200,
@@ -4064,7 +4453,10 @@
    "found_in": [
     "analysis/link_status.json:1577",
     "analysis/sources.json:2651",
-    "docs/research/airframe-materials.md:98"
+    "docs/research/airframe-materials.md:98",
+    "docs/validation/proofs/AERO-22.md:38",
+    "docs/validation/proofs/AERO-23.md:40",
+    "docs/validation/proofs/AERO-24.md:22"
    ]
   },
   {
@@ -4259,7 +4651,7 @@
     "analysis/link_status.json:1653",
     "analysis/sources.json:9511",
     "cad/hardware.json:733",
-    "docs/research/hardware-spec.md:388"
+    "docs/research/hardware-spec.md:385"
    ]
   },
   {
@@ -4596,7 +4988,7 @@
     "analysis/link_status.json:1793",
     "analysis/sources.json:9529",
     "cad/hardware.json:715",
-    "docs/research/hardware-spec.md:387"
+    "docs/research/hardware-spec.md:384"
    ]
   },
   {
@@ -4637,6 +5029,22 @@
    ]
   },
   {
+   "url": "https://www.amazon.com/dp/B09CTRKLM4",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "docs/validation/proofs/AERO-17.md:35",
+    "docs/validation/proofs/AERO-20.md:40",
+    "docs/validation/proofs/AERO-21.md:34",
+    "docs/validation/proofs/AERO-22.md:34",
+    "docs/validation/proofs/AERO-24.md:20",
+    "docs/validation/proofs/AERO-31.md:21",
+    "docs/validation/proofs/THM-06.md:20"
+   ]
+  },
+  {
    "url": "https://www.amazon.com/dp/B0B15KTV8F",
    "status": "ok",
    "status_code": 200,
@@ -4659,7 +5067,7 @@
     "analysis/sources.json:3314",
     "cad/hardware.json:518",
     "docs/research/budget-airframe.md:288",
-    "docs/research/hardware-spec.md:296"
+    "docs/research/hardware-spec.md:293"
    ]
   },
   {
@@ -4783,6 +5191,19 @@
    ]
   },
   {
+   "url": "https://www.amazon.com/dp/B0D2HS4Y4J",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:10",
+    "analysis/bom_savings_2026-11-01.json:156",
+    "docs/build/BUILD-MANUAL.md:1344",
+    "docs/research/bom-savings.md:16"
+   ]
+  },
+  {
    "url": "https://www.amazon.com/dp/B0D41Y3WWZ",
    "status": "ok",
    "status_code": 200,
@@ -4826,9 +5247,13 @@
    "ok": true,
    "found_in": [
     "analysis/link_status.json:1888",
+    "analysis/propulsion_data_2026-11-01.json:186",
+    "analysis/propulsion_data_2026-11-01.json:410",
     "analysis/sources.json:5141",
     "docs/research/budget-lift.md:78",
-    "docs/research/firmware.md:61"
+    "docs/research/firmware.md:61",
+    "docs/research/propulsion-margin-data.md:95",
+    "docs/research/propulsion-margin-data.md:144"
    ]
   },
   {
@@ -4926,7 +5351,19 @@
     "analysis/sources.json:5159",
     "cad/hardware.json:937",
     "docs/research/budget-lift.md:94",
-    "docs/research/hardware-spec.md:160"
+    "docs/research/hardware-spec.md:160",
+    "docs/validation/proofs/AERO-31.md:26"
+   ]
+  },
+  {
+   "url": "https://www.amazon.com/dp/B0FJ22MCVJ",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:317",
+    "docs/research/propulsion-margin-data.md:121"
    ]
   },
   {
@@ -5027,10 +5464,10 @@
   },
   {
    "url": "https://www.amazon.com/s?k=6061+aluminum+round+tube+1+inch+OD",
-   "status": "server_error",
-   "status_code": 503,
-   "error": "HTTP 503 Service Unavailable",
-   "ok": false,
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
    "found_in": [
     "analysis/link_status.json:1973",
     "analysis/sources.json:3758",
@@ -5038,11 +5475,21 @@
    ]
   },
   {
+   "url": "https://www.amazon.com/s?k=adjustable+DC+bench+power+supply+30V+5A",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:21"
+   ]
+  },
+  {
    "url": "https://www.amazon.com/s?k=carbon+fiber+tube+22mm+1000mm",
-   "status": "server_error",
-   "status_code": 503,
-   "error": "HTTP 503 Service Unavailable",
-   "ok": false,
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
    "found_in": [
     "analysis/link_status.json:1978",
     "analysis/sources.json:3775",
@@ -5050,11 +5497,21 @@
    ]
   },
   {
-   "url": "https://www.andymark.com/products/1-2-in-id-1-1-8-in-od-sealed-flanged-bearing-fr82rs",
+   "url": "https://www.amazon.com/s?k=nichrome+wire+24+AWG+foam+cutting",
    "status": "ok",
    "status_code": 200,
    "error": null,
    "ok": true,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:21"
+   ]
+  },
+  {
+   "url": "https://www.andymark.com/products/1-2-in-id-1-1-8-in-od-sealed-flanged-bearing-fr82rs",
+   "status": "blocked",
+   "status_code": 429,
+   "error": "HTTP 429 Too Many Requests",
+   "ok": false,
    "found_in": [
     "analysis/link_status.json:1983",
     "analysis/sources.json:1458",
@@ -5158,8 +5615,12 @@
    "found_in": [
     "analysis/link_status.json:2017",
     "analysis/sources.json:5246",
-    "docs/build/BUILD-MANUAL.md:1335",
-    "docs/research/pusher-battery-servo.md:58"
+    "docs/build/BUILD-MANUAL.md:1334",
+    "docs/research/pusher-battery-servo.md:58",
+    "docs/validation/proofs/AERO-15.md:50",
+    "docs/validation/proofs/AERO-22.md:37",
+    "docs/validation/proofs/AERO-24.md:21",
+    "docs/validation/proofs/AERO-31.md:25"
    ]
   },
   {
@@ -5264,6 +5725,17 @@
    ]
   },
   {
+   "url": "https://www.batimex.pl/zdjecia/pdf/xt90h-m.pdf",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:155",
+    "docs/research/propulsion-margin-data.md:86"
+   ]
+  },
+  {
    "url": "https://www.beta.team/aircraft/",
    "status": "ok",
    "status_code": 200,
@@ -5276,6 +5748,27 @@
     "analysis/sources.json:1769",
     "analysis/sources_key.json:71",
     "docs/research/configurations.md:334"
+   ]
+  },
+  {
+   "url": "https://www.boltdepot.com/Product-Details.aspx?product=6385",
+   "status": "blocked",
+   "status_code": 403,
+   "error": "HTTP 403 Forbidden",
+   "ok": false,
+   "found_in": [
+    "cad/hardware.json:267",
+    "docs/research/hardware-spec.md:373"
+   ]
+  },
+  {
+   "url": "https://www.boltdepot.com/Service",
+   "status": "blocked",
+   "status_code": 403,
+   "error": "HTTP 403 Forbidden",
+   "ok": false,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:129"
    ]
   },
   {
@@ -5310,7 +5803,8 @@
    "found_in": [
     "analysis/link_status.json:2058",
     "analysis/sources.json:7403",
-    "docs/research/avionics-autopilot.md:257"
+    "docs/research/avionics-autopilot.md:257",
+    "docs/validation/proofs/AERO-31.md:22"
    ]
   },
   {
@@ -5341,7 +5835,7 @@
    "url": "https://www.cefns.nau.edu/capstone/projects/ME/2018/SAEAero/teaminfo/2017_Oral_Presentation_Score_Sheet_12_09_2016.pdf",
    "status": "error",
    "status_code": null,
-   "error": "URLError: _ssl.c:1063: The handshake operation timed out",
+   "error": "URLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)",
    "ok": false,
    "found_in": [
     "analysis/link_status.json:2076",
@@ -5369,7 +5863,20 @@
    "found_in": [
     "analysis/link_status.json:2087",
     "analysis/sources.json:3860",
-    "docs/research/budget-airframe.md:156"
+    "docs/research/budget-airframe.md:156",
+    "docs/validation/VALIDATION-REPORT.md:84"
+   ]
+  },
+  {
+   "url": "https://www.currentresults.com/Weather/California/city-temperature-april.php",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "docs/DESIGN-BASIS.md:39",
+    "docs/DESIGN-BASIS.md:47",
+    "docs/research/thermal.md:84"
    ]
   },
   {
@@ -5392,7 +5899,8 @@
    "ok": false,
    "found_in": [
     "analysis/link_status.json:2097",
-    "analysis/sources.json:424"
+    "analysis/sources.json:424",
+    "docs/validation/VALIDATION-REPORT.md:84"
    ]
   },
   {
@@ -5449,6 +5957,17 @@
    "ok": true,
    "found_in": [
     "analysis/link_status.json:691"
+   ]
+  },
+  {
+   "url": "https://www.e-cigarette-forum.com/threads/bench-test-results-molicel-p50b-60a-5000mah-21700.988690",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:140",
+    "docs/research/propulsion-margin-data.md:76"
    ]
   },
   {
@@ -5521,7 +6040,7 @@
    "found_in": [
     "analysis/link_status.json:2139",
     "analysis/sources.json:2038",
-    "docs/DESIGN-BASIS.md:45"
+    "docs/DESIGN-BASIS.md:46"
    ]
   },
   {
@@ -5573,7 +6092,6 @@
    "found_in": [
     "analysis/link_status.json:2160",
     "analysis/sources.json:7801",
-    "docs/build/BUILD-MANUAL.md:1345",
     "docs/research/firmware.md:60"
    ]
   },
@@ -5741,6 +6259,17 @@
    ]
   },
   {
+   "url": "https://www.fsaeonline.com/content/Molicel-TDS--INR-21700-P50B-80122.pdf",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:87",
+    "docs/research/propulsion-margin-data.md:73"
+   ]
+  },
+  {
    "url": "https://www.fujipress.jp/jrm/rb/robot003700020510/",
    "status": "ok",
    "status_code": 200,
@@ -5824,6 +6353,16 @@
    ]
   },
   {
+   "url": "https://www.getfpv.com/",
+   "status": "blocked",
+   "status_code": 403,
+   "error": "HTTP 403 Forbidden",
+   "ok": false,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:298"
+   ]
+  },
+  {
    "url": "https://www.getfpv.com/corewing-f405-wing-v2-flight-controller-stack.html",
    "status": "blocked",
    "status_code": 403,
@@ -5832,7 +6371,17 @@
    "found_in": [
     "analysis/link_status.json:2257",
     "analysis/sources.json:9940",
-    "docs/research/hardware-spec.md:277"
+    "docs/research/hardware-spec.md:274"
+   ]
+  },
+  {
+   "url": "https://www.getfpv.com/electronics/flight-controllers/matek-digital-airspeed-sensor-aspd-4525.html",
+   "status": "blocked",
+   "status_code": 403,
+   "error": "HTTP 403 Forbidden",
+   "ok": false,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:32"
    ]
   },
   {
@@ -5871,6 +6420,17 @@
    ]
   },
   {
+   "url": "https://www.getfpv.com/tiger-18x6-1-carbon-fiber-props-pair.html",
+   "status": "blocked",
+   "status_code": 403,
+   "error": "HTTP 403 Forbidden",
+   "ok": false,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:338",
+    "docs/research/propulsion-margin-data.md:123"
+   ]
+  },
+  {
    "url": "https://www.gpsworld.com/autel-robotics-tilt-rotor-dragonfish-lite-and-pro-uavs-available-in-us/",
    "status": "blocked",
    "status_code": 403,
@@ -5879,6 +6439,16 @@
    "found_in": [
     "analysis/link_status.json:2277",
     "analysis/sources.json:709"
+   ]
+  },
+  {
+   "url": "https://www.grc.nasa.gov/www/wind/valid/tutorial/spatconv.html",
+   "status": "error",
+   "status_code": null,
+   "error": "URLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1081)",
+   "ok": false,
+   "found_in": [
+    "docs/validation/VALIDATION-REPORT.md:99"
    ]
   },
   {
@@ -6071,6 +6641,17 @@
    ]
   },
   {
+   "url": "https://www.horizonhobby.com/product/connector-ec5-battery-2/EFLAEC502.html",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:175",
+    "docs/research/propulsion-margin-data.md:89"
+   ]
+  },
+  {
    "url": "https://www.horizonhobby.com/product/sky-remote-id-module/SPMA9500.html",
    "status": "ok",
    "status_code": 200,
@@ -6134,7 +6715,7 @@
    "found_in": [
     "analysis/link_status.json:2368",
     "analysis/sources.json:2161",
-    "docs/DESIGN-BASIS.md:42"
+    "docs/DESIGN-BASIS.md:43"
    ]
   },
   {
@@ -6146,7 +6727,7 @@
    "found_in": [
     "analysis/link_status.json:2373",
     "analysis/sources.json:2178",
-    "docs/DESIGN-BASIS.md:43"
+    "docs/DESIGN-BASIS.md:44"
    ]
   },
   {
@@ -6158,7 +6739,7 @@
    "found_in": [
     "analysis/link_status.json:2378",
     "analysis/sources.json:2195",
-    "docs/DESIGN-BASIS.md:41"
+    "docs/DESIGN-BASIS.md:42"
    ]
   },
   {
@@ -6409,6 +6990,28 @@
    ]
   },
   {
+   "url": "https://www.molicel.com/inr21700-p45b/",
+   "status": "error",
+   "status_code": null,
+   "error": "URLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)",
+   "ok": false,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:114",
+    "docs/research/propulsion-margin-data.md:74"
+   ]
+  },
+  {
+   "url": "https://www.molicel.com/product/inr-21700-p50b/",
+   "status": "error",
+   "status_code": null,
+   "error": "URLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: unable to get local issuer certificate (_ssl.c:1081)",
+   "ok": false,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:104",
+    "docs/research/propulsion-margin-data.md:73"
+   ]
+  },
+  {
    "url": "https://www.muginuav.com/product/mugin-2-pro-2930mm-h-tail-full-carbon-fiber-vtol-uav-platform/",
    "status": "ok",
    "status_code": 200,
@@ -6487,7 +7090,8 @@
    "found_in": [
     "analysis/link_status.json:2501",
     "analysis/sources.json:987",
-    "docs/research/review-formats.md:16"
+    "docs/research/review-formats.md:16",
+    "docs/validation/VALIDATION-REPORT.md:84"
    ]
   },
   {
@@ -6560,7 +7164,9 @@
     "analysis/link_status.json:2532",
     "analysis/sources.json:4543",
     "docs/build/BUILD-MANUAL.md:1354",
-    "docs/research/budget-airframe.md:80"
+    "docs/research/budget-airframe.md:80",
+    "docs/validation/proofs/AERO-22.md:36",
+    "docs/validation/proofs/AERO-31.md:24"
    ]
   },
   {
@@ -6606,10 +7212,32 @@
    "error": "HTTP 403 Forbidden",
    "ok": false,
    "found_in": [
+    "analysis/bom_savings_2026-11-01.json:66",
     "analysis/link_status.json:2552",
     "analysis/sources.json:4612",
     "docs/research/budget-airframe.md:120",
     "docs/research/budget-airframe.md:338"
+   ]
+  },
+  {
+   "url": "https://www.ovonicshop.com/products/ovonic-100c-22-2v-6500mah-6s-ec5-lipo-battery",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:56",
+    "docs/research/propulsion-margin-data.md:56"
+   ]
+  },
+  {
+   "url": "https://www.ovonicshop.com/products/ovonic-100c-22-2v-6500mah-6s-ec5-lipo-battery.js",
+   "status": "blocked",
+   "status_code": 429,
+   "error": "HTTP 429 Too Many Requests",
+   "ok": false,
+   "found_in": [
+    "analysis/propulsion_data_2026-11-01.json:57"
    ]
   },
   {
@@ -6663,6 +7291,16 @@
    ]
   },
   {
+   "url": "https://www.progressiverc.com/products/radiomaster-rp3-elrs-2-4ghz-receiver",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:213"
+   ]
+  },
+  {
    "url": "https://www.progressiverc.com/products/speedybee-f405-wing-app-flight-controller",
    "status": "ok",
    "status_code": 200,
@@ -6684,6 +7322,16 @@
     "analysis/link_status.json:2582",
     "analysis/sources.json:8563",
     "docs/research/budget-avionics.md:115"
+   ]
+  },
+  {
+   "url": "https://www.racedayquads.com/collections/all",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:292"
    ]
   },
   {
@@ -6764,9 +7412,9 @@
    "error": null,
    "ok": true,
    "found_in": [
+    "analysis/bom_savings_2026-11-01.json:84",
     "analysis/link_status.json:2612",
     "analysis/sources.json:8784",
-    "docs/build/BUILD-MANUAL.md:1340",
     "docs/research/budget-avionics.md:157",
     "docs/research/firmware.md:63"
    ]
@@ -6800,6 +7448,7 @@
    "error": null,
    "ok": true,
    "found_in": [
+    "analysis/bom_savings_2026-11-01.json:32",
     "analysis/link_status.json:2622",
     "analysis/sources.json:8820",
     "docs/research/budget-avionics.md:179"
@@ -6860,7 +7509,7 @@
    "found_in": [
     "analysis/link_status.json:2642",
     "analysis/sources.json:8888",
-    "docs/build/BUILD-MANUAL.md:1341",
+    "docs/build/BUILD-MANUAL.md:1340",
     "docs/research/budget-avionics.md:165",
     "docs/research/budget-avionics.md:251"
    ]
@@ -6937,6 +7586,16 @@
    ]
   },
   {
+   "url": "https://www.radiomasterrc.com/pages/shipping-delivery",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:93"
+   ]
+  },
+  {
    "url": "https://www.radiomasterrc.com/products/pocket-crush-radio-controller",
    "status": "ok",
    "status_code": 200,
@@ -6945,7 +7604,7 @@
    "found_in": [
     "analysis/link_status.json:2672",
     "analysis/sources.json:9008",
-    "docs/build/BUILD-MANUAL.md:1343",
+    "docs/build/BUILD-MANUAL.md:1342",
     "docs/research/budget-avionics.md:297"
    ]
   },
@@ -6963,14 +7622,14 @@
   },
   {
    "url": "https://www.radiomasterrc.com/products/rp3-expresslrs-2-4ghz-nano-receiver",
-   "status": "blocked",
-   "status_code": 429,
-   "error": "HTTP 429 Too Many Requests",
-   "ok": false,
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
    "found_in": [
     "analysis/link_status.json:2682",
     "analysis/sources.json:9043",
-    "docs/build/BUILD-MANUAL.md:1342",
+    "docs/build/BUILD-MANUAL.md:1341",
     "docs/research/budget-avionics.md:303",
     "docs/research/firmware.md:62"
    ]
@@ -7008,6 +7667,17 @@
    "found_in": [
     "analysis/link_status.json:2697",
     "analysis/sources.json:1040"
+   ]
+  },
+  {
+   "url": "https://www.readymaderc.com/pages/shipping-returns",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:286",
+    "docs/research/bom-savings.md:75"
    ]
   },
   {
@@ -7089,6 +7759,26 @@
    ]
   },
   {
+   "url": "https://www.readymaderc.com/products/details/87195-corewing-f405-wing-app-v2-fixed-wing-flight-controller-unsoldered-pins",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:256"
+   ]
+  },
+  {
+   "url": "https://www.readymaderc.com/products/details/rmrc-digital-air-speed-sensor-pixhawk-ii-2",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:223"
+   ]
+  },
+  {
    "url": "https://www.readymaderc.com/products/details/tattu-6s-30c-12000mah-ec5",
    "status": "ok",
    "status_code": 200,
@@ -7096,6 +7786,56 @@
    "ok": true,
    "found_in": [
     "analysis/link_status.json:1271"
+   ]
+  },
+  {
+   "url": "https://www.readymaderc.com/search?q=airspeed",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:234"
+   ]
+  },
+  {
+   "url": "https://www.readymaderc.com/search?q=beeid",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:245"
+   ]
+  },
+  {
+   "url": "https://www.readymaderc.com/search?q=es3005",
+   "status": "error",
+   "status_code": null,
+   "error": "TimeoutError: The read operation timed out",
+   "ok": false,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:267"
+   ]
+  },
+  {
+   "url": "https://www.readymaderc.com/search?q=pocket+crush",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:201"
+   ]
+  },
+  {
+   "url": "https://www.readymaderc.com/search?q=rp3",
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
+   "found_in": [
+    "analysis/bom_savings_2026-11-01.json:212"
    ]
   },
   {
@@ -7578,15 +8318,15 @@
     "analysis/sources.json:9993",
     "cad/hardware.json:785",
     "cad/hardware.json:986",
-    "docs/research/hardware-spec.md:351"
+    "docs/research/hardware-spec.md:348"
    ]
   },
   {
    "url": "https://zeeebattery.com/pages/shipping-policy",
-   "status": "ok",
-   "status_code": 200,
-   "error": null,
-   "ok": true,
+   "status": "blocked",
+   "status_code": 429,
+   "error": "HTTP 429 Too Many Requests",
+   "ok": false,
    "found_in": [
     "analysis/link_status.json:2916",
     "analysis/sources.json:6714",

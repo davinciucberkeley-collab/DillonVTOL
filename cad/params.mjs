@@ -62,12 +62,18 @@ Object.assign(P, { feaBoomL: st.Lb, feaTipForce: st.Tmax, feaTipMass: st.mTip, f
   feaWingForce: Fhalf*zc/zSparMid,                   // scaled so root moment = n W b/(3 pi)
   feaRootMomentTarget: st.Mroot, feaHandSigJ: st.sigJ, feaHandSigB: st.sigB, feaHandDefl: st.defl_max, feaHandFn: st.fn,
   thermQ: 0.20*s.P_hover_per_motor,   // EST: 80 % motor+ESC efficiency -> 20 % of hover input becomes heat in the unit
-  thermH: 50, thermAmbK: 308.15, thermTime: 90,   // EST: prop-wash convection 50 W/m2K, 35 C hot day, 90 s hover (test plan T3)
+  // thermH (rev 2026-11-01): the motor film coefficient computed by analysis/thermal/thermal_inputs.py (Hilpert cylinder in the hover
+  // induced velocity, Incropera eq. 7.52) instead of the 50 W/m2K estimate the FEA used while that file said 42.9 (THM-01 stale input)
+  thermH: JSON.parse(readFileSync(new URL('../analysis/thermal/thermal_inputs.json', import.meta.url), 'utf8')).h.motor_hover,
+  thermAmbK: 308.15, thermTime: 90,   // 35 C hot day, 90 s hover (test plan T3)
   matLib: '6061-T6 (SS)', matE: 69.0e9, matNu: 0.33, matRho: 2700, matSig: 275e6,   // SOLIDWORKS library 6061-T6 (SS)
   motorMass: 0.165, motorCp: 896 });   // X4110S 165 g (budget-lift.md A3); 6061 c_p from SW library, lumped thermal check
 
 // ---------------- stations (HS §4) ----------------
-const yB = -0.03, rB = P.boomOD/2;
+// boom centre height (rev 2026-11-01): was fixed at -0.030; with the 317 mm chord the wing's lower surface at 30 % c came below the
+// boom top and the front clamp's upper half lost its wall (CAD interference Wing_Panel x Boom_Front). Keep >= 2.0 mm of clamp wall
+// over the 25.6 mm bore (FT02) under the wing at the spar station, and stay at -0.030 when the section allows it.
+const yB = Math.min(-0.03, yLower(xSp) - 0.0128 - 0.0020), rB = P.boomOD/2;
 const yMotor = yB + 0.021;                       // motor base on the mount top: boom centre + 21.0 (HS J02 block, upper half +0.6..+21.0)
 const yPropHub = yMotor + P.motorH;              // lift prop hub sits on the bell top (HS J03); hub 8 mm EST, prop plate 2.5 above it
 const yPlate = yPropHub + 0.008;
@@ -101,21 +107,30 @@ Object.assign(P, { boltZ: fusR - 0.015, boltX, yU70, yL70, yMid70, zBoomPanel, y
   servoL: SERVO.L, servoW: SERVO.W, servoH: SERVO.H, servoTabZ: SERVO.tabZ, servoTabT: SERVO.tabT, servoTabX: SERVO.tabX, servoTabY: SERVO.tabY, servoShaftX: SERVO.shaftX, servoArmLen: SERVO.armLen,
   trayBodyY: TRAY.bodyY, trayPlateZ: TRAY.plateZ, trayPlateT: TRAY.plateT,
   pitotX: -0.05, pitotY: yL21 - 0.0095, pitotZ: -1.0, hornHpX: -0.75*chord, tailX, yPod, battX: cg.x, battY: -0.052,
-  bayX0: 0.15, bayX1: 0.30, bayY0: -0.020, bayY1: 0.015, bayZ: 0.04, canopyX0: 0.07, canopyX1: 0.33, canopyR: 0.055, canopyY: 0.015 });
+  // pod bays move with the nose (rev 2026-11-01: stations were absolute for noseX 0.45): avionics bay 0.30-0.15 m behind the nose tip;
+  // the canopy hatch runs from 0.12 m behind the nose to 0.12 m behind the battery's aft face so the pack can be lifted out
+  bayX0: POD.noseX - 0.30, bayX1: POD.noseX - 0.15, bayY0: -0.020, bayY1: 0.015, bayZ: 0.04,
+  canopyX0: Math.min(POD.noseX - 0.38, cg.x - 0.0775 - 0.02), canopyX1: POD.noseX - 0.12, canopyR: 0.055, canopyY: 0.015 });
 // sizes that follow the wing section and stations (read by BuildVtol.cs, Drawings.cs and docs/build/templates/make_templates.py)
 const FT06 = HW.fits.find(f => f.id === 'FT06'), N02 = HW.nuts.find(n => n.id === 'N02');
 const pillarH = yU70 - yL70;
-// J10 nut pocket from the lower surface: M5 x 20 head on the spot-face, screw end 0.5 past the nylock (HS CAD notes), 0.1 mm steps.
-// Spot-face depth (CAD rev D): 1.0 deepened in 0.5 steps until the pocket ceiling stays at or below the tongue-slot floor
-// (slot 6.8 centred on the section mid-line), so the nylock never sits above the tongue's lower face (rev C: 9.0 vs floor 8.8).
+// J10 nut pocket from the lower surface (rev E, 2026-11-01). The old rule put the screw end 0.5 mm past the nylock, which the
+// tolerance audit showed can leave the nylon ring unengaged (MFG-09: worst-case stack +-1.9 mm on the printed pillar, spot-face
+// and pocket, analysis/validation/check_struct.py). New rule: the screw end is at least two thread pitches (2 x 0.8 mm) past the
+// nut in the worst case, i.e. 1.6 + 1.9 = 3.5 mm nominal. Search the ISO 7380 lengths and spot-faces (0.5 mm steps) for the
+// first combination whose pocket ceiling stays at or below the tongue-slot floor (slot 6.8 centred on the section mid-line, so
+// the nylock never sits above the tongue's lower face) and whose screw end stays inside the wing's lower surface.
 const slotFloor = (yMid70 - yL70) - 0.0034;
-const nutDepthFor = sf => Math.ceil(((pillarH - sf - 0.020) + 0.0005 + N02.h_mm/1000)*1e4 - 1e-6)/1e4;
-let pillarSpot = 0.001;
-while (nutDepthFor(pillarSpot) > slotFloor + 1e-9) pillarSpot += 0.0005;
-if (pillarSpot > 0.0025) throw new Error('J10: M5 x 20 needs a spot-face deeper than 2.5 mm; re-select the wing bolt length');
-const pillarNutDepth = nutDepthFor(pillarSpot);
+const WB_PITCH = 0.0008, WB_STACK_WC = 0.0019, WB_PAST = 2*WB_PITCH + WB_STACK_WC;
+const nutDepthFor = (sf, L) => Math.ceil(((pillarH - sf - L) + WB_PAST + N02.h_mm/1000)*1e4 - 1e-6)/1e4;
+let wingBoltL = null, pillarSpot = null;
+search: for (const L of [0.020, 0.025, 0.030]) for (let sf = 0.001; sf <= 0.0025 + 1e-9; sf += 0.0005) {
+  if (nutDepthFor(sf, L) <= slotFloor + 1e-9 && pillarH - sf - L >= -1e-9) { wingBoltL = L; pillarSpot = sf; break search; } }
+if (wingBoltL === null) throw new Error('J10: no ISO 7380 M5 length and spot-face put the screw end 3.5 mm past the nylock inside the section; redesign the joint');
+const pillarNutDepth = nutDepthFor(pillarSpot, wingBoltL);
+{ const f09 = HW.fasteners.find(f => f.id === 'F09'); if (Math.abs(f09.length_mm - wingBoltL*1000) > 1e-6) throw new Error(`J10: the search needs an M5 x ${wingBoltL*1000} wing bolt but cad/hardware.json F09 is M5 x ${f09.length_mm}; update F09`); }
 Object.assign(P, { mtow: s.m, ailFrac: 0.55, ailSpan: Lail, thick30: yUpper(0.30) - yLower(0.30), pillarH,
-  pillarD: 0.016, pillarBoreD: 0.0164, pillarNutDepth, pillarSpot, pillarSlotFloor: slotFloor, joinBoreD: FT06.hole.nominal_mm/1000,
+  pillarD: 0.016, pillarBoreD: 0.0164, pillarNutDepth, pillarSpot, pillarSlotFloor: slotFloor, wingBoltL, joinBoreD: FT06.hole.nominal_mm/1000,
   legStock: 96*IN });
 
 // ---------------- rotation matrices (rows = images of the part axes X, Y, Z; SOLIDWORKS MathTransform convention, probed 2026-10-21) ----------------
@@ -179,13 +194,16 @@ const screw = (id, pos, rot, grp, opts = {}) => {
 };
 const tailX2 = tailX;
 add('Fuselage_Pod', [POD.noseX, yPod, 0], ID, 'pod');
-add('Canopy', [0.33, 0.015, 0], ID, 'canopy');
-for (const sz of [1, -1]) screw('F07', [0.06, 0.017, sz*0.015], ID, 'canopy', { insert: 0.002 });   // J13 hatch flange 2.0 to inserts in the pod (frame rail in reality)
+// pod contents follow the pod parameters (rev 2026-11-01; were the fixed stations of the 0.85 m pod): canopy origin at its front end
+// canopyX1, hatch screws 10 mm behind its rear end, flight controller and tray at the avionics-bay centre
+add('Canopy', [P.canopyX1, 0.015, 0], ID, 'canopy');
+for (const sz of [1, -1]) screw('F07', [P.canopyX0 - 0.010, 0.017, sz*0.015], ID, 'canopy', { insert: 0.002 });   // J13 hatch flange 2.0 to inserts in the pod (frame rail in reality)
 add('Battery_Tray', [cg.x, -0.080, 0], ID, 'batt');
 add('Battery_6S_LiPo', [cg.x, -0.052, 0], ID, 'batt');
-add('FC_Tray', [0.225, -0.020, 0], ID, 'fc');   // avionics bay floor 7 mm above the battery
-add('Flight_Controller', [0.225, -0.009, 0], ID, 'fc');
-for (const sx of [1, -1]) for (const sz of [1, -1]) screw('F07', [0.225 + sx*0.0225, -0.0074, sz*0.0125], ID, 'fc', { insert: 0.0016 });   // J15 provisional 45 x 25 pattern (EST)
+const xFC = (P.bayX0 + P.bayX1) / 2;
+add('FC_Tray', [xFC, -0.020, 0], ID, 'fc');   // avionics bay floor 7 mm above the battery
+add('Flight_Controller', [xFC, -0.009, 0], ID, 'fc');
+for (const sx of [1, -1]) for (const sz of [1, -1]) screw('F07', [xFC + sx*0.0225, -0.0074, sz*0.0125], ID, 'fc', { insert: 0.0016 });   // J15 provisional 45 x 25 pattern (EST)
 add('Wing_Panel_R', [0, 0, fusR], ID, 'wingR'); add('Wing_Panel_L', [0, 0, -fusR], ID, 'wingL');
 add('Aileron_R', [0, 0, fusR + Lin + 0.002], ID, 'ailR'); add('Aileron_L', [0, 0, -(fusR + Lin + 0.002)], ID, 'ailL');
 add('Spar_Tube', [xs, ys, fusR], ID, 'wingR'); add('Spar_Tube', [xs, ys, -fusR - P.sparLen], ID, 'wingL');

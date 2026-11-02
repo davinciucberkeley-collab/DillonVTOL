@@ -32,7 +32,9 @@ OUT = HERE / "out"
 sys.path.insert(0, str(HERE))
 from postprocess import read_su2  # noqa: E402  (reuses the mesh.npz cache)
 
-C_REF = 0.284176            # m, wing chord = reference chord (run_cases.C_REF; wing marker x-extent 0..0.284176)
+sys.path.insert(0, str(HERE.parent))
+import geom  # noqa: E402
+C_REF = geom.PARAMS["chord"]   # m, wing chord = reference chord (run_cases.C_REF; cad/params.txt chord, rev 2026-11-02: was the hard-coded 0.284176 of the old wing)
 SEMISPAN = 1.2              # m, wing tip at y = 1.2 (wing marker y-extent, measured below and reported)
 WALLS = ["wing", "htail", "fins", "pod", "booms", "motors", "gear"]
 STATIONS = [0.15, 0.35, 0.55, 0.75, 0.95, 1.10]    # wing spanwise stations, m (clear of the root junction and tip box)
@@ -377,18 +379,20 @@ def strategy():
     S = [
         ("Refinement levels", "Three meshes share every rule; one length factor f scales most sizes (L1 1.5, L2 1.0, L3 0.72).",
          ref("LEVELS = {1: 1.5"), {"f": "1.5 / 1.0 / 0.72"}),
-        ("Domain box", "Half-model box cut around the aircraft; the far boundary is about 7-8 m from the aircraft in every direction (about 26-30 chords), far short of the 100-chord guideline.",
-         ref("DOMAIN = dict"), {"CAD frame": "X -16..8, Y -8..8, Z 0..10 m", "SU2 frame": "x -8..16, y 0..10, z -8..8 m"}),
+        ("Domain box", "Half-model box cut around the aircraft; mesh rev 2 puts the far boundary at least 33.8 m (Z: 35 m box top minus 1.2 m wing tip; 100 reference chords of 0.317 m = 31.7 m) from the aircraft, meeting the 100-chord guideline.",
+         ref("DOMAIN = dict"), {"CAD frame": "X -45..35, Y -35..35, Z 0..35 m", "nearest far face": "33.8 m (above the tip)"}),
         ("Fluid volume", "The box minus the closed outer surface; only the largest volume is kept.",
          ref("body = gmsh.model.occ.importShapes", "drop, recursive=True"), {}),
         ("Symmetry / far-field / wall classification", "Faces on y = 0 become the symmetry plane, faces on the box sides the far field, everything else wall.",
          ref("boundary classification by position", "wall.append(s)"), {"tolerance": "1e-6 m"}),
-        ("Wall size field", "Cell size grows linearly from the wall size at 4 mm from any wall to the far size at 7 m.",
-         ref('dist = fld.add("Distance")', 'fld.setNumber(thr, "DistMin", 0.004)'), {"SizeMin": "8 mm x f", "SizeMax": "0.9 m x f", "DistMin": "4 mm (fixed)", "DistMax": "7 m (fixed)", "Sampling": "40"}),
+        ("Wall size field", "Cell size grows linearly from the wall size at 4 mm from any wall to the far size at 30 m.",
+         ref('dist = fld.add("Distance")', 'fld.setNumber(thr, "DistMin", 0.004)'), {"SizeMin": "8 mm x f", "SizeMax": "4 m x f", "DistMin": "4 mm (fixed)", "DistMax": "30 m (fixed)", "Sampling": "40"}),
         ("Trailing-edge lines", "Straight constant-x curves near the aircraft (sharp TEs of wing, tail, fins, fairings) get a finer size within 3 mm.",
-         ref("# sharp trailing edges", 'fld.setNumber(tte, "DistMin", 0.003)'), {"SizeMin": "2.5 mm x f", "SizeMax": "0.9 m x f", "DistMin": "3 mm (fixed)", "DistMax": "0.25 m (fixed)", "Sampling": "400"}),
-        ("Trailing-edge end points", "The ends of each TE line (tip, symmetry plane, fin root/tip) get 0.6 mm so the thin wedge does not self-intersect; not scaled with f.",
-         ref("# TE end points", 'fld.setNumber(ttp, "DistMin", 0.004)'), {"SizeMin": "0.6 mm (fixed)", "DistMin": "4 mm", "DistMax": "0.12 m"}),
+         ref("# sharp trailing edges", 'fld.setNumber(tte, "DistMin", 0.003)'), {"SizeMin": "2.5 mm x f", "SizeMax": "4 m x f", "DistMin": "3 mm (fixed)", "DistMax": "0.25 m (fixed)", "Sampling": "400"}),
+        ("Trailing-edge end points", "The ends of each TE line (tip, symmetry plane, fin root/tip) get 0.6 mm x f so the thin wedge does not self-intersect (mesh rev 2: scaled with f).",
+         ref("# TE end points", 'fld.setNumber(ttp, "DistMin", 0.004)'), {"SizeMin": "0.6 mm x f", "DistMin": "4 mm", "DistMax": "0.12 m"}),
+        ("Lifting-surface wall size (rev 2)", "Wing, horizontal tail and fins are re-meshed at 2.2 mm x f on the surface, growing to the far size over 1.2 m (the 2-D scheme check gave -8 % section lift at this spacing vs -14 % at the rev 1 spacing).",
+         ref("LIFT_WALL = 0.0022", 'fld.setNumber(tl, "DistMax", 1.2)'), {"VIn": "2.2 mm x f", "DistMin": "4 mm", "DistMax": "1.2 m", "Sampling": "200"}),
         ("Box fields helper", "Each box sets a constant size inside and blends to 1 m outside over a fixed thickness.",
          ref("def add_box(cad_box, size, thick)", "boxes.append(bx)"), {"VOut": "1.0 m"}),
         ("Aircraft box", "Caps the cell size around the whole aircraft.",
@@ -401,10 +405,10 @@ def strategy():
          ref("# wing tip"), {"VIn": "6 mm x f", "Thickness": "0.05 m"}),
         ("Field combination", "The background size is the minimum of all fields; sizes are not extended from boundaries or points.",
          ref('mn = fld.add("Min")', '"Mesh.MeshSizeFromPoints", 0'), {"ExtendFromBoundary": "0", "FromPoints": "0"}),
-        ("Curvature sizing", "Curved surfaces get 24 elements per full turn; this is not scaled with f, so it fixes the LE spacing on every level.",
-         ref('"Mesh.MeshSizeFromCurvature", 24'), {"elements per 2 pi": "24 (fixed)"}),
+        ("Curvature sizing", "Curved surfaces get 24/f elements per full turn (mesh rev 2: scaled with f, so the leading edge refines with the level).",
+         ref('CURV_PER_2PI = 24', '"Mesh.MeshSizeFromCurvature", int(round(CURV_PER_2PI / f))'), {"elements per 2 pi": "24 / f"}),
         ("Global size limits", "Hard floor and ceiling on any element size.",
-         ref('"Mesh.MeshSizeMin", 0.0006', '"Mesh.MeshSizeMax", 0.9 * f'), {"MeshSizeMin": "0.6 mm (fixed)", "MeshSizeMax": "0.9 m x f"}),
+         ref('"Mesh.MeshSizeMin", 0.0006 * f', '"Mesh.MeshSizeMax", 4.0 * f'), {"MeshSizeMin": "0.6 mm x f", "MeshSizeMax": "4 m x f"}),
         ("Meshing algorithms", "Surface: gmsh Delaunay (5) unless ALG2D is set; volume: HXT parallel Delaunay (10).",
          ref('"Mesh.Algorithm", int', '"Mesh.Algorithm3D", 10'), {"Algorithm": "5", "Algorithm3D": "10 (HXT)"}),
         ("Optimiser", "gmsh tet optimiser and the Netgen optimiser run after volume meshing.",
@@ -430,7 +434,7 @@ def scorecard(M, conv):
     row("STD-02", "farfield_semispans", "> 100 semispans", {k: cmp(M[k]["farfield_semispans"], lambda v: v > 100) for k in lv}, "")
     row("STD-03", "wing_le_spacing_pct_c (median of station medians)", "< 0.1 % c",
         {k: cmp(M[k]["wing_le_spacing_pct_c"]["median_over_stations"], lambda v: v < 0.1) for k in lv},
-        "Edges with midpoint within 1 % c of the LE, 6 stations. Set by the fixed 24-per-turn curvature rule, not by f.")
+        "Edges with midpoint within 1 % c of the LE, 6 stations. Set by the curvature rule (24/f per turn) and the 2.2 mm x f lifting-surface size.")
     row("STD-03", "wing_te_spacing_pct_c (median of station medians)", "< 0.1 % c",
         {k: cmp(M[k]["wing_te_spacing_pct_c"]["median_over_stations"], lambda v: v < 0.1) for k in lv},
         "Chordwise edges touching the sharp TE line.")
@@ -462,12 +466,12 @@ def scorecard(M, conv):
     c = conv["monotone"]["CL"]
     rows.append({"standard": "STD-13", "metric": "CL at alpha 4 deg: e32/e21", "threshold_text": "> 0",
                  "L1": na, "L2": na, "L3": {"value": rnd(c["e32_over_e21"]), "result": "pass" if c["e32_over_e21"] > 0 else "fail"},
-                 "note": "Three-level property, listed on L3. Oscillatory, consistent with CFD-02 (GCI not computable)."})
+                 "note": "Three-level property, listed on L3. A positive ratio is monotone; the asymptotic range also needs e32/e21 > 1 (CFD-02)."})
     fam = conv["family"]
     rows.append({"standard": "STD-14", "metric": "worst regional spacing ratio / global r", "threshold_text": "same family (ratios equal)",
                  "L1": na, "L2": {"value": rnd(fam["L1_L2"]["worst_dev"]), "result": "pass" if fam["L1_L2"]["worst_dev"] <= 0.1 else "fail"},
                  "L3": {"value": rnd(fam["L2_L3"]["worst_dev"]), "result": "pass" if fam["L2_L3"]["worst_dev"] <= 0.1 else "fail"},
-                 "note": "Relative deviation of each regional ratio from the global r; pass if all within 10 % (audit assumption). Fixed-size rules (curvature 24/turn, 0.6 mm TE points, MeshSizeMin) break the family."})
+                 "note": "Relative deviation of each regional ratio from the global r; pass if all within 10 % (audit assumption). Mesh rev 2 scales every size rule with f; the wake and tip-vortex boxes still refine faster than the global ratio."})
     g = conv["refinement"]
     rows.append({"standard": "STD-15", "metric": "N_tets ratio between levels", "threshold_text": "~3x",
                  "L1": na, "L2": {"value": rnd(g["N_ratio_L1_L2"]), "result": "pass" if 2.4 <= g["N_ratio_L1_L2"] <= 3.6 else "fail"},
@@ -515,6 +519,44 @@ def convergence(M):
             "monotone": {**mono, "source": "analysis/cfd3d/out/cfd3d_results.json cases L1/L2/L3_a4.0"}}
 
 
+def _row(sc, std, metric_start=""):
+    return next((r for r in sc if r["standard"] == std and r["metric"].startswith(metric_start)), None)
+
+
+def verdict(sc, M, conv):
+    """Summary text built from the scorecard (rev 2026-11-02: was hard-coded for the rev 1 meshes and went stale)"""
+    R = conv["refinement"]; c = conv["monotone"]["CL"]; fam = conv["family"]
+    passed = sorted({r["standard"] for r in sc if any(r[k]["result"] == "pass" for k in ("L1", "L2", "L3"))})
+    failed = sorted({r["standard"] for r in sc if any(r[k]["result"] == "fail" for k in ("L1", "L2", "L3"))})
+    le = _row(sc, "STD-03", "wing_le"); ff = _row(sc, "STD-01")
+    t = (f"Mesh rev 2. All three levels are valid (no inverted cells), {R['r_L1_L2']:.2f} / {R['r_L2_L3']:.2f} apart (grid-study minimum 1.3), "
+         f"and the far field is {ff['L3']['value']:.0f} reference chords away (guideline 100). "
+         f"The wing LE spacing now refines with the level ({le['L1']['value']:.2f} / {le['L2']['value']:.2f} / {le['L3']['value']:.2f} % c) but is still above the 0.1 % c "
+         f"viscous-grid guideline, which this inviscid study is not built to meet. CL at alpha 4 is monotone but not yet in the asymptotic range "
+         f"(e32/e21 = {c['e32_over_e21']:.2f}; asymptotic needs > 1), so no valid GCI (CFD-02). Regional spacing ratios deviate from the global ratio by up to "
+         f"{100 * max(fam['L1_L2']['worst_dev'], fam['L2_L3']['worst_dev']):.0f} % (worst: {fam['L1_L2']['worst']}). "
+         f"Standards met on some level: {', '.join(passed) or 'none'}; not met: {', '.join(failed) or 'none'}.")
+    return t
+
+
+def needs(sc, M, conv):
+    out = []
+    if _row(sc, "STD-02")["L3"]["result"] == "fail":
+        out.append("Far field at >= 100 semispans (120 m) for DPW-8; far cells can stay large, so the extra cost is small.")
+    if _row(sc, "STD-03", "wing_le")["L3"]["result"] == "fail":
+        out.append(f"Wing and H-tail chordwise spacing near 0.1 % local chord at LE and TE (0.1 % of the {C_REF:.3f} m chord = {C_REF:.2f} mm), graded to coarser cells mid-chord (anisotropic surface mesh), for a viscous-grade grid.")
+    if _row(sc, "STD-05", "wing_tip")["L3"]["result"] == "fail":
+        out.append("Spanwise spacing near 0.1 % semispan (1.2 mm) at the wing root and tip, locally.")
+    if _row(sc, "STD-14")["L3"]["result"] == "fail":
+        out.append("Wake and tip-vortex boxes scaled so their spacing ratio equals the global r (the wake regions refine faster than the rest today).")
+    if not conv["monotone"]["CL"]["e32_over_e21"] > 1:   # STD-13 tests only the sign; the asymptotic range needs e32/e21 > 1
+        out.append("A fourth, finer level (f about 0.52, about 22 M tetrahedra) to reach the asymptotic range so the GCI of CFD-02 can be computed.")
+    if _row(sc, "STD-06")["L3"]["result"] == "fail":
+        out.append(f"Pod nose spacing under 1 % c_ref ({10 * C_REF:.2f} mm) for DPW-8; L3 is at {_row(sc, 'STD-06')['L3']['value']:.2f} % today.")
+    return out
+
+
+
 def main():
     t0 = time.time()
     M = {k: audit(k) for k in (1, 2, 3)}
@@ -545,20 +587,8 @@ def main():
     }
     out["summary"] = {
         "passes": cnt["pass"], "fails": cnt["fail"], "not_applicable": cnt["n/a"],
-        "verdict": ("The meshes are valid (no inverted cells) and the levels are far enough apart for a grid study (r = 1.42 and 1.37), "
-                    "but they fail every geometric resolution guideline: wing and H-tail LE spacing is about 0.65 % of local chord against "
-                    "0.1 %, the far field is about 27 chords away against 100, and the LE spacing is the same on all three levels because the "
-                    "fixed 24-per-turn curvature rule sets it, so the levels are not one grid family (L1 and L2 have about the same chordwise "
-                    "resolution, 86 and 84 equivalent points per section). That is consistent with CFD-02 (CL oscillates, no GCI), CFD-11 "
-                    "(Cp > 1 at an under-resolved H-tail LE) and CFD-12 (lift loss at this wall spacing in 2-D)."),
-        "what_a_passing_mesh_needs": [
-            "Far field at >= 100 c_ref (28.4 m) from the aircraft, and >= 100 semispans (120 m) to meet DPW-8; far cells can stay large, so the extra cost is small.",
-            "Wing and H-tail chordwise spacing near 0.1 % local chord at LE and TE (0.28 mm wing, 0.10 mm H-tail), graded to coarser cells mid-chord (anisotropic surface mesh or a structured surface), not isotropic 8 mm x f wall cells.",
-            "Spanwise spacing near 0.1 % semispan (1.2 mm) at the wing root and tip, locally.",
-            "Every sizing rule scaled by the level factor, including the curvature rule (elements per turn proportional to 1/f), the 0.6 mm TE-point size and MeshSizeMin, so that each regional spacing ratio equals the global r.",
-            "Three levels of that one family with monotone CL (Celik 2008 Step 3), so that the GCI of CFD-02 can be computed; add a finer level if CL still oscillates.",
-            "Pod nose spacing under 1 % c_ref (2.84 mm) for DPW-8; L3 is at 1.84 % today.",
-        ],
+        "verdict": verdict(sc, M, conv),
+        "what_a_passing_mesh_needs": needs(sc, M, conv),
     }
     p = OUT / "mesh_audit.json"
     with open(p, "w", encoding="utf-8", newline="\n") as fh:

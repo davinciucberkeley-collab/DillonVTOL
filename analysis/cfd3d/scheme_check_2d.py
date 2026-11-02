@@ -22,11 +22,14 @@ OUT = HERE / "out" / "scheme2d"
 XFOIL = Path(os.environ.get("XFOIL", r"C:\Users\dillo\tools\xfoil\xfoil.exe"))
 C = rc.C_REF
 ALPHAS = (0.0, 4.0)
-# wall size (m) and TE size: the 3-D L1/L2/L3 wall sizes (8 mm x f, TE 2.5 mm x f) and two finer levels
-LEVELS = {"3D-L1": (0.012, 0.00375), "3D-L2": (0.008, 0.0025), "3D-L3": (0.00576, 0.0018), "fine": (0.002, 0.0006), "finest": (0.001, 0.0003)}
+# wall size (m), TE size and curvature elements per 2 pi. Mesh rev 2 (2026-11-02): the 3-D L1/L2/L3 lifting-surface wall size is
+# build_mesh.LIFT_WALL x f = 2.2 mm x f, which also governs the mid-span TE (the TE-line field is coarser, 2.5 mm x f), and the
+# curvature rule is 24 / f; two finer reference levels kept from rev 1. Rev 1 levels were 8 mm x f with a fixed 24 per turn.
+F = {1: 1.5, 2: 1.0, 3: 0.72}   # build_mesh.LEVELS
+LEVELS = {**{f"3D-L{k}": (0.0022 * f, 0.0022 * f, int(round(24 / f))) for k, f in F.items()}, "fine": (0.002, 0.0006, 24), "finest": (0.001, 0.0003, 24)}
 
 
-def mesh(name, h, hte):
+def mesh(name, h, hte, curv=24):
     gmsh.model.add(name); o = gmsh.model.occ
     pts = geom.naca4_outline(geom.WING_M, geom.WING_P, geom.PARAMS["tc"], 120, geom.TE_AERO) * C
     le = int(np.argmin(pts[:, 0])); pts[-1] = pts[0]
@@ -44,7 +47,7 @@ def mesh(name, h, hte):
     dp = f.add("Distance"); f.setNumbers(dp, "PointsList", [up[0]])
     tp = f.add("Threshold"); f.setNumber(tp, "InField", dp); f.setNumber(tp, "SizeMin", hte); f.setNumber(tp, "SizeMax", 2.0); f.setNumber(tp, "DistMin", 0.003); f.setNumber(tp, "DistMax", 0.25)
     m = f.add("Min"); f.setNumbers(m, "FieldsList", [t, tp]); f.setAsBackgroundMesh(m)
-    for k, v in (("Mesh.MeshSizeExtendFromBoundary", 0), ("Mesh.MeshSizeFromPoints", 0), ("Mesh.MeshSizeFromCurvature", 24), ("Mesh.MeshSizeMin", hte), ("Mesh.Algorithm", 6)):
+    for k, v in (("Mesh.MeshSizeExtendFromBoundary", 0), ("Mesh.MeshSizeFromPoints", 0), ("Mesh.MeshSizeFromCurvature", curv), ("Mesh.MeshSizeMin", hte), ("Mesh.Algorithm", 6)):
         gmsh.option.setNumber(k, v)
     gmsh.model.mesh.generate(2)
     d_ = OUT / name; d_.mkdir(parents=True, exist_ok=True)
@@ -99,9 +102,9 @@ def main():
     gmsh.initialize(); gmsh.option.setNumber("General.Terminal", 0)
     res = {"generated": time.strftime("%Y-%m-%d %H:%M"), "script": "analysis/cfd3d/scheme_check_2d.py",
            "xfoil_inviscid": xfoil_inviscid(ALPHAS), "levels": {}}
-    for name, (h, hte) in LEVELS.items():
-        d, ntri, nwall = mesh(name, h, hte)
-        res["levels"][name] = {"wall_size_m": h, "te_size_m": hte, "triangles": ntri, "wall_edges": nwall, "su2": {a: su2(d, a) for a in ALPHAS}}
+    for name, (h, hte, curv) in LEVELS.items():
+        d, ntri, nwall = mesh(name, h, hte, curv)
+        res["levels"][name] = {"wall_size_m": h, "te_size_m": hte, "curvature_per_2pi": curv, "triangles": ntri, "wall_edges": nwall, "su2": {a: su2(d, a) for a in ALPHAS}}
         r = res["levels"][name]["su2"]
         print(name, ntri, nwall, {a: round(r[a]["CL"], 4) for a in ALPHAS}, flush=True)
     gmsh.finalize()

@@ -21,7 +21,12 @@ import build_geometry as bg  # noqa: E402
 
 LEVELS = {1: 1.5, 2: 1.0, 3: 0.72}
 # half-model domain in the CAD frame (aircraft spans X -1.04..0.45, Y -0.25..0.20, Z 0..1.2 on the starboard side)
-DOMAIN = dict(x0=-16.0, x1=8.0, y0=-8.0, y1=8.0, z0=0.0, z1=10.0)
+# mesh rev 2 (2026-11-01), from the mesh audit (analysis/cfd3d/mesh_audit.py): far field at >= 100 reference chords (AIAA DPW-4
+# gridding guideline 2g; c_ref 0.317 m -> 31.7 m), lifting-surface wall size 2.2 mm x f (the 2-D scheme check gives -8 % section lift at
+# ~300 wall edges vs -14 % at the old 84), and every size rule scaled by f, including curvature and the minimum size (one grid family)
+DOMAIN = dict(x0=-45.0, x1=35.0, y0=-35.0, y1=35.0, z0=0.0, z1=35.0)
+LIFT_WALL = 0.0022        # m x f on the wing, horizontal tail and fins
+CURV_PER_2PI = 24         # elements per 2 pi of radius at f = 1 (scaled 1/f)
 # component groups (CAD-frame part names from build_geometry.build_parts) -> SU2 wall markers
 GROUPS = {"wing": ["Wing", "Servo_3", "Servo_4"], "htail": ["H_Tail"], "fins": ["Fin_0", "Fin_1", "Fin_Shoe", "Servo_0", "Servo_1", "Servo_2"],
           "pod": ["Pod", "Canopy", "Pusher_Motor"], "booms": ["Boom", "Motor_Mount", "Tail_Clamp"],
@@ -109,8 +114,8 @@ def main(level):
     fld = gmsh.model.mesh.field
     dist = fld.add("Distance"); fld.setNumbers(dist, "SurfacesList", wall); fld.setNumber(dist, "Sampling", int(__import__("os").environ.get("SAMPLING", 40)))
     thr = fld.add("Threshold"); fld.setNumber(thr, "InField", dist)
-    fld.setNumber(thr, "SizeMin", 0.008 * f); fld.setNumber(thr, "SizeMax", 0.9 * f)
-    fld.setNumber(thr, "DistMin", 0.004); fld.setNumber(thr, "DistMax", 7.0)
+    fld.setNumber(thr, "SizeMin", 0.008 * f); fld.setNumber(thr, "SizeMax", 4.0 * f)
+    fld.setNumber(thr, "DistMin", 0.004); fld.setNumber(thr, "DistMax", 30.0)
     # sharp trailing edges (wing, tail, fins, fairings): curves that are straight and long in the span direction
     te = []
     for _, c in gmsh.model.getEntities(1):
@@ -120,14 +125,14 @@ def main(level):
             te.append(c)   # straight, long, constant-x edges: the sharp trailing edges of wing, tail, fins, fairings
     dte = fld.add("Distance"); fld.setNumbers(dte, "CurvesList", te); fld.setNumber(dte, "Sampling", 400)
     tte = fld.add("Threshold"); fld.setNumber(tte, "InField", dte)
-    fld.setNumber(tte, "SizeMin", 0.0025 * f); fld.setNumber(tte, "SizeMax", 0.9 * f)
+    fld.setNumber(tte, "SizeMin", 0.0025 * f); fld.setNumber(tte, "SizeMax", 4.0 * f)
     fld.setNumber(tte, "DistMin", 0.003); fld.setNumber(tte, "DistMax", 0.25)
     # TE end points (tips, symmetry plane, fin root/tip): the section curves meet there at a 10-16 deg wedge and a
     # coarse 1-D spacing lets the upper and lower segments cross; 0.6 mm within ~5 mm keeps them apart
     tep = sorted({int(p) for c in te for _, p in gmsh.model.getBoundary([(1, c)], oriented=False)})
     dtp = fld.add("Distance"); fld.setNumbers(dtp, "PointsList", tep)
     ttp = fld.add("Threshold"); fld.setNumber(ttp, "InField", dtp)
-    fld.setNumber(ttp, "SizeMin", 0.0006); fld.setNumber(ttp, "SizeMax", 0.9 * f)
+    fld.setNumber(ttp, "SizeMin", 0.0006 * f); fld.setNumber(ttp, "SizeMax", 4.0 * f)
     fld.setNumber(ttp, "DistMin", 0.004); fld.setNumber(ttp, "DistMax", 0.12)
     boxes = [ttp]
     def add_box(cad_box, size, thick):
@@ -136,7 +141,7 @@ def main(level):
         for k, v in dict(VIn=size, VOut=1.0, XMin=x0, XMax=x1, YMin=y0, YMax=y1, ZMin=z0, ZMax=z1, Thickness=thick).items():
             fld.setNumber(bx, k, v)
         boxes.append(bx)
-    add_box((-1.15, 0.55, -0.30, 0.25, 0.0, 1.30), 0.020 * f, 0.4)     # around the aircraft
+    add_box((-1.20, 0.70, -0.30, 0.25, 0.0, 1.30), 0.020 * f, 0.4)     # around the aircraft (rev 2: pod nose at x 0.60)
     add_box((-4.0, -0.25, -0.30, 0.30, 0.0, 1.35), 0.030 * f, 0.6)     # wake of wing and tail
     add_box((-4.0, -0.20, -0.08, 0.10, 1.12, 1.30), 0.012 * f, 0.15)   # starboard tip-vortex path
     add_box((-0.40, 0.02, -0.08, 0.06, 1.15, 1.25), 0.006 * f, 0.05)   # wing tip
@@ -144,9 +149,9 @@ def main(level):
     fld.setAsBackgroundMesh(mn)
     gmsh.option.setNumber("Mesh.MeshSizeExtendFromBoundary", 0)
     gmsh.option.setNumber("Mesh.MeshSizeFromPoints", 0)
-    gmsh.option.setNumber("Mesh.MeshSizeFromCurvature", 24)
-    gmsh.option.setNumber("Mesh.MeshSizeMin", 0.0006)
-    gmsh.option.setNumber("Mesh.MeshSizeMax", 0.9 * f)
+    gmsh.option.setNumber("Mesh.MeshSizeFromCurvature", int(round(CURV_PER_2PI / f)))
+    gmsh.option.setNumber("Mesh.MeshSizeMin", 0.0006 * f)
+    gmsh.option.setNumber("Mesh.MeshSizeMax", 4.0 * f)
     gmsh.option.setNumber("Mesh.Algorithm", int(__import__("os").environ.get("ALG2D", 5)))
     gmsh.option.setNumber("Mesh.Algorithm3D", 10)
     gmsh.option.setNumber("Mesh.Optimize", 1)
@@ -196,6 +201,18 @@ def main(level):
                 break
         comp[s] = group_of(name) if name else "unclassified"
     gmsh.model.setCurrent("fluid")
+    lift = [s for s in wall if comp[s] in ("wing", "htail", "fins")]
+    if lift:   # pass 2: lifting surfaces at LIFT_WALL x f, classification kept (surface tags do not change on re-meshing)
+        # the size on the surfaces themselves (a Distance field sampled at 40 points per surface direction is ~30 mm apart on the wing and
+        # never reaches SizeMin on the surface), then a sampled distance threshold for the growth away from them
+        cl = fld.add("Constant"); fld.setNumbers(cl, "SurfacesList", lift); fld.setNumber(cl, "VIn", LIFT_WALL * f); fld.setNumber(cl, "VOut", 1e22)
+        fld.setNumber(cl, "IncludeBoundary", 1)
+        dl = fld.add("Distance"); fld.setNumbers(dl, "SurfacesList", lift); fld.setNumber(dl, "Sampling", 200)
+        tl = fld.add("Threshold"); fld.setNumber(tl, "InField", dl)
+        fld.setNumber(tl, "SizeMin", LIFT_WALL * f); fld.setNumber(tl, "SizeMax", 4.0 * f); fld.setNumber(tl, "DistMin", 0.004); fld.setNumber(tl, "DistMax", 1.2)
+        mn2 = fld.add("Min"); fld.setNumbers(mn2, "FieldsList", [thr, tte, cl, tl] + boxes); fld.setAsBackgroundMesh(mn2)
+        gmsh.model.mesh.clear(); gmsh.model.mesh.generate(2)
+    t2 = time.time()
 
     for g in list(GROUPS) + ["unclassified"]:
         tags = [s for s in wall if comp[s] == g]
@@ -229,8 +246,8 @@ def main(level):
              "quality_minSICN": {"min": float(q.min()), "p01": float(np.percentile(q, 1)), "mean": float(q.mean()),
                                  "hist_edges": hist_edges, "hist": np.histogram(q, hist_edges)[0].tolist()},
              "quality_gamma": {"min": float(g.min()), "p01": float(np.percentile(g, 1)), "mean": float(g.mean())},
-             "sizes_m": {"wall_default": 0.008 * f, "trailing_edges": 0.0025 * f, "min": 0.0006, "te_points": 0.0006, "near_box": 0.020 * f,
-                         "wake_box": 0.030 * f, "tip_vortex_box": 0.012 * f, "tip": 0.006 * f, "far": 0.9 * f, "curvature_per_2pi": 24},
+             "sizes_m": {"wall_default": 0.008 * f, "lifting_surfaces": LIFT_WALL * f, "trailing_edges": 0.0025 * f, "min": 0.0006 * f, "te_points": 0.0006 * f, "near_box": 0.020 * f,
+                         "wake_box": 0.030 * f, "tip_vortex_box": 0.012 * f, "tip": 0.006 * f, "far": 4.0 * f, "curvature_per_2pi": int(round(CURV_PER_2PI / f))}, "mesh_rev": 2,
              "elements": "linear tetrahedra (gmsh HXT), linear triangles on the walls; no prism layer (inviscid Euler)",
              "te_curves": len(te), "wall_faces": len(wall), "faces_by_group": {k: sum(1 for s in wall if comp[s] == k) for k in list(GROUPS) + ["unclassified"]},
              "time_s": {"surface": round(t2 - t0, 1), "volume": round(t3 - t2, 1)}}

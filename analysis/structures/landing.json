@@ -1,0 +1,80 @@
+{
+ "script": "analysis/structures/landing.py",
+ "inputs": {
+  "mtow_kg": 7.4355998,
+  "x_cg_m": -0.090143353,
+  "E_Pa": 69000000000.0,
+  "boom_OD_m": 0.0254,
+  "boom_ID_m": 0.023622,
+  "I_m4": 5.147728852770955e-09,
+  "yield_min_Pa": 240000000.0,
+  "land_speed": {
+   "param": "Q_LAND_FINAL_SPD",
+   "default_mps": 0.5,
+   "url": "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/ArduPlane/quadplane.cpp",
+   "checked": "2026-11-01",
+   "set_in": "firmware/vtol_c0.param",
+   "value_mps": 0.3
+  }
+ },
+ "corners": {
+  "front": {
+   "gear_x_m": 0.31704,
+   "clamp_x_m": -0.09623,
+   "arm_m": 0.41326999999999997,
+   "k_N_per_m": 15096.781448897249,
+   "mass_share_kg": 1.8573997217238765,
+   "cases": {
+    "normal": {
+     "v_mps": 0.3,
+     "deflection_mm": 4.746129277790097,
+     "force_N": 71.65127643500963,
+     "load_factor_g": 3.9336696030906637,
+     "moment_Nm": 29.61132301229643,
+     "stress_MPa": 73.05431443882954,
+     "RF_yield_min": 3.2852269142975645,
+     "pass": true
+    },
+    "hard": {
+     "v_mps": 0.6,
+     "deflection_mm": 7.970233901979648,
+     "force_N": 120.32487931477827,
+     "load_factor_g": 6.605860269431671,
+     "moment_Nm": 49.726662874418416,
+     "stress_MPa": 122.68101847772543,
+     "RF_yield_min": 1.9562928558795392,
+     "pass": true
+    }
+   }
+  },
+  "rear": {
+   "gear_x_m": -0.49667,
+   "clamp_x_m": -0.25661,
+   "arm_m": 0.24006,
+   "k_N_per_m": 77024.09483834005,
+   "mass_share_kg": 1.8604001782761241,
+   "cases": {
+    "normal": {
+     "v_mps": 0.3,
+     "deflection_mm": 1.7301558853042507,
+     "force_N": 133.2636909947868,
+     "load_factor_g": 7.304404068300172,
+     "moment_Nm": 31.991281660208518,
+     "stress_MPa": 78.9259280558159,
+     "RF_yield_min": 3.0408258212722385,
+     "pass": true
+    },
+    "hard": {
+     "v_mps": 0.6,
+     "deflection_mm": 3.195134326480458,
+     "force_N": 246.1023293840666,
+     "load_factor_g": 13.489277105805565,
+     "moment_Nm": 59.07932519193903,
+     "stress_MPa": 145.75504098933743,
+     "RF_yield_min": 1.6465982814107742,
+     "pass": true
+    }
+   }
+  }
+ }
+}

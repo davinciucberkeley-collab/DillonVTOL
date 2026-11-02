@@ -86,8 +86,9 @@ on S7–S10 and the rudders on S5–S6, so DShot on S7 would force the rudders i
 out of a DShot group and matches ArduPilot's lift-motors-on-5–8 convention (FR). The checker's `--corewing` option
 enforces this.
 
-**D4 — Airspeed: the BOM's MS5525DSO at I²C 0x77 (`ARSPD_TYPE,5`, `ARSPD_BUS,0`).** Holybro ships it at 0x76 (HOLY).
-The board's SPL06 baro is at 0x76 on the only I²C bus (HW). The MS5525 LSB is the complement of CSB (TE), so CSB → GND
+**D4 — Airspeed (rev 2026-11-01): RMRC MS4525DO, `ARSPD_TYPE,1`, `ARSPD_BUS,0`.** The ArduPilot MS4525 driver probes 0x28, 0x36 and 0x46
+(libraries/AP_Airspeed/AP_Airspeed_MS4525.cpp, checked 2026-11-02), none of which is the SPL06 baro's 0x76, so no strap is needed. The record of
+the dropped MS5525DSO option follows. The board's SPL06 baro is at 0x76 on the only I²C bus (HW). The MS5525 LSB is the complement of CSB (TE), so CSB → GND
 gives 0x77. Type 5 also stops the driver probing 0x76 (ASPDRV). The rework is a hardware step. Whether the Holybro PCB
 has a jumper: —. Bench proof: "MS5525[0]: Found on bus 0 addr 0x77". Fallback: MS4525DO sensor-only + PT40 = $54.58
 (address 0x28, `ARSPD_TYPE,1`), $5.41 cheaper than the MS5525 kit (HOLY).

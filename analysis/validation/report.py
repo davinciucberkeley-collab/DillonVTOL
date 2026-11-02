@@ -83,7 +83,7 @@ def main():
         v = cmp["vm_max_MPa"]; w(f"| Peak von Mises (root corner), MPa | {v['independent_fe']:.1f} | {v['solidworks_fine']:.1f} | — | {v['delta_vs_solidworks_pct']:+.1f} % ({v['note']}) |")
         w(f"| Mesh change in tip deflection | {cmp['mesh_change_tip_defl_pct']:+.2f} % | | | |")
         w("")
-        w("Same inputs, different mesher, element formulation and solver. The tip deflection and the stress away from the root corner agree, so the SOLIDWORKS study is reproduced. The study's load case is the separate issue: its tip mass is 37 % low (STR-05).")
+        w("Same inputs, different mesher, element formulation and solver. The tip deflection and the stress away from the root corner agree, so the SOLIDWORKS study is reproduced. Both use the CAD-calibrated tip mass (STR-05).")
         w("")
     pr, ma = J("analysis/validation/proofs.json"), J("analysis/cfd3d/out/mesh_audit.json")
     if pr:

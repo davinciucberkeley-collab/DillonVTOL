@@ -60,12 +60,12 @@ function size(p){
     const Epack_Wh = p.mBattFixed ? p.EBattFixed : Epack_req_Wh;
     // structure (F11)
     const sigmaWing = p.rhoFoam*0.68*p.tc*chord + 2*p.wGlass*(1+p.rResin);
-    const m_wing = S*sigmaWing + p.m_spar;
+    const m_wing = S*sigmaWing + p.m_spar + (p.mWingHardware || 0);   // printed hardpoints, pillar, tongue, stops, saddle plates (analysis/mass/mass_budget.json)
     const S_tail = p.tailAreaRatio*S;
-    const m_tail = S_tail*p.sigmaTail;
+    const m_tail = S_tail*p.sigmaTail + (p.mTailHardware || 0);       // fin shoes, tail clamps, crush sleeves (analysis/mass/mass_budget.json)
     const m_booms = p.boomTotalLen*p.boomLin + p.nBooms*2*p.boomClamp;
     const m_lift = p.nLift*(p.mMotor+p.mEsc+p.mProp+p.mMount);
-    const m_fixed = p.mFus + p.mGear + p.mAvionics + p.mPusherSet + p.mServos + p.mWiring + p.nLift*p.mWirePerLift + p.mPayload;
+    const m_fixed = p.mFus + p.mGear + p.mAvionics + p.mPusherSet + p.mServos + p.mWiring + p.nLift*p.mWirePerLift + p.mPayload + (p.mFasteners || 0);   // + every screw, nut, washer, insert (CAD)
     const m_new = m_fixed + m_lift + m_booms + m_wing + m_tail + m_batt;
     const TW = (p.nLift*p.Tmax_g/1000/(p.coax?p.kCoax:1))/m_new;
     r = {m:m_new, W:m_new*G, nUnits, Tunit_N:Tunit, Tunit_g:Tunit/G*1000, Tmotor_g, A, FMeta, Pi_unit, P_hover,

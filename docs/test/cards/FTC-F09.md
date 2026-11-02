@@ -1,24 +1,24 @@
 # Flight test card FTC-F09 — Stall-speed determination in fixed-wing mode
 
-DBF-TP-001 rev B · Test F09 · Review step: not in the review matrix; docs/research/aerodynamics.md M2; decides R11 · Requirements: R11
+DBF-TP-001 rev C · Test F09 · Review step: not in the review matrix; docs/research/aerodynamics.md M2; decides R11 · Requirements: R11
 
 **Prerequisites (signed in test-matrix.csv):** F08 passed (airspeed calibrated, ARSPD_RATIO 1.5-3.0); pilot rehearsed Q_ASSIST force-off, stall and recovery in SITL
 
-**Configuration:** As F08 with 0.5 kg ballast (CG 28 % MAC; the stall must be measured at the mission CG). CH8 Q_ASSIST 3-position (RC8_OPTION 82): auto for points 1-2, force-off for point 3 only. AIRSPEED_STALL 12 (vtol_c0.param).
+**Configuration:** As F08, no ballast (CG 28 % MAC with the pack at its mark; the stall must be measured at the mission CG). CH8 Q_ASSIST 3-position (RC8_OPTION 82): auto for points 1-2, force-off for point 3 only. AIRSPEED_STALL 12 (vtol_c0.param).
 
 **Weather limits:** Steady <= 4 m/s EST, gusts <= 6 m/s EST; smooth air; morning preferred.
 
-**Predicted:** Vs 11.75 m/s at 6.55 kg with CL_max,3D 1.114 (aero_results stall.V_stall_mps; critical-section method on the AVL loading; 2-D CL_max 1.30 adopted from experiment at Re 2e5); the sizing uses the same CL_max at the 11.75 m/s design stall target (results.json base.Vs, sized.S 0.682 m2, W 64.2 N; docs/research/stall-margin.md); margin to R11 2.1 % on speed, 4.1 % on CL_max. Pitch at the break ~10.8 deg (stall.trim_at_Vstall.alpha_deg). C0 SITL model: 11.75 m/s, alpha 11.2 deg / elevator -8.4 deg at the break (firmware/sitl/README.md).
+**Predicted:** Vs 11.75 m/s at 7.44 kg with CL_max,3D 1.116 (aero_results stall.V_stall_mps; critical-section method on the AVL loading; 2-D CL_max 1.30 adopted from experiment at Re 2e5); the sizing uses the same CL_max at the 11.75 m/s design stall target (results.json base.Vs, sized.S 0.773 m2, W 72.9 N; docs/research/stall-margin.md); margin to R11 2.1 % on speed. Pitch at the break ~11.3 deg (stall.trim_at_Vstall.alpha_deg). C0 flight model: 11.79 m/s, alpha 11.8 deg / elevator -8.0 deg at the break (c0_physics.py --validate, 2026-11-02).
 
 **Crew:** TD, SO, PIC, GCS · **Duration:** 1 session (3 runs), 2 packs
 
 ## Pre-flight (every flight)
 - [ ] Flight request approved for today and site (R19); Remote ID powered, broadcast seen (E12); registration mark on the pod; PIC TRUST/AMA documents on site (R18).
-- [ ] Weather recorded: wind steady ____ m/s, gusts ____ m/s (limit on this card), temp ____ degC, visibility >= 3 sm, no precipitation.
-- [ ] Weight and CG per G01: take-off mass ____ kg (<= 7.53 kg), CG ____ % MAC (28 +-2, never aft of 31.8), 0.5 kg ballast fitted (mandatory without payload; GA sheet note 5): Y / N; leg fairings on: Y / N.
+- [ ] Weather recorded at the field: wind steady ____ m/s, gusts ____ m/s (limit on this card), air temp ____ degC (F06-F13: <= 25 degC, DESIGN-BASIS R21 / TEST-PLAN.md s4 rule 9), visibility >= 3 sm, no precipitation.
+- [ ] Weight and CG per G01: take-off mass ____ kg (<= 7.82 kg = 4 x 3.130 / 1.6, R13), CG ____ % MAC (28 +-2, never aft of 30.5), pack at its mark (G09); no ballast, nothing in the bay (R12): Y / N; leg fairings on: Y / N.
 - [ ] Props: correct rotation, screws witness-marked, no nicks; pusher spin check.
 - [ ] Witness lines on boom clamps, gear clamps, wing bolts unmoved.
-- [ ] Packs >= 4.15 V/cell; pack strapped (J18); plugged in LAST through the XT90-S.
+- [ ] Packs >= 4.15 V/cell; pack strapped (J18); plugged in LAST through the AS150U.
 - [ ] GCS: firmware hash ____; parameters checked with check_params.py; FENCE_ALT_MAX = site ceiling; FENCE_RADIUS = ____ m; EKF/GPS ok (sats >= 10, HDOP <= 1.5); compass consistent; airspeed 0 +-1 m/s, blow test >= 6 m/s.
 - [ ] RC: arm switch CH5 off, mode CH6 in slot for this card, E-stop CH7 off, Q_ASSIST CH8 auto, RTL CH9 off; LQ >= 90 %.
 - [ ] Range: crew line 30 m crosswind of the take-off point, clear of the transition run (TEST-PLAN §4 rule 6), fire bag + extinguisher + first aid at the line, spectators behind, no people downrange, sky scan.
@@ -43,13 +43,13 @@ In the C0 airframe model the back-transition airbrake pitches the nose to the 30
 - Roll departure > 45 deg, spin tendency, or altitude < 50 m during a run: throttle up, nose down, CH8 to auto, level the wings.
 - Elevator at the stop with no break: end the run and record the speed as 'no break at ____ m/s'.
 - Any Q_ASSIST engagement with CH8 forced off (configuration error).
-Universal (TEST-PLAN.md s5): VIBE > 30 m/s2 or rising clipping; attitude error > 15 deg; any oscillation; sag-compensated voltage < 21.0 V or < 1,950 mAh remaining (firmware low-battery RTL point; critical 19.8 V / 1,300 mAh -> QLAND); motor can > 80 degC EST after landing; wind above the card limit; LQ < 70 % EST or any failsafe message; EKF/GPS/compass warning; people or animals inside the range; manned aircraft converging.
+Universal (TEST-PLAN.md s5): VIBE > 30 m/s2 or rising clipping; attitude error > 15 deg; any oscillation; sag-compensated voltage < 21.0 V or < 1,625 mAh remaining (firmware low-battery RTL point; critical 19.8 V / 1,300 mAh -> QLAND); motor can > 80 degC EST after landing; wind above the card limit; LQ < 70 % EST or any failsafe message; EKF/GPS/compass warning; people or animals inside the range; manned aircraft converging.
 
 ## Data to record
 ARSP.Airspeed (calibrated) and CTUN.As at the pitch break for each run; ATT pitch/roll time history; RCOU elevator (C3) at the break vs the throw limit; BARO/GPS altitude loss per run; MSG (assist engage in point 2); wind at the time.
 
 ## Pass criteria
-- [ ] Measured Vs (mean of three runs, calibrated airspeed, corrected to MTOW 6.55 kg by Vs_MTOW = Vs_test x sqrt(6.55 / m_test)) <= 12.0 m/s = PASS (R11). Record the margin used against the 11.75 m/s design target; set AIRSPEED_STALL = measured Vs and AIRSPEED_MIN = max(16, 1.3 x Vs rounded up) (docs/research/stall-margin.md 5).
+- [ ] Measured Vs (mean of three runs, calibrated airspeed, corrected to MTOW 7.436 kg by Vs_MTOW = Vs_test x sqrt(7.436 / m_test)) <= 12.0 m/s = PASS (R11). Record the margin used against the 11.75 m/s design target; set AIRSPEED_STALL = measured Vs and AIRSPEED_MIN = max(16, 1.3 x Vs rounded up) (docs/research/stall-margin.md 5).
 - [ ] 12.0 < Vs <= 12.5 m/s = team decision: accept (R11 is an assumed value) or add 5 % wing area (docs/research/aerodynamics.md 9 item 3); > 12.5 m/s = FAIL (aerodynamics.md M2).
 - [ ] AIRSPEED_MIN 16 >= 1.3 x measured Vs, i.e. Vs <= 12.3 m/s; otherwise raise AIRSPEED_MIN to 1.3 x Vs and Q_ASSIST_SPEED to AIRSPEED_MIN - 3.
 - [ ] Elevator at the break < the full throw (reserve present; prediction -8.2 deg at Vs, aero_results stall.trim_at_Vstall.elevator_deg; the tail section stalls near 8 deg local incidence, aerodynamics.md 5).

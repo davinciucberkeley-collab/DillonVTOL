@@ -78,17 +78,17 @@ const FieldViz = (() => {
   const CLIPS = /^Boom_(Front|Rear_Stub)$/;
 
   function collect() {
-    const out = [], T0 = (() => { try { return JSON.parse(document.getElementById('thermData').textContent); } catch (e) { return null; } })(), lim = (T0 && T0.inputs_summary && T0.inputs_summary.limits_C) || {};
+    const out = [], T0 = (() => { try { return JSON.parse(document.getElementById('thermData').textContent); } catch (e) { return null; } })(), lim = (T0 && T0.inputs_summary && T0.inputs_summary.limits_C) || {}, amb = (T0 && T0.ambient_C && T0.ambient_C.hot != null) ? T0.ambient_C.hot : '—';
     try { const F = JSON.parse(document.getElementById('feaData').textContent);
       for (const [k, c] of Object.entries(F.cases)) out.push({ key: 'fea/' + k, kind: k, label: c.title, unit: 'MPa', what: 'von Mises stress', ramp: 'stress', v: c.vertices, t: c.tris, val: c.von_MPa,
         ref: c.yield_MPa, refLabel: 'yield ' + c.yield_MPa + ' MPa', note: c.load + '; peak ' + c.max_von_MPa + ' MPa (SOLIDWORKS, all nodes; the surface shown peaks at ' + (c.max_surface_von_MPa != null ? c.max_surface_von_MPa : c.max_von_MPa) + ' MPa), ' + (c.yield_MPa / c.max_von_MPa).toFixed(1) + ' x below yield; displacement up to ' + c.max_disp_mm + ' mm', disp: c.disp_mm }); } catch (e) {}
     try { const F = T0.fields, add = (kind, k, label, ref, refLabel, note) => { const f = F[kind] && F[kind][k]; if (f) out.push({ key: 'therm/' + kind + '/' + k, kind, label, unit: '°C', what: 'temperature', ramp: 'heat', v: f.vertices, t: f.tris, val: f.temps_C, ref, refLabel, note }); };
-      const lu = 'SOLIDWORKS transient thermal on a 35 °C day; motor, PA6-CF mount, boom and ESC';
+      const lu = 'SOLIDWORKS transient thermal at ' + amb + ' °C ambient; motor, PA6-CF mount, boom and ESC';
       add('lift_unit', 'hover_90s', 'Lift unit after a 90 s hover', lim.motor_can_C, 'motor limit ' + lim.motor_can_C + ' °C', lu);
       add('lift_unit', 'end_hover5', 'Lift unit at the end of the mission', lim.motor_can_C, 'motor limit ' + lim.motor_can_C + ' °C', lu);
       add('lift_unit', 'steady_hover', 'Lift unit, steady hover (bound, never flown)', lim.motor_can_C, 'motor limit ' + lim.motor_can_C + ' °C', lu);
-      add('pod', 'end_hover5', 'Pod at the end of the mission', lim.lipo_C, 'LiPo limit ' + lim.lipo_C + ' °C', 'SOLIDWORKS transient thermal on a 35 °C day, whole mission; battery and flight controller in their foam bays');
-      add('pusher', 'end_cruise', 'Pusher after 600 s cruise', lim.motor_can_C, 'motor limit ' + lim.motor_can_C + ' °C (EST)', 'SOLIDWORKS transient thermal on a 35 °C day, 600 s cruise; X4110S can in the PA6-CF cup and foam ring');
+      add('pod', 'end_hover5', 'Pod at the end of the mission', lim.lipo_C, 'LiPo limit ' + lim.lipo_C + ' °C', 'SOLIDWORKS transient thermal at ' + amb + ' °C ambient, whole mission; battery and flight controller in their foam bays');
+      add('pusher', 'end_cruise', 'Pusher after 600 s cruise', lim.motor_can_C, 'motor limit ' + lim.motor_can_C + ' °C (EST)', 'SOLIDWORKS transient thermal at ' + amb + ' °C ambient, 600 s cruise; X4110S can in the PA6-CF cup and foam ring');
     } catch (e) {}
     return out;
   }

@@ -1,24 +1,24 @@
 # Flight test card FTC-F11 — Mission dress rehearsal (half duration)
 
-DBF-TP-001 rev B · Test F11 · Review step: F7 preparation · Requirements: R9, R10
+DBF-TP-001 rev C · Test F11 · Review step: F7 preparation · Requirements: R9, R10
 
 **Prerequisites (signed in test-matrix.csv):** F10 and F13 passed (fairings on); C11 usable energy known; BATT_CAPACITY confirmed against C11; mission uploaded (AUTO with NAV_VTOL_TAKEOFF, waypoints, NAV_VTOL_LAND) and flown in SITL (E06 A)
 
-**Configuration:** As F10, with 0.5 kg ballast (R12). AUTO mission or pilot-flown by mode switches (TD choice; AUTO transitions use TKOFF_THR_MAX 75).
+**Configuration:** As F10, no ballast (R12). Field air <= 25 degC (R21). AUTO mission or pilot-flown by mode switches (TD choice; AUTO transitions use TKOFF_THR_MAX 75).
 
 **Weather limits:** Steady <= 5 m/s, gusts <= 8 m/s.
 
-**Predicted:** 52.3 Wh for the half mission (cruise at 18 m/s); full mission 84.3 Wh delivered = 88.7 Wh from the pack at 95 % efficiency (results.json sized.E_Wh v0.4, base.etaBatt).
+**Predicted:** 74.9 Wh for the half mission at 18 m/s ((1,131.3 x 160 + 295.4 x 300) / 3600, calc; transitions at hover power as in the sizing); full mission 99.5 Wh delivered = 104.8 Wh from the pack at 95 % efficiency (results.json sized.E_Wh, base.etaBatt).
 
 **Crew:** TD, SO, PIC, GCS · **Duration:** 1 session, 2 packs
 
 ## Pre-flight (every flight)
 - [ ] Flight request approved for today and site (R19); Remote ID powered, broadcast seen (E12); registration mark on the pod; PIC TRUST/AMA documents on site (R18).
-- [ ] Weather recorded: wind steady ____ m/s, gusts ____ m/s (limit on this card), temp ____ degC, visibility >= 3 sm, no precipitation.
-- [ ] Weight and CG per G01: take-off mass ____ kg (<= 7.53 kg), CG ____ % MAC (28 +-2, never aft of 31.8), 0.5 kg ballast fitted (mandatory without payload; GA sheet note 5): Y / N; leg fairings on: Y / N.
+- [ ] Weather recorded at the field: wind steady ____ m/s, gusts ____ m/s (limit on this card), air temp ____ degC (F06-F13: <= 25 degC, DESIGN-BASIS R21 / TEST-PLAN.md s4 rule 9), visibility >= 3 sm, no precipitation.
+- [ ] Weight and CG per G01: take-off mass ____ kg (<= 7.82 kg = 4 x 3.130 / 1.6, R13), CG ____ % MAC (28 +-2, never aft of 30.5), pack at its mark (G09); no ballast, nothing in the bay (R12): Y / N; leg fairings on: Y / N.
 - [ ] Props: correct rotation, screws witness-marked, no nicks; pusher spin check.
 - [ ] Witness lines on boom clamps, gear clamps, wing bolts unmoved.
-- [ ] Packs >= 4.15 V/cell; pack strapped (J18); plugged in LAST through the XT90-S.
+- [ ] Packs >= 4.15 V/cell; pack strapped (J18); plugged in LAST through the AS150U.
 - [ ] GCS: firmware hash ____; parameters checked with check_params.py; FENCE_ALT_MAX = site ceiling; FENCE_RADIUS = ____ m; EKF/GPS ok (sats >= 10, HDOP <= 1.5); compass consistent; airspeed 0 +-1 m/s, blow test >= 6 m/s.
 - [ ] RC: arm switch CH5 off, mode CH6 in slot for this card, E-stop CH7 off, Q_ASSIST CH8 auto, RTL CH9 off; LQ >= 90 %.
 - [ ] Range: crew line 30 m crosswind of the take-off point, clear of the transition run (TEST-PLAN §4 rule 6), fire bag + extinguisher + first aid at the line, spectators behind, no people downrange, sky scan.
@@ -40,16 +40,16 @@ In the C0 airframe model the back-transition airbrake pitches the nose to the 30
 4. [ ] Read BAT.CurrTot / EnrgTot: compute the energy fraction used against C11 usable.
 
 ## Abort criteria (card-specific items first, then the universal list)
-- Remaining mAh below BATT_LOW_MAH 1950 at any point (the failsafe will RTL anyway).
+- Remaining mAh below BATT_LOW_MAH 1625 at any point (the failsafe will RTL anyway).
 - Any failsafe, EKF or airspeed fault.
-Universal (TEST-PLAN.md s5): VIBE > 30 m/s2 or rising clipping; attitude error > 15 deg; any oscillation; sag-compensated voltage < 21.0 V or < 1,950 mAh remaining (firmware low-battery RTL point; critical 19.8 V / 1,300 mAh -> QLAND); motor can > 80 degC EST after landing; wind above the card limit; LQ < 70 % EST or any failsafe message; EKF/GPS/compass warning; people or animals inside the range; manned aircraft converging.
+Universal (TEST-PLAN.md s5): VIBE > 30 m/s2 or rising clipping; attitude error > 15 deg; any oscillation; sag-compensated voltage < 21.0 V or < 1,625 mAh remaining (firmware low-battery RTL point; critical 19.8 V / 1,300 mAh -> QLAND); motor can > 80 degC EST after landing; wind above the card limit; LQ < 70 % EST or any failsafe message; EKF/GPS/compass warning; people or animals inside the range; manned aircraft converging.
 
 ## Data to record
 BAT EnrgTot/CurrTot per phase (log_summary.py phase table); MODE timeline; ARSP mean in cruise; QTUN.ThO means in the hover phases.
 
 ## Pass criteria
 - [ ] All phases present in the MODE timeline in order; no failsafe.
-- [ ] Energy used <= 60 % of C11 usable Wh (half mission 52.3 Wh = (912.5 x 120 + 262.4 x 300)/3600 Wh, calc from results.json v0.4 P_hover, P_cruise at 18 m/s; 52.3/109.7 = 48 %, with 60 % as the limit EST).
+- [ ] Projected full mission fits: energy used in F11 + the energy of its 300 s cruise segment <= 0.8 x C11 delivered Wh (predicted 74.9 + 24.6 = 99.5 Wh = 91 % of 109.7 Wh, calc; TEST-PLAN.md F11). The rev B line "<= 60 %" is withdrawn: the frozen design predicts 68 %.
 - [ ] Hover and cruise currents within +-15 % of F03/F08 values.
 
 ## Run log

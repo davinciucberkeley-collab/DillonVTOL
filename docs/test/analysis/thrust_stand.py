@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-thrust_stand.py - reduce a C07/C09 thrust-stand sweep (DBF-TP-001 rev B, test C07).
+thrust_stand.py - reduce a C07/C09 thrust-stand sweep (DBF-TP-001 rev C, test C07).
 
 Input CSV columns (header required, any order): throttle_pct, thrust_g, volt_V, curr_A
 Optional: power_W (otherwise power = volt_V * curr_A).
@@ -9,26 +9,26 @@ Outputs (stdout, and --json <file>):
   * power-law fit thrust = a * throttle^b  (least squares in log space, points with thrust > 0)
   * Q_M_THST_EXPO estimate: ArduPilot's curve  thrust_norm = (1-expo)*x + expo*x^2  fitted to the
     normalised data (x = throttle fraction, thrust_norm = thrust / thrust at 100 %)
-  * throttle, current and electrical power at the hover thrust (default 1637.9 g, results.json
-    concepts.C0.sized.Tunit_g, v0.4, 11.75 m/s stall target 2026-10-25), by linear interpolation on the measured points
+  * throttle, current and electrical power at the hover thrust (default 1858.9 g, results.json
+    concepts.C0.sized.Tunit_g, frozen design generated 2026-11-01), by linear interpolation on the measured points
   * FM*eta at hover = P_ideal / P_elec, with P_ideal = T^1.5 / sqrt(2 rho A) (analysis/sizing.mjs
     hover model; A = 0.14643846 m2 for the 17 in disc, results.json sized.A), compared with the
-    sizing value 0.516 (results.json sized.FMeta)
-  * pass/fail against the C07 criteria: max thrust >= 2621 g (R13 strict: 1.6 x 6.5515 kg / 4), P_elec at hover <= 300 W,
+    sizing value 0.505 (results.json sized.FMeta)
+  * pass/fail against the C07 criteria: max thrust >= 2974 g (R13: 1.6 x 7.4356 kg / 4), P_elec at hover <= 339 W,
     max current <= 36 A (EST)
   * comparison with the maker table (SunnySky X4110S 17x5.8, 22.2 V, docs/research/budget-lift.md A3)
 
-Usage:  python thrust_stand.py sample/thrust_sample.csv [--hover-g 1637.9] [--rho 1.225] [--disc-d-m 0.4318] [--json out.json]
+Usage:  python thrust_stand.py sample/thrust_sample.csv [--hover-g 1858.9] [--rho 1.225] [--disc-d-m 0.4318] [--json out.json]
 Dependencies: numpy (optional; pure-python fallback is used if numpy is missing).
 """
 from __future__ import annotations
 import argparse, csv, json, math, sys
 
 MAKER_TABLE = [(1250, 6.1, 135), (1500, 8.1, 180), (2000, 13.1, 291), (3130, 27.7, 615)]  # g, A, W (budget-lift.md A3)
-FMETA_SIZING = 0.5164014    # results.json concepts.C0.sized.FMeta (v0.4, 11.75 m/s stall target 2026-10-25)
-HOVER_G_DEFAULT = 1637.8933 # results.json concepts.C0.sized.Tunit_g (v0.4, 11.75 m/s stall target 2026-10-25)
-P_HOVER_MAX_W = 300.0       # TEST-PLAN.md C07: 1202 W / 4 rounded down (calc, v0.4 at 6.55 kg)
-T_MAX_PASS_G = 2621.0       # R13 strict at MTOW 6.55 kg: 1.6 x 6551.5 / 4 (TEST-PLAN.md C07); review T2 said 2400
+FMETA_SIZING = 0.50537633   # results.json concepts.C0.sized.FMeta (generated 2026-11-01)
+HOVER_G_DEFAULT = 1858.8839 # results.json concepts.C0.sized.Tunit_g (generated 2026-11-01)
+P_HOVER_MAX_W = 339.0       # TEST-PLAN.md C07: (0.8 x 144.3 x 0.95 - 295.4 x 600/3600) x 3600/160 = 1360 W / 4, rounded down (calc)
+T_MAX_PASS_G = 2974.0       # R13 at MTOW 7.4356 kg: 1.6 x 7435.6 / 4 (TEST-PLAN.md C07); review T2 said 2400
 I_MAX_PASS_A = 36.0         # EST, 80 % of the 45 A ESC rating
 G = 9.80665
 

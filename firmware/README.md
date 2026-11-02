@@ -123,33 +123,21 @@ board's own pinout images: the GPS pads and the GPS connector use different pin 
 | 5 | UART5 | GPS connector | 5 = GPS | HGLRC M100-5883 |
 | 6 | USART6 | TX6/RX6 | 23 = RCIN | RP3 V2 (CRSF) |
 
-### 4.3 Airspeed sensor: I²C address — MS5525DSO must run at 0x77
+### 4.3 Airspeed sensor: RMRC MS4525DO on the shared I²C bus
 
-The BOM buys the **Holybro MS5525DSO + PT40** (BOM line "Holybro MS5525DSO + PT40 airspeed"). Holybro's product page
-gives its I²C address as **0x76** (holybro.com/products/digital-air-speed-sensor-standard, 2026-10-21). That is the
-address of this board's SPL06 barometer, which sits on the **same and only** I²C bus (hwdef `BARO SPL06 I2C:0:0x76`,
-`I2C_ORDER I2C1`). Two devices cannot share an address on one bus.
+The BOM buys the **RMRC digital airspeed sensor MS4525DO + pitot** (rev 2026-11-01, docs/research/bom-savings.md; it replaced
+the Holybro MS5525DSO, whose 0x76 address clashed with this board's SPL06 barometer). The board has one I²C bus
+(hwdef `BARO SPL06 I2C:0:0x76`, `I2C_ORDER I2C1`), shared by the barometer and the airspeed connector.
 
-The MS5525DSO has two addresses. The TE datasheet says "MS5525DSO address is 111011Cx, where C is the complementary
-value of the pin CSB" (farnell.com/datasheets/2722597.pdf, checked 2026-10-21): CSB high → 0x76, CSB low → **0x77**.
-The ArduPilot driver probes both (`AP_Airspeed_MS5525.cpp`: `0x76`, `0x77`), and `ARSPD_TYPE` can pin one:
-3 = auto, 4 = 0x76, 5 = 0x77 (apm.pdef.xml).
+The MS4525DO comes in address variants. ArduPilot's driver probes all three: `MS4525D0_I2C_ADDR1 0x28`, `ADDR2 0x36`,
+`ADDR3 0x46` (libraries/AP_Airspeed/AP_Airspeed_MS4525.cpp, master, checked 2026-11-02). None is the barometer's 0x76, so
+no address strap is needed whichever variant RMRC ships (which one: — until the part label is read).
 
-**Setting used: `ARSPD_TYPE,5` (MS5525 at 0x77), `ARSPD_BUS,0`.** Forcing 0x77 also stops the driver from probing
-0x76, where it would find the barometer. Hardware step required:
+**Setting used: `ARSPD_TYPE,1` (I2C-MS4525D0), `ARSPD_BUS,0`.** Bench check before flight:
 
-1. On the Holybro breakout, find the MS5525DSO CSB pin (pin assignment in the TE datasheet). Re-strap it from
-   VDD to GND: lift the pull-up or cut the trace, then bridge to GND. Whether the Holybro PCB has a jumper or
-   solder bridge for this: — (inspect the board when it arrives; photograph it for the build log).
-2. Bench check: power the FC on USB with only the airspeed sensor on I²C. Mission Planner Messages must show
-   `MS5525[0]: Found on bus 0 addr 0x77` (driver text). The barometer must still read altitude (HUD).
-   If the message shows 0x76, or the baro reads nonsense, the strap is wrong. Do not fly.
-3. Blow gently into the pitot: airspeed must rise. Then do the offset calibration (§6.8).
-
-**Fallback if the re-strap is not practical:** buy Holybro MS4525DO sensor-only (SKU 19007, $46.59) + PT40
-pitot-only (SKU 32022, $7.99) = $54.58, address 0x28, and set `ARSPD_TYPE,1`. That is $5.41 below the
-MS5525DSO/PT40 kit at $59.99 (holybro.com product JSON, 2026-10-21). Whether the sensor-only kit includes
-cable and tubing: —.
+1. Power the FC on USB with the airspeed sensor plugged in. Mission Planner must show an airspeed reading, and the
+   barometer must still read altitude (HUD). If either is missing, do not fly.
+2. Blow gently into the pitot: airspeed must rise. Then do the offset calibration (§6.8).
 
 ### 4.4 Output map (SERVOn_FUNCTION) and why it differs from the review
 
@@ -235,7 +223,7 @@ throttle stick drives it. Air must blow aft.
 |---|---|---|---|
 | RC loss in a Q mode | **QLAND** in place (ArduPilot forces this in QSTABILIZE, QHOVER, QLOITER) | `THR_FAILSAFE,1`; `Q_OPTIONS` bit 5 clear (apms-failsafe-function.html) | Arm in QLOITER, switch the TX off → GCS shows "RC Short Failsafe: switched to QLand" |
 | RC loss in fixed-wing modes | CIRCLE (short), then **RTL** at 5 s, then QRTL inside `RTL_RADIUS` 100 m, then vertical land | `FS_SHORT_ACTN,0`; `FS_LONG_ACTN,1`; `FS_LONG_TIMEOUT,5`; `Q_RTL_MODE,1` | SITL scenario B |
-| Battery low (30 %, or 21.0 V sag-compensated) | RTL → QRTL | `BATT_LOW_MAH,1950`; `BATT_LOW_VOLT,21.0`; `BATT_FS_LOW_ACT,1` | Set `BATT_LOW_VOLT` above pack voltage → warning + mode change; restore |
+| Battery low (25 %, or 21.0 V sag-compensated) | RTL → QRTL | `BATT_LOW_MAH,1625`; `BATT_LOW_VOLT,21.0`; `BATT_FS_LOW_ACT,1` | Set `BATT_LOW_VOLT` above pack voltage → warning + mode change; restore |
 | Battery critical (20 %, or 19.8 V) | QLAND | `BATT_CRT_MAH,1300`; `BATT_FS_CRT_ACT,4` | as above |
 | Forward transition not done in 15 s | QRTL | `Q_TRANS_FAIL,15`; `Q_TRANS_FAIL_ACT,1` | SITL scenario D |
 | Geofence: 110 m above home or 300 m radius | RTL (→ QRTL near home) | `FENCE_*` | SITL scenario F; on the bench, `FENCE_RADIUS` shows on the map |
@@ -325,11 +313,11 @@ results.json `C0.sized.I_hover`).
 Details and rationale are in docs/research/firmware.md. They should be folded into the review:
 
 1. **Output map**: lift on S5–S8, pusher S9, rudder 2 on S11 (DShot timer-group conflict in the review map).
-2. **Airspeed sensor**: the MS5525DSO ships at 0x76, the onboard baro's address. Run it at 0x77 (CSB strapped low, `ARSPD_TYPE,5`) or swap to MS4525DO (§4.3). The review row "I²C MS5525DSO airspeed" needs this note.
+2. **Airspeed sensor** (rev 2026-11-01): the BOM's RMRC MS4525DO is probed at 0x28/0x36/0x46, clear of the baro at 0x76; `ARSPD_TYPE,1` (§4.3). The earlier MS5525DSO needed a CSB re-strap to 0x77 and was dropped.
 3. **Telemetry (no radio in the BOM, $0)**: one RP3 V2 runs either CRSF or ELRS-MAVLink, not both (review row "CRSF + MAVLink"). Baseline for hover phases: CRSF (`SERIAL6_PROTOCOL,23`), with telemetry on the Pocket Crush. GCS link for transition flights: ELRS MAVLink mode (`SERIAL6_PROTOCOL,2`, `SERIAL6_BAUD,460`, `RSSI_TYPE,5`, ELRS ≥ 3.5 on TX and RX, Mission Planner on UDP 14550 via the Pocket Crush backpack WiFi). The RX then sends RC as RC_CHANNELS_OVERRIDE; SITL scenario G showed RC-loss failsafe 1 s after the overrides stop. Details and limits: peripherals.md §2.3–2.4.
 4. **Transition threshold**: the state diagram labels say "≥ 15 m/s" and "< 12 m/s". The table says AIRSPEED_MIN 16 and Q_ASSIST_SPEED 13. The parameters use 16 and 13.
 5. **Battery current limit**: `BATT_WATT_MAX` is not in this build. `Q_M_BAT_CURR_MAX` limits only the lift motors, so it is set to 85 A as a fault guard, not 60 A. Transition current is managed with `TKOFF_THR_MAX` 75 % and the pilot's throttle. Bench test M4 decides. **`THR_MAX` 85** caps the pusher in every fixed-wing mode: the C0 SITL model gives about 890 W at 100 % throttle on a full 25.2 V pack (`sitl/validation_c0.json`, estimated motor model) against the X4110S 615 W rating; power scales roughly as throttle³, so 85 % is about 0.85³ × 890 = 547 W (est.). Cruise needs 233–302 W (SITL model / aero build-up). Bench test M1 (pusher power at full pack, TEST-PLAN C09) re-sets it; if `THR_MAX` is lowered, re-check that level speed at full throttle still exceeds `AIRSPEED_MAX` 25 m/s.
-6. **Low-battery action, two stages**: low (30 % / 1950 mAh, or 21.0 V sag-compensated) → RTL, which ends in QRTL and a vertical landing at home (`Q_RTL_MODE,1`). Critical (20 % / 1300 mAh, or 19.8 V) → QLAND in place. ArduPilot's failsafe page calls "BATT_FS_LOW_ACT = 1 (RTL) and BATT_FS_CRT_ACT = 2 (Land)" a reasonable setup. 4 = QLand is used for the explicit VTOL landing. The review had low = QLAND. The hover-phase overlay sets low → QLAND, because RTL would start a fixed-wing return. (Note: the parameter is `BATT_FS_LOW_ACT`; `BATT_FS_LLOW_ACT` does not exist.)
+6. **Low-battery action, two stages**: low (25 % / 1625 mAh, or 21.0 V sag-compensated; rev 2026-11-02, was 30 %, which fired before the planned 27.4 % landing) → RTL, which ends in QRTL and a vertical landing at home (`Q_RTL_MODE,1`). Critical (20 % / 1300 mAh, or 19.8 V) → QLAND in place. ArduPilot's failsafe page calls "BATT_FS_LOW_ACT = 1 (RTL) and BATT_FS_CRT_ACT = 2 (Land)" a reasonable setup. 4 = QLand is used for the explicit VTOL landing. The review had low = QLAND. The hover-phase overlay sets low → QLAND, because RTL would start a fixed-wing return. (Note: the parameter is `BATT_FS_LOW_ACT`; `BATT_FS_LLOW_ACT` does not exist.)
 7. **Fence ceiling**: 110 m above home, 12 m below the 400 ft (121.9 m) limit, so the climb overshoot after a breach stays legal. SITL peaked at 113.1 m, 3.1 m over the fence. Review wording: "fence 110 m, 12 m below the 400 ft limit".
 8. **RC loss in hover**: QLAND in place (ArduPilot behaviour in Q modes). The review's "RC loss → RTL then QLAND" applies to fixed-wing modes only.
 9. **Firmware**: stable 4.7.2 now covers the CoreWing. The 2027-02-22 go/no-go can close early.

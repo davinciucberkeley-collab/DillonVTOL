@@ -97,7 +97,7 @@
   <h4 id="ov-margins">Margins at a glance</h4>
   <p>Each design limit, today's predicted value and the room left. Green: ≥ 10 % margin. Amber: met with less. Red: not met.</p>
   <div class="tbl"><table id="marginTable"><thead><tr><th>What is limited</th><th class="n">Predicted</th><th class="n">Limit</th><th class="n">Margin</th><th>Status</th><th>Details</th></tr></thead><tbody></tbody></table></div>
-  <p class="src">analysis/results.json (C0 sized, BOM, CG); analysis/aero/aero_results.json (stall, mission); analysis/thermal/thermal_results.json (the two tightest mission cases on a 35 °C day); limits from docs/DESIGN-BASIS.md and the test plan abort table</p>
+  <p class="src">analysis/results.json (C0 sized, BOM, CG); analysis/aero/aero_results.json (stall, mission); analysis/thermal/thermal_results.json (the two tightest mission cases at the 25 °C design ambient, R21); limits from docs/DESIGN-BASIS.md and the test plan abort table</p>
 
   <h4 id="ov-lanes">Workstream status</h4>
   <p>Every workstream has a written output except the team sign-off and the flying-site approval.</p>
@@ -165,7 +165,7 @@
       <tr><td>R17</td><td>Maintained VTOL autopilot</td><td><span class="chip met">met</span></td><td>ArduPlane 4.7.2 stable includes the board; parameter file checked; SITL scenarios A–G pass (<a class="xref" href="#controls">§10</a>)</td></tr>
       <tr><td>R18</td><td>FAA path, TRUST, registration, Remote ID</td><td><span class="chip open">open</span></td><td>BeeID on FAA DoC list (RID000001995)</td></tr>
       <tr><td>R19</td><td>Campus policy and site</td><td><span class="chip open">open</span></td><td>Capstone covered (senior projects); RFS only campus transition site</td></tr>
-      <tr><td>R20</td><td>Arming switch, failsafe, geofence</td><td><span class="chip open">open</span></td><td>XT90-S disconnect + RC arm switch; failsafes and 110 m fence pass in SITL; hardware test pending (<a class="xref" href="#controls">§10</a>)</td></tr>
+      <tr><td>R20</td><td>Arming switch, failsafe, geofence</td><td><span class="chip open">open</span></td><td>Amass AS150U disconnect + RC arm switch; failsafes and 110 m fence pass in SITL; hardware test pending (<a class="xref" href="#controls">§10</a>)</td></tr>
     </tbody></table></div>
   <p class="src">docs/DESIGN-BASIS.md R1–R20; analysis/results.json; "Verified by" and "Closing tests" from docs/test/test-matrix.csv (A analysis, I inspection, D demonstration, T test)</p>
 
@@ -432,10 +432,10 @@
   <details class="more"><summary>Mesh strategy, domain and solver settings</summary>
     <ul class="cf-list">
       <li><b>Mesher:</b> gmsh 4.15.2 (OpenCASCADE geometry, Frontal-Delaunay surfaces, HXT tetrahedra, Netgen optimiser). Linear tetrahedra, linear wall triangles, no prism layer (inviscid run).</li>
-      <li><b>Sizing:</b> curvature (24 elements per 2π radius), distance-to-wall threshold from the wall size to 0.9 m, trailing-edge lines and their end points (0.6 mm), boxes around the aircraft, its wake and the starboard tip-vortex path. The three levels differ only by one length scale (1.5 / 1.0 / 0.72).</li>
-      <li><b>Domain:</b> half model (starboard), symmetry plane at the centreline; box 8 m ahead of the nose, 16 m behind, 8 m above and below, 10 m outboard. Far field: SU2 MARKER_FAR; walls: slip (MARKER_EULER).</li>
+      <li><b>Sizing (mesh rev 2):</b> wing, tail and fins 2.2 mm × f on the surface; curvature 24/f elements per 2π radius; distance-to-wall threshold from 8 mm × f to 4 m × f at 30 m; trailing-edge lines 2.5 mm × f and their end points 0.6 mm × f; boxes around the aircraft, its wake and the starboard tip-vortex path. Every rule scales with one length factor f (1.5 / 1.0 / 0.72), so the three levels are one grid family (analysis/cfd3d/build_mesh.py).</li>
+      <li><b>Domain:</b> half model (starboard), symmetry plane at the centreline; box about 34 m ahead of the nose, 44 m behind, 35 m above and below and 34 m outboard of the tip, at least 105 reference chords everywhere (build_mesh.py DOMAIN). Far field: SU2 MARKER_FAR; walls: slip (MARKER_EULER).</li>
       <li><b>Solver:</b> SU2 8.5.0 (win64, OpenMP, 20 threads), INC_EULER, constant density 1.225 kg/m³, FDS upwind with MUSCL and Venkatakrishnan limiter, implicit Euler with adaptive CFL 5–30, FGMRES/ILU. Stop on a Cauchy criterion (CL, CD, CMy, 200 iterations, 1e-6) or 3000 iterations.</li>
-      <li><b>References:</b> S 0.682 m² (CAD wing 0.2842 × 2.4 m), c 0.2842 m, moment about the design CG (x = −0.0789 m from the LE, on the chord line; the CG height is not tracked by the sizing).</li>
+      <li><b>References:</b> S 0.7727 m² (CAD wing 0.3219 × 2.4 m), c 0.3219 m, moment about the design CG (0.0901 m aft of the LE, 28 % chord, on the chord line; analysis/results.json cg.target; the CG height is not tracked by the sizing).</li>
       <li><b>Not modelled:</b> viscosity (no skin friction, no physical separation, no stall), propellers (power off), control deflections (0°), sideslip (β 0°). Lift, pitching moment, pressure distribution, induced drag, downwash and tip vortices are what this run resolves.</li>
     </ul>
   </details>
@@ -579,23 +579,23 @@
 
   <h4 id="sim-heat">Heat dissipation</h4>
   <h4 id="sim-heat-air">Across the aircraft</h4>
-  <p id="thVerdict">SOLIDWORKS thermal studies of the mission's heat sources: each lift unit (motor, PA6-CF mount, boom, ESC), the pod (battery and flight controller in foam bays) and the pusher. Each is a chained transient through the mission (60 s hover, 20 s transition, 600 s cruise, 20 s transition, 60 s hover) on a 35 °C day, cooled by prop wash in hover and the free stream in cruise. Heat loads are loss estimates <span class="est">est</span>; the tests that replace them are listed below.</p>
+  <p id="thVerdict">SOLIDWORKS thermal studies of the mission's heat sources: each lift unit (motor, PA6-CF mount, boom, ESC), the pod (battery and flight controller in foam bays) and the pusher. Each is a chained transient through the mission (60 s hover, 20 s transition, 600 s cruise, 20 s transition, 60 s hover) at the 25 °C design ambient (R21: no full mission above 25 °C, measured at the field), cooled by prop wash in hover and the free stream in cruise. Heat loads are loss estimates <span class="est">est</span>; the tests that replace them are listed below.</p>
   <figure class="chart thermviz" id="thermViz"><figcaption>Temperature fields from SOLIDWORKS Simulation, shown as a thermal camera would see them</figcaption>
     <div class="th-bar"><div class="seg" id="thCases" role="group" aria-label="Thermal case"></div></div>
     <canvas id="thCanvas" class="th-canvas" tabindex="0" role="img" aria-label="Thermal field"></canvas>
-    <img id="thImg" class="th-img" hidden src="analysis/thermal/img/pod_mission_end.png" alt="Thermal render: pod at the end of a hot-day mission" loading="lazy">
+    <img id="thImg" class="th-img" hidden src="analysis/thermal/img/pod_mission_end.png" alt="Thermal render: pod at the end of the mission at 25 °C ambient" loading="lazy">
     <p class="th-note" id="thNote"></p>
   </figure>
-  <figure class="chart"><figcaption>Component temperatures through the mission, hot day, against their limits</figcaption><div class="svgwrap"><svg id="thHist" viewBox="0 0 640 300" role="img" aria-label="Mission temperature history"></svg></div></figure>
+  <figure class="chart"><figcaption>Component temperatures through the mission at 25 °C ambient, against their limits</figcaption><div class="svgwrap"><svg id="thHist" viewBox="0 0 640 300" role="img" aria-label="Mission temperature history"></svg></div></figure>
   <details class="more"><summary>Every component against its limit, both days (table)</summary>
-  <div class="tbl"><table id="thFind"><thead><tr><th>Component</th><th>Case</th><th class="n">Peak, °C (35 °C day)</th><th class="n">Peak, °C (20 °C day)</th><th class="n">Limit, °C</th><th class="n">Margin, K</th><th>Status</th><th>Limit source and note</th></tr></thead><tbody></tbody></table></div>
+  <div class="tbl"><table id="thFind"><thead><tr><th>Component</th><th>Case</th><th class="n">Peak, °C (25 °C day)</th><th class="n">Peak, °C (20 °C day)</th><th class="n">Limit, °C</th><th class="n">Margin, K</th><th>Status</th><th>Limit source and note</th></tr></thead><tbody></tbody></table></div>
   </details>
-  <div class="decision red"><b class="q">The battery pack finishes a hot-day mission 1 K under its 60 °C limit, and the pusher motor sits at its estimated limit.</b><div>With 7.5 mΩ per cell internal resistance and a sealed foam bay, the pack reaches 59 °C on a 35 °C day (44 °C on a 20 °C day) at 18 m/s cruise, mostly from the hovers and transitions: a pass with no margin for sun or a pack that starts warm. The pusher motor (an X4110S, as on the lift units) reaches 80 °C after 600 s against an 80 °C limit <span class="est">est</span>. That rests on an estimated 29.5 W loss with no published value, so measure it before changing the design.</div><div class="rec"><b>Recommended:</b> vent the battery bay (nose inlet and aft slot, about 15 × 30 mm <span class="est">est</span>); even 20 W/m²K of air on the pack gives about 55 °C, a 5 K margin instead of 1 K. Accept packs at ≤ 5 mΩ per cell for hot days and shade them before flight. Vent the avionics bay (two Ø8 mm holes) and stand the flight controller off its tray. Keep the 60 s hover rule and put each lift ESC in the prop wash. Measure the pusher on the ground (G03, 3 min at cruise throttle) and after the first cruise legs: a rise ≥ 25 K above ambient after 120 s (the model's value) means cut the loss and fit an aluminium spider floor; ≤ 17 K, leave it.</div><p class="src">analysis/thermal/thermal_results.json findings; docs/research/thermal.md §6 (recommendations with numbers)</p></div>
+  <div class="decision"><b class="q">Every flight case passes at the 25 °C design ambient, but three margins are under 10 K and rest on estimated heat loads.</b><div>Mission peaks against limits: lift motor 75 / 80 °C (+5 K), pusher motor 76 / 80 °C after 600 s cruise (+4 K), battery 53 / 60 °C (+7 K, packs at the 6.0 mΩ per cell acceptance limit), lift ESC 62 / 70 °C (+8 K), flight controller 60 / 85 °C (STM32F405 rating). The 25 °C envelope (R21) comes from these results; Berkeley's April average high is 20 °C. The motor losses are estimates with no published value (lift: 20 % of hover input; pusher: 33.2 W, 15 % × 75 % of cruise input) <span class="est">est</span>, and the pod model has no bay vents, which could only lower the battery and FC temperatures.</div><div class="rec"><b>Recommended:</b> accept packs at ≤ 6.0 mΩ per cell (C11); fly no full mission above 25 °C measured at the field (R21); keep the 60 s hover rule. Measure before changing the design: the lift-motor rise on the thrust stand (C08, 90 s) and the pusher on the ground (G03, 3 min at cruise throttle). If either runs more than 4 K hotter than the model at the same time and ambient, vent the bays (docs/research/thermal.md §6) or shorten the hovers.</div><p class="src">analysis/thermal/thermal_results.json findings (SOLIDWORKS run 2026-11-02, cad/sim/thermal/results.txt); analysis/thermal/thermal_inputs.py (loads, limits, ambient)</p></div>
   <details class="more"><summary>Static renders and SOLIDWORKS plots (for print)</summary>
     <div class="th-gallery">
       <img src="analysis/thermal/img/lift_unit_hover_30_60_90.png" alt="Lift unit at 30, 60 and 90 s of hover: motor can 50, 63 and 74 °C" loading="lazy">
       <img src="analysis/thermal/img/lift_unit_mission.png" alt="Lift unit at the end of hover, end of transition and end of mission" loading="lazy">
-      <img src="analysis/thermal/img/pod_mission_end.png" alt="Pod centreline section at the end of a hot-day mission: flight controller 97 °C, battery about 59 °C" loading="lazy">
+      <img src="analysis/thermal/img/pod_mission_end.png" alt="Pod centreline section at the end of the mission at 25 °C ambient: flight controller 60 °C, battery 53 °C" loading="lazy">
       <img src="analysis/thermal/img/pusher_cruise.png" alt="Pusher motor and cup after 600 s cruise" loading="lazy">
       <img src="analysis/thermal/img/thermal_mission_history.png" alt="Mission temperature history of every component" loading="lazy">
     </div>
@@ -603,7 +603,7 @@
   <p class="src">cad/Thermal.cs (SOLIDWORKS Simulation 2025 thermal, steady and chained transient; the transient API now saves every step) ← analysis/thermal/thermal_inputs.py (loads and film coefficients with sources) → cad/sim/thermal/results.txt → analysis/thermal/thermal_report.py → analysis/thermal/thermal_results.json and img/. Validation: motor-only steady 143.9 °C = Sim.cs; 90 s transient 77.2 °C vs lumped 77.0 °C. Correlations, materials and limitations: docs/research/thermal.md</p>
 
   <h4 id="sim-thermal">One lift motor: steady FEA and 90 s hover</h4>
-  <p><b>A 90 s hover takes a lift motor to about <b id="thermLumped"></b> °C</b> (lumped estimate; band <span id="thermBand"></span> °C for c = 385–500 J/kgK; time constant <span id="thermTau"></span> s). Inputs: motor heat 20 % of hover input (<span data-k="SIM.motor_Q" data-d="1"></span> W) <span class="est">est</span>, prop-wash convection 50 W/m²K <span class="est">est</span>, 35 °C ambient. Steady FEA gives <span data-k="SIM.motor_T_steady" data-d="0"></span> °C, the bulk temperature for unlimited hover; real hovers last 60–90 s, so the time response decides. Three back-to-back 90 s runs with 30 s rests would reach about <span id="thermT3b"></span> °C, so T3 cools the motor to 45 °C between runs.</p>
+  <p><b>A 90 s hover takes a lift motor to about <b id="thermLumped"></b> °C</b> (lumped estimate; band <span id="thermBand"></span> °C for c = 385–500 J/kgK; time constant <span id="thermTau"></span> s). Inputs: motor heat 20 % of hover input (<span data-k="SIM.motor_Q" data-d="1"></span> W) <span class="est">est</span>, prop-wash convection 50 W/m²K <span class="est">est</span>, 35 °C ambient (the motor-only solver-validation case; the mission studies above use 25 °C). Steady FEA gives <span data-k="SIM.motor_T_steady" data-d="0"></span> °C, the bulk temperature for unlimited hover; real hovers last 60–90 s, so the time response decides. Three back-to-back 90 s runs with 30 s rests would reach about <span id="thermT3b"></span> °C, so T3 cools the motor to 45 °C between runs.</p>
   <div class="chain">
     <div class="box"><div class="l">h·A from steady FEA</div><div class="v"><span id="thermHA"></span> W/K</div><div class="f">Q / (T_ss − T_amb)</div></div><span class="arr" aria-hidden="true">→</span>
     <div class="box"><div class="l">Heat capacity</div><div class="v"><span id="thermMC"></span> J/K</div><div class="f">m c = 0.165 kg × 470 J/kgK (est, Cu/steel/Al mix)</div></div><span class="arr" aria-hidden="true">→</span>
@@ -636,15 +636,15 @@
 
   <h3 id="mass-propulsion">Propulsion</h3>
   <h4 id="propulsion">Propulsion</h4>
-  <p class="verdict"><b>Lift: SunnySky X4110S 400KV on 17-in props with SoloGood 45 A BLHeli_S ESCs, $66.29 per station.</b> Max thrust 3.13 kgf per motor gives T/W <b data-k="C0.sized.TW" data-d="2"></b>; each motor draws <b data-k="C0.sized.P_hover_per_motor" data-d="0"></b> W in hover. <b>The pusher is a fifth X4110S on an APC 14×8.5EP</b>, so one spare motor covers every position. Power: two Ovonic 6S 6500 mAh LiPos ($138.99 for the 2-pack) and an HTRC C150 charger. Re-terminate the packs' EC5 leads to the kit's XT90-S anti-spark plugs, which are also the R20 physical disconnect.</p>
+  <p class="verdict"><b>Lift: SunnySky X4110S 400KV on 17-in props with LANRC 45 A BLHeli_S ESCs, $63.79 per station</b> ($46.99 motor + $18.60/2 prop + $30.00/4 ESC, analysis/results.json BOM). Max thrust 3.13 kgf per motor gives T/W <b data-k="C0.sized.TW" data-d="2"></b>; each motor draws <b data-k="C0.sized.P_hover_per_motor" data-d="0"></b> W in hover. <b>The pusher is a fifth X4110S on an APC 14×8.5EP</b>, so one spare motor covers every position. Power: two Ovonic 6S 6500 mAh LiPos ($138.99 for the 2-pack) and an HTRC C150 charger. Re-terminate the packs' EC5 leads to Amass AS150U connectors (70 A continuous), which are also the R20 physical disconnect.</p>
   <p class="src">docs/research/budget-lift.md A3, ESCs; budget-energy-test.md §1–2; pusher prop PB 1c</p>
 
   <h4 id="p-lift">Lift units</h4>
   <div class="tbl"><table class="sortable">
     <thead><tr><th class="sort">Part</th><th class="sort">Layout</th><th class="sort n">Max gf</th><th class="sort n">g/W @ 1.5 kg</th><th class="sort n">Motor g</th><th class="sort n">Station $</th><th>Notes</th></tr></thead>
     <tbody>
-      <tr class="chosen"><td>SunnySky X4110S 400KV + 17×5.5 + SoloGood 45A</td><td>4-lift</td><td class="n">3,130</td><td class="n">8.34</td><td class="n">165</td><td class="n">66.29</td><td>Table on 17×5.8; some KV340 rows look wrong (KV400 rows used)</td></tr>
-      <tr><td>SunnySky X3515S 400KV + APC 16×5.5MR + SoloGood 45A</td><td>4-lift (C3)</td><td class="n">3,360</td><td class="n">7.51</td><td class="n">170</td><td class="n">63.72</td><td>Watts computed as V × A</td></tr>
+      <tr class="chosen"><td>SunnySky X4110S 400KV + 17×5.5 + LANRC 45A</td><td>4-lift</td><td class="n">3,130</td><td class="n">8.34</td><td class="n">165</td><td class="n">63.79</td><td>Table on 17×5.8; some KV340 rows look wrong (KV400 rows used)</td></tr>
+      <tr><td>SunnySky X3515S 400KV + APC 16×5.5MR + SoloGood 45A (price at the time of the trade)</td><td>4-lift (C3)</td><td class="n">3,360</td><td class="n">7.51</td><td class="n">170</td><td class="n">63.72</td><td>Watts computed as V × A</td></tr>
       <tr><td>SunnySky V3508 KV380 + Eolo CN15×5.5 + LANRC 35A</td><td>8-lift</td><td class="n">1,840</td><td class="n">10.30 @ 0.8 kg</td><td class="n">97</td><td class="n">59.12</td><td>8 stations; over cap as a layout</td></tr>
       <tr><td>Hobbywing X6 SE 280KV (v0.2)</td><td>4-lift</td><td class="n">6,058</td><td class="n">8.5 @ 3.1 kg</td><td class="n">373</td><td class="n">134.98</td><td>Oversized for a 6 kg aircraft</td></tr>
       <tr><td>Tarot 4114 320KV</td><td>4-lift</td><td class="n">≈2,650</td><td class="n">—</td><td class="n">—</td><td class="n">—</td><td>Below the 3 kgf floor; no table</td></tr>
@@ -653,7 +653,7 @@
 
   <h4 id="p-batt">Battery</h4>
   <div class="tbl"><table class="sortable" id="packTable"><thead><tr><th class="sort">Pack</th><th class="sort">Chemistry</th><th class="sort n">Wh</th><th class="sort n">kg</th><th class="sort n">Wh/kg</th><th class="sort n">Continuous A</th><th class="sort n">$</th><th class="sort n">C0 MTOW</th><th class="sort n">C0 cruise min</th></tr></thead><tbody></tbody></table></div>
-  <p class="src">docs/research/budget-energy-test.md §1 (Wh = mAh × V_nom). LiPo C ratings (480–1,200 A) are not credible, so 60 A continuous is assumed <span class="est">est</span> (M4).</p>
+  <p class="src">docs/research/budget-energy-test.md §1 (Wh = mAh × V_nom). LiPo C ratings (480–1,200 A) are not credible, so packs are accepted by measured resistance instead: at ≤ 6.0 mΩ per cell (C11) a pack holds 3.31 V per cell at the 82 A transition step (AERO-19).</p>
 
   <h4 id="p-current">Current and rating check (C0)</h4>
   <div class="tbl"><table>
@@ -822,7 +822,7 @@
   <h4 id="ft-ops">Crew, field procedure and charging</h4>
   <ul class="tight">
     <li><b>Crew roles:</b> pilot in command (TRUST holder), visual observer, ground-station operator, and safety officer with the fire bag and extinguisher. Names: —.</li>
-    <li><b>Before each flight:</b> props and CG checked; Remote ID broadcasting; geofence loaded; area clear; battery plugged in last through the XT90-S.</li>
+    <li><b>Before each flight:</b> props and CG checked; Remote ID broadcasting; geofence loaded; area clear; battery plugged in last through the AS150U.</li>
     <li><b>LiPo:</b> charge only in the LiPo bag inside the ammo can, never unattended. Check packs for swelling; store at storage voltage. Isolate a crashed pack outdoors for 30 min.</li>
     <li><b>Field charging:</b> the HTRC C150 gives about 6 A on 6S, roughly 1.1 h per 6500 mAh pack <span class="est">est</span>, so two packs support about 3–4 flights in a 2–3 h session. Field power source: —.</li>
   </ul>
@@ -843,7 +843,7 @@
   <h4 id="t-fmea">Failure modes and controls</h4>
   <p>What can go wrong in the shop or air, its effect, what prevents it, and the test that proves the prevention. The weakest-link table covers parts breaking; this one covers system failures.</p>
   <div class="tbl"><table id="fmeaTable"><thead><tr><th>Failure mode</th><th>Effect</th><th>Severity</th><th>Likelihood</th><th>Control</th><th>Verified by</th></tr></thead><tbody>
-    <tr><td>LiPo pack fire while charging or after a crash</td><td>Injury, loss of the aircraft or the shop</td><td class="bad">critical</td><td class="ok">low</td><td>Charge in the LiPo bag inside the ammo can, never unattended; crashed pack isolated outdoors for 30 min; XT90-S disconnect</td><td>G08 field procedure, I02 compliance</td></tr>
+    <tr><td>LiPo pack fire while charging or after a crash</td><td>Injury, loss of the aircraft or the shop</td><td class="bad">critical</td><td class="ok">low</td><td>Charge in the LiPo bag inside the ammo can, never unattended; crashed pack isolated outdoors for 30 min; AS150U disconnect</td><td>G08 field procedure, I02 compliance</td></tr>
     <tr><td>Prop strike on a person</td><td>Injury</td><td class="bad">critical</td><td class="ok">low</td><td>Battery plugged in last; arming switch; props off for bench work; crew roles and keep-out distances</td><td>E02, F05, G08</td></tr>
     <tr><td>Radio link lost</td><td>Fly-away</td><td class="bad">critical</td><td class="ok">low</td><td>RC-loss failsafe: RTL, then QRTL inside 100 m; 110 m geofence</td><td>E04 range walk, E05, F10</td></tr>
     <tr><td>Transition fails to reach AIRSPEED_MIN, or the wing stalls</td><td>Loss of height, possible crash</td><td class="bad">critical</td><td class="warn">med</td><td>Q_ASSIST below 13 m/s; transition cancelled after 15 s; pilots rehearse in the simulator first</td><td>E06, F06, F07</td></tr>
@@ -869,7 +869,7 @@
       <tr data-l="2" data-i="3"><td>K01</td><td>Site approval delayed</td><td class="n">2</td><td class="n">3</td><td class="n">6</td><td>No RFS approval by 2026-12-01</td><td>Off-campus AMA field under its rules</td><td>Integration lead</td><td class="n">3</td></tr>
       <tr data-l="2" data-i="3"><td>K02</td><td>Crash during transition tests</td><td class="n">2</td><td class="n">3</td><td class="n">6</td><td>Any airframe damage</td><td>Simulator rehearsal first; spares on hand; re-order motor and props the same day; 12-day buffer</td><td>Integration lead</td><td class="n">4</td></tr>
       <tr data-l="1" data-i="3"><td>K03</td><td>Lift motor lost in hover (R14 not met)</td><td class="n">1</td><td class="n">3</td><td class="n">3</td><td>Any motor or ESC fault on the thrust stand</td><td>Hovers under 5 m and 60 s; every motor qualified on the stand (C07)</td><td>Electrical / avionics lead</td><td class="n">2</td></tr>
-      <tr data-l="2" data-i="2"><td>K04</td><td>Battery over 60 °C on a hot day</td><td class="n">2</td><td class="n">2</td><td class="n">4</td><td>Pack resistance over 7.5 mΩ per cell (C11) or pack warm after a flight</td><td>Vent the battery bay; 5 mΩ acceptance for hot days; shade the packs</td><td>Integration lead</td><td class="n">2</td></tr>
+      <tr data-l="2" data-i="2"><td>K04</td><td>Battery over 60 °C</td><td class="n">2</td><td class="n">2</td><td class="n">4</td><td>Pack resistance over 6.0 mΩ per cell (C11), a pack warm before take-off, or a full mission above 25 °C</td><td>6.0 mΩ acceptance (C11); no full mission above 25 °C (R21); shade the packs</td><td>Integration lead</td><td class="n">2</td></tr>
       <tr data-l="2" data-i="2"><td>K05</td><td>Motor heat in hover</td><td class="n">2</td><td class="n">2</td><td class="n">4</td><td>T3 over 80 °C</td><td>60 s hover rule; ESCs in the prop wash; MN-class motor (over budget)</td><td>Electrical / avionics lead</td><td class="n">2</td></tr>
       <tr data-l="1" data-i="2"><td>K06</td><td>Stall above 12 m/s (R11)</td><td class="n">1</td><td class="n">2</td><td class="n">2</td><td>F09 measures stall over 12 m/s</td><td>Raise AIRSPEED_MIN and Q_ASSIST_SPEED by the difference; above 13.08 m/s treat as an R11 failure</td><td>Integration lead</td><td class="n">1</td></tr>
       <tr data-l="2" data-i="2"><td>K07</td><td>Cart totals exceed allowance</td><td class="n">2</td><td class="n">2</td><td class="n">4</td><td>Reserve under $100</td><td>Borrow the hot-wire; drop the spare motor; then the airspeed sensor</td><td>Integration lead</td><td class="n">2</td></tr>
@@ -900,7 +900,7 @@
   <h4 id="b-side">Side by side</h4>
   <div class="tbl"><table id="bomSide"><thead><tr><th>Category</th><th class="n">C0 4-lift</th><th class="n">C1 8-lift</th><th class="n">C2 coax X8</th></tr></thead><tbody></tbody></table></div>
   <p class="src">analysis/results.json concepts.*.bom; tax 10.25 % (CDTFA, Berkeley, effective 2026-10-01) on all goods; shipping allowance <span class="est">est</span> ($100 plus $10 for the Bolt Depot order, shown only at checkout): Amazon free, JeeFly $4.99; OnlineMetals UPS, SunnySky USA and Holybro (CN) shipping and duty are not shown until checkout</p>
-  <p><b>Still unpriced (—), covered by the reserve:</b> charger output adapter, 3.5 mm motor bullets if the X4110S ships without them, JeeFly and APC prop adapters, Holybro import duty. The EC5-to-XT90-S re-termination uses the kit's connectors.</p>
+  <p><b>Still unpriced (—), covered by the reserve:</b> charger output adapter, 3.5 mm motor bullets if the X4110S ships without them, JeeFly and APC prop adapters. The packs' EC5 leads are re-terminated to the AS150U connectors in the BOM.</p>
 
   <h4 id="b-bom">Itemised BOM (C0)</h4>
   <p>Purchasing copy by vendor: <code>docs/purchasing/C0_BOM.csv</code>.</p>
@@ -972,7 +972,7 @@
     <tr><td>N07</td><td>5</td><td>Automatic check (CI)</td><td>Committed review page did not match its sources on a clean build</td><td>Render images committed; the build no longer depends on file times</td><td><span class="chip met">closed</span></td></tr>
     <tr><td>N08</td><td>6</td><td>Benchmark study</td><td>20 m/s cruise is far above the best lift-to-drag speed</td><td>Cruise moved to 18 m/s, the R11 lower bound: 22 % less cruise power</td><td><span class="chip met">closed</span></td></tr>
     <tr><td>N09</td><td>6</td><td>Document check</td><td>Print list still asked for pusher-cup vent slots after the thermal decision</td><td>Removed; the build measures the pusher first</td><td><span class="chip met">closed</span></td></tr>
-    <tr><td>N10</td><td>5</td><td>Thermal analysis</td><td>Battery can pass 60 °C at the end of a hot-day mission</td><td>Bay venting and a tighter pack acceptance recommended; confirm by measurement</td><td><span class="chip open">open</span></td></tr>
+    <tr><td>N10</td><td>5</td><td>Thermal analysis</td><td>Battery could pass 60 °C at the end of a mission on a 35 °C day</td><td>Resolved by requirement: packs accepted at ≤ 6.0 mΩ per cell (C11) and no full mission above 25 °C (R21) give 53 °C at mission end; confirm by measurement</td><td><span class="chip open">open</span></td></tr>
     <tr><td>N11</td><td>1</td><td>Requirement R14</td><td>C0 cannot hold attitude after losing a lift motor in hover</td><td>Accepted with operating limits; the 8-lift layout that meets it is over the cap</td><td><span class="chip risk">accepted</span></td></tr>
     <tr><td>N12</td><td>3</td><td>Requirement R4</td><td>The car has not been measured against the largest piece</td><td>Test S08</td><td><span class="chip open">open</span></td></tr>
   </tbody></table></div>
@@ -1075,7 +1075,7 @@
       <tr><td>Low / critical battery</td><td class="n">RTL / QLAND</td><td>21.0 V or 1950 mAh used → RTL ending in a vertical landing; 19.8 V or 1300 mAh left (the R10 reserve) → land in place. Per-cell values <span class="est">est</span></td></tr>
       <tr><td>RC link loss</td><td class="n">RTL / QLAND</td><td>Fixed-wing modes return and land vertically at home; hover modes land in place (SITL B, C)</td></tr>
       <tr><td>Hover limits (test phase)</td><td class="n">≤ 5 m AGL, ≤ 60 s</td><td>R14 mitigation; motor heat (<a class="xref" href="#simulation">§12</a>)</td></tr>
-      <tr><td>Arming / disconnect (R20)</td><td class="n">RC arm switch + XT90-S</td><td>Battery plugged in last, props off for bench work; ArduPilot arming checks on</td></tr>
+      <tr><td>Arming / disconnect (R20)</td><td class="n">RC arm switch + Amass AS150U</td><td>Battery plugged in last, props off for bench work; ArduPilot arming checks on</td></tr>
       <tr><td>Lift-motor current limit</td><td class="n">Q_M_BAT_CURR_MAX 85 A</td><td>Throttles only the lift motors, so a lower cap would cut lift in transition; take-off throttle capped at 75 % (TKOFF_THR_MAX)</td></tr>
     </tbody></table></div>
 
@@ -1092,9 +1092,9 @@
       <tr><td>S10</td><td>Unused</td><td>—</td></tr>
       <tr><td>S11</td><td>Rudder R</td><td>PWM; away from the DShot timer groups</td></tr>
       <tr><td>S12</td><td>Spare</td><td>—</td></tr>
-      <tr><td>UART + I²C</td><td>HGLRC M100-5883 GPS + compass</td><td>u-blox M10</td></tr>
+      <tr><td>UART + I²C</td><td>RMRC SAM-M10Q-5883 GPS + compass</td><td>u-blox M10</td></tr>
       <tr><td>UART</td><td>RP3 V2 ELRS receiver</td><td>CRSF; or MAVLink with the overlay file (one or the other, not both)</td></tr>
-      <tr><td>I²C</td><td>MS5525DSO airspeed + PT40 pitot</td><td>Ships at 0x76, the barometer's address: strap CSB low for 0x77 before first power-up (ARSPD_TYPE 5)</td></tr>
+      <tr><td>I²C</td><td>RMRC MS4525DO digital airspeed + pitot</td><td>I²C address 0x28, no clash with the board barometer at 0x76 (ARSPD_TYPE 1, firmware/vtol_c0.param)</td></tr>
       <tr><td>5 V pad</td><td>BeeID Remote ID broadcast module</td><td>FAA DoC RID000001995</td></tr>
     </tbody></table></div>
   <p class="src">firmware/vtol_c0.param SERVOn_FUNCTION and SERIALn_PROTOCOL; output timer groups from the board's ArduPilot hwdef (firmware/README.md §2); wiring: docs/build/wiring.csv</p>

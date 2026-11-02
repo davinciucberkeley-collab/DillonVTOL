@@ -1,36 +1,36 @@
 {
  "level": 2,
  "scale_f": 1.0,
- "generated": "2026-10-29 01:25",
+ "generated": "2026-11-01 22:20",
  "gmsh": "4.15.2",
  "script": "analysis/cfd3d/build_mesh.py",
  "frame": "SU2: x = -X_cad (aft), y = Z_cad (starboard), z = Y_cad (up), metres",
  "domain_cad_m": {
-  "x0": -16.0,
-  "x1": 8.0,
-  "y0": -8.0,
-  "y1": 8.0,
+  "x0": -45.0,
+  "x1": 35.0,
+  "y0": -35.0,
+  "y1": 35.0,
   "z0": 0.0,
-  "z1": 10.0
+  "z1": 35.0
  },
  "half_model": true,
- "nodes": 329830,
- "tetrahedra": 1795211,
+ "nodes": 824544,
+ "tetrahedra": 3957746,
  "surface_triangles": {
-  "wing": 37939,
-  "htail": 15648,
-  "fins": 9293,
-  "pod": 8265,
-  "booms": 38993,
-  "motors": 1720,
-  "gear": 14946,
-  "symmetry": 19288,
-  "farfield": 3814
+  "wing": 423238,
+  "htail": 68064,
+  "fins": 48233,
+  "pod": 10285,
+  "booms": 40725,
+  "motors": 1730,
+  "gear": 14646,
+  "symmetry": 34477,
+  "farfield": 42382
  },
  "quality_minSICN": {
-  "min": 0.020134059873247963,
-  "p01": 0.2513062696744567,
-  "mean": 0.769821333688479,
+  "min": 0.02657652429654603,
+  "p01": 0.3693979862085526,
+  "mean": 0.7581285632740309,
   "hist_edges": [
    0,
    0.1,
@@ -45,25 +45,26 @@
    1.0
   ],
   "hist": [
-   355,
-   9612,
-   15471,
-   33125,
-   83421,
-   117400,
-   187265,
-   371637,
-   652591,
-   324334
+   108,
+   5780,
+   11698,
+   62641,
+   224559,
+   334257,
+   515496,
+   887450,
+   1302602,
+   613155
   ]
  },
  "quality_gamma": {
-  "min": 0.0019690772225970294,
-  "p01": 0.18206013479554392,
-  "mean": 0.7365631229209618
+  "min": 0.001969077222596934,
+  "p01": 0.2648530279631394,
+  "mean": 0.7187467475514239
  },
  "sizes_m": {
   "wall_default": 0.008,
+  "lifting_surfaces": 0.0022,
   "trailing_edges": 0.0025,
   "min": 0.0006,
   "te_points": 0.0006,
@@ -71,24 +72,25 @@
   "wake_box": 0.03,
   "tip_vortex_box": 0.012,
   "tip": 0.006,
-  "far": 0.9,
+  "far": 4.0,
   "curvature_per_2pi": 24
  },
+ "mesh_rev": 2,
  "elements": "linear tetrahedra (gmsh HXT), linear triangles on the walls; no prism layer (inviscid Euler)",
  "te_curves": 8,
- "wall_faces": 173,
+ "wall_faces": 171,
  "faces_by_group": {
   "wing": 8,
   "htail": 3,
   "fins": 31,
   "pod": 10,
-  "booms": 59,
+  "booms": 57,
   "motors": 18,
   "gear": 44,
   "unclassified": 0
  },
  "time_s": {
-  "surface": 2.3,
-  "volume": 24.4
+  "surface": 15.2,
+  "volume": 43.0
  }
 }

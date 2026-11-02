@@ -414,7 +414,7 @@ def scenario_E(s: Sitl):
     s.pump(10)
     s.set_param("BATT_LOW_MAH", 6400)
     landed = wait_landed(s, 400)
-    s.set_param("BATT_LOW_MAH", 1950)
+    s.set_param("BATT_LOW_MAH", 1625)   # restore firmware/vtol_c0.param (rev 2026-11-02: 25 %)
     modes = [r["mode"] for r in s.rows]
     fence = any("fence" in m.lower() for _, m in s.texts)
     batt = any("attery" in m and "low" in m for _, m in s.texts)

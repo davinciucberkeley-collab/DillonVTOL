@@ -184,7 +184,7 @@ def write_claim(res):
              "independent_check": {"method": "gmsh + own C3D10 solver (no SOLIDWORKS code)", "value": t["independent_fe"], "repo_value": t["solidworks"], "delta_pct": t["delta_vs_solidworks_pct"], "script": "analysis/validation/xtool_boom_fea.py"},
              "status": "Verified" if ok else "Partially Verified",
              "status_reason": f"tip deflection {t['independent_fe']:.3f} vs {t['solidworks']:.3f} mm ({t['delta_vs_solidworks_pct']:+.1f} %); bending stress at x 0.10 m {sx['independent_fe']:.2f} vs beam {sx['beam']:.2f} MPa ({sx['delta_pct']:+.2f} %); root-corner peak {v['delta_vs_solidworks_pct']:+.1f} % (singular, not a design value); mesh change {c['mesh_change_tip_defl_pct']:+.2f} %",
-             "limitations": ["verifies the computation, not the load case: the tip mass is 37 % low (STR-05) and no landing case exists (STR-11)", "same idealised fixed root as SOLIDWORKS; clamp compliance is not modelled by either"],
+             "limitations": ["verifies the computation on the CAD-calibrated tip mass (STR-05); the landing case is analysed separately (STR-11, analysis/structures/landing.py)", "same idealised fixed root as SOLIDWORKS; clamp compliance is not modelled by either"],
              "next_step": "Re-run both solvers with the CAD lift-unit mass and a clamp-compliant root; add a landing case."}
     (Path(__file__).parent / "claims_xtool.json").write_text(json.dumps({"generated": time.strftime("%Y-%m-%d %H:%M"), "author": "analysis/validation/xtool_boom_fea.py", "claims": [claim]}, indent=1), encoding="utf-8")
 

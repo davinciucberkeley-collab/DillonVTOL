@@ -3,14 +3,14 @@
 | Field | Entry |
 |---|---|
 | Test ID(s) and title | |
-| Plan revision | DBF-TP-001 rev B |
+| Plan revision | DBF-TP-001 rev C |
 | Date, start–end time | |
 | Site (and flight request number for on-campus) | |
 | Crew: TD / SO / PIC / GCS / VO | |
 | Article: airframe build state, motor/ESC/prop/servo serials, pack A/B | |
 | Firmware version and hash; parameter file commit | |
 | Weather: wind steady/gust (m/s), temp (°C), pressure, visibility | |
-| Take-off mass (kg), CG (% MAC), ballast | |
+| Take-off mass (kg), CG (% MAC), field air temperature (°C, R21) | |
 
 ## 1. Objective (copy from TEST-PLAN.md)
 

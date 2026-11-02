@@ -26,7 +26,11 @@ export const nacaName = (m, p, t) => `NACA ${Math.round(m*100)}${Math.round(p*10
 // smooth-step boat-tail from radius R to tailR at L. noseX is the nose station forward of the wing LE (x fwd); L, R, tailR are
 // the pod length, mid-body radius and tail-ring radius (params.txt fusL, fusR, tailR). EST envelope: 0.85 x 0.16 m holds the
 // 6S 6500 pack, the avionics bay and the pusher cup (cad/BuildVtol.cs Fuselage()).
-export const POD = { noseX: 0.45, L: 0.85, R: 0.08, tailR: 0.03, noseA: 0.22, parallelTo: 0.50 };
+// Rev 2026-11-01: nose lengthened 0.15 m (noseX 0.45 -> 0.60, L 0.85 -> 1.00, parallel section to 0.65) so the battery and the
+// avionics bay sit far enough forward for the 28 % MAC CG without ballast once the payload allowance was removed (R12). The CAD
+// CG of rev D was 39.3 % MAC with no payload, on the neutral point (analysis/mass/mass_budget.py); the sizing's CG build-up now
+// uses CAD-calibrated stations and checks that the battery fits (analysis/sizing.mjs cg(), battery_fits).
+export const POD = { noseX: 0.60, L: 1.00, R: 0.08, tailR: 0.03, noseA: 0.22, parallelTo: 0.65 };
 
 // ---- reference implementations (the Python and C# copies in analysis/geom.py and cad/Shared.cs follow these line by line) ----
 // half-thickness of a NACA 4-digit section at chord fraction x, thickness ratio t, TE coefficient a4

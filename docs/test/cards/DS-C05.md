@@ -1,5 +1,5 @@
 # Data sheet DS-C05 — Tube receipt measurement and joiner fit
-DBF-TP-001 rev B data sheet · Test C05 · Date ____ · Operator ____ · Witness ____ · Article/serials ____
+DBF-TP-001 rev C data sheet · Test C05 · Date ____ · Operator ____ · Witness ____ · Article/serials ____
 
 Reference: hardware-spec §5a/§5b. Tolerances used: OD ±0.102 mm, wall ±0.051 mm. Calipers: ____ (resolution 0.01 mm).
 

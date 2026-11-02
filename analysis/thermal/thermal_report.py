@@ -93,7 +93,7 @@ if lu:
     F = lu['fields']
     if 'steady_hover' in F:
         camera_figure([(lu, F['steady_hover'], (28, -50), None, 'steady hover (upper bound, never reached in flight)')],
-                      'Lift unit: motor + PA6-CF mount + boom + ESC, steady hover, hot day', P('lift_unit_steady.png'), focus=(0.02, 0.13),
+                      'Lift unit: motor + PA6-CF mount + boom + ESC, steady hover, %.0f °C' % T_HOT, P('lift_unit_steady.png'), focus=(0.02, 0.13),
                       note='Q motor %.1f W, ESC %.1f W; h motor %.0f, mount %.0f, boom %.0f, ESC %.0f W/m2K (prop wash v_i %.1f m/s)' % (INP['loads']['lift_motor_W'], INP['loads']['lift_esc_W'], INP['h']['motor_hover'], INP['h']['mount_hover'], INP['h']['boom_hover'], INP['h']['esc_hover'], INP['flow']['v_i_mps']))
     pans = [(lu, F[k], (28, -50), None, k.replace('hover_', 'hover ').replace('s', ' s')) for k in ('hover_30s', 'hover_60s', 'hover_90s') if k in F]
     if pans: camera_figure(pans, 'Lift unit: continuous hover from %.0f °C, transient' % T_HOT, P('lift_unit_hover_30_60_90.png'), width=4.2, focus=(0.02, 0.13), note='same colour scale on all three panels; bench C08 holds hover thrust 90 s, hover-only flights are limited to 60 s per hover')
@@ -105,7 +105,7 @@ pod = field('pod')
 if pod:
     F = pod['fields']; nodes = pod['nodes']
     keep_section = lambda tris: nodes[tris, 2].mean(axis=1) <= 0.0   # cutaway: remove the +Z half (section through the centreline); camera on the +Z side looks into the cut
-    for k, lab, fn in (('end_hover5', 'end of mission, hot day', 'pod_mission_end.png'), ('end_cruise3', 'end of cruise (680 s)', 'pod_end_cruise.png')):
+    for k, lab, fn in (('end_hover5', 'end of mission, %.0f °C ambient' % T_HOT, 'pod_mission_end.png'), ('end_cruise3', 'end of cruise (680 s)', 'pod_end_cruise.png')):
         if k in F:
             camera_figure([(pod, F[k], (30, 62), keep_section, lab + ' (section at the centreline, bays only)')],
                           'Pod interior: battery and flight controller in the foam bays, ' + lab, P(fn), width=7.0, focus=(-0.26, 0.16),
@@ -116,7 +116,7 @@ pu = field('pusher')
 if pu:
     F = pu['fields']
     pans = [(pu, F[k], (25, 40), None, lab) for k, lab in (('steady_cruise', 'steady cruise (upper bound)'), ('end_cruise', 'after 600 s cruise from %.0f °C' % T_HOT)) if k in F]
-    if pans: camera_figure(pans, 'Pusher motor in the PA6-CF cup and foam tail ring, cruise 20 m/s, hot day', P('pusher_cruise.png'), width=4.6,
+    if pans: camera_figure(pans, 'Pusher motor in the PA6-CF cup and foam tail ring, cruise, %.0f °C' % T_HOT, P('pusher_cruise.png'), width=4.6,
                            note='X4110S pusher: Q motor %.1f W (P_cruise x (1 - 0.85) x 0.75 EST); h motor %.0f W/m2K (flat plate at 20 m/s), cup inner %.0f, pod skin %.0f' % (INP['loads']['pusher_motor_W'], INP['h']['pusher_motor_cruise'], INP['h']['cup_inner_cruise'], INP['h']['pod_cruise']))
 
 # ---------------- (c) mission time history ----------------
@@ -156,7 +156,7 @@ if series:
             ax.axhline(lim, ls='--', lw=1, color='#999'); ax.text(tot * 0.42, lim, ll, ha='left', va='bottom', fontsize=8, color='#666'); drawn.add(lim)
     ax.text(tot * 0.42, LIM['petg_HDT_C'], 'PETG HDT 68 °C (not a heat path; for reference)', ha='left', va='top', fontsize=8, color='#666'); ax.axhline(LIM['petg_HDT_C'], ls=':', lw=1, color='#bbb')
     ax.set_xlim(0, tot); ax.set_ylim(T_HOT - 2, max(110, max(max(T) for _, _, T, _, _ in series) + 8))
-    ax.set_xlabel('mission time (s)'); ax.set_ylabel('temperature (°C), hot day %.0f °C ambient' % T_HOT)
+    ax.set_xlabel('mission time (s)'); ax.set_ylabel('temperature (°C), %.0f °C design ambient' % T_HOT)
     ax.set_title('Component temperatures through the mission vs limits (max in body, SOLIDWORKS transient)', fontsize=11, loc='left')
     for s in ('top', 'right'): ax.spines[s].set_visible(False)
     ax.grid(axis='y', color='#e6e6e6'); ax.legend(frameon=False, fontsize=9, loc='upper left', bbox_to_anchor=(0.0, 0.93))
@@ -174,14 +174,15 @@ if Hh:
 
 # ---------------- findings table + compact JSON ----------------
 def g(k): return RES[k]['v'] if k in RES else None
-def status(T, lim):
+def status(T, lim, bound=False):
     if T is None or lim is None: return '—'
+    if bound: return 'bound only'   # steady state is never reached in a flight (tau much longer than the phase); shown to size the margin, not judged
     m = lim - T
-    return 'pass' if m >= 10 else ('at risk' if m >= 0 else 'fail')
+    return 'pass' if m >= 10 else ('pass, < 10 K margin' if m >= 0 else 'fail')
 rows = []
 def row(component, case, T, lim, lim_src, note=''):
     rows.append(dict(component=component, case=case, peak_C=None if T is None else round(T, 1), peak_std_C=None if T is None else round(T - (T_HOT - T_STD), 1),
-                     limit_C=lim, limit_src=lim_src, margin_K=None if T is None or lim is None else round(lim - T, 1), status=status(T, lim), note=note))
+                     limit_C=lim, limit_src=lim_src, margin_K=None if T is None or lim is None else round(lim - T, 1), status=status(T, lim, '(bound)' in case), note=note))
 def _batt73():
     """battery rise rescaled from the run's 7.5 mOhm/cell to the current C11 limit (I^2 R heat; the model is linear in it)"""
     t, amb = g('pod_mission_end_Battery'), INP['ambient']['hot_C']
@@ -201,10 +202,12 @@ row('Lift ESC (boom, prop wash)', 'steady hover (bound)', g('lift_steady_ESC'), 
 row('PA6-CF motor mount', 'hover 90 s', g('lift_hover90_Mount'), LIM['pa6cf_HDT_C'], 'Polymaker TDS HDT 1.8 MPa')
 row('PA6-CF motor mount', 'mission peak', g('lift_mission_max_Mount'), LIM['pa6cf_HDT_C'], 'Polymaker TDS HDT 1.8 MPa')
 row('PA6-CF motor mount', 'steady hover (bound)', g('lift_steady_Mount'), LIM['pa6cf_HDT_C'], 'Polymaker TDS HDT 1.8 MPa', 'a PETG mount (HDT 68 C) would fail here')
-row('Battery pack (Ovonic 6S 6500)', 'mission end (hot day)', g('pod_mission_end_Battery'), LIM['lipo_C'], 'test plan C11 / rule 8 (EST)', 'R_pack at 7.5 mOhm/cell (C11 limit at run time; at the current 7.3 mOhm limit: ' + _batt73() + ')')
+row('Battery pack (Ovonic 6S 6500)', 'mission end', g('pod_mission_end_Battery'), LIM['lipo_C'], 'test plan C11 / rule 8 (EST)', 'R_pack at %.1f mOhm/cell, the C11 acceptance limit; heat scales with R' % (1e3 * INP['loads']['R_pack_ohm'] / 6))
 row('Battery pack (Ovonic 6S 6500)', 'mission peak', g('pod_mission_max_Battery'), LIM['lipo_C'], 'test plan C11 / rule 8 (EST)')
-row('Flight controller (pod bay)', 'mission peak', g('pod_mission_max_FC'), None, '— (CoreWing publishes no limit)')
-row('XPS pod foam', 'mission peak', g('pod_mission_max_Foam'), LIM['xps_C'], 'FOAMULAR data sheet max use 165 F')
+row('Flight controller (pod bay)', 'mission peak', g('pod_mission_max_FC'), LIM['fc_C'], 'STM32F405RGT6 rating 85 C (CoreWing publishes none)', 'board temperature against the chip ambient rating: conservative')
+_nb = [x for x in (g('pod_mission_max_Battery'), g('pod_mission_max_FC')) if x is not None]
+row('XPS pod foam', 'mission peak (bounded by its hottest neighbour)', max(_nb) if _nb else None, LIM['xps_C'], 'FOAMULAR data sheet max use 165 F',
+    'the model leaves a 3 mm air gap round the battery and FC, so the foam itself gets no heat (it reads %.0f C); it cannot run hotter than the hottest body in the bay' % (g('pod_mission_max_Foam') or 0))
 row('Pusher motor can', 'after 600 s cruise', g('pusher_endcruise_Motor'), LIM['motor_can_C'], 'test plan (EST)', f"X4110S in the closed PA6-CF cup; loss {INP['loads']['pusher_motor_W']:.1f} W EST (15 % x 75 %), no bell self-pumping")
 row('Pusher motor can', 'steady cruise (bound)', g('pusher_steady_Motor'), LIM['motor_can_C'], 'test plan (EST)')
 row('PA6-CF pusher cup', 'steady cruise (bound)', max([x for x in (g('pusher_steady_CupFloor'), g('pusher_steady_CupWall')) if x is not None] or [None]), LIM['pa6cf_HDT_C'], 'Polymaker TDS')
@@ -247,6 +250,6 @@ out = {
 path = os.path.join(ROOT, 'analysis', 'thermal', 'thermal_results.json')
 json.dump(out, open(path, 'w'), separators=(',', ':'))
 print('wrote', path, '%.0f kB' % (os.path.getsize(path) / 1024))
-print('\n| Component | Case | Peak (hot day) | Limit | Margin | Status |\n|---|---|---|---|---|---|')
+print('\n| Component | Case | Peak at design ambient | Limit | Margin | Status |\n|---|---|---|---|---|---|')
 for r in rows:
     print('| %s | %s | %s | %s | %s | %s |' % (r['component'], r['case'], '—' if r['peak_C'] is None else '%.0f °C' % r['peak_C'], '—' if r['limit_C'] is None else '%.0f °C' % r['limit_C'], '—' if r['margin_K'] is None else '%+.0f K' % r['margin_K'], r['status']))

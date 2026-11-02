@@ -43,14 +43,18 @@ esc_loss_frac = 0.04                # EST: BLHeli_S 45 A ESC loss at ~10 A (Solo
 Q_esc = esc_loss_frac * P_motor_hover
 Q_esc_trans = esc_loss_frac * S['P_trans'] / 4   # transition: P_trans spread over the 4 lift units (sizing: P_hover + 2 P_cruise)
 Q_motor_trans = 0.20 * S['P_trans'] / 4
-R_cell = 7.5e-3                      # docs/test/TEST-PLAN.md C11 pass limit was 7.5 mOhm/cell when the studies ran; the re-based plan gives 7.3 mOhm (0.30 V / 41.2 A), so the FEA pack is 2.7 % conservative (heat scales linearly with R)
+R_cell = 6.0e-3                      # rev 2026-11-02: docs/test/TEST-PLAN.md C11 acceptance limit 6.0 mOhm/cell (was 7.3 sag limit / 7.5 at the 2026-10-27 run): at 7.5 mOhm the 7.44 kg design's pack ended the hot-day mission at 70 C
 R_pack = 6 * R_cell
 Q_batt = {ph: I * I * R_pack for ph, I in (('hover', I_hover), ('transition', I_trans), ('cruise', I_cruise))}
 eta_mec = B['etaMEc']
 Q_pusher_total = S['P_cruise'] * (1 - eta_mec)   # motor + ESC loss in cruise (sizing etaMEc 0.85)
 Q_pusher_motor = 0.75 * Q_pusher_total           # EST split 75 % motor / 25 % ESC
 Q_pusher_esc = 0.25 * Q_pusher_total
-Q_fc = 3.5                                       # EST: FC + RX + GPS + Remote ID ~0.5 A at 5 V plus UBEC loss ~1 W
+# rev 2026-11-02: heat ON the flight-controller board only (the lump the pod study heats); the RX, GPS and Remote ID dissipate in their own
+# housings (GPS on its mast pad, RX and BeeID in the canopy), so the old 3.5 W lump double-counted ~1.5 W. EST itemisation:
+#   MCU STM32F405 ~0.3 W (3.3 V x ~90 mA at 168 MHz, EST) + OSD/IMU/baro/flash ~0.2 W + 5 V BEC loss feeding ~0.5 A of avionics at ~85 % EST ~0.45 W
+#   + servo BEC loss feeding ~1 A average to five ES3005HV at ~85 % EST ~1.05 W  = 2.0 W
+Q_fc = 2.0
 
 # ---------------- prop-wash and cruise velocities ----------------
 T_unit = S['Tunit_N']; A_disc = S['A']
@@ -129,8 +133,10 @@ out = {
     'params': 'cad/params.txt (motorD, motorH, boomOD, boomID, battL/H/W, fusL, fusR, pushMotorD/L, bay*, batt*)',
     'air': AIR['src'],
   },
-  'ambient': {'hot_C': 35.0, 'hot_K': 308.15, 'std_C': 20.0, 'std_K': 293.15,
-              'src': 'hot day 35 C = cad/params.mjs thermAmbK (EST, no R-number); standard 20 C EST (ISA +5, Berkeley spring)'},
+  # rev 2026-11-02: the studies run at the top of the full-mission envelope (key name hot_K kept for cad/Thermal.cs). 35 C was an EST with no
+  # requirement behind it; the flight campaign is in Berkeley in spring, where the April average high is 20 C (NCEI 1991-2020 normals)
+  'ambient': {'hot_C': 25.0, 'hot_K': 298.15, 'std_C': 20.0, 'std_K': 293.15,
+              'src': 'design ambient 25 C = DESIGN-BASIS R21 full-mission envelope (no full mission above 25 C, measured at the field, TEST-PLAN rule 9); Berkeley April average high 20 C / 67 F (NOAA NCEI 1991-2020 normals via https://www.currentresults.com/Weather/California/city-temperature-april.php, checked 2026-11-02); standard 20 C = that average high'},
   'mission': {
     'phases': [dict(name=n, dt_s=dt) for n, dt in phases], 'total_s': total,
     't_end_hover1_s': t_end[0], 't_end_trans1_s': t_end[1], 't_end_cruise_s': t_end[2], 't_end_trans2_s': t_end[3],
@@ -143,13 +149,13 @@ out = {
     'lift_motor_W': Q_motor, 'lift_motor_trans_W': Q_motor_trans, 'lift_esc_W': Q_esc, 'lift_esc_trans_W': Q_esc_trans,
     'batt_hover_W': Q_batt['hover'], 'batt_trans_W': Q_batt['transition'], 'batt_cruise_W': Q_batt['cruise'], 'batt_curve_ref_W': ref,
     'pusher_motor_W': Q_pusher_motor, 'pusher_esc_W': Q_pusher_esc, 'fc_W': Q_fc,
-    'R_pack_ohm': R_pack, 'R_cell_test_plan_now_ohm': 7.3e-3, 'V_bus': V_bus,
+    'R_pack_ohm': R_pack, 'R_cell_test_plan_now_ohm': 6.0e-3, 'V_bus': V_bus,
     'src': {
       'lift_motor': 'EST 20 %% of P_hover_per_motor %.1f W (cad/params.mjs thermQ rule, 80 %% motor+ESC efficiency); the same figure cad/sim/results.txt motor_Q uses' % P_motor_hover,
       'lift_esc': 'EST 4 % of unit input (no SoloGood efficiency published; TI SSZTB57: FET conduction loss = I_rms^2 R_ds(on), 60-80 % of inverter loss)',
-      'battery': 'I^2 R with R_pack = 6 x 7.5 mOhm (docs/test/TEST-PLAN.md C11 pass limit at run time; now 7.3 mOhm, so the result is 2.7 % conservative); I from results.json sized I_hover_loaded / I_trans / I_cruise (P / 21 V, sizing.mjs line 155)',
+      'battery': 'I^2 R with R_pack = 6 x 6.0 mOhm (docs/test/TEST-PLAN.md C11 acceptance limit, rev 2026-11-02: a pack above it does not fly the full mission); I from results.json sized I_hover_loaded / I_trans / I_cruise (P / 21 V, sizing.mjs)',
       'pusher': 'P_cruise x (1 - etaMEc 0.85) = %.1f W (results.json base.etaMEc), split 75/25 motor/ESC EST; the pusher is a SunnySky X4110S 400KV, the same motor as the lift units (docs/purchasing/C0_BOM.csv line "X4110S 400KV (pusher)", analysis/sizing.mjs PUSHER = X4110S); SunnySky publishes no thermal data (—)' % Q_pusher_total,
-      'fc': 'EST 3.5 W: CoreWing F405 + RP3 + M100 GPS + BeeID ~0.5 A at 5 V plus ZORZA UBEC loss',
+      'fc': 'EST 2.0 W on the CoreWing F405 board: MCU ~0.3 + OSD/sensors ~0.2 + 5 V BEC loss ~0.45 + servo BEC loss ~1.05 W (thermal_inputs.py comment); RX, GPS and Remote ID heat their own housings (rev 2026-11-02, was 3.5 W lumped)',
     },
   },
   'flow': {'v_i_mps': v_i, 'v_wake_mps': 2 * v_i, 'V_cruise_mps': V_c,
@@ -189,8 +195,8 @@ out = {
     'esc': {'k': 5.0, 'cp': 800.0, 'rho': 1500.0, 'src': 'EST lump: FR4 + FETs + heat-shrink'},
   },
   'limits': {
-    'motor_can_C': 80.0, 'esc_C': 70.0, 'lipo_C': 60.0, 'pa6cf_HDT_C': 173.0, 'petg_HDT_C': 68.0, 'xps_C': 74.0, 'wire_connector_C': 60.0,
-    'src': 'motor can 80 C EST and ESC 70 C EST: docs/test/TEST-PLAN.md abort table and C08 (X4110S and SoloGood publish no limit, "—"); LiPo 60 C: TEST-PLAN rule 8 / C11; connectors 60 C: G04; PA6-CF HDT 173 C: Polymaker TDS; PETG HDT 68 C: Prusament TDS; XPS 74 C: FOAMULAR data sheet',
+    'motor_can_C': 80.0, 'esc_C': 70.0, 'lipo_C': 60.0, 'fc_C': 85.0, 'pa6cf_HDT_C': 173.0, 'petg_HDT_C': 68.0, 'xps_C': 74.0, 'wire_connector_C': 60.0,
+    'src': 'motor can 80 C EST and ESC 70 C EST: docs/test/TEST-PLAN.md abort table and C08 (X4110S and LANRC publish no limit, "—"); LiPo 60 C: TEST-PLAN rule 8 / C11; FC 85 C: STM32F405RGT6 ambient rating -40 to +85 C (6-suffix part; https://hken.rs-online.com/web/p/microcontrollers/7468217, checked 2026-11-02; CoreWing publishes no board rating, "—"), applied to the board temperature, which is conservative; connectors 60 C: G04; PA6-CF HDT 173 C: Polymaker TDS; PETG HDT 68 C: Prusament TDS; XPS 74 C: FOAMULAR data sheet',
   },
   'mount': mount, 'esc': esc, 'fc': fc, 'cup': cup,
   'boom': {'segment_m': 0.40, 'src': 'modelled boom segment 0.40 m centred on the mount (EST; front boom 0.966 m, params.txt segF)'},

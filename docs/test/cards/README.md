@@ -1,4 +1,4 @@
-# Test cards and data sheets — DBF-TP-001 rev B
+# Test cards and data sheets — DBF-TP-001 rev C
 
 Printable Markdown. Flight test cards (one per flight test) and data sheets for component, structural and ground tests. Fill in on paper or in a text editor, then file a report with REPORT-TEMPLATE.md and update ../test-matrix.csv.
 
@@ -15,8 +15,8 @@ Printable Markdown. Flight test cards (one per flight test) and data sheets for 
 | DS-S01.md | Wing proof load |
 | DS-S02-S04.md | Boom stiffness, modal, clamp slip, motor mount (S02–S05) |
 | DS-S06.md | Landing-gear drop |
-| DS-G01.md | Weight and balance with and without ballast (G01, G09) |
-| DS-C16-C17-S10.md | F05 / counterbore first article, joiner slip fit and stops, ballast retention |
+| DS-G01.md | Weight and balance; CG versus pack station, no ballast (G01, G09) |
+| DS-C16-C17-S10.md | F05 / counterbore first article, joiner slip fit and stops (S10 withdrawn) |
 | DS-G03.md | Tied-down run, harness heating, vibration, compassmot |
 | REPORT-TEMPLATE.md | Test report template |
 

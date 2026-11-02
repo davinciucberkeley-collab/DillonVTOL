@@ -1,5 +1,5 @@
 # Data sheet DS-C01 — Printed hole and bore coupon (first article)
-DBF-TP-001 rev B data sheet · Test C01 · Date ____ · Operator ____ · Witness ____ · Article/serials ____
+DBF-TP-001 rev C data sheet · Test C01 · Date ____ · Operator ____ · Witness ____ · Article/serials ____
 
 Reference: docs/research/hardware-spec.md §5b (FT02, FT07, FT08) and M2. Pass: a modelled value prints 3.4 / 4.0 / 25.6 ±0.1 mm.
 

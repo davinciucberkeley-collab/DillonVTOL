@@ -1,0 +1,94 @@
+{
+ "level": 1,
+ "scale_f": 1.5,
+ "generated": "2026-10-29 01:24",
+ "gmsh": "4.15.2",
+ "script": "analysis/cfd3d/build_mesh.py",
+ "frame": "SU2: x = -X_cad (aft), y = Z_cad (starboard), z = Y_cad (up), metres",
+ "domain_cad_m": {
+  "x0": -16.0,
+  "x1": 8.0,
+  "y0": -8.0,
+  "y1": 8.0,
+  "z0": 0.0,
+  "z1": 10.0
+ },
+ "half_model": true,
+ "nodes": 132878,
+ "tetrahedra": 622283,
+ "surface_triangles": {
+  "wing": 23104,
+  "htail": 13058,
+  "fins": 7505,
+  "pod": 4205,
+  "booms": 37815,
+  "motors": 1682,
+  "gear": 12624,
+  "symmetry": 9195,
+  "farfield": 3052
+ },
+ "quality_minSICN": {
+  "min": 0.011227138417020659,
+  "p01": 0.11887843986350637,
+  "mean": 0.7105016788317275,
+  "hist_edges": [
+   0,
+   0.1,
+   0.2,
+   0.3,
+   0.4,
+   0.5,
+   0.6,
+   0.7,
+   0.8,
+   0.9,
+   1.0
+  ],
+  "hist": [
+   2986,
+   20822,
+   20353,
+   26436,
+   37535,
+   44233,
+   66120,
+   120412,
+   190851,
+   92535
+  ]
+ },
+ "quality_gamma": {
+  "min": 0.0019690772225970294,
+  "p01": 0.076287436595493,
+  "mean": 0.6716195153125853
+ },
+ "sizes_m": {
+  "wall_default": 0.012,
+  "trailing_edges": 0.00375,
+  "min": 0.0006,
+  "te_points": 0.0006,
+  "near_box": 0.03,
+  "wake_box": 0.045,
+  "tip_vortex_box": 0.018000000000000002,
+  "tip": 0.009000000000000001,
+  "far": 1.35,
+  "curvature_per_2pi": 24
+ },
+ "elements": "linear tetrahedra (gmsh HXT), linear triangles on the walls; no prism layer (inviscid Euler)",
+ "te_curves": 8,
+ "wall_faces": 173,
+ "faces_by_group": {
+  "wing": 8,
+  "htail": 3,
+  "fins": 31,
+  "pod": 10,
+  "booms": 59,
+  "motors": 18,
+  "gear": 44,
+  "unclassified": 0
+ },
+ "time_s": {
+  "surface": 2.0,
+  "volume": 26.6
+ }
+}

@@ -1,7 +1,7 @@
 #
 # vtol_c0.param  -  ArduPlane QuadPlane parameters for the C0 lift + cruise VTOL
 #
-# Aircraft : C0 4-lift twin boom, MTOW 6.55 kg (est.), 6S 6500 mAh LiPo         [RJ concepts.C0.sized.m; BOM]
+# Aircraft : C0 4-lift twin boom, MTOW 7.44 kg (est.), 6S 6500 mAh LiPo, no payload/ballast  [RJ concepts.C0.sized.m 7.4356 (2026-11-01); BOM; DB R12]
 # Board    : CoreWing F405 Wing APP V2  (firmware target CoreWingF405WingV2)     [BOM; HW]
 # Firmware : ArduPlane 4.7.2 stable (firmware.ardupilot.org/Plane/stable/CoreWingF405WingV2, checked 2026-10-21)
 # Status   : STARTING VALUES for bench work, SITL and the first hover. Not a flight-proven tune.
@@ -31,7 +31,7 @@
 # ---------------------------------------------------------------------------------------------
 Q_ENABLE,1                # enable QuadPlane [PD]. REBOOT and load this file a second time.
 Q_FRAME_CLASS,1           # Quad, 4 lift motors; Quad is included in F405 builds [PD; RV; HW minimize_fpv_osd.inc]
-Q_FRAME_TYPE,1            # X. Lift rotor rectangle 0.876 m long x 0.867 m wide = near-square [RJ C0.geo xFront-xRear, 2*yIn]
+Q_FRAME_TYPE,1            # X. Lift rotor rectangle 0.995 m long x 0.867 m wide (ratio 1.15, close to square) [RJ C0.geo xFront-xRear = 0.4076+0.5878, 2*yIn]
 #
 # ---------------------------------------------------------------------------------------------
 # 2. Output map (SERVOn_FUNCTION). Timer groups: S1-2 | S3-4 | S5-7 | S8-10 | S11-12 [HW; BP].
@@ -57,7 +57,7 @@ SERVO9_TRIM,1000          # (default 1500) idle = zero thrust; DShot uses 1000 f
 SERVO_RATE,50             # (default) 50 Hz analog-style rate for the ES3005HV servos [PD]
 #
 # ---------------------------------------------------------------------------------------------
-# 3. ESC protocol - SoloGood 45A BLHeli_S, listing states DShot150/300/600 [BOM; amazon.com/dp/B0DJQVGSBC 2026-10-21]
+# 3. ESC protocol - LANRC BLHeli_S 45A (45 A cont / 55 A 10 s), listing states DShot600 [BOM rev 2026-11-01; amazon.com/dp/B0D2HS4Y4J via docs/research/bom-savings.md, checked 2026-11-01]
 # ---------------------------------------------------------------------------------------------
 Q_M_PWM_TYPE,4            # DShot150 for the lift motors: "recommended for larger aircraft with long signal lead runs" [DS]. No ESC calibration needed. Reboot.
 SERVO_BLH_MASK,256        # bit 8 = S9: pusher gets BLHeli passthrough + the SERVO_BLH_OTYPE protocol [BL; DS]
@@ -74,15 +74,17 @@ Q_M_SPIN_MAX,0.95         # (default) [TP step 2]
 # 4. Lift thrust model and hover throttle
 # ---------------------------------------------------------------------------------------------
 Q_M_THST_EXPO,0.72        # 17x5.5 prop: interpolated between 0.65 (10 in) and 0.75 (20 in): 0.65+0.10*(17-10)/10 [TP step 1]. Replace with thrust-stand fit (test T2).
-Q_M_THST_HOVER,0.25       # first-flight value per [TP step 4] ("0.25, or lower than expected"). Expected learned value ~0.52 (est.) = 1637.9 g / 3130 g per motor [RJ C0.sized.Tunit_g; C0.params.Tmax_g]
+Q_M_THST_HOVER,0.25       # first-flight value per [TP step 4] ("0.25, or lower than expected"). Expected learned value ~0.59 (est.) = 1858.9 g / 3130 g per motor [RJ C0.sized.Tunit_g; C0.params.Tmax_g]
 Q_M_HOVER_LEARN,2         # (default) learn and save hover throttle [TP step 7]
+Q_LAND_FINAL_SPD,0.3       # final vertical descent 0.3 m/s (range 0.3-2; default 0.5): with the default the rear gear corner reaches RF 1.03 on minimum yield in a 2x hard touchdown (analysis/structures/landing.py, STR-11) [PD; ArduPlane quadplane.cpp]
+Q_LAND_FINAL_ALT,4         # start the slow final stage at 4 m (default 6) so the final stage still lasts ~13 s [PD]
 Q_M_BAT_VOLT_MAX,25.2     # thrust voltage compensation, 4.2 V x 6S [PD recommendation]
 Q_M_BAT_VOLT_MIN,19.8     # 3.3 V x 6S [PD recommendation]
-Q_M_BAT_CURR_MAX,85       # total-current cap that throttles the LIFT motors only. 85 A sits under the FC sensor/PDB 90 A cont [BP] and above hover 41.2 A and transition 75.7 A (est., v0.4) [RJ I_hover, I_trans]. See [FM] D7.
+Q_M_BAT_CURR_MAX,85       # total-current cap that throttles the LIFT motors only. 85 A sits under the FC sensor/PDB 90 A cont [BP] and above hover 51.0 A at 22.2 V (53.9 A at 21.0 V) and the transition estimate 82.0 A (EST, 20 s) [RJ I_hover, I_hover_loaded, I_trans; 2026-11-01]. Only 3 A over the transition estimate: confirm on the bench. See [FM] D7.
 Q_A_THR_MIX_MAN,0.1       # (default) first-flight value [TP step 4]
 #
 # ---------------------------------------------------------------------------------------------
-# 5. VTOL attitude controller - STARTING VALUES for 17 in props, ~6 kg [TP step 3]. Rate P/I/D stay at the
+# 5. VTOL attitude controller - STARTING VALUES for 17 in props, ~7.4 kg [TP step 3; RJ sized.m]. Rate P/I/D stay at the
 #    firmware defaults; [TP step 6] halves them if the first lift-off oscillates. Then notch, then QAUTOTUNE.
 # ---------------------------------------------------------------------------------------------
 INS_GYRO_FILTER,26        # 40 Hz (10 in) to 20 Hz (20 in), interpolated for 17 in: 40-20*0.7 [TP step 3]
@@ -104,7 +106,7 @@ INS_HNTCH_ENABLE,0        # (default) notch stays off until the hover FFT log ex
 # ---------------------------------------------------------------------------------------------
 # 6. Airspeed and transition thresholds (R11 and review section 10)
 # ---------------------------------------------------------------------------------------------
-ARSPD_TYPE,5              # MS5525 forced to I2C 0x77 (BOM: Holybro MS5525DSO). Holybro ships it at 0x76 = board baro SPL06 address [HW]; strap CSB low for 0x77 per TE datasheet, see README 4.3 / [FM] D4
+ARSPD_TYPE,1              # MS4525 (BOM rev 2026-11-01: RMRC digital airspeed MS4525DO, I2C address 0x28, no clash with the board baro at 0x76) [PD; docs/research/bom-savings.md]
 ARSPD_BUS,0               # the board has one I2C bus, index 0, shared with the baro and the airspeed connector [HW I2C_ORDER I2C1]
 ARSPD_USE,1               # use airspeed for control [PD]
 ARSPD_TUBE_ORDR,2         # (default) auto-detect pitot/static tube order [PD]
@@ -121,8 +123,8 @@ Q_TRANS_FAIL_ACT,1        # on timeout go to QRTL [PD values; RV]
 Q_TRANS_DECEL,2.0         # (default) back-transition stopping-distance decel: 18 m/s -> 81 m (v^2/2a); 20 m/s -> 100 m [PD]
 Q_BACKTRANS_MS,3000       # (default) pitch-limit ramp entering VTOL position modes [PD]
 Q_TRAN_PIT_MAX,3          # (default) max pitch during AUTO forward transition [PD]
-TKOFF_THR_MAX,75          # AUTO forward transitions run the pusher at TKOFF_THR_MAX [TR]; 75 % trims the 75.7 A transition peak (est., v0.4) until bench test M4 [RJ I_trans]
-THR_MAX,85                # pusher cap: C0 SITL model gives ~890 W at 100 % on a full 25.2 V pack (firmware/sitl/validation_c0.json, EST motor model) vs the X4110S 615 W rating [SunnySky spec]; power ~ throttle^3 so 85 % ~ 0.85^3 x 890 = 547 W (est.). Cruise needs 233-302 W. Re-set from bench test M1 (pusher power at full pack).
+TKOFF_THR_MAX,75          # AUTO forward transitions run the pusher at TKOFF_THR_MAX [TR]; 75 % trims the 82.0 A transition peak (EST, 2026-11-01 sizing) until bench test M4 [RJ I_trans]
+THR_MAX,85                # pusher cap: C0 SITL model gives ~890 W at 100 % on a full 25.2 V pack (firmware/sitl/validation_c0.json, EST motor model) vs the X4110S 615 W rating [SunnySky spec]; power ~ throttle^3 so 85 % ~ 0.85^3 x 890 = 547 W (est.). Cruise needs 257-295 W at 18 m/s (aero build-up / sizing) [analysis/aero/aero_results.json drag.cruise.P_elec_W; RJ sized.P_cruise]. Re-set from bench test M1 (pusher power at full pack).
 #
 # ---------------------------------------------------------------------------------------------
 # 7. Return, VTOL land, arming
@@ -174,7 +176,7 @@ BATT_CAPACITY,6500        # Ovonic 6S 6500 mAh [BOM; RJ packs]
 BATT_ARM_VOLT,23.4        # refuse to arm below 3.9 V/cell, i.e. a pack that is not charged (est.)
 BATT_LOW_VOLT,21.0        # 3.5 V/cell sag-compensated (est.); 21.0 V is the review's loaded-pack voltage [RV section 5]
 BATT_CRT_VOLT,19.8        # 3.3 V/cell sag-compensated (est.)
-BATT_LOW_MAH,1950         # 30 % left: planned mission lands near 29 % (1 - 97.85/0.95/144.3) [RJ C0.sized.E_Wh, base.etaBatt, pick.Wh]
+BATT_LOW_MAH,1625         # 25 % left (rev 2026-11-02, was 1950 = 30 %): the planned mission lands at 27.4 % of nameplate (1 - 99.51/0.95/144.3), so RTL fires only on an overrun; stays above BATT_CRT_MAH 1300 (20 % reserve, R10) [RJ C0.sized.E_Wh, base.etaBatt, pick.Wh; TEST-PLAN s12 item 18]
 BATT_CRT_MAH,1300         # 20 % = R10 landing reserve [DB R10]
 BATT_FS_VOLTSRC,1         # use sag-compensated voltage, so hover/transition sag does not trip it [PD]
 BATT_LOW_TIMER,10         # (default) s below threshold before acting [PD]
@@ -195,7 +197,7 @@ FENCE_ACTION,1            # (default) breach -> RTL [PD; RV]
 # ---------------------------------------------------------------------------------------------
 # 11. Sensors, ports, logging
 # ---------------------------------------------------------------------------------------------
-SERIAL5_PROTOCOL,5        # GPS on UART5 (HGLRC M100-5883) - board default [HW; BOM]
+SERIAL5_PROTOCOL,5        # GPS on UART5 (RMRC SAM-M10Q-5883, u-blox M10 + 5883 compass, BOM rev 2026-11-01) - board default [HW; BOM]
 SERIAL1_PROTOCOL,2        # MAVLink2 to the CoreWing BLE/WiFi module (bench GCS link) - board default [HW; BP]
 SERIAL4_PROTOCOL,2        # MAVLink2 on TELEM2/4, reserved for a SiK radio if one is added - board default [HW]
 SERIAL3_PROTOCOL,-1       # none; no VTX on this aircraft [HW]

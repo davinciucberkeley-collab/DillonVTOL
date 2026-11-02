@@ -1,0 +1,832 @@
+L2_a4.0 rc 0 2659 s
+L1_a4.0 rc 0 637 s
+L2_a0.0 rc 0 1696 s
+L2_a2.0 rc 0 6742 s
+L2_a6.0 rc 0 2126 s
+L2_a8.0 rc 0 1431 s
+L3_a4.0 rc 0 5668 s
+{
+ "L1_a4.0": {
+  "CL": 0.4845627974,
+  "CD": 0.05237880477,
+  "CMy": -0.07805342092,
+  "iterations": 522,
+  "rms_p_last": -7.231185317,
+  "wall_s": 637.2
+ },
+ "L2_a4.0": {
+  "CL": 0.4940511136,
+  "CD": 0.04011067535,
+  "CMy": -0.07230904575,
+  "iterations": 1064,
+  "rms_p_last": -9.802176899,
+  "wall_s": 2658.8
+ },
+ "L3_a4.0": {
+  "CL": 0.5103905514,
+  "CD": 0.03710246503,
+  "CMy": -0.07276938288,
+  "iterations": 971,
+  "rms_p_last": -8.532596166,
+  "wall_s": 5668.1
+ },
+ "L2_a0.0": {
+  "CL": 0.1673399643,
+  "CD": 0.02782921142,
+  "CMy": -0.03536848388,
+  "iterations": 659,
+  "rms_p_last": -9.524628486,
+  "wall_s": 1695.8
+ },
+ "L2_a2.0": {
+  "CL": 0.3321064919,
+  "CD": 0.03125351913,
+  "CMy": -0.0541703915,
+  "iterations": 3000,
+  "rms_p_last": -8.657077022,
+  "wall_s": 6742.4
+ },
+ "L2_a6.0": {
+  "CL": 0.6571570591,
+  "CD": 0.0555890323,
+  "CMy": -0.09305085215,
+  "iterations": 839,
+  "rms_p_last": -8.725117196,
+  "wall_s": 2125.9
+ },
+ "L2_a8.0": {
+  "CL": 0.8186393649,
+  "CD": 0.07640647899,
+  "CMy": -0.116539394,
+  "iterations": 558,
+  "rms_p_last": -8.747947906,
+  "wall_s": 1431.0
+ }
+}
+{
+ "integrated": {
+  "CL": 0.48456254658372044,
+  "CD": 0.05237877765764792,
+  "CMy": -0.07804468138658814,
+  "components": {
+   "wing": {
+    "CL": 0.4397223802679081,
+    "CD": 0.02495727392025915,
+    "CMy": -0.03047943107735427,
+    "area_m2": 0.7708461959469034
+   },
+   "htail": {
+    "CL": 0.019987619668012206,
+    "CD": 0.002396571879235309,
+    "CMy": -0.05068188989941753,
+    "area_m2": 0.11227851174046544
+   },
+   "fins": {
+    "CL": 0.0026091647992325076,
+    "CD": 0.0062602458950871505,
+    "CMy": -0.006876971669031404,
+    "area_m2": 0.07926800967716985
+   },
+   "pod": {
+    "CL": 0.022336510574272855,
+    "CD": 0.001614294485411928,
+    "CMy": 0.01181118201919364,
+    "area_m2": 0.20758651787883392
+   },
+   "booms": {
+    "CL": -0.0003338871723869296,
+    "CD": 0.008789176491058395,
+    "CMy": -0.000997992271806521,
+    "area_m2": 0.13923021410452502
+   },
+   "motors": {
+    "CL": 0.0017128766918967236,
+    "CD": -0.00040798908234230397,
+    "CMy": 0.0018791358158769267,
+    "area_m2": 0.015286558895914761
+   },
+   "gear": {
+    "CL": -0.0014721182452149472,
+    "CD": 0.008769204068938295,
+    "CMy": -0.0026987143040489935,
+    "area_m2": 0.08841825490553845
+   }
+  }
+ },
+ "symmetry_max_abs_vy_over_V": 2.206818244902324e-16,
+ "farfield_speed_ratio": {
+  "min": 0.9994890936928993,
+  "max": 1.0000358999504169
+ },
+ "field_extrema": {
+  "speed_max_mps": 23.125471151654626,
+  "speed_max_over_V": 1.2847483973141458,
+  "Cp_min": -3.5950089024139857,
+  "Cp_max": 2.1782471704466744,
+  "Cp_min_xyz_su2": [
+   0.0006,
+   1.2,
+   0.0012
+  ]
+ },
+ "trefftz": {
+  "CDi": 0.00880490534787495,
+  "x_su2_m": 0.6,
+  "planes": [
+   {
+    "x_su2_m": 0.6,
+    "CDi": 0.00880490534787495,
+    "located_fraction": 0.9998019850993787
+   },
+   {
+    "x_su2_m": 1.3,
+    "CDi": 0.007723726281742437,
+    "located_fraction": 1.0
+   },
+   {
+    "x_su2_m": 2.0,
+    "CDi": 0.006360085843390345,
+    "located_fraction": 0.999925744412267
+   }
+  ],
+  "plane_y_m": [
+   0,
+   4
+  ],
+  "plane_z_m": [
+   -2,
+   2
+  ],
+  "spacing_m": 0.02,
+  "note": "far-field kinetic-energy estimate on planes normal to x; the first plane (0.3 m behind the wing TE, ahead of the tail) is reported. The decay further aft is numerical dissipation of the trailing vortices on tetrahedra; the u' term of the far-field formula is neglected"
+ },
+ "mesh_cut": {
+  "x_su2_m": 0.14,
+  "n_cut_tets": 11181,
+  "quality_min": 0.045375394944147336,
+  "quality_p05": 0.24949614628246664
+ },
+ "timing_s": 24.2
+}
+{
+ "integrated": {
+  "CL": 0.16733987769647615,
+  "CD": 0.027829197016923938,
+  "CMy": -0.0353642605700578,
+  "components": {
+   "wing": {
+    "CL": 0.16842327681192287,
+    "CD": 0.006346169037058027,
+    "CMy": -0.03307771871008603,
+    "area_m2": 0.7708823935471641
+   },
+   "htail": {
+    "CL": -0.0018413735798346142,
+    "CD": 0.00020702660463870463,
+    "CMy": 0.004605755391922917,
+    "area_m2": 0.11228230814571769
+   },
+   "fins": {
+    "CL": 0.0024991014411966084,
+    "CD": 0.005746369932740026,
+    "CMy": -0.005706061765267045,
+    "area_m2": 0.07927443369089734
+   },
+   "pod": {
+    "CL": 0.001455440816131745,
+    "CD": 0.0012705323613736038,
+    "CMy": -0.00026943412820493076,
+    "area_m2": 0.2077612096320356
+   },
+   "booms": {
+    "CL": -0.0033920491049943525,
+    "CD": 0.006423943829391282,
+    "CMy": 0.00044997553721168966,
+    "area_m2": 0.13941981179668614
+   },
+   "motors": {
+    "CL": 0.0018288503137597392,
+    "CD": 0.0002595154752095127,
+    "CMy": 0.0012262929182284923,
+    "area_m2": 0.015386529965646194
+   },
+   "gear": {
+    "CL": -0.0016333690017058173,
+    "CD": 0.007575639776512784,
+    "CMy": -0.0025930698138628954,
+    "area_m2": 0.08847000914922548
+   }
+  }
+ },
+ "symmetry_max_abs_vy_over_V": 3.656090371252271e-16,
+ "farfield_speed_ratio": {
+  "min": 0.999730805566504,
+  "max": 1.000015961086132
+ },
+ "field_extrema": {
+  "speed_max_mps": 24.606110063166383,
+  "speed_max_over_V": 1.3670061146203547,
+  "Cp_min": -4.065249544201508,
+  "Cp_max": 1.7815517234928733,
+  "Cp_min_xyz_su2": [
+   0.001,
+   1.2,
+   0.0036
+  ]
+ },
+ "trefftz": {
+  "CDi": 0.0014394312974118778,
+  "x_su2_m": 0.6,
+  "planes": [
+   {
+    "x_su2_m": 0.6,
+    "CDi": 0.0014394312974118778,
+    "located_fraction": 0.9998019850993787
+   },
+   {
+    "x_su2_m": 1.3,
+    "CDi": 0.0011364251680081763,
+    "located_fraction": 1.0
+   },
+   {
+    "x_su2_m": 2.0,
+    "CDi": 0.0009513339425730193,
+    "located_fraction": 0.9997772332368011
+   }
+  ],
+  "plane_y_m": [
+   0,
+   4
+  ],
+  "plane_z_m": [
+   -2,
+   2
+  ],
+  "spacing_m": 0.02,
+  "note": "far-field kinetic-energy estimate on planes normal to x; the first plane (0.3 m behind the wing TE, ahead of the tail) is reported. The decay further aft is numerical dissipation of the trailing vortices on tetrahedra; the u' term of the far-field formula is neglected"
+ },
+ "mesh_cut": {
+  "x_su2_m": 0.14,
+  "n_cut_tets": 23829,
+  "quality_min": 0.1043033032474719,
+  "quality_p05": 0.3353926615368681
+ },
+ "timing_s": 36.3
+}
+{
+ "integrated": {
+  "CL": 0.3321063199616077,
+  "CD": 0.03125350294658569,
+  "CMy": -0.05416570099599785,
+  "components": {
+   "wing": {
+    "CL": 0.311241549658127,
+    "CD": 0.009585576160993292,
+    "CMy": -0.031082857511329685,
+    "area_m2": 0.7708823935471641
+   },
+   "htail": {
+    "CL": 0.008302584394209195,
+    "CD": 0.0005633628906239291,
+    "CMy": -0.020780639909251185,
+    "area_m2": 0.11228230814571769
+   },
+   "fins": {
+    "CL": 0.0027768260019899148,
+    "CD": 0.005292300623617857,
+    "CMy": -0.006807013239783058,
+    "area_m2": 0.07927443369089734
+   },
+   "pod": {
+    "CL": 0.011441040067528859,
+    "CD": 0.0013169604093614489,
+    "CMy": 0.005803903336238626,
+    "area_m2": 0.2077612096320356
+   },
+   "booms": {
+    "CL": -0.001718216672146177,
+    "CD": 0.006399817824105261,
+    "CMy": -0.00026574596699605757,
+    "area_m2": 0.13941981179668614
+   },
+   "motors": {
+    "CL": 0.0017889033603987535,
+    "CD": 0.0001551090482433735,
+    "CMy": 0.0015523530876478074,
+    "area_m2": 0.015386529965646194
+   },
+   "gear": {
+    "CL": -0.0017263668484998054,
+    "CD": 0.007940375989640527,
+    "CMy": -0.0025857007925243073,
+    "area_m2": 0.08847000914922548
+   }
+  }
+ },
+ "symmetry_max_abs_vy_over_V": 3.692819107473143e-16,
+ "farfield_speed_ratio": {
+  "min": 0.999710774097374,
+  "max": 1.000022627678675
+ },
+ "field_extrema": {
+  "speed_max_mps": 24.667112840079962,
+  "speed_max_over_V": 1.3703951577822202,
+  "Cp_min": -3.9640203530307487,
+  "Cp_max": 1.757085182843145,
+  "Cp_min_xyz_su2": [
+   0.001,
+   1.2,
+   0.0036
+  ]
+ },
+ "trefftz": {
+  "CDi": 0.004603042626270238,
+  "x_su2_m": 0.6,
+  "planes": [
+   {
+    "x_su2_m": 0.6,
+    "CDi": 0.004603042626270238,
+    "located_fraction": 0.9998019850993787
+   },
+   {
+    "x_su2_m": 1.3,
+    "CDi": 0.0040593876861505064,
+    "located_fraction": 1.0
+   },
+   {
+    "x_su2_m": 2.0,
+    "CDi": 0.00352164118677517,
+    "located_fraction": 0.9997772332368011
+   }
+  ],
+  "plane_y_m": [
+   0,
+   4
+  ],
+  "plane_z_m": [
+   -2,
+   2
+  ],
+  "spacing_m": 0.02,
+  "note": "far-field kinetic-energy estimate on planes normal to x; the first plane (0.3 m behind the wing TE, ahead of the tail) is reported. The decay further aft is numerical dissipation of the trailing vortices on tetrahedra; the u' term of the far-field formula is neglected"
+ },
+ "mesh_cut": {
+  "x_su2_m": 0.14,
+  "n_cut_tets": 23829,
+  "quality_min": 0.1043033032474719,
+  "quality_p05": 0.3353926615368681
+ },
+ "timing_s": 31.3
+}
+{
+ "integrated": {
+  "CL": 0.4940508578078738,
+  "CD": 0.040110654580627014,
+  "CMy": -0.07230395907286516,
+  "components": {
+   "wing": {
+    "CL": 0.4513770189594323,
+    "CD": 0.015879848135292415,
+    "CMy": -0.02850399486014213,
+    "area_m2": 0.7708823935471641
+   },
+   "htail": {
+    "CL": 0.01826316017079929,
+    "CD": 0.0015905675734406387,
+    "CMy": -0.04578982320225107,
+    "area_m2": 0.11228230814571769
+   },
+   "fins": {
+    "CL": 0.0032528700248926484,
+    "CD": 0.0052011319614352226,
+    "CMy": -0.008347455177282075,
+    "area_m2": 0.07927443369089734
+   },
+   "pod": {
+    "CL": 0.021469341134503002,
+    "CD": 0.001974191382595034,
+    "CMy": 0.011918598431445897,
+    "area_m2": 0.2077612096320356
+   },
+   "booms": {
+    "CL": -0.00026484948724695166,
+    "CD": 0.0069731983863765045,
+    "CMy": -0.0008062860856465545,
+    "area_m2": 0.13941981179668614
+   },
+   "motors": {
+    "CL": 0.001774431121844562,
+    "CD": 0.00010187493246937422,
+    "CMy": 0.00182674637814332,
+    "area_m2": 0.015386529965646194
+   },
+   "gear": {
+    "CL": -0.0018211141163508664,
+    "CD": 0.008389842209017834,
+    "CMy": -0.0026017445571325628,
+    "area_m2": 0.08847000914922548
+   }
+  }
+ },
+ "symmetry_max_abs_vy_over_V": 3.751798582267615e-16,
+ "farfield_speed_ratio": {
+  "min": 0.9996701175862006,
+  "max": 1.0000358880416167
+ },
+ "field_extrema": {
+  "speed_max_mps": 24.7561676118738,
+  "speed_max_over_V": 1.3753426451041,
+  "Cp_min": -3.8609701009128896,
+  "Cp_max": 1.7068858216433842,
+  "Cp_min_xyz_su2": [
+   0.001,
+   1.2,
+   0.0036
+  ]
+ },
+ "trefftz": {
+  "CDi": 0.009681481926433862,
+  "x_su2_m": 0.6,
+  "planes": [
+   {
+    "x_su2_m": 0.6,
+    "CDi": 0.009681481926433862,
+    "located_fraction": 0.9998019850993787
+   },
+   {
+    "x_su2_m": 1.3,
+    "CDi": 0.00886865622440133,
+    "located_fraction": 1.0
+   },
+   {
+    "x_su2_m": 2.0,
+    "CDi": 0.007665441060637972,
+    "located_fraction": 0.9997772332368011
+   }
+  ],
+  "plane_y_m": [
+   0,
+   4
+  ],
+  "plane_z_m": [
+   -2,
+   2
+  ],
+  "spacing_m": 0.02,
+  "note": "far-field kinetic-energy estimate on planes normal to x; the first plane (0.3 m behind the wing TE, ahead of the tail) is reported. The decay further aft is numerical dissipation of the trailing vortices on tetrahedra; the u' term of the far-field formula is neglected"
+ },
+ "mesh_cut": {
+  "x_su2_m": 0.14,
+  "n_cut_tets": 23829,
+  "quality_min": 0.1043033032474719,
+  "quality_p05": 0.3353926615368681
+ },
+ "timing_s": 31.4
+}
+{
+ "integrated": {
+  "CL": 0.6571567188802743,
+  "CD": 0.05558900352605292,
+  "CMy": -0.09304568517551168,
+  "components": {
+   "wing": {
+    "CL": 0.5913387759851546,
+    "CD": 0.026722442996960822,
+    "CMy": -0.025743064707574505,
+    "area_m2": 0.7708823935471641
+   },
+   "htail": {
+    "CL": 0.02919466740483139,
+    "CD": 0.0033377328242722216,
+    "CMy": -0.073381610819875,
+    "area_m2": 0.11228230814571769
+   },
+   "fins": {
+    "CL": 0.003937562295166591,
+    "CD": 0.005588730822542449,
+    "CMy": -0.010456378246703311,
+    "area_m2": 0.07927443369089734
+   },
+   "pod": {
+    "CL": 0.03166689860388932,
+    "CD": 0.0032376076240582022,
+    "CMy": 0.01809536357422092,
+    "area_m2": 0.2077612096320356
+   },
+   "booms": {
+    "CL": 0.0010594189603817966,
+    "CD": 0.007828524544494637,
+    "CMy": -0.0009459004925456852,
+    "area_m2": 0.13941981179668614
+   },
+   "motors": {
+    "CL": 0.0018287385462831159,
+    "CD": 9.029099091190868e-05,
+    "CMy": 0.0019910091391144662,
+    "area_m2": 0.015386529965646194
+   },
+   "gear": {
+    "CL": -0.0018693429154326285,
+    "CD": 0.008783673722812692,
+    "CMy": -0.00260510362214858,
+    "area_m2": 0.08847000914922548
+   }
+  }
+ },
+ "symmetry_max_abs_vy_over_V": 3.8577726778052454e-16,
+ "farfield_speed_ratio": {
+  "min": 0.9995931306847693,
+  "max": 1.0000566899924892
+ },
+ "field_extrema": {
+  "speed_max_mps": 25.392850075955522,
+  "speed_max_over_V": 1.41071389310864,
+  "Cp_min": -3.782536756764066,
+  "Cp_max": 1.6324888737306766,
+  "Cp_min_xyz_su2": [
+   0.001,
+   1.2,
+   0.0036
+  ]
+ },
+ "trefftz": {
+  "CDi": 0.016689818252278787,
+  "x_su2_m": 0.6,
+  "planes": [
+   {
+    "x_su2_m": 0.6,
+    "CDi": 0.016689818252278787,
+    "located_fraction": 0.9998019850993787
+   },
+   {
+    "x_su2_m": 1.3,
+    "CDi": 0.015572348165668359,
+    "located_fraction": 1.0
+   },
+   {
+    "x_su2_m": 2.0,
+    "CDi": 0.01333906950317255,
+    "located_fraction": 0.9997772332368011
+   }
+  ],
+  "plane_y_m": [
+   0,
+   4
+  ],
+  "plane_z_m": [
+   -2,
+   2
+  ],
+  "spacing_m": 0.02,
+  "note": "far-field kinetic-energy estimate on planes normal to x; the first plane (0.3 m behind the wing TE, ahead of the tail) is reported. The decay further aft is numerical dissipation of the trailing vortices on tetrahedra; the u' term of the far-field formula is neglected"
+ },
+ "mesh_cut": {
+  "x_su2_m": 0.14,
+  "n_cut_tets": 23829,
+  "quality_min": 0.1043033032474719,
+  "quality_p05": 0.3353926615368681
+ },
+ "timing_s": 31.4
+}
+{
+ "integrated": {
+  "CL": 0.8186389411184666,
+  "CD": 0.07640643943463395,
+  "CMy": -0.11653420357276252,
+  "components": {
+   "wing": {
+    "CL": 0.7286991818777955,
+    "CD": 0.04137184079379242,
+    "CMy": -0.023462334817510398,
+    "area_m2": 0.7708823935471641
+   },
+   "htail": {
+    "CL": 0.04093744373944661,
+    "CD": 0.005854770217976346,
+    "CMy": -0.10329339118446873,
+    "area_m2": 0.11228230814571769
+   },
+   "fins": {
+    "CL": 0.004626007792644714,
+    "CD": 0.006197766569647478,
+    "CMy": -0.012676981734024836,
+    "area_m2": 0.07927443369089734
+   },
+   "pod": {
+    "CL": 0.041828605318418074,
+    "CD": 0.00512441828368437,
+    "CMy": 0.02427145340893939,
+    "area_m2": 0.2077612096320356
+   },
+   "booms": {
+    "CL": 0.0025106347549449654,
+    "CD": 0.008724412998444668,
+    "CMy": -0.0009266895860050284,
+    "area_m2": 0.13941981179668614
+   },
+   "motors": {
+    "CL": 0.0019088224782503368,
+    "CD": 7.073823090615754e-05,
+    "CMy": 0.002106727328382511,
+    "area_m2": 0.015386529965646194
+   },
+   "gear": {
+    "CL": -0.0018717548430335325,
+    "CD": 0.009062492340182523,
+    "CMy": -0.002552986988075419,
+    "area_m2": 0.08847000914922548
+   }
+  }
+ },
+ "symmetry_max_abs_vy_over_V": 3.7056605757235555e-16,
+ "farfield_speed_ratio": {
+  "min": 0.9995085949423904,
+  "max": 1.0000749634297097
+ },
+ "field_extrema": {
+  "speed_max_mps": 27.204875032623875,
+  "speed_max_over_V": 1.5113819462568818,
+  "Cp_min": -3.779910467335631,
+  "Cp_max": 1.7405717597343031,
+  "Cp_min_xyz_su2": [
+   0.001,
+   1.2,
+   0.0036
+  ]
+ },
+ "trefftz": {
+  "CDi": 0.02541650010308567,
+  "x_su2_m": 0.6,
+  "planes": [
+   {
+    "x_su2_m": 0.6,
+    "CDi": 0.02541650010308567,
+    "located_fraction": 0.9998019850993787
+   },
+   {
+    "x_su2_m": 1.3,
+    "CDi": 0.023941024603037674,
+    "located_fraction": 1.0
+   },
+   {
+    "x_su2_m": 2.0,
+    "CDi": 0.0202081936810872,
+    "located_fraction": 0.9997772332368011
+   }
+  ],
+  "plane_y_m": [
+   0,
+   4
+  ],
+  "plane_z_m": [
+   -2,
+   2
+  ],
+  "spacing_m": 0.02,
+  "note": "far-field kinetic-energy estimate on planes normal to x; the first plane (0.3 m behind the wing TE, ahead of the tail) is reported. The decay further aft is numerical dissipation of the trailing vortices on tetrahedra; the u' term of the far-field formula is neglected"
+ },
+ "mesh_cut": {
+  "x_su2_m": 0.14,
+  "n_cut_tets": 23829,
+  "quality_min": 0.1043033032474719,
+  "quality_p05": 0.3353926615368681
+ },
+ "timing_s": 31.9
+}
+{
+ "integrated": {
+  "CL": 0.5103902871405919,
+  "CD": 0.037102445825847916,
+  "CMy": -0.07276690388624382,
+  "components": {
+   "wing": {
+    "CL": 0.46722058853411635,
+    "CD": 0.013556773579317134,
+    "CMy": -0.02910285636158693,
+    "area_m2": 0.7708971900786197
+   },
+   "htail": {
+    "CL": 0.018025054506525275,
+    "CD": 0.0015873277474653207,
+    "CMy": -0.04529873871152736,
+    "area_m2": 0.11229508406680774
+   },
+   "fins": {
+    "CL": 0.0037791553471394116,
+    "CD": 0.00495190318045204,
+    "CMy": -0.009600534918859528,
+    "area_m2": 0.07927735307389874
+   },
+   "pod": {
+    "CL": 0.022054111864459405,
+    "CD": 0.0014924496703242834,
+    "CMy": 0.012203239779981672,
+    "area_m2": 0.2078338966517567
+   },
+   "booms": {
+    "CL": -0.0006122173121192713,
+    "CD": 0.007170744282043835,
+    "CMy": -5.213840715511125e-05,
+    "area_m2": 0.13949017653367995
+   },
+   "motors": {
+    "CL": 0.001930915635597805,
+    "CD": 2.2020095843214315e-05,
+    "CMy": 0.0018825082603026147,
+    "area_m2": 0.015426956366743521
+   },
+   "gear": {
+    "CL": -0.0020073214351270514,
+    "CD": 0.008321227270402092,
+    "CMy": -0.0027983835273991775,
+    "area_m2": 0.08849422811010313
+   }
+  }
+ },
+ "symmetry_max_abs_vy_over_V": 4.338530213510137e-16,
+ "farfield_speed_ratio": {
+  "min": 0.9997296295210111,
+  "max": 1.0000302371548957
+ },
+ "field_extrema": {
+  "speed_max_mps": 25.82125359007026,
+  "speed_max_over_V": 1.4345140883372367,
+  "Cp_min": -4.675449625535726,
+  "Cp_max": 1.5562103015367361,
+  "Cp_min_xyz_su2": [
+   0.0003,
+   1.2,
+   -0.0002
+  ]
+ },
+ "trefftz": {
+  "CDi": 0.01062093512345709,
+  "x_su2_m": 0.6,
+  "planes": [
+   {
+    "x_su2_m": 0.6,
+    "CDi": 0.01062093512345709,
+    "located_fraction": 0.9998019850993787
+   },
+   {
+    "x_su2_m": 1.3,
+    "CDi": 0.009942140417760684,
+    "located_fraction": 1.0
+   },
+   {
+    "x_su2_m": 2.0,
+    "CDi": 0.00887163280934886,
+    "located_fraction": 0.9999752481374223
+   }
+  ],
+  "plane_y_m": [
+   0,
+   4
+  ],
+  "plane_z_m": [
+   -2,
+   2
+  ],
+  "spacing_m": 0.02,
+  "note": "far-field kinetic-energy estimate on planes normal to x; the first plane (0.3 m behind the wing TE, ahead of the tail) is reported. The decay further aft is numerical dissipation of the trailing vortices on tetrahedra; the u' term of the far-field formula is neglected"
+ },
+ "mesh_cut": {
+  "x_su2_m": 0.14,
+  "n_cut_tets": 45468,
+  "quality_min": 0.1356393595355191,
+  "quality_p05": 0.3727280535798664
+ },
+ "timing_s": 78.8
+}
+packed 19409 KB, 5 cases
+CFD-01 Verified | 7 of 7 cases finished with exit code 0; log10 rms(p) fell 3.0-8.3 orders; Cauchy[CL] 4e-06 at the last iteration
+CFD-02 Partially Verified | GCI_fine on CL 6.08 % (p 1.78); CMy oscillatory or zero change: no asymptotic estimate
+CFD-03 Verified | largest CL difference 0.00 %
+CFD-04 Verified | |v_y|/V <= 4.3e-16 on the symmetry plane; far-field |V|/V in 0.999-1.000
+CFD-05 Verified | CFD 4.67 vs AVL 5.07 /rad (-7.9 %); Helmbold wing alone 5.12
+CFD-06 Verified | +3.1 % against AVL on the finest mesh (L3); CL on L1/L2/L3 0.4846, 0.4941, 0.5104 is not monotone, so the agreement is not yet grid-independent
+CFD-07 Verified | CFD 39.7 % vs AVL 39.8 % MAC
+CFD-08 Partially Verified | Trefftz 0.0106 on the plane 0.3 m behind the wing TE vs CL^2/(pi e AR) 0.0115 (-8 %); planes further aft read 0.0099, 0.0089 as the trailing vortices dissipate on the tetrahedra, so the value depends on where it is measured
+CFD-10 Unverified | surface CD minus the Trefftz CDi is numerical (blunt clamp and motor bases, coarse tetrahedra); profile drag stays with analysis/aero/drag_buildup.py
+CFD-11 Failed | 2.18 on the gear (L1_a4.0); L1_a4.0: 1010 wall nodes above 1, L2_a0.0: 602 wall nodes above 1, L2_a2.0: 635 wall nodes above 1, L2_a4.0: 618 wall nodes above 1, L2_a6.0: 905 wall nodes above 1, L2_a8.0: 1440 wall nodes above 1, L3_a4.0: 676 wall nodes above 1. Stagnation overshoot where the 0.9 mm horizontal-tail leading-edge radius and sharp box corners are resolved by only 1-2 mm elements
+CFD-12 Failed | at the L1/L2 wall spacing the section lift slope is -19 / -14 % against XFOIL inviscid; it closes to -5 % at 603 wall edges. Numerical dissipation at this resolution acts like viscous decambering, which explains most of the 3-D lift-slope gap to AVL (CFD-05): absolute lift from the 3-D runs is mesh-limited
+CFD-09 Verified | Re matches the aero package (AERO-01); attached-flow range from the viscous section polar
+L1: 6.2 s
+L2: 15.3 s
+L3: 35.8 s
+Traceback (most recent call last):
+  File "C:\Users\dillo\Downloads\Berkeley\Fall\Capstone\Claude\Initial Drone Analysis\analysis\cfd3d\mesh_audit.py", line 570, in <module>
+    main()
+    ~~~~^^
+  File "C:\Users\dillo\Downloads\Berkeley\Fall\Capstone\Claude\Initial Drone Analysis\analysis\cfd3d\mesh_audit.py", line 537, in main
+    "strategy": strategy(),
+                ~~~~~~~~^^
+  File "C:\Users\dillo\Downloads\Berkeley\Fall\Capstone\Claude\Initial Drone Analysis\analysis\cfd3d\mesh_audit.py", line 405, in strategy
+    ref('"Mesh.MeshSizeFromCurvature", 24'), {"elements per 2 pi": "24 (fixed)"}),
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\dillo\Downloads\Berkeley\Fall\Capstone\Claude\Initial Drone Analysis\analysis\cfd3d\mesh_audit.py", line 375, in ref
+    la = ln(a); lb = ln(b, la - 1) if b else la
+  File "C:\Users\dillo\Downloads\Berkeley\Fall\Capstone\Claude\Initial Drone Analysis\analysis\cfd3d\mesh_audit.py", line 373, in ln
+    raise KeyError(pat)
+KeyError: '"Mesh.MeshSizeFromCurvature", 24'
+rev2 batch done Mon Nov  2 04:18:39 PST 2026

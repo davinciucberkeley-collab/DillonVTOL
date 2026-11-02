@@ -1,14 +1,14 @@
 {
- "generated": "2026-10-27",
+ "generated": "2026-11-01",
  "base": {
   "rho": 1.225,
   "Vs": 11.75,
   "Vc": 18,
-  "CLmax": 1.121,
+  "CLmax": 1.116,
   "span": 2.4,
   "e": 0.8,
   "CD0_clean": 0.0266,
-  "CdA_boom": 0.00169303,
+  "CdA_boom": 0.00171073,
   "etaProp": 0.6,
   "etaMEc": 0.85,
   "kCtrl": 1.1,
@@ -22,24 +22,27 @@
   "tc": 0.15,
   "wGlass": 0.06,
   "rResin": 0,
-  "sigmaTail": 0.93,
+  "sigmaTail": 0.3509,
   "tailAreaRatio": 0.25,
   "VhTarget": 0.35,
   "VvTarget": 0.03,
   "boomLin": 0.185,
-  "boomClamp": 0.02,
+  "boomClamp": 0.0445,
   "m_spar": 0.67524,
-  "mFus": 0.6,
-  "mGear": 0.44318,
-  "mAvionics": 0.25,
-  "mPusherSet": 0.227,
-  "mServos": 0.216,
+  "mFus": 0.5672,
+  "mGear": 0.5171,
+  "mAvionics": 0.418,
+  "mPusherSet": 0.2569,
+  "mServos": 0.2656,
   "mWiring": 0.25,
   "mWirePerLift": 0.03,
-  "mPayload": 0.5,
+  "mPayload": 0,
   "eSpec": 176,
   "Vpack": 22.2,
-  "m_guess": 7
+  "m_guess": 7,
+  "mWingHardware": 0.2528,
+  "mFasteners": 0.1641,
+  "mTailHardware": 0.1152
  },
  "cruiseMarginMin": 11.5,
  "packs": [
@@ -100,16 +103,16 @@
   "C0": {
    "key": "C0",
    "label": "4-lift twin boom (Alia-style)",
-   "motor": "SunnySky X4110S 400KV + SoloGood 45A + 17x5.5 prop",
+   "motor": "SunnySky X4110S 400KV + LANRC 45A + 17x5.5 prop",
    "params": {
     "rho": 1.225,
     "Vs": 11.75,
     "Vc": 18,
-    "CLmax": 1.121,
+    "CLmax": 1.116,
     "span": 2.4,
     "e": 0.8,
     "CD0_clean": 0.0266,
-    "CdA_boom": 0.00169303,
+    "CdA_boom": 0.00171073,
     "etaProp": 0.6,
     "etaMEc": 0.85,
     "kCtrl": 1.1,
@@ -123,31 +126,34 @@
     "tc": 0.15,
     "wGlass": 0.06,
     "rResin": 0,
-    "sigmaTail": 0.93,
-    "tailAreaRatio": 0.22212313,
+    "sigmaTail": 0.3509,
+    "tailAreaRatio": 0.22957253,
     "VhTarget": 0.35,
     "VvTarget": 0.03,
     "boomLin": 0.185,
-    "boomClamp": 0.02,
+    "boomClamp": 0.0445,
     "m_spar": 0.67524,
-    "mFus": 0.6,
-    "mGear": 0.44318,
-    "mAvionics": 0.25,
-    "mPusherSet": 0.227,
-    "mServos": 0.216,
+    "mFus": 0.5672,
+    "mGear": 0.5171,
+    "mAvionics": 0.418,
+    "mPusherSet": 0.2569,
+    "mServos": 0.2656,
     "mWiring": 0.25,
     "mWirePerLift": 0.03,
-    "mPayload": 0.5,
+    "mPayload": 0,
     "eSpec": 176,
     "Vpack": 22.2,
     "m_guess": 7,
-    "name": "SunnySky X4110S 400KV + SoloGood 45A + 17x5.5 prop",
+    "mWingHardware": 0.2528,
+    "mFasteners": 0.1641,
+    "mTailHardware": 0.1152,
+    "name": "SunnySky X4110S 400KV + LANRC 45A + 17x5.5 prop",
     "liftD": 0.4318,
     "Tmax_g": 3130,
     "mMotor": 0.165,
     "mEsc": 0.025,
     "mProp": 0.032,
-    "mMount": 0.02,
+    "mMount": 0.1035,
     "thrustTable": [
      [
       1250,
@@ -172,52 +178,52 @@
     "nLift": 4,
     "nBooms": 2,
     "coax": false,
-    "boomTotalLen": 2.9469845,
+    "boomTotalLen": 3.0625888,
     "mBattFixed": 0.82,
     "EBattFixed": 144.3
    },
    "design": {
-    "m": 6.2505813,
-    "W": 61.297264,
+    "m": 7.3153061,
+    "W": 71.738646,
     "nUnits": 4,
-    "Tunit_N": 15.324529,
-    "Tunit_g": 1562.667,
-    "Tmotor_g": 1562.667,
+    "Tunit_N": 17.934436,
+    "Tunit_g": 1828.8035,
+    "Tmotor_g": 1828.8035,
     "A": 0.14643846,
-    "FMeta": 0.52015436,
-    "Pi_unit": 100.15441,
-    "P_hover": 847.20887,
-    "S": 0.64663569,
-    "AR": 8.9076431,
-    "chord": 0.26943154,
-    "CL": 0.47767921,
-    "CD0": 0.045559393,
-    "CDi": 0.010192248,
-    "LD": 8.5679847,
-    "D_cruise": 7.1543212,
-    "P_cruise": 252.50545,
-    "E_Wh": 79.73797,
-    "Epack_req_Wh": 104.91838,
-    "Epack_Wh": 104.91838,
-    "m_batt": 0.59612717,
-    "sigmaWing": 0.99942454,
-    "m_wing": 1.3215036,
-    "S_tail": 0.14363275,
-    "m_tail": 0.13357845,
-    "m_booms": 0.62519214,
-    "m_lift": 0.968,
-    "m_fixed": 2.60618,
-    "CdA_extra": 0.01225982,
-    "TW": 2.0030137,
+    "FMeta": 0.50687702,
+    "Pi_unit": 126.8005,
+    "P_hover": 1100.7053,
+    "S": 0.7601542,
+    "AR": 7.57741,
+    "chord": 0.31673091,
+    "CL": 0.47554861,
+    "CD0": 0.042774639,
+    "CDi": 0.011874879,
+    "LD": 8.7017896,
+    "D_cruise": 8.2440219,
+    "P_cruise": 290.96548,
+    "E_Wh": 97.414481,
+    "Epack_req_Wh": 128.17695,
+    "Epack_Wh": 128.17695,
+    "m_batt": 0.72827812,
+    "sigmaWing": 1.1538097,
+    "m_wing": 1.8051133,
+    "S_tail": 0.17451052,
+    "m_tail": 0.17643574,
+    "m_booms": 0.74457892,
+    "m_lift": 1.302,
+    "m_fixed": 2.5589,
+    "CdA_extra": 0.01229522,
+    "TW": 1.71148,
     "TW_motorOut": 0,
-    "I_hover": 38.162562,
-    "I_cruise": 11.37412,
-    "P_hover_per_motor": 211.80222,
+    "I_hover": 49.581319,
+    "I_cruise": 13.106553,
+    "P_hover_per_motor": 275.17632,
     "endurance_ok": true,
     "t_cruise_avail_min": 10,
-    "diskLoading": 104.64825,
-    "wingLoading": 94.795438,
-    "iter": 18,
+    "diskLoading": 122.4708,
+    "wingLoading": 94.372622,
+    "iter": 17,
     "converged": true
    },
    "pick": {
@@ -230,113 +236,113 @@
     "pair": true
    },
    "sized": {
-    "m": 6.537558,
-    "W": 64.111543,
+    "m": 7.4355998,
+    "W": 72.918325,
     "nUnits": 4,
-    "Tunit_N": 16.028024,
-    "Tunit_g": 1634.4036,
-    "Tmotor_g": 1634.4036,
+    "Tunit_N": 18.229424,
+    "Tunit_g": 1858.8839,
+    "Tmotor_g": 1858.8839,
     "A": 0.14643846,
-    "FMeta": 0.51657548,
-    "Pi_unit": 107.12957,
-    "P_hover": 912.49032,
-    "S": 0.6763205,
-    "AR": 8.5166722,
-    "chord": 0.28180021,
-    "CL": 0.47767921,
-    "CD0": 0.044727234,
-    "CDi": 0.010660139,
-    "LD": 8.624334,
-    "D_cruise": 7.4338608,
-    "P_cruise": 262.37156,
-    "E_Wh": 84.283718,
-    "Epack_req_Wh": 110.89963,
+    "FMeta": 0.50537633,
+    "Pi_unit": 129.94178,
+    "P_hover": 1131.3229,
+    "S": 0.77265731,
+    "AR": 7.4547926,
+    "chord": 0.32194055,
+    "CL": 0.47554861,
+    "CD0": 0.042512902,
+    "CDi": 0.012070198,
+    "LD": 8.7123782,
+    "D_cruise": 8.3694366,
+    "P_cruise": 295.39188,
+    "E_Wh": 99.512998,
+    "Epack_req_Wh": 130.93816,
     "Epack_Wh": 144.3,
     "m_batt": 0.82,
-    "sigmaWing": 1.0397959,
-    "m_wing": 1.3784753,
-    "S_tail": 0.15022643,
-    "m_tail": 0.13971058,
-    "m_booms": 0.62519214,
-    "m_lift": 0.968,
-    "m_fixed": 2.60618,
-    "CdA_extra": 0.01225982,
-    "TW": 1.9150882,
+    "sigmaWing": 1.1708139,
+    "m_wing": 1.832678,
+    "S_tail": 0.17738089,
+    "m_tail": 0.17744296,
+    "m_booms": 0.74457892,
+    "m_lift": 1.302,
+    "m_fixed": 2.5589,
+    "CdA_extra": 0.01229522,
+    "TW": 1.6837915,
     "TW_motorOut": 0,
-    "I_hover": 41.103168,
-    "I_cruise": 11.818539,
-    "P_hover_per_motor": 228.12258,
+    "I_hover": 50.960492,
+    "I_cruise": 13.305941,
+    "P_hover_per_motor": 282.83073,
     "endurance_ok": true,
-    "t_cruise_avail_min": 15.804962,
-    "diskLoading": 109.45229,
-    "wingLoading": 94.795438,
+    "t_cruise_avail_min": 12.062684,
+    "diskLoading": 124.48522,
+    "wingLoading": 94.372622,
     "iter": 15,
     "converged": true,
-    "P_trans": 1437.2334,
-    "I_trans": 68.439687,
-    "I_hover_loaded": 43.45192
+    "P_trans": 1722.1067,
+    "I_trans": 82.00508,
+    "I_hover_loaded": 53.87252
    },
    "geo": {
     "D": 0.4318,
-    "xFront": 0.38989209,
-    "xRear": -0.54770021,
-    "xLEtoCG": -0.078904058,
+    "xFront": 0.40755384,
+    "xRear": -0.58784055,
+    "xLEtoCG": -0.090143353,
     "booms": [
      {
       "y": -0.4337,
-      "x0": -1.0336002,
-      "x1": 0.43989209,
+      "x0": -1.0737405,
+      "x1": 0.45755384,
       "tail": true,
       "rotors": [
        {
-        "x": 0.38989209,
+        "x": 0.40755384,
         "coax": false
        },
        {
-        "x": -0.54770021,
+        "x": -0.58784055,
         "coax": false
        }
       ]
      },
      {
       "y": 0.4337,
-      "x0": -1.0336002,
-      "x1": 0.43989209,
+      "x0": -1.0737405,
+      "x1": 0.45755384,
       "tail": true,
       "rotors": [
        {
-        "x": 0.38989209,
+        "x": 0.40755384,
         "coax": false
        },
        {
-        "x": -0.54770021,
+        "x": -0.58784055,
         "coax": false
        }
       ]
      }
     ],
     "segs": [
-     0.9876,
+     1.0454,
      0.4859,
-     0.9876,
+     1.0454,
      0.4859
     ],
-    "boomTotal": 2.9469846,
+    "boomTotal": 3.0625888,
     "hSpan": 0.8674,
-    "hC": 0.10011075,
-    "vH": 0.19904517,
-    "vC": 0.15923614,
-    "Sh": 0.086836063,
-    "Sv": 0.063390368,
-    "lh": 0.76817784,
+    "hC": 0.12477086,
+    "vH": 0.20789818,
+    "vC": 0.16631855,
+    "Sh": 0.10822625,
+    "Sv": 0.069154648,
+    "lh": 0.80444813,
     "Vh": 0.35,
     "Vv": 0.03,
-    "aw": 4.9786067,
-    "at": 4.9980598,
-    "deda": 0.37214999,
-    "hn": 0.39610652,
-    "hn_nopod": 0.44854552,
-    "SM": 0.11610652,
+    "aw": 4.8196998,
+    "at": 4.730426,
+    "deda": 0.41158974,
+    "hn": 0.38202507,
+    "hn_nopod": 0.43191607,
+    "SM": 0.10202507,
     "yIn": 0.4337,
     "longestPiece": 1.2
    },
@@ -362,12 +368,12 @@
      },
      {
       "cat": "Lift propulsion",
-      "item": "SoloGood 45A ESC (4-pack)",
+      "item": "LANRC BLHeli_S 45A ESC (4-pack)",
       "qty": 2,
-      "unit": 39.99,
-      "ext": 79.98,
-      "src": "BL ESCs amazon.com",
-      "note": "4 lift + pusher + 3 spare; low stock: fallback LANRC 35A"
+      "unit": 30,
+      "ext": 60,
+      "src": "amazon.com/dp/B0D2HS4Y4J (docs/research/bom-savings.md, checked 2026-11-01)",
+      "note": "4 lift + pusher + 3 spare; $1.50 delivery per pack in the shipping allowance"
      },
      {
       "cat": "Cruise propulsion",
@@ -393,62 +399,62 @@
       "qty": 5,
       "unit": 19.99,
       "ext": 99.95,
-      "src": "BA §6 shop.emax-usa.com",
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
       "note": "2 ailerons, elevator, 2 rudders"
      },
      {
       "cat": "Avionics",
-      "item": "CoreWing F405 Wing APP V2 (12 out, 90 A sensor)",
+      "item": "CoreWing F405 Wing APP V2, unsoldered pins (12 out, 90 A sensor, 8 A servo BEC)",
       "qty": 1,
-      "unit": 67.26,
-      "ext": 67.26,
-      "src": "BA §2 readymaderc.com",
-      "note": "ArduPilot target beta-only (4.7.2-beta); fallback Matek F405-WMO $69.99"
+      "unit": 67.18,
+      "ext": 67.18,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "same board as the soldered version (unavailable): output map unchanged; backorder Nov 2026; in-stock fallback Holybro Kakute H743-Wing $107.42 (remap)"
      },
      {
       "cat": "Avionics",
-      "item": "HGLRC M100-5883 GPS + compass",
+      "item": "RMRC GPS + compass SAM-M10Q-5883",
       "qty": 1,
-      "unit": 20.49,
-      "ext": 20.49,
-      "src": "BA §2 racedayquads.com",
-      "note": ""
+      "unit": 24.99,
+      "ext": 24.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "u-blox M10 + 5883 compass, replaces the HGLRC M100 to keep one order"
      },
      {
       "cat": "Avionics",
       "item": "NewBeeDrone BeeID v1.1 Remote ID (FAA DoC RID000001995)",
       "qty": 1,
-      "unit": 36.99,
-      "ext": 36.99,
-      "src": "BA §4 racedayquads.com",
-      "note": ""
+      "unit": 39.99,
+      "ext": 39.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "out of stock at RaceDayQuads; only 2 left at RMRC"
      },
      {
       "cat": "Avionics",
       "item": "RadioMaster Pocket Crush ELRS",
       "qty": 1,
-      "unit": 64.99,
-      "ext": 64.99,
-      "src": "BA §5 radiomasterrc.com",
-      "note": ""
+      "unit": 76.99,
+      "ext": 76.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "US stock instead of radiomasterrc.com (CN, $30 shipping)"
      },
      {
       "cat": "Avionics",
       "item": "RadioMaster RP3 V2 ELRS receiver",
       "qty": 1,
-      "unit": 19.99,
-      "ext": 19.99,
-      "src": "BA §5",
-      "note": ""
+      "unit": 22.96,
+      "ext": 22.96,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "backorder at RMRC; in stock at ProgressiveRC $21.99"
      },
      {
       "cat": "Avionics",
-      "item": "Holybro MS5525DSO + PT40 airspeed",
+      "item": "RMRC digital airspeed sensor MS4525DO + pitot",
       "qty": 1,
       "unit": 59.99,
       "ext": 59.99,
-      "src": "BA §3 holybro.com",
-      "note": "ships CN"
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "replaces the Holybro MS5525DSO (ships CN, $37.47 shipping); ArduPilot ARSPD_TYPE 1"
      },
      {
       "cat": "Energy",
@@ -457,7 +463,7 @@
       "unit": 138.99,
       "ext": 138.99,
       "src": "BE §1 amazon.com",
-      "note": "second pack per R7; EC5 leads: re-terminate to XT90S"
+      "note": "second pack per R7; EC5 leads: re-terminate to AS150U"
      },
      {
       "cat": "Energy",
@@ -475,7 +481,7 @@
       "unit": 26.2,
       "ext": 52.4,
       "src": "BF §1 onlinemetals.com",
-      "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
+      "note": "cut list 1.0454 + 0.4859 + 1.0454 + 0.4859 m"
      },
      {
       "cat": "Airframe",
@@ -524,12 +530,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "FLY RC Amass XT90S anti-spark, 5 pairs (B0893CGLP7)",
-      "qty": 1,
-      "unit": 13.99,
-      "ext": 13.99,
-      "src": "BF §3a item 1 amazon.com",
-      "note": ""
+      "item": "Amass AS150U connector set (1 male + 1 female), Neu Racing",
+      "qty": 2,
+      "unit": 17.26,
+      "ext": 34.52,
+      "src": "neuracing.us/product/as150u (checked 2026-11-01)",
+      "note": "aircraft male + 2 pack females; anti-spark contact to be confirmed on receipt (M-item)"
      },
      {
       "cat": "Airframe",
@@ -634,9 +640,9 @@
       "cat": "Airframe",
       "item": "A2 metric fasteners per HS §6 (14 lines: M2/M3/M5 screws, nylocks, nuts, washers)",
       "qty": 1,
-      "unit": 22.04,
-      "ext": 22.04,
-      "src": "HS §6 boltdepot.com",
+      "unit": 22.38,
+      "ext": 22.38,
+      "src": "HS §6 boltdepot.com (BD-9 M5 x 25, BD-5 M3 x 30, rev 2026-11-02)",
       "note": "replaces Mywish kit B0CQWYFTXC"
      },
      {
@@ -686,12 +692,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "XT60H connectors 12 pairs (boom harness disconnects)",
+      "item": "XT60H connectors 12 pairs (one per ESC at the boom disconnects)",
       "qty": 1,
       "unit": 6.99,
       "ext": 6.99,
       "src": "BF §3b amazon.com",
-      "note": ""
+      "note": "one per ESC: Amass XT60H 30 A continuous vs ~12 A hover / 28 A peak per lift ESC (propulsion-margin-data.md F9-F10)"
      },
      {
       "cat": "Airframe",
@@ -722,12 +728,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "Hot-wire bow, nichrome + bench supply (wing cores)",
+      "item": "Hot-wire cutter: NICE-POWER 0-30 V 0-10 A bench supply (B0CRSS744F) + Ni80 24 AWG nichrome 50 ft (B0CP9V3DBX)",
       "qty": 1,
-      "unit": 40,
-      "ext": 40,
-      "src": "EST allowance",
-      "note": "not priced; borrow if a makerspace has one"
+      "unit": 41.73,
+      "ext": 41.73,
+      "src": "amazon.com (docs/research/bom-savings.md, checked 2026-11-01)",
+      "note": "borrow if a makerspace has one"
      },
      {
       "cat": "Test & safety",
@@ -785,15 +791,6 @@
      },
      {
       "cat": "Spares",
-      "item": "X4110S spare motor (lift or pusher)",
-      "qty": 1,
-      "unit": 46.99,
-      "ext": 46.99,
-      "src": "BL",
-      "note": ""
-     },
-     {
-      "cat": "Spares",
       "item": "JeeFly 1755 spare pair (amazon.com)",
       "qty": 1,
       "unit": 18.6,
@@ -802,11 +799,11 @@
       "note": ""
      }
     ],
-    "goods": 1620.67,
-    "shipping": 110,
-    "tax": 166.12,
-    "crash": 103.21,
-    "total": 1896.79,
+    "goods": 1598.69,
+    "shipping": 91.99,
+    "tax": 163.87,
+    "crash": 145.45,
+    "total": 1854.55,
     "tubes25": 2,
     "fees": [
      {
@@ -844,12 +841,12 @@
      },
      {
       "cat": "Lift propulsion",
-      "item": "SoloGood 45A ESC (4-pack)",
+      "item": "LANRC BLHeli_S 45A ESC (4-pack)",
       "qty": 2,
-      "unit": 39.99,
-      "ext": 79.98,
-      "src": "BL ESCs amazon.com",
-      "note": "4 lift + pusher + 3 spare; low stock: fallback LANRC 35A"
+      "unit": 30,
+      "ext": 60,
+      "src": "amazon.com/dp/B0D2HS4Y4J (docs/research/bom-savings.md, checked 2026-11-01)",
+      "note": "4 lift + pusher + 3 spare; $1.50 delivery per pack in the shipping allowance"
      },
      {
       "cat": "Cruise propulsion",
@@ -875,53 +872,53 @@
       "qty": 5,
       "unit": 19.99,
       "ext": 99.95,
-      "src": "BA §6 shop.emax-usa.com",
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
       "note": "2 ailerons, elevator, 2 rudders"
      },
      {
       "cat": "Avionics",
-      "item": "CoreWing F405 Wing APP V2 (12 out, 90 A sensor)",
+      "item": "CoreWing F405 Wing APP V2, unsoldered pins (12 out, 90 A sensor, 8 A servo BEC)",
       "qty": 1,
-      "unit": 67.26,
-      "ext": 67.26,
-      "src": "BA §2 readymaderc.com",
-      "note": "ArduPilot target beta-only (4.7.2-beta); fallback Matek F405-WMO $69.99"
+      "unit": 67.18,
+      "ext": 67.18,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "same board as the soldered version (unavailable): output map unchanged; backorder Nov 2026; in-stock fallback Holybro Kakute H743-Wing $107.42 (remap)"
      },
      {
       "cat": "Avionics",
-      "item": "HGLRC M100-5883 GPS + compass",
+      "item": "RMRC GPS + compass SAM-M10Q-5883",
       "qty": 1,
-      "unit": 20.49,
-      "ext": 20.49,
-      "src": "BA §2 racedayquads.com",
-      "note": ""
+      "unit": 24.99,
+      "ext": 24.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "u-blox M10 + 5883 compass, replaces the HGLRC M100 to keep one order"
      },
      {
       "cat": "Avionics",
       "item": "NewBeeDrone BeeID v1.1 Remote ID (FAA DoC RID000001995)",
       "qty": 1,
-      "unit": 36.99,
-      "ext": 36.99,
-      "src": "BA §4 racedayquads.com",
-      "note": ""
+      "unit": 39.99,
+      "ext": 39.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "out of stock at RaceDayQuads; only 2 left at RMRC"
      },
      {
       "cat": "Avionics",
       "item": "RadioMaster Pocket Crush ELRS",
       "qty": 1,
-      "unit": 64.99,
-      "ext": 64.99,
-      "src": "BA §5 radiomasterrc.com",
-      "note": ""
+      "unit": 76.99,
+      "ext": 76.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "US stock instead of radiomasterrc.com (CN, $30 shipping)"
      },
      {
       "cat": "Avionics",
       "item": "RadioMaster RP3 V2 ELRS receiver",
       "qty": 1,
-      "unit": 19.99,
-      "ext": 19.99,
-      "src": "BA §5",
-      "note": ""
+      "unit": 22.96,
+      "ext": 22.96,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "backorder at RMRC; in stock at ProgressiveRC $21.99"
      },
      {
       "cat": "Energy",
@@ -930,7 +927,7 @@
       "unit": 138.99,
       "ext": 138.99,
       "src": "BE §1 amazon.com",
-      "note": "second pack per R7; EC5 leads: re-terminate to XT90S"
+      "note": "second pack per R7; EC5 leads: re-terminate to AS150U"
      },
      {
       "cat": "Energy",
@@ -948,7 +945,7 @@
       "unit": 26.2,
       "ext": 52.4,
       "src": "BF §1 onlinemetals.com",
-      "note": "cut list 0.9876 + 0.4859 + 0.9876 + 0.4859 m"
+      "note": "cut list 1.0454 + 0.4859 + 1.0454 + 0.4859 m"
      },
      {
       "cat": "Airframe",
@@ -997,12 +994,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "FLY RC Amass XT90S anti-spark, 5 pairs (B0893CGLP7)",
-      "qty": 1,
-      "unit": 13.99,
-      "ext": 13.99,
-      "src": "BF §3a item 1 amazon.com",
-      "note": ""
+      "item": "Amass AS150U connector set (1 male + 1 female), Neu Racing",
+      "qty": 2,
+      "unit": 17.26,
+      "ext": 34.52,
+      "src": "neuracing.us/product/as150u (checked 2026-11-01)",
+      "note": "aircraft male + 2 pack females; anti-spark contact to be confirmed on receipt (M-item)"
      },
      {
       "cat": "Airframe",
@@ -1107,9 +1104,9 @@
       "cat": "Airframe",
       "item": "A2 metric fasteners per HS §6 (14 lines: M2/M3/M5 screws, nylocks, nuts, washers)",
       "qty": 1,
-      "unit": 22.04,
-      "ext": 22.04,
-      "src": "HS §6 boltdepot.com",
+      "unit": 22.38,
+      "ext": 22.38,
+      "src": "HS §6 boltdepot.com (BD-9 M5 x 25, BD-5 M3 x 30, rev 2026-11-02)",
       "note": "replaces Mywish kit B0CQWYFTXC"
      },
      {
@@ -1159,12 +1156,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "XT60H connectors 12 pairs (boom harness disconnects)",
+      "item": "XT60H connectors 12 pairs (one per ESC at the boom disconnects)",
       "qty": 1,
       "unit": 6.99,
       "ext": 6.99,
       "src": "BF §3b amazon.com",
-      "note": ""
+      "note": "one per ESC: Amass XT60H 30 A continuous vs ~12 A hover / 28 A peak per lift ESC (propulsion-margin-data.md F9-F10)"
      },
      {
       "cat": "Airframe",
@@ -1195,12 +1192,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "Hot-wire bow, nichrome + bench supply (wing cores)",
+      "item": "Hot-wire cutter: NICE-POWER 0-30 V 0-10 A bench supply (B0CRSS744F) + Ni80 24 AWG nichrome 50 ft (B0CP9V3DBX)",
       "qty": 1,
-      "unit": 40,
-      "ext": 40,
-      "src": "EST allowance",
-      "note": "not priced; borrow if a makerspace has one"
+      "unit": 41.73,
+      "ext": 41.73,
+      "src": "amazon.com (docs/research/bom-savings.md, checked 2026-11-01)",
+      "note": "borrow if a makerspace has one"
      },
      {
       "cat": "Test & safety",
@@ -1258,15 +1255,6 @@
      },
      {
       "cat": "Spares",
-      "item": "X4110S spare motor (lift or pusher)",
-      "qty": 1,
-      "unit": 46.99,
-      "ext": 46.99,
-      "src": "BL",
-      "note": ""
-     },
-     {
-      "cat": "Spares",
       "item": "JeeFly 1755 spare pair (amazon.com)",
       "qty": 1,
       "unit": 18.6,
@@ -1275,11 +1263,11 @@
       "note": ""
      }
     ],
-    "goods": 1560.68,
-    "shipping": 110,
-    "tax": 159.97,
-    "crash": 169.35,
-    "total": 1830.65,
+    "goods": 1538.7,
+    "shipping": 91.99,
+    "tax": 157.72,
+    "crash": 211.59,
+    "total": 1788.41,
     "tubes25": 2,
     "fees": [
      {
@@ -1299,21 +1287,21 @@
     "nLimit": 3,
     "FS": 1.5,
     "nUlt": 4.5,
-    "Mroot": 73.466417,
-    "sigJ": 157118910,
-    "MS_J": 1.7502667,
-    "sigS": 117293470,
-    "Mhover": 27.805176,
-    "Lb": 0.46034214,
+    "Mroot": 83.558246,
+    "sigJ": 178701800,
+    "MS_J": 1.5388765,
+    "sigS": 133405670,
+    "Mhover": 31.624678,
+    "Lb": 0.48803898,
     "Tmax": 30.694814,
-    "Mb": 14.130117,
-    "sigB": 34860516,
-    "MS_B": 7.888581,
-    "defl_max": 0.0028100963,
-    "defl_hover": 0.0014673584,
-    "fn": 32.49075,
-    "mTip": 0.242,
-    "mEff": 0.26209854,
+    "Mb": 14.980266,
+    "sigB": 36957925,
+    "MS_B": 7.4408939,
+    "defl_max": 0.0033484401,
+    "defl_hover": 0.0019886139,
+    "fn": 25.875393,
+    "mTip": 0.3255,
+    "mEff": 0.34680778,
     "Ij_mm4": 5196.0362,
     "Is_mm4": 7954.6075,
     "Ib_mm4": 5147.7289,
@@ -1340,8 +1328,8 @@
       "nSpring": 6
      }
     ],
-    "Mclamp": 14.130117,
-    "tauSock": 11279782,
+    "Mclamp": 14.980266,
+    "tauSock": 11958439,
     "engage": 0.3,
     "engageD": 13.498313,
     "E_DESIGN": 69000000000,
@@ -1351,62 +1339,68 @@
     "items": [
      {
       "name": "Lift units, front",
-      "m": 0.484,
-      "x": 0.39,
+      "m": 0.651,
+      "x": 0.408,
       "src": "LP"
      },
      {
       "name": "Lift units, rear",
-      "m": 0.484,
-      "x": -0.548,
+      "m": 0.651,
+      "x": -0.588,
       "src": "LP"
      },
      {
       "name": "Booms + clamps",
-      "m": 0.625,
-      "x": -0.297,
+      "m": 0.745,
+      "x": -0.308,
       "src": "AM"
      },
      {
       "name": "Wing (foam/glass + spar)",
-      "m": 1.378,
-      "x": -0.113,
-      "src": "F11; centroid 40 % c EST"
+      "m": 1.833,
+      "x": -0.124,
+      "src": "CAD centroid fraction of chord (mass_budget stations)"
      },
      {
       "name": "Tail",
-      "m": 0.14,
-      "x": -0.854,
+      "m": 0.177,
+      "x": -0.904,
       "src": "geometry"
      },
      {
       "name": "Fuselage pod",
-      "m": 0.6,
-      "x": 0.025,
-      "src": "EST; centroid at mid-pod"
+      "m": 0.567,
+      "x": 0.164,
+      "src": "CAD centroid from the nose; a longer nose moves it forward by half the extension (EST)"
      },
      {
       "name": "Landing gear",
-      "m": 0.443,
-      "x": -0.07,
-      "src": "EST"
+      "m": 0.517,
+      "x": -0.092,
+      "src": "CAD centroid fraction of chord"
      },
      {
       "name": "Avionics",
-      "m": 0.25,
-      "x": 0.25,
-      "src": "EST"
+      "m": 0.418,
+      "x": 0.375,
+      "src": "CAD FC-tray station from the nose (bay moves with the nose)"
+     },
+     {
+      "name": "Fasteners and inserts",
+      "m": 0.164,
+      "x": -0.267,
+      "src": "CAD centroid fraction of chord"
      },
      {
       "name": "Pusher set",
-      "m": 0.227,
+      "m": 0.257,
       "x": -0.418,
       "src": "BL; at pod tail (same station as CAD)"
      },
      {
       "name": "Servos (5)",
-      "m": 0.216,
-      "x": -0.566,
+      "m": 0.266,
+      "x": -0.599,
       "src": "BA; 2 wing (-0.55 c) + 3 tail (cad/params.mjs), mass-weighted mean"
      },
      {
@@ -1418,31 +1412,33 @@
      {
       "name": "Battery (placed for CG)",
       "m": 0.82,
-      "x": 0.188,
+      "x": 0.255,
       "src": "PB"
      },
      {
       "name": "Payload allowance (bay)",
-      "m": 0.5,
+      "m": 0,
       "x": 0.15,
       "src": "R12; bay x EST"
      }
     ],
-    "target": -0.078904058,
-    "xb": 0.18808192,
-    "cgBattFwd": -0.075140864,
-    "cgBattAft": -0.082667252,
-    "pctFwd": 26.664588,
-    "pctAft": 29.335412,
-    "cgNoPayload": -0.097862486,
-    "thrustCentroid": -0.078904058,
+    "target": -0.090143353,
+    "xb": 0.25488784,
+    "xbMax": 0.339,
+    "battery_fits": true,
+    "cgBattFwd": -0.086835123,
+    "cgBattAft": -0.093451583,
+    "pctFwd": 26.97241,
+    "pctAft": 29.02759,
+    "cgNoPayload": -0.090143353,
+    "thrustCentroid": -0.090143353,
     "pct": {
      "target": 28,
-     "noPayload": 34.727613,
-     "np": 39.610652,
+     "noPayload": 28,
+     "np": 38.202507,
      "thrust": 28
     },
-    "SM_noPayload": 0.048830384
+    "SM_noPayload": 0.10202507
    }
   },
   "C1": {
@@ -1453,11 +1449,11 @@
     "rho": 1.225,
     "Vs": 11.75,
     "Vc": 18,
-    "CLmax": 1.121,
+    "CLmax": 1.116,
     "span": 2.4,
     "e": 0.8,
     "CD0_clean": 0.0266,
-    "CdA_boom": 0.00169303,
+    "CdA_boom": 0.00171073,
     "etaProp": 0.6,
     "etaMEc": 0.85,
     "kCtrl": 1.1,
@@ -1471,24 +1467,27 @@
     "tc": 0.15,
     "wGlass": 0.06,
     "rResin": 0,
-    "sigmaTail": 0.93,
-    "tailAreaRatio": 0.24635633,
+    "sigmaTail": 0.3509,
+    "tailAreaRatio": 0.25047022,
     "VhTarget": 0.35,
     "VvTarget": 0.03,
     "boomLin": 0.185,
-    "boomClamp": 0.02,
+    "boomClamp": 0.0445,
     "m_spar": 0.67524,
-    "mFus": 0.6,
-    "mGear": 0.44318,
-    "mAvionics": 0.25,
-    "mPusherSet": 0.227,
-    "mServos": 0.216,
+    "mFus": 0.5672,
+    "mGear": 0.5171,
+    "mAvionics": 0.418,
+    "mPusherSet": 0.2569,
+    "mServos": 0.2656,
     "mWiring": 0.25,
     "mWirePerLift": 0.03,
-    "mPayload": 0.5,
+    "mPayload": 0,
     "eSpec": 176,
     "Vpack": 22.2,
     "m_guess": 7,
+    "mWingHardware": 0.2528,
+    "mFasteners": 0.1641,
+    "mTailHardware": 0.1152,
     "name": "SunnySky V3508 KV380 + LANRC 35A + Eolo CN15x5.5",
     "liftD": 0.381,
     "Tmax_g": 1840,
@@ -1520,52 +1519,52 @@
     "nLift": 8,
     "nBooms": 4,
     "coax": false,
-    "boomTotalLen": 5.0927217,
+    "boomTotalLen": 5.2498833,
     "mBattFixed": 0.9863,
     "EBattFixed": 177.6
    },
    "design": {
-    "m": 7.6302176,
-    "W": 74.826874,
+    "m": 8.3327258,
+    "W": 81.716126,
     "nUnits": 8,
-    "Tunit_N": 9.3532714,
-    "Tunit_g": 953.76825,
-    "Tmotor_g": 953.76825,
+    "Tunit_N": 10.214428,
+    "Tunit_g": 1041.5817,
+    "Tmotor_g": 1041.5817,
     "A": 0.11400918,
-    "FMeta": 0.52029719,
-    "Pi_unit": 54.124306,
-    "P_hover": 915.42661,
-    "S": 0.78934358,
-    "AR": 7.2972025,
-    "chord": 0.32889316,
-    "CL": 0.47767921,
-    "CD0": 0.063557442,
-    "CDi": 0.012441605,
-    "LD": 6.2853315,
-    "D_cruise": 11.904889,
-    "P_cruise": 420.17254,
-    "E_Wh": 110.71438,
-    "Epack_req_Wh": 145.67682,
-    "Epack_Wh": 145.67682,
-    "m_batt": 0.82770921,
-    "sigmaWing": 1.1935073,
-    "m_wing": 1.6173273,
-    "S_tail": 0.19445979,
-    "m_tail": 0.18084761,
-    "m_booms": 1.1021535,
+    "FMeta": 0.517128,
+    "Pi_unit": 61.768648,
+    "P_hover": 1051.121,
+    "S": 0.86588059,
+    "AR": 6.6521875,
+    "chord": 0.36078358,
+    "CL": 0.47554861,
+    "CD0": 0.060372463,
+    "CDi": 0.013526502,
+    "LD": 6.4351187,
+    "D_cruise": 12.698355,
+    "P_cruise": 448.17723,
+    "E_Wh": 121.41269,
+    "Epack_req_Wh": 159.75354,
+    "Epack_Wh": 159.75354,
+    "m_batt": 0.9076906,
+    "sigmaWing": 1.2975976,
+    "m_wing": 2.0516046,
+    "S_tail": 0.2168773,
+    "m_tail": 0.19130224,
+    "m_booms": 1.3272284,
     "m_lift": 1.176,
-    "m_fixed": 2.72618,
-    "CdA_extra": 0.02917212,
-    "TW": 1.9291717,
-    "TW_motorOut": 1.4468788,
-    "I_hover": 41.235433,
-    "I_cruise": 18.926691,
-    "P_hover_per_motor": 114.42833,
+    "m_fixed": 2.6789,
+    "CdA_extra": 0.02924292,
+    "TW": 1.7665288,
+    "TW_motorOut": 1.3248966,
+    "I_hover": 47.347793,
+    "I_cruise": 20.188164,
+    "P_hover_per_motor": 131.39012,
     "endurance_ok": true,
     "t_cruise_avail_min": 10,
-    "diskLoading": 82.039632,
-    "wingLoading": 94.795438,
-    "iter": 19,
+    "diskLoading": 89.593026,
+    "wingLoading": 94.372622,
+    "iter": 21,
     "converged": true
    },
    "pick": {
@@ -1578,139 +1577,139 @@
     "pair": true
    },
    "sized": {
-    "m": 7.8449122,
-    "W": 76.932309,
+    "m": 8.4400939,
+    "W": 82.769047,
     "nUnits": 8,
-    "Tunit_N": 9.6164193,
-    "Tunit_g": 980.60187,
-    "Tmotor_g": 980.60187,
+    "Tunit_N": 10.346011,
+    "Tunit_g": 1054.9995,
+    "Tmotor_g": 1054.9995,
     "A": 0.11400918,
-    "FMeta": 0.51932877,
-    "Pi_unit": 56.424423,
-    "P_hover": 956.10903,
-    "S": 0.81155123,
-    "AR": 7.0975187,
-    "chord": 0.33814635,
-    "CL": 0.47767921,
-    "CD0": 0.062546123,
-    "CDi": 0.012791641,
-    "LD": 6.3405015,
-    "D_cruise": 12.133323,
-    "P_cruise": 428.23494,
-    "E_Wh": 113.86622,
-    "Epack_req_Wh": 149.82398,
+    "FMeta": 0.51664376,
+    "Pi_unit": 62.966045,
+    "P_hover": 1072.5015,
+    "S": 0.87703492,
+    "AR": 6.5675835,
+    "chord": 0.36543121,
+    "CL": 0.47554861,
+    "CD0": 0.059942937,
+    "CDi": 0.013700751,
+    "LD": 6.4574252,
+    "D_cruise": 12.817506,
+    "P_cruise": 452.38255,
+    "E_Wh": 123.06382,
+    "Epack_req_Wh": 161.92609,
     "Epack_Wh": 177.6,
     "m_batt": 0.9863,
-    "sigmaWing": 1.2237097,
-    "m_wing": 1.6683431,
-    "S_tail": 0.19993078,
-    "m_tail": 0.18593563,
-    "m_booms": 1.1021535,
+    "sigmaWing": 1.3127675,
+    "m_wing": 2.0793829,
+    "S_tail": 0.21967113,
+    "m_tail": 0.1922826,
+    "m_booms": 1.3272284,
     "m_lift": 1.176,
-    "m_fixed": 2.72618,
-    "CdA_extra": 0.02917212,
-    "TW": 1.8763754,
-    "TW_motorOut": 1.4072815,
-    "I_hover": 43.067974,
-    "I_cruise": 19.289862,
-    "P_hover_per_motor": 119.51363,
+    "m_fixed": 2.6789,
+    "CdA_extra": 0.02924292,
+    "TW": 1.7440564,
+    "TW_motorOut": 1.3080423,
+    "I_hover": 48.310878,
+    "I_cruise": 20.377592,
+    "P_hover_per_motor": 134.06269,
     "endurance_ok": true,
-    "t_cruise_avail_min": 12.957691,
-    "diskLoading": 84.347761,
-    "wingLoading": 94.795438,
-    "iter": 16,
+    "t_cruise_avail_min": 11.579925,
+    "diskLoading": 90.747169,
+    "wingLoading": 94.372622,
+    "iter": 17,
     "converged": true,
-    "P_trans": 1812.5789,
-    "I_trans": 86.313281,
-    "I_hover_loaded": 45.529002
+    "P_trans": 1977.2666,
+    "I_trans": 94.155552,
+    "I_hover_loaded": 51.0715
    },
    "geo": {
     "D": 0.381,
-    "xFront": 0.38928439,
-    "xRear": -0.57864635,
-    "xLEtoCG": -0.094680977,
+    "xFront": 0.40128973,
+    "xRear": -0.60593121,
+    "xLEtoCG": -0.10232074,
     "booms": [
      {
       "y": -0.4083,
-      "x0": -1.0391463,
-      "x1": 0.43928439,
+      "x0": -1.0664312,
+      "x1": 0.45128973,
       "tail": true,
       "rotors": [
        {
-        "x": 0.38928439
+        "x": 0.40128973
        },
        {
-        "x": -0.57864635
+        "x": -0.60593121
        }
       ]
      },
      {
       "y": 0.4083,
-      "x0": -1.0391463,
-      "x1": 0.43928439,
+      "x0": -1.0664312,
+      "x1": 0.45128973,
       "tail": true,
       "rotors": [
        {
-        "x": 0.38928439
+        "x": 0.40128973
        },
        {
-        "x": -0.57864635
+        "x": -0.60593121
        }
       ]
      },
      {
       "y": -0.8393,
-      "x0": -0.62864635,
-      "x1": 0.43928439,
+      "x0": -0.65593121,
+      "x1": 0.45128973,
       "tail": false,
       "rotors": [
        {
-        "x": 0.38928439
+        "x": 0.40128973
        },
        {
-        "x": -0.57864635
+        "x": -0.60593121
        }
       ]
      },
      {
       "y": 0.8393,
-      "x0": -0.62864635,
-      "x1": 0.43928439,
+      "x0": -0.65593121,
+      "x1": 0.45128973,
       "tail": false,
       "rotors": [
        {
-        "x": 0.38928439
+        "x": 0.40128973
        },
        {
-        "x": -0.57864635
+        "x": -0.60593121
        }
       ]
      }
     ],
     "segs": [
-     1.0179,
+     1.0572,
      0.4605,
-     1.0179,
+     1.0572,
      0.4605,
-     1.0679,
-     1.0679
+     1.1072,
+     1.1072
     ],
-    "boomTotal": 5.092723,
+    "boomTotal": 5.2498838,
     "hSpan": 0.8166,
-    "hC": 0.15222551,
-    "vH": 0.21740438,
-    "vC": 0.1739235,
-    "Sh": 0.12430735,
-    "Sv": 0.075623463,
-    "lh": 0.77266614,
+    "hC": 0.1721165,
+    "vH": 0.22237469,
+    "vC": 0.17789975,
+    "Sh": 0.14055033,
+    "Sv": 0.079120804,
+    "lh": 0.79810254,
     "Vh": 0.35,
     "Vv": 0.03,
-    "aw": 4.7573481,
-    "at": 4.3631195,
-    "deda": 0.42671559,
-    "hn": 0.36318103,
-    "hn_nopod": 0.41562003,
-    "SM": 0.083181029,
+    "aw": 4.6546727,
+    "at": 4.1699895,
+    "deda": 0.45119437,
+    "hn": 0.35498172,
+    "hn_nopod": 0.40487272,
+    "SM": 0.074981721,
     "yIn": 0.4083,
     "longestPiece": 1.2
    },
@@ -1745,11 +1744,11 @@
      },
      {
       "cat": "Lift propulsion",
-      "item": "SoloGood 45A ESC (4-pack), pusher + spares",
+      "item": "LANRC BLHeli_S 45A ESC (4-pack), pusher + spares",
       "qty": 1,
-      "unit": 39.99,
-      "ext": 39.99,
-      "src": "BL ESCs amazon.com",
+      "unit": 30,
+      "ext": 30,
+      "src": "amazon.com/dp/B0D2HS4Y4J (docs/research/bom-savings.md, checked 2026-11-01)",
       "note": ""
      },
      {
@@ -1776,62 +1775,62 @@
       "qty": 5,
       "unit": 19.99,
       "ext": 99.95,
-      "src": "BA §6 shop.emax-usa.com",
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
       "note": "2 ailerons, elevator, 2 rudders"
      },
      {
       "cat": "Avionics",
-      "item": "CoreWing F405 Wing APP V2 (12 out, 90 A sensor)",
+      "item": "CoreWing F405 Wing APP V2, unsoldered pins (12 out, 90 A sensor, 8 A servo BEC)",
       "qty": 1,
-      "unit": 67.26,
-      "ext": 67.26,
-      "src": "BA §2 readymaderc.com",
-      "note": "ArduPilot target beta-only (4.7.2-beta); fallback Matek F405-WMO $69.99"
+      "unit": 67.18,
+      "ext": 67.18,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "same board as the soldered version (unavailable): output map unchanged; backorder Nov 2026; in-stock fallback Holybro Kakute H743-Wing $107.42 (remap)"
      },
      {
       "cat": "Avionics",
-      "item": "HGLRC M100-5883 GPS + compass",
+      "item": "RMRC GPS + compass SAM-M10Q-5883",
       "qty": 1,
-      "unit": 20.49,
-      "ext": 20.49,
-      "src": "BA §2 racedayquads.com",
-      "note": ""
+      "unit": 24.99,
+      "ext": 24.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "u-blox M10 + 5883 compass, replaces the HGLRC M100 to keep one order"
      },
      {
       "cat": "Avionics",
       "item": "NewBeeDrone BeeID v1.1 Remote ID (FAA DoC RID000001995)",
       "qty": 1,
-      "unit": 36.99,
-      "ext": 36.99,
-      "src": "BA §4 racedayquads.com",
-      "note": ""
+      "unit": 39.99,
+      "ext": 39.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "out of stock at RaceDayQuads; only 2 left at RMRC"
      },
      {
       "cat": "Avionics",
       "item": "RadioMaster Pocket Crush ELRS",
       "qty": 1,
-      "unit": 64.99,
-      "ext": 64.99,
-      "src": "BA §5 radiomasterrc.com",
-      "note": ""
+      "unit": 76.99,
+      "ext": 76.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "US stock instead of radiomasterrc.com (CN, $30 shipping)"
      },
      {
       "cat": "Avionics",
       "item": "RadioMaster RP3 V2 ELRS receiver",
       "qty": 1,
-      "unit": 19.99,
-      "ext": 19.99,
-      "src": "BA §5",
-      "note": ""
+      "unit": 22.96,
+      "ext": 22.96,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "backorder at RMRC; in stock at ProgressiveRC $21.99"
      },
      {
       "cat": "Avionics",
-      "item": "Holybro MS5525DSO + PT40 airspeed",
+      "item": "RMRC digital airspeed sensor MS4525DO + pitot",
       "qty": 1,
       "unit": 59.99,
       "ext": 59.99,
-      "src": "BA §3 holybro.com",
-      "note": "ships CN"
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "replaces the Holybro MS5525DSO (ships CN, $37.47 shipping); ArduPilot ARSPD_TYPE 1"
      },
      {
       "cat": "Energy",
@@ -1840,7 +1839,7 @@
       "unit": 199.99,
       "ext": 199.99,
       "src": "BE §1 amazon.com",
-      "note": "second pack per R7; EC5 leads: re-terminate to XT90S"
+      "note": "second pack per R7; EC5 leads: re-terminate to AS150U"
      },
      {
       "cat": "Energy",
@@ -1858,7 +1857,7 @@
       "unit": 26.2,
       "ext": 78.6,
       "src": "BF §1 onlinemetals.com",
-      "note": "cut list 1.0179 + 0.4605 + 1.0179 + 0.4605 + 1.0679 + 1.0679 m"
+      "note": "cut list 1.0572 + 0.4605 + 1.0572 + 0.4605 + 1.1072 + 1.1072 m"
      },
      {
       "cat": "Airframe",
@@ -1907,12 +1906,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "FLY RC Amass XT90S anti-spark, 5 pairs (B0893CGLP7)",
-      "qty": 1,
-      "unit": 13.99,
-      "ext": 13.99,
-      "src": "BF §3a item 1 amazon.com",
-      "note": ""
+      "item": "Amass AS150U connector set (1 male + 1 female), Neu Racing",
+      "qty": 2,
+      "unit": 17.26,
+      "ext": 34.52,
+      "src": "neuracing.us/product/as150u (checked 2026-11-01)",
+      "note": "aircraft male + 2 pack females; anti-spark contact to be confirmed on receipt (M-item)"
      },
      {
       "cat": "Airframe",
@@ -2017,9 +2016,9 @@
       "cat": "Airframe",
       "item": "A2 metric fasteners per HS §6 (14 lines: M2/M3/M5 screws, nylocks, nuts, washers)",
       "qty": 1,
-      "unit": 22.04,
-      "ext": 22.04,
-      "src": "HS §6 boltdepot.com",
+      "unit": 22.38,
+      "ext": 22.38,
+      "src": "HS §6 boltdepot.com (BD-9 M5 x 25, BD-5 M3 x 30, rev 2026-11-02)",
       "note": "replaces Mywish kit B0CQWYFTXC"
      },
      {
@@ -2069,12 +2068,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "XT60H connectors 12 pairs (boom harness disconnects)",
+      "item": "XT60H connectors 12 pairs (one per ESC at the boom disconnects)",
       "qty": 1,
       "unit": 6.99,
       "ext": 6.99,
       "src": "BF §3b amazon.com",
-      "note": ""
+      "note": "one per ESC: Amass XT60H 30 A continuous vs ~12 A hover / 28 A peak per lift ESC (propulsion-margin-data.md F9-F10)"
      },
      {
       "cat": "Airframe",
@@ -2105,12 +2104,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "Hot-wire bow, nichrome + bench supply (wing cores)",
+      "item": "Hot-wire cutter: NICE-POWER 0-30 V 0-10 A bench supply (B0CRSS744F) + Ni80 24 AWG nichrome 50 ft (B0CP9V3DBX)",
       "qty": 1,
-      "unit": 40,
-      "ext": 40,
-      "src": "EST allowance",
-      "note": "not priced; borrow if a makerspace has one"
+      "unit": 41.73,
+      "ext": 41.73,
+      "src": "amazon.com (docs/research/bom-savings.md, checked 2026-11-01)",
+      "note": "borrow if a makerspace has one"
      },
      {
       "cat": "Test & safety",
@@ -2185,11 +2184,11 @@
       "note": ""
      }
     ],
-    "goods": 1939.49,
-    "shipping": 110,
-    "tax": 198.8,
-    "crash": -248.29,
-    "total": 2248.29,
+    "goods": 1974.49,
+    "shipping": 91.99,
+    "tax": 202.39,
+    "crash": -268.87,
+    "total": 2268.87,
     "tubes25": 3,
     "fees": [
      {
@@ -2236,11 +2235,11 @@
      },
      {
       "cat": "Lift propulsion",
-      "item": "SoloGood 45A ESC (4-pack), pusher + spares",
+      "item": "LANRC BLHeli_S 45A ESC (4-pack), pusher + spares",
       "qty": 1,
-      "unit": 39.99,
-      "ext": 39.99,
-      "src": "BL ESCs amazon.com",
+      "unit": 30,
+      "ext": 30,
+      "src": "amazon.com/dp/B0D2HS4Y4J (docs/research/bom-savings.md, checked 2026-11-01)",
       "note": ""
      },
      {
@@ -2267,53 +2266,53 @@
       "qty": 5,
       "unit": 19.99,
       "ext": 99.95,
-      "src": "BA §6 shop.emax-usa.com",
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
       "note": "2 ailerons, elevator, 2 rudders"
      },
      {
       "cat": "Avionics",
-      "item": "CoreWing F405 Wing APP V2 (12 out, 90 A sensor)",
+      "item": "CoreWing F405 Wing APP V2, unsoldered pins (12 out, 90 A sensor, 8 A servo BEC)",
       "qty": 1,
-      "unit": 67.26,
-      "ext": 67.26,
-      "src": "BA §2 readymaderc.com",
-      "note": "ArduPilot target beta-only (4.7.2-beta); fallback Matek F405-WMO $69.99"
+      "unit": 67.18,
+      "ext": 67.18,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "same board as the soldered version (unavailable): output map unchanged; backorder Nov 2026; in-stock fallback Holybro Kakute H743-Wing $107.42 (remap)"
      },
      {
       "cat": "Avionics",
-      "item": "HGLRC M100-5883 GPS + compass",
+      "item": "RMRC GPS + compass SAM-M10Q-5883",
       "qty": 1,
-      "unit": 20.49,
-      "ext": 20.49,
-      "src": "BA §2 racedayquads.com",
-      "note": ""
+      "unit": 24.99,
+      "ext": 24.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "u-blox M10 + 5883 compass, replaces the HGLRC M100 to keep one order"
      },
      {
       "cat": "Avionics",
       "item": "NewBeeDrone BeeID v1.1 Remote ID (FAA DoC RID000001995)",
       "qty": 1,
-      "unit": 36.99,
-      "ext": 36.99,
-      "src": "BA §4 racedayquads.com",
-      "note": ""
+      "unit": 39.99,
+      "ext": 39.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "out of stock at RaceDayQuads; only 2 left at RMRC"
      },
      {
       "cat": "Avionics",
       "item": "RadioMaster Pocket Crush ELRS",
       "qty": 1,
-      "unit": 64.99,
-      "ext": 64.99,
-      "src": "BA §5 radiomasterrc.com",
-      "note": ""
+      "unit": 76.99,
+      "ext": 76.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "US stock instead of radiomasterrc.com (CN, $30 shipping)"
      },
      {
       "cat": "Avionics",
       "item": "RadioMaster RP3 V2 ELRS receiver",
       "qty": 1,
-      "unit": 19.99,
-      "ext": 19.99,
-      "src": "BA §5",
-      "note": ""
+      "unit": 22.96,
+      "ext": 22.96,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "backorder at RMRC; in stock at ProgressiveRC $21.99"
      },
      {
       "cat": "Energy",
@@ -2322,7 +2321,7 @@
       "unit": 199.99,
       "ext": 199.99,
       "src": "BE §1 amazon.com",
-      "note": "second pack per R7; EC5 leads: re-terminate to XT90S"
+      "note": "second pack per R7; EC5 leads: re-terminate to AS150U"
      },
      {
       "cat": "Energy",
@@ -2340,7 +2339,7 @@
       "unit": 26.2,
       "ext": 78.6,
       "src": "BF §1 onlinemetals.com",
-      "note": "cut list 1.0179 + 0.4605 + 1.0179 + 0.4605 + 1.0679 + 1.0679 m"
+      "note": "cut list 1.0572 + 0.4605 + 1.0572 + 0.4605 + 1.1072 + 1.1072 m"
      },
      {
       "cat": "Airframe",
@@ -2389,12 +2388,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "FLY RC Amass XT90S anti-spark, 5 pairs (B0893CGLP7)",
-      "qty": 1,
-      "unit": 13.99,
-      "ext": 13.99,
-      "src": "BF §3a item 1 amazon.com",
-      "note": ""
+      "item": "Amass AS150U connector set (1 male + 1 female), Neu Racing",
+      "qty": 2,
+      "unit": 17.26,
+      "ext": 34.52,
+      "src": "neuracing.us/product/as150u (checked 2026-11-01)",
+      "note": "aircraft male + 2 pack females; anti-spark contact to be confirmed on receipt (M-item)"
      },
      {
       "cat": "Airframe",
@@ -2499,9 +2498,9 @@
       "cat": "Airframe",
       "item": "A2 metric fasteners per HS §6 (14 lines: M2/M3/M5 screws, nylocks, nuts, washers)",
       "qty": 1,
-      "unit": 22.04,
-      "ext": 22.04,
-      "src": "HS §6 boltdepot.com",
+      "unit": 22.38,
+      "ext": 22.38,
+      "src": "HS §6 boltdepot.com (BD-9 M5 x 25, BD-5 M3 x 30, rev 2026-11-02)",
       "note": "replaces Mywish kit B0CQWYFTXC"
      },
      {
@@ -2551,12 +2550,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "XT60H connectors 12 pairs (boom harness disconnects)",
+      "item": "XT60H connectors 12 pairs (one per ESC at the boom disconnects)",
       "qty": 1,
       "unit": 6.99,
       "ext": 6.99,
       "src": "BF §3b amazon.com",
-      "note": ""
+      "note": "one per ESC: Amass XT60H 30 A continuous vs ~12 A hover / 28 A peak per lift ESC (propulsion-margin-data.md F9-F10)"
      },
      {
       "cat": "Airframe",
@@ -2587,12 +2586,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "Hot-wire bow, nichrome + bench supply (wing cores)",
+      "item": "Hot-wire cutter: NICE-POWER 0-30 V 0-10 A bench supply (B0CRSS744F) + Ni80 24 AWG nichrome 50 ft (B0CP9V3DBX)",
       "qty": 1,
-      "unit": 40,
-      "ext": 40,
-      "src": "EST allowance",
-      "note": "not priced; borrow if a makerspace has one"
+      "unit": 41.73,
+      "ext": 41.73,
+      "src": "amazon.com (docs/research/bom-savings.md, checked 2026-11-01)",
+      "note": "borrow if a makerspace has one"
      },
      {
       "cat": "Test & safety",
@@ -2667,11 +2666,11 @@
       "note": ""
      }
     ],
-    "goods": 1879.5,
-    "shipping": 110,
-    "tax": 192.65,
-    "crash": -182.15,
-    "total": 2182.15,
+    "goods": 1914.5,
+    "shipping": 91.99,
+    "tax": 196.24,
+    "crash": -202.73,
+    "total": 2202.73,
     "tubes25": 3,
     "fees": [
      {
@@ -2691,21 +2690,21 @@
     "nLimit": 3,
     "FS": 1.5,
     "nUlt": 4.5,
-    "Mroot": 88.157932,
-    "sigJ": 188538910,
-    "MS_J": 1.4585848,
-    "sigS": 140749340,
-    "Mhover": 31.411462,
-    "Lb": 0.47382098,
+    "Mroot": 94.846341,
+    "sigJ": 202843080,
+    "MS_J": 1.3557278,
+    "sigS": 151427780,
+    "Mhover": 33.794602,
+    "Lb": 0.49264754,
     "Tmax": 18.044236,
-    "Mb": 8.5497376,
-    "sigB": 21093121,
-    "MS_B": 13.037426,
-    "defl_max": 0.0018013386,
-    "defl_hover": 0.0009599978,
-    "fn": 38.899317,
+    "Mb": 8.8894484,
+    "sigB": 21931224,
+    "MS_B": 12.5392,
+    "defl_max": 0.0020247035,
+    "defl_hover": 0.0011609028,
+    "fn": 36.601351,
     "mTip": 0.147,
-    "mEff": 0.16768702,
+    "mEff": 0.16850899,
     "Ij_mm4": 5196.0362,
     "Is_mm4": 7954.6075,
     "Ib_mm4": 5147.7289,
@@ -2732,8 +2731,8 @@
       "nSpring": 6
      }
     ],
-    "Mclamp": 8.5497376,
-    "tauSock": 6825080.2,
+    "Mclamp": 8.8894484,
+    "tauSock": 7096264.4,
     "engage": 0.3,
     "engageD": 13.498313,
     "E_DESIGN": 69000000000,
@@ -2744,61 +2743,67 @@
      {
       "name": "Lift units, front",
       "m": 0.588,
-      "x": 0.389,
+      "x": 0.401,
       "src": "LP"
      },
      {
       "name": "Lift units, rear",
       "m": 0.588,
-      "x": -0.579,
+      "x": -0.606,
       "src": "LP"
      },
      {
       "name": "Booms + clamps",
-      "m": 1.102,
-      "x": -0.214,
+      "m": 1.327,
+      "x": -0.221,
       "src": "AM"
      },
      {
       "name": "Wing (foam/glass + spar)",
-      "m": 1.668,
-      "x": -0.135,
-      "src": "F11; centroid 40 % c EST"
+      "m": 2.079,
+      "x": -0.141,
+      "src": "CAD centroid fraction of chord (mass_budget stations)"
      },
      {
       "name": "Tail",
-      "m": 0.186,
-      "x": -0.88,
+      "m": 0.192,
+      "x": -0.915,
       "src": "geometry"
      },
      {
       "name": "Fuselage pod",
-      "m": 0.6,
-      "x": 0.025,
-      "src": "EST; centroid at mid-pod"
+      "m": 0.567,
+      "x": 0.164,
+      "src": "CAD centroid from the nose; a longer nose moves it forward by half the extension (EST)"
      },
      {
       "name": "Landing gear",
-      "m": 0.443,
-      "x": -0.085,
-      "src": "EST"
+      "m": 0.517,
+      "x": -0.104,
+      "src": "CAD centroid fraction of chord"
      },
      {
       "name": "Avionics",
-      "m": 0.25,
-      "x": 0.25,
-      "src": "EST"
+      "m": 0.418,
+      "x": 0.375,
+      "src": "CAD FC-tray station from the nose (bay moves with the nose)"
+     },
+     {
+      "name": "Fasteners and inserts",
+      "m": 0.164,
+      "x": -0.303,
+      "src": "CAD centroid fraction of chord"
      },
      {
       "name": "Pusher set",
-      "m": 0.227,
+      "m": 0.257,
       "x": -0.418,
       "src": "BL; at pod tail (same station as CAD)"
      },
      {
       "name": "Servos (5)",
-      "m": 0.216,
-      "x": -0.581,
+      "m": 0.266,
+      "x": -0.604,
       "src": "BA; 2 wing (-0.55 c) + 3 tail (cad/params.mjs), mass-weighted mean"
      },
      {
@@ -2810,31 +2815,33 @@
      {
       "name": "Battery (placed for CG)",
       "m": 0.986,
-      "x": 0.15,
+      "x": 0.193,
       "src": "PB"
      },
      {
       "name": "Payload allowance (bay)",
-      "m": 0.5,
+      "m": 0,
       "x": 0.15,
       "src": "R12; bay x EST"
      }
     ],
-    "target": -0.094680977,
-    "xb": 0.1502981,
-    "cgBattFwd": -0.090908939,
-    "cgBattAft": -0.098453015,
-    "pctFwd": 26.884495,
-    "pctAft": 29.115505,
-    "cgNoPayload": -0.11133886,
-    "thrustCentroid": -0.094680977,
+    "target": -0.10232074,
+    "xb": 0.19256066,
+    "xbMax": 0.339,
+    "battery_fits": true,
+    "cgBattFwd": -0.098814644,
+    "cgBattAft": -0.10582684,
+    "pctFwd": 27.040559,
+    "pctAft": 28.959441,
+    "cgNoPayload": -0.10232074,
+    "thrustCentroid": -0.10232074,
     "pct": {
      "target": 28,
-     "noPayload": 32.926235,
-     "np": 36.318103,
+     "noPayload": 28,
+     "np": 35.498172,
      "thrust": 28
     },
-    "SM_noPayload": 0.033918681
+    "SM_noPayload": 0.074981721
    }
   },
   "C2": {
@@ -2845,11 +2852,11 @@
     "rho": 1.225,
     "Vs": 11.75,
     "Vc": 18,
-    "CLmax": 1.121,
+    "CLmax": 1.116,
     "span": 2.4,
     "e": 0.8,
     "CD0_clean": 0.0266,
-    "CdA_boom": 0.00169303,
+    "CdA_boom": 0.00171073,
     "etaProp": 0.6,
     "etaMEc": 0.85,
     "kCtrl": 1.1,
@@ -2863,24 +2870,27 @@
     "tc": 0.15,
     "wGlass": 0.06,
     "rResin": 0,
-    "sigmaTail": 0.93,
-    "tailAreaRatio": 0.24000064,
+    "sigmaTail": 0.3509,
+    "tailAreaRatio": 0.24346335,
     "VhTarget": 0.35,
     "VvTarget": 0.03,
     "boomLin": 0.185,
-    "boomClamp": 0.02,
+    "boomClamp": 0.0445,
     "m_spar": 0.67524,
-    "mFus": 0.6,
-    "mGear": 0.44318,
-    "mAvionics": 0.25,
-    "mPusherSet": 0.227,
-    "mServos": 0.216,
+    "mFus": 0.5672,
+    "mGear": 0.5171,
+    "mAvionics": 0.418,
+    "mPusherSet": 0.2569,
+    "mServos": 0.2656,
     "mWiring": 0.25,
     "mWirePerLift": 0.03,
-    "mPayload": 0.5,
+    "mPayload": 0,
     "eSpec": 176,
     "Vpack": 22.2,
     "m_guess": 7,
+    "mWingHardware": 0.2528,
+    "mFasteners": 0.1641,
+    "mTailHardware": 0.1152,
     "name": "SunnySky V3508 KV380 + LANRC 35A + Eolo CN15x5.5",
     "liftD": 0.381,
     "Tmax_g": 1840,
@@ -2912,52 +2922,52 @@
     "nLift": 8,
     "nBooms": 2,
     "coax": true,
-    "boomTotalLen": 2.8464086,
+    "boomTotalLen": 2.9050472,
     "mBattFixed": 0.82,
     "EBattFixed": 144.3
    },
    "design": {
-    "m": 6.7699421,
-    "W": 66.390452,
+    "m": 7.2968679,
+    "W": 71.55783,
     "nUnits": 4,
-    "Tunit_N": 16.597855,
-    "Tunit_g": 1692.5102,
-    "Tmotor_g": 1084.899,
+    "Tunit_N": 17.889261,
+    "Tunit_g": 1824.1969,
+    "Tmotor_g": 1169.3102,
     "A": 0.11400918,
-    "FMeta": 0.52804908,
-    "Pi_unit": 90.471123,
-    "P_hover": 966.44333,
-    "S": 0.70036512,
-    "AR": 8.2242816,
-    "chord": 0.2918188,
-    "CL": 0.47767921,
-    "CD0": 0.047426365,
-    "CDi": 0.01103913,
-    "LD": 8.1702755,
-    "D_cruise": 8.1259706,
-    "P_cruise": 286.79896,
-    "E_Wh": 90.752864,
-    "Epack_req_Wh": 119.41166,
-    "Epack_Wh": 119.41166,
-    "m_batt": 0.67847536,
-    "sigmaWing": 1.0724966,
-    "m_wing": 1.4263792,
-    "S_tail": 0.16808808,
-    "m_tail": 0.15632191,
-    "m_booms": 0.60658559,
+    "FMeta": 0.52180106,
+    "Pi_unit": 101.23266,
+    "P_hover": 1094.3504,
+    "S": 0.75823944,
+    "AR": 7.596545,
+    "chord": 0.3159331,
+    "CL": 0.47554861,
+    "CD0": 0.045883434,
+    "CDi": 0.011844967,
+    "LD": 8.237689,
+    "D_cruise": 8.6865436,
+    "P_cruise": 306.58389,
+    "E_Wh": 99.735109,
+    "Epack_req_Wh": 131.23041,
+    "Epack_Wh": 131.23041,
+    "m_batt": 0.74562731,
+    "sigmaWing": 1.1512056,
+    "m_wing": 1.8009295,
+    "S_tail": 0.18460352,
+    "m_tail": 0.17997737,
+    "m_booms": 0.71543373,
     "m_lift": 1.176,
-    "m_fixed": 2.72618,
-    "CdA_extra": 0.01458606,
-    "TW": 1.6960351,
-    "TW_motorOut": 1.2720263,
-    "I_hover": 43.533483,
-    "I_cruise": 12.918872,
-    "P_hover_per_motor": 120.80542,
+    "m_fixed": 2.6789,
+    "CdA_extra": 0.01462146,
+    "TW": 1.57356,
+    "TW_motorOut": 1.18017,
+    "I_hover": 49.295062,
+    "I_cruise": 13.810085,
+    "P_hover_per_motor": 136.7938,
     "endurance_ok": true,
     "t_cruise_avail_min": 10,
-    "diskLoading": 145.58349,
-    "wingLoading": 94.795438,
-    "iter": 16,
+    "diskLoading": 156.9107,
+    "wingLoading": 94.372622,
+    "iter": 17,
     "converged": true
    },
    "pick": {
@@ -2970,113 +2980,113 @@
     "pair": true
    },
    "sized": {
-    "m": 6.9550001,
-    "W": 68.205252,
+    "m": 7.3943609,
+    "W": 72.513909,
     "nUnits": 4,
-    "Tunit_N": 17.0515,
-    "Tunit_g": 1738.7691,
-    "Tmotor_g": 1114.551,
+    "Tunit_N": 18.128336,
+    "Tunit_g": 1848.5758,
+    "Tmotor_g": 1184.9371,
     "A": 0.11400918,
-    "FMeta": 0.52554811,
-    "Pi_unit": 94.205427,
-    "P_hover": 1011.1234,
-    "S": 0.71950719,
-    "AR": 8.0054794,
-    "chord": 0.29979466,
-    "CL": 0.47767921,
-    "CD0": 0.046872292,
-    "CDi": 0.011340846,
-    "LD": 8.2056941,
-    "D_cruise": 8.312033,
-    "P_cruise": 293.36587,
-    "E_Wh": 93.833128,
-    "Epack_req_Wh": 123.46464,
+    "FMeta": 0.52136114,
+    "Pi_unit": 103.26876,
+    "P_hover": 1117.3031,
+    "S": 0.76837268,
+    "AR": 7.4963623,
+    "chord": 0.32015528,
+    "CL": 0.47554861,
+    "CD0": 0.045629125,
+    "CDi": 0.012003265,
+    "LD": 8.2514122,
+    "D_cruise": 8.787992,
+    "P_cruise": 310.16442,
+    "E_Wh": 101.35199,
+    "Epack_req_Wh": 133.35788,
     "Epack_Wh": 144.3,
     "m_batt": 0.82,
-    "sigmaWing": 1.0985298,
-    "m_wing": 1.4656401,
-    "S_tail": 0.17268219,
-    "m_tail": 0.16059443,
-    "m_booms": 0.60658559,
+    "sigmaWing": 1.1649869,
+    "m_wing": 1.8231841,
+    "S_tail": 0.18707059,
+    "m_tail": 0.18084307,
+    "m_booms": 0.71543373,
     "m_lift": 1.176,
-    "m_fixed": 2.72618,
-    "CdA_extra": 0.01458606,
-    "TW": 1.6509071,
-    "TW_motorOut": 1.2381804,
-    "I_hover": 45.546097,
-    "I_cruise": 13.214679,
-    "P_hover_per_motor": 126.39042,
+    "m_fixed": 2.6789,
+    "CdA_extra": 0.01462146,
+    "TW": 1.5528129,
+    "TW_motorOut": 1.1646097,
+    "I_hover": 50.328969,
+    "I_cruise": 13.97137,
+    "P_hover_per_motor": 139.66289,
     "endurance_ok": true,
-    "t_cruise_avail_min": 13.238592,
-    "diskLoading": 149.56251,
-    "wingLoading": 94.795438,
-    "iter": 11,
+    "t_cruise_avail_min": 11.608698,
+    "diskLoading": 159.00768,
+    "wingLoading": 94.372622,
+    "iter": 15,
     "converged": true,
-    "P_trans": 1597.8551,
-    "I_trans": 76.088338,
-    "I_hover_loaded": 48.148732
+    "P_trans": 1737.632,
+    "I_trans": 82.744379,
+    "I_hover_loaded": 53.20491
    },
    "geo": {
     "D": 0.381,
-    "xFront": 0.37240965,
-    "xRear": -0.54029466,
-    "xLEtoCG": -0.083942506,
+    "xFront": 0.38136833,
+    "xRear": -0.56065528,
+    "xLEtoCG": -0.08964348,
     "booms": [
      {
       "y": -0.4083,
-      "x0": -1.0007947,
-      "x1": 0.42240965,
+      "x0": -1.0211553,
+      "x1": 0.43136833,
       "tail": true,
       "rotors": [
        {
-        "x": 0.37240965,
+        "x": 0.38136833,
         "coax": true
        },
        {
-        "x": -0.54029466,
+        "x": -0.56065528,
         "coax": true
        }
       ]
      },
      {
       "y": 0.4083,
-      "x0": -1.0007947,
-      "x1": 0.42240965,
+      "x0": -1.0211553,
+      "x1": 0.43136833,
       "tail": true,
       "rotors": [
        {
-        "x": 0.37240965,
+        "x": 0.38136833,
         "coax": true
        },
        {
-        "x": -0.54029466,
+        "x": -0.56065528,
         "coax": true
        }
       ]
      }
     ],
     "segs": [
-     0.9627,
+     0.992,
      0.4605,
-     0.9627,
+     0.992,
      0.4605
     ],
-    "boomTotal": 2.8464086,
+    "boomTotal": 2.9050472,
     "hSpan": 0.8166,
-    "hC": 0.1254103,
-    "vH": 0.20957119,
-    "vC": 0.16765695,
-    "Sh": 0.10241005,
-    "Sv": 0.070272135,
-    "lh": 0.73719857,
+    "hC": 0.13946935,
+    "vH": 0.21386316,
+    "vC": 0.17109052,
+    "Sh": 0.11389067,
+    "Sv": 0.073179919,
+    "lh": 0.7559838,
     "Vh": 0.35,
     "Vv": 0.03,
-    "aw": 4.9065773,
-    "at": 4.6429971,
-    "deda": 0.39018577,
-    "hn": 0.37933337,
-    "hn_nopod": 0.43177237,
-    "SM": 0.099333375,
+    "aw": 4.8266315,
+    "at": 4.4933925,
+    "deda": 0.40989602,
+    "hn": 0.37315809,
+    "hn_nopod": 0.42304909,
+    "SM": 0.09315809,
     "yIn": 0.4083,
     "longestPiece": 1.2
    },
@@ -3111,11 +3121,11 @@
      },
      {
       "cat": "Lift propulsion",
-      "item": "SoloGood 45A ESC (4-pack), pusher + spares",
+      "item": "LANRC BLHeli_S 45A ESC (4-pack), pusher + spares",
       "qty": 1,
-      "unit": 39.99,
-      "ext": 39.99,
-      "src": "BL ESCs amazon.com",
+      "unit": 30,
+      "ext": 30,
+      "src": "amazon.com/dp/B0D2HS4Y4J (docs/research/bom-savings.md, checked 2026-11-01)",
       "note": ""
      },
      {
@@ -3142,7 +3152,7 @@
       "qty": 5,
       "unit": 19.99,
       "ext": 99.95,
-      "src": "BA §6 shop.emax-usa.com",
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
       "note": "2 ailerons, elevator, 2 rudders"
      },
      {
@@ -3156,48 +3166,48 @@
      },
      {
       "cat": "Avionics",
-      "item": "HGLRC M100-5883 GPS + compass",
+      "item": "RMRC GPS + compass SAM-M10Q-5883",
       "qty": 1,
-      "unit": 20.49,
-      "ext": 20.49,
-      "src": "BA §2 racedayquads.com",
-      "note": ""
+      "unit": 24.99,
+      "ext": 24.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "u-blox M10 + 5883 compass, replaces the HGLRC M100 to keep one order"
      },
      {
       "cat": "Avionics",
       "item": "NewBeeDrone BeeID v1.1 Remote ID (FAA DoC RID000001995)",
       "qty": 1,
-      "unit": 36.99,
-      "ext": 36.99,
-      "src": "BA §4 racedayquads.com",
-      "note": ""
+      "unit": 39.99,
+      "ext": 39.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "out of stock at RaceDayQuads; only 2 left at RMRC"
      },
      {
       "cat": "Avionics",
       "item": "RadioMaster Pocket Crush ELRS",
       "qty": 1,
-      "unit": 64.99,
-      "ext": 64.99,
-      "src": "BA §5 radiomasterrc.com",
-      "note": ""
+      "unit": 76.99,
+      "ext": 76.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "US stock instead of radiomasterrc.com (CN, $30 shipping)"
      },
      {
       "cat": "Avionics",
       "item": "RadioMaster RP3 V2 ELRS receiver",
       "qty": 1,
-      "unit": 19.99,
-      "ext": 19.99,
-      "src": "BA §5",
-      "note": ""
+      "unit": 22.96,
+      "ext": 22.96,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "backorder at RMRC; in stock at ProgressiveRC $21.99"
      },
      {
       "cat": "Avionics",
-      "item": "Holybro MS5525DSO + PT40 airspeed",
+      "item": "RMRC digital airspeed sensor MS4525DO + pitot",
       "qty": 1,
       "unit": 59.99,
       "ext": 59.99,
-      "src": "BA §3 holybro.com",
-      "note": "ships CN"
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "replaces the Holybro MS5525DSO (ships CN, $37.47 shipping); ArduPilot ARSPD_TYPE 1"
      },
      {
       "cat": "Energy",
@@ -3206,7 +3216,7 @@
       "unit": 138.99,
       "ext": 138.99,
       "src": "BE §1 amazon.com",
-      "note": "second pack per R7; EC5 leads: re-terminate to XT90S"
+      "note": "second pack per R7; EC5 leads: re-terminate to AS150U"
      },
      {
       "cat": "Energy",
@@ -3224,7 +3234,7 @@
       "unit": 26.2,
       "ext": 52.4,
       "src": "BF §1 onlinemetals.com",
-      "note": "cut list 0.9627 + 0.4605 + 0.9627 + 0.4605 m"
+      "note": "cut list 0.992 + 0.4605 + 0.992 + 0.4605 m"
      },
      {
       "cat": "Airframe",
@@ -3273,12 +3283,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "FLY RC Amass XT90S anti-spark, 5 pairs (B0893CGLP7)",
-      "qty": 1,
-      "unit": 13.99,
-      "ext": 13.99,
-      "src": "BF §3a item 1 amazon.com",
-      "note": ""
+      "item": "Amass AS150U connector set (1 male + 1 female), Neu Racing",
+      "qty": 2,
+      "unit": 17.26,
+      "ext": 34.52,
+      "src": "neuracing.us/product/as150u (checked 2026-11-01)",
+      "note": "aircraft male + 2 pack females; anti-spark contact to be confirmed on receipt (M-item)"
      },
      {
       "cat": "Airframe",
@@ -3383,9 +3393,9 @@
       "cat": "Airframe",
       "item": "A2 metric fasteners per HS §6 (14 lines: M2/M3/M5 screws, nylocks, nuts, washers)",
       "qty": 1,
-      "unit": 22.04,
-      "ext": 22.04,
-      "src": "HS §6 boltdepot.com",
+      "unit": 22.38,
+      "ext": 22.38,
+      "src": "HS §6 boltdepot.com (BD-9 M5 x 25, BD-5 M3 x 30, rev 2026-11-02)",
       "note": "replaces Mywish kit B0CQWYFTXC"
      },
      {
@@ -3435,12 +3445,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "XT60H connectors 12 pairs (boom harness disconnects)",
+      "item": "XT60H connectors 12 pairs (one per ESC at the boom disconnects)",
       "qty": 1,
       "unit": 6.99,
       "ext": 6.99,
       "src": "BF §3b amazon.com",
-      "note": ""
+      "note": "one per ESC: Amass XT60H 30 A continuous vs ~12 A hover / 28 A peak per lift ESC (propulsion-margin-data.md F9-F10)"
      },
      {
       "cat": "Airframe",
@@ -3471,12 +3481,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "Hot-wire bow, nichrome + bench supply (wing cores)",
+      "item": "Hot-wire cutter: NICE-POWER 0-30 V 0-10 A bench supply (B0CRSS744F) + Ni80 24 AWG nichrome 50 ft (B0CP9V3DBX)",
       "qty": 1,
-      "unit": 40,
-      "ext": 40,
-      "src": "EST allowance",
-      "note": "not priced; borrow if a makerspace has one"
+      "unit": 41.73,
+      "ext": 41.73,
+      "src": "amazon.com (docs/research/bom-savings.md, checked 2026-11-01)",
+      "note": "borrow if a makerspace has one"
      },
      {
       "cat": "Test & safety",
@@ -3551,11 +3561,11 @@
       "note": ""
      }
     ],
-    "goods": 1890.03,
-    "shipping": 110,
-    "tax": 193.73,
-    "crash": -193.76,
-    "total": 2193.76,
+    "goods": 1925.11,
+    "shipping": 91.99,
+    "tax": 197.32,
+    "crash": -214.42,
+    "total": 2214.42,
     "tubes25": 2,
     "fees": [
      {
@@ -3602,11 +3612,11 @@
      },
      {
       "cat": "Lift propulsion",
-      "item": "SoloGood 45A ESC (4-pack), pusher + spares",
+      "item": "LANRC BLHeli_S 45A ESC (4-pack), pusher + spares",
       "qty": 1,
-      "unit": 39.99,
-      "ext": 39.99,
-      "src": "BL ESCs amazon.com",
+      "unit": 30,
+      "ext": 30,
+      "src": "amazon.com/dp/B0D2HS4Y4J (docs/research/bom-savings.md, checked 2026-11-01)",
       "note": ""
      },
      {
@@ -3633,7 +3643,7 @@
       "qty": 5,
       "unit": 19.99,
       "ext": 99.95,
-      "src": "BA §6 shop.emax-usa.com",
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
       "note": "2 ailerons, elevator, 2 rudders"
      },
      {
@@ -3647,39 +3657,39 @@
      },
      {
       "cat": "Avionics",
-      "item": "HGLRC M100-5883 GPS + compass",
+      "item": "RMRC GPS + compass SAM-M10Q-5883",
       "qty": 1,
-      "unit": 20.49,
-      "ext": 20.49,
-      "src": "BA §2 racedayquads.com",
-      "note": ""
+      "unit": 24.99,
+      "ext": 24.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "u-blox M10 + 5883 compass, replaces the HGLRC M100 to keep one order"
      },
      {
       "cat": "Avionics",
       "item": "NewBeeDrone BeeID v1.1 Remote ID (FAA DoC RID000001995)",
       "qty": 1,
-      "unit": 36.99,
-      "ext": 36.99,
-      "src": "BA §4 racedayquads.com",
-      "note": ""
+      "unit": 39.99,
+      "ext": 39.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "out of stock at RaceDayQuads; only 2 left at RMRC"
      },
      {
       "cat": "Avionics",
       "item": "RadioMaster Pocket Crush ELRS",
       "qty": 1,
-      "unit": 64.99,
-      "ext": 64.99,
-      "src": "BA §5 radiomasterrc.com",
-      "note": ""
+      "unit": 76.99,
+      "ext": 76.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "US stock instead of radiomasterrc.com (CN, $30 shipping)"
      },
      {
       "cat": "Avionics",
       "item": "RadioMaster RP3 V2 ELRS receiver",
       "qty": 1,
-      "unit": 19.99,
-      "ext": 19.99,
-      "src": "BA §5",
-      "note": ""
+      "unit": 22.96,
+      "ext": 22.96,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "backorder at RMRC; in stock at ProgressiveRC $21.99"
      },
      {
       "cat": "Energy",
@@ -3688,7 +3698,7 @@
       "unit": 138.99,
       "ext": 138.99,
       "src": "BE §1 amazon.com",
-      "note": "second pack per R7; EC5 leads: re-terminate to XT90S"
+      "note": "second pack per R7; EC5 leads: re-terminate to AS150U"
      },
      {
       "cat": "Energy",
@@ -3706,7 +3716,7 @@
       "unit": 26.2,
       "ext": 52.4,
       "src": "BF §1 onlinemetals.com",
-      "note": "cut list 0.9627 + 0.4605 + 0.9627 + 0.4605 m"
+      "note": "cut list 0.992 + 0.4605 + 0.992 + 0.4605 m"
      },
      {
       "cat": "Airframe",
@@ -3755,12 +3765,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "FLY RC Amass XT90S anti-spark, 5 pairs (B0893CGLP7)",
-      "qty": 1,
-      "unit": 13.99,
-      "ext": 13.99,
-      "src": "BF §3a item 1 amazon.com",
-      "note": ""
+      "item": "Amass AS150U connector set (1 male + 1 female), Neu Racing",
+      "qty": 2,
+      "unit": 17.26,
+      "ext": 34.52,
+      "src": "neuracing.us/product/as150u (checked 2026-11-01)",
+      "note": "aircraft male + 2 pack females; anti-spark contact to be confirmed on receipt (M-item)"
      },
      {
       "cat": "Airframe",
@@ -3865,9 +3875,9 @@
       "cat": "Airframe",
       "item": "A2 metric fasteners per HS §6 (14 lines: M2/M3/M5 screws, nylocks, nuts, washers)",
       "qty": 1,
-      "unit": 22.04,
-      "ext": 22.04,
-      "src": "HS §6 boltdepot.com",
+      "unit": 22.38,
+      "ext": 22.38,
+      "src": "HS §6 boltdepot.com (BD-9 M5 x 25, BD-5 M3 x 30, rev 2026-11-02)",
       "note": "replaces Mywish kit B0CQWYFTXC"
      },
      {
@@ -3917,12 +3927,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "XT60H connectors 12 pairs (boom harness disconnects)",
+      "item": "XT60H connectors 12 pairs (one per ESC at the boom disconnects)",
       "qty": 1,
       "unit": 6.99,
       "ext": 6.99,
       "src": "BF §3b amazon.com",
-      "note": ""
+      "note": "one per ESC: Amass XT60H 30 A continuous vs ~12 A hover / 28 A peak per lift ESC (propulsion-margin-data.md F9-F10)"
      },
      {
       "cat": "Airframe",
@@ -3953,12 +3963,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "Hot-wire bow, nichrome + bench supply (wing cores)",
+      "item": "Hot-wire cutter: NICE-POWER 0-30 V 0-10 A bench supply (B0CRSS744F) + Ni80 24 AWG nichrome 50 ft (B0CP9V3DBX)",
       "qty": 1,
-      "unit": 40,
-      "ext": 40,
-      "src": "EST allowance",
-      "note": "not priced; borrow if a makerspace has one"
+      "unit": 41.73,
+      "ext": 41.73,
+      "src": "amazon.com (docs/research/bom-savings.md, checked 2026-11-01)",
+      "note": "borrow if a makerspace has one"
      },
      {
       "cat": "Test & safety",
@@ -4033,11 +4043,11 @@
       "note": ""
      }
     ],
-    "goods": 1830.04,
-    "shipping": 110,
-    "tax": 187.58,
-    "crash": -127.62,
-    "total": 2127.62,
+    "goods": 1865.12,
+    "shipping": 91.99,
+    "tax": 191.17,
+    "crash": -148.28,
+    "total": 2148.28,
     "tubes25": 2,
     "fees": [
      {
@@ -4057,21 +4067,21 @@
     "nLimit": 3,
     "FS": 1.5,
     "nUlt": 4.5,
-    "Mroot": 78.157461,
-    "sigJ": 167151410,
-    "MS_J": 1.6452149,
-    "sigS": 124783000,
-    "Mhover": 27.848204,
-    "Lb": 0.44735832,
+    "Mroot": 83.094819,
+    "sigJ": 177710690,
+    "MS_J": 1.547459,
+    "sigS": 132665780,
+    "Mhover": 29.607429,
+    "Lb": 0.46140715,
     "Tmax": 28.150134,
-    "Mb": 12.593197,
-    "sigB": 31068769,
-    "MS_B": 8.8513324,
-    "defl_max": 0.0023651626,
-    "defl_hover": 0.00143266,
-    "fn": 42.548225,
+    "Mb": 12.988673,
+    "sigB": 32044452,
+    "MS_B": 8.5818289,
+    "defl_max": 0.00259506,
+    "defl_hover": 0.0016711864,
+    "fn": 40.545244,
     "mTip": 0.147,
-    "mEff": 0.16653166,
+    "mEff": 0.16714504,
     "Ij_mm4": 5196.0362,
     "Is_mm4": 7954.6075,
     "Ib_mm4": 5147.7289,
@@ -4098,8 +4108,8 @@
       "nSpring": 6
      }
     ],
-    "Mclamp": 12.593197,
-    "tauSock": 10052891,
+    "Mclamp": 12.988673,
+    "tauSock": 10368591,
     "engage": 0.3,
     "engageD": 13.498313,
     "E_DESIGN": 69000000000,
@@ -4110,61 +4120,67 @@
      {
       "name": "Lift units, front",
       "m": 0.588,
-      "x": 0.372,
+      "x": 0.381,
       "src": "LP"
      },
      {
       "name": "Lift units, rear",
       "m": 0.588,
-      "x": -0.54,
+      "x": -0.561,
       "src": "LP"
      },
      {
       "name": "Booms + clamps",
-      "m": 0.607,
-      "x": -0.289,
+      "m": 0.715,
+      "x": -0.295,
       "src": "AM"
      },
      {
       "name": "Wing (foam/glass + spar)",
-      "m": 1.466,
-      "x": -0.12,
-      "src": "F11; centroid 40 % c EST"
+      "m": 1.823,
+      "x": -0.123,
+      "src": "CAD centroid fraction of chord (mass_budget stations)"
      },
      {
       "name": "Tail",
-      "m": 0.161,
-      "x": -0.831,
+      "m": 0.181,
+      "x": -0.857,
       "src": "geometry"
      },
      {
       "name": "Fuselage pod",
-      "m": 0.6,
-      "x": 0.025,
-      "src": "EST; centroid at mid-pod"
+      "m": 0.567,
+      "x": 0.164,
+      "src": "CAD centroid from the nose; a longer nose moves it forward by half the extension (EST)"
      },
      {
       "name": "Landing gear",
-      "m": 0.443,
-      "x": -0.075,
-      "src": "EST"
+      "m": 0.517,
+      "x": -0.091,
+      "src": "CAD centroid fraction of chord"
      },
      {
       "name": "Avionics",
-      "m": 0.25,
-      "x": 0.25,
-      "src": "EST"
+      "m": 0.418,
+      "x": 0.375,
+      "src": "CAD FC-tray station from the nose (bay moves with the nose)"
+     },
+     {
+      "name": "Fasteners and inserts",
+      "m": 0.164,
+      "x": -0.265,
+      "src": "CAD centroid fraction of chord"
      },
      {
       "name": "Pusher set",
-      "m": 0.227,
+      "m": 0.257,
       "x": -0.418,
       "src": "BL; at pod tail (same station as CAD)"
      },
      {
       "name": "Servos (5)",
-      "m": 0.216,
-      "x": -0.55,
+      "m": 0.266,
+      "x": -0.567,
       "src": "BA; 2 wing (-0.55 c) + 3 tail (cad/params.mjs), mass-weighted mean"
      },
      {
@@ -4176,31 +4192,33 @@
      {
       "name": "Battery (placed for CG)",
       "m": 0.82,
-      "x": 0.175,
+      "x": 0.221,
       "src": "PB"
      },
      {
       "name": "Payload allowance (bay)",
-      "m": 0.5,
+      "m": 0,
       "x": 0.15,
       "src": "R12; bay x EST"
      }
     ],
-    "target": -0.083942506,
-    "xb": 0.17490845,
-    "cgBattFwd": -0.080405991,
-    "cgBattAft": -0.087479021,
-    "pctFwd": 26.820354,
-    "pctAft": 29.179646,
-    "cgNoPayload": -0.10206073,
-    "thrustCentroid": -0.083942506,
+    "target": -0.08964348,
+    "xb": 0.22110257,
+    "xbMax": 0.339,
+    "battery_fits": true,
+    "cgBattFwd": -0.086316458,
+    "cgBattAft": -0.092970502,
+    "pctFwd": 26.96081,
+    "pctAft": 29.03919,
+    "cgNoPayload": -0.08964348,
+    "thrustCentroid": -0.08964348,
     "pct": {
      "target": 28,
-     "noPayload": 34.043544,
-     "np": 37.933337,
+     "noPayload": 28,
+     "np": 37.315809,
      "thrust": 28
     },
-    "SM_noPayload": 0.03889793
+    "SM_noPayload": 0.09315809
    }
   },
   "C3": {
@@ -4211,11 +4229,11 @@
     "rho": 1.225,
     "Vs": 11.75,
     "Vc": 18,
-    "CLmax": 1.121,
+    "CLmax": 1.116,
     "span": 2.4,
     "e": 0.8,
     "CD0_clean": 0.0266,
-    "CdA_boom": 0.00169303,
+    "CdA_boom": 0.00171073,
     "etaProp": 0.6,
     "etaMEc": 0.85,
     "kCtrl": 1.1,
@@ -4229,24 +4247,27 @@
     "tc": 0.15,
     "wGlass": 0.06,
     "rResin": 0,
-    "sigmaTail": 0.93,
-    "tailAreaRatio": 0.22925739,
+    "sigmaTail": 0.3509,
+    "tailAreaRatio": 0.23306196,
     "VhTarget": 0.35,
     "VvTarget": 0.03,
     "boomLin": 0.185,
-    "boomClamp": 0.02,
+    "boomClamp": 0.0445,
     "m_spar": 0.67524,
-    "mFus": 0.6,
-    "mGear": 0.44318,
-    "mAvionics": 0.25,
-    "mPusherSet": 0.227,
-    "mServos": 0.216,
+    "mFus": 0.5672,
+    "mGear": 0.5171,
+    "mAvionics": 0.418,
+    "mPusherSet": 0.2569,
+    "mServos": 0.2656,
     "mWiring": 0.25,
     "mWirePerLift": 0.03,
-    "mPayload": 0.5,
+    "mPayload": 0,
     "eSpec": 176,
     "Vpack": 22.2,
     "m_guess": 7,
+    "mWingHardware": 0.2528,
+    "mFasteners": 0.1641,
+    "mTailHardware": 0.1152,
     "name": "SunnySky X3515S 400KV + SoloGood 45A + APC 16x5.5MR",
     "liftD": 0.4064,
     "Tmax_g": 3360,
@@ -4278,52 +4299,52 @@
     "nLift": 4,
     "nBooms": 2,
     "coax": false,
-    "boomTotalLen": 2.8711791,
+    "boomTotalLen": 2.930254,
     "mBattFixed": 0.82,
     "EBattFixed": 144.3
    },
    "design": {
-    "m": 6.3452236,
-    "W": 62.225387,
+    "m": 6.8647454,
+    "W": 67.320156,
     "nUnits": 4,
-    "Tunit_N": 15.55652,
-    "Tunit_g": 1586.3236,
-    "Tmotor_g": 1586.3236,
+    "Tunit_N": 16.830217,
+    "Tunit_g": 1716.2045,
+    "Tmotor_g": 1716.2045,
     "A": 0.12971711,
-    "FMeta": 0.50518843,
-    "Pi_unit": 108.83961,
-    "P_hover": 947.95184,
-    "S": 0.65642483,
-    "AR": 8.7748052,
-    "chord": 0.27351035,
-    "CL": 0.47767921,
-    "CD0": 0.051257903,
-    "CDi": 0.010346544,
-    "LD": 7.7539727,
-    "D_cruise": 8.0250579,
-    "P_cruise": 283.23734,
-    "E_Wh": 89.337416,
-    "Epack_req_Wh": 117.54923,
-    "Epack_Wh": 117.54923,
-    "m_batt": 0.66789336,
-    "sigmaWing": 1.0127378,
-    "m_wing": 1.3400262,
-    "S_tail": 0.15049024,
-    "m_tail": 0.13995593,
-    "m_booms": 0.61116813,
+    "FMeta": 0.51165859,
+    "Pi_unit": 122.47653,
+    "P_hover": 1053.235,
+    "S": 0.71335166,
+    "AR": 8.0745589,
+    "chord": 0.29722986,
+    "CL": 0.47554861,
+    "CD0": 0.04933978,
+    "CDi": 0.011143745,
+    "LD": 7.8624486,
+    "D_cruise": 8.5623283,
+    "P_cruise": 302.19982,
+    "E_Wh": 97.177082,
+    "Epack_req_Wh": 127.86458,
+    "Epack_Wh": 127.86458,
+    "m_batt": 0.7265033,
+    "sigmaWing": 1.0901583,
+    "m_wing": 1.7057062,
+    "S_tail": 0.16625514,
+    "m_tail": 0.17353893,
+    "m_booms": 0.72009699,
     "m_lift": 0.98,
-    "m_fixed": 2.60618,
-    "CdA_extra": 0.01618606,
-    "TW": 2.1181287,
+    "m_fixed": 2.5589,
+    "CdA_extra": 0.01622146,
+    "TW": 1.9578293,
     "TW_motorOut": 0,
-    "I_hover": 42.700533,
-    "I_cruise": 12.758439,
-    "P_hover_per_motor": 236.98796,
+    "I_hover": 47.443018,
+    "I_cruise": 13.612605,
+    "P_hover_per_motor": 263.30875,
     "endurance_ok": true,
     "t_cruise_avail_min": 10,
-    "diskLoading": 119.9265,
-    "wingLoading": 94.795438,
-    "iter": 18,
+    "diskLoading": 129.74554,
+    "wingLoading": 94.372622,
+    "iter": 15,
     "converged": true
    },
    "pick": {
@@ -4336,113 +4357,113 @@
     "pair": true
    },
    "sized": {
-    "m": 6.5407358,
-    "W": 64.142706,
+    "m": 6.9852889,
+    "W": 68.502283,
     "nUnits": 4,
-    "Tunit_N": 16.035816,
-    "Tunit_g": 1635.1981,
-    "Tmotor_g": 1635.1981,
+    "Tunit_N": 17.12576,
+    "Tunit_g": 1746.3416,
+    "Tmotor_g": 1746.3416,
     "A": 0.12971711,
-    "FMeta": 0.50762317,
-    "Pi_unit": 113.90818,
-    "P_hover": 987.33868,
-    "S": 0.67664926,
-    "AR": 8.5125342,
-    "chord": 0.28193719,
-    "CL": 0.47767921,
-    "CD0": 0.050520901,
-    "CDi": 0.010665321,
-    "LD": 7.8069733,
-    "D_cruise": 8.2161499,
-    "P_cruise": 289.98176,
-    "E_Wh": 92.212013,
-    "Epack_req_Wh": 121.3316,
+    "FMeta": 0.5131599,
+    "Pi_unit": 125.71674,
+    "P_hover": 1077.9363,
+    "S": 0.72587834,
+    "AR": 7.9352141,
+    "chord": 0.30244931,
+    "CL": 0.47554861,
+    "CD0": 0.048947354,
+    "CDi": 0.011339433,
+    "LD": 7.8881068,
+    "D_cruise": 8.6843451,
+    "P_cruise": 306.5063,
+    "E_Wh": 98.992661,
+    "Epack_req_Wh": 130.2535,
     "Epack_Wh": 144.3,
     "m_batt": 0.82,
-    "sigmaWing": 1.040243,
-    "m_wing": 1.3791197,
-    "S_tail": 0.15512684,
-    "m_tail": 0.14426796,
-    "m_booms": 0.61116813,
+    "sigmaWing": 1.1071945,
+    "m_wing": 1.7317285,
+    "S_tail": 0.16917463,
+    "m_tail": 0.17456338,
+    "m_booms": 0.72009699,
     "m_lift": 0.98,
-    "m_fixed": 2.60618,
-    "CdA_extra": 0.01618606,
-    "TW": 2.0548147,
+    "m_fixed": 2.5589,
+    "CdA_extra": 0.01622146,
+    "TW": 1.9240435,
     "TW_motorOut": 0,
-    "I_hover": 44.474715,
-    "I_cruise": 13.062242,
-    "P_hover_per_motor": 246.83467,
+    "I_hover": 48.555687,
+    "I_cruise": 13.80659,
+    "P_hover_per_motor": 269.48407,
     "endurance_ok": true,
-    "t_cruise_avail_min": 13.611811,
-    "diskLoading": 123.62144,
-    "wingLoading": 94.795438,
-    "iter": 15,
+    "t_cruise_avail_min": 12.089746,
+    "diskLoading": 132.02391,
+    "wingLoading": 94.372622,
+    "iter": 9,
     "converged": true,
-    "P_trans": 1567.3022,
-    "I_trans": 74.633438,
-    "I_hover_loaded": 47.016128
+    "P_trans": 1690.9489,
+    "I_trans": 80.521374,
+    "I_hover_loaded": 51.330298
    },
    "geo": {
     "D": 0.4064,
-    "xFront": 0.37725237,
-    "xRear": -0.53513719,
-    "xLEtoCG": -0.078942414,
+    "xFront": 0.3862777,
+    "xRear": -0.55564931,
+    "xLEtoCG": -0.084685806,
     "booms": [
      {
       "y": -0.421,
-      "x0": -1.0083372,
-      "x1": 0.42725237,
+      "x0": -1.0288493,
+      "x1": 0.4362777,
       "tail": true,
       "rotors": [
        {
-        "x": 0.37725237,
+        "x": 0.3862777,
         "coax": false
        },
        {
-        "x": -0.53513719,
+        "x": -0.55564931,
         "coax": false
        }
       ]
      },
      {
       "y": 0.421,
-      "x0": -1.0083372,
-      "x1": 0.42725237,
+      "x0": -1.0288493,
+      "x1": 0.4362777,
       "tail": true,
       "rotors": [
        {
-        "x": 0.37725237,
+        "x": 0.3862777,
         "coax": false
        },
        {
-        "x": -0.53513719,
+        "x": -0.55564931,
         "coax": false
        }
       ]
      }
     ],
     "segs": [
-     0.9624,
+     0.9919,
      0.4732,
-     0.9624,
+     0.9919,
      0.4732
     ],
-    "boomTotal": 2.8711791,
+    "boomTotal": 2.930254,
     "hSpan": 0.842,
-    "hC": 0.1065167,
-    "vH": 0.20223715,
-    "vC": 0.16178972,
-    "Sh": 0.08968706,
-    "Sv": 0.065439786,
-    "lh": 0.74448207,
+    "hC": 0.11958376,
+    "vH": 0.20688932,
+    "vC": 0.16551146,
+    "Sh": 0.10068952,
+    "Sv": 0.068485108,
+    "lh": 0.76313292,
     "Vh": 0.35,
     "Vv": 0.03,
-    "aw": 4.9780535,
-    "at": 4.8914691,
-    "deda": 0.37228952,
-    "hn": 0.39185066,
-    "hn_nopod": 0.44428966,
-    "SM": 0.11185066,
+    "aw": 4.8960607,
+    "at": 4.7470216,
+    "deda": 0.39279709,
+    "hn": 0.38555557,
+    "hn_nopod": 0.43544657,
+    "SM": 0.10555557,
     "yIn": 0.421,
     "longestPiece": 1.2
    },
@@ -4468,12 +4489,12 @@
      },
      {
       "cat": "Lift propulsion",
-      "item": "SoloGood 45A ESC (4-pack)",
+      "item": "LANRC BLHeli_S 45A ESC (4-pack)",
       "qty": 2,
-      "unit": 39.99,
-      "ext": 79.98,
-      "src": "BL ESCs amazon.com",
-      "note": "4 lift + pusher + 3 spare; low stock: fallback LANRC 35A"
+      "unit": 30,
+      "ext": 60,
+      "src": "amazon.com/dp/B0D2HS4Y4J (docs/research/bom-savings.md, checked 2026-11-01)",
+      "note": "4 lift + pusher + 3 spare; $1.50 delivery per pack in the shipping allowance"
      },
      {
       "cat": "Cruise propulsion",
@@ -4499,62 +4520,62 @@
       "qty": 5,
       "unit": 19.99,
       "ext": 99.95,
-      "src": "BA §6 shop.emax-usa.com",
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
       "note": "2 ailerons, elevator, 2 rudders"
      },
      {
       "cat": "Avionics",
-      "item": "CoreWing F405 Wing APP V2 (12 out, 90 A sensor)",
+      "item": "CoreWing F405 Wing APP V2, unsoldered pins (12 out, 90 A sensor, 8 A servo BEC)",
       "qty": 1,
-      "unit": 67.26,
-      "ext": 67.26,
-      "src": "BA §2 readymaderc.com",
-      "note": "ArduPilot target beta-only (4.7.2-beta); fallback Matek F405-WMO $69.99"
+      "unit": 67.18,
+      "ext": 67.18,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "same board as the soldered version (unavailable): output map unchanged; backorder Nov 2026; in-stock fallback Holybro Kakute H743-Wing $107.42 (remap)"
      },
      {
       "cat": "Avionics",
-      "item": "HGLRC M100-5883 GPS + compass",
+      "item": "RMRC GPS + compass SAM-M10Q-5883",
       "qty": 1,
-      "unit": 20.49,
-      "ext": 20.49,
-      "src": "BA §2 racedayquads.com",
-      "note": ""
+      "unit": 24.99,
+      "ext": 24.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "u-blox M10 + 5883 compass, replaces the HGLRC M100 to keep one order"
      },
      {
       "cat": "Avionics",
       "item": "NewBeeDrone BeeID v1.1 Remote ID (FAA DoC RID000001995)",
       "qty": 1,
-      "unit": 36.99,
-      "ext": 36.99,
-      "src": "BA §4 racedayquads.com",
-      "note": ""
+      "unit": 39.99,
+      "ext": 39.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "out of stock at RaceDayQuads; only 2 left at RMRC"
      },
      {
       "cat": "Avionics",
       "item": "RadioMaster Pocket Crush ELRS",
       "qty": 1,
-      "unit": 64.99,
-      "ext": 64.99,
-      "src": "BA §5 radiomasterrc.com",
-      "note": ""
+      "unit": 76.99,
+      "ext": 76.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "US stock instead of radiomasterrc.com (CN, $30 shipping)"
      },
      {
       "cat": "Avionics",
       "item": "RadioMaster RP3 V2 ELRS receiver",
       "qty": 1,
-      "unit": 19.99,
-      "ext": 19.99,
-      "src": "BA §5",
-      "note": ""
+      "unit": 22.96,
+      "ext": 22.96,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "backorder at RMRC; in stock at ProgressiveRC $21.99"
      },
      {
       "cat": "Avionics",
-      "item": "Holybro MS5525DSO + PT40 airspeed",
+      "item": "RMRC digital airspeed sensor MS4525DO + pitot",
       "qty": 1,
       "unit": 59.99,
       "ext": 59.99,
-      "src": "BA §3 holybro.com",
-      "note": "ships CN"
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "replaces the Holybro MS5525DSO (ships CN, $37.47 shipping); ArduPilot ARSPD_TYPE 1"
      },
      {
       "cat": "Energy",
@@ -4563,7 +4584,7 @@
       "unit": 138.99,
       "ext": 138.99,
       "src": "BE §1 amazon.com",
-      "note": "second pack per R7; EC5 leads: re-terminate to XT90S"
+      "note": "second pack per R7; EC5 leads: re-terminate to AS150U"
      },
      {
       "cat": "Energy",
@@ -4581,7 +4602,7 @@
       "unit": 26.2,
       "ext": 52.4,
       "src": "BF §1 onlinemetals.com",
-      "note": "cut list 0.9624 + 0.4732 + 0.9624 + 0.4732 m"
+      "note": "cut list 0.9919 + 0.4732 + 0.9919 + 0.4732 m"
      },
      {
       "cat": "Airframe",
@@ -4630,12 +4651,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "FLY RC Amass XT90S anti-spark, 5 pairs (B0893CGLP7)",
-      "qty": 1,
-      "unit": 13.99,
-      "ext": 13.99,
-      "src": "BF §3a item 1 amazon.com",
-      "note": ""
+      "item": "Amass AS150U connector set (1 male + 1 female), Neu Racing",
+      "qty": 2,
+      "unit": 17.26,
+      "ext": 34.52,
+      "src": "neuracing.us/product/as150u (checked 2026-11-01)",
+      "note": "aircraft male + 2 pack females; anti-spark contact to be confirmed on receipt (M-item)"
      },
      {
       "cat": "Airframe",
@@ -4740,9 +4761,9 @@
       "cat": "Airframe",
       "item": "A2 metric fasteners per HS §6 (14 lines: M2/M3/M5 screws, nylocks, nuts, washers)",
       "qty": 1,
-      "unit": 22.04,
-      "ext": 22.04,
-      "src": "HS §6 boltdepot.com",
+      "unit": 22.38,
+      "ext": 22.38,
+      "src": "HS §6 boltdepot.com (BD-9 M5 x 25, BD-5 M3 x 30, rev 2026-11-02)",
       "note": "replaces Mywish kit B0CQWYFTXC"
      },
      {
@@ -4792,12 +4813,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "XT60H connectors 12 pairs (boom harness disconnects)",
+      "item": "XT60H connectors 12 pairs (one per ESC at the boom disconnects)",
       "qty": 1,
       "unit": 6.99,
       "ext": 6.99,
       "src": "BF §3b amazon.com",
-      "note": ""
+      "note": "one per ESC: Amass XT60H 30 A continuous vs ~12 A hover / 28 A peak per lift ESC (propulsion-margin-data.md F9-F10)"
      },
      {
       "cat": "Airframe",
@@ -4828,12 +4849,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "Hot-wire bow, nichrome + bench supply (wing cores)",
+      "item": "Hot-wire cutter: NICE-POWER 0-30 V 0-10 A bench supply (B0CRSS744F) + Ni80 24 AWG nichrome 50 ft (B0CP9V3DBX)",
       "qty": 1,
-      "unit": 40,
-      "ext": 40,
-      "src": "EST allowance",
-      "note": "not priced; borrow if a makerspace has one"
+      "unit": 41.73,
+      "ext": 41.73,
+      "src": "amazon.com (docs/research/bom-savings.md, checked 2026-11-01)",
+      "note": "borrow if a makerspace has one"
      },
      {
       "cat": "Test & safety",
@@ -4908,11 +4929,11 @@
       "note": ""
      }
     ],
-    "goods": 1607.25,
-    "shipping": 110,
-    "tax": 164.74,
-    "crash": 118.01,
-    "total": 1881.99,
+    "goods": 1632.26,
+    "shipping": 91.99,
+    "tax": 167.31,
+    "crash": 108.44,
+    "total": 1891.56,
     "tubes25": 2,
     "fees": [
      {
@@ -4950,12 +4971,12 @@
      },
      {
       "cat": "Lift propulsion",
-      "item": "SoloGood 45A ESC (4-pack)",
+      "item": "LANRC BLHeli_S 45A ESC (4-pack)",
       "qty": 2,
-      "unit": 39.99,
-      "ext": 79.98,
-      "src": "BL ESCs amazon.com",
-      "note": "4 lift + pusher + 3 spare; low stock: fallback LANRC 35A"
+      "unit": 30,
+      "ext": 60,
+      "src": "amazon.com/dp/B0D2HS4Y4J (docs/research/bom-savings.md, checked 2026-11-01)",
+      "note": "4 lift + pusher + 3 spare; $1.50 delivery per pack in the shipping allowance"
      },
      {
       "cat": "Cruise propulsion",
@@ -4981,53 +5002,53 @@
       "qty": 5,
       "unit": 19.99,
       "ext": 99.95,
-      "src": "BA §6 shop.emax-usa.com",
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
       "note": "2 ailerons, elevator, 2 rudders"
      },
      {
       "cat": "Avionics",
-      "item": "CoreWing F405 Wing APP V2 (12 out, 90 A sensor)",
+      "item": "CoreWing F405 Wing APP V2, unsoldered pins (12 out, 90 A sensor, 8 A servo BEC)",
       "qty": 1,
-      "unit": 67.26,
-      "ext": 67.26,
-      "src": "BA §2 readymaderc.com",
-      "note": "ArduPilot target beta-only (4.7.2-beta); fallback Matek F405-WMO $69.99"
+      "unit": 67.18,
+      "ext": 67.18,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "same board as the soldered version (unavailable): output map unchanged; backorder Nov 2026; in-stock fallback Holybro Kakute H743-Wing $107.42 (remap)"
      },
      {
       "cat": "Avionics",
-      "item": "HGLRC M100-5883 GPS + compass",
+      "item": "RMRC GPS + compass SAM-M10Q-5883",
       "qty": 1,
-      "unit": 20.49,
-      "ext": 20.49,
-      "src": "BA §2 racedayquads.com",
-      "note": ""
+      "unit": 24.99,
+      "ext": 24.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "u-blox M10 + 5883 compass, replaces the HGLRC M100 to keep one order"
      },
      {
       "cat": "Avionics",
       "item": "NewBeeDrone BeeID v1.1 Remote ID (FAA DoC RID000001995)",
       "qty": 1,
-      "unit": 36.99,
-      "ext": 36.99,
-      "src": "BA §4 racedayquads.com",
-      "note": ""
+      "unit": 39.99,
+      "ext": 39.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "out of stock at RaceDayQuads; only 2 left at RMRC"
      },
      {
       "cat": "Avionics",
       "item": "RadioMaster Pocket Crush ELRS",
       "qty": 1,
-      "unit": 64.99,
-      "ext": 64.99,
-      "src": "BA §5 radiomasterrc.com",
-      "note": ""
+      "unit": 76.99,
+      "ext": 76.99,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "US stock instead of radiomasterrc.com (CN, $30 shipping)"
      },
      {
       "cat": "Avionics",
       "item": "RadioMaster RP3 V2 ELRS receiver",
       "qty": 1,
-      "unit": 19.99,
-      "ext": 19.99,
-      "src": "BA §5",
-      "note": ""
+      "unit": 22.96,
+      "ext": 22.96,
+      "src": "ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)",
+      "note": "backorder at RMRC; in stock at ProgressiveRC $21.99"
      },
      {
       "cat": "Energy",
@@ -5036,7 +5057,7 @@
       "unit": 138.99,
       "ext": 138.99,
       "src": "BE §1 amazon.com",
-      "note": "second pack per R7; EC5 leads: re-terminate to XT90S"
+      "note": "second pack per R7; EC5 leads: re-terminate to AS150U"
      },
      {
       "cat": "Energy",
@@ -5054,7 +5075,7 @@
       "unit": 26.2,
       "ext": 52.4,
       "src": "BF §1 onlinemetals.com",
-      "note": "cut list 0.9624 + 0.4732 + 0.9624 + 0.4732 m"
+      "note": "cut list 0.9919 + 0.4732 + 0.9919 + 0.4732 m"
      },
      {
       "cat": "Airframe",
@@ -5103,12 +5124,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "FLY RC Amass XT90S anti-spark, 5 pairs (B0893CGLP7)",
-      "qty": 1,
-      "unit": 13.99,
-      "ext": 13.99,
-      "src": "BF §3a item 1 amazon.com",
-      "note": ""
+      "item": "Amass AS150U connector set (1 male + 1 female), Neu Racing",
+      "qty": 2,
+      "unit": 17.26,
+      "ext": 34.52,
+      "src": "neuracing.us/product/as150u (checked 2026-11-01)",
+      "note": "aircraft male + 2 pack females; anti-spark contact to be confirmed on receipt (M-item)"
      },
      {
       "cat": "Airframe",
@@ -5213,9 +5234,9 @@
       "cat": "Airframe",
       "item": "A2 metric fasteners per HS §6 (14 lines: M2/M3/M5 screws, nylocks, nuts, washers)",
       "qty": 1,
-      "unit": 22.04,
-      "ext": 22.04,
-      "src": "HS §6 boltdepot.com",
+      "unit": 22.38,
+      "ext": 22.38,
+      "src": "HS §6 boltdepot.com (BD-9 M5 x 25, BD-5 M3 x 30, rev 2026-11-02)",
       "note": "replaces Mywish kit B0CQWYFTXC"
      },
      {
@@ -5265,12 +5286,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "XT60H connectors 12 pairs (boom harness disconnects)",
+      "item": "XT60H connectors 12 pairs (one per ESC at the boom disconnects)",
       "qty": 1,
       "unit": 6.99,
       "ext": 6.99,
       "src": "BF §3b amazon.com",
-      "note": ""
+      "note": "one per ESC: Amass XT60H 30 A continuous vs ~12 A hover / 28 A peak per lift ESC (propulsion-margin-data.md F9-F10)"
      },
      {
       "cat": "Airframe",
@@ -5301,12 +5322,12 @@
      },
      {
       "cat": "Airframe",
-      "item": "Hot-wire bow, nichrome + bench supply (wing cores)",
+      "item": "Hot-wire cutter: NICE-POWER 0-30 V 0-10 A bench supply (B0CRSS744F) + Ni80 24 AWG nichrome 50 ft (B0CP9V3DBX)",
       "qty": 1,
-      "unit": 40,
-      "ext": 40,
-      "src": "EST allowance",
-      "note": "not priced; borrow if a makerspace has one"
+      "unit": 41.73,
+      "ext": 41.73,
+      "src": "amazon.com (docs/research/bom-savings.md, checked 2026-11-01)",
+      "note": "borrow if a makerspace has one"
      },
      {
       "cat": "Test & safety",
@@ -5381,11 +5402,11 @@
       "note": ""
      }
     ],
-    "goods": 1547.26,
-    "shipping": 110,
-    "tax": 158.59,
-    "crash": 184.15,
-    "total": 1815.85,
+    "goods": 1572.27,
+    "shipping": 91.99,
+    "tax": 161.16,
+    "crash": 174.58,
+    "total": 1825.42,
     "tubes25": 2,
     "fees": [
      {
@@ -5405,21 +5426,21 @@
     "nLimit": 3,
     "FS": 1.5,
     "nUlt": 4.5,
-    "Mroot": 73.502127,
-    "sigJ": 157195280,
-    "MS_J": 1.7494163,
-    "sigS": 117350480,
-    "Mhover": 27.004079,
-    "Lb": 0.44773666,
+    "Mroot": 78.497834,
+    "sigJ": 167879350,
+    "MS_J": 1.6380811,
+    "sigS": 125326420,
+    "Mhover": 28.839461,
+    "Lb": 0.46189002,
     "Tmax": 32.950344,
-    "Mb": 14.753077,
-    "sigB": 36397426,
-    "MS_B": 7.5554794,
-    "defl_max": 0.0027755044,
-    "defl_hover": 0.0013507439,
-    "fn": 33.715279,
+    "Mb": 15.219435,
+    "sigB": 37547981,
+    "MS_B": 7.3239623,
+    "defl_max": 0.0030471209,
+    "defl_hover": 0.0015837244,
+    "fn": 32.140028,
     "mTip": 0.245,
-    "mEff": 0.26454818,
+    "mEff": 0.26516612,
     "Ij_mm4": 5196.0362,
     "Is_mm4": 7954.6075,
     "Ib_mm4": 5147.7289,
@@ -5446,8 +5467,8 @@
       "nSpring": 6
      }
     ],
-    "Mclamp": 14.753077,
-    "tauSock": 11777079,
+    "Mclamp": 15.219435,
+    "tauSock": 12149363,
     "engage": 0.3,
     "engageD": 13.498313,
     "E_DESIGN": 69000000000,
@@ -5458,61 +5479,67 @@
      {
       "name": "Lift units, front",
       "m": 0.49,
-      "x": 0.377,
+      "x": 0.386,
       "src": "LP"
      },
      {
       "name": "Lift units, rear",
       "m": 0.49,
-      "x": -0.535,
+      "x": -0.556,
       "src": "LP"
      },
      {
       "name": "Booms + clamps",
-      "m": 0.611,
-      "x": -0.291,
+      "m": 0.72,
+      "x": -0.296,
       "src": "AM"
      },
      {
       "name": "Wing (foam/glass + spar)",
-      "m": 1.379,
-      "x": -0.113,
-      "src": "F11; centroid 40 % c EST"
+      "m": 1.732,
+      "x": -0.116,
+      "src": "CAD centroid fraction of chord (mass_budget stations)"
      },
      {
       "name": "Tail",
-      "m": 0.144,
-      "x": -0.831,
+      "m": 0.175,
+      "x": -0.857,
       "src": "geometry"
      },
      {
       "name": "Fuselage pod",
-      "m": 0.6,
-      "x": 0.025,
-      "src": "EST; centroid at mid-pod"
+      "m": 0.567,
+      "x": 0.164,
+      "src": "CAD centroid from the nose; a longer nose moves it forward by half the extension (EST)"
      },
      {
       "name": "Landing gear",
-      "m": 0.443,
-      "x": -0.07,
-      "src": "EST"
+      "m": 0.517,
+      "x": -0.086,
+      "src": "CAD centroid fraction of chord"
      },
      {
       "name": "Avionics",
-      "m": 0.25,
-      "x": 0.25,
-      "src": "EST"
+      "m": 0.418,
+      "x": 0.375,
+      "src": "CAD FC-tray station from the nose (bay moves with the nose)"
+     },
+     {
+      "name": "Fasteners and inserts",
+      "m": 0.164,
+      "x": -0.251,
+      "src": "CAD centroid fraction of chord"
      },
      {
       "name": "Pusher set",
-      "m": 0.227,
+      "m": 0.257,
       "x": -0.418,
       "src": "BL; at pod tail (same station as CAD)"
      },
      {
       "name": "Servos (5)",
-      "m": 0.216,
-      "x": -0.551,
+      "m": 0.266,
+      "x": -0.567,
       "src": "BA; 2 wing (-0.55 c) + 3 tail (cad/params.mjs), mass-weighted mean"
      },
      {
@@ -5524,31 +5551,33 @@
      {
       "name": "Battery (placed for CG)",
       "m": 0.82,
-      "x": 0.175,
+      "x": 0.228,
       "src": "PB"
      },
      {
       "name": "Payload allowance (bay)",
-      "m": 0.5,
+      "m": 0,
       "x": 0.15,
       "src": "R12; bay x EST"
      }
     ],
-    "target": -0.078942414,
-    "xb": 0.17541538,
-    "cgBattFwd": -0.075180946,
-    "cgBattAft": -0.082703882,
-    "pctFwd": 26.665849,
-    "pctAft": 29.334151,
-    "cgNoPayload": -0.097894601,
-    "thrustCentroid": -0.078942414,
+    "target": -0.084685806,
+    "xb": 0.22783897,
+    "xbMax": 0.339,
+    "battery_fits": true,
+    "cgBattFwd": -0.081164478,
+    "cgBattAft": -0.088207134,
+    "pctFwd": 26.835729,
+    "pctAft": 29.164271,
+    "cgNoPayload": -0.084685806,
+    "thrustCentroid": -0.084685806,
     "pct": {
      "target": 28,
-     "noPayload": 34.722131,
-     "np": 39.185066,
+     "noPayload": 28,
+     "np": 38.555557,
      "thrust": 28
     },
-    "SM_noPayload": 0.044629355
+    "SM_noPayload": 0.10555557
    }
   }
  },
@@ -5557,48 +5586,48 @@
    "pack": "Ovonic 6S 6500 100C (2-pack)",
    "Wh": 144.3,
    "usd": 69.495,
-   "m": 6.538,
-   "cruise_min": 15.8,
+   "m": 7.436,
+   "cruise_min": 12.06,
    "ok": true
   },
   {
    "pack": "Ovonic Roam 6S 6500 150C",
    "Wh": 144.3,
    "usd": 71.99,
-   "m": 6.482,
-   "cruise_min": 16.05,
+   "m": 7.379,
+   "cruise_min": 12.28,
    "ok": true
   },
   {
    "pack": "HOOVO 6S 8000 100C (2-pack)",
    "Wh": 177.6,
    "usd": 99.995,
-   "m": 6.753,
-   "cruise_min": 20.49,
+   "m": 7.655,
+   "cruise_min": 16.24,
    "ok": true
   },
   {
    "pack": "Zeee 6S 9000 100C (2-pack)",
    "Wh": 199.8,
    "usd": 121.045,
-   "m": 6.948,
-   "cruise_min": 23.19,
+   "m": 7.854,
+   "cruise_min": 18.65,
    "ok": true
   },
   {
    "pack": "iFlight Fullsend E 6S 8000 60C",
    "Wh": 177.6,
    "usd": 122.99,
-   "m": 6.758,
-   "cruise_min": 20.47,
+   "m": 7.66,
+   "cruise_min": 16.22,
    "ok": true
   },
   {
    "pack": "Zeee 6S 10000 120C (2-pack)",
    "Wh": 222,
    "usd": 137.695,
-   "m": 6.966,
-   "cruise_min": 26.74,
+   "m": 7.873,
+   "cruise_min": 21.81,
    "ok": true
   }
  ]

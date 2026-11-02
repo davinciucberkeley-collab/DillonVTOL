@@ -1,24 +1,24 @@
 # Flight test card FTC-F07 — Full transition, fixed-wing circuit, back-transition, QLAND
 
-DBF-TP-001 rev B · Test F07 · Review step: F6 · Requirements: R1, R9, R11, R14 (cruise part), R16
+DBF-TP-001 rev C · Test F07 · Review step: F6 · Requirements: R1, R9, R11, R14 (cruise part), R16
 
 **Prerequisites (signed in test-matrix.csv):** F06 passed three times; logs reviewed; both packs charged; spare props on site
 
-**Configuration:** As F06. Mode slots 4 FBWA, 5 CRUISE, 6 QLAND. AIRSPEED_MIN 16, AIRSPEED_CRUISE 20, Q_TRANSITION_MS 5000.
+**Configuration:** As F06. Mode slots 4 FBWA, 5 CRUISE, 6 QLAND. AIRSPEED_MIN 16, AIRSPEED_CRUISE 18 (vtol_c0.param), Q_TRANSITION_MS 5000.
 
 **Weather limits:** Steady <= 5 m/s, gusts <= 8 m/s; into wind; one flight in 3-5 m/s steady wind if available counts for R16.
 
-**Predicted:** Cruise thrust 7.4 N at L/D 8.6 at 18 m/s (results.json sized.D_cruise, LD v0.4) or 6.8 N at L/D 9.5 (aero_results drag.cruise); cruise power 262 W sizing / 239 W aero (11.8 / 10.8 A at 22.2 V); C0 SITL model 233 W, 10.2 A mean in cruise (eta_prop ~0.74 from the APC data vs 0.60 assumed; firmware/sitl/README.md); back-transition stop distance 81 m from 18 m/s (vtol_c0.param Q_TRANS_DECEL comment).
+**Predicted:** Cruise thrust 8.4 N at L/D 8.7 at 18 m/s (results.json sized.D_cruise, LD) or 7.3 N at L/D 9.9 (aero_results drag.cruise); cruise power 295 W sizing / 257 W aero (13.3 / 11.6 A at 22.2 V); C0 flight model 200 W in level cruise (eta_prop ~0.74 from the APC data vs 0.60 assumed; c0_physics.py --validate 2026-11-02); back-transition stop distance 81 m from 18 m/s (vtol_c0.param Q_TRANS_DECEL comment).
 
 **Crew:** TD, SO, PIC, GCS · **Duration:** 1 session (2 flights), 2 packs
 
 ## Pre-flight (every flight)
 - [ ] Flight request approved for today and site (R19); Remote ID powered, broadcast seen (E12); registration mark on the pod; PIC TRUST/AMA documents on site (R18).
-- [ ] Weather recorded: wind steady ____ m/s, gusts ____ m/s (limit on this card), temp ____ degC, visibility >= 3 sm, no precipitation.
-- [ ] Weight and CG per G01: take-off mass ____ kg (<= 7.53 kg), CG ____ % MAC (28 +-2, never aft of 31.8), 0.5 kg ballast fitted (mandatory without payload; GA sheet note 5): Y / N; leg fairings on: Y / N.
+- [ ] Weather recorded at the field: wind steady ____ m/s, gusts ____ m/s (limit on this card), air temp ____ degC (F06-F13: <= 25 degC, DESIGN-BASIS R21 / TEST-PLAN.md s4 rule 9), visibility >= 3 sm, no precipitation.
+- [ ] Weight and CG per G01: take-off mass ____ kg (<= 7.82 kg = 4 x 3.130 / 1.6, R13), CG ____ % MAC (28 +-2, never aft of 30.5), pack at its mark (G09); no ballast, nothing in the bay (R12): Y / N; leg fairings on: Y / N.
 - [ ] Props: correct rotation, screws witness-marked, no nicks; pusher spin check.
 - [ ] Witness lines on boom clamps, gear clamps, wing bolts unmoved.
-- [ ] Packs >= 4.15 V/cell; pack strapped (J18); plugged in LAST through the XT90-S.
+- [ ] Packs >= 4.15 V/cell; pack strapped (J18); plugged in LAST through the AS150U.
 - [ ] GCS: firmware hash ____; parameters checked with check_params.py; FENCE_ALT_MAX = site ceiling; FENCE_RADIUS = ____ m; EKF/GPS ok (sats >= 10, HDOP <= 1.5); compass consistent; airspeed 0 +-1 m/s, blow test >= 6 m/s.
 - [ ] RC: arm switch CH5 off, mode CH6 in slot for this card, E-stop CH7 off, Q_ASSIST CH8 auto, RTL CH9 off; LQ >= 90 %.
 - [ ] Range: crew line 30 m crosswind of the take-off point, clear of the transition run (TEST-PLAN §4 rule 6), fire bag + extinguisher + first aid at the line, spectators behind, no people downrange, sky scan.
@@ -43,7 +43,7 @@ In the C0 airframe model the back-transition airbrake pitches the nose to the 30
 ## Abort criteria (card-specific items first, then the universal list)
 - Q_TRANS_FAIL at 15 s (review F6) -> the autopilot goes QRTL; PIC monitors.
 - Airspeed stuck below 14 m/s with pusher at 100 %; pitch oscillation in FBWA; roll rate > 90 deg/s uncommanded; altitude < 20 m in fixed-wing flight (Q_ASSIST_ALT).
-Universal (TEST-PLAN.md s5): VIBE > 30 m/s2 or rising clipping; attitude error > 15 deg; any oscillation; sag-compensated voltage < 21.0 V or < 1,950 mAh remaining (firmware low-battery RTL point; critical 19.8 V / 1,300 mAh -> QLAND); motor can > 80 degC EST after landing; wind above the card limit; LQ < 70 % EST or any failsafe message; EKF/GPS/compass warning; people or animals inside the range; manned aircraft converging.
+Universal (TEST-PLAN.md s5): VIBE > 30 m/s2 or rising clipping; attitude error > 15 deg; any oscillation; sag-compensated voltage < 21.0 V or < 1,625 mAh remaining (firmware low-battery RTL point; critical 19.8 V / 1,300 mAh -> QLAND); motor can > 80 degC EST after landing; wind above the card limit; LQ < 70 % EST or any failsafe message; EKF/GPS/compass warning; people or animals inside the range; manned aircraft converging.
 
 ## Data to record
 QTUN.TrnMs; ARSP; GPS track (transition distance from mode change to AIRSPEED_MIN); CTUN.ThrOut in level flight; RCOU C5-C8 during cruise; BAT; ATT in the 3-5 m/s wind case.
@@ -51,7 +51,7 @@ QTUN.TrnMs; ARSP; GPS track (transition distance from mode change to AIRSPEED_MI
 ## Pass criteria
 - [ ] Transition time <= 15 s and distance <= 100 m (review 10 M2); SITL 10-11 s on the generic model, 13-14 s on the C0 airframe model (firmware/sitl/results_c0.json). Turn started <= 3 s after Transition done (log: roll command vs the message time).
 - [ ] Lift outputs RCOU C5-C8 at Q_M_PWM_MIN (1000) for >= 95 % of the fixed-wing segment (R1 'lift rotors stopped in cruise').
-- [ ] Level flight at 18 m/s with pusher throttle <= 70 % EST; cruise current near 10.8-11.8 A (aero 239 W / sizing 262 W).
+- [ ] Level flight at 18 m/s with pusher throttle <= 70 % EST; cruise current near 11.6-13.3 A (aero 257 W / sizing 295 W).
 - [ ] Back-transition and QLAND with touchdown <= 1 m/s EST and no yaw departure.
 - [ ] If flown in 3-5 m/s wind: attitude error < 15 deg throughout (R16).
 

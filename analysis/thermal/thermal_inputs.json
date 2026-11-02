@@ -1,16 +1,16 @@
 {
- "generated": "2026-10-27",
+ "generated": "2026-11-02",
  "sources": {
-  "results": "analysis/results.json generated 2026-10-25 (C0 sized: P_hover 912.5 W, P_hover_per_motor 228.1 W, P_cruise 262.4 W, P_trans 1437 W, I_hover_loaded 43.5 A, I_trans 68.4 A, I_cruise 11.8 A, Tunit 16.03 N, A 0.1464 m2, MTOW 6.54 kg)",
+  "results": "analysis/results.json generated 2026-11-01 (C0 sized: P_hover 1131.3 W, P_hover_per_motor 282.8 W, P_cruise 295.4 W, P_trans 1722 W, I_hover_loaded 53.9 A, I_trans 82.0 A, I_cruise 13.3 A, Tunit 18.23 N, A 0.1464 m2, MTOW 7.44 kg)",
   "params": "cad/params.txt (motorD, motorH, boomOD, boomID, battL/H/W, fusL, fusR, pushMotorD/L, bay*, batt*)",
   "air": "Incropera & DeWitt, Fundamentals of Heat and Mass Transfer, Table A.4 at ~308 K"
  },
  "ambient": {
-  "hot_C": 35.0,
-  "hot_K": 308.15,
+  "hot_C": 25.0,
+  "hot_K": 298.15,
   "std_C": 20.0,
   "std_K": 293.15,
-  "src": "hot day 35 C = cad/params.mjs thermAmbK (EST, no R-number); standard 20 C EST (ISA +5, Berkeley spring)"
+  "src": "design ambient 25 C = DESIGN-BASIS R21 full-mission envelope (no full mission above 25 C, measured at the field, TEST-PLAN rule 9); Berkeley April average high 20 C / 67 F (NOAA NCEI 1991-2020 normals via https://www.currentresults.com/Weather/California/city-temperature-april.php, checked 2026-11-02); standard 20 C = that average high"
  },
  "mission": {
   "phases": [
@@ -43,7 +43,7 @@
   "cruise_s": 600,
   "hover_transient_s": 120.0,
   "pod_dt_s": 10.0,
-  "cruise_avail_min": 15.804962,
+  "cruise_avail_min": 12.062684,
   "batt_curve": [
    {
     "t": 0,
@@ -55,27 +55,27 @@
    },
    {
     "t": 60.0,
-    "f": 2.48084
+    "f": 2.31711
    },
    {
     "t": 79.99,
-    "f": 2.48084
+    "f": 2.31711
    },
    {
     "t": 80.0,
-    "f": 0.07398
+    "f": 0.061
    },
    {
     "t": 679.99,
-    "f": 0.07398
+    "f": 0.061
    },
    {
     "t": 680.0,
-    "f": 2.48084
+    "f": 2.31711
    },
    {
     "t": 699.99,
-    "f": 2.48084
+    "f": 2.31711
    },
    {
     "t": 700.0,
@@ -97,11 +97,11 @@
    },
    {
     "t": 60.0,
-    "f": 1.57507
+    "f": 1.52221
    },
    {
     "t": 79.99,
-    "f": 1.57507
+    "f": 1.52221
    },
    {
     "t": 80.0,
@@ -113,11 +113,11 @@
    },
    {
     "t": 680.0,
-    "f": 1.57507
+    "f": 1.52221
    },
    {
     "t": 699.99,
-    "f": 1.57507
+    "f": 1.52221
    },
    {
     "t": 700.0,
@@ -131,56 +131,56 @@
   "src": "analysis/sizing.mjs tHover 120 s / tTrans 40 s / tCruise 600 s (R10) split as review/src/app.js drawDuty: 60-20-600-20-60 s; F12 (docs/test/TEST-PLAN.md) >= 1 min hover each end; hover-only flights <= 60 s per hover (test plan rule 3), bench C08 90 s"
  },
  "loads": {
-  "lift_motor_W": 45.624516,
-  "lift_motor_trans_W": 71.86167,
-  "lift_esc_W": 9.1249032,
-  "lift_esc_trans_W": 14.372334,
-  "batt_hover_W": 84.963120825888,
-  "batt_trans_W": 210.77958404960862,
-  "batt_cruise_W": 6.285503884253445,
-  "batt_curve_ref_W": 84.963120825888,
-  "pusher_motor_W": 29.516800500000002,
-  "pusher_esc_W": 9.838933500000001,
-  "fc_W": 3.5,
-  "R_pack_ohm": 0.045,
-  "R_cell_test_plan_now_ohm": 0.0073,
+  "lift_motor_W": 56.566146,
+  "lift_motor_trans_W": 86.10533500000001,
+  "lift_esc_W": 11.3132292,
+  "lift_esc_trans_W": 17.221067,
+  "batt_hover_W": 104.48094280141441,
+  "batt_trans_W": 242.09399324903046,
+  "batt_cruise_W": 6.3737303722373175,
+  "batt_curve_ref_W": 104.48094280141441,
+  "pusher_motor_W": 33.231586500000006,
+  "pusher_esc_W": 11.077195500000002,
+  "fc_W": 2.0,
+  "R_pack_ohm": 0.036000000000000004,
+  "R_cell_test_plan_now_ohm": 0.006,
   "V_bus": 21.0,
   "src": {
-   "lift_motor": "EST 20 % of P_hover_per_motor 228.1 W (cad/params.mjs thermQ rule, 80 % motor+ESC efficiency); the same figure cad/sim/results.txt motor_Q uses",
+   "lift_motor": "EST 20 % of P_hover_per_motor 282.8 W (cad/params.mjs thermQ rule, 80 % motor+ESC efficiency); the same figure cad/sim/results.txt motor_Q uses",
    "lift_esc": "EST 4 % of unit input (no SoloGood efficiency published; TI SSZTB57: FET conduction loss = I_rms^2 R_ds(on), 60-80 % of inverter loss)",
-   "battery": "I^2 R with R_pack = 6 x 7.5 mOhm (docs/test/TEST-PLAN.md C11 pass limit at run time; now 7.3 mOhm, so the result is 2.7 % conservative); I from results.json sized I_hover_loaded / I_trans / I_cruise (P / 21 V, sizing.mjs line 155)",
-   "pusher": "P_cruise x (1 - etaMEc 0.85) = 39.4 W (results.json base.etaMEc), split 75/25 motor/ESC EST; the pusher is a SunnySky X4110S 400KV, the same motor as the lift units (docs/purchasing/C0_BOM.csv line \"X4110S 400KV (pusher)\", analysis/sizing.mjs PUSHER = X4110S); SunnySky publishes no thermal data (\u2014)",
-   "fc": "EST 3.5 W: CoreWing F405 + RP3 + M100 GPS + BeeID ~0.5 A at 5 V plus ZORZA UBEC loss"
+   "battery": "I^2 R with R_pack = 6 x 6.0 mOhm (docs/test/TEST-PLAN.md C11 acceptance limit, rev 2026-11-02: a pack above it does not fly the full mission); I from results.json sized I_hover_loaded / I_trans / I_cruise (P / 21 V, sizing.mjs)",
+   "pusher": "P_cruise x (1 - etaMEc 0.85) = 44.3 W (results.json base.etaMEc), split 75/25 motor/ESC EST; the pusher is a SunnySky X4110S 400KV, the same motor as the lift units (docs/purchasing/C0_BOM.csv line \"X4110S 400KV (pusher)\", analysis/sizing.mjs PUSHER = X4110S); SunnySky publishes no thermal data (\u2014)",
+   "fc": "EST 2.0 W on the CoreWing F405 board: MCU ~0.3 + OSD/sensors ~0.2 + 5 V BEC loss ~0.45 + servo BEC loss ~1.05 W (thermal_inputs.py comment); RX, GPS and Remote ID heat their own housings (rev 2026-11-02, was 3.5 W lumped)"
   }
  },
  "flow": {
-  "v_i_mps": 6.683891222685996,
-  "v_wake_mps": 13.367782445371992,
+  "v_i_mps": 7.128133986509248,
+  "v_wake_mps": 14.256267973018495,
   "V_cruise_mps": 18,
-  "src": "v_i = sqrt(T / (2 rho A)) with T = sized.Tunit_N 16.03 N, A = sized.A 0.1464 m2, rho 1.225 (momentum theory); far wake 2 v_i"
+  "src": "v_i = sqrt(T / (2 rho A)) with T = sized.Tunit_N 18.23 N, A = sized.A 0.1464 m2, rho 1.225 (momentum theory); far wake 2 v_i"
  },
  "h": {
-  "motor_hover": 42.90645091596605,
-  "boom_hover": 54.71548655256383,
-  "mount_hover": 38.117827027535604,
-  "esc_hover": 43.00270850054969,
+  "motor_hover": 44.64712702366844,
+  "boom_hover": 56.93524461062123,
+  "mount_hover": 39.364195092083364,
+  "esc_hover": 44.40880131180632,
   "motor_cruise": 84.46521180455152,
   "boom_cruise": 100.92540966726038,
   "mount_cruise": 62.55322438317532,
   "esc_cruise": 70.56955455451303,
-  "pod_cruise": 37.24680398889698,
+  "pod_cruise": 38.941542167818454,
   "pod_hover": 3.443855758019372,
-  "pod_mission_avg": 30.13039383502801,
+  "pod_mission_avg": 31.468345028913383,
   "pusher_motor_cruise": 92.51746653524938,
   "cup_inner_cruise": 46.25873326762469,
   "bay_natural": 5.0,
   "radiation_equiv": 7.33546044,
   "detail": {
-   "motor_hover": "Hilpert cylinder crossflow at v_i, D 0.048 m: Re 19444, Nu 76.8",
-   "boom_hover": "Hilpert at v_i, D 0.0254 m: Re 10289, Nu 51.9",
-   "mount_hover": "laminar flat plate at v_i, L 0.070 m: Re 28356, Nu 99.6",
-   "esc_hover": "laminar flat plate at v_i, L 0.055 m: Re 22280, Nu 88.3",
-   "pod_cruise": "mixed flat plate at V_c, L 0.85 m: Re 9.27e+05, Nu 1181",
+   "motor_hover": "Hilpert cylinder crossflow at v_i, D 0.048 m: Re 20736, Nu 80.0",
+   "boom_hover": "Hilpert at v_i, D 0.0254 m: Re 10973, Nu 54.0",
+   "mount_hover": "laminar flat plate at v_i, L 0.070 m: Re 30241, Nu 102.8",
+   "esc_hover": "laminar flat plate at v_i, L 0.055 m: Re 23760, Nu 91.1",
+   "pod_cruise": "mixed flat plate at V_c, L 1.00 m: Re 1.09e+06, Nu 1453",
    "pod_hover": "Churchill-Chu horizontal cylinder D 0.16 m, dT 10 K: Ra 3.38e+06 (pod sits between the rotors, wash on the pod neglected)",
    "pusher_motor_cruise": "laminar flat plate at V_c over the can length 0.032 m: Re 34909, Nu 110.5 (axial flow + prop inflow, EST)",
    "cup_inner": "EST half the motor value (sheltered annulus)",
@@ -251,11 +251,12 @@
   "motor_can_C": 80.0,
   "esc_C": 70.0,
   "lipo_C": 60.0,
+  "fc_C": 85.0,
   "pa6cf_HDT_C": 173.0,
   "petg_HDT_C": 68.0,
   "xps_C": 74.0,
   "wire_connector_C": 60.0,
-  "src": "motor can 80 C EST and ESC 70 C EST: docs/test/TEST-PLAN.md abort table and C08 (X4110S and SoloGood publish no limit, \"\u2014\"); LiPo 60 C: TEST-PLAN rule 8 / C11; connectors 60 C: G04; PA6-CF HDT 173 C: Polymaker TDS; PETG HDT 68 C: Prusament TDS; XPS 74 C: FOAMULAR data sheet"
+  "src": "motor can 80 C EST and ESC 70 C EST: docs/test/TEST-PLAN.md abort table and C08 (X4110S and LANRC publish no limit, \"\u2014\"); LiPo 60 C: TEST-PLAN rule 8 / C11; FC 85 C: STM32F405RGT6 ambient rating -40 to +85 C (6-suffix part; https://hken.rs-online.com/web/p/microcontrollers/7468217, checked 2026-11-02; CoreWing publishes no board rating, \"\u2014\"), applied to the board temperature, which is conservative; connectors 60 C: G04; PA6-CF HDT 173 C: Polymaker TDS; PETG HDT 68 C: Prusament TDS; XPS 74 C: FOAMULAR data sheet"
  },
  "mount": {
   "len_m": 0.07,
@@ -291,5 +292,5 @@
   "segment_m": 0.4,
   "src": "modelled boom segment 0.40 m centred on the mount (EST; front boom 0.966 m, params.txt segF)"
  },
- "geometry_src": "cad/params.txt: motorD 0.048, motorH 0.032, boomOD 0.0254, boomID 0.0236, battL/H/W 0.155/0.050/0.048, fusL 0.85, fusR 0.08, pushMotorD/L 0.048/0.032"
+ "geometry_src": "cad/params.txt: motorD 0.048, motorH 0.032, boomOD 0.0254, boomID 0.0236, battL/H/W 0.155/0.050/0.048, fusL 1.00, fusR 0.08, pushMotorD/L 0.048/0.032"
 }

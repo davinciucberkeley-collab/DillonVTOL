@@ -1,272 +1,20 @@
 {
- "generated": "2026-11-01 19:12",
+ "generated": "2026-11-02 05:15",
  "script": "analysis/validation/proofs.py",
  "rules": "Inputs are read from the cited files at run time; constants name their source; links to other claims are value-checked.",
  "claims": {
-  "AERO-19": {
-   "kind": "computed",
-   "vars": [
-    {
-     "sym": "Ph",
-     "tex": "P_{hover}",
-     "value": 912.49032,
-     "unit": "W",
-     "desc": "hover power",
-     "src": {
-      "kind": "file",
-      "ref": "analysis/results.json#concepts.C0.sized.P_hover"
-     },
-     "from_claim": "AERO-16",
-     "link": {
-      "claim_value": 912.49,
-      "claim_units": "W",
-      "delta_pct": 3.5068877465822696e-05,
-      "state": "consistent"
-     }
-    },
-    {
-     "sym": "Pc",
-     "tex": "P_{cruise}",
-     "value": 262.37156,
-     "unit": "W",
-     "desc": "cruise power",
-     "src": {
-      "kind": "file",
-      "ref": "analysis/results.json#concepts.C0.sized.P_cruise"
-     },
-     "from_claim": "AERO-14",
-     "link": {
-      "claim_value": 262.37,
-      "claim_units": "W",
-      "delta_pct": 0.0005945801730318156,
-      "state": "consistent"
-     }
-    },
-    {
-     "sym": "Vl",
-     "tex": "V_{loaded}",
-     "value": 21.0,
-     "unit": "V",
-     "desc": "loaded pack voltage",
-     "src": {
-      "kind": "constant",
-      "ref": "pack voltage under hover load, 3.5 V per cell (analysis/sizing.mjs)"
-     }
-    }
-   ],
-   "steps": [
-    {
-     "tex": "P_{trans} = P_{hover} + 2P_{cruise}",
-     "expr": "Ph+2*Pc",
-     "out": "Pt",
-     "unit": "W",
-     "desc": "transition power (sizing assumption)",
-     "value": 1437.23344
-    },
-    {
-     "tex": "I = P_{trans}/V_{loaded}",
-     "expr": "Pt/Vl",
-     "out": "I",
-     "unit": "A",
-     "desc": "transition current",
-     "value": 68.43968761904762
-    }
-   ],
-   "result": {
-    "symbol": "I",
-    "value": 68.43968761904762,
-    "unit": "A",
-    "claim_value": 68.44,
-    "claim_units": "A",
-    "delta_pct": -0.00045643038044996154,
-    "tol_pct": 0.5,
-    "relation": "eq",
-    "reproduced": true
-   },
-   "note": "",
-   "equations": [
-    "P_trans = P_hover + 2 P_cruise",
-    "I = P/21.0"
-   ],
-   "evidence": [
-    {
-     "file": "analysis/results.json",
-     "what": "sized.P_trans, I_trans"
-    },
-    {
-     "file": "firmware/sitl/results_c0.json",
-     "what": "scenario A: forward transition 15 s, peak 55.8 A; back-transition peak 79.1 A"
-    }
-   ],
-   "check": {
-    "method": "compare repo transition current to the repo's 60 A pack assumption",
-    "value": 68.439687,
-    "repo_value": 60.0,
-    "delta_pct": 14.07,
-    "script": "analysis/validation/check_aero.py#AERO-23"
-   },
-   "external": [
-    "SRC-01"
-   ],
-   "upstream": [
-    "AERO-14",
-    "AERO-16"
-   ],
-   "downstream": []
-  },
-  "AERO-30": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [],
-   "evidence": [
-    {
-     "file": "docs/DESIGN-BASIS.md",
-     "what": "R10/R11 lines 49-52"
-    },
-    {
-     "file": "analysis/results.json",
-     "what": "current: S 0.6763, chord 0.2818, CLmax 1.121, m 6.5376, 15.8 min"
-    },
-    {
-     "file": "analysis/aero/aero_results.json",
-     "what": "mission: 17.3 min, round legs 11.2 min"
-    }
-   ],
-   "check": {
-    "method": "document vs output comparison",
-    "value": null,
-    "repo_value": null,
-    "delta_pct": null,
-    "script": null
-   },
-   "external": [
-    "SRC-03"
-   ],
-   "upstream": [],
-   "downstream": []
-  },
-  "MFG-01": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "delta = (params - results)/results"
-   ],
-   "evidence": [
-    {
-     "file": "cad/params.txt",
-     "what": "chord 0.284176, mtow 6.5515 (last changed in commit 9936e71, 2026-10-25)"
-    },
-    {
-     "file": "analysis/results.json",
-     "what": "generated 2026-10-27 (commit 2f959fd, 18 m/s re-run): chord 0.28180, m 6.5376"
-    }
-   ],
-   "check": {
-    "method": "key-by-key comparison",
-    "value": 0.28180021,
-    "repo_value": 0.284176,
-    "delta_pct": 0.84,
-    "script": "analysis/validation/check_struct.py#MFG-01"
-   },
-   "external": [],
-   "upstream": [],
-   "downstream": []
-  },
-  "MFG-04": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [],
-   "evidence": [
-    {
-     "file": "docs/research/hardware-spec.md",
-     "what": "J11 \"Joiner bonded into the saddle root-plate bores with epoxy\" vs FT06 \"SLIP FIT, NOT BONDED\""
-    },
-    {
-     "file": "docs/research/hardware-spec.md",
-     "what": "J07 F05 \"M3 x 25\" vs schedule/CAD M3 x 30"
-    },
-    {
-     "file": "docs/research/hardware-spec.md",
-     "what": "J10 pillar 21.8 mm, spot-face 1.0, pocket 8.0 vs params rev D 26.0 / 2.0 / 9.6"
-    },
-    {
-     "file": "docs/research/hardware-spec.md",
-     "what": "J05 load check on rev B/C coordinates (114 N vs 102.9 N now)"
-    }
-   ],
-   "check": {
-    "method": "document cross-check",
-    "value": null,
-    "repo_value": null,
-    "delta_pct": null,
-    "script": "analysis/validation/check_struct.py#STR-10"
-   },
-   "external": [],
-   "upstream": [],
-   "downstream": []
-  },
-  "CFD-10": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "CD_surface = CD_induced + CD_spurious(numerical)"
-   ],
-   "evidence": [
-    {
-     "file": "analysis/aero/drag_buildup.json",
-     "what": "the viscous drag the sizing uses"
-    }
-   ],
-   "check": {
-    "method": "Trefftz induced drag (CFD-08)",
-    "value": 0.009667059891523586,
-    "repo_value": 0.03710480747,
-    "delta_pct": null,
-    "script": "analysis/cfd3d/verify_cfd.py#CFD-10"
-   },
-   "external": [],
-   "upstream": [],
-   "downstream": []
-  },
-  "MFG-10": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "T = m g L"
-   ],
-   "evidence": [
-    {
-     "file": "cad/hardware.json",
-     "what": "general_tolerances.torque_method: no torque driver on hand"
-    },
-    {
-     "file": "docs/research/hardware-spec.md",
-     "what": "M3 insert torque-out coupon"
-    }
-   ],
-   "check": {
-    "method": "none possible without insert data",
-    "value": null,
-    "repo_value": null,
-    "delta_pct": null,
-    "script": "analysis/validation/check_struct.py#STR-14"
-   },
-   "external": [],
-   "upstream": [],
-   "downstream": []
-  },
   "MFG-11": {
    "kind": "evidence",
    "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
    "equations": [],
    "evidence": [
     {
-     "file": "docs/build/BUILD-MANUAL.md",
-     "what": "2.2 \"Foam-safe glue 4 oz\"; 4.7 \"cure 24 h (glue label \u2014)\""
+     "file": "docs/purchasing/C0_BOM.csv",
+     "what": "line 29 \"Foam-safe glue 4 oz\" with no product; line 20 Gorilla 5-min epoxy (B001Z3C3AG)"
     },
     {
-     "file": "docs/research/airframe-materials.md",
-     "what": "WEST 105/205 data present but not the selected adhesive"
+     "file": "docs/build/BUILD-MANUAL.md",
+     "what": "4.7 \"cure 24 h (glue label \u2014)\""
     }
    ],
    "check": {
@@ -291,15 +39,19 @@
    "evidence": [
     {
      "file": "analysis/aero/out/drag_buildup.json",
-     "what": "15 items with sources"
+     "what": "item list with sources"
+    },
+    {
+     "file": "analysis/results.json",
+     "what": "sized.CD0 0.042513"
     }
    ],
    "check": {
-    "method": "own build-up (Schlichting Cf, Hoerner FF); fully turbulent bound 0.0502",
-    "value": 0.047015,
-    "repo_value": 0.044727,
-    "delta_pct": 5.11,
-    "script": "analysis/validation/check_aero.py#AERO-15"
+    "method": "own build-up (Schlichting Cf, Hoerner FF), x_tr 0.30; fully turbulent bound 0.0462",
+    "value": 0.042958,
+    "repo_value": 0.042513,
+    "delta_pct": 1.05,
+    "script": "analysis/validation/check_aero.py#AERO-12"
    },
    "external": [
     "SRC-21"
@@ -316,7 +68,7 @@
     {
      "sym": "CL",
      "tex": "C_L",
-     "value": 0.47767921,
+     "value": 0.47554861,
      "unit": "-",
      "desc": "cruise CL",
      "src": {
@@ -325,16 +77,16 @@
      },
      "from_claim": "AERO-09",
      "link": {
-      "claim_value": 0.47768,
+      "claim_value": 0.475549,
       "claim_units": "-",
-      "delta_pct": -0.00016538268296197392,
+      "delta_pct": -8.201047631616633e-05,
       "state": "consistent"
      }
     },
     {
      "sym": "CD0",
      "tex": "C_{D0}",
-     "value": 0.044727234,
+     "value": 0.042512902,
      "unit": "-",
      "desc": "zero-lift drag",
      "src": {
@@ -343,9 +95,9 @@
      },
      "from_claim": "AERO-12",
      "link": {
-      "claim_value": 0.044727,
+      "claim_value": 0.042513,
       "claim_units": "-",
-      "delta_pct": 0.0005231739217805663,
+      "delta_pct": -0.00023051772399954902,
       "state": "consistent"
      }
     },
@@ -370,7 +122,7 @@
     {
      "sym": "AR",
      "tex": "AR",
-     "value": 8.5166722,
+     "value": 7.4547926,
      "unit": "-",
      "desc": "aspect ratio",
      "src": {
@@ -386,7 +138,7 @@
      "out": "CDi",
      "unit": "-",
      "desc": "induced drag",
-     "value": 0.010660139507034498
+     "value": 0.012070198381542475
     },
     {
      "tex": "L/D = \\frac{C_L}{C_{D0} + C_{Di}}",
@@ -394,16 +146,16 @@
      "out": "LD",
      "unit": "-",
      "desc": "cruise lift-to-drag ratio",
-     "value": 8.624334026948077
+     "value": 8.712378129418404
     }
    ],
    "result": {
     "symbol": "LD",
-    "value": 8.624334026948077,
+    "value": 8.712378129418404,
     "unit": "-",
-    "claim_value": 8.6243,
+    "claim_value": 8.712378,
     "claim_units": "-",
-    "delta_pct": 0.0003945473612579641,
+    "delta_pct": 1.4854544291085168e-06,
     "tol_pct": 0.5,
     "relation": "eq",
     "reproduced": true
@@ -418,16 +170,16 @@
      "what": "sized.LD"
     },
     {
-     "file": "analysis/aero/aero_results.json",
-     "what": "drag.cruise.LD 9.48"
+     "file": "analysis/aero/out/drag_buildup.json",
+     "what": "cruise.LD 9.94"
     }
    ],
    "check": {
-    "method": "independent CD0 + Raymer e",
-    "value": 8.275062,
-    "repo_value": 8.624334,
-    "delta_pct": -4.05,
-    "script": "analysis/validation/check_aero.py#AERO-16"
+    "method": "independent CD0 + Raymer e; fully turbulent 8.21",
+    "value": 8.702021,
+    "repo_value": 8.712378,
+    "delta_pct": -0.12,
+    "script": "analysis/validation/check_aero.py#AERO-13"
    },
    "external": [
     "SRC-21"
@@ -441,6 +193,123 @@
     "AERO-14"
    ]
   },
+  "AERO-19": {
+   "kind": "computed",
+   "vars": [
+    {
+     "sym": "Ph",
+     "tex": "P_{hover}",
+     "value": 1131.3229,
+     "unit": "W",
+     "desc": "hover power",
+     "src": {
+      "kind": "file",
+      "ref": "analysis/results.json#concepts.C0.sized.P_hover"
+     },
+     "from_claim": "AERO-16",
+     "link": {
+      "claim_value": 1131.3229,
+      "claim_units": "W",
+      "delta_pct": 0.0,
+      "state": "consistent"
+     }
+    },
+    {
+     "sym": "Pc",
+     "tex": "P_{cruise}",
+     "value": 295.39188,
+     "unit": "W",
+     "desc": "cruise power",
+     "src": {
+      "kind": "file",
+      "ref": "analysis/results.json#concepts.C0.sized.P_cruise"
+     },
+     "from_claim": "AERO-14",
+     "link": {
+      "claim_value": 295.39188,
+      "claim_units": "W",
+      "delta_pct": 0.0,
+      "state": "consistent"
+     }
+    },
+    {
+     "sym": "Vl",
+     "tex": "V_{loaded}",
+     "value": 21.0,
+     "unit": "V",
+     "desc": "loaded pack voltage",
+     "src": {
+      "kind": "constant",
+      "ref": "pack voltage under hover load, 3.5 V per cell (analysis/sizing.mjs)"
+     }
+    }
+   ],
+   "steps": [
+    {
+     "tex": "P_{trans} = P_{hover} + 2P_{cruise}",
+     "expr": "Ph+2*Pc",
+     "out": "Pt",
+     "unit": "W",
+     "desc": "transition power (sizing assumption)",
+     "value": 1722.10666
+    },
+    {
+     "tex": "I = P_{trans}/V_{loaded}",
+     "expr": "Pt/Vl",
+     "out": "I",
+     "unit": "A",
+     "desc": "transition current",
+     "value": 82.00507904761905
+    }
+   ],
+   "result": {
+    "symbol": "I",
+    "value": 82.00507904761905,
+    "unit": "A",
+    "claim_value": 82.00508,
+    "claim_units": "A",
+    "delta_pct": -1.1613682446220525e-06,
+    "tol_pct": 0.5,
+    "relation": "eq",
+    "reproduced": true
+   },
+   "note": "",
+   "equations": [
+    "P_trans = P_hover + 2 P_cruise",
+    "I = P_trans / 21.0 V",
+    "V_cell = V_rest - I R_cell"
+   ],
+   "evidence": [
+    {
+     "file": "analysis/results.json",
+     "what": "sized.P_trans 1722.1, I_trans 82.0"
+    },
+    {
+     "file": "firmware/sitl/results_c0.json",
+     "what": "2026-10-27, previous design: back-transition peak 79.1 A"
+    },
+    {
+     "file": "analysis/validation/checks_aero.json",
+     "what": "AERO-19 sag check"
+    }
+   ],
+   "check": {
+    "method": "cell voltage at 82 A, 6.0 mOhm, 3.80 V rest vs the C11 3.2 V/cell criterion (relation >=)",
+    "value": 3.30797,
+    "repo_value": 3.2,
+    "delta_pct": 3.37,
+    "script": "analysis/validation/check_aero.py#AERO-19",
+    "relation": "ge"
+   },
+   "external": [
+    "SRC-01"
+   ],
+   "upstream": [
+    "AERO-14",
+    "AERO-16"
+   ],
+   "downstream": []
+  },
   "AERO-22": {
    "kind": "computed",
    "vars": [
@@ -450,62 +319,68 @@
      "value": [
       {
        "name": "Lift units, front",
-       "m": 0.484,
-       "x": 0.39,
+       "m": 0.651,
+       "x": 0.408,
        "src": "LP"
       },
       {
        "name": "Lift units, rear",
-       "m": 0.484,
-       "x": -0.548,
+       "m": 0.651,
+       "x": -0.588,
        "src": "LP"
       },
       {
        "name": "Booms + clamps",
-       "m": 0.625,
-       "x": -0.297,
+       "m": 0.745,
+       "x": -0.308,
        "src": "AM"
       },
       {
        "name": "Wing (foam/glass + spar)",
-       "m": 1.378,
-       "x": -0.113,
-       "src": "F11; centroid 40 % c EST"
+       "m": 1.833,
+       "x": -0.124,
+       "src": "CAD centroid fraction of chord (mass_budget stations)"
       },
       {
        "name": "Tail",
-       "m": 0.14,
-       "x": -0.854,
+       "m": 0.177,
+       "x": -0.904,
        "src": "geometry"
       },
       {
        "name": "Fuselage pod",
-       "m": 0.6,
-       "x": 0.025,
-       "src": "EST; centroid at mid-pod"
+       "m": 0.567,
+       "x": 0.164,
+       "src": "CAD centroid from the nose; a longer nose moves it forward by half the extension (EST)"
       },
       {
        "name": "Landing gear",
-       "m": 0.443,
-       "x": -0.07,
-       "src": "EST"
+       "m": 0.517,
+       "x": -0.092,
+       "src": "CAD centroid fraction of chord"
       },
       {
        "name": "Avionics",
-       "m": 0.25,
-       "x": 0.25,
-       "src": "EST"
+       "m": 0.418,
+       "x": 0.375,
+       "src": "CAD FC-tray station from the nose (bay moves with the nose)"
+      },
+      {
+       "name": "Fasteners and inserts",
+       "m": 0.164,
+       "x": -0.267,
+       "src": "CAD centroid fraction of chord"
       },
       {
        "name": "Pusher set",
-       "m": 0.227,
+       "m": 0.257,
        "x": -0.418,
        "src": "BL; at pod tail (same station as CAD)"
       },
       {
        "name": "Servos (5)",
-       "m": 0.216,
-       "x": -0.566,
+       "m": 0.266,
+       "x": -0.599,
        "src": "BA; 2 wing (-0.55 c) + 3 tail (cad/params.mjs), mass-weighted mean"
       },
       {
@@ -517,12 +392,12 @@
       {
        "name": "Battery (placed for CG)",
        "m": 0.82,
-       "x": 0.188,
+       "x": 0.255,
        "src": "PB"
       },
       {
        "name": "Payload allowance (bay)",
-       "m": 0.5,
+       "m": 0,
        "x": 0.15,
        "src": "R12; bay x EST"
       }
@@ -542,40 +417,41 @@
      "out": "m",
      "unit": "kg",
      "desc": "MTOW, sum of the items",
-     "value": 6.537
+     "value": 7.436
     }
    ],
    "result": {
     "symbol": "m",
-    "value": 6.537,
+    "value": 7.436,
     "unit": "kg",
-    "claim_value": 6.5376,
+    "claim_value": 7.4356,
     "claim_units": "kg",
-    "delta_pct": -0.00917767988253148,
+    "delta_pct": 0.005379525525848028,
     "tol_pct": 0.5,
     "relation": "eq",
     "reproduced": true
    },
    "note": "",
    "equations": [
-    "m = m_fixed + m_lift + m_booms + m_wing + m_tail + m_batt (iterated)"
+    "m = m_fixed + m_lift + m_booms + m_wing + m_tail + m_batt (iterated)",
+    "bottom-up: sum of CAD volume x density + vendor masses"
    ],
    "evidence": [
     {
      "file": "analysis/results.json",
-     "what": "sized.m"
+     "what": "sized.m 7.4356"
     },
     {
-     "file": "docs/DESIGN-BASIS.md",
-     "what": "R2 outcome"
+     "file": "analysis/mass/mass_budget.json",
+     "what": "total_kg 7.4159, groups, est_share_kg 1.155"
     }
    ],
    "check": {
-    "method": "sum of CG item list",
-    "value": 6.537,
-    "repo_value": 6.537558,
-    "delta_pct": -0.01,
-    "script": "analysis/validation/check_aero.py#AERO-26"
+    "method": "sum of the CG item list (AERO-22); independent CAD/vendor bottom-up roll-up (AERO-22b, -0.26 %)",
+    "value": 7.436,
+    "repo_value": 7.4356,
+    "delta_pct": 0.01,
+    "script": "analysis/validation/check_aero.py#AERO-22,AERO-22b"
    },
    "external": [
     "SRC-01",
@@ -600,20 +476,25 @@
    "kind": "evidence",
    "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
    "equations": [
-    "x_cg = sum(m x) / sum(m)"
+    "x_cg = sum(m x) / sum(m)",
+    "dCG = m_batt dx / m"
    ],
    "evidence": [
     {
      "file": "analysis/results.json",
      "what": "concepts.C0.cg"
+    },
+    {
+     "file": "analysis/mass/mass_budget.json",
+     "what": "calibration.stations"
     }
    ],
    "check": {
-    "method": "moment sum from item list",
-    "value": 28.003646,
+    "method": "moment sum from the item list",
+    "value": 27.996158,
     "repo_value": 28,
-    "delta_pct": 0.01,
-    "script": "analysis/validation/check_aero.py#AERO-28,AERO-29"
+    "delta_pct": -0.01,
+    "script": "analysis/validation/check_aero.py#AERO-24"
    },
    "external": [
     "SRC-01",
@@ -630,7 +511,7 @@
     {
      "sym": "hn",
      "tex": "h_n",
-     "value": 39.8383,
+     "value": 38.4708,
      "unit": "%MAC",
      "desc": "neutral point (AVL, with pod)",
      "src": {
@@ -639,7 +520,7 @@
      },
      "from_claim": "AERO-25",
      "link": {
-      "claim_value": 39.8383,
+      "claim_value": 38.4708,
       "claim_units": "%MAC",
       "delta_pct": 0.0,
       "state": "consistent"
@@ -664,16 +545,16 @@
      "out": "SM",
      "unit": "%MAC",
      "desc": "static margin",
-     "value": 11.838299999999997
+     "value": 10.470799999999997
     }
    ],
    "result": {
     "symbol": "SM",
-    "value": 11.838299999999997,
+    "value": 10.470799999999997,
     "unit": "%MAC",
-    "claim_value": 11.8383,
+    "claim_value": 10.4708,
     "claim_units": "%MAC",
-    "delta_pct": -3.0010336609145743e-14,
+    "delta_pct": -3.3929725319942135e-14,
     "tol_pct": 0.5,
     "relation": "eq",
     "reproduced": true
@@ -690,10 +571,10 @@
    ],
    "check": {
     "method": "hand NP minus CG",
-    "value": 13.400712,
-    "repo_value": 11.8383,
-    "delta_pct": 13.2,
-    "script": "analysis/validation/check_aero.py#AERO-34,AERO-35"
+    "value": 12.329902,
+    "repo_value": 10.4708,
+    "delta_pct": 17.76,
+    "script": "analysis/validation/check_aero.py#AERO-26"
    },
    "external": [],
    "upstream": [
@@ -701,13 +582,397 @@
    ],
    "downstream": []
   },
+  "AERO-31": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "total = goods x 1.1025 + shipping",
+    "reserve = 2000 - total"
+   ],
+   "evidence": [
+    {
+     "file": "analysis/results.json",
+     "what": "concepts.C0.bom (goods 1598.35, shipping 91.99, total 1854.17, crash 145.83)"
+    },
+    {
+     "file": "docs/purchasing/C0_BOM.csv",
+     "what": "line sources and check dates"
+    }
+   ],
+   "check": {
+    "method": "sum(qty x unit) x 1.1025 + shipping (AERO-31); reserve (AERO-31b)",
+    "value": 1854.170875,
+    "repo_value": 1854.17,
+    "delta_pct": 0.0,
+    "script": "analysis/validation/check_aero.py#AERO-31,AERO-31b"
+   },
+   "external": [
+    "SRC-01",
+    "SRC-04",
+    "SRC-06",
+    "SRC-08",
+    "SRC-13",
+    "SRC-14",
+    "SRC-16"
+   ],
+   "upstream": [],
+   "downstream": []
+  },
+  "CFD-02": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "r = (N_fine/N_coarse)^(1/3)",
+    "p from |e32/e21| (Celik 2008, fixed-point)",
+    "f_ext = (r21^p f1 - f2)/(r21^p - 1)",
+    "GCI_fine = 1.25 |(f1-f2)/f1| / (r21^p - 1)"
+   ],
+   "evidence": [
+    {
+     "file": "analysis/cfd3d/out/cfd3d_results.json",
+     "what": "cases L1_a4.0, L2_a4.0, L3_a4.0"
+    },
+    {
+     "file": "analysis/cfd3d/out/L1..L3/mesh_stats.json",
+     "what": "cell counts"
+    }
+   ],
+   "check": {
+    "method": "Richardson extrapolation",
+    "value": null,
+    "repo_value": 0.5103905514,
+    "delta_pct": null,
+    "script": "analysis/cfd3d/verify_cfd.py#CFD-02",
+    "CMy": {
+     "p": null,
+     "f_ext": null,
+     "gci_fine_pct": null,
+     "note": "oscillatory or zero change: no asymptotic estimate"
+    }
+   },
+   "external": [
+    "SRC-18"
+   ],
+   "upstream": [],
+   "downstream": []
+  },
+  "CFD-06": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "CL = L / (q S_ref)"
+   ],
+   "evidence": [
+    {
+     "file": "analysis/aero/out/avl/ft_pod_a4.txt",
+     "what": "AVL total forces"
+    }
+   ],
+   "check": {
+    "method": "AVL 3.52 with pod at the same alpha and elevator",
+    "value": 0.49507,
+    "repo_value": 0.5103905514,
+    "delta_pct": 3.094623265396811,
+    "script": "analysis/cfd3d/verify_cfd.py#CFD-06"
+   },
+   "external": [],
+   "upstream": [],
+   "downstream": []
+  },
+  "CFD-08": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "CDi = (2/(q S)) * integral of 1/2 rho (v^2 + w^2) dA over the half plane",
+    "CDi = CL^2 / (pi e AR)"
+   ],
+   "evidence": [
+    {
+     "file": "analysis/cfd3d/out/post/<case>.json",
+     "what": "trefftz"
+    }
+   ],
+   "check": {
+    "method": "CL^2/(pi e AR) with AVL's span efficiency",
+    "value": 0.011531164522675132,
+    "repo_value": 0.01062093512345709,
+    "delta_pct": -7.893646798882695,
+    "script": "analysis/cfd3d/verify_cfd.py#CFD-08"
+   },
+   "external": [],
+   "upstream": [],
+   "downstream": []
+  },
+  "MFG-01": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "delta = (x_file - x_results) / x_results"
+   ],
+   "evidence": [
+    {
+     "file": "cad/params.txt",
+     "what": "generated 2026-11-01 22:15 from results.json"
+    },
+    {
+     "file": "cad/params.built.txt",
+     "what": "copy of params.txt the CAD was built from (2026-11-01 21:38)"
+    },
+    {
+     "file": "analysis/results.json",
+     "what": "generated 2026-11-01, MTOW 7.4356 kg, chord 0.32194 m"
+    }
+   ],
+   "check": {
+    "method": "key-by-key comparison of params.built.txt with results.json, max |delta| % (tolerance 0.5 %; tail chord 0.60 %)",
+    "value": 0.37,
+    "repo_value": null,
+    "delta_pct": null,
+    "script": "analysis/validation/check_struct.py#MFG-01"
+   },
+   "external": [],
+   "upstream": [],
+   "downstream": []
+  },
+  "MFG-02": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "screw overrun = V / (pi d^2 / 4)"
+   ],
+   "evidence": [
+    {
+     "file": "cad/verification.txt",
+     "what": "Interference detection section"
+    }
+   ],
+   "check": {
+    "method": "per-entry disposition (count of unexplained entries)",
+    "value": 32.0,
+    "repo_value": 0.0,
+    "delta_pct": null,
+    "script": "analysis/validation/check_struct.py#MFG-INTF"
+   },
+   "external": [],
+   "upstream": [],
+   "downstream": []
+  },
+  "MFG-03": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [],
+   "evidence": [
+    {
+     "file": "cad/drawings/layout-check.txt",
+     "what": "22 OVERLAP lines on sheets 1, 4, 7, 9"
+    },
+    {
+     "file": "cad/Drawings.cs",
+     "what": "REV \"E\", put(\"CheckedBy\", \"\u2014\")"
+    }
+   ],
+   "check": {
+    "method": "count OVERLAP records",
+    "value": 22.0,
+    "repo_value": 0.0,
+    "delta_pct": null,
+    "script": "analysis/validation/check_struct.py#MFG-03"
+   },
+   "external": [],
+   "upstream": [],
+   "downstream": []
+  },
+  "MFG-10": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "T = m g L"
+   ],
+   "evidence": [
+    {
+     "file": "cad/hardware.json",
+     "what": "fasteners[].torque_Nm and torque_basis; general_tolerances.torque_method"
+    }
+   ],
+   "check": {
+    "method": "count of fastener types with a torque",
+    "value": 13.0,
+    "repo_value": 13.0,
+    "delta_pct": 0.0,
+    "script": "analysis/validation/check_struct.py#MFG-10"
+   },
+   "external": [],
+   "upstream": [],
+   "downstream": []
+  },
+  "MFG-12": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "m = sum of group masses"
+   ],
+   "evidence": [
+    {
+     "file": "analysis/mass/mass_budget.json",
+     "what": "total_kg 7.4159, groups, est_share_kg 1.155"
+    },
+    {
+     "file": "cad/verification.txt",
+     "what": "TOTAL modelled mass 6.678 kg (solid parts only)"
+    }
+   ],
+   "check": {
+    "method": "independent bottom-up roll-up vs sizing MTOW (tolerance 1 %)",
+    "value": 7.4159,
+    "repo_value": 7.4355998,
+    "delta_pct": -0.26,
+    "script": "analysis/validation/check_struct.py#MFG-MASS"
+   },
+   "external": [
+    "SRC-07"
+   ],
+   "upstream": [],
+   "downstream": []
+  },
+  "AERO-10": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "a = a0 / (1 + a0 (1+tau) / (pi AR))",
+    "CL_a = a_w + eta a_t (S_h/S)(1 - de/da)",
+    "de/da = 2 a_w / (pi AR)"
+   ],
+   "evidence": [
+    {
+     "file": "analysis/aero/out/avl/st_pod_trim.txt",
+     "what": "stability derivatives (CLa 5.049 at trim)"
+    },
+    {
+     "file": "analysis/aero/aero_results.json",
+     "what": "lift_curve.CL_alpha_per_rad"
+    },
+    {
+     "file": "analysis/aero.json",
+     "what": "wing_CLa_per_rad 4.54695 (AR 7.45479)"
+    }
+   ],
+   "check": {
+    "method": "lifting line: wing 4.78 /rad vs VLM 4.55 (AERO-10, +5.2 %); wing + tail 5.13 vs AVL no pod 4.88 (AERO-10b, +5.1 %)",
+    "value": 4.782117,
+    "repo_value": 4.54695,
+    "delta_pct": 5.17,
+    "script": "analysis/validation/check_aero.py#AERO-10,AERO-10b"
+   },
+   "external": [
+    "SRC-22"
+   ],
+   "upstream": [],
+   "downstream": []
+  },
+  "AERO-11": {
+   "kind": "computed",
+   "vars": [
+    {
+     "sym": "AR",
+     "tex": "AR",
+     "value": 7.4547926,
+     "unit": "-",
+     "desc": "aspect ratio",
+     "src": {
+      "kind": "file",
+      "ref": "analysis/results.json#concepts.C0.sized.AR"
+     }
+    }
+   ],
+   "steps": [
+    {
+     "tex": "e = 1.78\\,(1 - 0.045\\,AR^{0.68}) - 0.64",
+     "expr": "1.78*(1-0.045*AR**0.68)-0.64",
+     "out": "e",
+     "unit": "-",
+     "desc": "Oswald efficiency, Raymer 5th ed. eq. 12.49 (straight wing)",
+     "value": 0.8260296041204399
+    }
+   ],
+   "result": {
+    "symbol": "e",
+    "value": 0.8260296041204399,
+    "unit": "-",
+    "claim_value": 0.8,
+    "claim_units": "-",
+    "delta_pct": 3.253700515054983,
+    "tol_pct": 0.5,
+    "relation": "ge",
+    "reproduced": true
+   },
+   "note": "The claim is that the sizing's e = 0.80 is conservative: it must not exceed Raymer's estimate.",
+   "equations": [
+    "e = 1.78 (1 - 0.045 AR^0.68) - 0.64 (Raymer 5th ed. eq. 12.49)"
+   ],
+   "evidence": [
+    {
+     "file": "analysis/results.json",
+     "what": "concepts.C0.params.e 0.8"
+    },
+    {
+     "file": "analysis/aero/aero_results.json",
+     "what": "drag.e_oswald_fit, trim_cruise.e_AVL 0.9467"
+    }
+   ],
+   "check": {
+    "method": "Raymer eq. 12.49 >= sizing 0.80",
+    "value": 0.82603,
+    "repo_value": 0.8,
+    "delta_pct": 3.25,
+    "script": "analysis/validation/check_aero.py#AERO-11",
+    "relation": "ge"
+   },
+   "external": [],
+   "upstream": [],
+   "downstream": [
+    "AERO-13",
+    "AERO-29"
+   ]
+  },
+  "AERO-25": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "h_n = 0.25 + eta V_h (a_t/a_w)(1 - de/da) + dh_fus",
+    "Cm_a,fus = K_f W_f^2 L_f / (c S) per deg"
+   ],
+   "evidence": [
+    {
+     "file": "analysis/aero/out/avl/st_pod_trim.txt",
+     "what": "line 69 Xnp = 0.122936 m"
+    },
+    {
+     "file": "analysis/aero/aero_results.json",
+     "what": "neutral_point"
+    }
+   ],
+   "check": {
+    "method": "hand NP with Munk/Perkins-Hage pod term (AERO-25, +1.9 pts); no pod (AERO-25b, -0.1 pt); AeroSandbox vs AVL (AERO-25c, +0.4 pt)",
+    "value": 40.329902,
+    "repo_value": 38.4708,
+    "delta_pct": 4.83,
+    "script": "analysis/validation/check_aero.py#AERO-25,AERO-25b,AERO-25c"
+   },
+   "external": [
+    "SRC-23"
+   ],
+   "upstream": [],
+   "downstream": [
+    "AERO-26"
+   ]
+  },
   "AERO-29": {
    "kind": "computed",
    "vars": [
     {
      "sym": "CD0",
      "tex": "C_{D0}",
-     "value": 0.044727234,
+     "value": 0.042512902,
      "unit": "-",
      "desc": "zero-lift drag",
      "src": {
@@ -716,9 +981,9 @@
      },
      "from_claim": "AERO-12",
      "link": {
-      "claim_value": 0.044727,
+      "claim_value": 0.042513,
       "claim_units": "-",
-      "delta_pct": 0.0005231739217805663,
+      "delta_pct": -0.00023051772399954902,
       "state": "consistent"
      }
     },
@@ -743,7 +1008,7 @@
     {
      "sym": "AR",
      "tex": "AR",
-     "value": 8.5166722,
+     "value": 7.4547926,
      "unit": "-",
      "desc": "aspect ratio",
      "src": {
@@ -754,7 +1019,7 @@
     {
      "sym": "W",
      "tex": "W",
-     "value": 64.111543,
+     "value": 72.918325,
      "unit": "N",
      "desc": "weight",
      "src": {
@@ -764,9 +1029,9 @@
      "from_claim": "AERO-22",
      "link_factor": 0.10197162129779283,
      "link": {
-      "claim_value": 6.5376,
+      "claim_value": 7.4356,
       "claim_units": "kg",
-      "delta_pct": -0.0006426882470628755,
+      "delta_pct": -2.386231390963536e-06,
       "state": "consistent"
      }
     },
@@ -785,7 +1050,7 @@
     {
      "sym": "S",
      "tex": "S",
-     "value": 0.6763205,
+     "value": 0.77265731,
      "unit": "m\u00b2",
      "desc": "wing area",
      "src": {
@@ -794,9 +1059,9 @@
      },
      "from_claim": "AERO-08",
      "link": {
-      "claim_value": 0.67632,
+      "claim_value": 0.772657,
       "claim_units": "m^2",
-      "delta_pct": 7.392950082192847e-05,
+      "delta_pct": 4.0121295737094614e-05,
       "state": "consistent"
      }
     }
@@ -808,7 +1073,7 @@
      "out": "CLs",
      "unit": "-",
      "desc": "CL for maximum L/D",
-     "value": 0.9784551345397527
+     "value": 0.8924791693446512
     },
     {
      "tex": "V^* = \\sqrt{\\frac{2W}{\\rho S C_L^*}}",
@@ -816,16 +1081,16 @@
      "out": "Vs",
      "unit": "m/s",
      "desc": "speed for maximum L/D",
-     "value": 12.576747277027252
+     "value": 13.139317055014677
     }
    ],
    "result": {
     "symbol": "Vs",
-    "value": 12.576747277027252,
+    "value": 13.139317055014677,
     "unit": "m/s",
-    "claim_value": 12.5767,
+    "claim_value": 13.139317,
     "claim_units": "m/s",
-    "delta_pct": 0.00037590963648070664,
+    "delta_pct": 4.1870271687800705e-07,
     "tol_pct": 0.5,
     "relation": "eq",
     "reproduced": true
@@ -837,16 +1102,20 @@
    ],
    "evidence": [
     {
+     "file": "analysis/results.json",
+     "what": "sized.CD0, AR, W, S; params.e"
+    },
+    {
      "file": "analysis/cruise_speed_trade.json",
-     "what": "crossCheck.Vstar_mps"
+     "what": "crossCheck.Vstar_mps 12.58 (2026-10-27, previous design: stale)"
     }
    ],
    "check": {
     "method": "V* with independent CD0 and Raymer e",
-    "value": 12.435407,
-    "repo_value": 12.5767,
-    "delta_pct": -1.12,
-    "script": "analysis/validation/check_aero.py#AERO-38"
+    "value": 13.000628,
+    "repo_value": 13.139317,
+    "delta_pct": -1.06,
+    "script": "analysis/validation/check_aero.py#AERO-29"
    },
    "external": [
     "SRC-21"
@@ -859,37 +1128,35 @@
    ],
    "downstream": []
   },
-  "AERO-31": {
+  "AERO-30": {
    "kind": "evidence",
    "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
    "equations": [
-    "total = goods x 1.1025 + shipping"
+    "|doc value - results.json value| <= half a unit in the last printed digit"
    ],
    "evidence": [
     {
-     "file": "analysis/results.json",
-     "what": "concepts.C0.bom"
+     "file": "docs/DESIGN-BASIS.md",
+     "what": "Design outcomes block, generated 2026-11-01"
     },
     {
-     "file": "analysis/link_status.json",
-     "what": "462 ok / 4 dead / 106 unverified links (reachability only, not price)"
+     "file": "docs/research/stall-margin.md",
+     "what": "gen:stall_status block"
+    },
+    {
+     "file": "analysis/validation/checks_aero.json",
+     "what": "intermediate.doc_rows (each number vs results.json)"
     }
    ],
    "check": {
-    "method": "sum(qty x unit) x 1.1025 + 110",
-    "value": 1896.788675,
-    "repo_value": 1896.79,
-    "delta_pct": -0.0,
-    "script": "analysis/validation/check_aero.py#AERO-37"
+    "method": "regex parse of the generated blocks vs results.json (count of matching numbers)",
+    "value": 18.0,
+    "repo_value": 18.0,
+    "delta_pct": 0.0,
+    "script": "analysis/validation/check_aero.py#AERO-30"
    },
    "external": [
-    "SRC-01",
-    "SRC-04",
-    "SRC-06",
-    "SRC-08",
-    "SRC-13",
-    "SRC-14",
-    "SRC-16"
+    "SRC-03"
    ],
    "upstream": [],
    "downstream": []
@@ -936,7 +1203,7 @@
    ],
    "check": {
     "method": "residual drop and coefficient Cauchy series read from history.csv",
-    "value": 4.785898572,
+    "value": 2.9518815379999994,
     "repo_value": null,
     "delta_pct": null,
     "script": "analysis/cfd3d/verify_cfd.py#CFD-01"
@@ -945,41 +1212,51 @@
    "upstream": [],
    "downstream": []
   },
-  "CFD-02": {
+  "CFD-03": {
    "kind": "evidence",
    "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
    "equations": [
-    "r = (N_fine/N_coarse)^(1/3)",
-    "p from |e32/e21| (Celik 2008, fixed-point)",
-    "f_ext = (r21^p f1 - f2)/(r21^p - 1)",
-    "GCI_fine = 1.25 |(f1-f2)/f1| / (r21^p - 1)"
+    "F = -sum_i p_i n_i A_i (n into the fluid, from the owning tetrahedron)",
+    "CL = F.l / (q S_ref/2)"
    ],
    "evidence": [
     {
-     "file": "analysis/cfd3d/out/cfd3d_results.json",
-     "what": "cases L1_a4.0, L2_a4.0, L3_a4.0"
-    },
-    {
-     "file": "analysis/cfd3d/out/L1..L3/mesh_stats.json",
-     "what": "cell counts"
+     "file": "analysis/cfd3d/out/post/<case>.json",
+     "what": "integrated"
     }
    ],
    "check": {
-    "method": "Richardson extrapolation",
-    "value": null,
-    "repo_value": 0.4929164905,
-    "delta_pct": null,
-    "script": "analysis/cfd3d/verify_cfd.py#CFD-02",
-    "CMy": {
-     "p": null,
-     "f_ext": null,
-     "gci_fine_pct": null,
-     "note": "oscillatory or zero change: no asymptotic estimate"
-    }
+    "method": "own surface integration in numpy",
+    "value": 5.177592089211282e-05,
+    "repo_value": 0,
+    "delta_pct": 5.177592089211282e-05,
+    "script": "analysis/cfd3d/postprocess.py"
    },
-   "external": [
-    "SRC-18"
+   "external": [],
+   "upstream": [],
+   "downstream": []
+  },
+  "CFD-04": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "symmetry: v . n = 0",
+    "far field: |V|/V_inf -> 1"
    ],
+   "evidence": [
+    {
+     "file": "analysis/cfd3d/out/post/<case>.json",
+     "what": "symmetry_max_abs_vy_over_V, farfield_speed_ratio"
+    }
+   ],
+   "check": {
+    "method": "nodal velocities on the marker nodes",
+    "value": 4.338530213510137e-16,
+    "repo_value": 0,
+    "delta_pct": null,
+    "script": "analysis/cfd3d/postprocess.py"
+   },
+   "external": [],
    "upstream": [],
    "downstream": []
   },
@@ -1002,11 +1279,11 @@
    ],
    "check": {
     "method": "AVL (pod) lift slope; Helmbold wing-only as a sanity bound",
-    "value": 5.263779634089588,
-    "repo_value": 4.4156326765816685,
-    "delta_pct": -16.11288876941395,
+    "value": 5.074908189480391,
+    "repo_value": 4.673605006722537,
+    "delta_pct": -7.907594931267954,
     "script": "analysis/cfd3d/verify_cfd.py#CFD-05",
-    "helmbold_wing_only": 5.295636475456759
+    "helmbold_wing_only": 5.123748142909461
    },
    "external": [
     "SRC-22"
@@ -1014,428 +1291,93 @@
    "upstream": [],
    "downstream": []
   },
-  "CFD-06": {
+  "CFD-10": {
    "kind": "evidence",
    "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
    "equations": [
-    "CL = L / (q S_ref)"
+    "CD_surface = CD_induced + CD_spurious(numerical)",
+    "CD_spurious = CD_surface - CD_i,Trefftz"
    ],
    "evidence": [
     {
-     "file": "analysis/aero/out/avl/ft_pod_a4.txt",
-     "what": "AVL total forces"
+     "file": "analysis/cfd3d/out/cfd3d_results.json",
+     "what": "CD on L1/L2/L3 at alpha 4"
+    },
+    {
+     "file": "analysis/aero/drag_buildup.json",
+     "what": "the viscous drag the sizing uses"
     }
    ],
    "check": {
-    "method": "AVL 3.52 with pod at the same alpha and elevator",
-    "value": 0.51401,
-    "repo_value": 0.4929164905,
-    "delta_pct": -4.103715783739605,
-    "script": "analysis/cfd3d/verify_cfd.py#CFD-06"
+    "method": "Trefftz induced drag (CFD-08) and CD on three levels",
+    "value": 0.01062093512345709,
+    "repo_value": 0.03710246503,
+    "delta_pct": null,
+    "script": "analysis/cfd3d/verify_cfd.py#CFD-10"
    },
    "external": [],
    "upstream": [],
    "downstream": []
   },
-  "CFD-08": {
+  "CFD-11": {
    "kind": "evidence",
    "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
    "equations": [
-    "CDi = (2/(q S)) * integral of 1/2 rho (v^2 + w^2) dA over the half plane",
-    "CDi = CL^2 / (pi e AR)"
+    "Bernoulli, incompressible: Cp = 1 - (V/V_inf)^2 <= 1",
+    "share = nodes with Cp > 1 / wall nodes of the listed parts"
    ],
    "evidence": [
     {
      "file": "analysis/cfd3d/out/post/<case>.json",
-     "what": "trefftz"
+     "what": "cp_above_stagnation"
     }
    ],
    "check": {
-    "method": "CL^2/(pi e AR) with AVL's span efficiency",
-    "value": 0.009531033225831282,
-    "repo_value": 0.009667059891523586,
-    "delta_pct": 1.4271974765929978,
-    "script": "analysis/cfd3d/verify_cfd.py#CFD-08"
-   },
-   "external": [],
-   "upstream": [],
-   "downstream": []
-  },
-  "MFG-02": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "screw overrun = V / (pi d^2/4)"
-   ],
-   "evidence": [
-    {
-     "file": "cad/verification.txt",
-     "what": "interference list"
-    }
-   ],
-   "check": {
-    "method": "per-entry disposition",
-    "value": 0.99,
-    "repo_value": 0,
+    "method": "share of Cp > 1 nodes on L1 -> L2 -> L3 at alpha 4 (must fall) and Bernoulli bound",
+    "value": [
+     0.737,
+     0.207,
+     0.115
+    ],
+    "repo_value": 0.11497028800397294,
     "delta_pct": null,
-    "script": "analysis/validation/check_struct.py#MFG-INTF"
+    "script": "analysis/cfd3d/verify_cfd.py#CFD-11"
    },
    "external": [],
    "upstream": [],
    "downstream": []
   },
-  "MFG-03": {
+  "MFG-04": {
    "kind": "evidence",
    "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [],
+   "equations": [
+    "for each Bolt Depot fastener in hardware.json: order row with its part number contains 'M<d> \u00d7 <L>'",
+    "F09 length = params wingBoltL; F09 nut pocket = params pillarNutDepth"
+   ],
    "evidence": [
     {
-     "file": "cad/drawings/layout-check.txt",
-     "what": "14 OVERLAP lines: sheet 1 revision table over the plan view; sheet 4 six (saddle plan/section, root section/pillar); sheet 7 five (gear socket dims over the leg); sheet 9 two"
+     "file": "analysis/validation/check_struct.py",
+     "what": "MFG-04 automated cross-check"
     },
     {
-     "file": "cad/drawings/DBF-DRW-001_sheet4.png",
-     "what": "CHECKED \"\u2014\", no approval; foam features (spar station 85.3, boom station 353.7) carry only the printed-part tolerance rule"
-    }
-   ],
-   "check": {
-    "method": "count OVERLAP records",
-    "value": 14,
-    "repo_value": 0,
-    "delta_pct": null,
-    "script": "analysis/validation/check_struct.py#MFG-01"
-   },
-   "external": [],
-   "upstream": [],
-   "downstream": []
-  },
-  "MFG-12": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [],
-   "evidence": [
-    {
-     "file": "cad/verification.txt",
-     "what": "TOTAL 6.357 kg"
-    },
-    {
-     "file": "analysis/sizing.mjs",
-     "what": "mMount 0.020 x 4"
-    }
-   ],
-   "check": {
-    "method": "line-item comparison of motor mounts",
-    "value": 88.73,
-    "repo_value": 20.0,
-    "delta_pct": 344.0,
-    "script": "analysis/validation/check_struct.py#MFG-MASS"
-   },
-   "external": [
-    "SRC-07"
-   ],
-   "upstream": [],
-   "downstream": []
-  },
-  "AERO-10": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "a = a0 / (1 + a0 (1+tau) / (pi AR))",
-    "CL_a = a_w + eta a_t (S_h/S)(1 - de/da)",
-    "de/da = 2 a_w / (pi AR)"
-   ],
-   "evidence": [
-    {
-     "file": "analysis/aero/out/avl/st_pod_trim.txt",
-     "what": "stability derivatives"
-    },
-    {
-     "file": "analysis/aero.json",
-     "what": "wing_CLa_per_rad 4.70577"
-    }
-   ],
-   "check": {
-    "method": "lifting-line wing 4.93 and wing+tail 5.29 /rad",
-    "value": 5.289978,
-    "repo_value": 5.03488,
-    "delta_pct": 5.07,
-    "script": "analysis/validation/check_aero.py#AERO-12,AERO-13"
-   },
-   "external": [
-    "SRC-22"
-   ],
-   "upstream": [],
-   "downstream": []
-  },
-  "AERO-11": {
-   "kind": "computed",
-   "vars": [
-    {
-     "sym": "AR",
-     "tex": "AR",
-     "value": 8.5166722,
-     "unit": "-",
-     "desc": "aspect ratio",
-     "src": {
-      "kind": "file",
-      "ref": "analysis/results.json#concepts.C0.sized.AR"
-     }
-    }
-   ],
-   "steps": [
-    {
-     "tex": "e = 1.78\\,(1 - 0.045\\,AR^{0.68}) - 0.64",
-     "expr": "1.78*(1-0.045*AR**0.68)-0.64",
-     "out": "e",
-     "unit": "-",
-     "desc": "Oswald efficiency, Raymer 5th ed. eq. 12.49 (straight wing)",
-     "value": 0.7962710829430052
-    }
-   ],
-   "result": {
-    "symbol": "e",
-    "value": 0.7962710829430052,
-    "unit": "-",
-    "claim_value": 0.8,
-    "claim_units": "-",
-    "delta_pct": -0.46611463212435644,
-    "tol_pct": 2.0,
-    "relation": "eq",
-    "reproduced": true
-   },
-   "note": "",
-   "equations": [
-    "e = 1.78 (1 - 0.045 AR^0.68) - 0.64 (Raymer 12.49)"
-   ],
-   "evidence": [
-    {
-     "file": "analysis/sizing.mjs",
-     "what": "BASE.e 0.80 EST"
-    },
-    {
-     "file": "analysis/aero/aero_results.json",
-     "what": "drag.e_oswald_fit 0.8627"
-    }
-   ],
-   "check": {
-    "method": "Raymer eq. 12.49",
-    "value": 0.796271,
-    "repo_value": 0.8,
-    "delta_pct": -0.47,
-    "script": "analysis/validation/check_aero.py#AERO-14"
-   },
-   "external": [],
-   "upstream": [],
-   "downstream": [
-    "AERO-13",
-    "AERO-29"
-   ]
-  },
-  "AERO-25": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "h_n = 0.25 + eta V_h (a_t/a_w)(1 - de/da) + dh_fus",
-    "Cm_a,fus = K_f W_f^2 L_f / (c S) per deg"
-   ],
-   "evidence": [
-    {
-     "file": "analysis/aero/out/avl/st_pod_trim.txt",
-     "what": "line 69 Xnp = 0.113211 m"
-    }
-   ],
-   "check": {
-    "method": "hand NP with Munk/Perkins-Hage pod term",
-    "value": 41.400712,
-    "repo_value": 39.8383,
-    "delta_pct": 3.92,
-    "script": "analysis/validation/check_aero.py#AERO-32,AERO-33"
-   },
-   "external": [
-    "SRC-23"
-   ],
-   "upstream": [],
-   "downstream": [
-    "AERO-26"
-   ]
-  },
-  "CFD-03": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "F = -sum_i p_i n_i A_i (n into the fluid, from the owning tetrahedron)",
-    "CL = F.l / (q S_ref/2)"
-   ],
-   "evidence": [
-    {
-     "file": "analysis/cfd3d/out/post/<case>.json",
-     "what": "integrated"
-    }
-   ],
-   "check": {
-    "method": "own surface integration in numpy",
-    "value": 5.867543082827163e-05,
-    "repo_value": 0,
-    "delta_pct": 5.867543082827163e-05,
-    "script": "analysis/cfd3d/postprocess.py"
-   },
-   "external": [],
-   "upstream": [],
-   "downstream": []
-  },
-  "CFD-04": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "symmetry: v . n = 0",
-    "far field: |V|/V_inf -> 1"
-   ],
-   "evidence": [
-    {
-     "file": "analysis/cfd3d/out/post/<case>.json",
-     "what": "symmetry_max_abs_vy_over_V, farfield_speed_ratio"
-    }
-   ],
-   "check": {
-    "method": "nodal velocities on the marker nodes",
-    "value": 3.9555820243891573e-16,
-    "repo_value": 0,
-    "delta_pct": null,
-    "script": "analysis/cfd3d/postprocess.py"
-   },
-   "external": [],
-   "upstream": [],
-   "downstream": []
-  },
-  "CFD-12": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "same SU2 INC_EULER numerics as run_cases.CFG on a 2-D gmsh mesh of the same NACA 2415 section",
-    "reference: XFOIL 6.99 inviscid panel method"
-   ],
-   "evidence": [
-    {
-     "file": "analysis/cfd3d/out/scheme_check_2d.json",
-     "what": "five spacings, alpha 0 and 4"
-    },
-    {
-     "file": "analysis/cfd3d/out/scheme2d/",
-     "what": "meshes, SU2 logs, XFOIL polar"
-    }
-   ],
-   "check": {
-    "method": "XFOIL inviscid",
-    "value": 7.061704824987397,
-    "repo_value": 6.045533583673805,
-    "delta_pct": -14.389885537525362,
-    "script": "analysis/cfd3d/scheme_check_2d.py"
-   },
-   "external": [],
-   "upstream": [],
-   "downstream": []
-  },
-  "MFG-09": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "protrusion = (spot + L_screw) - (H_pillar - pocket + h_nut)"
-   ],
-   "evidence": [
-    {
-     "file": "cad/README.md",
-     "what": "pocket rule: screw end 0.5 past the nylock"
-    },
-    {
-     "file": "cad/params.txt",
-     "what": "pillarH 0.026030, pillarSpot 0.002, pillarNutDepth 0.0096"
-    }
-   ],
-   "check": {
-    "method": "WC / RSS stack",
-    "value": -0.38,
-    "repo_value": 0.57,
-    "delta_pct": null,
-    "script": "analysis/validation/check_struct.py#MFG-STACKS"
-   },
-   "external": [],
-   "upstream": [],
-   "downstream": []
-  },
-  "AERO-05": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [],
-   "evidence": [
-    {
-     "file": "analysis/aero/aero_results.json",
-     "what": "CL_max_2D.experiment_Genc_Lock_Kaynak_2008_Re2e5"
-    },
-    {
-     "file": "docs/research/stall-margin.md",
-     "what": "lines 90-92 bracket discussion"
-    }
-   ],
-   "check": {
-    "method": "mean of repo solvers XFOIL 1.36 / NeuralFoil 1.28 / SU2 SA 1.19 (not independent; no hand method for CL_max)",
-    "value": 1.274127,
-    "repo_value": 1.3,
-    "delta_pct": -1.99,
-    "script": "analysis/validation/check_aero.py#AERO-07"
-   },
-   "external": [
-    "SRC-03"
-   ],
-   "upstream": [],
-   "downstream": []
-  },
-  "MFG-06": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "theta = channel clearance / 800 mm",
-    "offset = theta x 300 mm"
-   ],
-   "evidence": [
-    {
-     "file": "docs/build/BUILD-MANUAL.md",
-     "what": "4.7: push the socket home, weight the panel flat; no joiner-through-saddle alignment jig"
+     "file": "docs/research/hardware-spec.md",
+     "what": "section 6 order table: BD-9 6636 M5 x 25, BD-5 6385 M3 x 30, subtotal $22.38"
     },
     {
      "file": "cad/hardware.json",
-     "what": "FT05 channel 26.0 +-0.5"
-    }
-   ],
-   "check": {
-    "method": "angular stack vs joiner clearance",
-    "value": 0.451,
-    "repo_value": null,
-    "delta_pct": null,
-    "script": "analysis/validation/check_struct.py#MFG-STACKS"
-   },
-   "external": [],
-   "upstream": [],
-   "downstream": []
-  },
-  "STR-13": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "T = L_half (0.30 - 0.25) c",
-    "F = T / (0.40 c)"
-   ],
-   "evidence": [
+     "what": "F09 part_no 6636, pocket 11.0; F05 part_no 6385 (verified 2026-11-02)"
+    },
     {
-     "file": "docs/research/hardware-spec.md",
-     "what": "J10 geometry, preload 1,250 N, 27 MPa under the head"
+     "file": "docs/purchasing/C0_BOM.csv",
+     "what": "line 43: $22.38 per HS section 6 (regenerated by analysis/export_bom.mjs)"
     }
    ],
    "check": {
-    "method": "panel torsion about the round joiner reacted by the bolt",
-    "value": 18.1,
-    "repo_value": null,
+    "method": "automated row-by-row comparison against hardware.json and params.txt, plus the vendor pages",
+    "value": 0,
+    "repo_value": 0,
     "delta_pct": null,
-    "script": "analysis/validation/check_struct.py#STR-13"
+    "script": "analysis/validation/check_struct.py#MFG-04"
    },
    "external": [],
    "upstream": [],
@@ -1447,6 +1389,7 @@
    "equations": [
     "cd ~ 2 Cf FF",
     "Cf_turb = 0.074 Re^-0.2",
+    "Cf composite (laminar run x_tr)",
     "FF = 1 + 2 t/c + 60 (t/c)^4"
    ],
    "evidence": [
@@ -1456,19 +1399,23 @@
     },
     {
      "file": "analysis/aero/out/su2/L2_SA_ap02.0/su2.log",
-     "what": "Exit Success (SU2_CFD), line 285"
+     "what": "Exit Success (SU2_CFD)"
     },
     {
      "file": "analysis/aero/out/su2/L2_SA_ap02.0/done.txt",
      "what": "rc=0 wall_s=1188.7 cfg_sha + mesh hash"
+    },
+    {
+     "file": "analysis/aero/aero_results.json",
+     "what": "comparison_2D alpha 2: su2_SA_CD 0.015487, xfoil_CD 0.00874"
     }
    ],
    "check": {
-    "method": "2 Cf_turb FF (fully turbulent) vs SU2 SA; composite laminar/turbulent with XFOIL xtr vs XFOIL",
+    "method": "2 Cf_turb FF vs SU2 SA at Re 3.50e5 (AERO-03, -1.1 %); composite laminar/turbulent with XFOIL xtr vs XFOIL at Re 3.94e5 (AERO-03b, -10.2 %)",
     "value": 0.015324,
     "repo_value": 0.015487,
     "delta_pct": -1.05,
-    "script": "analysis/validation/check_aero.py#AERO-05,AERO-06"
+    "script": "analysis/validation/check_aero.py#AERO-03,AERO-03b"
    },
    "external": [
     "SRC-21"
@@ -1476,32 +1423,29 @@
    "upstream": [],
    "downstream": []
   },
-  "AERO-04": {
+  "AERO-05": {
    "kind": "evidence",
    "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "Celik 2008: p from e32/e21 with r21, r32 and q(p)",
-    "GCI_fine = 1.25 e_a21 / (r21^p - 1)"
-   ],
+   "equations": [],
    "evidence": [
     {
      "file": "analysis/aero/aero_results.json",
-     "what": "cfd.mesh_study.alpha_10"
+     "what": "CL_max_2D (adopted_2D 1.3, solver values)"
     },
     {
-     "file": "analysis/aero/su2_2d.py",
-     "what": "gci() line 301 assumes constant r = sqrt(2)"
+     "file": "docs/research/stall-margin.md",
+     "what": "bracket discussion"
     }
    ],
    "check": {
-    "method": "Celik GCI with the actual refinement ratios r21 1.43, r32 1.50",
-    "value": 22.501627,
-    "repo_value": 22.524,
-    "delta_pct": 0.0,
-    "script": "analysis/validation/check_aero.py#AERO-36"
+    "method": "mean of XFOIL / NeuralFoil / SU2 SA (repo solvers, not a hand method; no hand method predicts CL_max)",
+    "value": 1.274083,
+    "repo_value": 1.3,
+    "delta_pct": -1.99,
+    "script": "analysis/validation/check_aero.py#AERO-05"
    },
    "external": [
-    "SRC-18"
+    "SRC-03"
    ],
    "upstream": [],
    "downstream": []
@@ -1515,20 +1459,20 @@
    ],
    "evidence": [
     {
-     "file": "analysis/aero/out/avl/avl_pod.log",
-     "what": "AVL 3.52 banner"
-    },
-    {
      "file": "analysis/aero/out/avl/ft_pod_Vstall.txt",
      "what": "strip forces at stall trim"
+    },
+    {
+     "file": "analysis/aero/aero_results.json",
+     "what": "CL_max_3D (critical_section_method 1.1158, adopted 1.116); stall.trim_at_Vstall"
     }
    ],
    "check": {
-    "method": "Raymer 0.9 x 1.30",
+    "method": "Raymer 0.9 x CL_max_2D",
     "value": 1.17,
-    "repo_value": 1.121,
-    "delta_pct": 4.37,
-    "script": "analysis/validation/check_aero.py#AERO-08"
+    "repo_value": 1.116,
+    "delta_pct": 4.84,
+    "script": "analysis/validation/check_aero.py#AERO-06"
    },
    "external": [
     "SRC-03"
@@ -1545,7 +1489,7 @@
     {
      "sym": "W",
      "tex": "W",
-     "value": 64.111543,
+     "value": 72.918325,
      "unit": "N",
      "desc": "weight at MTOW",
      "src": {
@@ -1555,9 +1499,9 @@
      "from_claim": "AERO-22",
      "link_factor": 0.10197162129779283,
      "link": {
-      "claim_value": 6.5376,
+      "claim_value": 7.4356,
       "claim_units": "kg",
-      "delta_pct": -0.0006426882470628755,
+      "delta_pct": -2.386231390963536e-06,
       "state": "consistent"
      }
     },
@@ -1576,7 +1520,7 @@
     {
      "sym": "S",
      "tex": "S",
-     "value": 0.6763205,
+     "value": 0.77265731,
      "unit": "m\u00b2",
      "desc": "wing area",
      "src": {
@@ -1585,16 +1529,16 @@
      },
      "from_claim": "AERO-08",
      "link": {
-      "claim_value": 0.67632,
+      "claim_value": 0.772657,
       "claim_units": "m^2",
-      "delta_pct": 7.392950082192847e-05,
+      "delta_pct": 4.0121295737094614e-05,
       "state": "consistent"
      }
     },
     {
      "sym": "CLmax",
      "tex": "C_{L,\\max}",
-     "value": 1.121,
+     "value": 1.116,
      "unit": "-",
      "desc": "aircraft maximum lift coefficient",
      "src": {
@@ -1603,7 +1547,7 @@
      },
      "from_claim": "AERO-06",
      "link": {
-      "claim_value": 1.121,
+      "claim_value": 1.116,
       "claim_units": "-",
       "delta_pct": 0.0,
       "state": "consistent"
@@ -1617,16 +1561,16 @@
      "out": "Vs",
      "unit": "m/s",
      "desc": "stall speed",
-     "value": 11.749949121902011
+     "value": 11.750050666068315
     }
    ],
    "result": {
     "symbol": "Vs",
-    "value": 11.749949121902011,
+    "value": 11.750050666068315,
     "unit": "m/s",
     "claim_value": 11.75,
     "claim_units": "m/s",
-    "delta_pct": -0.00043300508926698907,
+    "delta_pct": 0.0004312005814047049,
     "tol_pct": 0.5,
     "relation": "eq",
     "reproduced": true
@@ -1638,19 +1582,19 @@
    "evidence": [
     {
      "file": "analysis/results.json",
-     "what": "base.Vs 11.75, sized.S"
+     "what": "concepts.C0.params.Vs 11.75, sized.S, sized.W"
     },
     {
-     "file": "docs/research/stall-margin.md",
-     "what": "margin trade"
+     "file": "analysis/aero/aero_results.json",
+     "what": "stall.V_stall_mps 11.75, margin_to_R11_pct 2.08"
     }
    ],
    "check": {
     "method": "V_s with Raymer CL_max 1.17",
-    "value": 11.501272,
+    "value": 11.475693,
     "repo_value": 11.75,
-    "delta_pct": -2.12,
-    "script": "analysis/validation/check_aero.py#AERO-09"
+    "delta_pct": -2.33,
+    "script": "analysis/validation/check_aero.py#AERO-07"
    },
    "external": [
     "SRC-03"
@@ -1663,142 +1607,6 @@
    "downstream": [
     "AERO-08"
    ]
-  },
-  "AERO-23": {
-   "kind": "computed",
-   "vars": [
-    {
-     "sym": "tc",
-     "tex": "t/c",
-     "value": 0.15,
-     "unit": "-",
-     "desc": "thickness ratio",
-     "src": {
-      "kind": "file",
-      "ref": "analysis/results.json#concepts.C0.params.tc"
-     }
-    },
-    {
-     "sym": "c",
-     "tex": "c",
-     "value": 0.28180021,
-     "unit": "m",
-     "desc": "chord",
-     "src": {
-      "kind": "file",
-      "ref": "analysis/results.json#concepts.C0.sized.chord"
-     }
-    },
-    {
-     "sym": "b",
-     "tex": "b",
-     "value": 2.4,
-     "unit": "m",
-     "desc": "span",
-     "src": {
-      "kind": "file",
-      "ref": "analysis/results.json#concepts.C0.params.span"
-     }
-    },
-    {
-     "sym": "rf",
-     "tex": "\\rho_{foam}",
-     "value": 32.0,
-     "unit": "kg/m\u00b3",
-     "desc": "XPS foam density (2 lb/ft\u00b3)",
-     "src": {
-      "kind": "file",
-      "ref": "analysis/results.json#concepts.C0.params.rhoFoam",
-      "src_id": "SRC-15"
-     }
-    },
-    {
-     "sym": "wg",
-     "tex": "w",
-     "value": 0.06,
-     "unit": "kg/m\u00b2",
-     "desc": "skin areal mass",
-     "src": {
-      "kind": "file",
-      "ref": "analysis/results.json#concepts.C0.params.wGlass"
-     }
-    },
-    {
-     "sym": "S",
-     "tex": "S",
-     "value": 0.6763205,
-     "unit": "m\u00b2",
-     "desc": "wing area",
-     "src": {
-      "kind": "file",
-      "ref": "analysis/results.json#concepts.C0.sized.S"
-     },
-     "from_claim": "AERO-08",
-     "link": {
-      "claim_value": 0.67632,
-      "claim_units": "m^2",
-      "delta_pct": 7.392950082192847e-05,
-      "state": "consistent"
-     }
-    },
-    {
-     "sym": "ms",
-     "tex": "m_{spar}",
-     "value": 0.67524,
-     "unit": "kg",
-     "desc": "spar and joiner mass",
-     "src": {
-      "kind": "file",
-      "ref": "analysis/results.json#concepts.C0.params.m_spar"
-     }
-    }
-   ],
-   "steps": [
-    {
-     "tex": "m_{wing} = 0.685\\,(t/c)\\,c^2 b\\,\\rho_{foam} + 2wS + m_{spar}",
-     "expr": "0.685*tc*c**2*b*rf + 2*wg*S + ms",
-     "out": "mw",
-     "unit": "kg",
-     "desc": "foam core (0.685 = NACA 4-digit area / (t c)) + skins + spar",
-     "value": 1.383049371059215
-    }
-   ],
-   "result": {
-    "symbol": "mw",
-    "value": 1.383049371059215,
-    "unit": "kg",
-    "claim_value": 1.3785,
-    "claim_units": "kg",
-    "delta_pct": 0.3300232904762456,
-    "tol_pct": 1.0,
-    "relation": "eq",
-    "reproduced": true
-   },
-   "note": "",
-   "equations": [
-    "m = 0.685 (t/c) c^2 b rho_foam + 2 w_tape S + m_spar"
-   ],
-   "evidence": [
-    {
-     "file": "analysis/results.json",
-     "what": "sized.m_wing"
-    }
-   ],
-   "check": {
-    "method": "NACA 4-digit area 0.685 t c^2",
-    "value": 1.383049,
-    "repo_value": 1.378475,
-    "delta_pct": 0.33,
-    "script": "analysis/validation/check_aero.py#AERO-27"
-   },
-   "external": [
-    "SRC-09",
-    "SRC-15"
-   ],
-   "upstream": [
-    "AERO-08"
-   ],
-   "downstream": []
   },
   "MFG-05": {
    "kind": "computed",
@@ -1851,20 +1659,21 @@
    },
    "note": "",
    "equations": [
+    "c = ID_socket - OD_joiner",
     "WC = sum |t_i|",
     "RSS = sqrt(sum t_i^2)"
    ],
    "evidence": [
     {
      "file": "cad/hardware.json",
-     "what": "FT01 min -0.076, max 0.534"
+     "what": "FT01 min -0.076, max 0.534, nominal 0.229"
     }
    ],
    "check": {
-    "method": "RSS with the ID split into OD and 2 x wall",
-    "value": 0.053,
-    "repo_value": -0.076,
-    "delta_pct": null,
+    "method": "stack with the socket ID split into OD and 2 x wall (RSS)",
+    "value": 0.5338,
+    "repo_value": 0.5339999999999956,
+    "delta_pct": -0.04,
     "script": "analysis/validation/check_struct.py#MFG-STACKS"
    },
    "external": [
@@ -1874,122 +1683,35 @@
    "upstream": [],
    "downstream": []
   },
-  "STR-06": {
-   "kind": "computed",
-   "vars": [
-    {
-     "sym": "m",
-     "tex": "m",
-     "value": 6.551516,
-     "unit": "kg",
-     "desc": "MTOW in cad/params.txt",
-     "src": {
-      "kind": "file",
-      "ref": "cad/params.txt:140"
-     },
-     "from_claim": "AERO-22",
-     "link": {
-      "claim_value": 6.5376,
-      "claim_units": "kg",
-      "delta_pct": 0.2128609887420466,
-      "state": "consistent"
-     }
-    },
-    {
-     "sym": "g",
-     "tex": "g",
-     "value": 9.80665,
-     "unit": "m/s\u00b2",
-     "desc": "gravitational acceleration",
-     "src": {
-      "kind": "constant",
-      "ref": "standard gravity, CGPM 1901 / ISO 80000-3"
-     }
-    },
-    {
-     "sym": "n",
-     "tex": "n_{ult}",
-     "value": 4.5,
-     "unit": "-",
-     "desc": "ultimate load factor (3 x 1.5)",
-     "src": {
-      "kind": "file",
-      "ref": "cad/params.txt:53"
-     }
-    },
-    {
-     "sym": "bs",
-     "tex": "b/2",
-     "value": 1.2,
-     "unit": "m",
-     "desc": "semi-span",
-     "src": {
-      "kind": "file",
-      "ref": "analysis/results.json#concepts.C0.params.span",
-      "scaled": 0.5
-     }
-    }
-   ],
-   "steps": [
-    {
-     "tex": "L_{half} = \\frac{m g\\, n_{ult}}{2}",
-     "expr": "m*g*n/2",
-     "out": "Lh",
-     "unit": "N",
-     "desc": "lift on one wing",
-     "value": 144.55895485815
-    },
-    {
-     "tex": "M_{root} = L_{half}\\frac{4 (b/2)}{3\\pi}",
-     "expr": "Lh*4*bs/(3*math.pi)",
-     "out": "M",
-     "unit": "N\u00b7m",
-     "desc": "root moment, elliptic lift",
-     "value": 73.62327114839273
-    }
-   ],
-   "result": {
-    "symbol": "M",
-    "value": 73.62327114839273,
-    "unit": "N\u00b7m",
-    "claim_value": 73.62,
-    "claim_units": "N m",
-    "delta_pct": 0.004443287683682751,
-    "tol_pct": 0.5,
-    "relation": "eq",
-    "reproduced": true
-   },
-   "note": "",
+  "MFG-06": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
    "equations": [
-    "L_half = m g n / 2",
-    "M_ell = L_half 4 b_s/(3 pi)",
-    "M_uni = L_half b_s/2",
-    "M_Schrenk = (M_ell + M_uni)/2"
+    "theta = channel clearance / 800 mm",
+    "joiner tilt = FT01 clearance / 300 mm",
+    "gap = theta x chord",
+    "tip = theta x 1120 mm"
    ],
    "evidence": [
     {
-     "file": "analysis/results.json",
-     "what": "C0 struct nLimit 3, FS 1.5, nUlt 4.5, Mroot 73.47"
+     "file": "docs/build/BUILD-MANUAL.md",
+     "what": "4.7: push the socket home, weight the panel flat; no joiner-through-saddle alignment step"
     },
     {
-     "file": "cad/params.txt",
-     "what": "feaRootMomentTarget 73.62"
+     "file": "cad/hardware.json",
+     "what": "FT05 channel 26.0 +-0.5"
     }
    ],
    "check": {
-    "method": "Schrenk approximation for the rectangular planform",
-    "value": 80.21,
-    "repo_value": 73.62,
-    "delta_pct": 8.9,
-    "script": "analysis/validation/check_struct.py#STR-06"
+    "method": "angular stack vs joiner clearance (RSS tilt)",
+    "value": 1.388,
+    "repo_value": 1.503,
+    "delta_pct": -7.65,
+    "script": "analysis/validation/check_struct.py#MFG-STACKS"
    },
    "external": [],
-   "upstream": [
-    "AERO-22"
-   ],
-   "downstream": [
-    "STR-07"
-   ]
+   "upstream": [],
+   "downstream": []
   },
   "STR-07": {
    "kind": "computed",
@@ -1997,18 +1719,18 @@
     {
      "sym": "M",
      "tex": "M",
-     "value": 73.62327,
+     "value": 89.57249121814702,
      "unit": "N\u00b7m",
-     "desc": "root moment",
+     "desc": "root moment at ultimate, AVL span loading",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:55"
+      "ref": "analysis/validation/checks_struct.json#checks.STR-06.M_avl_Nm"
      },
      "from_claim": "STR-06",
      "link": {
-      "claim_value": 73.62,
+      "claim_value": 89.572,
       "claim_units": "N m",
-      "delta_pct": 0.004441727791361791,
+      "delta_pct": 0.0005484059159323366,
       "state": "consistent"
      }
     },
@@ -2050,40 +1772,41 @@
      "out": "sig",
      "unit": "MPa",
      "desc": "joiner bending stress at the centreline",
-     "value": 157.47142158252728
+     "value": 191.58490959190007
     }
    ],
    "result": {
     "symbol": "sig",
-    "value": 157.47142158252728,
+    "value": 191.58490959190007,
     "unit": "MPa",
-    "claim_value": 157.45,
+    "claim_value": 191.585,
     "claim_units": "MPa",
-    "delta_pct": 0.013605323929689342,
+    "delta_pct": -4.718955029684591e-05,
     "tol_pct": 0.5,
     "relation": "eq",
     "reproduced": true
    },
    "note": "",
    "equations": [
-    "I = pi/64 (22.225^4 - 19.279^4) = 5195 mm^4",
-    "sigma = M c / I"
+    "I = pi/64 (D^4 - d^4) = 5195 mm^4",
+    "sigma = M (D/2) / I",
+    "RF = sigma_y / sigma"
    ],
    "evidence": [
     {
      "file": "cad/sim/results.txt",
-     "what": "spar_hand_sigJ 157.45"
+     "what": "spar_hand_sigJ 178.702 (elliptic)"
     },
     {
      "file": "analysis/results.json",
-     "what": "struct sigJ 157.1 MPa, MS_J 1.750"
+     "what": "struct.sigJ, MS_J 1.5389"
     }
    ],
    "check": {
-    "method": "Schrenk moment with minimum yield 240 MPa",
-    "value": 1.4,
-    "repo_value": 1.75,
-    "delta_pct": -20.06,
+    "method": "same beam formula on the repo elliptic moment vs cad/sim/results.txt spar_hand_sigJ (STR-07b)",
+    "value": 178.782,
+    "repo_value": 178.702,
+    "delta_pct": 0.04,
     "script": "analysis/validation/check_struct.py#STR-07"
    },
    "external": [
@@ -2094,58 +1817,32 @@
    ],
    "downstream": []
   },
-  "STR-08": {
+  "STR-13": {
    "kind": "evidence",
    "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
    "equations": [
-    "M(z) from uniform 153.4 N on [0.08, 0.88] m",
-    "sigma = M c / I per zone"
+    "T = L_half (0.30 - 0.25) c",
+    "F = T / ((0.70 - 0.30) c)",
+    "F_pre = T_q / (K d)"
    ],
    "evidence": [
     {
-     "file": "cad/sim/results.txt",
-     "what": "spar_vm_max 146.6, spar_vm_max_fine 154.7, spar_note \"joiner modelled with OD = socket ID\""
+     "file": "docs/research/hardware-spec.md",
+     "what": "J10 (generated block): M5 x 25, tongue 6.4 mm"
     },
     {
-     "file": "cad/sim/fields/spar.json",
-     "what": "270,229-node nodal von Mises"
+     "file": "cad/hardware.json",
+     "what": "F09 torque 1.0 N m EST, torque_basis 1250 N on 47 mm2 = 27 MPa"
     }
    ],
    "check": {
-    "method": "M c / I on the modelled (thicker) joiner",
-    "value": 145.09,
-    "repo_value": 154.67,
-    "delta_pct": 6.6,
-    "script": "analysis/validation/check_struct.py#STR-08"
+    "method": "panel torsion reacted by the bolt; tongue bearing RF on the PETG proxy (must be >= 1.5, no repo value)",
+    "value": 60.83,
+    "repo_value": null,
+    "delta_pct": null,
+    "script": "analysis/validation/check_struct.py#STR-13"
    },
-   "external": [
-    "SRC-10"
-   ],
-   "upstream": [],
-   "downstream": []
-  },
-  "STR-09": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "delta = double integral of M/(EI) over the stepped section"
-   ],
-   "evidence": [
-    {
-     "file": "cad/sim/results.txt",
-     "what": "spar_tip_disp 23.21"
-    }
-   ],
-   "check": {
-    "method": "stepped-beam double integration",
-    "value": 23.12,
-    "repo_value": 23.21,
-    "delta_pct": 0.42,
-    "script": "analysis/validation/check_struct.py#STR-09"
-   },
-   "external": [
-    "SRC-10"
-   ],
+   "external": [],
    "upstream": [],
    "downstream": []
   },
@@ -2178,7 +1875,7 @@
     {
      "sym": "c",
      "tex": "c",
-     "value": 0.284176,
+     "value": 0.319557,
      "unit": "m",
      "desc": "wing chord used by the aero package",
      "src": {
@@ -2206,16 +1903,16 @@
      "out": "Re",
      "unit": "-",
      "desc": "Reynolds number at cruise",
-     "value": 350256.05366126326
+     "value": 393864.2733370598
     }
    ],
    "result": {
     "symbol": "Re",
-    "value": 350256.05366126326,
+    "value": 393864.2733370598,
     "unit": "-",
-    "claim_value": 350257,
+    "claim_value": 393864.0,
     "claim_units": "-",
-    "delta_pct": -0.00027018410388463345,
+    "delta_pct": 6.939884321210327e-05,
     "tol_pct": 0.5,
     "relation": "eq",
     "reproduced": true
@@ -2227,18 +1924,14 @@
    "evidence": [
     {
      "file": "analysis/aero/aero_results.json",
-     "what": "conditions.cruise.Re"
-    },
-    {
-     "file": "analysis/aero/out/su2/L2_SA_ap02.0/case.cfg",
-     "what": "MU_CONSTANT 6.29538554e-05 -> Re 350,256 with c=1, V=18"
+     "what": "conditions.cruise.Re 393864; conditions.stall.Re 262576"
     }
    ],
    "check": {
-    "method": "Re with current sizing chord 0.2818 m",
-    "value": 347327.816126,
-    "repo_value": 350257.0,
-    "delta_pct": -0.84,
+    "method": "Re with the current sizing chord 0.3219 m (results.json)",
+    "value": 396802.075321,
+    "repo_value": 393864.0,
+    "delta_pct": 0.75,
     "script": "analysis/validation/check_aero.py#AERO-01"
    },
    "external": [
@@ -2257,22 +1950,52 @@
    ],
    "evidence": [
     {
-     "file": "analysis/aero/out/xfoil_n2415_cruise_ncrit9.log",
-     "what": "XFOIL 6.99 banner, dated 2026-10-26 22:12"
+     "file": "analysis/aero/out/xfoil_n2415_cruise_ncrit9.txt",
+     "what": "polar table, 61 rows (alpha CL CD CDp Cm xtr_top xtr_bot)"
     },
     {
-     "file": "analysis/aero/out/xfoil_n2415_cruise_ncrit9.txt",
-     "what": "polar table, 60 rows"
+     "file": "analysis/aero/aero_results.json",
+     "what": "section_polars.n2415_cruise_ncrit9"
     }
    ],
    "check": {
-    "method": "thin-airfoil theory (numpy integral) for alpha_0L, Cm_c/4 and a0",
-    "value": -2.07724,
-    "repo_value": -2.01007,
-    "delta_pct": -3.34,
-    "script": "analysis/validation/check_aero.py#AERO-02,AERO-03,AERO-04"
+    "method": "thin-airfoil theory (numpy integral): a0 2 pi (AERO-02), alpha_0L -2.08 deg (AERO-02b, -4.0 %), Cm_c/4 -0.0531 (AERO-02c, -0.4 %)",
+    "value": 6.283185,
+    "repo_value": 6.81092,
+    "delta_pct": -7.75,
+    "script": "analysis/validation/check_aero.py#AERO-02,AERO-02b,AERO-02c"
    },
    "external": [],
+   "upstream": [],
+   "downstream": []
+  },
+  "AERO-04": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "Celik 2008: p from e32/e21 with r21, r32 and q(p)",
+    "GCI_fine = 1.25 e_a21 / (r21^p - 1)"
+   ],
+   "evidence": [
+    {
+     "file": "analysis/aero/aero_results.json",
+     "what": "cfd.mesh_study.alpha_10 (GCI_CL.GCI_fine_pct)"
+    },
+    {
+     "file": "analysis/aero/su2_2d.py",
+     "what": "gci(), Celik variable-ratio form (fixed 2026-10-29)"
+    }
+   ],
+   "check": {
+    "method": "own Celik GCI implementation on the stored CL and cell counts",
+    "value": 22.501627,
+    "repo_value": 22.5016,
+    "delta_pct": 0.0,
+    "script": "analysis/validation/check_aero.py#AERO-04"
+   },
+   "external": [
+    "SRC-18"
+   ],
    "upstream": [],
    "downstream": []
   },
@@ -2282,7 +2005,7 @@
     {
      "sym": "m",
      "tex": "m",
-     "value": 6.537558,
+     "value": 7.4355998,
      "unit": "kg",
      "desc": "MTOW",
      "src": {
@@ -2291,9 +2014,9 @@
      },
      "from_claim": "AERO-22",
      "link": {
-      "claim_value": 6.5376,
+      "claim_value": 7.4356,
       "claim_units": "kg",
-      "delta_pct": -0.0006424375917850832,
+      "delta_pct": -2.689762758522301e-06,
       "state": "consistent"
      }
     },
@@ -2341,7 +2064,7 @@
     {
      "sym": "CLmax",
      "tex": "C_{L,\\max}",
-     "value": 1.121,
+     "value": 1.116,
      "unit": "-",
      "desc": "aircraft maximum lift coefficient",
      "src": {
@@ -2350,7 +2073,7 @@
      },
      "from_claim": "AERO-06",
      "link": {
-      "claim_value": 1.121,
+      "claim_value": 1.116,
       "claim_units": "-",
       "delta_pct": 0.0,
       "state": "consistent"
@@ -2364,7 +2087,7 @@
      "out": "W",
      "unit": "N",
      "desc": "weight",
-     "value": 64.1115431607
+     "value": 72.91832477867
     },
     {
      "tex": "S = \\frac{2W}{\\rho V_s^2 C_{L,\\max}}",
@@ -2372,16 +2095,16 @@
      "out": "S",
      "unit": "m\u00b2",
      "desc": "wing area that stalls at V_s",
-     "value": 0.6763146447035405
+     "value": 0.7726639710747147
     }
    ],
    "result": {
     "symbol": "S",
-    "value": 0.6763146447035405,
+    "value": 0.7726639710747147,
     "unit": "m\u00b2",
-    "claim_value": 0.67632,
+    "claim_value": 0.772657,
     "claim_units": "m^2",
-    "delta_pct": -0.0007918287880749163,
+    "delta_pct": 0.0009022211297770101,
     "tol_pct": 0.5,
     "relation": "eq",
     "reproduced": true
@@ -2389,20 +2112,21 @@
    "note": "",
    "equations": [
     "S = 2 W / (rho V_s^2 CL_max)",
+    "c = S / b",
     "AR = b^2 / S"
    ],
    "evidence": [
     {
      "file": "analysis/results.json",
-     "what": "concepts.C0.sized.S/chord/AR"
+     "what": "concepts.C0.sized.S / chord / AR"
     }
    ],
    "check": {
     "method": "same formula recomputed in numpy (arithmetic only, not independent)",
-    "value": 0.676315,
-    "repo_value": 0.67632,
-    "delta_pct": -0.0,
-    "script": "analysis/validation/check_aero.py#AERO-10"
+    "value": 0.772664,
+    "repo_value": 0.772657,
+    "delta_pct": 0.0,
+    "script": "analysis/validation/check_aero.py#AERO-08"
    },
    "external": [
     "SRC-03"
@@ -2426,7 +2150,7 @@
     {
      "sym": "W",
      "tex": "W",
-     "value": 64.111543,
+     "value": 72.918325,
      "unit": "N",
      "desc": "weight",
      "src": {
@@ -2436,9 +2160,9 @@
      "from_claim": "AERO-22",
      "link_factor": 0.10197162129779283,
      "link": {
-      "claim_value": 6.5376,
+      "claim_value": 7.4356,
       "claim_units": "kg",
-      "delta_pct": -0.0006426882470628755,
+      "delta_pct": -2.386231390963536e-06,
       "state": "consistent"
      }
     },
@@ -2468,7 +2192,7 @@
     {
      "sym": "S",
      "tex": "S",
-     "value": 0.6763205,
+     "value": 0.77265731,
      "unit": "m\u00b2",
      "desc": "wing area",
      "src": {
@@ -2477,9 +2201,9 @@
      },
      "from_claim": "AERO-08",
      "link": {
-      "claim_value": 0.67632,
+      "claim_value": 0.772657,
       "claim_units": "m^2",
-      "delta_pct": 7.392950082192847e-05,
+      "delta_pct": 4.0121295737094614e-05,
       "state": "consistent"
      }
     }
@@ -2491,16 +2215,16 @@
      "out": "CL",
      "unit": "-",
      "desc": "cruise lift coefficient",
-     "value": 0.4776750685053317
+     "value": 0.4755527122567051
     }
    ],
    "result": {
     "symbol": "CL",
-    "value": 0.4776750685053317,
+    "value": 0.4755527122567051,
     "unit": "-",
-    "claim_value": 0.47768,
+    "claim_value": 0.475549,
     "claim_units": "-",
-    "delta_pct": -0.0010323845813708184,
+    "delta_pct": 0.0007806254886648227,
     "tol_pct": 0.5,
     "relation": "eq",
     "reproduced": true
@@ -2512,15 +2236,15 @@
    "evidence": [
     {
      "file": "analysis/results.json",
-     "what": "sized.CL"
+     "what": "concepts.C0.sized.CL"
     }
    ],
    "check": {
     "method": "same formula",
-    "value": 0.477675,
-    "repo_value": 0.477679,
-    "delta_pct": -0.0,
-    "script": "analysis/validation/check_aero.py#AERO-11"
+    "value": 0.475553,
+    "repo_value": 0.475549,
+    "delta_pct": 0.0,
+    "script": "analysis/validation/check_aero.py#AERO-09"
    },
    "external": [
     "SRC-19"
@@ -2532,6 +2256,161 @@
    "downstream": [
     "AERO-13"
    ]
+  },
+  "AERO-23": {
+   "kind": "computed",
+   "vars": [
+    {
+     "sym": "tc",
+     "tex": "t/c",
+     "value": 0.15,
+     "unit": "-",
+     "desc": "thickness ratio",
+     "src": {
+      "kind": "file",
+      "ref": "analysis/results.json#concepts.C0.params.tc"
+     }
+    },
+    {
+     "sym": "c",
+     "tex": "c",
+     "value": 0.32194055,
+     "unit": "m",
+     "desc": "chord",
+     "src": {
+      "kind": "file",
+      "ref": "analysis/results.json#concepts.C0.sized.chord"
+     }
+    },
+    {
+     "sym": "b",
+     "tex": "b",
+     "value": 2.4,
+     "unit": "m",
+     "desc": "span",
+     "src": {
+      "kind": "file",
+      "ref": "analysis/results.json#concepts.C0.params.span"
+     }
+    },
+    {
+     "sym": "rf",
+     "tex": "\\rho_{foam}",
+     "value": 32.0,
+     "unit": "kg/m\u00b3",
+     "desc": "XPS foam density (2 lb/ft\u00b3)",
+     "src": {
+      "kind": "file",
+      "ref": "analysis/results.json#concepts.C0.params.rhoFoam",
+      "src_id": "SRC-15"
+     }
+    },
+    {
+     "sym": "wg",
+     "tex": "w",
+     "value": 0.06,
+     "unit": "kg/m\u00b2",
+     "desc": "skin areal mass",
+     "src": {
+      "kind": "file",
+      "ref": "analysis/results.json#concepts.C0.params.wGlass"
+     }
+    },
+    {
+     "sym": "S",
+     "tex": "S",
+     "value": 0.77265731,
+     "unit": "m\u00b2",
+     "desc": "wing area",
+     "src": {
+      "kind": "file",
+      "ref": "analysis/results.json#concepts.C0.sized.S"
+     },
+     "from_claim": "AERO-08",
+     "link": {
+      "claim_value": 0.772657,
+      "claim_units": "m^2",
+      "delta_pct": 4.0121295737094614e-05,
+      "state": "consistent"
+     }
+    },
+    {
+     "sym": "ms",
+     "tex": "m_{spar}",
+     "value": 0.67524,
+     "unit": "kg",
+     "desc": "spar and joiner mass",
+     "src": {
+      "kind": "file",
+      "ref": "analysis/results.json#concepts.C0.params.m_spar"
+     }
+    },
+    {
+     "sym": "mh",
+     "tex": "m_{hw}",
+     "value": 0.2528,
+     "unit": "kg",
+     "desc": "printed wing hardpoints, pillar, tongue, stops, saddle plates (analysis/mass/mass_budget.json calibration; added to m_wing in analysis/model.js)",
+     "src": {
+      "kind": "file",
+      "ref": "analysis/results.json#concepts.C0.params.mWingHardware"
+     }
+    }
+   ],
+   "steps": [
+    {
+     "tex": "m_{wing} = 0.685\\,(t/c)\\,c^2 b\\,\\rho_{foam} + 2wS + m_{spar} + m_{hw}",
+     "expr": "0.685*tc*c**2*b*rf + 2*wg*S + ms + mh",
+     "out": "mw",
+     "unit": "kg",
+     "desc": "foam core (0.685 = NACA 4-digit area / (t c)) + skins + spar + printed hardware",
+     "value": 1.8386479649849279
+    }
+   ],
+   "result": {
+    "symbol": "mw",
+    "value": 1.8386479649849279,
+    "unit": "kg",
+    "claim_value": 1.832678,
+    "claim_units": "kg",
+    "delta_pct": 0.3257508948613917,
+    "tol_pct": 1.0,
+    "relation": "eq",
+    "reproduced": true
+   },
+   "note": "",
+   "equations": [
+    "m = 0.685 (t/c) c^2 b rho_foam + 2 w_tape S + m_spar + m_wing_hardware"
+   ],
+   "evidence": [
+    {
+     "file": "analysis/results.json",
+     "what": "sized.m_wing 1.8327"
+    },
+    {
+     "file": "analysis/mass/mass_budget.json",
+     "what": "groups Wing bottom_up_g 1809.4; calibration.mWingHardware"
+    },
+    {
+     "file": "analysis/model.js",
+     "what": "line 63: m_wing = S*sigmaWing + m_spar + mWingHardware"
+    }
+   ],
+   "check": {
+    "method": "NACA 4-digit area 0.685 t c^2 + tape + spar + hardware (AERO-23, +0.3 %); CAD bottom-up wing group (AERO-23b, -1.3 %)",
+    "value": 1.838648,
+    "repo_value": 1.832678,
+    "delta_pct": 0.33,
+    "script": "analysis/validation/check_aero.py#AERO-23,AERO-23b"
+   },
+   "external": [
+    "SRC-09",
+    "SRC-15"
+   ],
+   "upstream": [
+    "AERO-08"
+   ],
+   "downstream": []
   },
   "CFD-09": {
    "kind": "computed",
@@ -2550,7 +2429,7 @@
     {
      "sym": "c",
      "tex": "c",
-     "value": 0.284176,
+     "value": 0.321941,
      "unit": "m",
      "desc": "reference chord",
      "src": {
@@ -2590,14 +2469,14 @@
      "out": "Re",
      "unit": "-",
      "desc": "Reynolds number the inviscid run does not model",
-     "value": 346192.3093922652
+     "value": 392198.84254143643
     }
    ],
    "result": {
     "symbol": "Re",
-    "value": 346192.3093922652,
+    "value": 392198.84254143643,
     "unit": "-",
-    "claim_value": 346192.3093922652,
+    "claim_value": 392198.84254143643,
     "claim_units": "-",
     "delta_pct": 0.0,
     "tol_pct": 0.5,
@@ -2618,7 +2497,7 @@
    "check": {
     "method": "XFOIL section at Re 3.5e5 stays attached to ~10 deg (aero_results.json section_polars)",
     "value": null,
-    "repo_value": 346192.3093922652,
+    "repo_value": 392198.84254143643,
     "delta_pct": null,
     "script": "analysis/cfd3d/verify_cfd.py#CFD-09"
    },
@@ -2628,24 +2507,265 @@
    "upstream": [],
    "downstream": []
   },
-  "CFD-11": {
+  "CFD-12": {
    "kind": "evidence",
    "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
    "equations": [
-    "Bernoulli, incompressible: Cp = 1 - (V/V_inf)^2 <= 1"
+    "same SU2 INC_EULER numerics as run_cases.CFG on a 2-D gmsh mesh of the same NACA 2415 section",
+    "reference: XFOIL 6.99 inviscid panel method",
+    "cl_alpha = (cl(4) - cl(0)) / 4 deg"
    ],
    "evidence": [
     {
-     "file": "analysis/cfd3d/out/post/<case>.json",
-     "what": "cp_above_stagnation"
+     "file": "analysis/cfd3d/out/scheme_check_2d.json",
+     "what": "five spacings, alpha 0 and 4"
+    },
+    {
+     "file": "analysis/cfd3d/out/scheme2d/",
+     "what": "meshes, SU2 logs, XFOIL polar"
     }
    ],
    "check": {
-    "method": "Bernoulli bound",
-    "value": 1.0,
-    "repo_value": 2.4089777073688547,
+    "method": "XFOIL inviscid",
+    "value": 7.061704824987397,
+    "repo_value": 6.519297288461976,
+    "delta_pct": -7.680971521298177,
+    "script": "analysis/cfd3d/scheme_check_2d.py"
+   },
+   "external": [],
+   "upstream": [],
+   "downstream": []
+  },
+  "MFG-09": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "protrusion = (spot + L_screw) - (H_pillar - pocket + h_nut)",
+    "WC = sum |t_i|"
+   ],
+   "evidence": [
+    {
+     "file": "cad/params.txt",
+     "what": "pillarH 0.029489, pillarSpot 0.002, pillarNutDepth 0.011, wingBoltL 0.025"
+    },
+    {
+     "file": "cad/params.built.txt",
+     "what": "as-built CAD: pillarH 0.029381, pillarNutDepth 0.0109 -> 3.519 mm"
+    },
+    {
+     "file": "cad/verification.txt",
+     "what": "F09_M5x25_BHCS instances in the assembly"
+    }
+   ],
+   "check": {
+    "method": "same stack on the as-built CAD parameters (params.built.txt), tolerance 1 %",
+    "value": 3.519,
+    "repo_value": 3.511,
+    "delta_pct": 0.23,
+    "script": "analysis/validation/check_struct.py#MFG-STACKS"
+   },
+   "external": [],
+   "upstream": [],
+   "downstream": []
+  },
+  "STR-06": {
+   "kind": "computed",
+   "vars": [
+    {
+     "sym": "m",
+     "tex": "m",
+     "value": 7.4356,
+     "unit": "kg",
+     "desc": "MTOW in cad/params.txt",
+     "src": {
+      "kind": "file",
+      "ref": "cad/params.txt:140"
+     },
+     "from_claim": "AERO-22",
+     "link": {
+      "claim_value": 7.4356,
+      "claim_units": "kg",
+      "delta_pct": 0.0,
+      "state": "consistent"
+     }
+    },
+    {
+     "sym": "g",
+     "tex": "g",
+     "value": 9.80665,
+     "unit": "m/s\u00b2",
+     "desc": "gravitational acceleration",
+     "src": {
+      "kind": "constant",
+      "ref": "standard gravity, CGPM 1901 / ISO 80000-3"
+     }
+    },
+    {
+     "sym": "n",
+     "tex": "n_{ult}",
+     "value": 4.5,
+     "unit": "-",
+     "desc": "ultimate load factor (3 x 1.5, team-set estimate)",
+     "src": {
+      "kind": "file",
+      "ref": "cad/params.txt:53"
+     }
+    },
+    {
+     "sym": "yb",
+     "tex": "\\bar{y}",
+     "value": 0.5457667945654925,
+     "unit": "m",
+     "desc": "spanwise centre of lift from the AVL strip loads (analysis/aero/out/avl/fs_pod_trim.txt, integrated by check_struct.py)",
+     "src": {
+      "kind": "file",
+      "ref": "analysis/validation/checks_struct.json#checks.STR-06.ybar_avl_m"
+     }
+    }
+   ],
+   "steps": [
+    {
+     "tex": "L_{half} = \\frac{m g\\, n_{ult}}{2}",
+     "expr": "m*g*n/2",
+     "out": "Lh",
+     "unit": "N",
+     "desc": "lift on one wing",
+     "value": 164.066235165
+    },
+    {
+     "tex": "M_{root} = L_{half}\\,\\bar{y}",
+     "expr": "Lh*yb",
+     "out": "M",
+     "unit": "N\u00b7m",
+     "desc": "root moment, AVL span loading",
+     "value": 89.54190326243034
+    }
+   ],
+   "result": {
+    "symbol": "M",
+    "value": 89.54190326243034,
+    "unit": "N\u00b7m",
+    "claim_value": 89.572,
+    "claim_units": "N m",
+    "delta_pct": -0.03360060908505376,
+    "tol_pct": 0.5,
+    "relation": "eq",
+    "reproduced": true
+   },
+   "note": "The sizing uses elliptic lift (centre of lift 4 (b/2) / 3 pi = 0.509 m); the AVL centre of lift is 7 % further out.",
+   "equations": [
+    "L_half = m g n / 2",
+    "y_bar = sum(c_cl dy y) / sum(c_cl dy) over the AVL strips",
+    "M = L_half y_bar",
+    "Schrenk: M = (M_ell + M_uni)/2, M_ell = L_half 4 b_s/(3 pi), M_uni = L_half b_s/2",
+    "n_stall = (V / V_s)^2"
+   ],
+   "evidence": [
+    {
+     "file": "analysis/aero/out/avl/fs_pod_trim.txt",
+     "what": "Surface 1 Wing, 30 strips: Yle, Chord, Area, c_cl"
+    },
+    {
+     "file": "analysis/results.json",
+     "what": "concepts.C0.struct nLimit 3, FS 1.5, nUlt 4.5, Mroot 83.558 (elliptic)"
+    },
+    {
+     "file": "cad/params.txt",
+     "what": "feaRootMomentTarget 83.558246"
+    }
+   ],
+   "check": {
+    "method": "Schrenk approximation for the rectangular planform (tolerance 5 %)",
+    "value": 91.03,
+    "repo_value": 89.572,
+    "delta_pct": 1.63,
+    "script": "analysis/validation/check_struct.py#STR-06"
+   },
+   "external": [],
+   "upstream": [
+    "AERO-22"
+   ],
+   "downstream": [
+    "STR-07"
+   ]
+  },
+  "STR-08": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "M(z) from uniform w = F / L_spar on [fusR, fusR + L_spar]",
+    "sigma = M c / I per zone (joiner, overlap, spar)"
+   ],
+   "evidence": [
+    {
+     "file": "cad/sim/results.txt",
+     "what": "spar_vm_max 166.37, spar_vm_max_fine 175.54, spar_load_N 174.08, spar_note \"joiner modelled with OD = socket ID\""
+    },
+    {
+     "file": "cad/sim/fields/spar.json",
+     "what": "270229-node nodal von Mises"
+    }
+   ],
+   "check": {
+    "method": "beam theory on the FEA geometry, centreline (tolerance 5 %)",
+    "value": 164.674,
+    "repo_value": 166.366,
+    "delta_pct": -1.02,
+    "script": "analysis/validation/check_struct.py#STR-08"
+   },
+   "external": [
+    "SRC-10"
+   ],
+   "upstream": [],
+   "downstream": []
+  },
+  "STR-09": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "delta = double integral of M(z) / (E I(z)) dz dz over the stepped section"
+   ],
+   "evidence": [
+    {
+     "file": "cad/sim/results.txt",
+     "what": "spar_tip_disp 26.346"
+    }
+   ],
+   "check": {
+    "method": "stepped-beam double integration (tolerance 5 %)",
+    "value": 26.237,
+    "repo_value": 26.3462,
+    "delta_pct": -0.41,
+    "script": "analysis/validation/check_struct.py#STR-09"
+   },
+   "external": [
+    "SRC-10"
+   ],
+   "upstream": [],
+   "downstream": []
+  },
+  "AERO-28": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "AVL trim Cm = 0, CL = CL_cruise"
+   ],
+   "evidence": [
+    {
+     "file": "analysis/aero/out/avl/ft_pod_trim.txt",
+     "what": "trim run"
+    },
+    {
+     "file": "analysis/aero/aero_results.json",
+     "what": "trim_cruise, stall.trim_at_Vstall"
+    }
+   ],
+   "check": {
+    "method": "no independent hand trim computed",
+    "value": null,
+    "repo_value": null,
     "delta_pct": null,
-    "script": "analysis/cfd3d/postprocess.py"
+    "script": null
    },
    "external": [],
    "upstream": [],
@@ -2657,7 +2777,7 @@
     {
      "sym": "Sh",
      "tex": "S_h",
-     "value": 0.086836063,
+     "value": 0.10822625,
      "unit": "m\u00b2",
      "desc": "horizontal tail area",
      "src": {
@@ -2668,7 +2788,7 @@
     {
      "sym": "lh",
      "tex": "l_h",
-     "value": 0.76817784,
+     "value": 0.80444813,
      "unit": "m",
      "desc": "tail arm",
      "src": {
@@ -2679,7 +2799,7 @@
     {
      "sym": "S",
      "tex": "S",
-     "value": 0.6763205,
+     "value": 0.77265731,
      "unit": "m\u00b2",
      "desc": "wing area",
      "src": {
@@ -2688,16 +2808,16 @@
      },
      "from_claim": "AERO-08",
      "link": {
-      "claim_value": 0.67632,
+      "claim_value": 0.772657,
       "claim_units": "m^2",
-      "delta_pct": 7.392950082192847e-05,
+      "delta_pct": 4.0121295737094614e-05,
       "state": "consistent"
      }
     },
     {
      "sym": "c",
      "tex": "c",
-     "value": 0.28180021,
+     "value": 0.32194055,
      "unit": "m",
      "desc": "chord",
      "src": {
@@ -2713,16 +2833,16 @@
      "out": "Vh",
      "unit": "-",
      "desc": "horizontal tail volume coefficient",
-     "value": 0.34999999309968133
+     "value": 0.35000001069102843
     }
    ],
    "result": {
     "symbol": "Vh",
-    "value": 0.34999999309968133,
+    "value": 0.35000001069102843,
     "unit": "-",
     "claim_value": 0.35,
     "claim_units": "-",
-    "delta_pct": -1.971519614230033e-06,
+    "delta_pct": 3.0545795575471454e-06,
     "tol_pct": 0.5,
     "relation": "eq",
     "reproduced": true
@@ -2735,47 +2855,24 @@
    "evidence": [
     {
      "file": "analysis/results.json",
-     "what": "geo.Vh, geo.Vv"
+     "what": "geo.Vh, geo.Vv, Sh, Sv, lh"
     },
     {
      "file": "analysis/aero/aero_results.json",
-     "what": "tail_volumes: Raymer homebuilt typical 0.50 / 0.04"
+     "what": "tail_volumes: Raymer homebuilt typical 0.50 / 0.04; stability_derivatives_AVL_trim Cma -0.529, Cnb +0.039"
     }
    ],
    "check": {
     "method": "recomputed from areas and arm",
     "value": 0.35,
     "repo_value": 0.35,
-    "delta_pct": -0.0,
-    "script": "analysis/validation/check_aero.py#AERO-30,AERO-31"
+    "delta_pct": 0.0,
+    "script": "analysis/validation/check_aero.py#AERO-27,AERO-27b"
    },
    "external": [],
    "upstream": [
     "AERO-08"
    ],
-   "downstream": []
-  },
-  "AERO-28": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "AVL trim Cm = 0, CL = CL_cruise"
-   ],
-   "evidence": [
-    {
-     "file": "analysis/aero/out/avl/ft_pod_trim.txt",
-     "what": "trim run"
-    }
-   ],
-   "check": {
-    "method": "no independent hand trim computed",
-    "value": null,
-    "repo_value": null,
-    "delta_pct": null,
-    "script": null
-   },
-   "external": [],
-   "upstream": [],
    "downstream": []
   },
   "CFD-07": {
@@ -2793,69 +2890,9 @@
    "check": {
     "method": "AVL neutral point with pod",
     "value": 39.84,
-    "repo_value": 42.33238160191213,
-    "delta_pct": 6.255977916446106,
+    "repo_value": 39.719151577194225,
+    "delta_pct": -0.30333439459281736,
     "script": "analysis/cfd3d/verify_cfd.py#CFD-07"
-   },
-   "external": [],
-   "upstream": [],
-   "downstream": []
-  },
-  "STR-10": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "R_rear = T a / s",
-    "R_front = T + R_rear"
-   ],
-   "evidence": [
-    {
-     "file": "docs/research/hardware-spec.md",
-     "what": "J05 load check: front motor x 0.3709, clamps -0.0716 / -0.1909 (superseded coordinates)"
-    },
-    {
-     "file": "cad/params.txt",
-     "what": "rev D comp= positions 0.39094 / -0.08525 / -0.22734"
-    }
-   ],
-   "check": {
-    "method": "two-support beam statics",
-    "value": 102.9,
-    "repo_value": 114.0,
-    "delta_pct": -9.76,
-    "script": "analysis/validation/check_struct.py#STR-10"
-   },
-   "external": [
-    "SRC-01"
-   ],
-   "upstream": [],
-   "downstream": []
-  },
-  "STR-12": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "M = m_tail g n arm",
-    "F = M / 0.036 m",
-    "tau = F/(2 A_s)",
-    "sigma_br = F/(2 d t)"
-   ],
-   "evidence": [
-    {
-     "file": "docs/research/hardware-spec.md",
-     "what": "J04 geometry; M7 slip test"
-    },
-    {
-     "file": "cad/hardware.json",
-     "what": "FT04 plug clearance 0.019-0.825 mm"
-    }
-   ],
-   "check": {
-    "method": "inertial-only shear couple",
-    "value": 109.0,
-    "repo_value": null,
-    "delta_pct": null,
-    "script": "analysis/validation/check_struct.py#STR-12"
    },
    "external": [],
    "upstream": [],
@@ -2874,8 +2911,8 @@
     }
    ],
    "check": {
-    "method": "free rotation over half-plug length",
-    "value": 1.18,
+    "method": "free rotation over the 40 mm half-plug",
+    "value": 1.182,
     "repo_value": null,
     "delta_pct": null,
     "script": "analysis/validation/check_struct.py#MFG-STACKS"
@@ -2887,27 +2924,250 @@
    "upstream": [],
    "downstream": []
   },
-  "STR-02": {
+  "STR-10": {
    "kind": "evidence",
    "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
    "equations": [
-    "sigma(x) = P (a - x) c / I, a = L - r_block"
+    "R_rear = T a / s",
+    "R_front = T + R_rear",
+    "check: R_front = T (a + s) / s"
+   ],
+   "evidence": [
+    {
+     "file": "docs/research/hardware-spec.md",
+     "what": "J05 load check (gen:j05_load block): rear clamp 96.1 N"
+    },
+    {
+     "file": "cad/params.txt",
+     "what": "comp= Motor_Mount_Upper x 0.40755, Boom_Clamp_F_Upper x -0.09658, Boom_Clamp_R_Upper x -0.25755"
+    }
+   ],
+   "check": {
+    "method": "moment balance about the rear clamp (front reaction) and hardware-spec J05 value",
+    "value": 96.131,
+    "repo_value": 96.1,
+    "delta_pct": 0.03,
+    "script": "analysis/validation/check_struct.py#STR-10"
+   },
+   "external": [
+    "SRC-01"
+   ],
+   "upstream": [],
+   "downstream": []
+  },
+  "STR-12": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "M = m_tail g n arm",
+    "F = M / 0.036 m",
+    "tau = F / (2 A_s)",
+    "sigma_br = F / (2 d t)"
+   ],
+   "evidence": [
+    {
+     "file": "docs/research/hardware-spec.md",
+     "what": "J04 geometry"
+    },
+    {
+     "file": "cad/hardware.json",
+     "what": "FT04 plug clearance 0.019-0.825 mm"
+    }
+   ],
+   "check": {
+    "method": "inertial shear couple; bolt shear utilisation (must be <= 1, no repo value)",
+    "value": 0.0241,
+    "repo_value": null,
+    "delta_pct": null,
+    "script": "analysis/validation/check_struct.py#STR-12"
+   },
+   "external": [],
+   "upstream": [],
+   "downstream": []
+  },
+  "STR-14": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "F = T / (K d)",
+    "T_slip = mu n F r",
+    "Q = eta P / omega"
+   ],
+   "evidence": [
+    {
+     "file": "docs/research/hardware-spec.md",
+     "what": "J04 friction capacity 16 N m (lubricated K)"
+    }
+   ],
+   "check": {
+    "method": "dry-thread preload (insert threads are unlubricated)",
+    "value": 7.257,
+    "repo_value": 16.0,
+    "delta_pct": -54.64,
+    "script": "analysis/validation/check_struct.py#STR-14"
+   },
+   "external": [
+    "SRC-01",
+    "SRC-05"
+   ],
+   "upstream": [],
+   "downstream": []
+  },
+  "MFG-07": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "c_max = (25.6 + 0.2) - (25.4 - 0.102)",
+    "grip if c_max < split gap"
+   ],
+   "evidence": [
+    {
+     "file": "cad/hardware.json",
+     "what": "FT02 max clearance 0.502, split gap 1.2"
+    }
+   ],
+   "check": {
+    "method": "worst-case stack",
+    "value": 0.5016,
+    "repo_value": 0.502,
+    "delta_pct": -0.08,
+    "script": "analysis/validation/check_struct.py#MFG-STACKS"
+   },
+   "external": [
+    "SRC-11",
+    "SRC-12"
+   ],
+   "upstream": [],
+   "downstream": []
+  },
+  "STR-01": {
+   "kind": "computed",
+   "vars": [
+    {
+     "sym": "P",
+     "tex": "P",
+     "value": 30.694814,
+     "unit": "N",
+     "desc": "maximum thrust of one lift unit (maker 3.13 kgf, results.json struct.Tmax)",
+     "src": {
+      "kind": "file",
+      "ref": "cad/params.txt:51"
+     }
+    },
+    {
+     "sym": "L",
+     "tex": "L",
+     "value": 0.488039,
+     "unit": "m",
+     "desc": "boom cantilever length",
+     "src": {
+      "kind": "file",
+      "ref": "cad/params.txt:50"
+     }
+    },
+    {
+     "sym": "D",
+     "tex": "D",
+     "value": 0.0254,
+     "unit": "m",
+     "desc": "boom OD (1.000 in)",
+     "src": {
+      "kind": "file",
+      "ref": "cad/params.txt:18"
+     }
+    },
+    {
+     "sym": "d",
+     "tex": "d",
+     "value": 0.023622,
+     "unit": "m",
+     "desc": "boom ID",
+     "src": {
+      "kind": "file",
+      "ref": "cad/params.txt:19"
+     }
+    }
+   ],
+   "steps": [
+    {
+     "tex": "I = \\frac{\\pi}{64}(D^4 - d^4)",
+     "expr": "math.pi/64*(D**4-d**4)",
+     "out": "I",
+     "unit": "m\u2074",
+     "desc": "second moment of area",
+     "value": 5.147728852770955e-09
+    },
+    {
+     "tex": "\\sigma = \\frac{P L\\,(D/2)}{I}",
+     "expr": "P*L*(D/2)/I/1e6",
+     "out": "sig",
+     "unit": "MPa",
+     "desc": "root bending stress, beam theory",
+     "value": 36.95792607362477
+    }
+   ],
+   "result": {
+    "symbol": "sig",
+    "value": 36.95792607362477,
+    "unit": "MPa",
+    "claim_value": 36.958,
+    "claim_units": "MPa",
+    "delta_pct": -0.00020002807302723372,
+    "tol_pct": 0.5,
+    "relation": "eq",
+    "reproduced": true
+   },
+   "note": "Beam theory at the clamp; the claim value is this beam stress (the FEA peak at the fixed face is a singularity, STR-02).",
+   "equations": [
+    "I = pi/64 (D^4 - d^4)",
+    "sigma = P L (D/2) / I",
+    "RF = sigma_y,min / sigma"
    ],
    "evidence": [
     {
      "file": "cad/sim/results.txt",
-     "what": "boom_vm_max 33.69 (3 mm), boom_vm_max_fine 36.77 (1.5 mm)"
+     "what": "boom_vm_max 35.43, boom_vm_max_fine 38.64, boom_hand_sigma 36.96, boom_RF_yield 7.76"
     },
     {
-     "file": "cad/sim/fields/boom.json",
-     "what": "419,524-node fine-mesh nodal von Mises"
+     "file": "cad/params.txt",
+     "what": "feaBoomL, feaTipForce, boomOD, boomID"
     }
    ],
    "check": {
-    "method": "beam theory at the slices vs FEA nodal max (mean |delta|)",
-    "value": 25.8,
-    "repo_value": 26.0,
-    "delta_pct": 0.81,
+    "method": "beam theory M c / I on the FEA load position vs SOLIDWORKS 3 mm mesh (STR-01b, tolerance 5 %)",
+    "value": 35.084,
+    "repo_value": 35.4333,
+    "delta_pct": -0.99,
+    "script": "analysis/validation/check_struct.py#STR-01"
+   },
+   "external": [
+    "SRC-01",
+    "SRC-10"
+   ],
+   "upstream": [],
+   "downstream": []
+  },
+  "STR-02": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "sigma(x) = P (a - x) (D/2) / I, a = L - r_block"
+   ],
+   "evidence": [
+    {
+     "file": "cad/sim/fields/boom.json",
+     "what": "493648-node fine-mesh nodal von Mises"
+    },
+    {
+     "file": "cad/sim/results.txt",
+     "what": "boom_vm_max 35.43 (3 mm), boom_vm_max_fine 38.64 (1.5 mm)"
+    }
+   ],
+   "check": {
+    "method": "beam theory at 4 stations vs FEA nodal field, worst |delta| (tolerance 5 %)",
+    "value": 1.74,
+    "repo_value": 0.0,
+    "delta_pct": null,
     "script": "analysis/validation/check_struct.py#STR-02"
    },
    "external": [
@@ -2925,7 +3185,7 @@
      "tex": "P",
      "value": 30.694814,
      "unit": "N",
-     "desc": "ultimate tip load",
+     "desc": "maximum thrust of one lift unit",
      "src": {
       "kind": "file",
       "ref": "cad/params.txt:51"
@@ -2934,7 +3194,7 @@
     {
      "sym": "L",
      "tex": "L",
-     "value": 0.461982,
+     "value": 0.488039,
      "unit": "m",
      "desc": "boom length",
      "src": {
@@ -2992,36 +3252,36 @@
      "out": "delta",
      "unit": "mm",
      "desc": "tip deflection, cantilever",
-     "value": 2.840234257819529
+     "value": 3.348440476849013
     }
    ],
    "result": {
     "symbol": "delta",
-    "value": 2.840234257819529,
+    "value": 3.348440476849013,
     "unit": "mm",
-    "claim_value": 2.7,
+    "claim_value": 3.155,
     "claim_units": "mm",
-    "delta_pct": 5.193861400723288,
+    "delta_pct": 6.131235399334802,
     "tol_pct": 10.0,
     "relation": "eq",
     "reproduced": true
    },
    "note": "Full-length cantilever; the FEA clamps over the block, so it is a little stiffer.",
    "equations": [
-    "delta = P L^3/(3EI)",
-    "delta_tip = P a^2 (3L - a)/(6EI), a = L - r_block"
+    "delta = P L^3 / (3 E I) (load at the end)",
+    "delta_tip = P a^2 (3L - a) / (6 E I) (load at a = L - r_block)"
    ],
    "evidence": [
     {
      "file": "cad/sim/results.txt",
-     "what": "boom_disp_max 2.70, boom_hand_defl 2.84"
+     "what": "boom_disp_max 3.155, boom_hand_defl 3.348"
     }
    ],
    "check": {
-    "method": "cantilever with load at the block centroid",
-    "value": 2.64,
-    "repo_value": 2.7,
-    "delta_pct": 2.23,
+    "method": "cantilever with the load at the tip-block centroid (tolerance 5 %)",
+    "value": 3.094,
+    "repo_value": 3.15517,
+    "delta_pct": -1.94,
     "script": "analysis/validation/check_struct.py#STR-03"
    },
    "external": [
@@ -3037,7 +3297,7 @@
     {
      "sym": "mt",
      "tex": "m_{tip}",
-     "value": 0.242,
+     "value": 0.3255,
      "unit": "kg",
      "desc": "lift-unit mass at the tip",
      "src": {
@@ -3046,7 +3306,7 @@
      },
      "from_claim": "STR-05",
      "link": {
-      "claim_value": 0.242,
+      "claim_value": 0.3255,
       "claim_units": "kg",
       "delta_pct": 0.0,
       "state": "consistent"
@@ -3055,7 +3315,7 @@
     {
      "sym": "L",
      "tex": "L",
-     "value": 0.461982,
+     "value": 0.488039,
      "unit": "m",
      "desc": "boom length",
      "src": {
@@ -3125,7 +3385,7 @@
      "out": "mb",
      "unit": "kg",
      "desc": "boom mass",
-     "value": 0.0853889124931134
+     "value": 0.09020507176519121
     },
     {
      "tex": "f_1 = \\frac{1}{2\\pi}\\sqrt{\\frac{3EI}{(m_{tip} + 0.24\\,m_b)L^3}}",
@@ -3133,39 +3393,36 @@
      "out": "f",
      "unit": "Hz",
      "desc": "first bending mode, cantilever with tip mass (Rayleigh)",
-     "value": 32.29359618356684
+     "value": 25.862663422639987
     }
    ],
    "result": {
     "symbol": "f",
-    "value": 32.29359618356684,
+    "value": 25.862663422639987,
     "unit": "Hz",
-    "claim_value": 34.385,
+    "claim_value": 27.75,
     "claim_units": "Hz",
-    "delta_pct": -6.082314429062548,
+    "delta_pct": -6.801212891387436,
     "tol_pct": 10.0,
     "relation": "eq",
     "reproduced": true
    },
    "note": "",
    "equations": [
-    "f = (1/2pi) sqrt(3EI / ((m_tip + 0.24 m_beam) L^3))"
+    "f1 = 1/(2 pi) sqrt(3 E I / ((m_tip + 0.24 m_beam) a^3))",
+    "rpm_hover = rpm_max sqrt(T_hover / T_max)"
    ],
    "evidence": [
     {
      "file": "cad/sim/results.txt",
-     "what": "raw GetResonantFrequencies 34.385 Hz mode 1; boom_hand_fn 32.31"
-    },
-    {
-     "file": "cad/sim/FEA_Boom_Arm-Boom modes.LOG",
-     "what": "50,583 elements, 63 s"
+     "what": "boom_f1 27.750, boom_hand_fn 25.875"
     }
    ],
    "check": {
-    "method": "Rayleigh cantilever + tip mass at the block centroid",
-    "value": 34.67,
-    "repo_value": 34.385,
-    "delta_pct": -0.81,
+    "method": "Rayleigh cantilever + tip mass at the block centroid (tolerance 5 %)",
+    "value": 27.962,
+    "repo_value": 27.7504,
+    "delta_pct": 0.76,
     "script": "analysis/validation/check_struct.py#STR-04"
    },
    "external": [
@@ -3176,170 +3433,6 @@
    "upstream": [
     "STR-05"
    ],
-   "downstream": []
-  },
-  "STR-14": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "F = T/(K d)",
-    "T_slip = mu n F r",
-    "Q = eta P / omega"
-   ],
-   "evidence": [
-    {
-     "file": "docs/research/hardware-spec.md",
-     "what": "J04 friction capacity EST; M7 test 4.9 N m"
-    }
-   ],
-   "check": {
-    "method": "dry-thread preload (insert threads are unlubricated)",
-    "value": 7.3,
-    "repo_value": 16.0,
-    "delta_pct": -54.64,
-    "script": "analysis/validation/check_struct.py#STR-14"
-   },
-   "external": [
-    "SRC-01",
-    "SRC-05"
-   ],
-   "upstream": [],
-   "downstream": []
-  },
-  "MFG-07": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "grip if clearance < split gap"
-   ],
-   "evidence": [
-    {
-     "file": "cad/hardware.json",
-     "what": "FT02"
-    }
-   ],
-   "check": {
-    "method": "WC stack",
-    "value": 0.502,
-    "repo_value": 0.502,
-    "delta_pct": 0.0,
-    "script": "analysis/validation/check_struct.py#MFG-STACKS"
-   },
-   "external": [
-    "SRC-11",
-    "SRC-12"
-   ],
-   "upstream": [],
-   "downstream": []
-  },
-  "STR-01": {
-   "kind": "computed",
-   "vars": [
-    {
-     "sym": "P",
-     "tex": "P",
-     "value": 30.694814,
-     "unit": "N",
-     "desc": "ultimate tip load (hover thrust x 4.5 / 4 units)",
-     "src": {
-      "kind": "file",
-      "ref": "cad/params.txt:51"
-     }
-    },
-    {
-     "sym": "L",
-     "tex": "L",
-     "value": 0.461982,
-     "unit": "m",
-     "desc": "boom cantilever length",
-     "src": {
-      "kind": "file",
-      "ref": "cad/params.txt:50"
-     }
-    },
-    {
-     "sym": "D",
-     "tex": "D",
-     "value": 0.0254,
-     "unit": "m",
-     "desc": "boom OD (1.000 in)",
-     "src": {
-      "kind": "file",
-      "ref": "cad/params.txt:18"
-     }
-    },
-    {
-     "sym": "d",
-     "tex": "d",
-     "value": 0.023622,
-     "unit": "m",
-     "desc": "boom ID",
-     "src": {
-      "kind": "file",
-      "ref": "cad/params.txt:19"
-     }
-    }
-   ],
-   "steps": [
-    {
-     "tex": "I = \\frac{\\pi}{64}(D^4 - d^4)",
-     "expr": "math.pi/64*(D**4-d**4)",
-     "out": "I",
-     "unit": "m\u2074",
-     "desc": "second moment of area",
-     "value": 5.147728852770955e-09
-    },
-    {
-     "tex": "\\sigma = \\frac{P L\\,(D/2)}{I}",
-     "expr": "P*L*(D/2)/I/1e6",
-     "out": "sig",
-     "unit": "MPa",
-     "desc": "root bending stress, beam theory",
-     "value": 34.98469713146965
-    }
-   ],
-   "result": {
-    "symbol": "sig",
-    "value": 34.98469713146965,
-    "unit": "MPa",
-    "claim_value": 36.77,
-    "claim_units": "MPa",
-    "delta_pct": -4.855324635655021,
-    "tol_pct": 10.0,
-    "relation": "eq",
-    "reproduced": true
-   },
-   "note": "Hand calculation against the SOLIDWORKS fine-mesh peak; the FEA peak sits at the clamp corner, so a few % above beam theory is expected.",
-   "equations": [
-    "I = pi/64 (D^4 - d^4) = 5148 mm^4",
-    "sigma = P L c / I"
-   ],
-   "evidence": [
-    {
-     "file": "cad/sim/results.txt",
-     "what": "boom_vm_max 33.69, boom_vm_max_fine 36.77, boom_hand_sigma 34.98, boom_RF_yield 8.16"
-    },
-    {
-     "file": "cad/Sim.cs",
-     "what": "Boom(): fixed planar root face, normal force on tip-block top face, 3 mm and 1.5 mm meshes"
-    },
-    {
-     "file": "cad/sim/FEA_Boom_Arm-Boom full thrust fine mesh.LOG",
-     "what": "253,709 elements, 38 s"
-    }
-   ],
-   "check": {
-    "method": "Euler-Bernoulli M c / I at the clamp",
-    "value": 34.98,
-    "repo_value": 36.77,
-    "delta_pct": 5.11,
-    "script": "analysis/validation/check_struct.py#STR-01"
-   },
-   "external": [
-    "SRC-01",
-    "SRC-10"
-   ],
-   "upstream": [],
    "downstream": []
   },
   "XT-01": {
@@ -3361,9 +3454,9 @@
    ],
    "check": {
     "method": "gmsh + own C3D10 solver (no SOLIDWORKS code)",
-    "value": 2.6519867144792593,
-    "repo_value": 2.70274,
-    "delta_pct": -1.8778456499974343,
+    "value": 3.10212207183359,
+    "repo_value": 3.15517,
+    "delta_pct": -1.681301741789198,
     "script": "analysis/validation/xtool_boom_fea.py"
    },
    "external": [
@@ -3373,302 +3466,6 @@
    ],
    "upstream": [],
    "downstream": []
-  },
-  "AERO-18": {
-   "kind": "computed",
-   "vars": [
-    {
-     "sym": "n",
-     "tex": "n",
-     "value": 4.0,
-     "unit": "-",
-     "desc": "lift units",
-     "src": {
-      "kind": "file",
-      "ref": "analysis/results.json#concepts.C0.sized.nUnits"
-     }
-    },
-    {
-     "sym": "Tmax",
-     "tex": "T_{\\max}",
-     "value": 3.13,
-     "unit": "kg",
-     "desc": "maximum static thrust per unit (maker table, 3130 g)",
-     "src": {
-      "kind": "file",
-      "ref": "analysis/results.json#concepts.C0.params.Tmax_g",
-      "src_id": "SRC-01",
-      "scaled": 0.001
-     }
-    },
-    {
-     "sym": "m",
-     "tex": "m",
-     "value": 6.537558,
-     "unit": "kg",
-     "desc": "MTOW",
-     "src": {
-      "kind": "file",
-      "ref": "analysis/results.json#concepts.C0.sized.m"
-     },
-     "from_claim": "AERO-22",
-     "link": {
-      "claim_value": 6.5376,
-      "claim_units": "kg",
-      "delta_pct": -0.0006424375917850832,
-      "state": "consistent"
-     }
-    }
-   ],
-   "steps": [
-    {
-     "tex": "T/W = \\frac{n\\,T_{\\max}}{m}",
-     "expr": "n*Tmax/m",
-     "out": "TW",
-     "unit": "-",
-     "desc": "hover thrust-to-weight at full throttle",
-     "value": 1.9150881720666952
-    }
-   ],
-   "result": {
-    "symbol": "TW",
-    "value": 1.9150881720666952,
-    "unit": "-",
-    "claim_value": 1.9151,
-    "claim_units": "-",
-    "delta_pct": -0.0006176143963650252,
-    "tol_pct": 0.5,
-    "relation": "eq",
-    "reproduced": true
-   },
-   "note": "",
-   "equations": [
-    "T/W = n T_max / m",
-    "T at power limit interpolated from maker table"
-   ],
-   "evidence": [
-    {
-     "file": "analysis/results.json",
-     "what": "sized.TW"
-    },
-    {
-     "file": "analysis/sizing.mjs",
-     "what": "PACKS contA 60 (EST)"
-    }
-   ],
-   "check": {
-    "method": "power-limited T/W at 60 A x 21.0 V = 315 W/motor",
-    "value": 1.274913,
-    "repo_value": 1.915088,
-    "delta_pct": -33.43,
-    "script": "analysis/validation/check_aero.py#AERO-22"
-   },
-   "external": [
-    "SRC-01"
-   ],
-   "upstream": [
-    "AERO-22"
-   ],
-   "downstream": []
-  },
-  "STR-05": {
-   "kind": "computed",
-   "vars": [
-    {
-     "sym": "mm",
-     "tex": "m_{mount}",
-     "value": 0.055450000000000006,
-     "unit": "kg",
-     "desc": "upper motor mount (CAD mass)",
-     "src": {
-      "kind": "checker",
-      "ref": "analysis/validation/claims_struct.json STR-05.inputs.Motor_Mount_Upper"
-     }
-    },
-    {
-     "sym": "mc",
-     "tex": "m_{cap}",
-     "value": 0.033280000000000004,
-     "unit": "kg",
-     "desc": "mount cap (CAD mass)",
-     "src": {
-      "kind": "checker",
-      "ref": "analysis/validation/claims_struct.json STR-05.inputs.Motor_Mount_Cap"
-     }
-    },
-    {
-     "sym": "mo",
-     "tex": "m_{motor}",
-     "value": 0.165,
-     "unit": "kg",
-     "desc": "lift motor",
-     "src": {
-      "kind": "checker",
-      "ref": "analysis/validation/claims_struct.json STR-05.inputs.Lift_Motor",
-      "src_id": "SRC-01"
-     }
-    },
-    {
-     "sym": "mp",
-     "tex": "m_{prop}",
-     "value": 0.032,
-     "unit": "kg",
-     "desc": "lift propeller",
-     "src": {
-      "kind": "checker",
-      "ref": "analysis/validation/claims_struct.json STR-05.inputs.Lift_Prop"
-     }
-    },
-    {
-     "sym": "Prop_Plate",
-     "tex": "m_i",
-     "value": 0.00558,
-     "unit": "kg",
-     "desc": "other part: Prop_Plate",
-     "src": {
-      "kind": "checker",
-      "ref": "analysis/validation/claims_struct.json STR-05.inputs.Prop_Plate"
-     }
-    },
-    {
-     "sym": "fasteners+inserts (4 F01, 6 F02, 4 I01)",
-     "tex": "m_i",
-     "value": 0.014199999999999999,
-     "unit": "kg",
-     "desc": "other part: fasteners+inserts (4 F01, 6 F02, 4 I01)",
-     "src": {
-      "kind": "checker",
-      "ref": "analysis/validation/claims_struct.json STR-05.inputs.fasteners+inserts (4 F01, 6 F02, 4 I01)"
-     }
-    },
-    {
-     "sym": "ESC (sizing EST)",
-     "tex": "m_i",
-     "value": 0.025,
-     "unit": "kg",
-     "desc": "other part: ESC (sizing EST)",
-     "src": {
-      "kind": "checker",
-      "ref": "analysis/validation/claims_struct.json STR-05.inputs.ESC (sizing EST)"
-     }
-    }
-   ],
-   "steps": [
-    {
-     "tex": "m_{unit} = \\sum m_{part}",
-     "expr": "sum(_vars.values())",
-     "out": "mu",
-     "unit": "kg",
-     "desc": "lift-unit mass from the CAD parts",
-     "value": 0.33051
-    }
-   ],
-   "result": {
-    "symbol": "mu",
-    "value": 0.33051,
-    "unit": "kg",
-    "claim_value": 0.242,
-    "claim_units": "kg",
-    "delta_pct": 36.57438016528927,
-    "tol_pct": 5.0,
-    "relation": "eq",
-    "reproduced": false
-   },
-   "note": "The claim (0.242 kg) is the study's tip mass; the CAD parts add up to more.",
-   "equations": [
-    "m_unit = sum of CAD part masses (verification.txt)"
-   ],
-   "evidence": [
-    {
-     "file": "analysis/sizing.mjs",
-     "what": "X4110S mMount 0.020"
-    },
-    {
-     "file": "cad/verification.txt",
-     "what": "Motor_Mount_Upper 55.45 g + Motor_Mount_Cap 33.28 g"
-    },
-    {
-     "file": "cad/params.txt",
-     "what": "feaTipMass 0.242"
-    }
-   ],
-   "check": {
-    "method": "CAD roll-up of one lift unit",
-    "value": 0.331,
-    "repo_value": 0.242,
-    "delta_pct": 36.57,
-    "script": "analysis/validation/check_struct.py#STR-05"
-   },
-   "external": [
-    "SRC-01"
-   ],
-   "upstream": [],
-   "downstream": [
-    "STR-04"
-   ]
-  },
-  "THM-03": {
-   "kind": "computed",
-   "vars": [
-    {
-     "sym": "Pin",
-     "tex": "P_{in}",
-     "value": 228.12258,
-     "unit": "W",
-     "desc": "electrical power per lift motor in hover (P_hover / 4, analysis/results.json)",
-     "src": {
-      "kind": "file",
-      "ref": "analysis/results.json#concepts.C0.sized.P_hover_per_motor"
-     }
-    }
-   ],
-   "steps": [
-    {
-     "tex": "Q = 0.2\\,P_{in}",
-     "expr": "0.2*Pin",
-     "out": "Q",
-     "unit": "W",
-     "desc": "heat at 80 % motor efficiency (estimate)",
-     "value": 45.624516
-    }
-   ],
-   "result": {
-    "symbol": "Q",
-    "value": 45.624516,
-    "unit": "W",
-    "claim_value": 45.62,
-    "claim_units": "W",
-    "delta_pct": 0.009899167032008783,
-    "tol_pct": 0.5,
-    "relation": "eq",
-    "reproduced": true
-   },
-   "note": "",
-   "equations": [
-    "Q = 0.2 P_in",
-    "Q_Cu = I^2 R"
-   ],
-   "evidence": [
-    {
-     "file": "docs/research/thermal.md",
-     "what": "I2R about 13 W at 10.9 A; 20 % covers iron/bearing/ESC"
-    }
-   ],
-   "check": {
-    "method": "copper loss I^2 R (no-load loss \u2014)",
-    "value": 13.22,
-    "repo_value": 45.62,
-    "delta_pct": -71.03,
-    "script": "analysis/validation/check_struct.py#THM-03"
-   },
-   "external": [
-    "SRC-01",
-    "SRC-02"
-   ],
-   "upstream": [],
-   "downstream": [
-    "THM-01"
-   ]
   },
   "AERO-16": {
    "kind": "computed",
@@ -3687,7 +3484,7 @@
     {
      "sym": "T",
      "tex": "T",
-     "value": 16.028024,
+     "value": 18.229424,
      "unit": "N",
      "desc": "thrust per unit in hover",
      "src": {
@@ -3732,7 +3529,7 @@
     {
      "sym": "FMeta",
      "tex": "FM\\,\\eta",
-     "value": 0.51657548,
+     "value": 0.50537633,
      "unit": "-",
      "desc": "figure of merit x drive efficiency, from the maker's thrust table",
      "src": {
@@ -3749,7 +3546,7 @@
      "out": "Pi",
      "unit": "W",
      "desc": "ideal induced power per rotor",
-     "value": 107.12956893060048
+     "value": 129.94177676888737
     },
     {
      "tex": "P_{hover} = \\frac{n\\,P_{ideal}\\,k_{ctrl}}{FM\\,\\eta}",
@@ -3757,16 +3554,16 @@
      "out": "P",
      "unit": "W",
      "desc": "electrical hover power",
-     "value": 912.4902778866743
+     "value": 1131.3229050183343
     }
    ],
    "result": {
     "symbol": "P",
-    "value": 912.4902778866743,
+    "value": 1131.3229050183343,
     "unit": "W",
-    "claim_value": 912.49,
+    "claim_value": 1131.3229,
     "claim_units": "W",
-    "delta_pct": 3.0453667911494956e-05,
+    "delta_pct": 4.4358108347160806e-07,
     "tol_pct": 0.5,
     "relation": "eq",
     "reproduced": true
@@ -3775,24 +3572,24 @@
    "equations": [
     "P_ideal = T^1.5 / sqrt(2 rho A)",
     "P = n P_ideal k_ctrl / (FM eta)",
-    "FM eta interpolated from maker table"
+    "FM eta interpolated from the maker table"
    ],
    "evidence": [
     {
      "file": "analysis/results.json",
-     "what": "sized.P_hover, FMeta 0.517"
+     "what": "sized.P_hover 1131.3, FMeta 0.505, P_hover_per_motor 282.8"
     },
     {
-     "file": "docs/research/budget-lift.md",
-     "what": "line 42, 116, 169 (table is for 17x5.8; JeeFly 17x5.5 priced)"
+     "file": "analysis/propulsion_data_2026-11-01.json",
+     "what": "S1 17x5.8 22.2V rows (https://sunnyskyusa.com/products/sunnysky-x4110s-motors, checked 2026-11-01)"
     }
    ],
    "check": {
-    "method": "power interpolated directly from maker table x 1.10; momentum theory with FM 0.65, eta 0.80",
-    "value": 923.271664,
-    "repo_value": 912.49032,
-    "delta_pct": 1.18,
-    "script": "analysis/validation/check_aero.py#AERO-19,AERO-20"
+    "method": "maker table (all rows) interpolated in power x 1.10 (AERO-16, -0.4 %); momentum theory with FM 0.65, eta 0.80 (AERO-16b, -2.8 %)",
+    "value": 1126.431625,
+    "repo_value": 1131.3229,
+    "delta_pct": -0.43,
+    "script": "analysis/validation/check_aero.py#AERO-16,AERO-16b,AERO-16c"
    },
    "external": [
     "SRC-01"
@@ -3804,24 +3601,420 @@
     "AERO-20"
    ]
   },
+  "AERO-32": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "T(V) = 3130 (V/22.2)^kT, kT = ln(3600/3130)/ln(25/22.2)",
+    "I_m(V) = 27.7 (V/22.2)^kI, kI = ln(33.3/27.7)/ln(25/22.2)",
+    "V = 6 x 3.80 - 4 I_m x 6 x 0.006 (iterate)",
+    "T/W = 4 T / m >= 1/0.70"
+   ],
+   "evidence": [
+    {
+     "file": "analysis/validation/checks_aero.json",
+     "what": "intermediate.TW_sag"
+    },
+    {
+     "file": "analysis/propulsion_data_2026-11-01.json",
+     "what": "S1 17x5.8 rows; S13"
+    }
+   ],
+   "check": {
+    "method": "sag-aware T/W vs the 1/0.70 ArduPilot bound (relation >=)",
+    "value": 1.447902,
+    "repo_value": 1.428571,
+    "delta_pct": 1.35,
+    "script": "analysis/validation/check_aero.py#AERO-32",
+    "relation": "ge"
+   },
+   "external": [],
+   "upstream": [],
+   "downstream": []
+  },
+  "THM-02": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "v_i = sqrt(T / (2 rho A))",
+    "Re = V D / nu",
+    "Hilpert: Nu = 0.193 Re^0.618 Pr^(1/3)",
+    "Churchill-Bernstein: Nu = 0.3 + 0.62 Re^0.5 Pr^(1/3) / (1 + (0.4/Pr)^(2/3))^0.25 (1 + (Re/282000)^(5/8))^(4/5)",
+    "h = Nu k / D"
+   ],
+   "evidence": [
+    {
+     "file": "analysis/thermal/thermal_inputs.json",
+     "what": "h.motor_hover 44.647, h.motor_cruise 84.465; flow.v_i_mps 7.128"
+    }
+   ],
+   "check": {
+    "method": "Churchill-Bernstein cylinder correlation, hover (tolerance 5 %)",
+    "value": 45.116,
+    "repo_value": 44.647,
+    "delta_pct": 1.05,
+    "script": "analysis/validation/check_struct.py#THM-02"
+   },
+   "external": [
+    "SRC-19",
+    "SRC-20"
+   ],
+   "upstream": [],
+   "downstream": [
+    "THM-01"
+   ]
+  },
+  "THM-03": {
+   "kind": "computed",
+   "vars": [
+    {
+     "sym": "Pin",
+     "tex": "P_{in}",
+     "value": 282.83073,
+     "unit": "W",
+     "desc": "electrical power per lift motor in hover (P_hover / 4, analysis/results.json)",
+     "src": {
+      "kind": "file",
+      "ref": "analysis/results.json#concepts.C0.sized.P_hover_per_motor"
+     }
+    }
+   ],
+   "steps": [
+    {
+     "tex": "Q = 0.2\\,P_{in}",
+     "expr": "0.2*Pin",
+     "out": "Q",
+     "unit": "W",
+     "desc": "heat at 80 % motor efficiency (estimate)",
+     "value": 56.566146
+    }
+   ],
+   "result": {
+    "symbol": "Q",
+    "value": 56.566146,
+    "unit": "W",
+    "claim_value": 56.566,
+    "claim_units": "W",
+    "delta_pct": 0.00025810557578910944,
+    "tol_pct": 0.5,
+    "relation": "eq",
+    "reproduced": true
+   },
+   "note": "",
+   "equations": [
+    "Q_rule = 0.2 P_in",
+    "Q = I^2 R + I0 V_bemf",
+    "I = P_in / 21 V",
+    "V_bemf = rpm_hover / KV"
+   ],
+   "evidence": [
+    {
+     "file": "analysis/propulsion_data_2026-11-01.json",
+     "what": "S1 spec: resistance_mohm 107, no_load_current \"0.6A/10V\" (https://sunnyskyusa.com/products/sunnysky-x4110s-motors, checked 2026-11-01)"
+    },
+    {
+     "file": "analysis/thermal/thermal_inputs.json",
+     "what": "loads.lift_motor_W 56.566"
+    }
+   ],
+   "check": {
+    "method": "maker-data loss model I^2 R + I0 V_bemf (rule must be >= it)",
+    "value": 27.616,
+    "repo_value": 56.566,
+    "delta_pct": -51.18,
+    "script": "analysis/validation/check_struct.py#THM-03"
+   },
+   "external": [
+    "SRC-01",
+    "SRC-02"
+   ],
+   "upstream": [],
+   "downstream": [
+    "THM-01"
+   ]
+  },
+  "THM-04": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "T(t) = T_inf + (T0 - T_inf) exp(-t / tau)",
+    "tau = m c_p / (h A)"
+   ],
+   "evidence": [
+    {
+     "file": "cad/sim/thermal/results.txt",
+     "what": "lift_hover60_Motor 59.24, lift_hover90_Motor 72.80, lift_mission_max_Motor 75.20, val_motor_T90 88.41 vs lumped 88.17"
+    },
+    {
+     "file": "analysis/thermal/thermal_results.json",
+     "what": "findings: Lift motor can mission peak 75.2, margin 4.8 K, \"pass, < 10 K margin\""
+    }
+   ],
+   "check": {
+    "method": "lumped capacitance, motor alone (upper bound; FEA must be lower)",
+    "value": 80.603,
+    "repo_value": 75.1957,
+    "delta_pct": 7.19,
+    "script": "analysis/validation/check_struct.py#THM-04"
+   },
+   "external": [
+    "SRC-01",
+    "SRC-20"
+   ],
+   "upstream": [],
+   "downstream": []
+  },
+  "THM-05": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "lumped, Q = 4 % of unit input = 11.3 W"
+   ],
+   "evidence": [
+    {
+     "file": "cad/sim/thermal/results.txt",
+     "what": "lift_hover60_ESC 50.33, lift_mission_max_ESC 61.66, lift_steady_ESC 98.48"
+    }
+   ],
+   "check": {
+    "method": "lumped capacitance (tolerance 5 % of the rise)",
+    "value": 49.943,
+    "repo_value": 50.3268,
+    "delta_pct": -0.76,
+    "script": "analysis/validation/check_struct.py#THM-05"
+   },
+   "external": [
+    "SRC-01",
+    "SRC-20"
+   ],
+   "upstream": [],
+   "downstream": []
+  },
+  "AERO-18": {
+   "kind": "computed",
+   "vars": [
+    {
+     "sym": "n",
+     "tex": "n",
+     "value": 4.0,
+     "unit": "-",
+     "desc": "lift units",
+     "src": {
+      "kind": "file",
+      "ref": "analysis/results.json#concepts.C0.sized.nUnits"
+     }
+    },
+    {
+     "sym": "Tmax",
+     "tex": "T_{\\max}",
+     "value": 3.13,
+     "unit": "kg",
+     "desc": "maximum static thrust per unit (maker table, 3130 g)",
+     "src": {
+      "kind": "file",
+      "ref": "analysis/results.json#concepts.C0.params.Tmax_g",
+      "src_id": "SRC-01",
+      "scaled": 0.001
+     }
+    },
+    {
+     "sym": "m",
+     "tex": "m",
+     "value": 7.4355998,
+     "unit": "kg",
+     "desc": "MTOW",
+     "src": {
+      "kind": "file",
+      "ref": "analysis/results.json#concepts.C0.sized.m"
+     },
+     "from_claim": "AERO-22",
+     "link": {
+      "claim_value": 7.4356,
+      "claim_units": "kg",
+      "delta_pct": -2.689762758522301e-06,
+      "state": "consistent"
+     }
+    }
+   ],
+   "steps": [
+    {
+     "tex": "T/W = \\frac{n\\,T_{\\max}}{m}",
+     "expr": "n*Tmax/m",
+     "out": "TW",
+     "unit": "-",
+     "desc": "hover thrust-to-weight at full throttle",
+     "value": 1.6837915348806156
+    }
+   ],
+   "result": {
+    "symbol": "TW",
+    "value": 1.6837915348806156,
+    "unit": "-",
+    "claim_value": 1.683792,
+    "claim_units": "-",
+    "delta_pct": -2.7623327842203505e-05,
+    "tol_pct": 0.5,
+    "relation": "eq",
+    "reproduced": true
+   },
+   "note": "",
+   "equations": [
+    "T/W = n T_max / m"
+   ],
+   "evidence": [
+    {
+     "file": "analysis/results.json",
+     "what": "sized.TW 1.6838"
+    },
+    {
+     "file": "docs/DESIGN-BASIS.md",
+     "what": "R13 (revised 2026-11-01)"
+    },
+    {
+     "file": "analysis/propulsion_data_2026-11-01.json",
+     "what": "S1 17x5.8 22.2V last row [27.7, 3130, 615, 5.09]"
+    }
+   ],
+   "check": {
+    "method": "T/W with the maker row read from propulsion_data S1 and the independent CAD bottom-up mass (AERO-18, +0.3 %); >= 1.6 (AERO-18b)",
+    "value": 1.688264,
+    "repo_value": 1.683792,
+    "delta_pct": 0.27,
+    "script": "analysis/validation/check_aero.py#AERO-18,AERO-18b"
+   },
+   "external": [
+    "SRC-01"
+   ],
+   "upstream": [
+    "AERO-22"
+   ],
+   "downstream": []
+  },
+  "STR-05": {
+   "kind": "computed",
+   "vars": [
+    {
+     "sym": "mo",
+     "tex": "m_{motor}",
+     "value": 0.165,
+     "unit": "kg",
+     "desc": "lift motor",
+     "src": {
+      "kind": "file",
+      "ref": "analysis/results.json#concepts.C0.params.mMotor",
+      "src_id": "SRC-01"
+     }
+    },
+    {
+     "sym": "me",
+     "tex": "m_{ESC}",
+     "value": 0.025,
+     "unit": "kg",
+     "desc": "ESC (estimate)",
+     "src": {
+      "kind": "file",
+      "ref": "analysis/results.json#concepts.C0.params.mEsc"
+     }
+    },
+    {
+     "sym": "mp",
+     "tex": "m_{prop}",
+     "value": 0.032,
+     "unit": "kg",
+     "desc": "lift propeller",
+     "src": {
+      "kind": "file",
+      "ref": "analysis/results.json#concepts.C0.params.mProp"
+     }
+    },
+    {
+     "sym": "mm",
+     "tex": "m_{mount}",
+     "value": 0.1035,
+     "unit": "kg",
+     "desc": "motor mount halves + prop plate, from the CAD (mass_budget.py calibration)",
+     "src": {
+      "kind": "file",
+      "ref": "analysis/mass/mass_budget.json#calibration.mMount"
+     }
+    }
+   ],
+   "steps": [
+    {
+     "tex": "m_{unit} = m_{motor} + m_{ESC} + m_{prop} + m_{mount}",
+     "expr": "mo+me+mp+mm",
+     "out": "mu",
+     "unit": "kg",
+     "desc": "lift-unit (boom tip) mass",
+     "value": 0.3255
+    }
+   ],
+   "result": {
+    "symbol": "mu",
+    "value": 0.3255,
+    "unit": "kg",
+    "claim_value": 0.3255,
+    "claim_units": "kg",
+    "delta_pct": 0.0,
+    "tol_pct": 0.5,
+    "relation": "eq",
+    "reproduced": true
+   },
+   "note": "Sizing roll-up; the independent CAD part roll-up (check_struct.py STR-05) agrees within 1.5 %.",
+   "equations": [
+    "m_unit = m_motor + m_esc + m_prop + m_mount"
+   ],
+   "evidence": [
+    {
+     "file": "analysis/results.json",
+     "what": "concepts.C0.struct.mTip 0.3255; params.mMount 0.1035"
+    },
+    {
+     "file": "analysis/mass/mass_budget.json",
+     "what": "calibration.mMount 0.1035 (mount halves + prop plate per lift unit)"
+    },
+    {
+     "file": "cad/params.txt",
+     "what": "feaTipMass 0.3255"
+    },
+    {
+     "file": "cad/verification.txt",
+     "what": "Motor_Mount_Upper 55.45 g, Motor_Mount_Cap 33.28 g"
+    }
+   ],
+   "check": {
+    "method": "CAD part roll-up of one lift unit (tolerance 5 %)",
+    "value": 0.3305,
+    "repo_value": 0.3255,
+    "delta_pct": 1.54,
+    "script": "analysis/validation/check_struct.py#STR-05"
+   },
+   "external": [
+    "SRC-01"
+   ],
+   "upstream": [],
+   "downstream": [
+    "STR-04"
+   ]
+  },
   "THM-01": {
    "kind": "computed",
    "vars": [
     {
      "sym": "Ta",
      "tex": "T_{amb}",
-     "value": 308.15,
+     "value": 25.0,
      "unit": "\u00b0C",
-     "desc": "ambient (35 \u00b0C)",
+     "desc": "design ambient 25 \u00b0C (DESIGN-BASIS R21)",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:62"
+      "ref": "analysis/thermal/thermal_inputs.json#ambient.hot_C"
      }
     },
     {
      "sym": "Q",
      "tex": "Q",
-     "value": 45.786146,
+     "value": 56.566146,
      "unit": "W",
      "desc": "heat into the motor",
      "src": {
@@ -3830,16 +4023,16 @@
      },
      "from_claim": "THM-03",
      "link": {
-      "claim_value": 45.62,
+      "claim_value": 56.566,
       "claim_units": "W",
-      "delta_pct": 0.36419552827708196,
+      "delta_pct": 0.00025810557578910944,
       "state": "consistent"
      }
     },
     {
      "sym": "h",
      "tex": "h",
-     "value": 50.0,
+     "value": 44.647127,
      "unit": "W/m\u00b2K",
      "desc": "convection coefficient (estimate)",
      "src": {
@@ -3848,10 +4041,10 @@
      },
      "from_claim": "THM-02",
      "link": {
-      "claim_value": 42.9,
+      "claim_value": 44.647,
       "claim_units": "W/m2K",
-      "delta_pct": 16.550116550116552,
-      "state": "stale"
+      "delta_pct": 0.00028445360270365326,
+      "state": "consistent"
      }
     },
     {
@@ -3888,44 +4081,40 @@
     },
     {
      "tex": "T = T_{amb} + \\frac{Q}{hA}",
-     "expr": "(Ta-273.15) + Q/(h*A)",
+     "expr": "Ta + Q/(h*A)",
      "out": "T",
      "unit": "\u00b0C",
      "desc": "steady temperature, lumped",
-     "value": 143.43886102719068
+     "value": 175.0320126774513
     }
    ],
    "result": {
     "symbol": "T",
-    "value": 143.43886102719068,
+    "value": 175.0320126774513,
     "unit": "\u00b0C",
-    "claim_value": 143.9,
+    "claim_value": 178.209,
     "claim_units": "deg C",
-    "delta_pct": -0.3204579380189874,
+    "delta_pct": -1.7827311317322423,
     "tol_pct": 2.0,
     "relation": "eq",
     "reproduced": true
    },
    "note": "",
    "equations": [
-    "T = T_amb + Q/(h A)",
-    "A = pi D H + 2 pi D^2/4 = 0.008445 m^2"
+    "A = pi D H + 2 pi D^2 / 4 = 0.008445 m^2",
+    "T = T_amb + Q / (h A)"
    ],
    "evidence": [
     {
-     "file": "cad/sim/results.txt",
-     "what": "motor_T_steady 143.90, motor_T_steady_hand 143.44"
-    },
-    {
      "file": "cad/sim/thermal/results.txt",
-     "what": "motor_only_T_steady 163.48"
+     "what": "motor_only_T_steady 178.209, motor_only_T_hand 175.032, val_simcs_T_steady 185.604, val_simcs_T_hand 185.032"
     }
    ],
    "check": {
-    "method": "lumped steady balance",
-    "value": 143.44,
-    "repo_value": 143.9,
-    "delta_pct": 0.43,
+    "method": "lumped steady balance at 25 C (tolerance 5 % of the rise)",
+    "value": 175.032,
+    "repo_value": 178.209,
+    "delta_pct": -1.78,
     "script": "analysis/validation/check_struct.py#THM-01"
    },
    "external": [
@@ -3938,217 +4127,13 @@
    ],
    "downstream": []
   },
-  "THM-02": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "v_i = sqrt(T/(2 rho A))",
-    "Re = V D/nu",
-    "Nu = 0.193 Re^0.618 Pr^(1/3)",
-    "h = Nu k/D"
-   ],
-   "evidence": [
-    {
-     "file": "analysis/thermal/thermal_inputs.py",
-     "what": "hilpert()"
-    },
-    {
-     "file": "analysis/thermal/thermal_results.json",
-     "what": "h motor_hover 42.9, motor_cruise 84.5"
-    }
-   ],
-   "check": {
-    "method": "Hilpert at 35 C density (1.146 kg/m3)",
-    "value": 43.81,
-    "repo_value": 42.9,
-    "delta_pct": 2.11,
-    "script": "analysis/validation/check_struct.py#THM-02"
-   },
-   "external": [
-    "SRC-19",
-    "SRC-20"
-   ],
-   "upstream": [],
-   "downstream": [
-    "THM-01"
-   ]
-  },
-  "THM-04": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "T(t) = T_inf + (T0 - T_inf) exp(-t/tau)",
-    "tau = m c_p/(h A)"
-   ],
-   "evidence": [
-    {
-     "file": "cad/sim/thermal/results.txt",
-     "what": "lift_hover60_Motor 62.74, lift_mission_max_Motor 76.24, val_motor_T90 77.24 vs lumped 77.01"
-    },
-    {
-     "file": "analysis/thermal/thermal_results.json",
-     "what": "findings: mission peak at risk, margin 3.8 K"
-    }
-   ],
-   "check": {
-    "method": "lumped capacitance, no conduction into the mount",
-    "value": 79.28,
-    "repo_value": 75.46,
-    "delta_pct": -8.63,
-    "script": "analysis/validation/check_struct.py#THM-04"
-   },
-   "external": [
-    "SRC-01",
-    "SRC-20"
-   ],
-   "upstream": [],
-   "downstream": []
-  },
-  "THM-05": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "lumped, 4 % ESC loss = 9.1 W"
-   ],
-   "evidence": [
-    {
-     "file": "cad/sim/thermal/results.txt",
-     "what": "lift_hover60_ESC 55.52, lift_mission_max_ESC 65.13"
-    }
-   ],
-   "check": {
-    "method": "lumped capacitance",
-    "value": 55.24,
-    "repo_value": 55.52,
-    "delta_pct": 1.35,
-    "script": "analysis/validation/check_struct.py#THM-05"
-   },
-   "external": [
-    "SRC-01",
-    "SRC-20"
-   ],
-   "upstream": [],
-   "downstream": []
-  },
-  "AERO-15": {
-   "kind": "computed",
-   "vars": [
-    {
-     "sym": "rho",
-     "tex": "\\rho",
-     "value": 1.225,
-     "unit": "kg/m\u00b3",
-     "desc": "air density (ISA sea level)",
-     "src": {
-      "kind": "constant",
-      "ref": "ISA sea-level density",
-      "src_id": "SRC-19"
-     }
-    },
-    {
-     "sym": "V",
-     "tex": "V",
-     "value": 18.0,
-     "unit": "m/s",
-     "desc": "cruise speed",
-     "src": {
-      "kind": "file",
-      "ref": "analysis/results.json#concepts.C0.params.Vc"
-     }
-    },
-    {
-     "sym": "T",
-     "tex": "T",
-     "value": 7.4338608,
-     "unit": "N",
-     "desc": "cruise thrust = drag (analysis/results.json sized.D_cruise)",
-     "src": {
-      "kind": "file",
-      "ref": "analysis/results.json#concepts.C0.sized.D_cruise"
-     }
-    },
-    {
-     "sym": "Dp",
-     "tex": "D_p",
-     "value": 0.3556,
-     "unit": "m",
-     "desc": "pusher propeller diameter (14 in)",
-     "src": {
-      "kind": "file",
-      "ref": "cad/params.txt:32",
-      "src_id": "SRC-14"
-     }
-    }
-   ],
-   "steps": [
-    {
-     "tex": "q = \\tfrac12 \\rho V^2",
-     "expr": "0.5*rho*V**2",
-     "out": "q",
-     "unit": "Pa",
-     "desc": "dynamic pressure",
-     "value": 198.45000000000002
-    },
-    {
-     "tex": "A = \\pi D_p^2/4",
-     "expr": "math.pi*Dp**2/4",
-     "out": "A",
-     "unit": "m\u00b2",
-     "desc": "disc area",
-     "value": 0.09931466590310957
-    },
-    {
-     "tex": "\\eta_{ideal} = \\frac{2}{1 + \\sqrt{1 + T/(qA)}}",
-     "expr": "2/(1+math.sqrt(1+T/(q*A)))",
-     "out": "eta",
-     "unit": "-",
-     "desc": "momentum-theory upper bound on propeller efficiency",
-     "value": 0.920160608391745
-    }
-   ],
-   "result": {
-    "symbol": "eta",
-    "value": 0.920160608391745,
-    "unit": "-",
-    "claim_value": 0.6,
-    "claim_units": "-",
-    "delta_pct": 53.36010139862417,
-    "tol_pct": 0.5,
-    "relation": "ge",
-    "reproduced": true
-   },
-   "note": "The claim's 0.60 is an assumed efficiency; it must not exceed the ideal (momentum-theory) value.",
-   "equations": [
-    "eta_ideal = 2 / (1 + sqrt(1 + T/(q A)))"
-   ],
-   "evidence": [
-    {
-     "file": "analysis/sizing.mjs",
-     "what": "etaProp 0.60 EST; PB section 0"
-    }
-   ],
-   "check": {
-    "method": "0.80 x momentum-ideal efficiency",
-    "value": 0.736128,
-    "repo_value": 0.6,
-    "delta_pct": 22.69,
-    "script": "analysis/validation/check_aero.py#AERO-18"
-   },
-   "external": [
-    "SRC-14"
-   ],
-   "upstream": [],
-   "downstream": [
-    "AERO-14"
-   ]
-  },
   "AERO-14": {
    "kind": "computed",
    "vars": [
     {
      "sym": "W",
      "tex": "W",
-     "value": 64.111543,
+     "value": 72.918325,
      "unit": "N",
      "desc": "weight",
      "src": {
@@ -4158,16 +4143,16 @@
      "from_claim": "AERO-22",
      "link_factor": 0.10197162129779283,
      "link": {
-      "claim_value": 6.5376,
+      "claim_value": 7.4356,
       "claim_units": "kg",
-      "delta_pct": -0.0006426882470628755,
+      "delta_pct": -2.386231390963536e-06,
       "state": "consistent"
      }
     },
     {
      "sym": "LD",
      "tex": "L/D",
-     "value": 8.624334,
+     "value": 8.7123782,
      "unit": "-",
      "desc": "lift-to-drag ratio",
      "src": {
@@ -4176,9 +4161,9 @@
      },
      "from_claim": "AERO-13",
      "link": {
-      "claim_value": 8.6243,
+      "claim_value": 8.712378,
       "claim_units": "-",
-      "delta_pct": 0.00039423489441952833,
+      "delta_pct": 2.295584518496129e-06,
       "state": "consistent"
      }
     },
@@ -4230,7 +4215,7 @@
      "out": "D",
      "unit": "N",
      "desc": "cruise drag",
-     "value": 7.433796395176718
+     "value": 8.36950868363359
     },
     {
      "tex": "P = \\frac{D\\,V}{\\eta_p \\eta_m}",
@@ -4238,16 +4223,16 @@
      "out": "P",
      "unit": "W",
      "desc": "electrical cruise power",
-     "value": 262.3692845356489
+     "value": 295.3944241282444
     }
    ],
    "result": {
     "symbol": "P",
-    "value": 262.3692845356489,
+    "value": 295.3944241282444,
     "unit": "W",
-    "claim_value": 262.37,
+    "claim_value": 295.39188,
     "claim_units": "W",
-    "delta_pct": -0.00027269289595500035,
+    "delta_pct": 0.0008612722341523985,
     "tol_pct": 0.5,
     "relation": "eq",
     "reproduced": true
@@ -4259,15 +4244,15 @@
    "evidence": [
     {
      "file": "analysis/results.json",
-     "what": "sized.P_cruise"
+     "what": "sized.P_cruise 295.39, sized.I_cruise 13.31"
     }
    ],
    "check": {
-    "method": "independent drag, same efficiencies",
-    "value": 273.443305,
-    "repo_value": 262.37156,
-    "delta_pct": 4.22,
-    "script": "analysis/validation/check_aero.py#AERO-17"
+    "method": "independent drag, same efficiencies (AERO-14); maker-eta variant in the note: 241 W",
+    "value": 295.746003,
+    "repo_value": 295.39188,
+    "delta_pct": 0.12,
+    "script": "analysis/validation/check_aero.py#AERO-14"
    },
    "external": [],
    "upstream": [
@@ -4284,19 +4269,20 @@
    "kind": "evidence",
    "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
    "equations": [
-    "lumped exposed can (lower bound)"
+    "lumped exposed can (lower bound)",
+    "T(t) = T_inf + (T0 - T_inf) exp(-t / tau)"
    ],
    "evidence": [
     {
      "file": "cad/sim/thermal/results.txt",
-     "what": "pusher_endcruise_Motor 80.37, pusher_steady_Motor 81.44, lift_steady_Mount 168.5"
+     "what": "pusher_endcruise_Motor 76.05, pusher_steady_Motor 77.25, pusher_endcruise_CupFloor 76.07"
     }
    ],
    "check": {
-    "method": "lumped, all surfaces at h 92.5",
-    "value": 72.69,
-    "repo_value": 80.37,
-    "delta_pct": 20.36,
+    "method": "lumped exposed can (lower bound)",
+    "value": 67.434,
+    "repo_value": 76.0457,
+    "delta_pct": -11.32,
     "script": "analysis/validation/check_struct.py#THM-08"
    },
    "external": [
@@ -4306,13 +4292,131 @@
    "upstream": [],
    "downstream": []
   },
+  "AERO-15": {
+   "kind": "computed",
+   "vars": [
+    {
+     "sym": "rho",
+     "tex": "\\rho",
+     "value": 1.225,
+     "unit": "kg/m\u00b3",
+     "desc": "air density (ISA sea level)",
+     "src": {
+      "kind": "constant",
+      "ref": "ISA sea-level density",
+      "src_id": "SRC-19"
+     }
+    },
+    {
+     "sym": "V",
+     "tex": "V",
+     "value": 18.0,
+     "unit": "m/s",
+     "desc": "cruise speed",
+     "src": {
+      "kind": "file",
+      "ref": "analysis/results.json#concepts.C0.params.Vc"
+     }
+    },
+    {
+     "sym": "T",
+     "tex": "T",
+     "value": 8.3694366,
+     "unit": "N",
+     "desc": "cruise thrust = drag (analysis/results.json sized.D_cruise)",
+     "src": {
+      "kind": "file",
+      "ref": "analysis/results.json#concepts.C0.sized.D_cruise"
+     }
+    },
+    {
+     "sym": "Dp",
+     "tex": "D_p",
+     "value": 0.3556,
+     "unit": "m",
+     "desc": "pusher propeller diameter (14 in)",
+     "src": {
+      "kind": "file",
+      "ref": "cad/params.txt:32",
+      "src_id": "SRC-14"
+     }
+    }
+   ],
+   "steps": [
+    {
+     "tex": "q = \\tfrac12 \\rho V^2",
+     "expr": "0.5*rho*V**2",
+     "out": "q",
+     "unit": "Pa",
+     "desc": "dynamic pressure",
+     "value": 198.45000000000002
+    },
+    {
+     "tex": "A = \\pi D_p^2/4",
+     "expr": "math.pi*Dp**2/4",
+     "out": "A",
+     "unit": "m\u00b2",
+     "desc": "disc area",
+     "value": 0.09931466590310957
+    },
+    {
+     "tex": "\\eta_{ideal} = \\frac{2}{1 + \\sqrt{1 + T/(qA)}}",
+     "expr": "2/(1+math.sqrt(1+T/(q*A)))",
+     "out": "eta",
+     "unit": "-",
+     "desc": "momentum-theory upper bound on propeller efficiency",
+     "value": 0.9117485404296642
+    }
+   ],
+   "result": {
+    "symbol": "eta",
+    "value": 0.9117485404296642,
+    "unit": "-",
+    "claim_value": 0.6,
+    "claim_units": "-",
+    "delta_pct": 51.95809007161071,
+    "tol_pct": 0.5,
+    "relation": "ge",
+    "reproduced": true
+   },
+   "note": "The claim's 0.60 is an assumed efficiency; it must not exceed the ideal (momentum-theory) value. The APC maker value at the cruise point (0.737, check_aero.py AERO-15b) is the tighter bound.",
+   "equations": [
+    "eta_ideal = 2 / (1 + sqrt(1 + T/(q A)))",
+    "Pe = T V / P_shaft (APC table, linear in V between rows)"
+   ],
+   "evidence": [
+    {
+     "file": "analysis/results.json",
+     "what": "params.etaProp 0.6; sized.D_cruise 8.369 N"
+    },
+    {
+     "file": "analysis/validation/checks_aero.json",
+     "what": "intermediate.pusher_APC_interp (Pe 0.7367, thrust 8.429 N, shaft 205.7 W)"
+    }
+   ],
+   "check": {
+    "method": "0.80 x momentum-ideal efficiency at the cruise thrust (0.729) vs the APC maker value 0.737; both >= 0.60",
+    "value": 0.729399,
+    "repo_value": 0.736661,
+    "delta_pct": -0.99,
+    "script": "analysis/validation/check_aero.py#AERO-15c,AERO-15,AERO-15b",
+    "relation": "eq"
+   },
+   "external": [
+    "SRC-14"
+   ],
+   "upstream": [],
+   "downstream": [
+    "AERO-14"
+   ]
+  },
   "AERO-17": {
    "kind": "computed",
    "vars": [
     {
      "sym": "P",
      "tex": "P_{hover}",
-     "value": 912.49032,
+     "value": 1131.3229,
      "unit": "W",
      "desc": "hover power",
      "src": {
@@ -4321,9 +4425,9 @@
      },
      "from_claim": "AERO-16",
      "link": {
-      "claim_value": 912.49,
+      "claim_value": 1131.3229,
       "claim_units": "W",
-      "delta_pct": 3.5068877465822696e-05,
+      "delta_pct": 0.0,
       "state": "consistent"
      }
     },
@@ -4347,36 +4451,37 @@
      "out": "I",
      "unit": "A",
      "desc": "hover current at nominal voltage",
-     "value": 41.10316756756757
+     "value": 50.96049099099099
     }
    ],
    "result": {
     "symbol": "I",
-    "value": 41.10316756756757,
+    "value": 50.96049099099099,
     "unit": "A",
-    "claim_value": 41.103,
+    "claim_value": 50.960492,
     "claim_units": "A",
-    "delta_pct": 0.00040767721958407104,
+    "delta_pct": -1.9799828687966927e-06,
     "tol_pct": 0.5,
     "relation": "eq",
     "reproduced": true
    },
    "note": "",
    "equations": [
-    "I = P_hover / V_pack"
+    "I = P_hover / V_pack",
+    "loaded: V = n_s (V_rest - I R_cell), I = P / V"
    ],
    "evidence": [
     {
      "file": "analysis/results.json",
-     "what": "sized.I_hover, I_hover_loaded"
+     "what": "sized.I_hover 50.96, I_hover_loaded 53.87"
     }
    ],
    "check": {
-    "method": "from independent hover power 923 W / 22.2 V",
-    "value": 923.271664,
-    "repo_value": 912.49032,
-    "delta_pct": 1.18,
-    "script": "analysis/validation/check_aero.py#AERO-19"
+    "method": "independent hover power / 22.2 V (AERO-17, -0.4 %); loaded current from the sag model vs the 21.0 V assumption (AERO-17b, +0.7 %)",
+    "value": 50.740163,
+    "repo_value": 50.960492,
+    "delta_pct": -0.43,
+    "script": "analysis/validation/check_aero.py#AERO-17,AERO-17b"
    },
    "external": [
     "SRC-01",
@@ -4433,7 +4538,7 @@
     {
      "sym": "Ph",
      "tex": "P_h",
-     "value": 912.49032,
+     "value": 1131.3229,
      "unit": "W",
      "desc": "hover power",
      "src": {
@@ -4442,9 +4547,9 @@
      },
      "from_claim": "AERO-16",
      "link": {
-      "claim_value": 912.49,
+      "claim_value": 1131.3229,
       "claim_units": "W",
-      "delta_pct": 3.5068877465822696e-05,
+      "delta_pct": 0.0,
       "state": "consistent"
      }
     },
@@ -4473,7 +4578,7 @@
     {
      "sym": "Pc",
      "tex": "P_c",
-     "value": 262.37156,
+     "value": 295.39188,
      "unit": "W",
      "desc": "cruise power",
      "src": {
@@ -4482,9 +4587,9 @@
      },
      "from_claim": "AERO-14",
      "link": {
-      "claim_value": 262.37,
+      "claim_value": 295.39188,
       "claim_units": "W",
-      "delta_pct": 0.0005945801730318156,
+      "delta_pct": 0.0,
       "state": "consistent"
      }
     }
@@ -4496,16 +4601,16 @@
      "out": "t",
      "unit": "min",
      "desc": "cruise time available",
-     "value": 15.804961787779137
+     "value": 12.062684097251873
     }
    ],
    "result": {
     "symbol": "t",
-    "value": 15.804961787779137,
+    "value": 12.062684097251873,
     "unit": "min",
-    "claim_value": 15.805,
+    "claim_value": 12.062684,
     "claim_units": "min",
-    "delta_pct": -0.00024177298869400513,
+    "delta_pct": 8.062208405111501e-07,
     "tol_pct": 0.5,
     "relation": "eq",
     "reproduced": true
@@ -4517,15 +4622,15 @@
    "evidence": [
     {
      "file": "analysis/results.json",
-     "what": "sized.t_cruise_avail_min"
+     "what": "sized.t_cruise_avail_min 12.063"
     }
    ],
    "check": {
     "method": "independent hover + cruise power",
-    "value": 15.059876,
-    "repo_value": 15.804962,
-    "delta_pct": -4.71,
-    "script": "analysis/validation/check_aero.py#AERO-24"
+    "value": 12.092344,
+    "repo_value": 12.062684,
+    "delta_pct": 0.25,
+    "script": "analysis/validation/check_aero.py#AERO-20"
    },
    "external": [
     "SRC-01",
@@ -4536,6 +4641,37 @@
     "AERO-16",
     "AERO-21"
    ],
+   "downstream": []
+  },
+  "THM-06": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "Q = I^2 R_pack",
+    "dT = sum(Q t) / (m c_p)"
+   ],
+   "evidence": [
+    {
+     "file": "cad/sim/thermal/results.txt",
+     "what": "pod_mission_end_Battery 53.19"
+    },
+    {
+     "file": "analysis/thermal/thermal_inputs.json",
+     "what": "loads.R_pack_ohm 0.036, R_cell_test_plan_now_ohm 0.006"
+    }
+   ],
+   "check": {
+    "method": "adiabatic I^2 R (upper bound, tolerance 5 % of the rise)",
+    "value": 53.876,
+    "repo_value": 53.1931,
+    "delta_pct": 1.28,
+    "script": "analysis/validation/check_struct.py#THM-06"
+   },
+   "external": [
+    "SRC-04",
+    "SRC-17"
+   ],
+   "upstream": [],
    "downstream": []
   },
   "AERO-21": {
@@ -4593,16 +4729,20 @@
    ],
    "evidence": [
     {
-     "file": "analysis/sizing.mjs",
-     "what": "PACKS[0]"
+     "file": "analysis/results.json",
+     "what": "concepts.C0.pick (Wh 144.3, kg 0.82)"
+    },
+    {
+     "file": "analysis/propulsion_data_2026-11-01.json",
+     "what": "S2 values"
     }
    ],
    "check": {
-    "method": "6.5 x 22.2",
+    "method": "maker listing: 6.5 Ah x 22.2 V (AERO-21) and 825 g (AERO-21b, +0.6 %)",
     "value": 144.3,
     "repo_value": 144.3,
     "delta_pct": -0.0,
-    "script": "analysis/validation/check_aero.py#AERO-25"
+    "script": "analysis/validation/check_aero.py#AERO-21,AERO-21b"
    },
    "external": [
     "SRC-04"
@@ -4612,61 +4752,30 @@
     "AERO-20"
    ]
   },
-  "THM-06": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "Q = I^2 R_pack",
-    "dT = sum(Q t)/(m c_p)"
-   ],
-   "evidence": [
-    {
-     "file": "cad/sim/thermal/results.txt",
-     "what": "pod_mission_end_Battery 59.25"
-    },
-    {
-     "file": "docs/research/thermal.md",
-     "what": "adiabatic pack; vents recommended"
-    }
-   ],
-   "check": {
-    "method": "adiabatic I^2 R",
-    "value": 59.83,
-    "repo_value": 59.25,
-    "delta_pct": -2.35,
-    "script": "analysis/validation/check_struct.py#THM-06"
-   },
-   "external": [
-    "SRC-04",
-    "SRC-17"
-   ],
-   "upstream": [],
-   "downstream": []
-  },
   "STR-11": {
    "kind": "evidence",
    "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
    "equations": [
-    "v = sqrt(2 g h)",
-    "n = 2(1 + h/s)",
-    "F_leg = m g n f_front / 2",
-    "M = F_leg (x_gear - x_clamp) - m_unit g n (x_motor - x_clamp)"
+    "k = 3 E I / a^3 (boom cantilevered from its clamp)",
+    "d = (m g + sqrt((m g)^2 + k m v^2)) / k",
+    "F = k d",
+    "sigma = F a (D/2) / I"
    ],
    "evidence": [
     {
-     "file": "analysis/results.json",
-     "what": "struct.strokes n 16/7/4/3, nSpring 32/14/8/6"
+     "file": "analysis/structures/landing.json",
+     "what": "corners front/rear, cases normal/hard: force, stress, RF"
     },
     {
-     "file": "docs/test/TEST-PLAN.md",
-     "what": "S06 predicted fail on bare legs; item 8 compliant feet not in the BOM"
+     "file": "firmware/vtol_c0.param",
+     "what": "Q_LAND_FINAL_SPD,0.3 (ArduPilot default 0.5, quadplane.cpp, checked 2026-11-01)"
     }
    ],
    "check": {
-    "method": "static-equivalent boom bending at n = 8 / 16 / 32",
-    "value": 369.0,
-    "repo_value": null,
-    "delta_pct": null,
+    "method": "RK4 time integration of the same spring-mass model (tolerance 0.5 %)",
+    "value": 246.102,
+    "repo_value": 246.102,
+    "delta_pct": 0.0,
     "script": "analysis/validation/check_struct.py#STR-11"
    },
    "external": [],
@@ -4677,19 +4786,24 @@
    "kind": "evidence",
    "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
    "equations": [
-    "lumped, Q 3.5 W, h 5 W/m2K"
+    "T(t) = T_inf + (T0 - T_inf) exp(-t / tau)",
+    "T_inf = T_amb + Q / (h A)"
    ],
    "evidence": [
     {
-     "file": "analysis/thermal/thermal_results.json",
-     "what": "Flight controller mission peak 96.8, limit None, status \"\u2014\""
+     "file": "cad/sim/thermal/results.txt",
+     "what": "pod_mission_max_FC 60.30"
+    },
+    {
+     "file": "analysis/thermal/thermal_inputs.json",
+     "what": "loads.fc_W 2.0, limits.fc_C 85"
     }
    ],
    "check": {
-    "method": "lumped capacitance",
-    "value": 89.26,
-    "repo_value": 96.78,
-    "delta_pct": 13.84,
+    "method": "lumped capacitance, must stay <= 85 C",
+    "value": 56.008,
+    "repo_value": 60.3001,
+    "delta_pct": -7.12,
     "script": "analysis/validation/check_struct.py#THM-07"
    },
    "external": [
@@ -5318,14 +5432,14 @@
   ]
  },
  "summary": {
-  "claims": 78,
+  "claims": 79,
   "computed": 29,
-  "evidence_only": 49,
-  "reproduced": 28,
-  "not_reproduced": 1,
+  "evidence_only": 50,
+  "reproduced": 29,
+  "not_reproduced": 0,
   "links": 33,
-  "links_consistent": 32,
-  "links_stale": 1,
+  "links_consistent": 33,
+  "links_stale": 0,
   "with_external_source": 51
  }
 }

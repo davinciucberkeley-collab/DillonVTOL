@@ -108,7 +108,7 @@ P["AERO-09"] = dict(vars=[V("W", "W", J(RES, f"{C0}.sized.W"), "N", "weight", up
 
 P["AERO-11"] = dict(vars=[V("AR", "AR", J(RES, f"{C0}.sized.AR"), "-", "aspect ratio")],
                     steps=[S(r"e = 1.78\,(1 - 0.045\,AR^{0.68}) - 0.64", "1.78*(1-0.045*AR**0.68)-0.64", "e", "-", "Oswald efficiency, Raymer 5th ed. eq. 12.49 (straight wing)")],
-                    result="e", tol=2.0)
+                    result="e", rel="ge", note="The claim is that the sizing's e = 0.80 is conservative: it must not exceed Raymer's estimate.")
 
 P["AERO-13"] = dict(vars=[V("CL", "C_L", J(RES, f"{C0}.sized.CL"), "-", "cruise CL", up="AERO-09"),
                           V("CD0", "C_{D0}", J(RES, f"{C0}.sized.CD0"), "-", "zero-lift drag", up="AERO-12"),
@@ -130,7 +130,7 @@ P["AERO-15"] = dict(vars=[rho(), V("V", "V", J(RES, f"{C0}.params.Vc"), "m/s", "
                           V("Dp", "D_p", KV(PAR, "pushProp"), "m", "pusher propeller diameter (14 in)", src_id="SRC-14")],
                     steps=[S(r"q = \tfrac12 \rho V^2", "0.5*rho*V**2", "q", "Pa", "dynamic pressure"), S(r"A = \pi D_p^2/4", "math.pi*Dp**2/4", "A", "m²", "disc area"),
                            S(r"\eta_{ideal} = \frac{2}{1 + \sqrt{1 + T/(qA)}}", "2/(1+math.sqrt(1+T/(q*A)))", "eta", "-", "momentum-theory upper bound on propeller efficiency")],
-                    result="eta", rel="ge", note="The claim's 0.60 is an assumed efficiency; it must not exceed the ideal (momentum-theory) value.")
+                    result="eta", rel="ge", note="The claim's 0.60 is an assumed efficiency; it must not exceed the ideal (momentum-theory) value. The APC maker value at the cruise point (0.737, check_aero.py AERO-15b) is the tighter bound.")
 
 P["AERO-16"] = dict(vars=[V("n", "n", J(RES, f"{C0}.sized.nUnits"), "-", "lift units"),
                           V("T", "T", J(RES, f"{C0}.sized.Tunit_N"), "N", "thrust per unit in hover"), rho(),
@@ -178,9 +178,11 @@ P["AERO-23"] = dict(vars=[V("tc", "t/c", J(RES, f"{C0}.params.tc"), "-", "thickn
                           V("rf", r"\rho_{foam}", J(RES, f"{C0}.params.rhoFoam"), "kg/m³", "XPS foam density (2 lb/ft³)", src_id="SRC-15"),
                           V("wg", "w", J(RES, f"{C0}.params.wGlass"), "kg/m²", "skin areal mass"),
                           V("S", "S", J(RES, f"{C0}.sized.S"), "m²", "wing area", up="AERO-08"),
-                          V("ms", "m_{spar}", J(RES, f"{C0}.params.m_spar"), "kg", "spar and joiner mass")],
-                    steps=[S(r"m_{wing} = 0.685\,(t/c)\,c^2 b\,\rho_{foam} + 2wS + m_{spar}", "0.685*tc*c**2*b*rf + 2*wg*S + ms", "mw", "kg",
-                             "foam core (0.685 = NACA 4-digit area / (t c)) + skins + spar")], result="mw", tol=1.0)
+                          V("ms", "m_{spar}", J(RES, f"{C0}.params.m_spar"), "kg", "spar and joiner mass"),
+                          V("mh", "m_{hw}", J(RES, f"{C0}.params.mWingHardware"), "kg",
+                            "printed wing hardpoints, pillar, tongue, stops, saddle plates (analysis/mass/mass_budget.json calibration; added to m_wing in analysis/model.js)")],
+                    steps=[S(r"m_{wing} = 0.685\,(t/c)\,c^2 b\,\rho_{foam} + 2wS + m_{spar} + m_{hw}", "0.685*tc*c**2*b*rf + 2*wg*S + ms + mh", "mw", "kg",
+                             "foam core (0.685 = NACA 4-digit area / (t c)) + skins + spar + printed hardware")], result="mw", tol=1.0)
 
 P["AERO-26"] = dict(vars=[V("hn", "h_n", J(AER, "neutral_point.AVL_pod_pct_MAC"), "%MAC", "neutral point (AVL, with pod)", up="AERO-25"),
                           V("hcg", "h_{cg}", J(RES, f"{C0}.cg.pct.target"), "%MAC", "CG target")],
@@ -200,14 +202,14 @@ P["AERO-29"] = dict(vars=[V("CD0", "C_{D0}", J(RES, f"{C0}.sized.CD0"), "-", "ze
 
 # ---- structures and heat (SOLIDWORKS study inputs from cad/params.txt; results from cad/sim/results.txt) ----
 E_ = lambda: V("E", "E", KV(PAR, "matE"), "Pa", "Young's modulus, 6061-T6", src_id="SRC-09")
-P["STR-01"] = dict(vars=[V("P", "P", KV(PAR, "feaTipForce"), "N", "ultimate tip load (hover thrust x 4.5 / 4 units)"),
+P["STR-01"] = dict(vars=[V("P", "P", KV(PAR, "feaTipForce"), "N", "maximum thrust of one lift unit (maker 3.13 kgf, results.json struct.Tmax)"),
                          V("L", "L", KV(PAR, "feaBoomL"), "m", "boom cantilever length"),
                          V("D", "D", KV(PAR, "boomOD"), "m", "boom OD (1.000 in)"), V("d", "d", KV(PAR, "boomID"), "m", "boom ID")],
                    steps=[S(r"I = \frac{\pi}{64}(D^4 - d^4)", "math.pi/64*(D**4-d**4)", "I", "m⁴", "second moment of area"),
                           S(r"\sigma = \frac{P L\,(D/2)}{I}", "P*L*(D/2)/I/1e6", "sig", "MPa", "root bending stress, beam theory")],
-                   result="sig", tol=10.0, note="Hand calculation against the SOLIDWORKS fine-mesh peak; the FEA peak sits at the clamp corner, so a few % above beam theory is expected.")
+                   result="sig", tol=0.5, note="Beam theory at the clamp; the claim value is this beam stress (the FEA peak at the fixed face is a singularity, STR-02).")
 
-P["STR-03"] = dict(vars=[V("P", "P", KV(PAR, "feaTipForce"), "N", "ultimate tip load"), V("L", "L", KV(PAR, "feaBoomL"), "m", "boom length"),
+P["STR-03"] = dict(vars=[V("P", "P", KV(PAR, "feaTipForce"), "N", "maximum thrust of one lift unit"), V("L", "L", KV(PAR, "feaBoomL"), "m", "boom length"),
                          V("D", "D", KV(PAR, "boomOD"), "m", "boom OD"), V("d", "d", KV(PAR, "boomID"), "m", "boom ID"), E_()],
                    steps=[S(r"I = \frac{\pi}{64}(D^4 - d^4)", "math.pi/64*(D**4-d**4)", "I", "m⁴", ""),
                           S(r"\delta = \frac{P L^3}{3EI}", "P*L**3/(3*E*I)*1e3", "delta", "mm", "tip deflection, cantilever")], result="delta", tol=10.0,
@@ -221,30 +223,32 @@ P["STR-04"] = dict(vars=[V("mt", "m_{tip}", KV(PAR, "feaTipMass"), "kg", "lift-u
                           S(r"f_1 = \frac{1}{2\pi}\sqrt{\frac{3EI}{(m_{tip} + 0.24\,m_b)L^3}}", "math.sqrt(3*E*I/((mt+0.24*mb)*L**3))/(2*math.pi)", "f", "Hz",
                             "first bending mode, cantilever with tip mass (Rayleigh)")], result="f", tol=10.0)
 
-P["STR-05"] = dict(vars=[V("mm", "m_{mount}", CI("STR-05", "Motor_Mount_Upper"), "kg", "upper motor mount (CAD mass)"),
-                         V("mc", "m_{cap}", CI("STR-05", "Motor_Mount_Cap"), "kg", "mount cap (CAD mass)"),
-                         V("mo", "m_{motor}", CI("STR-05", "Lift_Motor"), "kg", "lift motor", src_id="SRC-01"),
-                         V("mp", "m_{prop}", CI("STR-05", "Lift_Prop"), "kg", "lift propeller")] +
-                        [V(k, "m_i", CI("STR-05", k), "kg", "other part: " + k) for k in CLAIMS["STR-05"]["inputs"] if k not in ("Motor_Mount_Upper", "Motor_Mount_Cap", "Lift_Motor", "Lift_Prop") and isinstance(CLAIMS["STR-05"]["inputs"][k], (int, float))],
-                   steps=[S(r"m_{unit} = \sum m_{part}", "sum(_vars.values())", "mu", "kg", "lift-unit mass from the CAD parts")],
-                   result="mu", tol=5.0, note="The claim (0.242 kg) is the study's tip mass; the CAD parts add up to more.")
+P["STR-05"] = dict(vars=[V("mo", "m_{motor}", J(RES, f"{C0}.params.mMotor"), "kg", "lift motor", src_id="SRC-01"),
+                         V("me", "m_{ESC}", J(RES, f"{C0}.params.mEsc"), "kg", "ESC (estimate)"),
+                         V("mp", "m_{prop}", J(RES, f"{C0}.params.mProp"), "kg", "lift propeller"),
+                         V("mm", "m_{mount}", J("analysis/mass/mass_budget.json", "calibration.mMount"), "kg", "motor mount halves + prop plate, from the CAD (mass_budget.py calibration)")],
+                   steps=[S(r"m_{unit} = m_{motor} + m_{ESC} + m_{prop} + m_{mount}", "mo+me+mp+mm", "mu", "kg", "lift-unit (boom tip) mass")],
+                   result="mu", tol=0.5, note="Sizing roll-up; the independent CAD part roll-up (check_struct.py STR-05) agrees within 1.5 %.")
 
+STRUCT_CHK = "analysis/validation/checks_struct.json"
 P["STR-06"] = dict(vars=[V("m", "m", KV(PAR, "mtow"), "kg", "MTOW in cad/params.txt", up="AERO-22"), g0(),
-                         V("n", "n_{ult}", KV(PAR, "feaNult"), "-", "ultimate load factor (3 x 1.5)"),
-                         V("bs", "b/2", J(RES, f"{C0}.params.span"), "m", "semi-span", scale=0.5)],
+                         V("n", "n_{ult}", KV(PAR, "feaNult"), "-", "ultimate load factor (3 x 1.5, team-set estimate)"),
+                         V("yb", r"\bar{y}", J(STRUCT_CHK, "checks.STR-06.ybar_avl_m"), "m",
+                           "spanwise centre of lift from the AVL strip loads (analysis/aero/out/avl/fs_pod_trim.txt, integrated by check_struct.py)")],
                    steps=[S(r"L_{half} = \frac{m g\, n_{ult}}{2}", "m*g*n/2", "Lh", "N", "lift on one wing"),
-                          S(r"M_{root} = L_{half}\frac{4 (b/2)}{3\pi}", "Lh*4*bs/(3*math.pi)", "M", "N·m", "root moment, elliptic lift")], result="M", tol=0.5)
+                          S(r"M_{root} = L_{half}\,\bar{y}", "Lh*yb", "M", "N·m", "root moment, AVL span loading")], result="M", tol=0.5,
+                   note="The sizing uses elliptic lift (centre of lift 4 (b/2) / 3 pi = 0.509 m); the AVL centre of lift is 7 % further out.")
 
-P["STR-07"] = dict(vars=[V("M", "M", KV(PAR, "feaRootMomentTarget"), "N·m", "root moment", up="STR-06"),
+P["STR-07"] = dict(vars=[V("M", "M", J(STRUCT_CHK, "checks.STR-06.M_avl_Nm"), "N·m", "root moment at ultimate, AVL span loading", up="STR-06"),
                          V("D", "D", KV(PAR, "joinOD"), "m", "joiner OD (0.875 in)"), V("d", "d", KV(PAR, "joinID"), "m", "joiner ID")],
                    steps=[S(r"I = \frac{\pi}{64}(D^4 - d^4)", "math.pi/64*(D**4-d**4)", "I", "m⁴", ""),
                           S(r"\sigma = \frac{M (D/2)}{I}", "M*(D/2)/I/1e6", "sig", "MPa", "joiner bending stress at the centreline")], result="sig", tol=0.5)
 
-P["THM-01"] = dict(vars=[V("Ta", "T_{amb}", KV(PAR, "thermAmbK"), "°C", "ambient (35 °C)", scale=1.0), V("Q", "Q", KV(PAR, "thermQ"), "W", "heat into the motor", up="THM-03"),
+P["THM-01"] = dict(vars=[V("Ta", "T_{amb}", J("analysis/thermal/thermal_inputs.json", "ambient.hot_C"), "°C", "design ambient 25 °C (DESIGN-BASIS R21)"), V("Q", "Q", KV(PAR, "thermQ"), "W", "heat into the motor", up="THM-03"),
                          V("h", "h", KV(PAR, "thermH"), "W/m²K", "convection coefficient (estimate)", up="THM-02"),
                          V("D", "D", KV(PAR, "motorD"), "m", "motor diameter"), V("H", "H", KV(PAR, "motorH"), "m", "motor height")],
                    steps=[S(r"A = \pi D H + 2\frac{\pi D^2}{4}", "math.pi*D*H + 2*math.pi*D**2/4", "A", "m²", "motor outer area"),
-                          S(r"T = T_{amb} + \frac{Q}{hA}", "(Ta-273.15) + Q/(h*A)", "T", "°C", "steady temperature, lumped")], result="T", tol=2.0)
+                          S(r"T = T_{amb} + \frac{Q}{hA}", "Ta + Q/(h*A)", "T", "°C", "steady temperature, lumped")], result="T", tol=2.0)
 
 P["THM-03"] = dict(vars=[V("Pin", "P_{in}", J(RES, f"{C0}.sized.P_hover_per_motor"), "W", "electrical power per lift motor in hover (P_hover / 4, analysis/results.json)")],
                    steps=[S(r"Q = 0.2\,P_{in}", "0.2*Pin", "Q", "W", "heat at 80 % motor efficiency (estimate)")], result="Q", tol=0.5)

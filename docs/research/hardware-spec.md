@@ -14,7 +14,7 @@ a clamp = local y 0, boom centre at the origin (CAD frame otherwise as `cad/para
 ## 1. Verdict
 
 - **One thread size does almost everything.** 103 M3 A2 stainless screws in 9 lengths,
-  67 ruthex M3 heat-set inserts, 8 M3 nylocks. Two M5 × 20 wing bolts. M2 only at servos
+  67 ruthex M3 heat-set inserts, 8 M3 nylocks. Two M5 × 25 wing bolts. M2 only at servos
   and horns. No tapped holes anywhere: metal threads exist only in the motors.
 - **The motor drawing sets the critical numbers.** SunnySky X4110S base: 4 × M3 × 0.5 on
   a Ø25 circle, **max thread depth 3.3 mm**. Hub: 4 × M3 on Ø12, depth 8.0. Shaft Ø4
@@ -26,7 +26,7 @@ a clamp = local y 0, boom centre at the origin (CAD frame otherwise as `cad/para
 - **The existing hardware kit does not fit the design.** The Mywish kit (B0CQWYFTXC) is
   button heads in 8/12/16/20 mm only, with plain nuts. It has no 25–40 mm screws and no
   nylocks, and the CAD's M5 × 30 wing bolt is not in it (and is 8 mm too long, §4 J10).
-  **Replace it and the generic inserts with a $22.04 Bolt Depot order, ruthex inserts and
+  **Replace it and the generic inserts with a $22.38 Bolt Depot order, ruthex inserts and
   a threadlocker.** Goods +$15.08. New committed spend **$1,924.55** with a $10 EST
   shipping charge. Reserve **$75.45**, below the R7 $100 target (§7).
 - **Six CAD changes** are needed before the model is "down to the screw" (§3). The
@@ -46,7 +46,7 @@ a clamp = local y 0, boom centre at the origin (CAD frame otherwise as `cad/para
 | M2 socket cap | DIN 912 / ISO 4762 | 3.98 | 2.00 | 1.5 hex | https://boltdepot.com/Product-Details?product=6365 |
 | M3 socket cap | DIN 912 / ISO 4762 | 5.68 | 3.00 | 2.5 hex | https://boltdepot.com/Product-Details?product=6379 |
 | M3 button | — (dims match ISO 7380-1) | 5.70 | 1.65 | 2.0 hex | https://boltdepot.com/Product-Details?product=7219 |
-| M5 button | — (dims match ISO 7380-1) | 9.50 | 2.75 | 3.0 hex | https://boltdepot.com/Product-Details?product=6635 |
+| M5 button | — (dims match ISO 7380-1) | 9.50 | 2.75 | 3.0 hex | https://boltdepot.com/Product-Details?product=6636 |
 | M3 nylon-insert lock nut | — (DIN 985 dims) | s 5.5 | m 4.0 | — | https://boltdepot.com/Product-Details?product=4792 |
 | M5 nylon-insert lock nut | — (DIN 985 dims) | s 8.0 | m 5.0 | — | https://boltdepot.com/Product-Details?product=4794 |
 | M2 hex nut | DIN 934 | s 4.0 | m 1.6 | — | https://boltdepot.com/Product-Details?product=7362 |
@@ -123,7 +123,7 @@ inserts get no threadlocker: torque, then a paint witness mark checked pre-fligh
 | C1 | `Motor_Mount` | Split at the boom centreline into an upper half (motor plate + saddle) and a lower cap, 1.2 mm total split gap. Floor under the motor 4.5 mm. Four Ø6.5 counterbores from the bore up to the floor at (±8.84, ±8.84). Centre relief Ø8 × 2.0 deep. Wire slot 6 mm wide on the 45° wire-exit line | The Ø25 bolt circle sits over the boom (screws at z = ±8.84 mm hit a 12.7 mm-radius tube), so screws must go in from inside the bore before the halves close. Drawing shows a Ø5 × 0.9 boss at the base centre. |
 | C2 | `params.mjs` boom cut | Butt the front boom and stub at x = xRear instead of overlapping 60 mm. Front boom 0.42092 − (−0.50458) = **0.9255 m**; stub −0.50458 − (−0.99048) = **0.4859 m** *(calc from results.json geo)* | Two 1.000 in tubes cannot overlap. Current segF 0.955 and segR 0.516 overlap from x = −0.5346 to −0.4745 *(calc)*. |
 | C3 | `Boom_Clamp_Front/Rear`, `Gear_Clamp` | Width 40 → 46 mm | An M3 insert boss beside a 25.4 mm bore needs its centre at ≥ 12.7 + 1.6 + 2.3 = 16.6 mm and ≤ 23 − 3.5 = 19.5 mm: 17.5 mm fits only at 46 mm width *(calc)* |
-| C4 | `Wing_Bolt` | M5 × 30 → **M5 × 20**; head in a Ø10.3 × 1.0 spot-face at the upper surface | Section thickness at 70 % chord = 2 × 5 t c × 0.0610 = 21.8 mm for NACA 2415, c 238.7 mm *(calc)*. A 30 mm screw protrudes 8 mm below the wing. |
+| C4 | `Wing_Bolt` | M5 × 30 → M5 × 20 → **M5 × 25** (rev E, 2026-11-01: the 11.0 mm nut pocket needs 25 mm to reach the nylock; `cad/params.txt` wingBoltL); head in a Ø10.3 × 1.0 spot-face at the upper surface | Section thickness at 70 % chord = 2 × 5 t c × 0.0610 = 21.8 mm for NACA 2415, c 238.7 mm *(calc)*. A 30 mm screw protrudes 8 mm below the wing. |
 | C5 | New parts | Tail clamps (2), fin root shoes (2), splice plugs (2), spar collars (2), rear wing hardpoints (2), pusher motor cup, panel root tongues and saddle bolt pillars (2 each), aileron horn hardpoints (2), FC tray, pitot clamp, servo trays (5) | Joints exist on the aircraft but have no geometry in `BuildVtol.cs` |
 | C6 | `Fin` | Split a rudder (BOM has 2 rudder servos) | Fin is a single solid; J17 rudder horn has no surface to attach to |
 
@@ -199,12 +199,9 @@ IDs match `cad/hardware.json`. Engagement e = screw length − grip *(calc)*.
   (16.1 − 4.3) + 1.2 + 15.97 = 28.97 → e = 6.0 *(calc; clampTopF 16.57 mm)*.
 - **J05b rear, F04:** ISO 4762 M3 × 40, 2 per side, counterbore Ø6.5 × 7.5. Grip
   (16.1 − 7.5) + 1.2 + 24.23 = 34.03 → e = 6.0 *(calc; clampTopR 24.83 mm)*.
-- **Load check (calc):** one lift motor at Tmax 30.69 N (results.json struct.Tmax).
-  Front motor x 0.3709, clamps at x −0.0716 and −0.1909 (params.txt), so the arm from
-  the front clamp is 0.4425 m and the clamp spacing 0.1194 m. Worst case is a single
-  motor (differential thrust): rear clamp tension = 30.69 × 0.4425 / 0.1194 ≈ 114 N,
-  i.e. 57 N per screw. With both
-  motors at Tmax both clamps are in compression (front 63.8 N, rear −2.4 N).
+<!-- gen:j05_load -->
+- **Load check (calc, generated by analysis/docs_sync.py from cad/params.txt):** one lift motor at T_max 30.69 N (analysis/results.json struct.Tmax). Front motor x 0.4076, clamps at x -0.0966 and -0.2576, so the arm from the front clamp is 0.5041 m and the clamp spacing 0.1610 m. Worst case is a single motor (differential thrust): rear clamp tension = 30.69 × 0.5041 / 0.1610 = 96.1 N (48.1 N per screw); front clamp compression 126.8 N. Insert pull-out capacity in PETG is not in the repo (—): first-article coupon test M3.
+<!-- /gen:j05_load -->
 - **Torque 0.5 N·m EST.** These 4 screws per boom are the field breakdown joint.
 
 ### J06 — Gear clamps on the booms (×4)
@@ -216,9 +213,10 @@ IDs match `cad/hardware.json`. Engagement e = screw length − grip *(calc)*.
 ### J07 — Landing legs in gear clamps (×4)
 - Leg 1.000 × 0.058 in × 205 mm in a blind socket Ø25.7 × 14.0 deep (FT03), 2 mm of
   material left above the boom bore.
-- **Fastener:** F05, ISO 4762 M3 × 25 + W01 + N01, along local x at y −21.7.
-  Counterbore Ø7.5 × 6.0; nut pocket 5.7 AF × 8.0 in the 34 mm block. Screw end 1.5 mm
-  past the nut, 2.5 mm inside the face *(calc)*. Leg drilled Ø3.4. **0.5 N·m EST.**
+- **Fastener:** F05, ISO 4762 **M3 × 30** + W01 + N01, along local x at y −21.7 (rev 2026-11-01: was M3 × 25, which the
+  CAD showed cannot be built). Counterbore Ø7.5 × **4.0** (head seat at +13.0, washer to 13.5); nut pocket 5.7 AF × **4.3**
+  in the 34 mm block (nut bearing at −12.7, just outside the Ø25.4 leg tube). Screw end 0.2 mm inside the nut's outer face
+  *(calc, CAD rev D; cad/hardware.json F05)*. Leg drilled Ø3.4. **0.5 N·m EST.**
 - Dome foot: printed, bonded with epoxy (kit item 13). No fastener.
 
 ### J08 — Tail clamps on the rear stubs (×2, C5)
@@ -236,21 +234,20 @@ IDs match `cad/hardware.json`. Engagement e = screw length − grip *(calc)*.
 - These 4 screws remove the whole tail for transport (R4).
 
 ### J10 — Wing panels to the saddle (×2)
-- **Fastener:** F09, ISO 7380 M5 × 20 A2 + N02 M5 nylock, 1 per side, vertical, at
-  70 % chord, z ±65 mm (params boltZ).
-- **Geometry (C4, C5):** a PETG panel root tongue (6.4 mm thick, 20 mm wide) projects
-  25 mm inboard into a slot in a PETG bolt pillar (Ø16, full section height 21.8 mm) in
-  the saddle. Hole Ø5.5. Head in a Ø10.3 × 1.0 spot-face. Nut pocket 8.2 AF × 8.0 deep
-  from the lower surface; nut bears at 13.8 below the upper surface. Screw end at 21.0:
-  2.2 mm past the nut, 0.8 mm inside the lower surface *(calc)*.
-- Bending is carried by the joiner (RF 1.75 at the 6.55 kg MTOW, analysis/results.json struct.MS_J; 1.77 at 6.45 kg, 1.85 at v0.3.1). The bolt only stops the
+<!-- gen:j10_geom -->
+- **Fastener (generated from cad/params.txt):** F09, ISO 7380 M5 × 25 A2 + N02 M5 nylock, 1 per side, vertical, at 70 % chord, z ±65 mm (params boltZ).
+- **Geometry:** PETG panel root tongue (6.4 mm thick, 20 mm wide) projects 25 mm inboard into a slot in a PETG bolt pillar (Ø16, full section height 29.5 mm) in the saddle. Hole Ø5.5. Head in a Ø10.3 × 2.0 spot-face. Nut pocket 8.2 AF × 11.0 deep from the lower surface. Screw end 3.5 mm past the nut's outer face nominal; the tolerance stack is ±1.9 mm worst case, so at least 1.6 mm (two 0.8 mm threads) always pass the nylon ring (cad/params.mjs rule, MFG-09).
+<!-- /gen:j10_geom -->
+- Bending is carried by the joiner (RF 1.54 at the 7.436 kg MTOW, analysis/results.json struct.MS_J; was 1.75 at 6.55 kg). The bolt only stops the
   panel sliding off and rotating. **1.0 N·m EST.**
 
 ### J11 — Joiner and saddle to pod
-- Joiner bonded into the saddle root-plate bores with epoxy (FT06). Saddle + joiner
-  (0.76 m) stays on the pod and the panels slide on.
-- **Fastener:** F08, ISO 4762 M3 × 12, 4 per aircraft, through a 6.0 mm PETG saddle
-  flange into I01 inserts in the pod's top frame rails. e = 6.0. **0.5 N·m EST.**
+- **The joiner is NOT bonded** (rev 2026-11-01; FT06 "slip fit, not bonded"). It is a slip fit in the saddle bores and
+  the spar sockets and is captured by two printed `Joiner_Stop` discs (Ø22.4 × 10, PETG) bonded inside the sockets; with
+  both panels bolted on (J10) it cannot migrate, and for transport it slides out so the pod piece stays inside the R4
+  0.5 m width. **Do not glue it.**
+- **Fastener:** F08, ISO 4762 M3 × 12, 4 per aircraft (2 per side), horizontal, through the saddle's 6.0 mm PETG side
+  tabs at −0.10 c and −0.30 c into I01 inserts in the pod frame rails. e = 6.0. **0.5 N·m EST.**
 
 ### J12 — Pusher motor mount
 - Printed PA6-CF cup Ø55.6 (FT11) with a 4.5 mm floor, centre relief Ø8 × 2.0, wire slot.
@@ -373,17 +370,17 @@ So every bore and insert hole is set by a first-article coupon (M2), not by the 
 | BD-2 | Bolt Depot 6381 M3 × 12 socket cap | 4 | 12 | 0.06 | 0.72 | https://boltdepot.com/Product-Details?product=6381 |
 | BD-3 | Bolt Depot 6382 M3 × 16 socket cap | 36 | 50 | 0.06 | 3.00 | https://boltdepot.com/Product-Details?product=6382 |
 | BD-4 | Bolt Depot 6383 M3 × 20 socket cap | 16 | 24 | 0.07 | 1.68 | https://boltdepot.com/Product-Details?product=6383 |
-| BD-5 | Bolt Depot 6384 M3 × 25 socket cap | 4 | 8 | 0.08 | 0.64 | https://boltdepot.com/Product-Details?product=6384 |
+| BD-5 | Bolt Depot 6385 M3 × 30 socket cap (F05, J07; not 6384 M3 × 25) | 4 | 8 | 0.10 | 0.80 | https://www.boltdepot.com/Product-Details.aspx?product=6385 (checked 2026-11-02) |
 | BD-6 | Bolt Depot 6386 M3 × 35 socket cap | 4 | 8 | 0.15 | 1.20 | https://boltdepot.com/Product-Details?product=6386 |
 | BD-7 | Bolt Depot 6387 M3 × 40 socket cap | 8 | 12 | 0.15 | 1.80 | https://boltdepot.com/Product-Details?product=6387 |
 | BD-8 | Bolt Depot 7219 M3 × 8 button | 11 | 20 | 0.06 | 1.20 | https://boltdepot.com/Product-Details?product=7219 |
-| BD-9 | Bolt Depot 6635 M5 × 20 button | 2 | 6 | 0.18 | 1.08 | https://boltdepot.com/Product-Details?product=6635 |
+| BD-9 | Bolt Depot 6636 M5 × 25 button (rev E; not 6635 M5 × 20) | 2 | 6 | 0.21 | 1.26 | https://boltdepot.com/Product-Details?product=6636 (checked 2026-11-02) |
 | BD-10 | Bolt Depot 6365 M2 × 10 socket cap | 20 | 30 | 0.12 | 3.60 | https://boltdepot.com/Product-Details?product=6365 |
 | BD-11 | Bolt Depot 4792 M3 nylock | 8 | 16 | 0.07 | 1.12 | https://boltdepot.com/Product-Details?product=4792 |
 | BD-12 | Bolt Depot 4794 M5 nylock | 2 | 6 | 0.09 | 0.54 | https://boltdepot.com/Product-Details?product=4794 |
 | BD-13 | Bolt Depot 7362 M2 hex nut | 30 | bag 100 | — | 2.21 | https://boltdepot.com/Product-Details?product=7362 |
 | BD-14 | Bolt Depot 4513 M3 washer | 28 | bag 100 | — | 1.45 | https://boltdepot.com/Product-Details?product=4513 |
-| | **Bolt Depot subtotal** | | | | **22.04** | shipping shown only at checkout (—); $10.00 EST used below |
+| | **Bolt Depot subtotal** | | | | **22.38** | shipping shown only at checkout (—); $10.00 EST used below |
 | AZ-1 | ruthex RX-M3x5.7 inserts, 100 | 67 | 100 | — | 9.99 | https://www.amazon.com/dp/B08BCRZZS3 |
 | AZ-2 | Loctite 242 threadlocker 6 ml | — | 1 | — | 7.03 | https://www.amazon.com/dp/B000I1RSNS |
 
@@ -420,13 +417,14 @@ result. Not applied here.
 "Amazon","Airframe","ZORZA UBEC 5 V 5 A, 2 pcs (B0CQ1R55BV)","1","9.99","9.99","BF §3a item 12","","","",""
 "Amazon","Airframe","Gorilla 5-min epoxy 0.85 oz (B001Z3C3AG)","1","5.97","5.97","BF §3a item 13","","","",""
 ```
+(Rev 2026-11-02: BD-9 is now M5 × 25 at $0.21 (+$0.18) and BD-5 M3 × 30 at $0.10 (+$0.16), so the order is $22.38; the §7 arithmetic below predates that change and is kept as the record of the switch.)
 (These 11 lines total $100.03 = $124.01 − $17.99 Mywish − $5.99 generic inserts *(calc)*.)
 
 **Add** (new, checked 2026-10-21; "HS" = this file):
 ```
 "Amazon","Airframe","ruthex RX-M3x5.7 heat-set inserts, 100 (B08BCRZZS3)","1","9.99","9.99","HS §2c amazon.com","replaces generic M3 inserts","","",""
 "Amazon","Airframe","Loctite 242 threadlocker 6 ml (B000I1RSNS)","1","7.03","7.03","HS §2d amazon.com","metal-to-metal threads only","","",""
-"Bolt Depot","Airframe","A2 metric fasteners per HS §6 (14 lines: M2/M3/M5 screws, nylocks, nuts, washers)","1","22.04","22.04","HS §6 boltdepot.com","replaces Mywish kit B0CQWYFTXC","","",""
+"Bolt Depot","Airframe","A2 metric fasteners per HS §6 (14 lines: M2/M3/M5 screws, nylocks, nuts, washers)","1","22.38","22.38","HS §6 boltdepot.com","replaces Mywish kit B0CQWYFTXC","","",""
 ```
 **Change** (summary block, not a goods line, so it is not taxed):
 ```
@@ -512,7 +510,7 @@ Applied in `cad/params.mjs`, `cad/BuildVtol.cs`, `cad/Drawings.cs` (drawing DBF-
 sections above are listed so the spec and the model agree:
 
 - **C1–C6 implemented.** Motor mount split (upper half +0.6..+21.0 with the 4.5 floor, cap −15.0..−0.6), boom butt
-  joint with splice plug and 2 × F04, all clamps 46 wide and split, M5 × 20 wing bolts, rudders on both fins
+  joint with splice plug and 2 × F04, all clamps 46 wide and split, M5 × 25 wing bolts (rev E), rudders on both fins
   (30 % of the local chord, 2 % hinge gap, from 22 mm above the fin root to clear the shoe wall), and the new parts of C5
   plus crush sleeves, a bolt pillar, a battery tray, an FC envelope, servo trays, horns, backplates, pushrods and
   joiner stops.

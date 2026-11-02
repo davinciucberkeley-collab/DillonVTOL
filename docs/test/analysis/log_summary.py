@@ -233,7 +233,7 @@ def main(argv=None):
     print(f"  hover: total {h['total_s']:.0f} s; QTUN.ThO mean {f(h['ThO_mean'],3)}; lift output mean {f(h['lift_norm_mean'],3)} "
           f"(pass < 0.60 review F2); F/R split max {f(h['front_rear_split_pct'],1)} % (pass <= 15 review 9 M2)")
     print(f"  cruise: total {c['total_s']:.0f} s; transition to {a.airspeed_min:.0f} m/s {f(c['transition_s'],1)} s (pass <= 15 review 10 M2); "
-          f"lift stopped fraction min {f(c['lift_stopped_frac_min'],2)} (pass >= 0.95 R1); mean current {f(c['curr_mean'],1)} A (pass <= 18.6 A at 20 m/s, TEST-PLAN.md F08)")
+          f"lift stopped fraction min {f(c['lift_stopped_frac_min'],2)} (pass >= 0.95 R1); mean current {f(c['curr_mean'],1)} A (pass <= 16.0 A at 22.2 V, TEST-PLAN.md F08 / R10 356 W)")
     if r["vibe"]:
         v = r["vibe"]; print(f"  VIBE max X/Y/Z {f(v['x_max'],1)}/{f(v['y_max'],1)}/{f(v['z_max'],1)} m/s2, clip {v['clip_final']} -> {'PASS' if v['pass'] else 'FAIL'} (< 30, clip 0)")
     if r["battery"]:

@@ -654,13 +654,13 @@ function marginTable(){
   add('Stall speed (R11)', AD_.stall.V_stall_mps, 12, 'm/s', 'max', '#aero', 2, 'the stall test decides (F09)');
   const tc=Math.min(C.sized.t_cruise_avail_min, (AD_.mission&&AD_.mission.t_cruise_avail_min)||Infinity);
   add('Cruise time on one pack (R10)', tc, 10, 'min', 'min', '#aero', 1, 'the lower of the sizing and drag build-up figures, after hover, transitions and 20 % reserve');
-  add('Static margin with payload or ballast', 100*C.geo.SM, 5, '% MAC', 'min', '#cg', 1, 'fly with 0.5 kg of ballast when there is no payload');
+  add('Static margin with payload or ballast', 100*C.geo.SM, 5, '% MAC', 'min', '#cg', 1, 'no payload (R12); CG from the frozen layout');
   add('Committed spend (R6)', C.bom.total, 2000, '$', 'max', '#budget', 0);
   add('Crash reserve (R7)', C.bom.crash, 100, '$', 'min', '#budget', 0);
   const th=document.getElementById('thermData'); let T=null; try{ T=th?JSON.parse(th.textContent):null; }catch(e){}
   // thermal: mission cases only (the 'bound' cases are steady-state limits, not flights); the tightest two
   const F=T&&T.findings?T.findings.filter(f=>f.limit_C!=null&&!/bound/.test(f.case)):[], seen={};
-  F.sort((a,b)=>a.margin_K-b.margin_K).filter(f=>!seen[f.component]&&(seen[f.component]=1)).slice(0,2).forEach(w=>add('Thermal, mission on a 35 °C day: '+w.component.replace(/\s*\(.*\)/,'').toLowerCase(), w.peak_C, w.limit_C, '°C', 'max', '#sim-heat', 1, w.case+(/pusher/i.test(w.component)?'; heat load estimated, measure first (G03)':'')));
+  F.sort((a,b)=>a.margin_K-b.margin_K).filter(f=>!seen[f.component]&&(seen[f.component]=1)).slice(0,2).forEach(w=>add('Thermal, mission at '+((T.ambient_C&&T.ambient_C.hot!=null)?T.ambient_C.hot:'—')+' °C: '+w.component.replace(/\s*\(.*\)/,'').toLowerCase(), w.peak_C, w.limit_C, '°C', 'max', '#sim-heat', 1, w.case+(/pusher/i.test(w.component)?'; heat load estimated, measure first (G03)':'')));
   rows.forEach(r=>{
     const m=r.kind==='max'?(r.lim-r.val)/r.lim:(r.val-r.lim)/r.lim, st=m<0?'fail':m<0.10?'risk':'met', lab=m<0?'not met':m<0.10?'tight':'met';
     // margin shown in the quantity's own terms where a percentage misleads: kelvin for temperature, points for % MAC

@@ -1,6 +1,6 @@
 # Flight test card FTC-F02 — QHOVER hover-throttle learn and notch-filter log
 
-DBF-TP-001 rev B · Test F02 · Review step: F3; ArduPilot tuning steps 7 and 9 · Requirements: R13
+DBF-TP-001 rev C · Test F02 · Review step: F3; ArduPilot tuning steps 7 and 9 · Requirements: R13
 
 **Prerequisites (signed in test-matrix.csv):** F01 passed; log reviewed; any gain changes recorded
 
@@ -8,17 +8,17 @@ DBF-TP-001 rev B · Test F02 · Review step: F3; ArduPilot tuning steps 7 and 9 
 
 **Weather limits:** Steady <= 3 m/s EST, gusts <= 5 m/s EST.
 
-**Predicted:** Learned hover throttle ~0.52; front/rear split ~0 (CG at the thrust centroid x = -0.0796 m from the LE, results.json cg.thrustCentroid).
+**Predicted:** Learned hover throttle ~0.59 (1,859 / 3,130 g, calc); front/rear split ~0 (CG at the thrust centroid x = -0.0901 m from the LE, results.json cg.thrustCentroid).
 
 **Crew:** TD, SO, PIC, GCS · **Duration:** 1 session, 2 packs
 
 ## Pre-flight (every flight)
 - [ ] Flight request approved for today and site (R19); Remote ID powered, broadcast seen (E12); registration mark on the pod; PIC TRUST/AMA documents on site (R18).
-- [ ] Weather recorded: wind steady ____ m/s, gusts ____ m/s (limit on this card), temp ____ degC, visibility >= 3 sm, no precipitation.
-- [ ] Weight and CG per G01: take-off mass ____ kg (<= 7.53 kg), CG ____ % MAC (28 +-2, never aft of 31.8), 0.5 kg ballast fitted (mandatory without payload; GA sheet note 5): Y / N; leg fairings on: Y / N.
+- [ ] Weather recorded at the field: wind steady ____ m/s, gusts ____ m/s (limit on this card), air temp ____ degC (F06-F13: <= 25 degC, DESIGN-BASIS R21 / TEST-PLAN.md s4 rule 9), visibility >= 3 sm, no precipitation.
+- [ ] Weight and CG per G01: take-off mass ____ kg (<= 7.82 kg = 4 x 3.130 / 1.6, R13), CG ____ % MAC (28 +-2, never aft of 30.5), pack at its mark (G09); no ballast, nothing in the bay (R12): Y / N; leg fairings on: Y / N.
 - [ ] Props: correct rotation, screws witness-marked, no nicks; pusher spin check.
 - [ ] Witness lines on boom clamps, gear clamps, wing bolts unmoved.
-- [ ] Packs >= 4.15 V/cell; pack strapped (J18); plugged in LAST through the XT90-S.
+- [ ] Packs >= 4.15 V/cell; pack strapped (J18); plugged in LAST through the AS150U.
 - [ ] GCS: firmware hash ____; parameters checked with check_params.py; FENCE_ALT_MAX = site ceiling; FENCE_RADIUS = ____ m; EKF/GPS ok (sats >= 10, HDOP <= 1.5); compass consistent; airspeed 0 +-1 m/s, blow test >= 6 m/s.
 - [ ] RC: arm switch CH5 off, mode CH6 in slot for this card, E-stop CH7 off, Q_ASSIST CH8 auto, RTL CH9 off; LQ >= 90 %.
 - [ ] Range: crew line 30 m upwind, fire bag + extinguisher + first aid at the line, spectators behind, no people downrange, sky scan.
@@ -39,7 +39,7 @@ Start every transition at the upwind field edge and turn as soon as 'Transition 
 
 ## Abort criteria (card-specific items first, then the universal list)
 - Altitude excursion > 1 m in QHOVER; any oscillation; learned value climbing above 0.60.
-Universal (TEST-PLAN.md s5): VIBE > 30 m/s2 or rising clipping; attitude error > 15 deg; any oscillation; sag-compensated voltage < 21.0 V or < 1,950 mAh remaining (firmware low-battery RTL point; critical 19.8 V / 1,300 mAh -> QLAND); motor can > 80 degC EST after landing; wind above the card limit; LQ < 70 % EST or any failsafe message; EKF/GPS/compass warning; people or animals inside the range; manned aircraft converging.
+Universal (TEST-PLAN.md s5): VIBE > 30 m/s2 or rising clipping; attitude error > 15 deg; any oscillation; sag-compensated voltage < 21.0 V or < 1,625 mAh remaining (firmware low-battery RTL point; critical 19.8 V / 1,300 mAh -> QLAND); motor can > 80 degC EST after landing; wind above the card limit; LQ < 70 % EST or any failsafe message; EKF/GPS/compass warning; people or animals inside the range; manned aircraft converging.
 
 ## Data to record
 Q_M_THST_HOVER before/after; QTUN.ThO mean; ISBH/ISBD batch IMU data for the FFT (Mission Planner FFT tool); RCOU C5-C8 means (front/rear split); VIBE; BAT.

@@ -6,7 +6,7 @@
 // v0.3 (2026-10-13) budget redesign tags: BL = budget-lift.md, BA = budget-avionics.md,
 // BE = budget-energy-test.md, BF = budget-airframe.md. v0.2 results kept in results_v0.2_baseline.json.
 import { createRequire } from 'module';
-import { writeFileSync } from 'fs';
+import { writeFileSync, readFileSync } from 'fs';
 import { POD as GEOM_POD } from './geometry.mjs';   // pod envelope: the single source shared with cad/params.mjs and analysis/tradestudy.mjs
 const require = createRequire(import.meta.url);
 const M = require('./model.js');
@@ -48,11 +48,22 @@ const BASE = {
   mPusherSet: 0.165+0.025+0.037, // BL: X4110S 165 g (pusher = lift motor type) + ESC 25 g EST + APC 14x8.5EP 37 g (PB)
   mServos: 5*0.0432,     // BA: EMAX ES3005HV 43.2 g x 5 (2 ailerons, elevator, 2 rudders)
   mWiring: 0.25, mWirePerLift: 0.03, // EST
-  mPayload: 0.5,         // R12 allowance
+  mPayload: 0,           // R12 revised 2026-11-01: no payload allowance (avionics only). The 0.5 kg reserve cost ~0.7 kg MTOW and took hover T/W to the R13 limit at the CAD-calibrated mass (docs/DESIGN-BASIS.md R12)
   eSpec: 176,            // BE: Ovonic 6S 6500 144.3 Wh / 0.820 kg
   Vpack: 22.2,           // 6S LiPo nominal (BE)
   m_guess: 7,
 };
+// ---- bottom-up mass calibration (2026-11-01): analysis/mass/mass_budget.py rolls up the CAD parts with the print settings and
+// vendor masses; the sizing carries those values for every item it does not derive from geometry. Replaces the EST values above
+// (mFus 0.60, mGear 0.64, mAvionics 0.25, mPusherSet 0.227, mServos 0.216, boomClamp 0.020, sigmaTail 0.93 for a 1 in slab,
+// and lift-unit mMount 0.020) and adds the printed wing and tail hardware and the fasteners the sizing never carried.
+let X4110S_MOUNT_FROM_CAL = null;
+const MASSCAL = (() => { try { return JSON.parse(readFileSync(new URL('./mass/mass_budget.json', import.meta.url), 'utf8')).calibration; } catch (e) { return null; } })();
+if (MASSCAL) for (const k of ['boomClamp', 'mFus', 'mGear', 'mAvionics', 'mPusherSet', 'mServos', 'mWingHardware', 'mFasteners', 'mTailHardware', 'sigmaTail']) BASE[k] = MASSCAL[k];
+if (MASSCAL) X4110S_MOUNT_FROM_CAL = MASSCAL.mMount;
+const ST = MASSCAL && MASSCAL.stations;   // CG stations from the CAD (analysis/mass/mass_budget.py)
+const NOSE_EXT = ST ? GEOM_POD.noseX - ST.cad_noseX : 0;   // nose lengthening since the CAD the calibration came from (m)
+if (ST) BASE.mFus += 32 * Math.PI * GEOM_POD.R ** 2 * NOSE_EXT;   // EST: the added length is solid XPS at 32 kg/m3 (SRC-15)
 
 const X6SE = { // LP A1 Hobbywing XRotor X6 SE 280KV, MFP 22x7, 6S
   name:'Hobbywing X6 SE 280KV + MFP2270', liftD:22*IN, Tmax_g:6058, mMotor:0.373, mEsc:0, mProp:0, mMount:0.026,
@@ -65,8 +76,10 @@ const MN5008 = { // LP B1 T-Motor MN5008 KV340 + P17x5.8 + Hobbywing XRotor 40A
 // ---- v0.3 budget propulsion (BL, checked 2026-10-13). ESC/prop masses EST (not on pages read) ----
 const X3515S = { name:'SunnySky X3515S 400KV + SoloGood 45A + APC 16x5.5MR', liftD:16*IN, Tmax_g:3360, mMotor:0.170, mEsc:0.025, mProp:0.030, mMount:0.020,
   thrustTable:[[1250,153.18],[1500,199.8],[2000,293.04],[3360,634.92]], ratedCont_W:null, CdA_rotor:0.0032, station:63.72 };
-const X4110S = { name:'SunnySky X4110S 400KV + SoloGood 45A + 17x5.5 prop', liftD:17*IN, Tmax_g:3130, mMotor:0.165, mEsc:0.025, mProp:0.032, mMount:0.020,
+const X4110S = { name:'SunnySky X4110S 400KV + LANRC 45A + 17x5.5 prop', liftD:17*IN, Tmax_g:3130, mMotor:0.165, mEsc:0.025, mProp:0.032, mMount: 0.1035,   // replaced below by the CAD calibration (analysis/mass/mass_budget.json mMount: mount halves + prop plate + the motor and clamp screws and inserts); was 0.020 EST
+ 
   thrustTable:[[1250,135],[1500,180],[2000,291],[3130,615]], ratedCont_W:null, CdA_rotor:AEROR.drag.CdA_per_rotor_unit, station:66.29 };   // CdA_rotor: AERO aero_results.json drag.CdA_per_rotor_unit (stopped motor + mount + prop); was 0.0034 EST
+if (X4110S_MOUNT_FROM_CAL) X4110S.mMount = X4110S_MOUNT_FROM_CAL;   // per lift unit, from the CAD (analysis/mass/mass_budget.json)
 const V3508 = { name:'SunnySky V3508 KV380 + LANRC 35A + Eolo CN15x5.5', liftD:15*IN, Tmax_g:1840, mMotor:0.097, mEsc:0.015, mProp:0.020, mMount:0.015,
   thrustTable:[[700,64],[800,78],[900,95],[1840,297]], ratedCont_W:null, CdA_rotor:0.0028, station:59.12 };
 
@@ -178,19 +191,20 @@ function bom(res, lean=false){
     add('Lift propulsion','LANRC BLHeli_S 35A ESC (4-pack)',3,28.50,'BL ESCs amazon.com/dp/B0D2HQPNG9','8 lift + 4 spare');
     add('Lift propulsion','Eolo CN15x5.5 prop (pair)',4,17.99,'BL B3');
   }
-  add('Lift propulsion', m===V3508?'SoloGood 45A ESC (4-pack), pusher + spares':'SoloGood 45A ESC (4-pack)', m===V3508?1:2, 39.99,'BL ESCs amazon.com', m===V3508?'':'4 lift + pusher + 3 spare; low stock: fallback LANRC 35A');
+  // rev 2026-11-01: LANRC BLHeli_S 45A 4-pack, same rating as the SoloGood (45 A continuous, 55 A 10 s, 2-6S, DShot600, 18 AWG), which shows 'only 1 left'
+  add('Lift propulsion', m===V3508?'LANRC BLHeli_S 45A ESC (4-pack), pusher + spares':'LANRC BLHeli_S 45A ESC (4-pack)', m===V3508?1:2, 30.00,'amazon.com/dp/B0D2HS4Y4J (docs/research/bom-savings.md, checked 2026-11-01)', m===V3508?'':'4 lift + pusher + 3 spare; $1.50 delivery per pack in the shipping allowance');
   add('Cruise propulsion','SunnySky X4110S 400KV (pusher)',1,46.99,'BL A3', m===X4110S?'same motor as lift: one spare covers both':'');
   add('Cruise propulsion','APC 14x8.5EP pusher prop',3,6.79,'PB 1c');
-  add('Controls','EMAX ES3005HV servo',5,19.99,'BA §6 shop.emax-usa.com','2 ailerons, elevator, 2 rudders');
+  add('Controls','EMAX ES3005HV servo',5,19.99,'ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)','2 ailerons, elevator, 2 rudders');
   if(c.coax) add('Avionics','Holybro Kakute H743-Wing (OctaQuad needs H7 build)',1,105.00,'BA §2 holybro.com','ships CN, duty —');
-  else add('Avionics','CoreWing F405 Wing APP V2 (12 out, 90 A sensor)',1,67.26,'BA §2 readymaderc.com','ArduPilot target beta-only (4.7.2-beta); fallback Matek F405-WMO $69.99');
-  add('Avionics','HGLRC M100-5883 GPS + compass',1,20.49,'BA §2 racedayquads.com');
-  add('Avionics','NewBeeDrone BeeID v1.1 Remote ID (FAA DoC RID000001995)',1,36.99,'BA §4 racedayquads.com');
-  add('Avionics','RadioMaster Pocket Crush ELRS',1,64.99,'BA §5 radiomasterrc.com');
-  add('Avionics','RadioMaster RP3 V2 ELRS receiver',1,19.99,'BA §5');
-  if(!lean) add('Avionics','Holybro MS5525DSO + PT40 airspeed',1,59.99,'BA §3 holybro.com','ships CN');
+  else add('Avionics','CoreWing F405 Wing APP V2, unsoldered pins (12 out, 90 A sensor, 8 A servo BEC)',1,67.18,'ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)','same board as the soldered version (unavailable): output map unchanged; backorder Nov 2026; in-stock fallback Holybro Kakute H743-Wing $107.42 (remap)');
+  add('Avionics','RMRC GPS + compass SAM-M10Q-5883',1,24.99,'ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)','u-blox M10 + 5883 compass, replaces the HGLRC M100 to keep one order');
+  add('Avionics','NewBeeDrone BeeID v1.1 Remote ID (FAA DoC RID000001995)',1,39.99,'ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)','out of stock at RaceDayQuads; only 2 left at RMRC');
+  add('Avionics','RadioMaster Pocket Crush ELRS',1,76.99,'ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)','US stock instead of radiomasterrc.com (CN, $30 shipping)');
+  add('Avionics','RadioMaster RP3 V2 ELRS receiver',1,22.96,'ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)','backorder at RMRC; in stock at ProgressiveRC $21.99');
+  if(!lean) add('Avionics','RMRC digital airspeed sensor MS4525DO + pitot',1,59.99,'ReadyMadeRC one order (free shipping under the 5 % rule; docs/research/bom-savings.md consolidation, checked 2026-11-01)','replaces the Holybro MS5525DSO (ships CN, $37.47 shipping); ArduPilot ARSPD_TYPE 1');
   const pk = res.pick;
-  if(pk.pair) add('Energy', pk.id.replace(' (2-pack)','')+' — 2-pack listing (2 packs)', 1, +(2*pk.usd).toFixed(2), 'BE §1 amazon.com', 'second pack per R7; EC5 leads: re-terminate to XT90S');
+  if(pk.pair) add('Energy', pk.id.replace(' (2-pack)','')+' — 2-pack listing (2 packs)', 1, +(2*pk.usd).toFixed(2), 'BE §1 amazon.com', 'second pack per R7; EC5 leads: re-terminate to AS150U');
   else add('Energy', pk.id+' flight pack', 2, pk.usd, 'BE §1', 'second pack per R7');
   add('Energy','HTRC C150 charger (150 W, ~6 A on 6S)',1,56.99,'BE §2 amazon.com/dp/B0H4QLJYHY');
   const tubes = Math.ceil(res.geo.segs.reduce((a,b)=>a+b,0)/1.80);
@@ -202,7 +216,9 @@ function bom(res, lean=false){
   add('Airframe','Scotch heavy-duty packing tape, 6 rolls (skin)',1,19.98,'BF §2 amazon.com');
   // hardware kit itemised (HS = docs/research/hardware-spec.md §7, 2026-10-21): the Mywish screw kit and generic inserts are replaced by the
   // Bolt Depot order, ruthex inserts and Loctite 242; the other kit items are kept at their 2026-10-13 prices (budget-airframe.md §3a)
-  add('Airframe','FLY RC Amass XT90S anti-spark, 5 pairs (B0893CGLP7)',1,13.99,'BF §3a item 1 amazon.com');
+  // main battery plug (rev 2026-11-01): Amass rates the XT90-S at 40 A continuous (XT90S datasheet V1.2), below the ~49 A hover current;
+  // the AS150U is rated 70 A continuous on 10 AWG, 140 A for 1 min (Amass AS150U-F datasheet), docs/research/propulsion-margin-data.md F5-F7
+  add('Airframe','Amass AS150U connector set (1 male + 1 female), Neu Racing',2,17.26,'neuracing.us/product/as150u (checked 2026-11-01)','aircraft male + 2 pack females; anti-spark contact to be confirmed on receipt (M-item)');
   add('Airframe','10 AWG silicone wire 5 ft red + 5 ft black (B0D968WN4W)',1,8.98,'BF §3a item 2 amazon.com');
   add('Airframe','BNTECHGO 12 AWG silicone wire 10+10 ft (B01ABOPMEI)',1,14.98,'BF §3a item 3 amazon.com');
   add('Airframe','300 mm servo extension leads, 10 (B0FYCJLY1V)',1,6.99,'BF §3a item 4 amazon.com');
@@ -216,30 +232,34 @@ function bom(res, lean=false){
   add('Airframe','Gorilla 5-min epoxy 0.85 oz (B001Z3C3AG)',1,5.97,'BF §3a item 13 amazon.com');
   add('Airframe','ruthex RX-M3x5.7 heat-set inserts, 100 (B08BCRZZS3)',1,9.99,'HS §2c amazon.com','replaces generic M3 inserts');
   add('Airframe','Loctite 242 threadlocker 6 ml (B000I1RSNS)',1,7.03,'HS §2d amazon.com','metal-to-metal threads only');
-  add('Airframe','A2 metric fasteners per HS §6 (14 lines: M2/M3/M5 screws, nylocks, nuts, washers)',1,22.04,'HS §6 boltdepot.com','replaces Mywish kit B0CQWYFTXC');
+  add('Airframe','A2 metric fasteners per HS §6 (14 lines: M2/M3/M5 screws, nylocks, nuts, washers)',1,22.38,'HS §6 boltdepot.com (BD-9 M5 x 25, BD-5 M3 x 30, rev 2026-11-02)','replaces Mywish kit B0CQWYFTXC');
   // build-manual gap G2 (docs/build/BUILD-MANUAL.md §8): harness needs ~11.8 m of servo/signal lead, the kit pack gives 6 m -> 2 more packs
   add('Airframe','300 mm servo extension leads, 10 (B0FYCJLY1V), 2 more packs for the 11.8 m harness',2,6.99,'BF §3a item 4 amazon.com','BUILD-MANUAL G2: price of 2026-10-13');
   add('Airframe','ELEGOO PETG 1 kg (clamps, pod frames, gear clamps)',2,12.99,'BF §5');
   add('Airframe','Polymaker PA6-CF20 500 g (motor mounts: HDT 173 °C)',1,39.99,'AM §2d','PETG too close to motor heat (sec. 12)');
   add('Airframe','BNTECHGO 12 AWG silicone wire, 2nd pack (ESC feeds)',1,14.98,'BF §3a item 3 amazon.com');
   add('Airframe','14 AWG silicone wire (pusher / BEC feeds)',1,9.99,'BF §3b amazon.com');
-  add('Airframe','XT60H connectors 12 pairs (boom harness disconnects)',1,6.99,'BF §3b amazon.com');
+  add('Airframe','XT60H connectors 12 pairs (one per ESC at the boom disconnects)',1,6.99,'BF §3b amazon.com','one per ESC: Amass XT60H 30 A continuous vs ~12 A hover / 28 A peak per lift ESC (propulsion-margin-data.md F9-F10)');
   add('Airframe','300 mm servo extension leads, 2nd pack',1,6.99,'BF §3a item 4 amazon.com');
   add('Airframe','Foam-safe glue 4 oz',1,12.99,'BF §3b amazon.com');
   add('Airframe','ShareGoo LiPo battery straps (10)',1,7.99,'BF §3b amazon.com');
-  add('Airframe','Hot-wire bow, nichrome + bench supply (wing cores)',1,40.00,'EST allowance','not priced; borrow if a makerspace has one');
+  add('Airframe','Hot-wire cutter: NICE-POWER 0-30 V 0-10 A bench supply (B0CRSS744F) + Ni80 24 AWG nichrome 50 ft (B0CP9V3DBX)',1,41.73,'amazon.com (docs/research/bom-savings.md, checked 2026-11-01)','borrow if a makerspace has one');
   add('Test & safety','Tenergy LiPo bag',1,8.99,'BE §3');
   add('Test & safety','Harbor Freight 0.50 cal ammo can (pack storage)',1,19.99,'BE §3');
   add('Test & safety','Watt meter 150 A / 60 V',1,12.99,'BE §3');
   add('Test & safety','IR thermometer',1,8.98,'BE §3');
   add('Test & safety','20 kg load cell + HX711 kit (thrust stand)',1,8.98,'BE §4');
   add('Test & safety','Arduino Nano clone (thrust stand)',1,8.99,'BE §4');
-  add('Spares', m===V3508?'V3508 spare motor':m===X4110S?'X4110S spare motor (lift or pusher)':'X3515S spare motor',1, m===V3508?42.99:m===X4110S?46.99:44.99, 'BL');
+  // rev 2026-11-01: the spare X4110S is held as reserve cash (R7 crash reserve): SunnySky USA ships free in the US (cart quote), and the reserve
+  // buys whatever actually breaks; spare ESCs (3), lift props and pusher props stay in the kit
+  if(m!==X4110S) add('Spares', m===V3508?'V3508 spare motor':'X3515S spare motor',1, m===V3508?42.99:44.99, 'BL');
   add('Spares', m===V3508?'Eolo CN15x5.5 spare pair':m===X4110S?'JeeFly 1755 spare pair (amazon.com)':'APC 16x5.5MR spare props', m===X3515S?2:1, m===V3508?17.99:m===X4110S?18.60:8.73, 'BL');
   // add('Spares','EMAX ES3005HV spare servo',1,19.99,'BA §6');  -> v0.4: reserve cash instead (see above)
   // add('Spares','Du-Bro 230 pushrod 5-pack (spares)',1,12.48,...)  -> v0.4: reserve cash instead (see above)
   const goods = L.reduce((a,l)=>a+l.ext,0);
-  const shipping = 110;                  // EST allowance: Amazon free; JeeFly $4.99; OnlineMetals UPS, SunnySky USA, Holybro (CN) shipping and duty not shown; +$10 EST Bolt Depot (HS §7, shown only at checkout)
+  // shipping (rev 2026-11-01, docs/research/bom-savings.md): cart quotes SunnySky USA $0, Amazon $7.99 (JeeFly + 2 x LANRC); ReadyMadeRC one order $0 EST
+  // (5 % rule, not cart-verified); OnlineMetals $50, Bolt Depot $10, Neu Racing $10 EST; +20 % on the estimates = $91.99 (the old $110 was an estimate)
+  const shipping = 91.99;
   const tax = 0.1025*goods;              // AV §5 / BF: Berkeley 10.25 % (CDTFA, 2026-10-01)
   const total = goods + tax + shipping;  // committed spend inside the R6 cap
   const crash = 2000 - total;            // R7: reserve = what remains under the cap
@@ -247,7 +267,8 @@ function bom(res, lean=false){
   return { lines:L, goods:+goods.toFixed(2), shipping, tax:+tax.toFixed(2), crash:+crash.toFixed(2), total:+total.toFixed(2), tubes25:tubes, fees, cap:2000 };
 }
 
-const out = { generated:'2026-10-27', base:BASE, cruiseMarginMin:CRUISE_MARGIN_MIN, packs:PACKS, concepts:{} };
+// generated: the design-revision date (fixed, not a clock: CI regenerates the outputs and compares them byte for byte)
+const out = { generated:'2026-11-01', base:BASE, cruiseMarginMin:CRUISE_MARGIN_MIN, packs:PACKS, concepts:{} };
 for(const k of Object.keys(CONCEPTS)){
   const res = run(k);
   res.bom = bom(res); res.bomLean = bom(res, true);
@@ -312,11 +333,12 @@ function cg(res){
   add('Lift units, rear', nPer*(p.mMotor+p.mEsc+p.mProp+p.mMount), g.xRear,'LP');
   const bx = g.booms.reduce((a,b)=>a+(b.x1-b.x0)*(b.x0+b.x1)/2,0)/g.boomTotal;
   add('Booms + clamps', s.m_booms, bx,'AM');
-  add('Wing (foam/glass + spar)', s.m_wing, -0.40*c,'F11; centroid 40 % c EST');
+  add('Wing (foam/glass + spar)', s.m_wing, ST ? ST.wing_frac_chord*c : -0.40*c, ST ? 'CAD centroid fraction of chord (mass_budget stations)' : 'F11; centroid 40 % c EST');
   add('Tail', s.m_tail, g.xRear - g.D/2 - 0.05 - 0.4*g.hC,'geometry');
-  add('Fuselage pod', p.mFus, POD.noseX - POD.L/2,'EST; centroid at mid-pod');
-  add('Landing gear', p.mGear, -0.25*c,'EST');
-  add('Avionics', p.mAvionics, 0.25,'EST');
+  add('Fuselage pod', p.mFus, ST ? POD.noseX - ST.pod_from_nose + NOSE_EXT/2 : POD.noseX - POD.L/2, ST ? 'CAD centroid from the nose; a longer nose moves it forward by half the extension (EST)' : 'EST; centroid at mid-pod');
+  add('Landing gear', p.mGear, ST ? ST.gear_frac_chord*c : -0.25*c, ST ? 'CAD centroid fraction of chord' : 'EST');
+  add('Avionics', p.mAvionics, ST ? POD.noseX - ST.avionics_from_nose : 0.25, ST ? 'CAD FC-tray station from the nose (bay moves with the nose)' : 'EST');
+  if (p.mFasteners) add('Fasteners and inserts', p.mFasteners, ST ? ST.fasteners_frac_chord*c : -0.25, 'CAD centroid fraction of chord');
   add('Pusher set', p.mPusherSet, POD.pushX + 0.02,'BL; at pod tail (same station as CAD)');
   // 5 servos (BA §6, same count as mServos and the BOM): 2 aileron servos in the wing at 55 % c, elevator + 2 rudder servos on the stabiliser
   // top 26 mm behind its LE (cad/params.mjs stations); mass-weighted mean station
@@ -335,11 +357,12 @@ function cg(res){
   const thrustCentroid = (g.xFront+g.xRear)/2;
   const toPct = x => -x/c*100;
   const cgBattFwd = (momNoBatt + mb*(xb+0.03) + mp*xPay)/(mNoBatt+mb+mp), cgBattAft=(momNoBatt + mb*(xb-0.03) + mp*xPay)/(mNoBatt+mb+mp);
-  return { items, target, xb, cgBattFwd, cgBattAft, pctFwd:toPct(cgBattFwd), pctAft:toPct(cgBattAft), cgNoPayload, thrustCentroid, pct:{ target:toPct(target), noPayload:toPct(cgNoPayload), np:g.hn*100, thrust:toPct(thrustCentroid) },
+  const xbMax = ST ? POD.noseX - ST.battery_fwd_limit_from_nose : null;   // furthest forward the pack fits (CAD rev D station relative to the nose)
+  return { items, target, xb, xbMax, battery_fits: xbMax == null ? null : xb <= xbMax + 1e-9, cgBattFwd, cgBattAft, pctFwd:toPct(cgBattFwd), pctAft:toPct(cgBattAft), cgNoPayload, thrustCentroid, pct:{ target:toPct(target), noPayload:toPct(cgNoPayload), np:g.hn*100, thrust:toPct(thrustCentroid) },
            SM_noPayload: g.hn - (-cgNoPayload/c) };
 }
 for(const k of Object.keys(out.concepts)){ out.concepts[k].struct = structures(out.concepts[k]); out.concepts[k].cg = cg(out.concepts[k]); }
 writeFileSync(new URL('./results.json', import.meta.url), JSON.stringify(out, (k,v)=> typeof v==='number'? +v.toPrecision(8): v, 1));
 for(const k of Object.keys(out.concepts)){ const st=out.concepts[k].struct, c=out.concepts[k].cg;
   console.log(`\n${k} struct: Mroot ${st.Mroot.toFixed(1)} Nm sigJ ${(st.sigJ/1e6).toFixed(0)} MPa MS ${st.MS_J.toFixed(2)} | sigSpar ${(st.sigS/1e6).toFixed(0)} | Mhover ${st.Mhover.toFixed(1)} | boom L ${st.Lb.toFixed(3)} M ${st.Mb.toFixed(1)} sig ${(st.sigB/1e6).toFixed(0)} MS ${st.MS_B.toFixed(1)} defl ${ (st.defl_max*1000).toFixed(1)}/${(st.defl_hover*1000).toFixed(1)} mm fn ${st.fn.toFixed(1)} Hz`);
-  console.log(` cg: battery x ${c.xb.toFixed(3)} cgNoPayload ${c.pct.noPayload.toFixed(1)}% target ${c.pct.target.toFixed(1)}% NP ${c.pct.np.toFixed(1)}% thrust ${c.pct.thrust.toFixed(1)}% SMnoPay ${(c.SM_noPayload*100).toFixed(1)}%`); }
+  console.log(` cg: battery x ${c.xb.toFixed(3)} (max ${c.xbMax==null?'-':c.xbMax.toFixed(3)}) cgNoPayload ${c.pct.noPayload.toFixed(1)}% target ${c.pct.target.toFixed(1)}% NP ${c.pct.np.toFixed(1)}% thrust ${c.pct.thrust.toFixed(1)}% SMnoPay ${(c.SM_noPayload*100).toFixed(1)}%`); }

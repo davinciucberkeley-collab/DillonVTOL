@@ -27,9 +27,9 @@ def ocv(soc):  # rough 6S OCV curve 4.15..3.55 V/cell
 step_hover = (600, 610); step_trans = (730, 733)   # near 50 % delivered at 16 A (6.3 Ah -> ~1,400 s)
 while t < 7200:
     if step_hover[0] <= t < step_hover[1]:
-        i, step = 40.0, "hover"
+        i, step = 54.0, "hover"
     elif step_trans[0] <= t < step_trans[1]:
-        i, step = 73.0, "transition"
+        i, step = 82.0, "transition"
     else:
         i, step = 16.0, ""
     dt = 1.0 if step else 30.0

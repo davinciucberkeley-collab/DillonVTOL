@@ -6,29 +6,29 @@
      # Strips   = 112
      # Vortices =1440
 
-  Sref = 0.68202       Cref = 0.28418       Bref =  2.4000    
-  Xref = 0.79570E-01   Yref =  0.0000       Zref =  0.0000    
+  Sref = 0.76694       Cref = 0.31956       Bref =  2.4000    
+  Xref = 0.89480E-01   Yref =  0.0000       Zref =  0.0000    
 
  Standard axis orientation,  X fwd, Z down         
 
  Run case:  -unnamed-                              
 
-  Alpha =   3.89765     pb/2V =  -0.00000     p'b/2V =  -0.00000
-  Beta  =   0.00000     qc/2V =  -0.00000
+  Alpha =   4.12467     pb/2V =  -0.00000     p'b/2V =  -0.00000
+  Beta  =   0.00000     qc/2V =   0.00000
   Mach  =     0.000     rb/2V =  -0.00000     r'b/2V =  -0.00000
 
-  CXtot =   0.01188     Cltot =   0.00000     Cl'tot =   0.00000
-  CYtot =   0.00000     Cmtot =   0.00000
-  CZtot =  -0.47499     Cntot =  -0.00000     Cn'tot =  -0.00000
+  CXtot =   0.01327     Cltot =   0.00000     Cl'tot =   0.00000
+  CYtot =  -0.00000     Cmtot =   0.00000
+  CZtot =  -0.47578     Cntot =   0.00000     Cn'tot =   0.00000
 
-  CLtot =   0.47470
-  CDtot =   0.02043
-  CDvis =   0.01156     CDind = 0.0088703
-  CLff  =   0.47474     CDff  = 0.0090030    | Trefftz
-  CYff  =   0.00000         e =    0.9435    | Plane  
+  CLtot =   0.47550
+  CDtot =   0.02098
+  CDvis =   0.01102     CDind = 0.0099625
+  CLff  =   0.47569     CDff  = 0.0101297    | Trefftz
+  CYff  =  -0.00000         e =    0.9467    | Plane  
 
    aileron         =   0.00000
-   elevator        =  -4.06201
+   elevator        =  -4.00101
    rudder          =   0.00000
 
  ---------------------------------------------------------------

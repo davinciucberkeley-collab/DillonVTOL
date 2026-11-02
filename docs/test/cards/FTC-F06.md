@@ -1,6 +1,6 @@
 # Flight test card FTC-F06 — Partial transitions with Q_ASSIST
 
-DBF-TP-001 rev B · Test F06 · Review step: F5 · Requirements: R9, R11
+DBF-TP-001 rev C · Test F06 · Review step: F5 · Requirements: R9, R11
 
 **Prerequisites (signed in test-matrix.csv):** F05 passed; RFS (or another site with >= 30 m ceiling and >= 200 m straight) approved; airspeed calibrated on the bench (E08) and sanity-checked in F04; every pilot passed E06 failed-transition recovery
 
@@ -8,17 +8,17 @@ DBF-TP-001 rev B · Test F06 · Review step: F5 · Requirements: R9, R11
 
 **Weather limits:** Steady <= 5 m/s (R16), gusts <= 8 m/s; into wind only.
 
-**Predicted:** Transition power 1,437 W / 68.4 A at 21 V (results.json sized.P_trans, I_trans v0.4); C0 SITL model (firmware/sitl/README.md C0 section, results_c0.json scenario A): 16 m/s reached 10 s after the start, Transition done at 15 s / 166 m, peak 55.8 A (re-run 2026-10-27 at AIRSPEED_CRUISE 18); the generic SITL model reached 16.0 in 5 s.
+**Predicted:** Transition power 1,722 W / 82.0 A at 21 V EST (results.json sized.P_trans, I_trans, 2026-11-01; 3 A under Q_M_BAT_CURR_MAX 85); C0 SITL model (firmware/sitl/README.md C0 section, results_c0.json scenario A): 16 m/s reached 10 s after the start, Transition done at 15 s / 166 m, peak 55.8 A (re-run 2026-10-27 at AIRSPEED_CRUISE 18 on the 6.55 kg model; not yet re-run at 7.44 kg, TEST-PLAN.md s12 item 20); the generic SITL model reached 16.0 in 5 s.
 
 **Crew:** TD, SO, PIC, GCS · **Duration:** 1 session (3 flights), 2 packs
 
 ## Pre-flight (every flight)
 - [ ] Flight request approved for today and site (R19); Remote ID powered, broadcast seen (E12); registration mark on the pod; PIC TRUST/AMA documents on site (R18).
-- [ ] Weather recorded: wind steady ____ m/s, gusts ____ m/s (limit on this card), temp ____ degC, visibility >= 3 sm, no precipitation.
-- [ ] Weight and CG per G01: take-off mass ____ kg (<= 7.53 kg), CG ____ % MAC (28 +-2, never aft of 31.8), 0.5 kg ballast fitted (mandatory without payload; GA sheet note 5): Y / N; leg fairings on: Y / N.
+- [ ] Weather recorded at the field: wind steady ____ m/s, gusts ____ m/s (limit on this card), air temp ____ degC (F06-F13: <= 25 degC, DESIGN-BASIS R21 / TEST-PLAN.md s4 rule 9), visibility >= 3 sm, no precipitation.
+- [ ] Weight and CG per G01: take-off mass ____ kg (<= 7.82 kg = 4 x 3.130 / 1.6, R13), CG ____ % MAC (28 +-2, never aft of 30.5), pack at its mark (G09); no ballast, nothing in the bay (R12): Y / N; leg fairings on: Y / N.
 - [ ] Props: correct rotation, screws witness-marked, no nicks; pusher spin check.
 - [ ] Witness lines on boom clamps, gear clamps, wing bolts unmoved.
-- [ ] Packs >= 4.15 V/cell; pack strapped (J18); plugged in LAST through the XT90-S.
+- [ ] Packs >= 4.15 V/cell; pack strapped (J18); plugged in LAST through the AS150U.
 - [ ] GCS: firmware hash ____; parameters checked with check_params.py; FENCE_ALT_MAX = site ceiling; FENCE_RADIUS = ____ m; EKF/GPS ok (sats >= 10, HDOP <= 1.5); compass consistent; airspeed 0 +-1 m/s, blow test >= 6 m/s.
 - [ ] RC: arm switch CH5 off, mode CH6 in slot for this card, E-stop CH7 off, Q_ASSIST CH8 auto, RTL CH9 off; LQ >= 90 %.
 - [ ] Range: crew line 30 m crosswind of the take-off point, clear of the transition run (TEST-PLAN §4 rule 6), fire bag + extinguisher + first aid at the line, spectators behind, no people downrange, sky scan.
@@ -42,7 +42,7 @@ In the C0 airframe model the back-transition airbrake pitches the nose to the 30
 ## Abort criteria (card-specific items first, then the universal list)
 - Airspeed not rising within 6 s of selecting FBWA (review F5): back to QHOVER.
 - Altitude loss > 10 m EST; pitch > +15 or < -10 deg; Q_TRANS_FAIL message; any yaw departure.
-Universal (TEST-PLAN.md s5): VIBE > 30 m/s2 or rising clipping; attitude error > 15 deg; any oscillation; sag-compensated voltage < 21.0 V or < 1,950 mAh remaining (firmware low-battery RTL point; critical 19.8 V / 1,300 mAh -> QLAND); motor can > 80 degC EST after landing; wind above the card limit; LQ < 70 % EST or any failsafe message; EKF/GPS/compass warning; people or animals inside the range; manned aircraft converging.
+Universal (TEST-PLAN.md s5): VIBE > 30 m/s2 or rising clipping; attitude error > 15 deg; any oscillation; sag-compensated voltage < 21.0 V or < 1,625 mAh remaining (firmware low-battery RTL point; critical 19.8 V / 1,300 mAh -> QLAND); motor can > 80 degC EST after landing; wind above the card limit; LQ < 70 % EST or any failsafe message; EKF/GPS/compass warning; people or animals inside the range; manned aircraft converging.
 
 ## Data to record
 ARSP.Airspeed and GPS.Spd vs time from mode change; QTUN.TrnMs; ATT; BAT Curr peak; RCOU C9 (pusher) and C5-C8.

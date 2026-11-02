@@ -85,12 +85,15 @@ static class SharedTest
         return (upper ? yc + yt : yc - yt) * chord;
     }
     // BuildVtol.cs Fuselage() radius at station s
+    // nose semi-axis a and parallel-section end x1 come from the podProfile line of params.txt, parsed here independently of Shared.cs
+    // (rev 2026-11-01: they were the literals 0.22 / 0.50 of the 0.85 m pod; the pod is now 1.00 m with x1 0.65)
+    static double LegacyNoseA = 0.22, LegacyParallelTo = 0.50, LegacyNoseX = 0.45;
     static double LegacyPodRadius(double s, double L, double R, double rt)
     {
-        double a = 0.22, r;
+        double a = LegacyNoseA, x1 = LegacyParallelTo, r;
         if (s < a) r = R * Math.Sqrt(Math.Max(0, 1 - Math.Pow((s - a) / a, 2)));
-        else if (s < 0.50) r = R;
-        else { double u = (s - 0.50) / (L - 0.50); r = rt + (R - rt) * (1 - u * u * (3 - 2 * u)); }   // smooth-step boat-tail
+        else if (s < x1) r = R;
+        else { double u = (s - x1) / (L - x1); r = rt + (R - rt) * (1 - u * u * (3 - 2 * u)); }   // smooth-step boat-tail
         return r;
     }
 
@@ -98,6 +101,9 @@ static class SharedTest
     {
         string path = args.Length > 0 ? args[0] : Path.Combine(Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "params.txt");
         var pd = ParamsFile.Load(path);
+        foreach (var line in File.ReadAllLines(path)) if (line.StartsWith("podProfile=")) foreach (var kv in line.Split('|')) {
+            var f = kv.Split('='); if (f.Length != 2) continue; double v; if (!double.TryParse(f[1], NumberStyles.Float, CultureInfo.InvariantCulture, out v)) continue;
+            if (f[0] == "noseX") LegacyNoseX = v; else if (f[0] == "noseA") LegacyNoseA = v; else if (f[0] == "parallelTo") LegacyParallelTo = v; }
 
         // ---- parsers ----
         var bP = new Dictionary<string, string>(); var bC = new List<string[]>(); var bX = new List<string[]>(); var bF = new List<string[]>();
@@ -121,7 +127,7 @@ static class SharedTest
         Check(Same(Geom.TeCad, -0.1015) && Same(Geom.TeAero, -0.1036), "foilTE cad/aero");
         Check(Same(Geom.WingM, 0.02) && Same(Geom.WingP, 0.4), "foilWing m/p");
         Check(Same(Geom.TailM, 0) && Same(Geom.TailT, 0.09), "foilTail m/t");
-        Check(Same(Geom.PodNoseX, 0.45) && Same(Geom.PodNoseA, 0.22) && Same(Geom.PodParallelTo, 0.50), "podProfile noseX/noseA/parallelTo");
+        Check(Same(Geom.PodNoseX, LegacyNoseX) && Same(Geom.PodNoseA, LegacyNoseA) && Same(Geom.PodParallelTo, LegacyParallelTo), "podProfile noseX/noseA/parallelTo");
         Check(Geom.WingName == "NACA " + Math.Round(100 * Geom.WingM) + Math.Round(10 * Geom.WingP) + Math.Round(100 * pd.D("tc")).ToString("00"), "foilWing name " + Geom.WingName);
 
         // ---- sections ----

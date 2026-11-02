@@ -1,0 +1,448 @@
+{
+  "generated": "2026-11-01",
+  "notes": [
+    "Values are copied as printed at the source. 'derived' blocks are this file's own arithmetic, with the formula shown; they are estimates, not source values.",
+    "gf = gram-force. Maker thrust rows are at the stated supply voltage on SunnySky's stand; terminal voltage under pack sag is not given by the maker.",
+    "Unknown = null (shown as '—' in the markdown)."
+  ],
+  "sources": [
+    {
+      "id": "S1",
+      "what": "SunnySky X4110S KV400 maker thrust tables, all four listed props, 22.2 V and 25 V (product description HTML, KV400 tab)",
+      "url": "https://sunnyskyusa.com/products/sunnysky-x4110s-motors.js",
+      "url_page": "https://sunnyskyusa.com/products/sunnysky-x4110s-motors",
+      "checked": "2026-11-01",
+      "where": "Shopify product JSON, field 'description', second [TABS] block headed 'KV400' (spec table then thrust table with columns Prop | Voltage(V) | Amps(A) | Thrust(gf) | Watts(W) | Efficiency(g/W) | Load temperature in 100% throttle)",
+      "values": {
+        "spec": {
+          "kv": 400, "stator_slots": 12, "rotor_poles": 14, "resistance_mohm": 107,
+          "no_load_current": "0.6A/10V", "max_lipo_cells": "6S",
+          "max_continuous_current": "45A/30s", "esc": "40-60A",
+          "max_continuous_power_W": 1125,
+          "recommended_props_in": "15*5.5/16*6/18*6.1/17*5.8",
+          "weight_g": 165
+        },
+        "columns": ["amps_A", "thrust_gf", "watts_W", "eff_g_per_W"],
+        "15x5.5": {
+          "load_temp_100pct": "53 C",
+          "22.2V": [[1.9,500,42,11.85],[3.2,750,71,10.56],[4.9,1000,109,9.19],[6.9,1250,153,8.16],[9.2,1500,204,7.34],[11.4,1750,253,6.91],[14.2,2000,315,6.34],[18.8,2430,417,5.82]],
+          "25V": [[1.7,500,43,11.76],[2.9,750,73,10.34],[4.4,1000,110,9.09],[6.1,1250,153,8.2],[7.9,1500,198,7.59],[9.9,1750,248,7.07],[12.5,2000,313,6.4],[15.6,2300,390,5.9],[18.8,2600,470,5.53],[22.3,2840,558,5.09]]
+        },
+        "16x6": {
+          "load_temp_100pct": "65 C",
+          "22.2V": [[2,500,44,11.26],[3.5,750,78,9.65],[5.1,1000,113,8.83],[7,1250,155,8.04],[9.3,1500,206,7.27],[11.5,1750,255,6.85],[14.1,2000,313,6.39],[17.7,2300,393,5.85],[21.8,2600,484,5.37],[26.6,2930,591,4.96]],
+          "25V": [[1.7,500,43,11.76],[3.1,750,78,9.68],[4.6,1000,115,8.7],[6.2,1250,155,8.06],[8.3,1500,208,7.23],[10.4,1750,260,6.73],[12.8,2000,320,6.25],[26,2300,650,3.54],[19.5,2600,488,5.33],[25.4,3000,635,4.72],[31.7,3400,793,4.29]],
+          "anomaly": "25 V 2300 gf row (26 A, 650 W, 3.54 g/W) is out of sequence with its neighbours; likely a maker typo. Not usable."
+        },
+        "17x5.8": {
+          "load_temp_100pct": "75 C",
+          "22.2V": [[1.6,500,36,14.08],[2.9,750,64,11.65],[4.4,1000,98,10.24],[6.1,1250,135,9.23],[8.1,1500,180,8.34],[10.3,1750,229,7.65],[13.1,2000,291,6.88],[16.4,2300,364,6.32],[19.9,2600,442,5.89],[27.7,3130,615,5.09]],
+          "25V": [[1.4,500,35,14.29],[2.5,750,63,12],[3.9,1000,98,10.26],[5.4,1250,135,9.26],[7.2,1500,180,8.33],[9.3,1750,233,7.53],[11.4,2000,285,7.02],[13.7,2300,343,6.72],[18.4,2600,460,5.65],[23.3,3000,583,5.15],[33.3,3600,833,4.32]]
+        },
+        "18x6.1": {
+          "load_temp_100pct": "83 C",
+          "22.2V": [[1.6,500,36,14.08],[2.8,750,62,12.07],[4.4,1000,98,10.24],[6.1,1250,135,9.23],[8.6,1500,191,7.86],[9.9,1750,220,7.96],[13.1,2000,291,6.88],[16.6,2300,369,6.24],[20.7,2600,460,5.66],[32.2,3300,715,4.62]],
+          "25V": [[1.5,500,38,13.33],[2.5,750,63,12],[3.9,1000,98,10.26],[5.4,1250,135,9.26],[7.4,1500,185,8.11],[9.4,1750,235,7.45],[11.7,2000,293,6.84],[14.5,2300,363,6.34],[18.8,2600,470,5.53],[24.3,3000,608,4.94],[34.6,3500,865,4.05],[38.4,3720,960,3.88]],
+          "anomaly": "22.2 V rows at 500/1000/1250/2000 gf are identical to the 17x5.8 rows, and 1750 gf (9.9 A) draws less than the trend from 1500 gf (8.6 A). The 18x6.1 table looks partly copied; treat as low confidence below 2600 gf."
+        },
+        "18x6.1_compatible_per_maker": "Yes. 18*6.1 is in the KV400 'Recommended Prop(inch)' list and has a 22.2 V and 25 V table. Peak table current 38.4 A (25 V) is below the 45A/30s motor rating."
+      },
+      "quote_lt15_words": "Recommended Prop(inch) | 15*5.5/16*6/18*6.1/17*5.8",
+      "credibility": "maker"
+    },
+    {
+      "id": "S2",
+      "what": "Ovonic 6S 6500 mAh 100C EC5 LiPo, maker's own store listing",
+      "url": "https://www.ovonicshop.com/products/ovonic-100c-22-2v-6500mah-6s-ec5-lipo-battery",
+      "url_data": "https://www.ovonicshop.com/products/ovonic-100c-22-2v-6500mah-6s-ec5-lipo-battery.js",
+      "checked": "2026-11-01",
+      "where": "Product description, 'Specifications of 100C 6500mAh 6s battery' list (HTML page returned HTTP 429; read via the Shopify .js endpoint)",
+      "values": {
+        "capacity_mAh": 6500, "voltage_V": 22.2, "continuous_C": 100, "burst_C": 200,
+        "size_mm": "149 x 46 x 56.5", "net_weight_g": 825, "net_weight_tolerance_g": 20,
+        "connector": "EC5", "balance": "JST-XH", "price_usd_single": 135.99,
+        "internal_resistance": null
+      },
+      "quote_lt15_words": "Discharge Rate: 100C - Max Burst Discharge Rate 200C",
+      "credibility": "seller"
+    },
+    {
+      "id": "S3",
+      "what": "Independent discharge / IR data for Ovonic 6S 6500 mAh: searched, none found",
+      "url": "https://chinahobbyline.com/blogs/news/ovonic-vs-cnhl-lipo-battery-comparison",
+      "checked": "2026-11-01",
+      "where": "Closest result. Written by CNHL (a competing LiPo brand), page returned HTTP 429 on direct fetch; content seen only via search-result summary. Tested an Ovonic 6S 5500 mAh and 4S 6500 mAh, not the 6S 6500.",
+      "values": {
+        "ovonic_6s_6500_voltage_at_80_100A": null,
+        "ovonic_6s_6500_dcir_per_cell_mohm": null,
+        "ovonic_6s_6500_temp_rise": null,
+        "cnhl_blog_ovonic_ir_per_cell": "below 6 mOhm (method not stated; different packs; not verified by direct fetch)"
+      },
+      "quote_lt15_words": null,
+      "credibility": "seller"
+    },
+    {
+      "id": "S4",
+      "what": "Molicel INR-21700-P50B product data sheet, Version 1.1",
+      "url": "https://www.fsaeonline.com/content/Molicel-TDS--INR-21700-P50B-80122.pdf",
+      "checked": "2026-11-01",
+      "where": "Page 1, 'CELL CHARACTERISTICS' and 'PHYSICAL CHARACTERISTICS' (Molicel document hosted by FSAE Online)",
+      "values": {
+        "capacity_typ_mAh": 5000, "capacity_min_mAh": 4850, "energy_typ_Wh": 18.0,
+        "nominal_V": 3.6, "charge_V": 4.2, "discharge_cutoff_V": 2.5,
+        "continuous_discharge_A": 60, "continuous_discharge_condition": "80 C cut-off",
+        "max_charge_A": 25,
+        "impedance_AC_30pctSOC_mohm": 6.5, "impedance_DC_50pctSOC_mohm": 12.8,
+        "weight_max_g": 71, "gravimetric_Wh_per_kg": 260
+      },
+      "quote_lt15_words": "Discharge Current (80oC cut-off) Continuous 60 A",
+      "credibility": "maker"
+    },
+    {
+      "id": "S5",
+      "what": "Molicel P50B product page (molicel.com)",
+      "url": "https://www.molicel.com/product/inr-21700-p50b/",
+      "checked": "2026-11-01",
+      "where": "Product spec block",
+      "values": {"discharge_current_A": 60, "capacity_Ah": 5.0, "weight_max_g": 71, "Wh_per_kg": 260, "internal_resistance": null},
+      "quote_lt15_words": null,
+      "credibility": "maker"
+    },
+    {
+      "id": "S6",
+      "what": "Molicel P45B product page (molicel.com)",
+      "url": "https://www.molicel.com/inr21700-p45b/",
+      "checked": "2026-11-01",
+      "where": "Product spec block; datasheet only via contact form",
+      "values": {"max_discharge_A": 45, "max_internal_resistance_mohm": 13.8, "capacity_Ah": 4.5, "energy_Wh": 16.2, "nominal_V": 3.6, "weight_g": null},
+      "quote_lt15_words": "Max internal resistance 13.8 mOhm",
+      "credibility": "maker"
+    },
+    {
+      "id": "S7",
+      "what": "Mooch (independent cell tester) bench test, Molicel P45B",
+      "url": "https://budgetlightforum.com/t/bench-test-results-molicel-p45b-50a-4500mah-21700/70213",
+      "checked": "2026-11-01",
+      "where": "First post, dated 2022-05-17",
+      "values": {
+        "mooch_recommended_rating_A": 35,
+        "datasheet_50A_is": "temperature-limited, not continuous to empty (per Mooch)",
+        "measured_capacity_mAh": [4477, 4488],
+        "dcir_absolute": null,
+        "dcir_relative": "about 33% lower than P42A, 26% lower than Samsung 50S at 100% charge"
+      },
+      "quote_lt15_words": "You cannot run the P45B at 50A continuously until it is empty!",
+      "credibility": "independent"
+    },
+    {
+      "id": "S8",
+      "what": "Mooch bench test, Molicel P50B (original thread blocked to fetch; content seen via search summaries only)",
+      "url": "https://www.e-cigarette-forum.com/threads/bench-test-results-molicel-p50b-60a-5000mah-21700.988690",
+      "checked": "2026-11-01",
+      "where": "Thread returned a browser-validation page; not read directly",
+      "values": {
+        "mooch_capacity_rating_mAh": 5000,
+        "runtime_vs_P45B": "about +5% at 30 A, +12% at 40 A (search summary)",
+        "mooch_continuous_current_rating_A": null,
+        "note": "Mooch's numeric continuous rating for P50B not confirmed; unverified forum estimates of 30-35 A exist and are not recorded as values."
+      },
+      "quote_lt15_words": null,
+      "credibility": "independent"
+    },
+    {
+      "id": "S9",
+      "what": "Amass XT90H-M connector datasheet V1.2 (Changzhou Amass)",
+      "url": "https://www.batimex.pl/zdjecia/pdf/xt90h-m.pdf",
+      "checked": "2026-11-01",
+      "where": "'Material & Parameter' table (Amass document hosted by distributor Batimex)",
+      "values": {"rated_current_RC_A": 45, "max_current_MC_A": 90, "voltage": "DC 500V", "cable_spec": "10AWG", "contact_resistance_mohm": 0.30, "use_times": 1000, "temperature": "-20 to 120 C"},
+      "quote_lt15_words": "RC 45A ... MC 90A ... Cable SPEC. 10AWG",
+      "credibility": "maker"
+    },
+    {
+      "id": "S10",
+      "what": "Holybro connector rating table (genuine Amass ratings, with test conditions)",
+      "url": "https://docs.holybro.com/power-module-and-pdb/power-module/connector-and-wire-rating",
+      "checked": "2026-11-01",
+      "where": "'Genuine AMASS Connector Rating' table",
+      "values": {"XT90_10AWG_continuous_A": 45, "XT90_10AWG_burst_A": 90, "XT60_12AWG_continuous_A": 30, "XT60_12AWG_burst_A": 60, "continuous_def": "4 hours, temperature rise < 60 C", "burst_def": "1 minute, temperature rise < 60 C", "XT90S_antispark": null},
+      "quote_lt15_words": "XT90 | 10 AWG | 45A | 90A",
+      "credibility": "independent"
+    },
+    {
+      "id": "S11",
+      "what": "E-flite EC5 connector rating (Horizon Hobby, brand owner of EC5)",
+      "url": "https://www.horizonhobby.com/product/connector-ec5-battery-2/EFLAEC502.html",
+      "url_also": "https://horizonhobby.com/product/connector-ec5-device-and-ec5-battery-set/EFLAEC503.html",
+      "checked": "2026-11-01",
+      "where": "Product features list ('descriptionFeatures'), both pages",
+      "values": {"continuous_A": ">120", "condition": "with 10 AWG wire", "test_duration_or_temp_rise": null},
+      "quote_lt15_words": "Capable of more than 120A continuous current with 10-awg wire",
+      "credibility": "maker"
+    },
+    {
+      "id": "S12",
+      "what": "SoloGood 45A BLHeli_S ESC (repo lift ESC, 4-pack)",
+      "url": "https://www.amazon.com/dp/B0DJQVGSBC",
+      "checked": "2026-11-01",
+      "where": "Product description text below the bullet list",
+      "values": {"continuous_A": 45, "burst_A": 55, "burst_duration_s": 10, "cells": "2-6S", "mcu": "EFM8BB21F16G", "protocols": "dshot 125/300/600, oneshot 125", "weight_g": 6, "size_mm": "28.5*13*5", "power_leads": "18AWG 80mm", "bec": null, "efficiency": null},
+      "quote_lt15_words": "Continuous current: 45A Instant current: 55A (10 seconds)",
+      "credibility": "seller"
+    },
+    {
+      "id": "S13",
+      "what": "ArduPilot Plane QHOVER mode, 'Adequate Power'",
+      "url": "https://ardupilot.org/plane/docs/qhover-mode.html",
+      "checked": "2026-11-01",
+      "where": "'Adequate Power' section",
+      "values": {"ideal_hover_throttle_pct": 50, "dangerous_above_pct": 70, "battery_state": null},
+      "quote_lt15_words": "anything higher than 70% is dangerous",
+      "credibility": "independent"
+    },
+    {
+      "id": "S14",
+      "what": "ArduPilot QuadPlane VTOL tuning process (Q_M_THST_HOVER expectation; battery voltage scaling)",
+      "url": "https://ardupilot.org/plane/docs/quadplane-vtol-tuning-process.html",
+      "checked": "2026-11-01",
+      "where": "Step 1 (voltage range) and Step 7 note (learned hover value)",
+      "values": {"learned_Q_M_THST_HOVER_expected": "~0.3-0.6", "Q_M_BAT_VOLT_MAX": "4.2 V x cells (LiPo)", "Q_M_BAT_VOLT_MIN": "3.3 V x cells (LiPo)", "default_voltage_used": "sag-compensated"},
+      "quote_lt15_words": "Higher values indicate that insufficient thrust is available",
+      "credibility": "independent"
+    },
+    {
+      "id": "S15",
+      "what": "ArduPilot Copter 'Setting Hover Throttle'",
+      "url": "https://ardupilot.org/copter/docs/ac_throttlemid.html",
+      "checked": "2026-11-01",
+      "where": "MOT_THST_HOVER description",
+      "values": {"MOT_THST_HOVER_usual_range": "0.2-0.6", "tw_guidance": null, "battery_state": null},
+      "quote_lt15_words": "The value is usually between 0.2 and 0.6",
+      "credibility": "independent"
+    },
+    {
+      "id": "S16",
+      "what": "T-Motor VTOL propulsion selection guide (motor vendor)",
+      "url": "https://shop.tmotor.com/blog/vtol-propulsion-system-selection-guide",
+      "checked": "2026-11-01",
+      "where": "Sections 2.1 and 5.1; dated 2025-12-01",
+      "values": {"tw_minimum": 1.6, "tw_recommended": 2.0, "tw_professional": "2.2-2.5", "battery_state": null},
+      "quote_lt15_words": "Most VTOL platforms require a minimum thrust-to-weight ratio of 2.0",
+      "credibility": "seller"
+    },
+    {
+      "id": "S17",
+      "what": "ArduPilot Discourse thread 'Recommended thrust to weight ratio for a hybrid VTOL UAV' (users, not developers)",
+      "url": "https://discuss.ardupilot.org/t/recommended-thrust-to-weight-ratio-for-a-hybrid-vtol-uav/80510",
+      "checked": "2026-11-01",
+      "where": "Posts 2022-01-14 (Feibernaut) and 2024-10-04 (0x48)",
+      "values": {"user_Feibernaut_2022": "1.2-1.5", "user_0x48_2024": "2-2.2", "battery_state": null},
+      "quote_lt15_words": "most VTOL aircraft (not just tail sitters) aim for 1.2 to 1.5",
+      "credibility": "independent"
+    },
+    {
+      "id": "S18",
+      "what": "DeltaQuad Evo vehicle specifications (commercial quadplane)",
+      "url": "https://docs.deltaquad.com/evo/vehicle-specifications",
+      "checked": "2026-11-01",
+      "where": "Seen via search summary only",
+      "values": {"mtow_kg": 10, "empty_kg": 4.8, "lift_motor_max_thrust": null, "tw_computable": false},
+      "quote_lt15_words": null,
+      "credibility": "maker"
+    },
+    {
+      "id": "S19",
+      "what": "PX4 docs, Foxtech Loong 2160 VTOL (commercial quadplane kit, ~our size)",
+      "url": "https://docs.px4.io/main/en/frames_vtol/vtol_quadplane_foxtech_loong_2160",
+      "checked": "2026-11-01",
+      "where": "Specification list",
+      "values": {"takeoff_weight_kg": "approximately 7 (excluding payload)", "max_payload_kg": "around 1.5", "span_mm": 2160, "hover_current": "up to 120A in the hover phase", "lift_motor_max_thrust": null, "tw_computable": false},
+      "quote_lt15_words": "uses up to 120A in the hover phase",
+      "credibility": "independent"
+    }
+  ],
+  "hover_tw_guidance": {
+    "sources": ["S13", "S14", "S15", "S16", "S17", "S18", "S19"],
+    "summary": [
+      "ArduPilot (S13): hover ideally ~50% throttle; >70% dangerous. Battery state not specified.",
+      "ArduPilot (S14): learned Q_M_THST_HOVER ~0.3-0.6; thrust is voltage-scaled between Q_M_BAT_VOLT_MAX (4.2 V/cell) and Q_M_BAT_VOLT_MIN (3.3 V/cell), sag-compensated by default.",
+      "ArduPilot Copter (S15): MOT_THST_HOVER usually 0.2-0.6.",
+      "T-Motor vendor guide (S16): T/W minimum 1.6, recommended 2.0, professional 2.2-2.5; battery state not specified.",
+      "ArduPilot forum users (S17): 1.2-1.5 (2022) and 2-2.2 (2024); not official.",
+      "Commercial quadplanes (S18, S19): MTOW published, lift-motor max thrust not published; T/W not computable.",
+      "PX4 docs: no T/W or hover-throttle recommendation found (searched docs.px4.io 2026-11-01).",
+      "Peer-reviewed quadplane T/W sizing value: not retrieved (Wiley review DOI 10.1155/2022/1803638 returned HTTP 403)."
+    ]
+  },
+  "derived": {
+    "basis": "MTOW 6.95 kg (caller's 6.9-7.0 kg midpoint); R13 T/W >= 1.6 -> required per motor = 1.6 x 6950 g / 4 = 2780 gf. Estimates, not source values.",
+    "max_thrust_and_T_W_at_table_voltage": {
+      "formula": "T/W = 4 x T_max / 6950 g",
+      "15x5.5_22.2V": {"T_max_gf": 2430, "A": 18.8, "TW": 1.40},
+      "16x6_22.2V": {"T_max_gf": 2930, "A": 26.6, "TW": 1.69},
+      "17x5.8_22.2V": {"T_max_gf": 3130, "A": 27.7, "TW": 1.80},
+      "18x6.1_22.2V": {"T_max_gf": 3300, "A": 32.2, "TW": 1.90},
+      "15x5.5_25V": {"T_max_gf": 2840, "A": 22.3, "TW": 1.63},
+      "16x6_25V": {"T_max_gf": 3400, "A": 31.7, "TW": 1.96},
+      "17x5.8_25V": {"T_max_gf": 3600, "A": 33.3, "TW": 2.07},
+      "18x6.1_25V": {"T_max_gf": 3720, "A": 38.4, "TW": 2.14}
+    },
+    "current_at_2780gf_per_motor": {
+      "formula": "linear interpolation between bracketing maker rows; pack current = 4 x motor current (ESC and wiring losses ignored)",
+      "17x5.8_22.2V": {"motor_A": 22.5, "pack_A": 90},
+      "18x6.1_22.2V": {"motor_A": 23.7, "pack_A": 95},
+      "16x6_22.2V": {"motor_A": 24.4, "pack_A": 98},
+      "15x5.5_22.2V": {"motor_A": null, "pack_A": null, "note": "2780 gf above table max 2430 gf"},
+      "15x5.5_25V": {"motor_A": 21.4, "pack_A": 86},
+      "16x6_25V": {"motor_A": 22.2, "pack_A": 89, "note": "typo row 2300 gf excluded"},
+      "17x5.8_25V": {"motor_A": 20.6, "pack_A": 82},
+      "18x6.1_25V": {"motor_A": 21.3, "pack_A": 85}
+    },
+    "molicel_6S2P_P50B_estimate": {
+      "formula": "R_pack = 6 x 12.8 mOhm / 2; capacity = 2 x 5.0 Ah; energy = 6 x 3.6 V x 10 Ah; cell mass = 12 x 71 g (max); continuous = 2 x 60 A (80 C cut-off)",
+      "R_pack_cells_only_mohm": 38.4,
+      "sag_at_90A_V": 3.5,
+      "capacity_Ah": 10.0,
+      "energy_Wh": 216,
+      "cell_mass_max_g": 852,
+      "continuous_A_temp_limited": 120
+    }
+  },
+  "followup": {
+    "checked": "2026-11-01",
+    "sources": [
+      {
+        "id": "F1",
+        "what": "JeeFly 3K carbon 1855 (18x5.5) prop, 1 pair CW+CCW (closest cheap 18-inch; NOT 18x6.1)",
+        "url": "https://www.amazon.com/dp/B0FJ22MCVJ",
+        "checked": "2026-11-01",
+        "where": "Buy box and 'About this item' bullets (variant '1 Pair 1855' of the JeeFly listing; repo's B0FJ21V736 is the 1555 variant)",
+        "values": {"price_usd_per_pair": 19.99, "delivery_usd": 4.99, "delivery_window": "November 12 - 23", "stock": "In Stock", "pair": "1x CW + 1x CCW", "hub": "4 mm main hole + 3 mm side holes, 12 mm spacing (same as JeeFly 1755)", "mass_per_prop_g": null, "maker_thrust_table_on_X4110S": null},
+        "quote_lt15_words": "1855 18-inch length, pitch 5.5, the main hole diameter 4mm",
+        "credibility": "seller"
+      },
+      {
+        "id": "F2",
+        "what": "SunnySky Eolo carbon fiber UAV propellers 18x6.5 (SunnySky's only 18-inch multirotor prop listing)",
+        "url": "https://sunnyskyusa.com/products/eolo-carbon-fiber-uav-propellers-18x6-5-inch.js",
+        "url_catalog": "https://sunnyskyusa.com/products.json?limit=250",
+        "checked": "2026-11-01",
+        "where": "Product JSON: title, price, variant 'available'; description is only the bolt pattern",
+        "values": {"price_usd": 96.99, "available": true, "bolt_pattern_mm": 15, "pair_or_single": null, "mass_per_prop_g": null, "shipping_weight_g": 272, "sunnysky_sells_18x6.1": false},
+        "quote_lt15_words": "Bolt pattern is 15mm",
+        "credibility": "maker"
+      },
+      {
+        "id": "F3",
+        "what": "Tiger (T-Motor) 18x6.1 carbon pair, GetFPV (US)",
+        "url": "https://www.getfpv.com/tiger-18x6-1-carbon-fiber-props-pair.html",
+        "checked": "2026-11-01",
+        "where": "Price block and description",
+        "values": {"price_usd_per_pair": 25.19, "list_price_usd": 83.99, "stock": "Out of Stock", "pair": "one CW and one CCW", "mass_per_prop_g": null, "hub": null},
+        "quote_lt15_words": "Matched pair of one CW (\"Pusher\") and one CCW propeller",
+        "credibility": "seller"
+      },
+      {
+        "id": "F4",
+        "what": "T-Motor NS18x6 carbon prop pair, T-Motor official store (ships from China)",
+        "url": "https://store.tmotor.com/goods.php?id=964",
+        "checked": "2026-11-01",
+        "where": "Specification table and price",
+        "values": {"price_usd_per_pair": 82.99, "mass_single_blade_g": 17, "package_weight_g": 336.2, "rotation_marking": "L = CW, R = CCW", "hub_fits_X4110S": null},
+        "quote_lt15_words": "Weight(Single Blade) 17g",
+        "credibility": "maker"
+      },
+      {
+        "id": "F5",
+        "what": "Amass XT90S-F (anti-spark XT90) datasheet V1.2",
+        "url": "https://sparks.gogo.co.nz/assets/_site_/downloads/XT90S_SPEC.pdf",
+        "checked": "2026-11-01",
+        "where": "Material & Parameter table (Amass document hosted by distributor Gogo:Tronics)",
+        "values": {"rated_current_RC_A": 40, "max_current_MC_A": 90, "contact_resistance_mohm": 0.56, "cable_spec": "10AWG", "voltage": "DC 500V", "use_times": 1000},
+        "comparison": "XT90H-M (S9): RC 45 A, MC 90 A, CR 0.30 mOhm, 10AWG. XT90-S is rated 5 A lower with higher contact resistance.",
+        "quote_lt15_words": "RC 40A ... MC 90A ... Cable SPEC. 10AWG",
+        "credibility": "maker"
+      },
+      {
+        "id": "F6",
+        "what": "Amass AS150U-F datasheet (Chinese; AS150U 1st-gen, 2+4 pins, for smart batteries)",
+        "url": "https://atta.szlcsc.com/upload/public/pdf/source/20220706/9099BAC3F8F6B9A2C79768E315F09F94.pdf",
+        "checked": "2026-11-01",
+        "where": "Section 5 characteristics table and Section 6 wiring recommendation (Amass sheet hosted by LCSC)",
+        "values": {"rated_current_main_A": 70, "rated_wire": "8#", "rated_test": "UL1977, 4 h, temp rise < 60 C", "instantaneous_A": 140, "instantaneous_test": "1 min, < 80 C", "contact_resistance_mohm": 0.20, "voltage": "DC 500V", "mating_cycles": 100, "wire_table": {"8AWG": {"dT60C_A": 80, "dT85C_A": 90}, "10AWG": {"dT60C_A": 70, "dT85C_A": 80}, "12AWG": {"dT60C_A": 40, "dT85C_A": 50}}, "anti_spark": "listed as an option in Section 7"},
+        "quote_lt15_words": null,
+        "credibility": "maker"
+      },
+      {
+        "id": "F7",
+        "what": "AS150U connector set, Neu Racing (US distributor)",
+        "url": "https://neuracing.us/product/as150u/",
+        "checked": "2026-11-01",
+        "where": "Specifications list",
+        "values": {"price_usd": 17.26, "rated_current_A": 75, "instantaneous_A": 140, "wire_spec": "8 AWG (description also says 12-6 AWG)", "includes": "1 male + 1 female, 2 power + 4 signal pins"},
+        "quote_lt15_words": "Rated Current 75A",
+        "credibility": "seller"
+      },
+      {
+        "id": "F8",
+        "what": "Plain AS150 (7 mm) and Amass XT150 ratings",
+        "url": null,
+        "checked": "2026-11-01",
+        "where": "No Amass datasheet found; reseller figures (150 A/200 A, 60 A) conflict",
+        "values": {"AS150_rated_A": null, "XT150_rated_A": null},
+        "quote_lt15_words": null,
+        "credibility": "seller"
+      },
+      {
+        "id": "F9",
+        "what": "Amass XT60H-M datasheet V1.2",
+        "url": "https://cdn.eicom.ru/media/PDF/XT60H-M.pdf",
+        "checked": "2026-11-01",
+        "where": "Material & Parameter table (Amass document hosted by distributor eicom.ru)",
+        "values": {"rated_current_RC_A": 30, "max_current_MC_A": 60, "contact_resistance_mohm": 0.50, "cable_spec": "12AWG", "voltage": "DC 500V", "certification": "CE/UL", "use_times": 1000},
+        "test_conditions_from_S10": "Holybro: XT60 + 12 AWG 30 A for 4 h / 60 A for 1 min, temp rise < 60 C",
+        "quote_lt15_words": "RC 30A ... MC 60A ... Cable SPEC. 12AWG",
+        "credibility": "maker"
+      },
+      {
+        "id": "F10",
+        "what": "SoloGood 45A ESC: maker motor/prop pairing or temperature rating",
+        "url": "https://www.amazon.com/dp/B0DJQVGSBC",
+        "checked": "2026-11-01",
+        "where": "Full product description searched for prop, inch, KV, temperature, thermal, overheat: no matches",
+        "values": {"max_motor_or_prop": null, "temperature_rating": null, "thermal_protection": null, "reviews": "3.7 of 5, 6 global ratings"},
+        "quote_lt15_words": null,
+        "credibility": "seller"
+      },
+      {
+        "id": "F11",
+        "what": "ArduPilot Plane parameter docs: Q_LAND_FINAL_SPD, Q_LAND_FINAL_ALT, Q_PILOT_SPD_DN",
+        "url": "https://ardupilot.org/plane/docs/parameters.html",
+        "checked": "2026-11-01",
+        "where": "Q_ parameter group (ranges, units); page gives no defaults",
+        "values": {"Q_LAND_FINAL_SPD": {"units": "m/s", "range": "0.3 to 2", "increment": 0.1}, "Q_LAND_FINAL_ALT": {"units": "m", "range": "0.5 to 50", "increment": 0.1}, "Q_PILOT_SPD_DN": {"units": "m/s", "range": "0.5 to 5", "note": "if 0, uses Q_PILOT_SPD_UP"}, "Q_LAND_SPEED": "not in the current parameter list"},
+        "quote_lt15_words": "The descent speed for the final stage of landing in m/s",
+        "credibility": "maker"
+      },
+      {
+        "id": "F12",
+        "what": "ArduPilot source, ArduPlane/quadplane.cpp (defaults)",
+        "url": "https://raw.githubusercontent.com/ArduPilot/ardupilot/master/ArduPlane/quadplane.cpp",
+        "url_4_5": "https://raw.githubusercontent.com/ArduPilot/ardupilot/Plane-4.5/ArduPlane/quadplane.cpp",
+        "checked": "2026-11-01",
+        "where": "AP_GROUPINFO lines for LAND_FINAL_SPD (index 26) and LAND_FINAL_ALT (index 27); parameter conversion comment",
+        "values": {"Q_LAND_FINAL_SPD_default_mps": 0.5, "Q_LAND_FINAL_ALT_default_m": 6, "same_defaults_in_Plane_4.5_branch": true, "unit_change": "converted from centi-units (cm/s) to m/s; comment 'Added: Jan-2024 for ArduPlane-4.5'", "descent_profile": "speed interpolated linearly from Q_LAND_FINAL_SPD at Q_LAND_FINAL_ALT to the WP_NAV default descent speed at Q_LAND_FINAL_ALT + 6 m"},
+        "quote_lt15_words": "AP_GROUPINFO(\"LAND_FINAL_SPD\", 26, QuadPlane, land_final_speed_ms, 0.5)",
+        "credibility": "maker"
+      }
+    ],
+    "derived": {
+      "boom_disconnect_check": {
+        "basis": "Caller's figures: each boom disconnect carries 2 lift ESCs, ~28 A hover, up to ~64 A full thrust. Estimate, not a source value.",
+        "XT60H_12AWG": "hover 28 A < 30 A rated (93 % of rating); 64 A > 60 A 1-min MC (107 %)",
+        "XT90H_10AWG": "hover 28 A = 62 % of 45 A; 64 A = 71 % of 90 A 1-min MC (above 45 A continuous)",
+        "AS150U_8AWG": "hover 28 A = 40 % of 70 A; 64 A = 91 % of 70 A continuous"
+      }
+    }
+  }
+}

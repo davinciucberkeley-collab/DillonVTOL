@@ -1,0 +1,176 @@
+
+-------------------------------------------------------------------------
+|    ___ _   _ ___                                                      |
+|   / __| | | |_  )   Release 8.5.0 "Harrier"                           |
+|   \__ \ |_| |/ /                                                      |
+|   |___/\___//___|   Suite (Computational Fluid Dynamics Code)         |
+|                                                                       |
+-------------------------------------------------------------------------
+| SU2 Project Website: https://su2code.github.io                        |
+|                                                                       |
+| The SU2 Project is maintained by the SU2 Foundation                   |
+| (http://su2foundation.org)                                            |
+-------------------------------------------------------------------------
+| Copyright 2012-2026, SU2 Contributors                                 |
+|                                                                       |
+| SU2 is free software; you can redistribute it and/or                  |
+| modify it under the terms of the GNU Lesser General Public            |
+| License as published by the Free Software Foundation; either          |
+| version 2.1 of the License, or (at your option) any later version.    |
+|                                                                       |
+| SU2 is distributed in the hope that it will be useful,                |
+| but WITHOUT ANY WARRANTY; without even the implied warranty of        |
+| MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU      |
+| Lesser General Public License for more details.                       |
+|                                                                       |
+| You should have received a copy of the GNU Lesser General Public      |
+| License along with SU2. If not, see <http://www.gnu.org/licenses/>.   |
+-------------------------------------------------------------------------
+
+
+Problem definition:
+
+Incompressible Euler equations.
+Viscous and Inviscid flow: rho_ref, vel_ref, temp_ref, p_ref
+are set to 1.0 in order to perform a dimensional calculation.
+Force coefficients computed using initial values.
+The reference area for force coeffs. is 0.341011 m^2.
+The reference length for force coeffs. is 0.284176 m.
+The pressure is decomposed into thermodynamic and dynamic components.
+The initial value of the dynamic pressure is 0.
+Mach number: 0.0528684, computed using the Bulk modulus.
+For external flows, the initial state is imposed at the far-field.
+Angle of attack (deg): 6, computed using the initial velocity.
+Side slip angle (deg): 0, computed using the initial velocity.
+SI units only. The grid should be dimensional (meters).
+No energy equation.
+-- Input conditions:
+Fluid Model: CONSTANT_DENSITY 
+Thermodynamic pressure not required.
+Bulk modulus: 142000 Pa.
+Initial dynamic pressure: 0 Pa.
+Initial total pressure: 198.45 Pa.
+Initial density: 1.225 kg/m^3.
+Free-stream velocity: (17.9014, 0, 1.88151) m/s. Magnitude: 18 m/s.
+-- Reference values:
+Reference pressure: 1 Pa.
+Reference density: 1 kg/m^3.
+Reference velocity: 1 m/s.
+Reference length: 1 m.
+-- Resulting non-dimensional state:
+Mach number (non-dim): 0.0528684
+Initial pressure (non-dim): 0
+Initial density (non-dim): 1.225
+Initial velocity (non-dim): (17.9014, 0, 1.88151). Magnitude: 18
+
+
+Forces breakdown:
+
+Center of Pressure: X=-0.009859Z+0.117167 m.
+
+NOTE: Multiply forces by the non-dimensional factor: 67.673633, and the reference factor: 1.000000
+to obtain the dimensional force.
+
+Total CL:       0.601328 | Pressure (   99%):    0.601328 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CD:       0.057215 | Pressure (   99%):    0.057215 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CSF:      0.020959 | Pressure (   99%):    0.020959 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CL/CD:   10.510053 | Pressure (  100%):   10.510053 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMx:      1.160278 | Pressure (  100%):    1.160278 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMy:     -0.081327 | Pressure (  100%):   -0.081327 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMz:     -0.011866 | Pressure (  100%):   -0.011866 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFx:     -0.005955 | Pressure (  100%):   -0.005955 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFy:      0.020959 | Pressure (   99%):    0.020959 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFz:      0.604015 | Pressure (   99%):    0.604015 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+
+
+Surface name: wing
+
+Total CL    (   90%):    0.541589 | Pressure (   99%):    0.541589 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CD    (   50%):    0.029039 | Pressure (   99%):    0.029039 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CSF   (   24%):    0.005043 | Pressure (   99%):    0.005043 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CL/CD (  177%):   18.650235 | Pressure (  100%):   18.650235 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMx   (   97%):    1.136073 | Pressure (  100%):    1.136073 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMy   (   27%):   -0.022615 | Pressure (  100%):   -0.022615 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMz   ( -415%):    0.049358 | Pressure (   99%):    0.049358 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFx   (  465%):   -0.027731 | Pressure (  100%):   -0.027731 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFy   (   24%):    0.005043 | Pressure (   99%):    0.005043 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFz   (   89%):    0.541658 | Pressure (   99%):    0.541658 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+
+Surface name: htail
+
+Total CL    (    3%):    0.022547 | Pressure (   99%):    0.022547 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CD    (    6%):    0.003982 | Pressure (   99%):    0.003982 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CSF   (    0%):    0.000199 | Pressure (   99%):    0.000199 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CL/CD (   53%):    5.661870 | Pressure (  100%):    5.661870 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMx   (    1%):    0.013992 | Pressure (   99%):    0.013992 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMy   (   76%):   -0.062250 | Pressure (  100%):   -0.062250 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMz   (    7%):   -0.000881 | Pressure (  100%):   -0.000881 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFx   (  -26%):    0.001604 | Pressure (   99%):    0.001604 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFy   (    0%):    0.000199 | Pressure (   99%):    0.000199 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFz   (    3%):    0.022840 | Pressure (   99%):    0.022840 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+
+Surface name: fins
+
+Total CL    (    0%):    0.003264 | Pressure (   99%):    0.003264 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CD    (    7%):    0.004053 | Pressure (   99%):    0.004053 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CSF   (   -8%):   -0.001732 | Pressure (  100%):   -0.001732 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CL/CD (    7%):    0.805207 | Pressure (   99%):    0.805207 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMx   (    0%):    0.004140 | Pressure (   99%):    0.004140 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMy   (   12%):   -0.009846 | Pressure (  100%):   -0.009846 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMz   (   72%):   -0.008552 | Pressure (  100%):   -0.008552 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFx   (  -61%):    0.003690 | Pressure (   99%):    0.003690 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFy   (   -8%):   -0.001732 | Pressure (  100%):   -0.001732 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFz   (    0%):    0.003669 | Pressure (   99%):    0.003669 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+
+Surface name: pod
+
+Total CL    (    5%):    0.032323 | Pressure (   99%):    0.032323 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CD    (    5%):    0.003227 | Pressure (   99%):    0.003227 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CSF   (   85%):    0.017916 | Pressure (   99%):    0.017916 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CL/CD (   95%):   10.015048 | Pressure (  100%):   10.015048 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMx   (    0%):    0.001221 | Pressure (   99%):    0.001221 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMy   (  -19%):    0.016013 | Pressure (   99%):    0.016013 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMz   (  224%):   -0.026653 | Pressure (  100%):   -0.026653 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFx   (    2%):   -0.000169 | Pressure (  100%):   -0.000169 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFy   (   85%):    0.017916 | Pressure (   99%):    0.017916 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFz   (    5%):    0.032483 | Pressure (   99%):    0.032483 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+
+Surface name: booms
+
+Total CL    (    0%):    0.001688 | Pressure (   99%):    0.001688 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CD    (   12%):    0.007064 | Pressure (   99%):    0.007064 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CSF   (    1%):    0.000267 | Pressure (   99%):    0.000267 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CL/CD (    2%):    0.238891 | Pressure (   99%):    0.238891 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMx   (    0%):    0.003729 | Pressure (   99%):    0.003729 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMy   (    0%):   -0.000667 | Pressure (  100%):   -0.000667 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMz   (   83%):   -0.009868 | Pressure (  100%):   -0.009868 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFx   ( -115%):    0.006849 | Pressure (   99%):    0.006849 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFy   (    1%):    0.000267 | Pressure (   99%):    0.000267 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFz   (    0%):    0.002417 | Pressure (   99%):    0.002417 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+
+Surface name: motors
+
+Total CL    (    0%):    0.001892 | Pressure (   99%):    0.001892 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CD    (    0%):   -0.000140 | Pressure (  100%):   -0.000140 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CSF   (    0%):   -0.000022 | Pressure (  100%):   -0.000022 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CL/CD ( -128%):  -13.544897 | Pressure (  100%):  -13.544897 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMx   (    0%):    0.002851 | Pressure (   99%):    0.002851 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMy   (   -2%):    0.001967 | Pressure (   99%):    0.001967 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMz   (   -5%):    0.000680 | Pressure (   99%):    0.000680 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFx   (    5%):   -0.000337 | Pressure (  100%):   -0.000337 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFy   (    0%):   -0.000022 | Pressure (  100%):   -0.000022 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFz   (    0%):    0.001867 | Pressure (   99%):    0.001867 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+
+Surface name: gear
+
+Total CL    (    0%):   -0.001974 | Pressure (  100%):   -0.001974 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CD    (   17%):    0.009988 | Pressure (   99%):    0.009988 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CSF   (   -3%):   -0.000712 | Pressure (  100%):   -0.000712 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CL/CD (   -1%):   -0.197684 | Pressure (  100%):   -0.197684 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMx   (    0%):   -0.001728 | Pressure (  100%):   -0.001728 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMy   (    4%):   -0.003928 | Pressure (  100%):   -0.003928 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMz   (  134%):   -0.015950 | Pressure (  100%):   -0.015950 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFx   ( -170%):    0.010140 | Pressure (   99%):    0.010140 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFy   (   -3%):   -0.000712 | Pressure (  100%):   -0.000712 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFz   (    0%):   -0.000920 | Pressure (  100%):   -0.000920 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+

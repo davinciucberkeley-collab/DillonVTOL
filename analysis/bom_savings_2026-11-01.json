@@ -1,0 +1,386 @@
+{
+ "date": "2026-11-01",
+ "lines": [
+  {
+   "bom_item": "SoloGood 45A ESC (4-pack) x2",
+   "current_usd": 79.98,
+   "proposal": "LANRC BLHeli_S 45A ESC, '4PCS 45A ESC' variant, x2 packs (8 ESCs: 5 + 3 spares, unchanged)",
+   "new_usd": 60.0,
+   "saving_usd": 19.98,
+   "url": "https://www.amazon.com/dp/B0D2HS4Y4J",
+   "checked": "2026-11-01",
+   "spec_check": "LANRC listing: 45 A continuous, 55 A peak (10 s), 2-6S, BLHeli_S (EFM8BB21), DShot150/300/600 + Oneshot125, 13 x 28.5 mm, 18 AWG power leads, 6.6 g. SoloGood B0DJQVGSBC listing: 2-6S, BLHeli_S, DShot 125/300/600, 28.5 x 13 x 5 mm, 18 AWG, 6 g. Same current rating, firmware, protocol, board size and lead gauge.",
+   "risk": "Seller Sparkhobby, $1.50 delivery per pack, arrives Fri Nov 13 (not Prime, likely ships from CN). 3 ratings (3.7/5); 'Only 15 left'. LANRC was already the BOM fallback brand. Upside: the SoloGood listing shows 'Only 1 left in stock' today, so the current line cannot be filled as 2 packs."
+  },
+  {
+   "bom_item": "Hot-wire bow, nichrome + bench supply (EST $40)",
+   "current_usd": 40.0,
+   "proposal": "Priced: NICE-POWER 0-30 V 0-10 A bench supply (B0CRSS744F) $33.24 + Master Wire Supply Ni80 24 AWG 50 ft (B0CP9V3DBX) $8.49; bow frame from PETG/scrap on hand",
+   "new_usd": 41.73,
+   "saving_usd": -1.73,
+   "url": "https://www.amazon.com/s?k=adjustable+DC+bench+power+supply+30V+5A ; https://www.amazon.com/s?k=nichrome+wire+24+AWG+foam+cutting",
+   "checked": "2026-11-01",
+   "spec_check": "Estimate: 24 AWG (0.511 mm dia, A = 2.051e-7 m2) Ni80, rho 1.12e-6 Ohm m (https://en.wikipedia.org/wiki/Nichrome, checked 2026-11-01). R = rho/A = 5.46 Ohm/m; 1.4 m of wire (covers a 1.2 m core) = 7.6 Ohm; at 2 A: V = 15.3 V, P = 31 W, inside 30 V / 10 A. The 2 A cutting current is an estimate; tune it on scrap.",
+   "risk": "Turns an unpriced allowance into real prices (+$1.73). Ready-made 2-4 ft bow kits cost more: cheapest seen $62.80 (B0H6PVBSD4), and a 4 ft (1.22 m) bow is marginal for a 1.2 m core."
+  },
+  {
+   "bom_item": "Holybro MS5525DSO + PT40 airspeed",
+   "current_usd": 59.99,
+   "proposal": "No change: no cheaper in-stock US-shipped kit found",
+   "new_usd": 59.99,
+   "saving_usd": 0.0,
+   "url": "https://wrekd.com/products/matek-digital-airspeed-sensor-aspd-4525 ; https://www.getfpv.com/electronics/flight-controllers/matek-digital-airspeed-sensor-aspd-4525.html ; https://www.racedayquads.com/products/matek-analog-airspeed-sensor-aspd-4525",
+   "checked": "2026-11-01",
+   "spec_check": "Matek ASPD-4525 (MS4525DO, I2C, pitot + 40 cm tubing + JST-GH cable included) would meet the spec, ArduPilot ARSPD_TYPE 1 (MS4525). US prices: WREKD $59.99 sold out, GetFPV $64.99 out of stock, RDQ $59.99 out of stock. ASPD-DLVR is not built into the F405 target (docs/research/budget-avionics.md section 3). Generic Amazon MS4525DO listings (e.g. B0HH5Y9DCM) could not be priced.",
+   "risk": "Holybro ships from China: cart quote $37.47 DHL/FedEx to 94720 (in the shipping table). If WREKD or GetFPV restock, the same-price Matek kit saves most of that $37.47."
+  },
+  {
+   "bom_item": "HTRC C150 charger 150 W",
+   "current_usd": 56.99,
+   "proposal": "No change",
+   "new_usd": 56.99,
+   "saving_usd": 0.0,
+   "url": "https://pyrodrone.com/products/htrc-lipo-charger-1-6s-ac-dc-c150-for-nicd-li-ion-life-nimh-lihv-pb-smart-battery",
+   "checked": "2026-11-01",
+   "spec_check": "Repo spec is >= 5 A on 6S from AC (docs/research/budget-energy-test.md section 2), i.e. >= 126 W from AC. Pyrodrone C150 today: $57.99 + $8.19 shipping. 100 W AC units (ToolkitRC M6AC/M7AC) give 3.97 A and fail. eBay C150 listings ($56.99-$60.79) are not cheaper.",
+   "risk": "—"
+  }
+ ],
+ "shipping": {
+  "per_vendor": [
+   {
+    "vendor": "sunnyskyusa.com",
+    "items": "6 x X4110S ($281.94)",
+    "usd": 0.0,
+    "est": false,
+    "basis": "cart quote to 94720: 'Free Domestic shipping over $100' (Ground Advantage otherwise $8.79)",
+    "url": "https://sunnyskyusa.com/products/sunnysky-x4110s-motors (cart); https://sunnyskyusa.com/pages/order-and-shipping",
+    "checked": "2026-11-01"
+   },
+   {
+    "vendor": "onlinemetals.com",
+    "items": "3 tubes 72/96/36 in",
+    "usd": 50.0,
+    "est": true,
+    "basis": "EST. Rate shown only at checkout step 3 (UPS only, longest 96 in; FAQ). One 96 in package: UPS additional handling for > 48 in about $32 (atoship.com 2026 roundup, not a UPS table) + ground base about $18 (estimate).",
+    "url": "https://www.onlinemetals.com/en/faq ; https://atoship.com/blog/ups-shipping-rates-2026",
+    "checked": "2026-11-01"
+   },
+   {
+    "vendor": "homedepot.com",
+    "items": "2 foam sheets",
+    "usd": 0.0,
+    "est": false,
+    "basis": "store pickup El Cerrito/Hercules (plan in budget-airframe.md section 4)",
+    "url": "docs/research/budget-airframe.md",
+    "checked": "2026-11-01"
+   },
+   {
+    "vendor": "racedayquads.com",
+    "items": "GPS + BeeID ($57.48)",
+    "usd": 6.49,
+    "est": false,
+    "basis": "cart quote, USPS Ground Advantage to 94720 (free over $199 per store banner)",
+    "url": "https://www.racedayquads.com/products/hglrc-m100-5883-gps-module-10th-gen (cart)",
+    "checked": "2026-11-01"
+   },
+   {
+    "vendor": "radiomasterrc.com",
+    "items": "Pocket Crush + RP3 V2 ($84.98)",
+    "usd": 30.0,
+    "est": false,
+    "basis": "cart quote 'Standard' to 94720; ships from China, 10-20 working days; import duties —",
+    "url": "https://www.radiomasterrc.com/pages/shipping-delivery",
+    "checked": "2026-11-01"
+   },
+   {
+    "vendor": "holybro.com",
+    "items": "MS5525DSO + PT40 ($59.99)",
+    "usd": 37.47,
+    "est": false,
+    "basis": "cart quote 'DHL/FedEx Air - USA' to 94720; ships from China; import duties —",
+    "url": "https://holybro.com/products/digital-air-speed-sensor-standard (cart)",
+    "checked": "2026-11-01"
+   },
+   {
+    "vendor": "readymaderc.com",
+    "items": "CoreWing F405 Wing V2",
+    "usd": 10.0,
+    "est": true,
+    "basis": "EST. Rates only at checkout; FedEx/UPS ground (USPS suspended). Item now 'Unavailable'.",
+    "url": "https://readymaderc.com/pages/shipping-returns",
+    "checked": "2026-11-01"
+   },
+   {
+    "vendor": "shop.emax-usa.com",
+    "items": "5 x ES3005HV ($99.95)",
+    "usd": 8.99,
+    "est": false,
+    "basis": "cart quote 'Standard' to 94720",
+    "url": "https://shop.emax-usa.com/products/es3005hv-high-voltage-servo (cart)",
+    "checked": "2026-11-01"
+   },
+   {
+    "vendor": "boltdepot.com",
+    "items": "fasteners ($22.04)",
+    "usd": 10.0,
+    "est": true,
+    "basis": "EST. Rates at checkout only (UPS / Economy from Hingham MA); scaled from the small-parcel cart quotes above ($6.49-$8.99)",
+    "url": "https://www.boltdepot.com/Service",
+    "checked": "2026-11-01"
+   },
+   {
+    "vendor": "neuracing.us",
+    "items": "2 x AS150U ($34.52)",
+    "usd": 10.0,
+    "est": true,
+    "basis": "EST. No shipping terms on the product page",
+    "url": "https://neuracing.us/product/as150u/",
+    "checked": "2026-11-01"
+   },
+   {
+    "vendor": "amazon.com",
+    "items": "all Amazon lines",
+    "usd": 4.99,
+    "est": false,
+    "basis": "free on $35+ shipped by Amazon / Prime; JeeFly props carry '$4.99 delivery' (BOM note)",
+    "url": "analysis/results.json concepts.C0.bom.lines",
+    "checked": "2026-11-01"
+   },
+   {
+    "vendor": "amazon.com (LANRC ESC, proposed)",
+    "items": "2 x LANRC 45A 4-pack",
+    "usd": 3.0,
+    "est": false,
+    "basis": "'$1.50 delivery' per pack on the listing",
+    "url": "https://www.amazon.com/dp/B0D2HS4Y4J",
+    "checked": "2026-11-01"
+   },
+   {
+    "vendor": "Harbor Freight",
+    "items": "ammo can",
+    "usd": 0.0,
+    "est": true,
+    "basis": "in-store purchase (assumed)",
+    "url": "—",
+    "checked": "2026-11-01"
+   }
+  ],
+  "quoted_usd": 90.94,
+  "estimated_usd": 80.0,
+  "contingency": "+20 % on estimated lines only",
+  "new_allowance_usd": 186.94,
+  "basis": "Cart quotes to Berkeley CA 94720 where the store exposes them ($90.94); estimated vendors ($80.00) carry +20 %. The current $110 allowance is under-funded by $76.94."
+ },
+ "total_saving_incl_tax_usd": 20.12,
+ "budget_after": {
+  "goods_usd": 1622.95,
+  "tax_usd": 166.35,
+  "shipping_usd": 186.94,
+  "total_usd": 1976.24,
+  "reserve_usd": 23.76,
+  "reserve_before_usd": 80.58,
+  "note": "Item savings are real but smaller than the shipping shortfall the cart quotes expose. Reserve goal (> $100) is not met without further changes."
+ },
+ "flags": [
+  "SoloGood 45A B0DJQVGSBC: 'Only 1 left in stock' (2 packs needed)",
+  "CoreWing F405 Wing V2 at ReadyMadeRC: 'Unavailable / Notify me'; the CoreWing stack at RDQ is also unavailable",
+  "NewBeeDrone BeeID v1.1: out of stock at RDQ; in stock at newbeedrone.com for $39.99 (+$3.00)",
+  "Holybro and RadioMaster ship from China (DAP): import duties possible, not quantified (—)"
+ ],
+ "consolidation": {
+  "date": "2026-11-01",
+  "items": [
+   {
+    "bom_item": "RadioMaster Pocket Crush ELRS",
+    "old_vendor": "radiomasterrc.com (CN)",
+    "old_usd": 64.99,
+    "new_vendor": "ReadyMadeRC",
+    "new_usd": 76.99,
+    "stock": "In Stock (blue/slate grey/pink/yellow/transparent)",
+    "url": "https://www.readymaderc.com/search?q=pocket+crush",
+    "note": "same product (ELRS 2.4 GHz, Mode 2)",
+    "checked": "2026-11-01"
+   },
+   {
+    "bom_item": "RadioMaster RP3 V2 ELRS receiver",
+    "old_vendor": "radiomasterrc.com (CN)",
+    "old_usd": 19.99,
+    "new_vendor": "ReadyMadeRC",
+    "new_usd": 22.96,
+    "stock": "Backorder",
+    "url": "https://www.readymaderc.com/search?q=rp3",
+    "note": "same product; in stock at ProgressiveRC $21.99 (https://www.progressiverc.com/products/radiomaster-rp3-elrs-2-4ghz-receiver) if RMRC slips",
+    "checked": "2026-11-01"
+   },
+   {
+    "bom_item": "Airspeed sensor + pitot",
+    "old_vendor": "holybro.com (CN) MS5525DSO + PT40",
+    "old_usd": 59.99,
+    "new_vendor": "ReadyMadeRC",
+    "new_usd": 59.99,
+    "stock": "In Stock",
+    "url": "https://www.readymaderc.com/products/details/rmrc-digital-air-speed-sensor-pixhawk-ii-2",
+    "note": "RMRC-PIX-AIR-SEN: MS4525DO, I2C, JST-GH, pitot + 0.5 m tubing. ArduPilot ARSPD_TYPE = 1 (MS4525), not 5; default address 0x28, so the MS5525 0x76/0x77 strap work in vtol_c0.param is no longer needed",
+    "checked": "2026-11-01"
+   },
+   {
+    "bom_item": "GPS + compass",
+    "old_vendor": "racedayquads.com HGLRC M100-5883",
+    "old_usd": 20.49,
+    "new_vendor": "ReadyMadeRC",
+    "new_usd": 24.99,
+    "stock": "In Stock",
+    "url": "https://www.readymaderc.com/search?q=airspeed (listed 'RMRC GPS and Compass Module SAM-M10Q-5883')",
+    "note": "equivalent: u-blox M10 GNSS + 5883 compass (spec sheet not read: —)",
+    "checked": "2026-11-01"
+   },
+   {
+    "bom_item": "NewBeeDrone BeeID v1.1 Remote ID",
+    "old_vendor": "racedayquads.com (now out of stock)",
+    "old_usd": 36.99,
+    "new_vendor": "ReadyMadeRC",
+    "new_usd": 39.99,
+    "stock": "Only 2 left",
+    "url": "https://www.readymaderc.com/search?q=beeid",
+    "note": "same product (FAA DoC RID000001995)",
+    "checked": "2026-11-01"
+   },
+   {
+    "bom_item": "Flight controller",
+    "old_vendor": "ReadyMadeRC CoreWing F405 Wing V2, soldered pins (now 'Unavailable')",
+    "old_usd": 67.26,
+    "new_vendor": "ReadyMadeRC",
+    "new_usd": 67.18,
+    "stock": "Backorder, 'Availability Date: November 2026'",
+    "url": "https://www.readymaderc.com/products/details/87195-corewing-f405-wing-app-v2-fixed-wing-flight-controller-unsoldered-pins",
+    "note": "Same board with unsoldered pin headers: 12 outputs (1-10 DShot, 11-12 PWM), timer groups unchanged, 90 A cont / 215 A peak sensor, 8 A servo BEC (https://ardupilot.org/plane/docs/common-CoreWingF405WingV2.html, checked 2026-11-01), so vtol_c0.param output map is unchanged. Rejected: Wing Mini V2 $52.13 in stock (servo BEC only 4 A, below the 8 A check in firmware/README.md section 7). In-stock fallback: Holybro Kakute H743-Wing $107.42 at RMRC (outputs must be remapped).",
+    "checked": "2026-11-01"
+   },
+   {
+    "bom_item": "EMAX ES3005HV servo x5",
+    "old_vendor": "shop.emax-usa.com",
+    "old_usd": 99.95,
+    "new_vendor": "ReadyMadeRC",
+    "new_usd": 99.95,
+    "stock": "In Stock (quantity 5 not confirmed)",
+    "url": "https://www.readymaderc.com/search?q=es3005",
+    "note": "same product, same $19.99 unit price",
+    "checked": "2026-11-01"
+   }
+  ],
+  "goods_old_usd": 369.66,
+  "goods_new_usd": 392.05,
+  "goods_delta_usd": 22.39,
+  "removed_shipping_usd": {
+   "radiomasterrc.com": 30.0,
+   "holybro.com": 37.47,
+   "racedayquads.com": 6.49,
+   "shop.emax-usa.com": 8.99,
+   "readymaderc.com (EST)": 10.0
+  },
+  "free_shipping_thresholds": [
+   {
+    "vendor": "ReadyMadeRC",
+    "rule": "Free shipping when the lowest available shipping cost is under 5 % of the order total (tick 'Shipping Discount' at checkout)",
+    "url": "https://www.readymaderc.com/pages/shipping-returns",
+    "checked": "2026-11-01"
+   },
+   {
+    "vendor": "RaceDayQuads",
+    "rule": "Free over $199 (store banner)",
+    "url": "https://www.racedayquads.com/collections/all",
+    "checked": "2026-11-01"
+   },
+   {
+    "vendor": "GetFPV",
+    "rule": "FREE SHIPPING on most orders $199+",
+    "url": "https://www.getfpv.com/",
+    "checked": "2026-11-01"
+   },
+   {
+    "vendor": "Pyrodrone",
+    "rule": "Free US shipping over $199 ('$199.00 away from free shipping' cart banner)",
+    "url": "https://pyrodrone.com/products/htrc-lipo-charger-1-6s-ac-dc-c150-for-nicd-li-ion-life-nimh-lihv-pb-smart-battery",
+    "checked": "2026-11-01"
+   },
+   {
+    "vendor": "SunnySky USA",
+    "rule": "Free domestic shipping over $100 (cart quote)",
+    "url": "https://sunnyskyusa.com/products/sunnysky-x4110s-motors",
+    "checked": "2026-11-01"
+   }
+  ],
+  "shipping": {
+   "per_vendor": [
+    {
+     "vendor": "sunnyskyusa.com",
+     "usd": 0.0,
+     "est": false,
+     "basis": "cart quote: free over $100",
+     "checked": "2026-11-01"
+    },
+    {
+     "vendor": "readymaderc.com (7 lines, one order)",
+     "usd": 0.0,
+     "est": true,
+     "basis": "EST. Order $392.05, so free if the cheapest rate is under $19.60. Comparable small-parcel cart quotes to 94720 were $6.49-$14.99. Not cart-verified. RMRC holds the whole order until the backordered FC and RP3 arrive.",
+     "checked": "2026-11-01"
+    },
+    {
+     "vendor": "onlinemetals.com",
+     "usd": 50.0,
+     "est": true,
+     "basis": "EST, unchanged. A cart quote needs a checkout address, so it was not taken",
+     "checked": "2026-11-01"
+    },
+    {
+     "vendor": "homedepot.com / Harbor Freight",
+     "usd": 0.0,
+     "est": true,
+     "basis": "store pickup",
+     "checked": "2026-11-01"
+    },
+    {
+     "vendor": "boltdepot.com",
+     "usd": 10.0,
+     "est": true,
+     "basis": "EST, unchanged",
+     "checked": "2026-11-01"
+    },
+    {
+     "vendor": "neuracing.us",
+     "usd": 10.0,
+     "est": true,
+     "basis": "EST, unchanged",
+     "checked": "2026-11-01"
+    },
+    {
+     "vendor": "amazon.com",
+     "usd": 7.99,
+     "est": false,
+     "basis": "JeeFly $4.99 + LANRC ESC $1.50 x2; the rest free over $35",
+     "checked": "2026-11-01"
+    }
+   ],
+   "quoted_usd": 7.99,
+   "estimated_usd": 70.0,
+   "contingency": "+20 % on estimated lines",
+   "new_allowance_usd": 91.99
+  },
+  "budget_with_LANRC_and_hotwire": {
+   "goods_usd": 1645.34,
+   "tax_usd": 168.65,
+   "shipping_usd": 91.99,
+   "total_usd": 1905.98,
+   "reserve_usd": 94.02
+  },
+  "param_change": "ARSPD_TYPE 5 -> 1 (MS4525); the board is the same CoreWing F405 Wing V2, so no output remap",
+  "risks": [
+   "RMRC 5 % free-shipping rule not cart-verified; worst case is shipping just under $19.60",
+   "FC and RP3 are backordered (FC date 'November 2026'); RMRC ships the order only when everything is in stock",
+   "BeeID 'Only 2 left'; ES3005HV x5 quantity not confirmed",
+   "OnlineMetals ($50 EST) is still the largest unverified line"
+  ]
+ }
+}

@@ -1,692 +1,904 @@
 {
- "generated": "2026-10-29",
+ "generated": "2026-11-02",
  "author": "audit agent (structures/thermal/mfg)",
  "scope": "structural FEA, thermal analysis, CAD consistency, manufacturing & assembly readiness. Aero/performance/propulsion/cost and full-aircraft CFD are out of scope.",
- "status_definition": "Verified = reproducible solver evidence (or exact geometric arithmetic) + independent hand check agreeing within 5 % at a non-singular location + representative BCs. Partially Verified = reproduced but BCs, inputs or geometry not representative. Unverified = no analysis/data to check against. Failed = check contradicts the claim.",
+ "design": "frozen design 2026-11-01 (analysis/results.json generated 2026-11-01; MTOW 7.436 kg, cruise 18 m/s); thermal at the 25 C design ambient (DESIGN-BASIS R21)",
+ "independent_script": "analysis/validation/check_struct.py -> analysis/validation/checks_struct.json",
+ "status_definition": "Verified = reproducible calculation or simulation AND an independent check agreeing within the stated tolerance (or satisfying the stated bound). Partially Verified = reproduced, but an important check is incomplete (usually a named physical test). Unverified = insufficient evidence. Failed = contradicted by a check.",
+ "how_to_read": "Each claim has check_yourself: numbered steps (the command to run, the file and line to open, the formula with numbers, the expected result and tolerance). Every check prints one line in py analysis/validation/check_struct.py with PASS/FAIL.",
+ "status_counts": {
+  "Verified": 11,
+  "Partially Verified": 21,
+  "Unverified": 1,
+  "Failed": 1
+ },
  "claims": [
   {
-   "value": 36.77,
-   "units": "MPa",
-   "equations": [
-    "I = pi/64 (D^4 - d^4) = 5148 mm^4",
-    "sigma = P L c / I"
-   ],
-   "assumptions": [
-    "thrust-only load, lift-unit weight not subtracted (conservative)",
-    "rigid root at the spar clamp",
-    "6061-T6 yield 275 MPa (SOLIDWORKS typical)"
-   ],
-   "inputs": {
-    "L_m": 0.461982,
-    "P_N": 30.6948,
-    "OD_mm": 25.4,
-    "ID_mm": 23.622
-   },
-   "tool": "SOLIDWORKS Simulation 2025 (static, FFEPlus) via cad/Sim.cs + analysis/sizing.mjs hand calc",
-   "evidence": [
-    {
-     "file": "cad/sim/results.txt",
-     "what": "boom_vm_max 33.69, boom_vm_max_fine 36.77, boom_hand_sigma 34.98, boom_RF_yield 8.16"
-    },
-    {
-     "file": "cad/Sim.cs",
-     "what": "Boom(): fixed planar root face, normal force on tip-block top face, 3 mm and 1.5 mm meshes"
-    },
-    {
-     "file": "cad/sim/FEA_Boom_Arm-Boom full thrust fine mesh.LOG",
-     "what": "253,709 elements, 38 s"
-    }
-   ],
-   "ran_evidence": "cad/sim/*.LOG: FFEPlus solver logs written 2026-10-25 14:48:59-14:53:23 (boom coarse 50,583 el / 262,392 DOF 7 s; boom fine 253,709 el / 1,257,645 DOF 38 s; modes 50,583 el 63 s; spar coarse 55,584 el; spar fine 147,172 el); .CWR result databases of 33-359 MB with matching timestamps; cad/sim/results.txt header \"generated 2026-10-25 14:48\"; nodal fields exported to cad/sim/fields/*.json (419,524 / 270,229 nodes) and re-read by this audit. SOLIDWORKS not re-run by the audit.",
-   "reproduced": {
-    "done": true,
-    "how": "hand calc recomputed in check_struct.py from params.txt",
-    "matches": true
-   },
-   "independent_check": {
-    "method": "Euler-Bernoulli M c / I at the clamp",
-    "value": 34.98,
-    "repo_value": 36.77,
-    "delta_pct": 5.11,
-    "script": "analysis/validation/check_struct.py#STR-01"
-   },
-   "limitations": [
-    "Load case is thrust only; the hard-landing case (STR-11) governs the boom by about 3-10x and is not analysed in the repo.",
-    "RF quoted on typical 275 MPa yield; minimum 240 MPa (Aluminum Standards and Data via https://en.wikipedia.org/wiki/6061_aluminium_alloy, checked 2026-10-29).",
-    "Clamp bearing on the tube wall (0.89 mm) and the PETG clamp itself not analysed."
-   ],
-   "next_step": "Keep; add the landing and single-motor-out cases to Sim.cs.",
    "id": "STR-01",
    "component": "booms",
    "discipline": "structures",
-   "claim": "Front boom arm (1.000 x 0.035 in 6061-T6, 462 mm cantilever) at one lift unit's max thrust 30.7 N: root stress 35.0 MPa hand / 36.8 MPa FEA, RF 8.2 on yield.",
-   "status": "Verified",
-   "status_reason": "Solver ran (logs, CWR), hand calc reproduced to 0.0 %, FEA nodal field matches beam theory within 1.2 % at 4 stations (STR-02). Stress is statically determinate, so root-clamp compliance does not change it. RF on the 240 MPa minimum yield is 6.9."
-  },
-  {
-   "value": 9.13,
-   "units": "% change of peak on mesh halving",
+   "claim": "Front boom arm (1.000 x 0.035 in 6061-T6, 488 mm from the front clamp to the motor) at one lift unit's maximum thrust 30.69 N: root stress 37.0 MPa by beam theory (SOLIDWORKS 35.4 MPa on the 3 mm mesh, 38.6 MPa on the 1.5 mm mesh at the fixed face); reserve factor 6.5 on the 240 MPa minimum yield.",
+   "value": 36.958,
+   "units": "MPa",
    "equations": [
-    "sigma(x) = P (a - x) c / I, a = L - r_block"
+    "I = pi/64 (D^4 - d^4)",
+    "sigma = P L (D/2) / I",
+    "RF = sigma_y,min / sigma"
    ],
    "assumptions": [
-    "peak located at the fixed root face"
+    "load = maker maximum thrust 3.13 kgf of one X4110S + 17x5.8 at 22.2 V (results.json struct.Tmax), lift-unit weight not subtracted (conservative)",
+    "cantilever fixed at the front clamp",
+    "6061-T6 minimum yield 240 MPa (https://en.wikipedia.org/wiki/6061_aluminium_alloy, checked 2026-10-29)"
    ],
    "inputs": {
-    "coarse_elements": 50583,
-    "fine_elements": 253709
+    "L_m": 0.488039,
+    "P_N": 30.694814,
+    "D_m": 0.0254,
+    "d_m": 0.023622,
+    "I_mm4": 5147.7
    },
-   "tool": "SOLIDWORKS Simulation; audit re-extraction of cad/sim/fields/boom.json",
+   "tool": "SOLIDWORKS Simulation 2025 static (cad/Sim.cs Boom()) + hand calc",
    "evidence": [
     {
      "file": "cad/sim/results.txt",
-     "what": "boom_vm_max 33.69 (3 mm), boom_vm_max_fine 36.77 (1.5 mm)"
+     "what": "boom_vm_max 35.43, boom_vm_max_fine 38.64, boom_hand_sigma 36.96, boom_RF_yield 7.76"
     },
     {
-     "file": "cad/sim/fields/boom.json",
-     "what": "419,524-node fine-mesh nodal von Mises"
+     "file": "cad/params.txt",
+     "what": "feaBoomL, feaTipForce, boomOD, boomID"
     }
    ],
-   "ran_evidence": "cad/sim/*.LOG: FFEPlus solver logs written 2026-10-25 14:48:59-14:53:23 (boom coarse 50,583 el / 262,392 DOF 7 s; boom fine 253,709 el / 1,257,645 DOF 38 s; modes 50,583 el 63 s; spar coarse 55,584 el; spar fine 147,172 el); .CWR result databases of 33-359 MB with matching timestamps; cad/sim/results.txt header \"generated 2026-10-25 14:48\"; nodal fields exported to cad/sim/fields/*.json (419,524 / 270,229 nodes) and re-read by this audit. SOLIDWORKS not re-run by the audit.",
+   "ran_evidence": "cad/sim/*.LOG written 2026-11-02 01:11-01:20 by cad/Sim.exe (SOLIDWORKS Simulation 2025, FFEPlus): boom 3 mm mesh 59045 elements, 1.5 mm mesh 304844 elements; modes on the 3 mm mesh; spar 3 mm 55584, 2 mm 147172 elements; .CWR databases with matching times; cad/sim/results.txt header 'generated 2026-11-02 01:10'; nodal fields cad/sim/fields/boom.json (493,648 nodes) and spar.json (270,229 nodes) exported 2026-11-02 04:13-04:17 and re-read by check_struct.py. SOLIDWORKS was not re-run by this audit.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines STR-01 and STR-01b must print PASS.",
+    "Open cad/params.txt:50 (feaBoomL = 0.488039 m), cad/params.txt:51 (feaTipForce = 30.6948 N), boomOD 0.0254 m, boomID 0.023622 m.",
+    "I = pi/64 x (25.4^4 - 23.622^4) = 5148 mm^4. sigma = P L c / I = 30.69 x 488.0 x 12.7 / 5148 = 36.96 MPa.",
+    "Compare with cad/sim/results.txt:5 boom_hand_sigma = 36.958 (expect within 0.5 %). The FEA loads a tip block whose centroid is at 463.3 mm, where the hand value is 35.08 MPa; cad/sim/results.txt:2 boom_vm_max = 35.43 MPa (expect within 5 %).",
+    "RF = 240 / 36.96 = 6.49."
+   ],
    "reproduced": {
     "done": true,
-    "how": "max von Mises in 6 mm slices at x = 0.05/0.10/0.20/0.30 m read from the exported field",
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines STR-01 and STR-01b must print PASS. (2) Open cad/params.txt:50 (feaBoomL = 0.488039 m), cad/params.txt:51 (feaTipForce = 30.6948 N), boomOD 0.0254 m, boomID 0.023622 m. (3) I = pi/64 x (25.4^4 - 23.622^4) = 5148 mm^4. sigma = P L c / I = 30.69 x 488.0 x 12.7 / 5148 = 36.96 MPa. (4) Compare with cad/sim/results.txt:5 boom_hand_sigma = 36.958 (expect within 0.5 %). The FEA loads a tip block whose centroid is at 463.3 mm, where the hand value is 35.08 MPa; cad/sim/results.txt:2 boom_vm_max = 35.43 MPa (expect within 5 %). (5) RF = 240 / 36.96 = 6.49.",
     "matches": true
    },
    "independent_check": {
-    "method": "beam theory at the slices vs FEA nodal max (mean |delta|)",
-    "value": 25.8,
-    "repo_value": 26.0,
-    "delta_pct": 0.81,
-    "script": "analysis/validation/check_struct.py#STR-02"
+    "method": "beam theory M c / I on the FEA load position vs SOLIDWORKS 3 mm mesh (STR-01b, tolerance 5 %)",
+    "value": 35.084,
+    "repo_value": 35.4333,
+    "delta_pct": -0.99,
+    "script": "analysis/validation/check_struct.py#STR-01"
    },
+   "status": "Verified",
+   "status_reason": "Hand calc reproduces the repo value exactly; SOLIDWORKS agrees with beam theory to +1.0 % on the same load position and the stress field matches within 1.7 % at 4 stations (STR-02). The stress is statically determinate, so the clamp stiffness does not change it.",
    "limitations": [
-    "Only two meshes; no third refinement or stress linearisation at the root."
+    "Thrust-only case. The landing case gives 123-146 MPa at the clamps (STR-11) and governs the boom.",
+    "Clamp bearing on the 0.89 mm tube wall and the printed clamp itself are not analysed (S02, S04 test them)."
    ],
-   "next_step": "Report the nominal stress at 1-2 tube diameters from the clamp, or model the clamp as a contact/bearing support.",
+   "next_step": "Keep. S02 checks the real clamp stiffness; S04 checks clamp slip."
+  },
+  {
    "id": "STR-02",
    "component": "booms",
    "discipline": "structures",
-   "claim": "Boom FEA mesh refinement (3 mm -> 1.5 mm) is a convergence check of the 36.8 MPa peak.",
-   "status": "Partially Verified",
-   "status_reason": "Away from the root the field converges to beam theory (0.7-1.9 %). The peak itself grows 9.1 % on halving the mesh: it is the restraint singularity at the fixed face, so it is not a converged value and is not \"convergence evidence\" as the README implies."
-  },
-  {
-   "value": 2.7,
-   "units": "mm",
+   "claim": "Away from the fixed root face the boom FEA stress field matches beam theory within 1.7 % at 4 stations (50-300 mm). The root peak grows 9.0 % on halving the mesh (35.4 -> 38.6 MPa): it is the restraint singularity, not a converged value, so the design stress is the beam value of STR-01.",
+   "value": 1.74,
+   "units": "% worst |FEA - beam| / beam",
    "equations": [
-    "delta = P L^3/(3EI)",
-    "delta_tip = P a^2 (3L - a)/(6EI), a = L - r_block"
+    "sigma(x) = P (a - x) (D/2) / I, a = L - r_block"
    ],
    "assumptions": [
-    "rigid root"
+    "nodal von Mises maximum in a 6 mm slice, outer-surface nodes only (r > 0.98 D/2)"
    ],
    "inputs": {
-    "a_m": 0.4407
+    "stations_m": [
+     0.05,
+     0.1,
+     0.2,
+     0.3
+    ],
+    "elements": {
+     "coarse_3mm": 59045,
+     "fine_1.5mm": 304844,
+     "src": "cad/sim/*.LOG (UTF-16)"
+    }
+   },
+   "tool": "SOLIDWORKS Simulation; cad/SimFields.cs export; check_struct.py re-extraction of cad/sim/fields/boom.json",
+   "evidence": [
+    {
+     "file": "cad/sim/fields/boom.json",
+     "what": "493648-node fine-mesh nodal von Mises"
+    },
+    {
+     "file": "cad/sim/results.txt",
+     "what": "boom_vm_max 35.43 (3 mm), boom_vm_max_fine 38.64 (1.5 mm)"
+    }
+   ],
+   "ran_evidence": "cad/sim/*.LOG written 2026-11-02 01:11-01:20 by cad/Sim.exe (SOLIDWORKS Simulation 2025, FFEPlus): boom 3 mm mesh 59045 elements, 1.5 mm mesh 304844 elements; modes on the 3 mm mesh; spar 3 mm 55584, 2 mm 147172 elements; .CWR databases with matching times; cad/sim/results.txt header 'generated 2026-11-02 01:10'; nodal fields cad/sim/fields/boom.json (493,648 nodes) and spar.json (270,229 nodes) exported 2026-11-02 04:13-04:17 and re-read by check_struct.py. SOLIDWORKS was not re-run by this audit.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line STR-02 prints the worst |delta| (expect <= 5 %, PASS).",
+    "Open analysis/validation/checks_struct.json -> checks.STR-02.slices: each station lists the FEA maximum and the hand value.",
+    "Hand at x = 0.10 m: sigma = P (a - x) c / I = 30.69 x (463.3 - 100) x 12.7 / 5148 = 27.51 MPa; FEA 27.73 MPa (+0.78 %).",
+    "Peak change on mesh halving: (38.64 - 35.43) / 35.43 = +9.0 %: a converged peak would change by < 2 %, so the peak is a singularity."
+   ],
+   "reproduced": {
+    "done": true,
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line STR-02 prints the worst |delta| (expect <= 5 %, PASS). (2) Open analysis/validation/checks_struct.json -> checks.STR-02.slices: each station lists the FEA maximum and the hand value. (3) Hand at x = 0.10 m: sigma = P (a - x) c / I = 30.69 x (463.3 - 100) x 12.7 / 5148 = 27.51 MPa; FEA 27.73 MPa (+0.78 %). (4) Peak change on mesh halving: (38.64 - 35.43) / 35.43 = +9.0 %: a converged peak would change by < 2 %, so the peak is a singularity.",
+    "matches": true
+   },
+   "independent_check": {
+    "method": "beam theory at 4 stations vs FEA nodal field, worst |delta| (tolerance 5 %)",
+    "value": 1.74,
+    "repo_value": 0.0,
+    "delta_pct": null,
+    "script": "analysis/validation/check_struct.py#STR-02"
+   },
+   "status": "Verified",
+   "status_reason": "Restated: the claim is now the converged field, not the singular peak. Worst station differs by 1.7 % (tolerance 5 %); mean 1.1 %.",
+   "limitations": [
+    "Only two meshes; no stress linearisation at the root."
+   ],
+   "next_step": "None for the claim; the root region is covered by the beam value and by S02/S04.",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Partially Verified",
+     "to": "Verified",
+     "why": "Restated as the converged-field claim (the old wording called a 9 % singular peak \"convergence evidence\"); field within 1.7 % of beam theory."
+    }
+   ]
+  },
+  {
+   "id": "STR-03",
+   "component": "booms",
+   "discipline": "structures",
+   "claim": "Boom tip deflection at maximum thrust with a rigid root: 3.16 mm FEA vs 3.09 mm hand with the same load position (+2.0 %). The repo hand value 3.35 mm puts the load at the tube end. The real printed clamp adds root rotation; S02 measures it.",
+   "value": 3.155,
+   "units": "mm",
+   "equations": [
+    "delta = P L^3 / (3 E I) (load at the end)",
+    "delta_tip = P a^2 (3L - a) / (6 E I) (load at a = L - r_block)"
+   ],
+   "assumptions": [
+    "rigid root (fixed face, as in the FEA)",
+    "E 69 GPa"
+   ],
+   "inputs": {
+    "a_m": 0.46329984238014094,
+    "L_m": 0.488039
    },
    "tool": "SOLIDWORKS Simulation static",
    "evidence": [
     {
      "file": "cad/sim/results.txt",
-     "what": "boom_disp_max 2.70, boom_hand_defl 2.84"
+     "what": "boom_disp_max 3.155, boom_hand_defl 3.348"
     }
    ],
-   "ran_evidence": "cad/sim/*.LOG: FFEPlus solver logs written 2026-10-25 14:48:59-14:53:23 (boom coarse 50,583 el / 262,392 DOF 7 s; boom fine 253,709 el / 1,257,645 DOF 38 s; modes 50,583 el 63 s; spar coarse 55,584 el; spar fine 147,172 el); .CWR result databases of 33-359 MB with matching timestamps; cad/sim/results.txt header \"generated 2026-10-25 14:48\"; nodal fields exported to cad/sim/fields/*.json (419,524 / 270,229 nodes) and re-read by this audit. SOLIDWORKS not re-run by the audit.",
+   "ran_evidence": "cad/sim/*.LOG written 2026-11-02 01:11-01:20 by cad/Sim.exe (SOLIDWORKS Simulation 2025, FFEPlus): boom 3 mm mesh 59045 elements, 1.5 mm mesh 304844 elements; modes on the 3 mm mesh; spar 3 mm 55584, 2 mm 147172 elements; .CWR databases with matching times; cad/sim/results.txt header 'generated 2026-11-02 01:10'; nodal fields cad/sim/fields/boom.json (493,648 nodes) and spar.json (270,229 nodes) exported 2026-11-02 04:13-04:17 and re-read by check_struct.py. SOLIDWORKS was not re-run by this audit.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line STR-03 must print PASS (tolerance 5 %).",
+    "E I = 69e9 x 5.148e-09 m^4 = 355.2 N m^2. a = 463.3 mm, L = 488.0 mm.",
+    "delta_tip = P a^2 (3L - a) / (6 E I) = 3.094 mm; cad/sim/results.txt:4 boom_disp_max = 3.155 mm (+2.0 %)."
+   ],
    "reproduced": {
     "done": true,
-    "how": "hand recomputed with the FEA load position (tip-block centroid 21 mm inboard)",
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line STR-03 must print PASS (tolerance 5 %). (2) E I = 69e9 x 5.148e-09 m^4 = 355.2 N m^2. a = 463.3 mm, L = 488.0 mm. (3) delta_tip = P a^2 (3L - a) / (6 E I) = 3.094 mm; cad/sim/results.txt:4 boom_disp_max = 3.155 mm (+2.0 %).",
     "matches": true
    },
    "independent_check": {
-    "method": "cantilever with load at the block centroid",
-    "value": 2.64,
-    "repo_value": 2.7,
-    "delta_pct": 2.23,
+    "method": "cantilever with the load at the tip-block centroid (tolerance 5 %)",
+    "value": 3.094,
+    "repo_value": 3.15517,
+    "delta_pct": -1.94,
     "script": "analysis/validation/check_struct.py#STR-03"
    },
+   "status": "Verified",
+   "status_reason": "Scoped to the rigid-root model the claim states: FEA and beam theory agree to +2.0 %. The real deflection is larger and is a test item (S02).",
    "limitations": [
-    "Clamp/hardpoint/wing-torsion compliance ignored; real deflection is larger."
+    "Clamp, hardpoint and wing-torsion compliance are not modelled (—).",
+    "docs/test/TEST-PLAN.md S02 still quotes the old FEA 2.70 mm; re-base its pass line on 3.16 mm (1.5 x 3.16 = 4.7 mm, same rule)."
    ],
-   "next_step": "Measure tip deflection under a 3.13 kg hanging mass on the built boom (test plan S02-S04 style) and back out root stiffness.",
-   "id": "STR-03",
-   "component": "booms",
-   "discipline": "structures",
-   "claim": "Boom tip deflection at max thrust 2.70 mm FEA vs 2.84 mm hand (-4.8 %).",
-   "status": "Partially Verified",
-   "status_reason": "Solver and hand agree within 2.2 % once the load position is matched (the repo's -4.8 % gap is the load-position difference). BC is not representative: the real root is a printed PETG split clamp bonded to a foam hardpoint, which adds rotation (stiffness —)."
+   "next_step": "S02: hang 3.0 kg at the motor and compare; back out the root stiffness.",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Partially Verified",
+     "to": "Verified",
+     "why": "Restated as the rigid-root model value it is; FEA vs hand +2.0 % on the same load position."
+    }
+   ]
   },
   {
-   "value": 34.385,
+   "id": "STR-04",
+   "component": "booms",
+   "discipline": "structures",
+   "claim": "Boom first bending mode with the 0.3255 kg lift unit and a rigid root: 27.8 Hz FEA vs 28.0 Hz hand with the tip mass at the same position (-0.8 %). The EST hover rotor frequency (1P) 91 Hz is 3.3 x higher; a compliant root only lowers f1, away from 1P.",
+   "value": 27.75,
    "units": "Hz",
    "equations": [
-    "f = (1/2pi) sqrt(3EI / ((m_tip + 0.24 m_beam) L^3))"
+    "f1 = 1/(2 pi) sqrt(3 E I / ((m_tip + 0.24 m_beam) a^3))",
+    "rpm_hover = rpm_max sqrt(T_hover / T_max)"
    ],
    "assumptions": [
-    "tip mass 0.242 kg (sizing)",
     "rigid root",
-    "hover rotor speed 5,130 rpm EST from firmware/sitl/c0_physics.py lift_rpm_max 7,100 x sqrt(T_hover/T_max)"
+    "tip mass 0.3255 kg (STR-05)",
+    "hover rpm 5472 EST from firmware/sitl/c0_physics.py lift_rpm_max 7,100 x sqrt(18.23 / 30.69 N)"
    ],
    "inputs": {
-    "m_tip_kg": 0.242,
-    "m_beam_kg": 0.0854,
-    "k_N_per_m": 10807.0
+    "m_tip_kg": 0.3255,
+    "m_beam_kg": 0.0902,
+    "a_m": 0.46329984238014094
    },
    "tool": "SOLIDWORKS Simulation frequency study",
    "evidence": [
     {
      "file": "cad/sim/results.txt",
-     "what": "raw GetResonantFrequencies 34.385 Hz mode 1; boom_hand_fn 32.31"
-    },
-    {
-     "file": "cad/sim/FEA_Boom_Arm-Boom modes.LOG",
-     "what": "50,583 elements, 63 s"
+     "what": "boom_f1 27.750, boom_hand_fn 25.875"
     }
    ],
-   "ran_evidence": "cad/sim/*.LOG: FFEPlus solver logs written 2026-10-25 14:48:59-14:53:23 (boom coarse 50,583 el / 262,392 DOF 7 s; boom fine 253,709 el / 1,257,645 DOF 38 s; modes 50,583 el 63 s; spar coarse 55,584 el; spar fine 147,172 el); .CWR result databases of 33-359 MB with matching timestamps; cad/sim/results.txt header \"generated 2026-10-25 14:48\"; nodal fields exported to cad/sim/fields/*.json (419,524 / 270,229 nodes) and re-read by this audit. SOLIDWORKS not re-run by the audit.",
+   "ran_evidence": "cad/sim/*.LOG written 2026-11-02 01:11-01:20 by cad/Sim.exe (SOLIDWORKS Simulation 2025, FFEPlus): boom 3 mm mesh 59045 elements, 1.5 mm mesh 304844 elements; modes on the 3 mm mesh; spar 3 mm 55584, 2 mm 147172 elements; .CWR databases with matching times; cad/sim/results.txt header 'generated 2026-11-02 01:10'; nodal fields cad/sim/fields/boom.json (493,648 nodes) and spar.json (270,229 nodes) exported 2026-11-02 04:13-04:17 and re-read by check_struct.py. SOLIDWORKS was not re-run by this audit.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines STR-04 (tolerance 5 %) and STR-04b (1P / f1 >= 2) must print PASS.",
+    "m_beam = 2700 x pi/4 (25.4^2 - 23.622^2) mm^2 x 0.488 m = 0.0902 kg; k = 3 E I / a^3 with a = 463.3 mm.",
+    "f1 = 1/(2 pi) sqrt(k / (0.3255 + 0.24 x 0.0902)) = 27.96 Hz; cad/sim/results.txt:11 boom_f1 = 27.75 Hz (-0.8 %).",
+    "1P hover = 5472 rpm / 60 = 91.2 Hz; 91.2 / 27.75 = 3.29."
+   ],
    "reproduced": {
     "done": true,
-    "how": "hand f recomputed; with the FEA tip-block centroid (a = 0.4407 m) the hand gives 34.67 Hz",
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines STR-04 (tolerance 5 %) and STR-04b (1P / f1 >= 2) must print PASS. (2) m_beam = 2700 x pi/4 (25.4^2 - 23.622^2) mm^2 x 0.488 m = 0.0902 kg; k = 3 E I / a^3 with a = 463.3 mm. (3) f1 = 1/(2 pi) sqrt(k / (0.3255 + 0.24 x 0.0902)) = 27.96 Hz; cad/sim/results.txt:11 boom_f1 = 27.75 Hz (-0.8 %). (4) 1P hover = 5472 rpm / 60 = 91.2 Hz; 91.2 / 27.75 = 3.29.",
     "matches": true
    },
    "independent_check": {
-    "method": "Rayleigh cantilever + tip mass at the block centroid",
-    "value": 34.67,
-    "repo_value": 34.385,
-    "delta_pct": -0.81,
+    "method": "Rayleigh cantilever + tip mass at the block centroid (tolerance 5 %)",
+    "value": 27.962,
+    "repo_value": 27.7504,
+    "delta_pct": 0.76,
     "script": "analysis/validation/check_struct.py#STR-04"
    },
+   "status": "Verified",
+   "status_reason": "FEA and hand agree to -0.8 % on the same geometry and now use the CAD-calibrated tip mass (STR-05). Scoped to a rigid root; a softer root moves f1 down, further from 1P.",
    "limitations": [
-    "Root compliance lowers f1 further (—).",
-    "Spool-up passes through f1 (subcritical start); not assessed.",
-    "Hover rpm is an estimate (BLHeli_S has no telemetry)."
+    "Hover rpm is EST (the ESCs have no rpm telemetry).",
+    "Spool-up passes through f1 briefly (not assessed).",
+    "docs/test/TEST-PLAN.md S03 band 26-41 Hz is based on the old 32.3 / 34.4 Hz; with its own rule (hand -20 % to FEA +20 %) it becomes 20.7-33.3 Hz (calc)."
    ],
-   "next_step": "Re-run the modal study with the CAD lift-unit mass and a spring root fitted to a measured deflection; tap-test per test plan S02-S04.",
-   "id": "STR-04",
-   "component": "booms",
-   "discipline": "structures",
-   "claim": "Boom first bending mode 34.4 Hz FEA vs 32.3 Hz hand; test pass band 26-41 Hz.",
-   "status": "Partially Verified",
-   "status_reason": "FEA and hand agree to 0.8 % on the same geometry, but both use a 0.242 kg tip mass while the CAD lift unit is 0.331 kg (STR-05): with the CAD mass f1 = 27.9 Hz, still well below the EST hover 1P of 86 Hz (2P 171 Hz). Rigid root overstates f1."
+   "next_step": "S03 tap test on the built boom with the lift unit fitted.",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Partially Verified",
+     "to": "Verified",
+     "why": "Tip mass now matches the CAD (STR-05 closed); FEA vs hand -0.8 %."
+    }
+   ]
   },
   {
-   "value": 0.242,
-   "units": "kg",
-   "equations": [
-    "m_unit = sum of CAD part masses (verification.txt)"
-   ],
-   "assumptions": [
-    "ESC 25 g EST (sizing)",
-    "fasteners: 4 F01, 4 F02 clamp, 2 F12 prop, 4 inserts"
-   ],
-   "inputs": {
-    "Motor_Mount_Upper": 0.055450000000000006,
-    "Motor_Mount_Cap": 0.033280000000000004,
-    "Lift_Motor": 0.165,
-    "Lift_Prop": 0.032,
-    "Prop_Plate": 0.00558,
-    "fasteners+inserts (4 F01, 6 F02, 4 I01)": 0.014199999999999999,
-    "ESC (sizing EST)": 0.025
-   },
-   "tool": "analysis/sizing.mjs X4110S block; cad/verification.txt mass roll-up",
-   "evidence": [
-    {
-     "file": "analysis/sizing.mjs",
-     "what": "X4110S mMount 0.020"
-    },
-    {
-     "file": "cad/verification.txt",
-     "what": "Motor_Mount_Upper 55.45 g + Motor_Mount_Cap 33.28 g"
-    },
-    {
-     "file": "cad/params.txt",
-     "what": "feaTipMass 0.242"
-    }
-   ],
-   "ran_evidence": "cad/verification.txt generated by BuildVtol.cs 2026-10-25 13:59 (SOLIDWORKS 33.4.0).",
-   "reproduced": {
-    "done": true,
-    "how": "summed CAD part masses in check_struct.py",
-    "matches": false
-   },
-   "independent_check": {
-    "method": "CAD roll-up of one lift unit",
-    "value": 0.331,
-    "repo_value": 0.242,
-    "delta_pct": 36.57,
-    "script": "analysis/validation/check_struct.py#STR-05"
-   },
-   "limitations": [
-    "PA6-CF density in the CAD (1230) differs from the TDS 1170 kg/m3 (thermal_inputs.json): mount 84 g at the TDS value."
-   ],
-   "next_step": "Feed CAD part masses back into sizing.mjs (mMount ~0.085 kg) and re-run sizing, modal, CG and landing checks.",
    "id": "STR-05",
    "component": "lift_propulsion",
    "discipline": "cad",
-   "claim": "Lift-unit (boom tip) mass is 0.242 kg (motor 165 + ESC 25 + prop 32 + mount 20 g), used in FEA, modal and CG.",
-   "status": "Failed",
-   "status_reason": "The modelled PA6-CF motor mount is 88.7 g against the 20 g allowance, so the real tip mass is ~37 % higher than every structural and modal input uses."
-  },
-  {
-   "value": 73.62,
-   "units": "N m",
+   "claim": "Lift-unit (boom tip) mass is 0.3255 kg (motor 165 g + ESC 25 g EST + prop 32 g + motor mount and prop plate 103.5 g from the CAD calibration); the FEA, modal study and sizing all use it. The CAD part roll-up gives 0.3305 kg (+1.5 %).",
+   "value": 0.3255,
+   "units": "kg",
    "equations": [
-    "L_half = m g n / 2",
-    "M_ell = L_half 4 b_s/(3 pi)",
-    "M_uni = L_half b_s/2",
-    "M_Schrenk = (M_ell + M_uni)/2"
+    "m_unit = m_motor + m_esc + m_prop + m_mount"
    ],
    "assumptions": [
-    "all lift on the wing, no inertia relief",
-    "semispan 1.2 m",
-    "MTOW 6.5515 kg (params.txt)"
+    "ESC 25 g EST (analysis/sizing.mjs)",
+    "printed masses = CAD volume x density until weighed (S09)"
    ],
    "inputs": {
-    "mtow_params_kg": 6.551516,
-    "mtow_results_kg": 6.537558,
-    "n_ult": 4.5,
-    "n_limit": 3,
-    "FS": 1.5,
-    "semispan_m": 1.2
+    "Lift_Motor": 0.165,
+    "Lift_Prop": 0.032,
+    "ESC (sizing EST)": 0.025,
+    "mMount (CAD calibration)": 0.1035
    },
-   "tool": "analysis/sizing.mjs struct",
+   "tool": "analysis/sizing.mjs X4110S block + analysis/mass/mass_budget.py calibration; cad/verification.txt part masses",
    "evidence": [
     {
      "file": "analysis/results.json",
-     "what": "C0 struct nLimit 3, FS 1.5, nUlt 4.5, Mroot 73.47"
+     "what": "concepts.C0.struct.mTip 0.3255; params.mMount 0.1035"
+    },
+    {
+     "file": "analysis/mass/mass_budget.json",
+     "what": "calibration.mMount 0.1035 (mount halves + prop plate per lift unit)"
     },
     {
      "file": "cad/params.txt",
-     "what": "feaRootMomentTarget 73.62"
+     "what": "feaTipMass 0.3255"
+    },
+    {
+     "file": "cad/verification.txt",
+     "what": "Motor_Mount_Upper 55.45 g, Motor_Mount_Cap 33.28 g"
     }
    ],
-   "ran_evidence": "Hand calculation in analysis/sizing.mjs (no solver).",
+   "ran_evidence": "cad/verification.txt written by cad/BuildVtol.cs 2026-11-01 21:38 (SOLIDWORKS 33.4.0) from cad/params.built.txt; drawings cad/drawings/* 2026-11-01 22:00. analysis/results.json and mass_budget.json 2026-11-01.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line STR-05 must print PASS (tolerance 5 %).",
+    "Sizing: 0.165 + 0.025 + 0.032 + 0.1035 = 0.3255 kg (analysis/results.json concepts.C0.params mMotor, mEsc, mProp, mMount; struct.mTip).",
+    "CAD: open cad/verification.txt and add Motor_Mount_Upper 55.45 + Motor_Mount_Cap 33.28 + Lift_Motor 165 + Lift_Prop 32 + Prop_Plate 5.58 g + 4 F01 + 6 F02 + 4 I01 (14.2 g) + ESC 25 g = 330.5 g.",
+    "(0.3305 - 0.3255) / 0.3255 = +1.54 % (tolerance 5 %; f1 changes by about half of that)."
+   ],
    "reproduced": {
     "done": true,
-    "how": "elliptic formula re-evaluated",
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line STR-05 must print PASS (tolerance 5 %). (2) Sizing: 0.165 + 0.025 + 0.032 + 0.1035 = 0.3255 kg (analysis/results.json concepts.C0.params mMotor, mEsc, mProp, mMount; struct.mTip). (3) CAD: open cad/verification.txt and add Motor_Mount_Upper 55.45 + Motor_Mount_Cap 33.28 + Lift_Motor 165 + Lift_Prop 32 + Prop_Plate 5.58 g + 4 F01 + 6 F02 + 4 I01 (14.2 g) + ESC 25 g = 330.5 g. (4) (0.3305 - 0.3255) / 0.3255 = +1.54 % (tolerance 5 %; f1 changes by about half of that).",
     "matches": true
    },
    "independent_check": {
-    "method": "Schrenk approximation for the rectangular planform",
-    "value": 80.21,
-    "repo_value": 73.62,
-    "delta_pct": 8.9,
-    "script": "analysis/validation/check_struct.py#STR-06"
+    "method": "CAD part roll-up of one lift unit (tolerance 5 %)",
+    "value": 0.3305,
+    "repo_value": 0.3255,
+    "delta_pct": 1.54,
+    "script": "analysis/validation/check_struct.py#STR-05"
    },
+   "status": "Verified",
+   "status_reason": "Sizing, FEA and CAD agree to +1.5 %. Root cause of the old failure: sizing.mjs carried a 20 g mount allowance against an 89 g printed mount; since 2026-11-01 sizing.mjs takes mMount from the CAD (mass_budget.json calibration) and Sim.cs re-ran with feaTipMass 0.3255.",
    "limitations": [
-    "Inertia relief from wing, booms and lift units (~2.5 kg outboard of the root) would reduce the moment (not credited).",
-    "Gust load factor at 18 m/s not computed."
+    "PA6-CF density 1230 kg/m3 in the CAD vs 1170 in the TDS (thermal_inputs.json); printed masses are not yet weighed."
    ],
-   "next_step": "Use Schrenk (or the repo's own VLM span loading) for the root moment and the S01 bag schedule; cite the 3 g limit (e.g. a gust V-n diagram).",
+   "next_step": "S09: weigh one complete lift unit; update mMount if it differs by > 5 %.",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Failed",
+     "to": "Verified",
+     "why": "Root cause fixed upstream (sizing.mjs mMount calibrated from the CAD, FEA re-run with 0.3255 kg); CAD roll-up within 1.5 %."
+    }
+   ]
+  },
+  {
    "id": "STR-06",
    "component": "wing",
    "discipline": "structures",
-   "claim": "Wing root bending moment at ultimate (n 4.5 = 3.0 x 1.5) is 73.6 N m (elliptic lift).",
-   "status": "Partially Verified",
-   "status_reason": "Arithmetic reproduced (0.03 %), but a rectangular wing (AR 8.5) does not carry an elliptic load: Schrenk gives 80.2 N m (+8.9 %), uniform 86.8 N m. The proof test S01 also uses the elliptic schedule, so it would not prove the Schrenk case. The 3.0 g limit factor has no cited source."
-  },
-  {
-   "value": 157.45,
-   "units": "MPa",
+   "claim": "Wing root bending moment at ultimate load (n 4.5 = 3.0 x 1.5, MTOW 7.436 kg, no inertia relief) is 89.6 N m with the AVL span loading of this wing. Sizing and FEA use elliptic loading, 83.6 N m (6.7 % lower); Schrenk gives 91.0 N m (+1.6 % vs AVL). Crediting the boom-mounted mass (inertia relief) would lower it to 65.3 N m.",
+   "value": 89.572,
+   "units": "N m",
    "equations": [
-    "I = pi/64 (22.225^4 - 19.279^4) = 5195 mm^4",
-    "sigma = M c / I"
+    "L_half = m g n / 2",
+    "y_bar = sum(c_cl dy y) / sum(c_cl dy) over the AVL strips",
+    "M = L_half y_bar",
+    "Schrenk: M = (M_ell + M_uni)/2, M_ell = L_half 4 b_s/(3 pi), M_uni = L_half b_s/2",
+    "n_stall = (V / V_s)^2"
    ],
    "assumptions": [
-    "elliptic M 73.6 N m",
-    "yield 275 MPa (repo)"
+    "all lift on the wing, no inertia relief (conservative)",
+    "n_limit 3.0 x FS 1.5 is a team-set EST (analysis/sizing.mjs:302, no external source)",
+    "AVL span shape at cruise trim applies at high CL (linear aerodynamics; the shape at alpha 4 deg gives y_bar 0.5457 vs 0.5458 m)"
    ],
    "inputs": {
-    "M_Nm": 73.62,
-    "OD_mm": 22.225,
-    "ID_mm": 19.279
+    "m_kg": 7.4356,
+    "n_ult": 4.5,
+    "semispan_m": 1.2,
+    "ybar_avl_m": 0.54577,
+    "avl_file": "analysis/aero/out/avl/fs_pod_trim.txt",
+    "V_s_mps": 11.75,
+    "AIRSPEED_MAX_mps": 25
    },
-   "tool": "analysis/sizing.mjs hand calc",
+   "tool": "AVL 3.52 strip forces + hand integration (check_struct.py); analysis/sizing.mjs struct (elliptic)",
    "evidence": [
     {
-     "file": "cad/sim/results.txt",
-     "what": "spar_hand_sigJ 157.45"
+     "file": "analysis/aero/out/avl/fs_pod_trim.txt",
+     "what": "Surface 1 Wing, 30 strips: Yle, Chord, Area, c_cl"
     },
     {
      "file": "analysis/results.json",
-     "what": "struct sigJ 157.1 MPa, MS_J 1.750"
+     "what": "concepts.C0.struct nLimit 3, FS 1.5, nUlt 4.5, Mroot 83.558 (elliptic)"
+    },
+    {
+     "file": "cad/params.txt",
+     "what": "feaRootMomentTarget 83.558246"
     }
    ],
-   "ran_evidence": "Hand calculation; no FEA of the true joiner section exists (STR-08).",
+   "ran_evidence": "AVL output from analysis/aero/avl_run.py (2026-11-01 run, re-run in a scratch copy 2026-11-02 by the aero audit); sizing.mjs is arithmetic.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines STR-06 and STR-06b must print PASS.",
+    "L_half = m g n / 2 = 7.4356 x 9.81 x 4.5 / 2 = 164.12 N.",
+    "Open analysis/aero/out/avl/fs_pod_trim.txt, Surface #1 strip table. For each strip: width dy = Area / Chord, lift share = c_cl x dy. y_bar = sum(c_cl dy Yle) / sum(c_cl dy) = 0.5458 m (elliptic 4 x 1.2 / (3 pi) = 0.5093 m, Schrenk 0.5546 m).",
+    "M = 164.12 x 0.5458 = 89.57 N m. Schrenk = (83.59 + 98.47) / 2 = 91.03 N m (+1.6 %, tolerance 5 %).",
+    "Load-factor basis: n_stall = (V / 11.75)^2 = 2.35 at 18 m/s, 3.51 at 22 m/s, 4.53 at AIRSPEED_MAX 25 m/s; n = 3.0 is reached at 20.4 m/s."
+   ],
    "reproduced": {
     "done": true,
-    "how": "M c / I recomputed",
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines STR-06 and STR-06b must print PASS. (2) L_half = m g n / 2 = 7.4356 x 9.81 x 4.5 / 2 = 164.12 N. (3) Open analysis/aero/out/avl/fs_pod_trim.txt, Surface #1 strip table. For each strip: width dy = Area / Chord, lift share = c_cl x dy. y_bar = sum(c_cl dy Yle) / sum(c_cl dy) = 0.5458 m (elliptic 4 x 1.2 / (3 pi) = 0.5093 m, Schrenk 0.5546 m). (4) M = 164.12 x 0.5458 = 89.57 N m. Schrenk = (83.59 + 98.47) / 2 = 91.03 N m (+1.6 %, tolerance 5 %). (5) Load-factor basis: n_stall = (V / 11.75)^2 = 2.35 at 18 m/s, 3.51 at 22 m/s, 4.53 at AIRSPEED_MAX 25 m/s; n = 3.0 is reached at 20.4 m/s.",
     "matches": true
    },
    "independent_check": {
-    "method": "Schrenk moment with minimum yield 240 MPa",
-    "value": 1.4,
-    "repo_value": 1.75,
-    "delta_pct": -20.06,
-    "script": "analysis/validation/check_struct.py#STR-07"
+    "method": "Schrenk approximation for the rectangular planform (tolerance 5 %)",
+    "value": 91.03,
+    "repo_value": 89.572,
+    "delta_pct": 1.63,
+    "script": "analysis/validation/check_struct.py#STR-06"
    },
+   "status": "Verified",
+   "status_reason": "Restated on the AVL span loading of the actual wing: Schrenk agrees to +1.6 %. The repo's elliptic value is 6.7 % low, which the joiner check (STR-07) now uses. Requirement note: the 3.0 limit factor was set by the team with no source; the audit basis is the stall line, which caps n at 4.53 within the firmware envelope (AIRSPEED_MAX 25 m/s), about n_ult.",
    "limitations": [
-    "Slip fit (0.23 mm nominal clearance) loads the joiner by line contact at the socket mouth and the stop; local stresses —.",
-    "Fatigue: 157 MPa at ultimate = 105 MPa at limit, above the 97 MPa RR Moore fatigue strength (5e8 cycles); manoeuvre cycles are few, but gust cycles are not counted."
+    "Elliptic 83.6 N m is still the value in analysis/sizing.mjs, cad/params.txt and the FEA (STR-08); not changed by this audit.",
+    "Inertia relief from the booms, lift units and gear (24.2 N m at n 4.5) is not credited.",
+    "Hard landing loads the joiner more than this flight case: 104.8 N m EST (STR-11).",
+    "S01 proof test uses the elliptic schedule; it should use the AVL (or Schrenk) schedule."
    ],
-   "next_step": "FEA the true joiner inside the sockets with contact (or a bonded-shim variant); proof-load S01 with a Schrenk schedule to 3.0 g and inspect the sockets.",
+   "next_step": "Switch sizing.mjs Mroot to the AVL/Schrenk span loading (+7.2 %) and re-run; S01 with a Schrenk bag schedule.",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Partially Verified",
+     "to": "Verified",
+     "why": "Restated on the AVL span loading of this wing (89.6 N m); Schrenk check within 1.6 %; the elliptic shortfall is carried into STR-07."
+    }
+   ]
+  },
+  {
    "id": "STR-07",
    "component": "wing",
    "discipline": "structures",
-   "claim": "Joiner 0.875 x 0.058 in at the centreline: 157.5 MPa at ultimate, RF 1.75 on yield (governing wing member).",
-   "status": "Partially Verified",
-   "status_reason": "Stress reproduced to 0.05 %. RF drops from 1.75 to 1.52 on minimum yield and to 1.40 with the Schrenk moment (1.29 uniform). Still > 1, but no solver result exists for the real joiner and the slip-fit contact at the socket mouth (local bearing on 1.47 mm walls, ovalisation) is not analysed."
-  },
-  {
-   "value": 154.67,
+   "claim": "Joiner 0.875 x 0.058 in at the centreline, ultimate load with the AVL moment 89.6 N m: 191.6 MPa, reserve factor 1.25 on the 240 MPa minimum yield (1.44 on the 275 MPa library value). The sizing's elliptic figure is 178.8 MPa / RF 1.54 (275 MPa).",
+   "value": 191.585,
    "units": "MPa",
    "equations": [
-    "M(z) from uniform 153.4 N on [0.08, 0.88] m",
-    "sigma = M c / I per zone"
+    "I = pi/64 (D^4 - d^4) = 5195 mm^4",
+    "sigma = M (D/2) / I",
+    "RF = sigma_y / sigma"
    ],
    "assumptions": [
-    "joiner modelled with OD = socket ID 22.454 mm (bonded)",
-    "centreline face fixed"
+    "moment from STR-06 (AVL, no inertia relief)",
+    "yield 240 MPa minimum (cited) / 275 MPa SOLIDWORKS library (cad/params.txt matSig)"
    ],
    "inputs": {
-    "F_N": 153.38,
-    "I_fea_joiner_mm4": 5697.0
+    "M_Nm": 89.572,
+    "OD_mm": 22.225,
+    "ID_mm": 19.279
+   },
+   "tool": "hand calc (check_struct.py); analysis/sizing.mjs (elliptic)",
+   "evidence": [
+    {
+     "file": "cad/sim/results.txt",
+     "what": "spar_hand_sigJ 178.702 (elliptic)"
+    },
+    {
+     "file": "analysis/results.json",
+     "what": "struct.sigJ, MS_J 1.5389"
+    }
+   ],
+   "ran_evidence": "Hand calculation; no solver result exists for the real slip-fit joiner (STR-08 models a bonded, thicker joiner).",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines STR-07, STR-07b and STR-07c must print PASS.",
+    "I = pi/64 x (22.225^4 - 19.279^4) = 5195 mm^4; c = 11.11 mm.",
+    "sigma = 89.57 N m x 11.1125 mm / 5195 mm^4 x 1000 = 191.6 MPa. RF = 240 / 191.6 = 1.25.",
+    "Repo check: with the elliptic 83.56 N m the same formula gives 178.78 MPa = cad/sim/results.txt:16 spar_hand_sigJ 178.702 (within 0.5 %)."
+   ],
+   "reproduced": {
+    "done": true,
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines STR-07, STR-07b and STR-07c must print PASS. (2) I = pi/64 x (22.225^4 - 19.279^4) = 5195 mm^4; c = 11.11 mm. (3) sigma = 89.57 N m x 11.1125 mm / 5195 mm^4 x 1000 = 191.6 MPa. RF = 240 / 191.6 = 1.25. (4) Repo check: with the elliptic 83.56 N m the same formula gives 178.78 MPa = cad/sim/results.txt:16 spar_hand_sigJ 178.702 (within 0.5 %).",
+    "matches": true
+   },
+   "independent_check": {
+    "method": "same beam formula on the repo elliptic moment vs cad/sim/results.txt spar_hand_sigJ (STR-07b)",
+    "value": 178.782,
+    "repo_value": 178.702,
+    "delta_pct": 0.04,
+    "script": "analysis/validation/check_struct.py#STR-07"
+   },
+   "status": "Partially Verified",
+   "status_reason": "Beam stress reproduced and RF > 1 on minimum yield with the AVL moment. Not verified: the slip fit loads the joiner by line contact at the socket mouth and at the stop (local bearing on 1.47 mm walls, ovalisation) and no solver models it; the hard-landing joiner moment (104.8 N m EST, RF 1.07) exceeds this flight case and no test covers it before S06.",
+   "limitations": [
+    "Fatigue: at limit load (/1.5) the joiner sees 128 MPa, above the 97 MPa RR Moore fatigue strength (5e8 cycles); manoeuvre cycles are few, gust cycles not counted.",
+    "At the stall-line maximum n 4.53 (25 m/s) the joiner reaches 193 MPa, RF 1.25 on minimum yield."
+   ],
+   "next_step": "S01 proof load with a Schrenk schedule to limit (3.0 g); S07 joiner/socket inspection after S01 and S06; FEA the real joiner with contact in the sockets."
+  },
+  {
+   "id": "STR-08",
+   "component": "wing",
+   "discipline": "structures",
+   "claim": "The SOLIDWORKS spar + joiner model (joiner modelled at the socket ID 22.454 mm and bonded, centreline fixed, elliptic root moment 83.56 N m) reproduces beam theory on its own geometry: 166.4 MPa (3 mm mesh) vs 164.7 MPa hand at the centreline (+1.0 %); field within 2.8 % at 6 stations. The 2 mm-mesh peak 175.5 MPa (+6.6 %) is the fixed-face singularity. The modelled joiner is 9.6 % stiffer than the real one, so the real-joiner stress is STR-07.",
+   "value": 166.366,
+   "units": "MPa",
+   "equations": [
+    "M(z) from uniform w = F / L_spar on [fusR, fusR + L_spar]",
+    "sigma = M c / I per zone (joiner, overlap, spar)"
+   ],
+   "assumptions": [
+    "FEA geometry, not the built joiner"
+   ],
+   "inputs": {
+    "F_N": 174.079677,
+    "I_fea_joiner_mm4": 5696.8
    },
    "tool": "SOLIDWORKS Simulation static (cad/Sim.cs Spar())",
    "evidence": [
     {
      "file": "cad/sim/results.txt",
-     "what": "spar_vm_max 146.6, spar_vm_max_fine 154.7, spar_note \"joiner modelled with OD = socket ID\""
+     "what": "spar_vm_max 166.37, spar_vm_max_fine 175.54, spar_load_N 174.08, spar_note \"joiner modelled with OD = socket ID\""
     },
     {
      "file": "cad/sim/fields/spar.json",
-     "what": "270,229-node nodal von Mises"
+     "what": "270229-node nodal von Mises"
     }
    ],
-   "ran_evidence": "cad/sim/*.LOG: FFEPlus solver logs written 2026-10-25 14:48:59-14:53:23 (boom coarse 50,583 el / 262,392 DOF 7 s; boom fine 253,709 el / 1,257,645 DOF 38 s; modes 50,583 el 63 s; spar coarse 55,584 el; spar fine 147,172 el); .CWR result databases of 33-359 MB with matching timestamps; cad/sim/results.txt header \"generated 2026-10-25 14:48\"; nodal fields exported to cad/sim/fields/*.json (419,524 / 270,229 nodes) and re-read by this audit. SOLIDWORKS not re-run by the audit.",
+   "ran_evidence": "cad/sim/*.LOG written 2026-11-02 01:11-01:20 by cad/Sim.exe (SOLIDWORKS Simulation 2025, FFEPlus): boom 3 mm mesh 59045 elements, 1.5 mm mesh 304844 elements; modes on the 3 mm mesh; spar 3 mm 55584, 2 mm 147172 elements; .CWR databases with matching times; cad/sim/results.txt header 'generated 2026-11-02 01:10'; nodal fields cad/sim/fields/boom.json (493,648 nodes) and spar.json (270,229 nodes) exported 2026-11-02 04:13-04:17 and re-read by check_struct.py. SOLIDWORKS was not re-run by this audit.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines STR-08 and STR-08b must print PASS.",
+    "w = 174.08 N / 0.80 m on z = 0.08-0.88 m; M(0) = 174.08 x (0.08 + 0.40) = 83.56 N m.",
+    "I_fea = pi/64 (22.454^4 - 19.279^4) = 5697 mm^4; sigma = 83.56 x 11.227 / 5697 x 1000 = 164.7 MPa; cad/sim/results.txt:13 spar_vm_max = 166.4 (+1.0 %, tolerance 5 %).",
+    "checks_struct.json -> checks.STR-08.slices lists the 6 stations (worst 2.8 %)."
+   ],
    "reproduced": {
     "done": true,
-    "how": "beam theory on the FEA geometry + 6 field slices",
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines STR-08 and STR-08b must print PASS. (2) w = 174.08 N / 0.80 m on z = 0.08-0.88 m; M(0) = 174.08 x (0.08 + 0.40) = 83.56 N m. (3) I_fea = pi/64 (22.454^4 - 19.279^4) = 5697 mm^4; sigma = 83.56 x 11.227 / 5697 x 1000 = 164.7 MPa; cad/sim/results.txt:13 spar_vm_max = 166.4 (+1.0 %, tolerance 5 %). (4) checks_struct.json -> checks.STR-08.slices lists the 6 stations (worst 2.8 %).",
     "matches": true
    },
    "independent_check": {
-    "method": "M c / I on the modelled (thicker) joiner",
-    "value": 145.09,
-    "repo_value": 154.67,
-    "delta_pct": 6.6,
+    "method": "beam theory on the FEA geometry, centreline (tolerance 5 %)",
+    "value": 164.674,
+    "repo_value": 166.366,
+    "delta_pct": -1.02,
     "script": "analysis/validation/check_struct.py#STR-08"
    },
+   "status": "Verified",
+   "status_reason": "Restated as a model-consistency claim (the old wording compared it with the true-joiner hand value). On its own geometry the FEA matches beam theory to +1.0 % at the centreline and within 2.8 % along the spar.",
    "limitations": [
-    "No contact, no clearance, no saddle; peak not converged."
+    "Bonded, fixed-centreline BCs do not represent the slip fit (see STR-07).",
+    "Loaded with the elliptic moment (STR-06: AVL is +7.2 %)."
    ],
-   "next_step": "Model the 22.225 mm joiner with contact in the sockets.",
-   "id": "STR-08",
-   "component": "wing",
-   "discipline": "structures",
-   "claim": "Spar + joiner FEA at ultimate: 154.7 MPa (2 mm mesh), 146.6 MPa (3 mm); agrees with the 157.5 MPa hand calc (-1.8 %).",
-   "status": "Partially Verified",
-   "status_reason": "The FEA is internally consistent (field within 0.6-2.8 % of beam theory at 6 stations; peak +6.6 % = root-face singularity), but it analyses a joiner 9.6 % stiffer than the real one. Comparing it to the true-joiner hand value (as the README does) is apples to oranges: its own-geometry hand value is 145.1 MPa. BCs (bonded, fixed centreline) do not represent the slip fit."
+   "next_step": "Model the 22.225 mm joiner with contact in the sockets if S01 shows socket damage.",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Partially Verified",
+     "to": "Verified",
+     "why": "Restated as the model-consistency claim it is; FEA vs own-geometry hand +1.0 %, field within 2.8 %."
+    }
+   ]
   },
   {
-   "value": 23.21,
+   "id": "STR-09",
+   "component": "wing",
+   "discipline": "structures",
+   "claim": "Spar tip deflection at ultimate on the FEA geometry (rigid centreline, bonded joiner, spar end at 0.88 m): 26.3 mm FEA vs 26.2 mm by double integration of M/EI (+0.4 %). The real wingtip deflects more; S01 measures it at limit load (pass <= 120 mm).",
+   "value": 26.3462,
    "units": "mm",
    "equations": [
-    "delta = double integral of M/(EI) over the stepped section"
+    "delta = double integral of M(z) / (E I(z)) dz dz over the stepped section"
    ],
    "assumptions": [
-    "FEA geometry"
+    "FEA geometry and load (elliptic 83.56 N m)"
    ],
-   "inputs": {},
+   "inputs": {
+    "points": 8001
+   },
    "tool": "SOLIDWORKS Simulation static",
    "evidence": [
     {
      "file": "cad/sim/results.txt",
-     "what": "spar_tip_disp 23.21"
+     "what": "spar_tip_disp 26.346"
     }
    ],
-   "ran_evidence": "cad/sim/*.LOG: FFEPlus solver logs written 2026-10-25 14:48:59-14:53:23 (boom coarse 50,583 el / 262,392 DOF 7 s; boom fine 253,709 el / 1,257,645 DOF 38 s; modes 50,583 el 63 s; spar coarse 55,584 el; spar fine 147,172 el); .CWR result databases of 33-359 MB with matching timestamps; cad/sim/results.txt header \"generated 2026-10-25 14:48\"; nodal fields exported to cad/sim/fields/*.json (419,524 / 270,229 nodes) and re-read by this audit. SOLIDWORKS not re-run by the audit.",
+   "ran_evidence": "cad/sim/*.LOG written 2026-11-02 01:11-01:20 by cad/Sim.exe (SOLIDWORKS Simulation 2025, FFEPlus): boom 3 mm mesh 59045 elements, 1.5 mm mesh 304844 elements; modes on the 3 mm mesh; spar 3 mm 55584, 2 mm 147172 elements; .CWR databases with matching times; cad/sim/results.txt header 'generated 2026-11-02 01:10'; nodal fields cad/sim/fields/boom.json (493,648 nodes) and spar.json (270,229 nodes) exported 2026-11-02 04:13-04:17 and re-read by check_struct.py. SOLIDWORKS was not re-run by this audit.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line STR-09 must print PASS (tolerance 5 %).",
+    "In check_struct.py the curvature M(z)/(E I(z)) is integrated twice with the trapezoid rule on 8,001 points (joiner I 5697 mm^4 to 0.08 m, joiner + spar to 0.38 m, spar to 0.88 m).",
+    "Result 26.24 mm vs cad/sim/results.txt:15 spar_tip_disp 26.35 mm (+0.4 %)."
+   ],
    "reproduced": {
     "done": true,
-    "how": "numerical integration, 8,001 points",
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line STR-09 must print PASS (tolerance 5 %). (2) In check_struct.py the curvature M(z)/(E I(z)) is integrated twice with the trapezoid rule on 8,001 points (joiner I 5697 mm^4 to 0.08 m, joiner + spar to 0.38 m, spar to 0.88 m). (3) Result 26.24 mm vs cad/sim/results.txt:15 spar_tip_disp 26.35 mm (+0.4 %).",
     "matches": true
    },
    "independent_check": {
-    "method": "stepped-beam double integration",
-    "value": 23.12,
-    "repo_value": 23.21,
-    "delta_pct": 0.42,
+    "method": "stepped-beam double integration (tolerance 5 %)",
+    "value": 26.237,
+    "repo_value": 26.3462,
+    "delta_pct": -0.41,
     "script": "analysis/validation/check_struct.py#STR-09"
    },
+   "status": "Verified",
+   "status_reason": "Scoped to the FEA geometry the claim names: agreement +0.4 %. Real tip deflection is a test item (S01).",
    "limitations": [
-    "Deflection at the true wingtip (1.2 m) not computed in the repo."
+    "Real joiner 9.6 % less stiff; slip-fit clearance adds up to 2.0 mm free tip play (WC, MFG-05); outer 0.32 m of the panel is foam only."
    ],
-   "next_step": "Measure tip deflection in S01.",
-   "id": "STR-09",
-   "component": "wing",
-   "discipline": "structures",
-   "claim": "Spar tip deflection 23.2 mm at ultimate (FEA).",
-   "status": "Partially Verified",
-   "status_reason": "Matches to 0.4 % on the FEA geometry. Real tip deflection is larger: real joiner is 9.7 % less stiff, slip-fit clearance adds up to 2.0 mm (WC) of free tip play, and the outer 0.32 m of panel beyond the spar is foam only."
+   "next_step": "S01: measure tip deflection at limit load.",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Partially Verified",
+     "to": "Verified",
+     "why": "Restated as the FEA-geometry value it is; double integration +0.4 %."
+    }
+   ]
   },
   {
-   "value": 114.0,
-   "units": "N",
-   "equations": [
-    "R_rear = T a / s",
-    "R_front = T + R_rear"
-   ],
-   "assumptions": [
-    "rigid boom on two point supports at the clamp centres"
-   ],
-   "inputs": {
-    "x_front_motor": 0.39094,
-    "x_front_clamp": -0.08525,
-    "x_rear_clamp": -0.22734,
-    "arm_m": 0.47619,
-    "spacing_m": 0.14209,
-    "T_N": 30.694814
-   },
-   "tool": "hand calc in docs/research/hardware-spec.md J05",
-   "evidence": [
-    {
-     "file": "docs/research/hardware-spec.md",
-     "what": "J05 load check: front motor x 0.3709, clamps -0.0716 / -0.1909 (superseded coordinates)"
-    },
-    {
-     "file": "cad/params.txt",
-     "what": "rev D comp= positions 0.39094 / -0.08525 / -0.22734"
-    }
-   ],
-   "ran_evidence": "Hand calculation only.",
-   "reproduced": {
-    "done": true,
-    "how": "recomputed with rev D coordinates",
-    "matches": false
-   },
-   "independent_check": {
-    "method": "two-support beam statics",
-    "value": 102.9,
-    "repo_value": 114.0,
-    "delta_pct": -9.76,
-    "script": "analysis/validation/check_struct.py#STR-10"
-   },
-   "limitations": [
-    "Screw tension is only 2 % of the A2-70 M3 yield load (2,264 N, Fastenal Feb 2016); the weak links are the insert and the foam bond, both unknown."
-   ],
-   "next_step": "Coupon test: pull an I01 insert out of a PETG boss and a bonded 60 x 46 hardpoint out of FOAMULAR with the chosen glue; require > 1.5 x 134 N.",
    "id": "STR-10",
    "component": "booms",
    "discipline": "structures",
-   "claim": "Boom-to-wing clamps: single motor at Tmax puts ~114 N tension into the rear clamp (57 N per M3 screw into inserts).",
-   "status": "Unverified",
-   "status_reason": "Repo calc uses stale rev B/C coordinates (current value 102.9 N, front clamp 133.6 N). The capacity side is missing: M3 insert pull-out in PETG/PA6-CF —, rear hardpoint 60 x 46 mm plate bond to XPS at 37 kPa (no XPS/foam-safe-glue strength in the repo, —)."
-  },
-  {
-   "value": 32.0,
-   "units": "g",
+   "claim": "Boom-to-wing clamps: one front motor at maximum thrust puts 96.1 N tension into the rear clamp (48.1 N per M3 screw, 2 % of the A2-70 M3 yield load) and 126.8 N into the front clamp. The M3 insert pull-out (C03, pass >= 300 N in PETG) and the rear-hardpoint foam bond are not yet measured.",
+   "value": 96.131,
+   "units": "N",
    "equations": [
-    "v = sqrt(2 g h)",
-    "n = 2(1 + h/s)",
-    "F_leg = m g n f_front / 2",
-    "M = F_leg (x_gear - x_clamp) - m_unit g n (x_motor - x_clamp)"
+    "R_rear = T a / s",
+    "R_front = T + R_rear",
+    "check: R_front = T (a + s) / s"
    ],
    "assumptions": [
-    "vertical legs, axial load",
-    "front legs carry 0.50 of weight (CG 28 % MAC)",
-    "lift-unit 0.331 kg (CAD)"
+    "rigid boom on two point supports at the clamp centres",
+    "single motor at maximum thrust (differential thrust)"
    ],
    "inputs": {
-    "h_m": 0.3,
-    "x_gear": 0.30094,
-    "x_clamp": -0.08525
+    "x_front_motor": 0.40755,
+    "x_front_clamp": -0.09658,
+    "x_rear_clamp": -0.25755,
+    "arm_m": 0.50413,
+    "spacing_m": 0.16097,
+    "T_N": 30.694814
    },
-   "tool": "analysis/sizing.mjs struct.strokes",
-   "evidence": [
-    {
-     "file": "analysis/results.json",
-     "what": "struct.strokes n 16/7/4/3, nSpring 32/14/8/6"
-    },
-    {
-     "file": "docs/test/TEST-PLAN.md",
-     "what": "S06 predicted fail on bare legs; item 8 compliant feet not in the BOM"
-    }
-   ],
-   "ran_evidence": "Hand estimate only; no FEA or test.",
-   "reproduced": {
-    "done": true,
-    "how": "boom bending at the front clamp from the front-leg reaction",
-    "matches": null
-   },
-   "independent_check": {
-    "method": "static-equivalent boom bending at n = 8 / 16 / 32",
-    "value": 369.0,
-    "repo_value": null,
-    "delta_pct": null,
-    "script": "analysis/validation/check_struct.py#STR-11"
-   },
-   "limitations": [
-    "Dynamic amplification, leg bending in a sideways/forward touchdown and the PETG gear clamp/F05 cross-bolt not assessed."
-   ],
-   "next_step": "Design the compliant feet (>= 100 mm stroke or a damped foot to keep n <= 8), add them to the BOM, and add a landing case to Sim.cs.",
-   "id": "STR-11",
-   "component": "landing_gear",
-   "discipline": "structures",
-   "claim": "Landing gear: 0.30 m drop gives 2.43 m/s and 8-32 g on bare legs; expected to fail without compliant feet (no structural analysis).",
-   "status": "Unverified",
-   "status_reason": "No load analysis of the gear path exists. Audit calc: front boom at the spar clamp sees 92 MPa at 8 g (RF 2.6 on 240 MPa), 184 MPa at 16 g (RF 1.3), 369 MPa at 32 g (RF 0.65, yields). The design relies on feet that are neither designed nor in the BOM."
-  },
-  {
-   "value": null,
-   "units": "",
-   "equations": [
-    "M = m_tail g n arm",
-    "F = M / 0.036 m",
-    "tau = F/(2 A_s)",
-    "sigma_br = F/(2 d t)"
-   ],
-   "assumptions": [
-    "tail-side mass per boom 0.30 kg EST roll-up",
-    "arm 0.30 m",
-    "n 4.5",
-    "tail aero load —"
-   ],
-   "inputs": {
-    "m_tail_side_kg (EST roll-up)": 0.29680529,
-    "arm_m (EST)": 0.29991999999999996,
-    "n": 4.5,
-    "bolt_pitch_m": 0.036
-   },
-   "tool": "none in repo",
+   "tool": "hand calc (docs/research/hardware-spec.md J05, generated by analysis/docs_sync.py from cad/params.txt)",
    "evidence": [
     {
      "file": "docs/research/hardware-spec.md",
-     "what": "J04 geometry; M7 slip test"
+     "what": "J05 load check (gen:j05_load block): rear clamp 96.1 N"
+    },
+    {
+     "file": "cad/params.txt",
+     "what": "comp= Motor_Mount_Upper x 0.40755, Boom_Clamp_F_Upper x -0.09658, Boom_Clamp_R_Upper x -0.25755"
+    }
+   ],
+   "ran_evidence": "Hand calculation only; no coupon data.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines STR-10 and STR-10b must print PASS.",
+    "From cad/params.txt comp= lines: arm a = 0.40755 - (-0.09658) = 0.5041 m; spacing s = -0.09658 - (-0.25755) = 0.1610 m.",
+    "R_rear = 30.69 x 0.5041 / 0.1610 = 96.1 N; per screw 48.1 N; vs 2,264 N A2-70 M3 yield load = 2.1 %.",
+    "Moment check: R_front = T (a + s) / s = 126.8 N = T + R_rear = 126.8 N."
+   ],
+   "reproduced": {
+    "done": true,
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines STR-10 and STR-10b must print PASS. (2) From cad/params.txt comp= lines: arm a = 0.40755 - (-0.09658) = 0.5041 m; spacing s = -0.09658 - (-0.25755) = 0.1610 m. (3) R_rear = 30.69 x 0.5041 / 0.1610 = 96.1 N; per screw 48.1 N; vs 2,264 N A2-70 M3 yield load = 2.1 %. (4) Moment check: R_front = T (a + s) / s = 126.8 N = T + R_rear = 126.8 N.",
+    "matches": true
+   },
+   "independent_check": {
+    "method": "moment balance about the rear clamp (front reaction) and hardware-spec J05 value",
+    "value": 96.131,
+    "repo_value": 96.1,
+    "delta_pct": 0.03,
+    "script": "analysis/validation/check_struct.py#STR-10"
+   },
+   "status": "Partially Verified",
+   "status_reason": "Load side reproduced and self-consistent (hardware-spec J05 is now generated from params.txt, 96.1 N). Capacity side open: insert pull-out (C03 pass line gives 6.2 x if met) and the XPS bond of the 60 x 46 mm hardpoint (35 kPa needed) have no data (—).",
+   "limitations": [
+    "Foam bond strength and adhesive are not specified (MFG-11)."
+   ],
+   "next_step": "C03 insert pull-out; S04/S05 on the built clamps; bonded-hardpoint pull coupon (MFG-11).",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Unverified",
+     "to": "Partially Verified",
+     "why": "Repo value now generated from current coordinates and reproduced; capacity still open (C03)."
+    }
+   ]
+  },
+  {
+   "id": "STR-11",
+   "component": "landing_gear",
+   "discipline": "structures",
+   "claim": "Vertical landing at the flight software's touchdown speed (Q_LAND_FINAL_SPD 0.3 m/s): boom stress at the clamp 73 MPa front / 79 MPa rear (RF 3.3 / 3.0 on minimum yield); hard case at 0.6 m/s: 123 / 146 MPa (RF 1.96 / 1.65). Requirement change: the old 0.30 m drop (2.43 m/s, 8-32 g) had no source and would yield the booms; the design case is now 2 x Q_LAND_FINAL_SPD.",
+   "value": 145.755,
+   "units": "MPa (worst corner, hard)",
+   "equations": [
+    "k = 3 E I / a^3 (boom cantilevered from its clamp)",
+    "d = (m g + sqrt((m g)^2 + k m v^2)) / k",
+    "F = k d",
+    "sigma = F a (D/2) / I"
+   ],
+   "assumptions": [
+    "corner mass share from the CG and gear stations (static moment balance)",
+    "clamp and dome foot rigid (over-predicts force, conservative)",
+    "hard case = 2 x the final descent speed (EST margin for a late flare or gust)"
+   ],
+   "inputs": {
+    "v_normal_mps": 0.3,
+    "v_hard_mps": 0.6,
+    "k_front_N_per_m": 15096.8,
+    "k_rear_N_per_m": 77024.1,
+    "m_front_corner_kg": 1.8574,
+    "m_rear_corner_kg": 1.8604
+   },
+   "tool": "analysis/structures/landing.py -> landing.json (closed form); check_struct.py RK4 re-integration",
+   "evidence": [
+    {
+     "file": "analysis/structures/landing.json",
+     "what": "corners front/rear, cases normal/hard: force, stress, RF"
+    },
+    {
+     "file": "firmware/vtol_c0.param",
+     "what": "Q_LAND_FINAL_SPD,0.3 (ArduPilot default 0.5, quadplane.cpp, checked 2026-11-01)"
+    }
+   ],
+   "ran_evidence": "analysis/structures/landing.py run 2026-11-01 (landing.json 22:15); re-integrated by check_struct.py 2026-11-02.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). The four STR-11 lines (ODE vs closed form) and STR-11b must print PASS.",
+    "Open analysis/structures/landing.json, corners.rear: arm a = 0.2401 m, k = 3 x 69e9 x 5.148e-9 / 0.2401^3 = 77024 N/m, mass share 1.8604 kg.",
+    "Hard: d = (m g + sqrt((m g)^2 + k m v^2)) / k with v 0.6 m/s gives F = 246.1 N; sigma = 246.1 x 0.2401 x 12.7 / 5148 x 1000 = 145.8 MPa; RF = 240 / 145.8 = 1.65.",
+    "Independent: check_struct.py integrates m x'' = m g - k x (RK4, 2 us steps) to the stop and finds the same peak force (within 0.01 %)."
+   ],
+   "reproduced": {
+    "done": true,
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). The four STR-11 lines (ODE vs closed form) and STR-11b must print PASS. (2) Open analysis/structures/landing.json, corners.rear: arm a = 0.2401 m, k = 3 x 69e9 x 5.148e-9 / 0.2401^3 = 77024 N/m, mass share 1.8604 kg. (3) Hard: d = (m g + sqrt((m g)^2 + k m v^2)) / k with v 0.6 m/s gives F = 246.1 N; sigma = 246.1 x 0.2401 x 12.7 / 5148 x 1000 = 145.8 MPa; RF = 240 / 145.8 = 1.65. (4) Independent: check_struct.py integrates m x'' = m g - k x (RK4, 2 us steps) to the stop and finds the same peak force (within 0.01 %).",
+    "matches": true
+   },
+   "independent_check": {
+    "method": "RK4 time integration of the same spring-mass model (tolerance 0.5 %)",
+    "value": 246.102,
+    "repo_value": 246.102,
+    "delta_pct": 0.0,
+    "script": "analysis/validation/check_struct.py#STR-11"
+   },
+   "status": "Partially Verified",
+   "status_reason": "The landing analysis now exists and its arithmetic is independently reproduced; every corner keeps RF >= 1.65 at the hard case. The model (rigid clamp, rigid foot, static mass share) is what S06 must confirm.",
+   "limitations": [
+    "Hard landing loads the wing joiner to 104.8 N m EST upper bound (gear reactions at the boom station minus boom-mass inertia, no wing-mass relief): 224 MPa, RF 1.07 on minimum yield. This exceeds the flight ultimate case (STR-06).",
+    "Sideways / forward touchdown and the PETG gear clamp and F05 cross-bolt are not analysed."
+   ],
+   "next_step": "S06 drop test at 0.6 m/s with an accelerometer at the bay; S07 joiner inspection afterwards.",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Unverified",
+     "to": "Partially Verified",
+     "why": "analysis/structures/landing.py now models the gear path (design case re-based on the firmware touchdown speed); arithmetic reproduced by an independent ODE; S06 still needed."
+    }
+   ]
+  },
+  {
+   "id": "STR-12",
+   "component": "booms",
+   "discipline": "structures",
+   "claim": "Boom splice J04 (printed plug + 2 x M3 cross-bolts at the rear motor): at n 4.5 the tail-side inertia gives 102 N per bolt (2.4 % of the A2-70 M3 double-shear capacity, 19 MPa bearing on the 0.89 mm wall). Strength is ample; stiffness is not controlled: hole and plug clearance allow up to 1.3 deg free rotation before the bolts bear.",
+   "value": 101.77,
+   "units": "N per bolt",
+   "equations": [
+    "M = m_tail g n arm",
+    "F = M / 0.036 m",
+    "tau = F / (2 A_s)",
+    "sigma_br = F / (2 d t)"
+   ],
+   "assumptions": [
+    "tail-side mass per boom 0.317 kg EST roll-up (CAD part masses)",
+    "arm 0.262 m EST",
+    "tail aerodynamic load — (not in the repo)"
+   ],
+   "inputs": {
+    "m_tail_side_kg (EST roll-up)": 0.31656148000000006,
+    "arm_m (EST)": 0.26215999999999995,
+    "n": 4.5,
+    "bolt_pitch_m": 0.036
+   },
+   "tool": "hand calc (check_struct.py)",
+   "evidence": [
+    {
+     "file": "docs/research/hardware-spec.md",
+     "what": "J04 geometry"
     },
     {
      "file": "cad/hardware.json",
      "what": "FT04 plug clearance 0.019-0.825 mm"
     }
    ],
-   "ran_evidence": "No analysis in the repo.",
+   "ran_evidence": "No repo analysis; audit hand calculation.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line STR-12 must print PASS.",
+    "M = 0.317 kg x 9.81 x 4.5 x 0.262 m = 3.66 N m; F = M / 0.036 = 101.8 N per bolt.",
+    "Shear in two planes: tau = 101.8 / (2 x 5.03 mm^2) = 10.1 MPa; capacity 2 x 0.6 x 3,522 N = 4,226 N -> 2.4 %.",
+    "Free rotation: (0.4 + 0.4) mm hole play over the 36 mm bolt pitch = 1.27 deg."
+   ],
    "reproduced": {
-    "done": false,
-    "how": "nothing to reproduce",
-    "matches": null
+    "done": true,
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line STR-12 must print PASS. (2) M = 0.317 kg x 9.81 x 4.5 x 0.262 m = 3.66 N m; F = M / 0.036 = 101.8 N per bolt. (3) Shear in two planes: tau = 101.8 / (2 x 5.03 mm^2) = 10.1 MPa; capacity 2 x 0.6 x 3,522 N = 4,226 N -> 2.4 %. (4) Free rotation: (0.4 + 0.4) mm hole play over the 36 mm bolt pitch = 1.27 deg.",
+    "matches": true
    },
    "independent_check": {
-    "method": "inertial-only shear couple",
-    "value": 109.0,
+    "method": "inertial shear couple; bolt shear utilisation (must be <= 1, no repo value)",
+    "value": 0.0241,
     "repo_value": null,
     "delta_pct": null,
     "script": "analysis/validation/check_struct.py#STR-12"
    },
+   "status": "Partially Verified",
+   "status_reason": "Strength margin is large even with an EST load, but the tail aerodynamic load is missing (—) and the free play (alignment of tail and pusher) is only measurable on the built boom.",
    "limitations": [
-    "Tail aerodynamic loads not in the repo (—)."
+    "Tail aerodynamic load not included (—)."
    ],
-   "next_step": "Ream the cross-holes to 3.0 H8 on assembly or bond the plug; measure splice droop in M7.",
-   "id": "STR-12",
-   "component": "booms",
-   "discipline": "structures",
-   "claim": "Boom splice J04 (printed plug + 2 x M3 cross-bolts at the rear motor) carries axial and torsional load; no strength figure is given.",
-   "status": "Unverified",
-   "status_reason": "Audit EST: 109 N per bolt, 11 MPa double shear (3 % of capacity), 20 MPa wall bearing: strength is ample, but stiffness is not controlled: Ø3.4 holes and the FT04 plug clearance give up to 1.3 deg of free rotation at the splice (tail incidence / pusher-tail alignment)."
+   "next_step": "S04 splice slip proof; ream the cross-holes to 3.0 H8 on assembly or bond the plug; straight-edge check of front boom + stub.",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Unverified",
+     "to": "Partially Verified",
+     "why": "Audit hand calc gives load and capacity; tail aero load and free play still open."
+    }
+   ]
   },
   {
-   "value": null,
-   "units": "",
+   "id": "STR-13",
+   "component": "wing",
+   "discipline": "structures",
+   "claim": "Wing retention bolt J10 (one M5 per side at 70 % chord) carries only panel torsion: about 20.5 N at ultimate (0.3 % of M5 shear capacity; 0.64 MPa bearing on the 6.4 mm PETG tongue, RF about 61 on a 39 MPa PETG proxy yield). The 1.0 N m EST torque puts about 27 MPa under the head (0.68 of that yield): a creep risk, not a strength risk.",
+   "value": 20.52,
+   "units": "N",
    "equations": [
     "T = L_half (0.30 - 0.25) c",
-    "F = T / (0.40 c)"
+    "F = T / ((0.70 - 0.30) c)",
+    "F_pre = T_q / (K d)"
    ],
    "assumptions": [
-    "aerodynamic centre at 25 % c EST",
-    "Cm0 —"
+    "aerodynamic centre at 25 % c EST, joiner at 30 % c",
+    "NACA 2415 Cm0 — (not read from the repo)",
+    "PETG proxy: Prusament PETG V0 TDS v1.0, printed tensile yield 39 +-2 MPa (ISO 527-1), https://cdn.shopify.com/s/files/1/1745/6181/files/prusament-petg-v0-technical-data-sheet.pdf, checked 2026-11-02; the team prints ELEGOO PETG (no datasheet value in the repo, EST)"
    ],
    "inputs": {
-    "chord_m": 0.284176
+    "chord_m": 0.321941,
+    "L_half_N": 164.12,
+    "torque_Nm": 1.0,
+    "K": 0.16
    },
-   "tool": "none in repo",
+   "tool": "hand calc (check_struct.py)",
    "evidence": [
     {
      "file": "docs/research/hardware-spec.md",
-     "what": "J10 geometry, preload 1,250 N, 27 MPa under the head"
+     "what": "J10 (generated block): M5 x 25, tongue 6.4 mm"
+    },
+    {
+     "file": "cad/hardware.json",
+     "what": "F09 torque 1.0 N m EST, torque_basis 1250 N on 47 mm2 = 27 MPa"
     }
    ],
-   "ran_evidence": "No analysis in the repo.",
+   "ran_evidence": "No repo analysis; audit hand calculation.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line STR-13 must print PASS.",
+    "T = 164.1 N x 0.05 x 0.3219 m = 2.64 N m; F = T / (0.40 x 0.3219) = 20.5 N.",
+    "Tongue bearing = F / (5.0 x 6.4 mm) = 0.64 MPa; 39 / 0.64 = 61.",
+    "Preload = 1.0 / (0.16 x 0.005) = 1250 N on 47 mm^2 = 26.6 MPa."
+   ],
    "reproduced": {
-    "done": false,
-    "how": "",
-    "matches": null
+    "done": true,
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line STR-13 must print PASS. (2) T = 164.1 N x 0.05 x 0.3219 m = 2.64 N m; F = T / (0.40 x 0.3219) = 20.5 N. (3) Tongue bearing = F / (5.0 x 6.4 mm) = 0.64 MPa; 39 / 0.64 = 61. (4) Preload = 1.0 / (0.16 x 0.005) = 1250 N on 47 mm^2 = 26.6 MPa.",
+    "matches": true
    },
    "independent_check": {
-    "method": "panel torsion about the round joiner reacted by the bolt",
-    "value": 18.1,
+    "method": "panel torsion reacted by the bolt; tongue bearing RF on the PETG proxy (must be >= 1.5, no repo value)",
+    "value": 60.83,
     "repo_value": null,
     "delta_pct": null,
     "script": "analysis/validation/check_struct.py#STR-13"
    },
+   "status": "Partially Verified",
+   "status_reason": "The load is tiny against any plausible PETG strength (proxy datasheet), so strength is not a risk. Open: the actual ELEGOO PETG properties and the preload creep in the pillar.",
    "limitations": [
-    "Cm0 of NACA 2415 not read; aileron hinge moments not included."
+    "PETG strength is a proxy (different product).",
+    "Cm0 and aileron hinge moments not included."
    ],
-   "next_step": "Torque the M5 to the minimum that stops rotation and witness-mark; check after S01.",
-   "id": "STR-13",
-   "component": "wing",
-   "discipline": "structures",
-   "claim": "Wing panel retention bolt J10 (one M5 A2 per side, 70 % chord) only stops the panel sliding off and rotating; bending is in the joiner.",
-   "status": "Unverified",
-   "status_reason": "Audit: ~18 N bolt force at ultimate (0.3 % of M5 shear capacity, 0.6 MPa on the 6.4 mm PETG tongue) - not a strength risk. Unverified because PETG strength and the tongue-to-foam bond strength are not in the repo, and the 1,250 N preload (27 MPa on PETG) may creep (PETG properties —)."
+   "next_step": "Reduce the J10 torque to 0.5 N m (about 13 MPa under the head) or add a washer; check for loosening after S01 and the first flight day.",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Unverified",
+     "to": "Partially Verified",
+     "why": "Load and a cited (proxy) PETG strength now give a bearing margin; preload creep still open."
+    }
+   ]
   },
   {
-   "value": 16.0,
+   "id": "STR-14",
+   "component": "booms",
+   "discipline": "structures",
+   "claim": "Clamp friction (4 x M3 at 0.5 N m, mu 0.3 EST) holds the boom against rotation: 7.3 N m with dry threads (15.9 N m if lubricated), 11 x the EST maximum motor reaction torque 0.66 N m, so no cross-bolts are needed at the clamps.",
+   "value": 7.257,
    "units": "N m",
    "equations": [
-    "F = T/(K d)",
+    "F = T / (K d)",
     "T_slip = mu n F r",
     "Q = eta P / omega"
    ],
    "assumptions": [
     "mu 0.3 EST (repo)",
-    "K 0.16 lubricated (repo) vs 0.35 dry (Fastenal Feb 2016)",
-    "motor max 615 W, 7,100 rpm EST (firmware/sitl/c0_physics.py)"
+    "K 0.35 dry (Fastenal Feb 2016) - inserts are not lubricated",
+    "motor max 615 W at 7,100 rpm EST, eta 0.8 EST"
    ],
    "inputs": {
     "preload_N": {
@@ -694,541 +906,677 @@
      "K0.35_dry": 476.1904761904762
     }
    },
-   "tool": "hand calc in hardware-spec J04",
+   "tool": "hand calc (docs/research/hardware-spec.md J04)",
    "evidence": [
     {
      "file": "docs/research/hardware-spec.md",
-     "what": "J04 friction capacity EST; M7 test 4.9 N m"
+     "what": "J04 friction capacity 16 N m (lubricated K)"
     }
    ],
    "ran_evidence": "Hand calculation only.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line STR-14 must print PASS (ratio >= 3).",
+    "Dry preload F = 0.5 / (0.35 x 0.003) = 476 N per screw; T_slip = 0.3 x 4 x 476 x 0.0127 = 7.26 N m.",
+    "Q = 0.8 x 615 / (7100 x 2 pi / 60) = 0.66 N m; ratio 11.0."
+   ],
    "reproduced": {
     "done": true,
-    "how": "recomputed with K 0.16 and K 0.35",
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line STR-14 must print PASS (ratio >= 3). (2) Dry preload F = 0.5 / (0.35 x 0.003) = 476 N per screw; T_slip = 0.3 x 4 x 476 x 0.0127 = 7.26 N m. (3) Q = 0.8 x 615 / (7100 x 2 pi / 60) = 0.66 N m; ratio 11.0.",
     "matches": true
    },
    "independent_check": {
     "method": "dry-thread preload (insert threads are unlubricated)",
-    "value": 7.3,
+    "value": 7.257,
     "repo_value": 16.0,
     "delta_pct": -54.64,
     "script": "analysis/validation/check_struct.py#STR-14"
    },
+   "status": "Partially Verified",
+   "status_reason": "The repo's 16 N m assumes lubricated threads; dry threads halve it, still 11 x the motor torque. Friction coefficient and insert torque-out are not measured.",
    "limitations": [
     "Preload relaxation of printed clamps (PETG creep) not assessed."
    ],
-   "next_step": "Run M7 after a 24 h soak and again after the first flight day.",
-   "id": "STR-14",
-   "component": "booms",
-   "discipline": "structures",
-   "claim": "Clamp friction (4 x M3 at 0.5 N m, mu 0.3) gives ~16 N m about the boom axis, so no cross-bolts are needed at the clamps.",
-   "status": "Partially Verified",
-   "status_reason": "Repo arithmetic reproduced; with dry threads the capacity halves to 7.3 N m, still 11x the EST max motor reaction torque 0.66 N m (1.6 MPa lateral boom stress). Depends on insert torque-out (—) and mu (EST); M7 test closes it."
+   "next_step": "C02 insert torque-out; S04 slip proof after a 24 h soak and after the first flight day."
   },
   {
-   "value": 143.9,
-   "units": "deg C",
-   "equations": [
-    "T = T_amb + Q/(h A)",
-    "A = pi D H + 2 pi D^2/4 = 0.008445 m^2"
-   ],
-   "assumptions": [
-    "motor = solid cylinder 48 x 32 mm",
-    "uniform h",
-    "T_amb 35 C",
-    "Q = 20 % of hover input (EST)"
-   ],
-   "inputs": {
-    "Q_W": 45.79,
-    "h": 50,
-    "A_m2": 0.008445
-   },
-   "tool": "SOLIDWORKS Simulation thermal (cad/Sim.cs, cad/Thermal.cs)",
-   "evidence": [
-    {
-     "file": "cad/sim/results.txt",
-     "what": "motor_T_steady 143.90, motor_T_steady_hand 143.44"
-    },
-    {
-     "file": "cad/sim/thermal/results.txt",
-     "what": "motor_only_T_steady 163.48"
-    }
-   ],
-   "ran_evidence": "cad/sim/thermal/*.LOG written 2026-10-27 03:04-11:33 (lift unit 35,056 el, pod 119,514 el, pusher 51,899 el, motor-only 7,731 el); .CWR/.HTQ/.P42 present; cad/sim/thermal/results.txt generated 2026-10-27 03:03; thermal_results.json 2026-10-27T11:38. Not re-run.",
-   "reproduced": {
-    "done": true,
-    "how": "Q/(hA) recomputed",
-    "matches": true
-   },
-   "independent_check": {
-    "method": "lumped steady balance",
-    "value": 143.44,
-    "repo_value": 143.9,
-    "delta_pct": 0.43,
-    "script": "analysis/validation/check_struct.py#THM-01"
-   },
-   "limitations": [
-    "Rotating bell self-ventilation and radiation ignored (both lower T)."
-   ],
-   "next_step": "C08 bench run: fit tau and steady rise.",
    "id": "THM-01",
    "component": "lift_propulsion",
    "discipline": "thermal",
-   "claim": "Lift motor steady-state bound 143.9 deg C (Sim.cs: 45.8 W, h 50) / 163.5 deg C (correlation h 42.9); never reached in a 60-90 s hover.",
-   "status": "Partially Verified",
-   "status_reason": "Solver and lumped hand agree (0.4 % of the rise) - but the FEA is just a single-body convection balance, so it checks arithmetic, not physics. Heat input and h are estimates."
-  },
-  {
-   "value": 42.9,
-   "units": "W/m2K",
+   "claim": "Lift motor alone, steady state (an upper bound never reached in flight, tau about 206 s vs 60-90 s hovers): 178.2 C FEA vs 175.0 C hand at the 25 C design ambient (+2.1 % of the rise), and 185.6 vs 185.0 C (+0.4 %) in the Sim.cs solver-validation case (fixed 35 C test ambient), for the EST inputs Q 56.6 W (THM-03) and h 44.6 W/m2K (THM-02).",
+   "value": 178.209,
+   "units": "deg C",
    "equations": [
-    "v_i = sqrt(T/(2 rho A))",
-    "Re = V D/nu",
-    "Nu = 0.193 Re^0.618 Pr^(1/3)",
-    "h = Nu k/D"
+    "A = pi D H + 2 pi D^2 / 4 = 0.008445 m^2",
+    "T = T_amb + Q / (h A)"
    ],
    "assumptions": [
-    "air at 308 K (nu 1.65e-5, k 0.0268, Pr 0.706, Incropera Table A.4)",
-    "rho 1.225 (ISA SL) while the ambient is 35 C"
+    "motor = solid cylinder 48 x 32 mm",
+    "uniform h, convection only",
+    "design ambient 25 C (analysis/thermal/thermal_inputs.json ambient.hot_C; DESIGN-BASIS R21 field limit)"
    ],
    "inputs": {
-    "T_unit_N": 16.03,
+    "Q_W": 56.566,
+    "h_W_m2K": 44.647,
+    "A_m2": 0.008445,
+    "T_amb_C": 25.0
+   },
+   "tool": "SOLIDWORKS Simulation thermal (cad/Thermal.cs motor-only studies)",
+   "evidence": [
+    {
+     "file": "cad/sim/thermal/results.txt",
+     "what": "motor_only_T_steady 178.209, motor_only_T_hand 175.032, val_simcs_T_steady 185.604, val_simcs_T_hand 185.032"
+    }
+   ],
+   "ran_evidence": "cad/sim/thermal/*.LOG (17 studies) written 2026-11-02 01:32-03:22 by cad/Thermal.exe: lift unit 35,056 elements (steady, 120 s hover, 5 mission phases), pod 140,007 (5 phases), pusher 51,899 (steady + 600 s cruise), motor-only 7,731 (3 studies); cad/sim/thermal/results.txt generated 2026-11-02 01:31; analysis/thermal/thermal_results.json 2026-11-02T04:33, design ambient 25 C. Not re-run by this audit.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines THM-01 (tolerance 2 %) and THM-01b (tolerance 5 %) must print PASS.",
+    "A = pi x 0.048 x 0.032 + 2 x pi x 0.048^2 / 4 = 0.008445 m^2. Q = cad/params.txt:60 thermQ = 56.566 W; h = cad/params.txt:61 thermH = 44.647 W/m2K.",
+    "T = 25 + 56.566 / (44.647 x 0.008445) = 175.0 C; cad/sim/thermal/results.txt:4 motor_only_T_steady = 178.2 C (rise +2.1 %).",
+    "Validation case: same with 35 C -> 185.0 C vs val_simcs_T_steady 185.6 C."
+   ],
+   "reproduced": {
+    "done": true,
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines THM-01 (tolerance 2 %) and THM-01b (tolerance 5 %) must print PASS. (2) A = pi x 0.048 x 0.032 + 2 x pi x 0.048^2 / 4 = 0.008445 m^2. Q = cad/params.txt:60 thermQ = 56.566 W; h = cad/params.txt:61 thermH = 44.647 W/m2K. (3) T = 25 + 56.566 / (44.647 x 0.008445) = 175.0 C; cad/sim/thermal/results.txt:4 motor_only_T_steady = 178.2 C (rise +2.1 %). (4) Validation case: same with 35 C -> 185.0 C vs val_simcs_T_steady 185.6 C.",
+    "matches": true
+   },
+   "independent_check": {
+    "method": "lumped steady balance at 25 C (tolerance 5 % of the rise)",
+    "value": 175.032,
+    "repo_value": 178.209,
+    "delta_pct": -1.78,
+    "script": "analysis/validation/check_struct.py#THM-01"
+   },
+   "status": "Verified",
+   "status_reason": "Solver and hand agree within 2.1 % of the rise at 25 C and 0.4 % in the validation case. The claim is conditional on the EST heat and film coefficient, which are tracked (and not verified) in THM-02 and THM-03.",
+   "limitations": [
+    "Single-body convection balance: checks the solver set-up and arithmetic, not the physics of Q and h.",
+    "Bell self-ventilation and radiation ignored (both lower T)."
+   ],
+   "next_step": "C08 bench run: fit the time constant and steady rise.",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Partially Verified",
+     "to": "Verified",
+     "why": "Re-run at the 25 C design ambient; claim scoped to the stated EST inputs; FEA vs hand within 2.1 % of the rise."
+    }
+   ]
+  },
+  {
+   "id": "THM-02",
+   "component": "lift_propulsion",
+   "discipline": "thermal",
+   "claim": "Film coefficient on the lift motor: 44.6 W/m2K in hover wash (momentum-theory v_i 7.13 m/s, Hilpert); Churchill-Bernstein gives 45.1 (+1.1 %). At 18 m/s cruise: 84.5 (Hilpert) vs 78.8 (Churchill-Bernstein, -6.7 %).",
+   "value": 44.647,
+   "units": "W/m2K",
+   "equations": [
+    "v_i = sqrt(T / (2 rho A))",
+    "Re = V D / nu",
+    "Hilpert: Nu = 0.193 Re^0.618 Pr^(1/3)",
+    "Churchill-Bernstein: Nu = 0.3 + 0.62 Re^0.5 Pr^(1/3) / (1 + (0.4/Pr)^(2/3))^0.25 (1 + (Re/282000)^(5/8))^(4/5)",
+    "h = Nu k / D"
+   ],
+   "assumptions": [
+    "air at ~308 K film temperature: nu 1.65e-5, k 0.0268, Pr 0.706 (Incropera Table A.4)",
+    "rho 1.225 (ISA)",
+    "cross-flow cylinder correlation applied to the axial prop wash (EST)"
+   ],
+   "inputs": {
+    "T_unit_N": 18.23,
     "A_disc_m2": 0.1464,
-    "D_m": 0.048
+    "D_m": 0.048,
+    "Re_hover": 20736.0
    },
    "tool": "analysis/thermal/thermal_inputs.py",
    "evidence": [
     {
-     "file": "analysis/thermal/thermal_inputs.py",
-     "what": "hilpert()"
-    },
-    {
-     "file": "analysis/thermal/thermal_results.json",
-     "what": "h motor_hover 42.9, motor_cruise 84.5"
+     "file": "analysis/thermal/thermal_inputs.json",
+     "what": "h.motor_hover 44.647, h.motor_cruise 84.465; flow.v_i_mps 7.128"
     }
    ],
-   "ran_evidence": "Python script; outputs consistent with thermal_inputs.json.",
+   "ran_evidence": "analysis/thermal/thermal_inputs.py run 2026-11-02 04:27.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line THM-02 must print PASS; THM-02b (cruise) prints FAIL at the 5 % tolerance (-6.7 %), which is why the claim stays Partially Verified.",
+    "v_i = sqrt(18.23 / (2 x 1.225 x 0.1464)) = 7.128 m/s; Re = 7.128 x 0.048 / 1.65e-5 = 20736.",
+    "Hilpert: Nu = 0.193 x Re^0.618 x 0.706^(1/3) = 80.0; h = Nu x 0.0268 / 0.048 = 44.65 W/m2K (= thermal_inputs.json).",
+    "Churchill-Bernstein with the same Re and Pr: Nu = 80.8, h = 45.12 W/m2K (+1.1 %)."
+   ],
    "reproduced": {
     "done": true,
-    "how": "Hilpert re-implemented",
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line THM-02 must print PASS; THM-02b (cruise) prints FAIL at the 5 % tolerance (-6.7 %), which is why the claim stays Partially Verified. (2) v_i = sqrt(18.23 / (2 x 1.225 x 0.1464)) = 7.128 m/s; Re = 7.128 x 0.048 / 1.65e-5 = 20736. (3) Hilpert: Nu = 0.193 x Re^0.618 x 0.706^(1/3) = 80.0; h = Nu x 0.0268 / 0.048 = 44.65 W/m2K (= thermal_inputs.json). (4) Churchill-Bernstein with the same Re and Pr: Nu = 80.8, h = 45.12 W/m2K (+1.1 %).",
     "matches": true
    },
    "independent_check": {
-    "method": "Hilpert at 35 C density (1.146 kg/m3)",
-    "value": 43.81,
-    "repo_value": 42.9,
-    "delta_pct": 2.11,
+    "method": "Churchill-Bernstein cylinder correlation, hover (tolerance 5 %)",
+    "value": 45.116,
+    "repo_value": 44.647,
+    "delta_pct": 1.05,
     "script": "analysis/validation/check_struct.py#THM-02"
    },
-   "limitations": [
-    "Correlation choice is an estimate; no measured h."
-   ],
-   "next_step": "C08 with the real prop: measure can temperature vs time.",
-   "id": "THM-02",
-   "component": "lift_propulsion",
-   "discipline": "thermal",
-   "claim": "Film coefficient on the lift motor: 42.9 W/m2K in hover wash (v_i 6.68 m/s), 84.5 W/m2K at 18 m/s cruise (Hilpert).",
    "status": "Partially Verified",
-   "status_reason": "Reproduced exactly; hot-day density raises h by 2 % (repo conservative). Physically uncertain: the motor sits under the prop hub where induced velocity is lowest, and a cross-flow cylinder correlation is applied to an axial wash."
+   "status_reason": "Two independent correlations agree to +1.1 % in hover, but in cruise they differ by 6.7 %, and neither has been checked against this motor: it sits under the prop hub, where the induced velocity is lowest, in an axial (not cross) flow.",
+   "limitations": [
+    "No measured h."
+   ],
+   "next_step": "C08 with the real prop: measure the can temperature against time; the fitted time constant gives h A directly."
   },
   {
-   "value": 45.62,
-   "units": "W",
-   "equations": [
-    "Q = 0.2 P_in",
-    "Q_Cu = I^2 R"
-   ],
-   "assumptions": [
-    "winding R 112 mOhm (reseller value quoted in docs/research/thermal.md)",
-    "I = 228.1 W / 21 V"
-   ],
-   "inputs": {
-    "P_in_W": 228.1,
-    "I_A": 10.86
-   },
-   "tool": "cad/params.mjs thermQ rule",
-   "evidence": [
-    {
-     "file": "docs/research/thermal.md",
-     "what": "I2R about 13 W at 10.9 A; 20 % covers iron/bearing/ESC"
-    }
-   ],
-   "ran_evidence": "Estimate, no solver.",
-   "reproduced": {
-    "done": true,
-    "how": "I^2 R recomputed",
-    "matches": true
-   },
-   "independent_check": {
-    "method": "copper loss I^2 R (no-load loss —)",
-    "value": 13.22,
-    "repo_value": 45.62,
-    "delta_pct": -71.03,
-    "script": "analysis/validation/check_struct.py#THM-03"
-   },
-   "limitations": [
-    "Every lift-unit temperature scales with this number."
-   ],
-   "next_step": "Measure I0 at 22.2 V and the phase resistance; Q = I^2 R + V I0.",
    "id": "THM-03",
    "component": "lift_propulsion",
    "discipline": "thermal",
-   "claim": "Lift motor heat 45.6 W in hover = 20 % of 228 W input (EST, 80 % motor+ESC efficiency).",
-   "status": "Unverified",
-   "status_reason": "Copper loss is 13.2 W; iron/bearing loss needs the no-load current I0, which is not in the repo (—). The 20 % rule also puts ESC loss into the motor body, double-counting the separate 9.1 W ESC load in the lift-unit model."
+   "claim": "Lift motor heat in hover 56.6 W (20 % of the 282.8 W input, EST) is an upper estimate: the maker's phase resistance 107 mOhm and no-load current 0.6 A give 27.6 W (19.4 W copper + 8.2 W no-load, EST), so every lift-unit temperature built on the 20 % rule is conservative.",
+   "value": 56.566,
+   "units": "W",
+   "equations": [
+    "Q_rule = 0.2 P_in",
+    "Q = I^2 R + I0 V_bemf",
+    "I = P_in / 21 V",
+    "V_bemf = rpm_hover / KV"
+   ],
+   "assumptions": [
+    "I0 measured by the maker at 10 V, taken constant with speed (EST)",
+    "hover rpm 5472 EST (STR-04)",
+    "PWM / eddy-current losses not modelled (—)"
+   ],
+   "inputs": {
+    "P_in_W": 282.83,
+    "I_A": 13.468,
+    "R_ohm": 0.107,
+    "I0_A": 0.6,
+    "KV": 400
+   },
+   "tool": "cad/params.mjs thermQ rule; maker spec (analysis/propulsion_data_2026-11-01.json S1)",
+   "evidence": [
+    {
+     "file": "analysis/propulsion_data_2026-11-01.json",
+     "what": "S1 spec: resistance_mohm 107, no_load_current \"0.6A/10V\" (https://sunnyskyusa.com/products/sunnysky-x4110s-motors, checked 2026-11-01)"
+    },
+    {
+     "file": "analysis/thermal/thermal_inputs.json",
+     "what": "loads.lift_motor_W 56.566"
+    }
+   ],
+   "ran_evidence": "Estimate; no solver.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line THM-03 must print PASS (model <= rule).",
+    "P_in = analysis/results.json concepts.C0.sized.P_hover_per_motor = 282.8 W; rule Q = 0.2 x 282.8 = 56.6 W.",
+    "I = 282.8 / 21 = 13.47 A; copper I^2 R = 13.47^2 x 0.107 = 19.4 W.",
+    "V_bemf = 5472 rpm / 400 = 13.7 V; no-load 0.6 x 13.7 = 8.2 W; total 27.6 W."
+   ],
+   "reproduced": {
+    "done": true,
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line THM-03 must print PASS (model <= rule). (2) P_in = analysis/results.json concepts.C0.sized.P_hover_per_motor = 282.8 W; rule Q = 0.2 x 282.8 = 56.6 W. (3) I = 282.8 / 21 = 13.47 A; copper I^2 R = 13.47^2 x 0.107 = 19.4 W. (4) V_bemf = 5472 rpm / 400 = 13.7 V; no-load 0.6 x 13.7 = 8.2 W; total 27.6 W.",
+    "matches": true
+   },
+   "independent_check": {
+    "method": "maker-data loss model I^2 R + I0 V_bemf (rule must be >= it)",
+    "value": 27.616,
+    "repo_value": 56.566,
+    "delta_pct": -51.18,
+    "script": "analysis/validation/check_struct.py#THM-03"
+   },
+   "status": "Partially Verified",
+   "status_reason": "The maker data support the 20 % rule as conservative (model 27.6 W, about half). Not verified: PWM ripple and eddy losses on these BLHeli_S ESCs are not modelled, and nobody has measured the heat.",
+   "limitations": [
+    "The ESC loss (11.3 W) is a separate load in the lift-unit model; the rule's \"80 % motor + ESC\" wording overlaps it (conservative double count)."
+   ],
+   "next_step": "C08: measure the can temperature rise and time constant; Q = C dT/dt at the start of the run.",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Unverified",
+     "to": "Partially Verified",
+     "why": "Maker phase resistance and no-load current (propulsion_data S1) give an independent loss estimate that bounds the rule from below."
+    }
+   ]
   },
   {
-   "value": 76.24,
+   "id": "THM-04",
+   "component": "lift_propulsion",
+   "discipline": "thermal",
+   "claim": "Lift motor can at the 25 C design ambient: 59.2 C after a 60 s hover, 72.8 C at 90 s, mission peak 75.2 C (FEA) against the 80 C EST limit. A lumped model of the motor alone (no mount) peaks at 80.6 C, an upper bound.",
+   "value": 75.1957,
    "units": "deg C",
    "equations": [
-    "T(t) = T_inf + (T0 - T_inf) exp(-t/tau)",
-    "tau = m c_p/(h A)"
+    "T(t) = T_inf + (T0 - T_inf) exp(-t / tau)",
+    "tau = m c_p / (h A)"
    ],
    "assumptions": [
     "m 0.165 kg, c_p 470 J/kgK EST",
-    "phases 60/20/600/20/60 s",
+    "phases 60 / 20 / 600 / 20 / 60 s",
+    "Q 56.6 W hover, 86.1 W transition (EST, THM-03)",
     "cruise h 84.5 (motor stopped)"
    ],
    "inputs": {
     "C_J_per_K": 77.55,
-    "tau_s": 214.0
+    "tau_s": 205.7
    },
    "tool": "SOLIDWORKS transient thermal chained per phase (cad/Thermal.cs)",
    "evidence": [
     {
      "file": "cad/sim/thermal/results.txt",
-     "what": "lift_hover60_Motor 62.74, lift_mission_max_Motor 76.24, val_motor_T90 77.24 vs lumped 77.01"
+     "what": "lift_hover60_Motor 59.24, lift_hover90_Motor 72.80, lift_mission_max_Motor 75.20, val_motor_T90 88.41 vs lumped 88.17"
     },
     {
      "file": "analysis/thermal/thermal_results.json",
-     "what": "findings: mission peak at risk, margin 3.8 K"
+     "what": "findings: Lift motor can mission peak 75.2, margin 4.8 K, \"pass, < 10 K margin\""
     }
    ],
-   "ran_evidence": "cad/sim/thermal/*.LOG written 2026-10-27 03:04-11:33 (lift unit 35,056 el, pod 119,514 el, pusher 51,899 el, motor-only 7,731 el); .CWR/.HTQ/.P42 present; cad/sim/thermal/results.txt generated 2026-10-27 03:03; thermal_results.json 2026-10-27T11:38. Not re-run.",
+   "ran_evidence": "cad/sim/thermal/*.LOG (17 studies) written 2026-11-02 01:32-03:22 by cad/Thermal.exe: lift unit 35,056 elements (steady, 120 s hover, 5 mission phases), pod 140,007 (5 phases), pusher 51,899 (steady + 600 s cruise), motor-only 7,731 (3 studies); cad/sim/thermal/results.txt generated 2026-11-02 01:31; analysis/thermal/thermal_results.json 2026-11-02T04:33, design ambient 25 C. Not re-run by this audit.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines THM-04 (90 s validation, tolerance 2 %) and THM-04b (FEA <= lumped upper bound) must print PASS.",
+    "tau = 0.165 x 470 / (44.65 x 0.008445) = 206 s.",
+    "Validation (Sim.cs case, 35 C test ambient): T(90) = 35 + 150.03 (1 - exp(-90 / 206)) = 88.17 C vs val_motor_T90 88.41 C.",
+    "Mission at 25 C, motor alone: hover 60 s -> 63.0 C, transition 20 s -> 80.6 C (peak), cruise -> 25.2 C, transition -> 46.4 C, hover -> 78.9 C (checks_struct.json mission_history).",
+    "FEA 75.2 C <= lumped 80.6 C (the FEA mount adds heat capacity)."
+   ],
    "reproduced": {
     "done": true,
-    "how": "lumped single-body ODE over the same phases",
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines THM-04 (90 s validation, tolerance 2 %) and THM-04b (FEA <= lumped upper bound) must print PASS. (2) tau = 0.165 x 470 / (44.65 x 0.008445) = 206 s. (3) Validation (Sim.cs case, 35 C test ambient): T(90) = 35 + 150.03 (1 - exp(-90 / 206)) = 88.17 C vs val_motor_T90 88.41 C. (4) Mission at 25 C, motor alone: hover 60 s -> 63.0 C, transition 20 s -> 80.6 C (peak), cruise -> 25.2 C, transition -> 46.4 C, hover -> 78.9 C (checks_struct.json mission_history). (5) FEA 75.2 C <= lumped 80.6 C (the FEA mount adds heat capacity).",
     "matches": true
    },
    "independent_check": {
-    "method": "lumped capacitance, no conduction into the mount",
-    "value": 79.28,
-    "repo_value": 75.46,
-    "delta_pct": -8.63,
+    "method": "lumped capacitance, motor alone (upper bound; FEA must be lower)",
+    "value": 80.603,
+    "repo_value": 75.1957,
+    "delta_pct": 7.19,
     "script": "analysis/validation/check_struct.py#THM-04"
    },
-   "limitations": [
-    "Winding/magnet temperature not resolved; limit is a can-surface EST."
-   ],
-   "next_step": "C08 bench thermal run before F03.",
-   "id": "THM-04",
-   "component": "lift_propulsion",
-   "discipline": "thermal",
-   "claim": "Lift motor can: 62.7 C after a 60 s hover, 73.8 C at 90 s, mission peak 76.2 C on a 35 C day (limit 80 C EST).",
    "status": "Partially Verified",
-   "status_reason": "Solver output reproduced within 10 % of the rise (FEA lower because the mount conducts heat away); the Sim.cs 90 s validation matches lumped to 0.3 %. Inputs (Q, c_p, h, the 80 C limit) are all estimates, and the margin (3.8 K) is smaller than the input uncertainty."
+   "status_reason": "Solver verified (90 s validation within 0.4 % of the rise) and bounded by the lumped model. The 4.8 K margin rests on an ideal motor-to-mount contact; without it the bound is 80.6 C, at the 80 C EST limit. The heat estimate is conservative (THM-03), but the limit itself and c_p are estimates.",
+   "limitations": [
+    "Winding/magnet temperature not resolved; the 80 C limit is a can-surface EST (maker publishes none)."
+   ],
+   "next_step": "C08 bench run before F03; F03 can temperature <= 80 C."
   },
   {
-   "value": 65.13,
+   "id": "THM-05",
+   "component": "lift_propulsion",
+   "discipline": "thermal",
+   "claim": "Lift ESC on the boom at the 25 C design ambient: 50.3 C after a 60 s hover, mission peak 61.7 C (limit 70 C EST); lumped check 49.9 C at 60 s.",
+   "value": 61.6602,
    "units": "deg C",
    "equations": [
-    "lumped, 4 % ESC loss = 9.1 W"
+    "lumped, Q = 4 % of unit input = 11.3 W"
    ],
    "assumptions": [
     "ESC 55 x 28 x 12 mm EST",
-    "full prop-wash h on the boom underside"
+    "full prop-wash h 44.4 on the exposed faces"
    ],
    "inputs": {
-    "Q_W": 9.12,
-    "h": 43.0
+    "Q_W": 11.313,
+    "h": 44.409,
+    "A_m2": 0.003532,
+    "C_J_per_K": 22.18
    },
    "tool": "SOLIDWORKS transient thermal",
    "evidence": [
     {
      "file": "cad/sim/thermal/results.txt",
-     "what": "lift_hover60_ESC 55.52, lift_mission_max_ESC 65.13"
+     "what": "lift_hover60_ESC 50.33, lift_mission_max_ESC 61.66, lift_steady_ESC 98.48"
     }
    ],
-   "ran_evidence": "cad/sim/thermal/*.LOG written 2026-10-27 03:04-11:33 (lift unit 35,056 el, pod 119,514 el, pusher 51,899 el, motor-only 7,731 el); .CWR/.HTQ/.P42 present; cad/sim/thermal/results.txt generated 2026-10-27 03:03; thermal_results.json 2026-10-27T11:38. Not re-run.",
+   "ran_evidence": "cad/sim/thermal/*.LOG (17 studies) written 2026-11-02 01:32-03:22 by cad/Thermal.exe: lift unit 35,056 elements (steady, 120 s hover, 5 mission phases), pod 140,007 (5 phases), pusher 51,899 (steady + 600 s cruise), motor-only 7,731 (3 studies); cad/sim/thermal/results.txt generated 2026-11-02 01:31; analysis/thermal/thermal_results.json 2026-11-02T04:33, design ambient 25 C. Not re-run by this audit.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line THM-05 must print PASS (tolerance 5 % of the rise).",
+    "tau = C / (h A) = 22.2 / (44.41 x 0.003532) = 141 s; T_inf = 25 + 11.31 / (44.41 x 0.003532) = 97.1 C.",
+    "T(60) = 97.1 - (97.1 - 25) exp(-60 / tau) = 49.9 C; FEA 50.3 C."
+   ],
    "reproduced": {
     "done": true,
-    "how": "lumped ESC on an adiabatic pad",
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line THM-05 must print PASS (tolerance 5 % of the rise). (2) tau = C / (h A) = 22.2 / (44.41 x 0.003532) = 141 s; T_inf = 25 + 11.31 / (44.41 x 0.003532) = 97.1 C. (3) T(60) = 97.1 - (97.1 - 25) exp(-60 / tau) = 49.9 C; FEA 50.3 C.",
     "matches": true
    },
    "independent_check": {
-    "method": "lumped capacitance",
-    "value": 55.24,
-    "repo_value": 55.52,
-    "delta_pct": 1.35,
+    "method": "lumped capacitance (tolerance 5 % of the rise)",
+    "value": 49.943,
+    "repo_value": 50.3268,
+    "delta_pct": -0.76,
     "script": "analysis/validation/check_struct.py#THM-05"
    },
-   "limitations": [
-    "SoloGood publishes no efficiency or temperature limit (—)."
-   ],
-   "next_step": "Thermocouple on the ESC FETs during C08.",
-   "id": "THM-05",
-   "component": "lift_propulsion",
-   "discipline": "thermal",
-   "claim": "Lift ESC on the boom: 55.5 C after a 60 s hover, 65.1 C mission peak (limit 70 C EST).",
    "status": "Partially Verified",
-   "status_reason": "Agrees to 1.4 % of the rise (steady 95.1 vs 95.9 C). ESC loss fraction, size and limit are all EST; the repo itself notes the ESC sits in the boom wake."
+   "status_reason": "Solver reproduced within 1.5 % of the rise; ESC loss fraction, size and the 70 C limit are all estimates (SoloGood publishes neither efficiency nor a limit, —).",
+   "limitations": [
+    "Margin 8.3 K at the mission peak."
+   ],
+   "next_step": "Thermocouple on the ESC FETs in C08 and C13; G03."
   },
   {
-   "value": 59.25,
+   "id": "THM-06",
+   "component": "battery",
+   "discipline": "thermal",
+   "claim": "Battery pack in the sealed bay ends the mission at 53.2 C (FEA) against the 60 C limit, for a pack that passes the C11 acceptance limit (<= 6.0 mOhm/cell) flown at <= 25 C ambient (DESIGN-BASIS R21); the adiabatic hand bound is 53.9 C.",
+   "value": 53.1931,
    "units": "deg C",
    "equations": [
     "Q = I^2 R_pack",
-    "dT = sum(Q t)/(m c_p)"
+    "dT = sum(Q t) / (m c_p)"
    ],
    "assumptions": [
-    "R_pack 6 x 7.5 mOhm (test-plan limit, Ovonic publishes none)",
-    "c_p 1100 J/kgK",
-    "I = P / 21 V"
+    "R_pack = 6 x 6.0 mOhm (C11 acceptance limit; Ovonic publishes none)",
+    "c_p 1100 J/kgK EST",
+    "I = P / 21 V (analysis/results.json)"
    ],
    "inputs": {
     "I_A": {
-     "hover": 43.45192,
-     "trans": 68.439687,
-     "cruise": 11.818539
+     "hover": 53.87252,
+     "trans": 82.00508,
+     "cruise": 13.305941
     },
-    "R_ohm": 0.045,
+    "R_ohm": 0.036,
     "m_kg": 0.82
    },
    "tool": "SOLIDWORKS transient thermal (pod)",
    "evidence": [
     {
      "file": "cad/sim/thermal/results.txt",
-     "what": "pod_mission_end_Battery 59.25"
+     "what": "pod_mission_end_Battery 53.19"
     },
     {
-     "file": "docs/research/thermal.md",
-     "what": "adiabatic pack; vents recommended"
+     "file": "analysis/thermal/thermal_inputs.json",
+     "what": "loads.R_pack_ohm 0.036, R_cell_test_plan_now_ohm 0.006"
     }
    ],
-   "ran_evidence": "cad/sim/thermal/*.LOG written 2026-10-27 03:04-11:33 (lift unit 35,056 el, pod 119,514 el, pusher 51,899 el, motor-only 7,731 el); .CWR/.HTQ/.P42 present; cad/sim/thermal/results.txt generated 2026-10-27 03:03; thermal_results.json 2026-10-27T11:38. Not re-run.",
+   "ran_evidence": "cad/sim/thermal/*.LOG (17 studies) written 2026-11-02 01:32-03:22 by cad/Thermal.exe: lift unit 35,056 elements (steady, 120 s hover, 5 mission phases), pod 140,007 (5 phases), pusher 51,899 (steady + 600 s cruise), motor-only 7,731 (3 studies); cad/sim/thermal/results.txt generated 2026-11-02 01:31; analysis/thermal/thermal_results.json 2026-11-02T04:33, design ambient 25 C. Not re-run by this audit.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line THM-06 must print PASS (tolerance 5 % of the rise).",
+    "Heat: hover 53.9 A^2 x 0.036 = 104.5 W for 120 s, transition 82.0 A for 40 s, cruise 13.3 A for 600 s: E = 26046 J.",
+    "dT = 26046 / (0.82 x 1100) = 28.9 K -> 53.9 C; FEA 53.2 C.",
+    "Sensitivity: the pack reaches 60 C at 7.27 mOhm/cell, or at c_p 908 J/kgK."
+   ],
    "reproduced": {
     "done": true,
-    "how": "adiabatic energy balance",
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line THM-06 must print PASS (tolerance 5 % of the rise). (2) Heat: hover 53.9 A^2 x 0.036 = 104.5 W for 120 s, transition 82.0 A for 40 s, cruise 13.3 A for 600 s: E = 26046 J. (3) dT = 26046 / (0.82 x 1100) = 28.9 K -> 53.9 C; FEA 53.2 C. (4) Sensitivity: the pack reaches 60 C at 7.27 mOhm/cell, or at c_p 908 J/kgK.",
     "matches": true
    },
    "independent_check": {
-    "method": "adiabatic I^2 R",
-    "value": 59.83,
-    "repo_value": 59.25,
-    "delta_pct": -2.35,
+    "method": "adiabatic I^2 R (upper bound, tolerance 5 % of the rise)",
+    "value": 53.876,
+    "repo_value": 53.1931,
+    "delta_pct": 1.28,
     "script": "analysis/validation/check_struct.py#THM-06"
    },
-   "limitations": [
-    "Internal resistance rises when cold or aged; sun load not included."
-   ],
-   "next_step": "C11 IR measurement; treat > 5 mOhm/cell as a hot-day no-go; add the bay vents to the CAD.",
-   "id": "THM-06",
-   "component": "battery",
-   "discipline": "thermal",
-   "claim": "Battery pack ends the hot-day mission at 59.2 C against the 60 C limit (sealed bay).",
    "status": "Partially Verified",
-   "status_reason": "Reproduced within 2.4 % of the rise. The result is a no-margin pass that rests on an estimated pack resistance; the ventilation the repo recommends is not in the CAD."
+   "status_reason": "Reproduced within 2.4 % of the rise, and it passes with 6.8 K margin. Not verified: c_p is an estimate and the pass flips at 908 J/kgK; the pack resistance is the C11 gate, not a measurement.",
+   "limitations": [
+    "Internal resistance rises when cold or aged; sun load not included; bay vents not in the CAD."
+   ],
+   "next_step": "C11 internal resistance on both packs; log pack temperature in F11 and F12."
   },
   {
-   "value": 96.78,
+   "id": "THM-07",
+   "component": "avionics",
+   "discipline": "thermal",
+   "claim": "Flight controller in the closed pod bay reaches 60.3 C (FEA) / 56.0 C (lumped) at the end of a 760 s mission at 25 C, below the 85 C STM32F405 rating. Its steady state (89.7 C) would pass 85 C after about 45-51 min powered (EST), so ground time with the FC powered must be limited.",
+   "value": 60.3001,
    "units": "deg C",
    "equations": [
-    "lumped, Q 3.5 W, h 5 W/m2K"
+    "T(t) = T_inf + (T0 - T_inf) exp(-t / tau)",
+    "T_inf = T_amb + Q / (h A)"
    ],
    "assumptions": [
-    "3.5 W EST",
-    "h 5 EST",
-    "c_p 900 J/kgK EST (audit)"
+    "FC heat 2.0 W EST (MCU, OSD, 5 V and servo BEC losses; thermal_inputs.json)",
+    "bay h 5 W/m2K EST (natural convection)",
+    "c_p 900 J/kgK EST",
+    "limit 85 C: STM32F405RGT6 ambient rating (https://hken.rs-online.com/web/p/microcontrollers/7468217, checked 2026-11-02); CoreWing publishes no board rating (—)"
    ],
    "inputs": {
-    "A_m2": 0.00618,
+    "Q_W": 2.0,
+    "h": 5.0,
+    "A_m2": 0.006184,
     "C_J_per_K": 36.0
    },
    "tool": "SOLIDWORKS transient thermal (pod)",
    "evidence": [
     {
-     "file": "analysis/thermal/thermal_results.json",
-     "what": "Flight controller mission peak 96.8, limit None, status \"—\""
+     "file": "cad/sim/thermal/results.txt",
+     "what": "pod_mission_max_FC 60.30"
+    },
+    {
+     "file": "analysis/thermal/thermal_inputs.json",
+     "what": "loads.fc_W 2.0, limits.fc_C 85"
     }
    ],
-   "ran_evidence": "cad/sim/thermal/*.LOG written 2026-10-27 03:04-11:33 (lift unit 35,056 el, pod 119,514 el, pusher 51,899 el, motor-only 7,731 el); .CWR/.HTQ/.P42 present; cad/sim/thermal/results.txt generated 2026-10-27 03:03; thermal_results.json 2026-10-27T11:38. Not re-run.",
+   "ran_evidence": "cad/sim/thermal/*.LOG (17 studies) written 2026-11-02 01:32-03:22 by cad/Thermal.exe: lift unit 35,056 elements (steady, 120 s hover, 5 mission phases), pod 140,007 (5 phases), pusher 51,899 (steady + 600 s cruise), motor-only 7,731 (3 studies); cad/sim/thermal/results.txt generated 2026-11-02 01:31; analysis/thermal/thermal_results.json 2026-11-02T04:33, design ambient 25 C. Not re-run by this audit.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines THM-07 and THM-07b must print PASS (both <= 85 C).",
+    "A = 2 (52 x 32 + 52 x 17 + 32 x 17) mm^2 = 0.006184 m^2; C = 0.040 kg x 900 = 36 J/K; tau = 1164 s.",
+    "T_inf = 25 + 2.0 / (5 x 0.006184) = 89.7 C; T(760) = 89.7 - 64.7 exp(-760 / 1164) = 56.0 C.",
+    "Time to 85 C = -tau ln(1 - 60 / 64.7) = 3057 s."
+   ],
    "reproduced": {
     "done": true,
-    "how": "lumped FC box, 760 s",
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines THM-07 and THM-07b must print PASS (both <= 85 C). (2) A = 2 (52 x 32 + 52 x 17 + 32 x 17) mm^2 = 0.006184 m^2; C = 0.040 kg x 900 = 36 J/K; tau = 1164 s. (3) T_inf = 25 + 2.0 / (5 x 0.006184) = 89.7 C; T(760) = 89.7 - 64.7 exp(-760 / 1164) = 56.0 C. (4) Time to 85 C = -tau ln(1 - 60 / 64.7) = 3057 s.",
     "matches": true
    },
    "independent_check": {
-    "method": "lumped capacitance",
-    "value": 89.26,
-    "repo_value": 96.78,
-    "delta_pct": 13.84,
+    "method": "lumped capacitance, must stay <= 85 C",
+    "value": 56.008,
+    "repo_value": 60.3001,
+    "delta_pct": -7.12,
     "script": "analysis/validation/check_struct.py#THM-07"
    },
-   "limitations": [
-    "FC power and bay h are estimates."
-   ],
-   "next_step": "Get the FC operating range; add a bay vent or move the UBEC; G03 temperature check.",
-   "id": "THM-07",
-   "component": "avionics",
-   "discipline": "thermal",
-   "claim": "Flight controller in the closed pod bay reaches 96.8 C at mission end (no limit stated).",
    "status": "Partially Verified",
-   "status_reason": "Hand gives 89 C (FEA within 14 % of the rise). The finding is unresolved: ~90-97 C on the FC with no limit, no mitigation and no review flag. Likely over the electronics' rating (CoreWing limit —)."
+   "status_reason": "FEA and hand both sit 25-29 K under the rating (they differ by 14 % of the rise, FEA higher). FC power, bay h and c_p are estimates, and the steady bound exceeds the rating, so total powered time matters.",
+   "limitations": [
+    "A long powered wait on the ground (no cooling flow) is not in the mission model."
+   ],
+   "next_step": "G03 / E09: log the FC temperature (ArduPilot reports the MCU temperature) through a 30 min powered soak."
   },
   {
-   "value": 80.37,
+   "id": "THM-08",
+   "component": "cruise_propulsion",
+   "discipline": "thermal",
+   "claim": "Pusher motor in the PA6-CF cup at the 25 C design ambient: 76.0 C after 600 s cruise and 77.3 C in steady state, both below the 80 C EST limit; a fully exposed can (lower bound) gives 67.4 C. The cup floor reaches 76.1 C against the PA6-CF HDT of 173 C.",
+   "value": 76.0457,
    "units": "deg C",
    "equations": [
-    "lumped exposed can (lower bound)"
+    "lumped exposed can (lower bound)",
+    "T(t) = T_inf + (T0 - T_inf) exp(-t / tau)"
    ],
    "assumptions": [
-    "loss 29.5 W = 15 % x 75 % of P_cruise",
+    "loss 33.2 W EST (thermal_inputs.json loads.pusher_motor_W)",
     "h 92.5 flat plate EST"
    ],
    "inputs": {
-    "Q_W": 29.52,
-    "h": 92.5
+    "Q_W": 33.232,
+    "h": 92.517
    },
    "tool": "SOLIDWORKS steady + transient thermal (pusher)",
    "evidence": [
     {
      "file": "cad/sim/thermal/results.txt",
-     "what": "pusher_endcruise_Motor 80.37, pusher_steady_Motor 81.44, lift_steady_Mount 168.5"
+     "what": "pusher_endcruise_Motor 76.05, pusher_steady_Motor 77.25, pusher_endcruise_CupFloor 76.07"
     }
    ],
-   "ran_evidence": "cad/sim/thermal/*.LOG written 2026-10-27 03:04-11:33 (lift unit 35,056 el, pod 119,514 el, pusher 51,899 el, motor-only 7,731 el); .CWR/.HTQ/.P42 present; cad/sim/thermal/results.txt generated 2026-10-27 03:03; thermal_results.json 2026-10-27T11:38. Not re-run.",
+   "ran_evidence": "cad/sim/thermal/*.LOG (17 studies) written 2026-11-02 01:32-03:22 by cad/Thermal.exe: lift unit 35,056 elements (steady, 120 s hover, 5 mission phases), pod 140,007 (5 phases), pusher 51,899 (steady + 600 s cruise), motor-only 7,731 (3 studies); cad/sim/thermal/results.txt generated 2026-11-02 01:31; analysis/thermal/thermal_results.json 2026-11-02T04:33, design ambient 25 C. Not re-run by this audit.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines THM-08 (FEA >= exposed lower bound) and THM-08b (steady <= 80 C) must print PASS.",
+    "tau = 77.55 / (92.52 x 0.008445) = 99 s; T_inf = 25 + 33.23 / (92.52 x 0.008445) = 67.5 C; T(600) = 67.4 C (exposed can).",
+    "The cup shelters the can, so the FEA must be warmer: 76.0 C >= 67.4 C; steady 77.3 C <= 80 C."
+   ],
    "reproduced": {
     "done": true,
-    "how": "lumped fully-exposed can (no cup) as a lower bound",
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines THM-08 (FEA >= exposed lower bound) and THM-08b (steady <= 80 C) must print PASS. (2) tau = 77.55 / (92.52 x 0.008445) = 99 s; T_inf = 25 + 33.23 / (92.52 x 0.008445) = 67.5 C; T(600) = 67.4 C (exposed can). (3) The cup shelters the can, so the FEA must be warmer: 76.0 C >= 67.4 C; steady 77.3 C <= 80 C.",
     "matches": true
    },
    "independent_check": {
-    "method": "lumped, all surfaces at h 92.5",
-    "value": 72.69,
-    "repo_value": 80.37,
-    "delta_pct": 20.36,
+    "method": "lumped exposed can (lower bound)",
+    "value": 67.434,
+    "repo_value": 76.0457,
+    "delta_pct": -11.32,
     "script": "analysis/validation/check_struct.py#THM-08"
    },
-   "limitations": [
-    "Loss split and h are estimates."
-   ],
-   "next_step": "F08 measurement; specify re-torque/inspection of motor screws after hot flights.",
-   "id": "THM-08",
-   "component": "cruise_propulsion",
-   "discipline": "thermal",
-   "claim": "Pusher motor in the PA6-CF cup: 80.4 C after 600 s cruise, over the 80 C limit (EST); PA6-CF parts stay under HDT 173 C.",
    "status": "Partially Verified",
-   "status_reason": "Hand lower bound 72.7 C is consistent with the cup sheltering the can (+20 % rise). The repo already rates this a fail and moves the decision to a test. PA6-CF HDT 173 C is at 1.8 MPa while the motor screws put ~41 MPa on the floor (hardware-spec), so creep at 75-80 C is not covered by HDT."
+   "status_reason": "Consistent with its lower bound and below the limit even in steady state (2.7 K margin), but the loss split, h and the 80 C limit are estimates.",
+   "limitations": [
+    "PA6-CF HDT 173 C is at 1.8 MPa while the motor screws put about 41 MPa on the floor (hardware-spec), so creep at 75-80 C is not covered by HDT (C04)."
+   ],
+   "next_step": "C09 pusher thrust curve with a thermocouple; F08 cruise temperature; C04 floor relaxation."
   },
   {
-   "value": 0.84,
-   "units": "% chord drift",
-   "equations": [
-    "delta = (params - results)/results"
-   ],
-   "assumptions": [],
-   "inputs": {
-    "chord_m": [
-     0.284176,
-     0.28180021
-    ],
-    "mtow_kg": [
-     6.551516,
-     6.537558
-    ],
-    "feaBoomL_m": [
-     0.461982,
-     0.46034214
-    ],
-    "feaRootMomentTarget_Nm": [
-     73.62327,
-     73.466417
-    ],
-    "thermQ_W": [
-     45.786146,
-     45.624516
-    ]
-   },
-   "tool": "cad/params.mjs",
-   "evidence": [
-    {
-     "file": "cad/params.txt",
-     "what": "chord 0.284176, mtow 6.5515 (last changed in commit 9936e71, 2026-10-25)"
-    },
-    {
-     "file": "analysis/results.json",
-     "what": "generated 2026-10-27 (commit 2f959fd, 18 m/s re-run): chord 0.28180, m 6.5376"
-    }
-   ],
-   "ran_evidence": "git log: results.json changed in 2f959fd (2026-10-27); params.txt, cad/sim/results.txt, drawings not regenerated since 2026-10-25.",
-   "reproduced": {
-    "done": true,
-    "how": "compared keys",
-    "matches": false
-   },
-   "independent_check": {
-    "method": "key-by-key comparison",
-    "value": 0.28180021,
-    "repo_value": 0.284176,
-    "delta_pct": 0.84,
-    "script": "analysis/validation/check_struct.py#MFG-01"
-   },
-   "limitations": [],
-   "next_step": "Run build.ps1 (params.mjs -> BuildVtol -> Drawings -> Sim) and bump CAD to rev E / drawings to rev F, or freeze the sizing.",
    "id": "MFG-01",
    "component": "aircraft",
    "discipline": "cad",
-   "claim": "\"Everything here is generated from analysis/results.json ... re-run the build and the CAD follows\" (CAD rev D, drawings rev E, FEA all on the current sizing).",
-   "status": "Failed",
-   "status_reason": "CAD, FEA inputs and the drawing set are one sizing behind (chord +0.84 %, MTOW +0.21 %, boom arm +0.36 %, root moment +0.21 %). Small, conservative, but the \"CAD follows\" claim is false today and the drawings carry a 284.2 mm chord."
-  },
-  {
-   "value": 84,
-   "units": "non-insert interferences",
+   "claim": "Analysis inputs follow the frozen design exactly: cad/params.txt equals analysis/results.json (generated 2026-11-01) on chord, MTOW, boom arm, root moment, tip mass, tip force and motor heat (max difference 0.000 %). The CAD model and drawings were built one iteration earlier (cad/params.built.txt): global sizing values within 0.37 %, tail chord -0.60 % (-0.75 mm); battery tray and canopy stations follow the CG target and moved 11 mm.",
+   "value": 0.37,
+   "units": "% max |CAD as built - results.json| (global sizing values)",
    "equations": [
-    "screw overrun = V / (pi d^2/4)"
+    "delta = (x_file - x_results) / x_results"
    ],
    "assumptions": [
-    "interference volume sits on the screw axis"
+    "tolerance 0.5 % on the global sizing values (task brief)",
+    "thermQ compared with 0.2 x P_hover_per_motor"
    ],
    "inputs": {
-    "F06xSpar_Collar_mm3": 7.01,
-    "F11xControl_Horn_mm3": 8.41,
-    "F07xPod_mm3": 4.75
+    "chord": [
+     0.32194055,
+     0.321941,
+     0.320765
+    ],
+    "mtow": [
+     7.4355998,
+     7.4356,
+     7.408452
+    ],
+    "feaBoomL": [
+     0.48803898,
+     0.488039,
+     0.487228
+    ],
+    "feaRootMomentTarget": [
+     83.558246,
+     83.558246,
+     83.253174
+    ],
+    "feaTipMass": [
+     0.3255,
+     0.3255,
+     0.3255
+    ],
+    "feaTipForce": [
+     30.694814,
+     30.694814,
+     30.694814
+    ],
+    "thermQ": [
+     56.566146,
+     56.566146,
+     56.219036
+    ]
    },
-   "tool": "SOLIDWORKS InterferenceDetectionMgr (BuildVtol.cs)",
+   "tool": "cad/params.mjs -> params.txt; cad/BuildVtol.cs -> params.built.txt",
    "evidence": [
     {
-     "file": "cad/verification.txt",
-     "what": "interference list"
+     "file": "cad/params.txt",
+     "what": "generated 2026-11-01 22:15 from results.json"
+    },
+    {
+     "file": "cad/params.built.txt",
+     "what": "copy of params.txt the CAD was built from (2026-11-01 21:38)"
+    },
+    {
+     "file": "analysis/results.json",
+     "what": "generated 2026-11-01, MTOW 7.4356 kg, chord 0.32194 m"
     }
    ],
-   "ran_evidence": "cad/verification.txt generated 2026-10-25 13:59 by BuildVtol.cs.",
+   "ran_evidence": "cad/verification.txt written by cad/BuildVtol.cs 2026-11-01 21:38 (SOLIDWORKS 33.4.0) from cad/params.built.txt; drawings cad/drawings/* 2026-11-01 22:00.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines MFG-01 and MFG-01b print PASS; MFG-01c (tail chord vs 0.5 %) prints FAIL, which is why this stays Partially Verified.",
+    "Open analysis/results.json concepts.C0.sized.chord = 0.32194 and cad/params.txt:6 = 0.321941 (0.000 %).",
+    "Open cad/params.built.txt:6 = 0.320765: (0.320765 - 0.32194) / 0.32194 = -0.37 %. Same for mtow 7.408452 vs 7.4356 (-0.37 %).",
+    "Tail chord: cad/params.built.txt:33 hC 0.124026 vs cad/params.txt:33 0.124771 = -0.60 % (0.75 mm).",
+    "checks_struct.json -> checks.MFG-01.params_vs_built_all_differences lists all 54 of 151 values that differ."
+   ],
    "reproduced": {
     "done": true,
-    "how": "interpreted individual entries",
-    "matches": false
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines MFG-01 and MFG-01b print PASS; MFG-01c (tail chord vs 0.5 %) prints FAIL, which is why this stays Partially Verified. (2) Open analysis/results.json concepts.C0.sized.chord = 0.32194 and cad/params.txt:6 = 0.321941 (0.000 %). (3) Open cad/params.built.txt:6 = 0.320765: (0.320765 - 0.32194) / 0.32194 = -0.37 %. Same for mtow 7.408452 vs 7.4356 (-0.37 %). (4) Tail chord: cad/params.built.txt:33 hC 0.124026 vs cad/params.txt:33 0.124771 = -0.60 % (0.75 mm). (5) checks_struct.json -> checks.MFG-01.params_vs_built_all_differences lists all 54 of 151 values that differ.",
+    "matches": true
    },
    "independent_check": {
-    "method": "per-entry disposition",
-    "value": 0.99,
-    "repo_value": 0,
+    "method": "key-by-key comparison of params.built.txt with results.json, max |delta| % (tolerance 0.5 %; tail chord 0.60 %)",
+    "value": 0.37,
+    "repo_value": null,
     "delta_pct": null,
-    "script": "analysis/validation/check_struct.py#MFG-INTF"
+    "script": "analysis/validation/check_struct.py#MFG-01"
    },
+   "status": "Partially Verified",
+   "status_reason": "Root cause of the old failure: params.txt, the FEA and the drawings were one sizing behind results.json. params.txt and both FEA studies have since been regenerated on the frozen design (exact match). The CAD/drawing set is the only lag: global sizing within 0.37 %, but the tail chord is 0.60 % (0.75 mm) off and 4 derived layout values exceed 0.5 %, so the \"CAD follows\" claim needs one more BuildVtol + Drawings run.",
    "limitations": [
-    "No per-interference disposition is recorded in the repo."
+    "Drawings DBF-DRW-001 rev E carry the as-built chord 320.8 mm; the foam templates and docs read params.txt (321.9 mm).",
+    "docs/build/BUILD-MANUAL.md WP4 still quotes the old 284.176 mm chord (another agent is updating docs)."
    ],
-   "next_step": "Deepen the spar-collar insert holes by >= 1.5 mm (or use M3 x 30), model the horn holes, enlarge N01 pockets, fix the tail-ring cut; target 0 non-insert interferences.",
+   "next_step": "Re-run cad/build.ps1 (BuildVtol -> Drawings -> Sim) on the current params.txt; expected effect: params.built.txt = params.txt, MFG-01c passes, canopy/pod interference re-checked (MFG-02).",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Failed",
+     "to": "Partially Verified",
+     "why": "Analysis inputs now match results.json exactly; the remaining CAD lag is <= 0.6 % (tail chord) and needs a rebuild, not a design change."
+    }
+   ]
+  },
+  {
    "id": "MFG-02",
    "component": "aircraft",
    "discipline": "cad",
-   "claim": "Interference check: 277 interferences = 193 intended insert press fits + 84 slivers (0.45 cm3) - no real clashes.",
+   "claim": "Interference check: 304 interferences = 189 intended heat-set insert press fits + 115 others (646.9 mm3). Audit disposition of the 115: 83 model artefacts (264.2 mm3: horn screws through undrilled surfaces, nylock-pocket slivers, foam pockets, screw tips) and 32 not explained that need a CAD review (382.7 mm3): Fuselage_Pod x Canopy (22 x, 154 mm3); Control_Horn x Pushrod_Rudder (3 x, 105 mm3); Wing_Panel_L x Spar_Tube (2 x, 58 mm3); Wing_Panel_R x Spar_Tube (2 x, 57 mm3); Boom_Clamp_F_Upper x Spar_Collar (2 x, 8 mm3); F11_M2x14_PAN x Pushrod_Rudder (1 x, 2 mm3). The rev D spar-collar screw overrun is gone.",
+   "value": 115,
+   "units": "non-insert interferences",
+   "equations": [
+    "screw overrun = V / (pi d^2 / 4)"
+   ],
+   "assumptions": [
+    "disposition by part-pair rule (audit judgement, listed in check_struct.py RULES)"
+   ],
+   "inputs": {
+    "header": {
+     "total": 304,
+     "inserts": 189,
+     "insert_mm3": 1422.2,
+     "other": 115,
+     "other_mm3": 646.9
+    }
+   },
+   "tool": "SOLIDWORKS InterferenceDetectionMgr (cad/BuildVtol.cs)",
+   "evidence": [
+    {
+     "file": "cad/verification.txt",
+     "what": "Interference detection section"
+    }
+   ],
+   "ran_evidence": "cad/verification.txt written by cad/BuildVtol.cs 2026-11-01 21:38 (SOLIDWORKS 33.4.0) from cad/params.built.txt; drawings cad/drawings/* 2026-11-01 22:00.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line MFG-02 must print PASS (115 items read = header count).",
+    "Open cad/verification.txt, section \"## Interference detection\": header line \"304 interferences: 189 are heat-set inserts ..., 115 other (total 646.9 mm3)\".",
+    "checks_struct.json -> checks.MFG-INTF.by_pair groups the 115 lines by part pair, with category and reason.",
+    "Largest: Control_Horn-1 x Pushrod_Rudder-1 100.99 mm3 (a 1.5 mm wire through a horn would be < 10 mm3, so this is a real placement error in the model)."
+   ],
+   "reproduced": {
+    "done": true,
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line MFG-02 must print PASS (115 items read = header count). (2) Open cad/verification.txt, section \"## Interference detection\": header line \"304 interferences: 189 are heat-set inserts ..., 115 other (total 646.9 mm3)\". (3) checks_struct.json -> checks.MFG-INTF.by_pair groups the 115 lines by part pair, with category and reason. (4) Largest: Control_Horn-1 x Pushrod_Rudder-1 100.99 mm3 (a 1.5 mm wire through a horn would be < 10 mm3, so this is a real placement error in the model).",
+    "matches": true
+   },
+   "independent_check": {
+    "method": "per-entry disposition (count of unexplained entries)",
+    "value": 32.0,
+    "repo_value": 0.0,
+    "delta_pct": null,
+    "script": "analysis/validation/check_struct.py#MFG-INTF"
+   },
    "status": "Partially Verified",
-   "status_reason": "Not all are slivers: 4 x F06 M3 x 35 overrun the spar-collar insert holes by ~1.0 mm (the screw would bottom before clamping the boom), 10 x F11 horn screws pass ~2.7 mm through un-holed horns/surfaces (holes not modelled), nylock pockets in the gear clamps are undersize (0.48 mm3 each), and 1 cut \"tail ring radial hole bottom\" removed nothing."
+   "status_reason": "Every entry now has a disposition, but 32 entries (383 mm3) are unexplained and could be real clashes (rudder pushrod/horn, canopy/pod, spar socket/foam, clamp/spar collar); \"no real clashes\" is not yet shown.",
+   "limitations": [
+    "WARNING in verification.txt: cut \"tail ring radial hole bottom\" removed nothing (still present)."
+   ],
+   "next_step": "Fix the rudder horn/pushrod placement and re-check the other three groups after the rebuild (MFG-01); target 0 unexplained."
   },
   {
-   "value": 14,
+   "id": "MFG-03",
+   "component": "aircraft",
+   "discipline": "cad",
+   "claim": "Drawing DBF-DRW-001 rev E (9 sheets, generated from the CAD by cad/Drawings.cs) carries fits and tolerances from params.txt and hardware.json; its layout self-check logs 22 label/view overlaps, and nobody has checked or approved it (CheckedBy \"—\").",
+   "value": 22,
    "units": "overlaps logged",
    "equations": [],
    "assumptions": [],
@@ -1237,153 +1585,190 @@
    "evidence": [
     {
      "file": "cad/drawings/layout-check.txt",
-     "what": "14 OVERLAP lines: sheet 1 revision table over the plan view; sheet 4 six (saddle plan/section, root section/pillar); sheet 7 five (gear socket dims over the leg); sheet 9 two"
+     "what": "22 OVERLAP lines on sheets 1, 4, 7, 9"
     },
     {
-     "file": "cad/drawings/DBF-DRW-001_sheet4.png",
-     "what": "CHECKED \"—\", no approval; foam features (spar station 85.3, boom station 353.7) carry only the printed-part tolerance rule"
+     "file": "cad/Drawings.cs",
+     "what": "REV \"E\", put(\"CheckedBy\", \"—\")"
     }
    ],
-   "ran_evidence": "Drawing files written 2026-10-25 14:46.",
+   "ran_evidence": "Drawing files written 2026-11-01 22:00.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). checks_struct.json -> checks.MFG-03 gives the overlap count, revision and checker.",
+    "Open cad/drawings/layout-check.txt and count the lines starting \"  OVERLAP\" (22).",
+    "Open cad/drawings/DBF-DRW-001.PDF: the title block CHECKED field is \"—\"."
+   ],
    "reproduced": {
     "done": true,
-    "how": "read layout-check.txt and sheet 4",
-    "matches": false
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). checks_struct.json -> checks.MFG-03 gives the overlap count, revision and checker. (2) Open cad/drawings/layout-check.txt and count the lines starting \"  OVERLAP\" (22). (3) Open cad/drawings/DBF-DRW-001.PDF: the title block CHECKED field is \"—\".",
+    "matches": true
    },
    "independent_check": {
     "method": "count OVERLAP records",
-    "value": 14,
-    "repo_value": 0,
+    "value": 22.0,
+    "repo_value": 0.0,
     "delta_pct": null,
-    "script": "analysis/validation/check_struct.py#MFG-01"
+    "script": "analysis/validation/check_struct.py#MFG-03"
    },
-   "limitations": [],
-   "next_step": "Clear overlaps, add a foam-part tolerance row (e.g. +-1 mm) and a coaxiality callout on the saddle bore / socket axis, get a human checker signature.",
-   "id": "MFG-03",
-   "component": "aircraft",
-   "discipline": "cad",
-   "claim": "Drawing DBF-DRW-001 rev E: zoned layout with a self-check of overlaps; dimensions, tolerances and fits read from params.txt.",
    "status": "Partially Verified",
-   "status_reason": "Drawings exist and carry fits, but the self-check logs 14 unresolved overlaps, nobody has checked/approved the set, the general-tolerance table has no class for hot-wire foam parts, and joiner-bore coaxiality between saddle and sockets is not toleranced."
+   "status_reason": "The drawings exist and carry the fits, but 22 overlaps are unresolved, the set has not been checked by a person, there is no tolerance class for hot-wired foam parts, and joiner-bore coaxiality between the saddle and the sockets is not toleranced.",
+   "limitations": [
+    "Drawings show the as-built (one-iteration-old) geometry (MFG-01)."
+   ],
+   "next_step": "After the rebuild: clear overlaps, add a foam tolerance row and a saddle/socket coaxiality callout, have one team member check and sign."
   },
   {
-   "value": 4,
-   "units": "internal contradictions found",
-   "equations": [],
-   "assumptions": [],
-   "inputs": {},
-   "tool": "manual document",
-   "evidence": [
-    {
-     "file": "docs/research/hardware-spec.md",
-     "what": "J11 \"Joiner bonded into the saddle root-plate bores with epoxy\" vs FT06 \"SLIP FIT, NOT BONDED\""
-    },
-    {
-     "file": "docs/research/hardware-spec.md",
-     "what": "J07 F05 \"M3 x 25\" vs schedule/CAD M3 x 30"
-    },
-    {
-     "file": "docs/research/hardware-spec.md",
-     "what": "J10 pillar 21.8 mm, spot-face 1.0, pocket 8.0 vs params rev D 26.0 / 2.0 / 9.6"
-    },
-    {
-     "file": "docs/research/hardware-spec.md",
-     "what": "J05 load check on rev B/C coordinates (114 N vs 102.9 N now)"
-    }
-   ],
-   "ran_evidence": "—",
-   "reproduced": {
-    "done": true,
-    "how": "cross-read spec vs params.txt and hardware.json",
-    "matches": false
-   },
-   "independent_check": {
-    "method": "document cross-check",
-    "value": null,
-    "repo_value": null,
-    "delta_pct": null,
-    "script": "analysis/validation/check_struct.py#STR-10"
-   },
-   "limitations": [
-    "Later \"CAD implementation notes\" in the same file partly correct J10, so the reader has to know which paragraph wins."
-   ],
-   "next_step": "Rewrite J05, J07, J10, J11 from params.txt; add a revision line.",
    "id": "MFG-04",
    "component": "aircraft",
    "discipline": "manufacturing",
-   "claim": "docs/research/hardware-spec.md is the single fastener/joint spec (hardware.json is its twin).",
-   "status": "Failed",
-   "status_reason": "The joint sections the builders read contradict the fits table and the CAD in four places; J11 in particular tells the team to glue in a part that must slide out for transport."
+   "claim": "The fastener order (docs/research/hardware-spec.md section 6 and the BOM line bought from it) matches cad/hardware.json and cad/params.txt: every Bolt Depot part number orders the thread size and length the joints need.",
+   "value": 0,
+   "units": "contradictions found (automated check, 14 order rows)",
+   "equations": [
+    "for each Bolt Depot fastener in hardware.json: order row with its part number contains 'M<d> × <L>'",
+    "F09 length = params wingBoltL; F09 nut pocket = params pillarNutDepth"
+   ],
+   "assumptions": [
+    "the as-built CAD is checked separately (MFG-01c: the CAD rebuild lags params.txt)"
+   ],
+   "inputs": {
+    "F09": "M5 x 25, Bolt Depot 6636, pocket 11.0 mm",
+    "F05": "M3 x 30, Bolt Depot 6385",
+    "order_total_usd": 22.38
+   },
+   "tool": "manual document cross-check (audit)",
+   "evidence": [
+    {
+     "file": "analysis/validation/check_struct.py",
+     "what": "MFG-04 automated cross-check"
+    },
+    {
+     "file": "docs/research/hardware-spec.md",
+     "what": "section 6 order table: BD-9 6636 M5 x 25, BD-5 6385 M3 x 30, subtotal $22.38"
+    },
+    {
+     "file": "cad/hardware.json",
+     "what": "F09 part_no 6636, pocket 11.0; F05 part_no 6385 (verified 2026-11-02)"
+    },
+    {
+     "file": "docs/purchasing/C0_BOM.csv",
+     "what": "line 43: $22.38 per HS section 6 (regenerated by analysis/export_bom.mjs)"
+    }
+   ],
+   "ran_evidence": "check_struct.py run 2026-11-02: 0 contradictions on 14 rows; mutation test (BD-9 changed back to M5 x 20) is caught.",
+   "check_yourself": [
+    "Run: py analysis/validation/check_struct.py and find the line 'MFG-04 order table / hardware.json / params.txt contradictions (count)': expected 0, PASS. analysis/validation/checks_struct.json MFG-04 lists rows_checked 14 and an empty contradictions list.",
+    "By hand: open cad/hardware.json, F09 (wing bolt): M5x0.8, length_mm 25, part_no 6636, nut pocket_depth_mm 11.0. Open cad/params.txt: wingBoltL=0.025000 and pillarNutDepth=0.011000. They agree.",
+    "Open docs/research/hardware-spec.md section 6 and find row BD-9: 'Bolt Depot 6636 M5 × 25 button'. Row BD-5: 'Bolt Depot 6385 M3 × 30 socket cap' (F05 is M3 x 30 in hardware.json).",
+    "Check the vendor pages (checked 2026-11-02): https://boltdepot.com/Product-Details?product=6636 is M5 x 0.8 x 25 mm button head, 18-8 stainless, $0.21; https://www.boltdepot.com/Product-Details.aspx?product=6385 is M3 x 0.5 x 30 mm socket cap, 18-8, $0.10.",
+    "Why it matters: with the 11.0 mm nut pocket an M5 x 20 ends 1.49 mm short of the nylock (check_struct.py MFG-STACKS J10_protrusion_if_M5x20); the M5 x 25 ends 3.5 mm past it (MFG-09)."
+   ],
+   "reproduced": {
+    "done": true,
+    "how": "(1) Run: py analysis/validation/check_struct.py and find the line 'MFG-04 order table / hardware.json / params.txt contradictions (count)': expected 0, PASS. analysis/validation/checks_struct.json MFG-04 lists rows_checked 14 and an empty contradictions list. (2) By hand: open cad/hardware.json, F09 (wing bolt): M5x0.8, length_mm 25, part_no 6636, nut pocket_depth_mm 11.0. Open cad/params.txt: wingBoltL=0.025000 and pillarNutDepth=0.011000. They agree. (3) Open docs/research/hardware-spec.md section 6 and find row BD-9: 'Bolt Depot 6636 M5 × 25 button'. Row BD-5: 'Bolt Depot 6385 M3 × 30 socket cap' (F05 is M3 x 30 in hardware.json). (4) Check the vendor pages (checked 2026-11-02): https://boltdepot.com/Product-Details?product=6636 is M5 x 0.8 x 25 mm button head, 18-8 stainless, $0.21; https://www.boltdepot.com/Product-Details.aspx?product=6385 is M3 x 0.5 x 30 mm socket cap, 18-8, $0.10. (5) Why it matters: with the 11.0 mm nut pocket an M5 x 20 ends 1.49 mm short of the nylock (check_struct.py MFG-STACKS J10_protrusion_if_M5x20); the M5 x 25 ends 3.5 mm past it (MFG-09).",
+    "matches": true
+   },
+   "independent_check": {
+    "method": "automated row-by-row comparison against hardware.json and params.txt, plus the vendor pages",
+    "value": 0,
+    "repo_value": 0,
+    "delta_pct": null,
+    "script": "analysis/validation/check_struct.py#MFG-04"
+   },
+   "status": "Verified",
+   "status_reason": "0 contradictions across the 14 Bolt Depot order rows, hardware.json F09/F05 and params.txt. Root cause of the failure: the order table still bought the rev D M5 x 20 wing bolt (Bolt Depot 6635) and an M3 x 25 for the M3 x 30 gear-clamp screw; both rows now order the rev E sizes (6636, 6385; +$0.34) and the check is automated so it cannot drift silently again.",
+   "limitations": [
+    "the as-built CAD and drawings still need the rebuild (MFG-01c)",
+    "Bolt Depot prices change; re-check before ordering"
+   ],
+   "next_step": "—",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Failed",
+     "to": "Verified",
+     "why": "order rows BD-9 and BD-5 corrected and the cross-check automated"
+    }
+   ]
   },
   {
+   "id": "MFG-05",
+   "component": "wing",
+   "discipline": "manufacturing",
+   "claim": "Joiner is a slip fit in the spar sockets (FT01): diametral clearance 0.229 mm nominal, -0.076 / +0.534 mm worst case; measure on receipt and lap (tight) or shim (> 0.30 mm).",
    "value": 0.229,
    "units": "mm nominal diametral clearance",
    "equations": [
+    "c = ID_socket - OD_joiner",
     "WC = sum |t_i|",
     "RSS = sqrt(sum t_i^2)"
    ],
    "assumptions": [
-    "OD +-0.004 in, wall +-0.002 in (Zoro listing per hardware.json, EST for 0.875 and 0.058)"
+    "OD +-0.004 in, wall +-0.002 in (Zoro listing per hardware.json; EST for the 0.875 in and 0.058 in wall)"
    ],
    "inputs": {
     "socket_ID": "22.454 +-0.203",
     "joiner_OD": "22.225 +-0.102"
    },
-   "tool": "hardware.json fits",
+   "tool": "cad/hardware.json fits",
    "evidence": [
     {
      "file": "cad/hardware.json",
-     "what": "FT01 min -0.076, max 0.534"
+     "what": "FT01 min -0.076, max 0.534, nominal 0.229"
     }
    ],
    "ran_evidence": "Arithmetic.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line MFG-05 must print PASS.",
+    "Nominal: cad/params.txt:13 sparID 0.022454 - joinOD 0.022225 = 0.229 mm.",
+    "WC: 0.229 +- (0.203 + 0.102) = -0.076 / +0.534 mm (= hardware.json FT01).",
+    "Independent split of the socket ID into OD and 2 walls: RSS band 0.053 to 0.405 mm."
+   ],
    "reproduced": {
     "done": true,
-    "how": "WC and RSS stacks",
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line MFG-05 must print PASS. (2) Nominal: cad/params.txt:13 sparID 0.022454 - joinOD 0.022225 = 0.229 mm. (3) WC: 0.229 +- (0.203 + 0.102) = -0.076 / +0.534 mm (= hardware.json FT01). (4) Independent split of the socket ID into OD and 2 walls: RSS band 0.053 to 0.405 mm.",
     "matches": true
    },
    "independent_check": {
-    "method": "RSS with the ID split into OD and 2 x wall",
-    "value": 0.053,
-    "repo_value": -0.076,
-    "delta_pct": null,
+    "method": "stack with the socket ID split into OD and 2 x wall (RSS)",
+    "value": 0.5338,
+    "repo_value": 0.5339999999999956,
+    "delta_pct": -0.04,
     "script": "analysis/validation/check_struct.py#MFG-STACKS"
    },
+   "status": "Partially Verified",
+   "status_reason": "Stack reproduced exactly; a tight fit is unlikely (RSS lower end +0.05 mm) but the upper tail passes the 0.30 mm shim line. Tube tolerances for this size are EST, so the fit is a receipt measurement (C05/C17), not a design guarantee.",
    "limitations": [
     "Alcobra lists +-0.008 in OD (hardware.json): doubles the band."
    ],
-   "next_step": "M1 on receipt; buy the joiner and socket from the same lot.",
-   "id": "MFG-05",
-   "component": "wing",
-   "discipline": "manufacturing",
-   "claim": "Joiner is a slip fit in the spar sockets (FT01): -0.076 / +0.534 mm, measure on receipt and lap or shim.",
-   "status": "Partially Verified",
-   "status_reason": "WC reproduced exactly. RSS band 0.05-0.40 mm: a tight fit is unlikely but the upper tail exceeds the 0.30 mm shim threshold; worst-case free tip play ~2.0 mm (inside the 5 mm M1 limit). Relies on measure-and-fit, not on design."
+   "next_step": "C05 on receipt; C17 joiner slip fit; buy joiner and sockets from one lot."
   },
   {
-   "value": 0.451,
-   "units": "mm lateral misalignment at 300 mm engagement (WC)",
+   "id": "MFG-06",
+   "component": "wing",
+   "discipline": "manufacturing",
+   "claim": "Spar sockets bonded in hot-wired channels (FT05, 26.0 +-0.5 mm) can tilt up to 1.50 mrad (WC) while curing, more than the joiner's own 0.76 mrad free tilt in the socket. The panel then follows the joiner: up to 0.09 deg panel angle error, a 0.48 mm gap across the root face and 1.7 mm at the tip (WC). The joiner still slides in because the panel is free until J10 is tightened.",
+   "value": 1.503,
+   "units": "mrad worst-case socket tilt",
    "equations": [
     "theta = channel clearance / 800 mm",
-    "offset = theta x 300 mm"
+    "joiner tilt = FT01 clearance / 300 mm",
+    "gap = theta x chord",
+    "tip = theta x 1120 mm"
    ],
    "assumptions": [
     "socket may sit anywhere in the channel during cure",
     "root-face squareness —"
    ],
    "inputs": {
-    "channel_clear_max_mm": 1.2020000000000017,
-    "theta_wc_mrad": 1.5025000000000022,
-    "theta_rss_mrad": 1.3878724402261022,
-    "lateral_at_300_wc_mm": 0.45075000000000065,
-    "lateral_at_300_rss_mm": 0.41636173206783067,
-    "nominal_joiner_clearance_mm": 0.22899999999999565
+    "channel_clear_max_mm": 1.202,
+    "joiner_clearance_mm": 0.229
    },
-   "tool": "build manual WP4.7",
+   "tool": "tolerance stack (check_struct.py)",
    "evidence": [
     {
      "file": "docs/build/BUILD-MANUAL.md",
-     "what": "4.7: push the socket home, weight the panel flat; no joiner-through-saddle alignment jig"
+     "what": "4.7: push the socket home, weight the panel flat; no joiner-through-saddle alignment step"
     },
     {
      "file": "cad/hardware.json",
@@ -1391,75 +1776,91 @@
     }
    ],
    "ran_evidence": "Arithmetic.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). checks_struct.json -> checks.MFG-STACKS.socket_coax.",
+    "Channel clearance max = (26.0 + 0.5) - (25.4 - 0.102) = 1.202 mm; theta = 1.202 / 800 = 1.50 mrad.",
+    "Joiner tilt in its socket = 0.229 / 300 = 0.76 mrad < 1.50, so the panel must rotate: 1.50 mrad x 321.9 mm = 0.48 mm root-face gap; x 1120 mm = 1.7 mm at the tip."
+   ],
    "reproduced": {
     "done": true,
-    "how": "angular stack",
-    "matches": null
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). checks_struct.json -> checks.MFG-STACKS.socket_coax. (2) Channel clearance max = (26.0 + 0.5) - (25.4 - 0.102) = 1.202 mm; theta = 1.202 / 800 = 1.50 mrad. (3) Joiner tilt in its socket = 0.229 / 300 = 0.76 mrad < 1.50, so the panel must rotate: 1.50 mrad x 321.9 mm = 0.48 mm root-face gap; x 1120 mm = 1.7 mm at the tip.",
+    "matches": true
    },
    "independent_check": {
-    "method": "angular stack vs joiner clearance",
-    "value": 0.451,
-    "repo_value": null,
-    "delta_pct": null,
+    "method": "angular stack vs joiner clearance (RSS tilt)",
+    "value": 1.388,
+    "repo_value": 1.503,
+    "delta_pct": -7.65,
     "script": "analysis/validation/check_struct.py#MFG-STACKS"
    },
+   "status": "Partially Verified",
+   "status_reason": "Restated with the consequence computed: the effect is a sub-millimetre root gap and < 0.1 deg panel error, not binding. Still open: root-face squareness of the hot-wired cores (—) and the as-built result (C17).",
    "limitations": [
-    "Root-face squareness of hot-wired cores is not specified (—)."
+    "No step in BUILD-MANUAL 4.7 controls the socket axis."
    ],
-   "next_step": "Bond both sockets with the joiner installed through the saddle on a flat jig (or bond with a dummy joiner), then check the panel seats with a 0.1 mm feeler.",
-   "id": "MFG-06",
-   "component": "wing",
-   "discipline": "manufacturing",
-   "claim": "Spar sockets are bonded into hot-wired channels (FT05, 26.0 +-0.5 mm) and the joiner then slides through the saddle into both sockets.",
-   "status": "Unverified",
-   "status_reason": "Free socket tilt in the channel (up to 1.5 mrad) gives 0.45 mm WC / 0.42 mm RSS offset over the 300 mm engagement, about twice the 0.23 mm nominal clearance: the joiner can bind or the panel will not seat on the saddle. No step in the manual controls it."
+   "next_step": "BUILD-MANUAL 4.7: bond both sockets with the joiner installed through the saddle on a flat board; then C17 and a 0.1 mm feeler check at the root faces.",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Unverified",
+     "to": "Partially Verified",
+     "why": "Consequence now computed (0.48 mm root gap, 0.09 deg WC); as-built check C17 remains."
+    }
+   ]
   },
   {
-   "value": 0.2,
-   "units": "mm nominal clearance",
+   "id": "MFG-07",
+   "component": "booms",
+   "discipline": "manufacturing",
+   "claim": "Split clamps (bore 25.6 +-0.2 mm, 1.2 mm split gap) always grip the 1.000 in tube before the halves touch: worst-case clearance 0.502 mm, 0.70 mm short of the gap.",
+   "value": 0.502,
+   "units": "mm worst-case diametral clearance",
    "equations": [
-    "grip if clearance < split gap"
+    "c_max = (25.6 + 0.2) - (25.4 - 0.102)",
+    "grip if c_max < split gap"
    ],
    "assumptions": [
-    "FDM bore +-0.2 (EST)"
+    "FDM bore +-0.2 EST until C01"
    ],
    "inputs": {
     "bore": "25.6 +-0.2",
     "tube": "25.4 +-0.102",
     "gap": 1.2
    },
-   "tool": "hardware.json FT02",
+   "tool": "cad/hardware.json FT02",
    "evidence": [
     {
      "file": "cad/hardware.json",
-     "what": "FT02"
+     "what": "FT02 max clearance 0.502, split gap 1.2"
     }
    ],
    "ran_evidence": "Arithmetic.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line MFG-07 must print PASS.",
+    "c_max = 25.8 - 25.298 = 0.502 mm < 1.2 mm gap."
+   ],
    "reproduced": {
     "done": true,
-    "how": "WC/RSS stack",
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line MFG-07 must print PASS. (2) c_max = 25.8 - 25.298 = 0.502 mm < 1.2 mm gap.",
     "matches": true
    },
    "independent_check": {
-    "method": "WC stack",
-    "value": 0.502,
+    "method": "worst-case stack",
+    "value": 0.5016,
     "repo_value": 0.502,
-    "delta_pct": 0.0,
+    "delta_pct": -0.08,
     "script": "analysis/validation/check_struct.py#MFG-STACKS"
    },
-   "limitations": [
-    "Bore tolerance is EST until the M2 coupon."
-   ],
-   "next_step": "M2 coupon.",
-   "id": "MFG-07",
-   "component": "booms",
-   "discipline": "manufacturing",
-   "claim": "Split clamps (bore 25.6 +-0.2, 1.2 mm split gap) always grip the 1.000 in tube before the halves touch, for printed bore error < 1.0 mm.",
    "status": "Verified",
-   "status_reason": "Geometric claim reproduced exactly (WC max clearance 0.502 mm, 0.70 mm short of the gap); no solver needed. Grip force itself is STR-14."
+   "status_reason": "Geometric claim reproduced exactly (0.502 mm); the clamp closes on the tube with 0.70 mm of gap to spare. Grip force is STR-14.",
+   "limitations": [],
+   "next_step": "C01 confirms the printed bore."
   },
   {
+   "id": "MFG-08",
+   "component": "booms",
+   "discipline": "manufacturing",
+   "claim": "Splice plug (FT04, 23.2 +-0.2 mm in the 23.622 +-0.203 mm tube ID) aligns the tubes; cross-bolts carry the load. Clearance 0.422 mm nominal, 0.019-0.825 mm WC: up to 1.2 deg free tilt (0.6 deg nominal) of the rear stub before the bolts take over.",
    "value": 0.422,
    "units": "mm nominal clearance",
    "equations": [
@@ -1470,7 +1871,7 @@
     "plug": "23.2 +-0.2",
     "ID": "23.622 +-0.203"
    },
-   "tool": "hardware.json FT04",
+   "tool": "cad/hardware.json FT04",
    "evidence": [
     {
      "file": "cad/hardware.json",
@@ -1478,145 +1879,197 @@
     }
    ],
    "ran_evidence": "Arithmetic.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). checks_struct.json -> checks.MFG-STACKS.FT04 and FT04_rotation_deg.",
+    "WC max = 0.422 + 0.403 = 0.825 mm; tilt = atan(0.825 / 40) = 1.18 deg."
+   ],
    "reproduced": {
     "done": true,
-    "how": "WC stack + rotation",
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). checks_struct.json -> checks.MFG-STACKS.FT04 and FT04_rotation_deg. (2) WC max = 0.422 + 0.403 = 0.825 mm; tilt = atan(0.825 / 40) = 1.18 deg.",
     "matches": true
    },
    "independent_check": {
-    "method": "free rotation over half-plug length",
-    "value": 1.18,
+    "method": "free rotation over the 40 mm half-plug",
+    "value": 1.182,
     "repo_value": null,
     "delta_pct": null,
     "script": "analysis/validation/check_struct.py#MFG-STACKS"
    },
-   "limitations": [],
-   "next_step": "Print the plug to a measured ID (as-printed 23.5 +-0.1) or bond it in one tube; add a straight-edge check of front boom + stub.",
-   "id": "MFG-08",
-   "component": "booms",
-   "discipline": "manufacturing",
-   "claim": "Splice plug (FT04, 23.2 +-0.2 in 23.622 +-0.203 ID) aligns the tubes; cross-bolts carry the load.",
    "status": "Partially Verified",
-   "status_reason": "Clearance reproduced; up to 1.2 deg free tilt (0.6 deg nominal) of the rear stub before the bolts or the mount clamp take over - this sets tail incidence and stub alignment, with no straightness check in the manual."
+   "status_reason": "Clearance reproduced; the tilt sets tail incidence and stub alignment, and the manual has no straightness check.",
+   "limitations": [],
+   "next_step": "Print the plug to a measured ID (C01) or bond it in one tube; straight-edge check of front boom + stub; S04."
   },
   {
-   "value": 0.57,
-   "units": "mm protrusion",
-   "equations": [
-    "protrusion = (spot + L_screw) - (H_pillar - pocket + h_nut)"
-   ],
-   "assumptions": [
-    "printed +-0.5 on spot-face, pillar height and pocket depth",
-    "screw length +-0.4 EST",
-    "nylock fully engaged needs >= 1 pitch (0.8 mm) protrusion, EST rule"
-   ],
-   "inputs": {
-    "spot": 2.0,
-    "screw": 20,
-    "pillarH": 26.03,
-    "pocket": 9.6,
-    "nut": 5.0
-   },
-   "tool": "params.mjs",
-   "evidence": [
-    {
-     "file": "cad/README.md",
-     "what": "pocket rule: screw end 0.5 past the nylock"
-    },
-    {
-     "file": "cad/params.txt",
-     "what": "pillarH 0.026030, pillarSpot 0.002, pillarNutDepth 0.0096"
-    }
-   ],
-   "ran_evidence": "Arithmetic.",
-   "reproduced": {
-    "done": true,
-    "how": "stack",
-    "matches": true
-   },
-   "independent_check": {
-    "method": "WC / RSS stack",
-    "value": -0.38,
-    "repo_value": 0.57,
-    "delta_pct": null,
-    "script": "analysis/validation/check_struct.py#MFG-STACKS"
-   },
-   "limitations": [
-    "Screw length tolerance not cited (EST)."
-   ],
-   "next_step": "Use M5 x 25 with a deeper nut pocket, or a steel insert/threaded plate; verify >= 2 threads past the nylon on first article.",
    "id": "MFG-09",
    "component": "wing",
    "discipline": "manufacturing",
-   "claim": "Wing bolt J10: M5 x 20 screw end 0.6 mm past the nylock.",
-   "status": "Failed",
-   "status_reason": "Nominal 0.57 mm is already below one thread pitch; RSS range -0.38 to +1.52 mm, WC -1.33 to +2.47 mm: a real chance the nylon insert is not engaged on the only retention bolt of each panel."
+   "claim": "Wing bolt J10 (rev E): an M5 x 25 with a 2.0 mm spot-face and a 11.0 mm nut pocket puts the screw end 3.51 mm past the nylock nominal and at least 1.61 mm (two 0.8 mm pitches = 1.6 mm) in the worst case, and keeps it 1.09 mm inside the lower skin in the worst case. Valid only with M5 x 25 screws (MFG-04).",
+   "value": 3.511,
+   "units": "mm protrusion past the nylock",
+   "equations": [
+    "protrusion = (spot + L_screw) - (H_pillar - pocket + h_nut)",
+    "WC = sum |t_i|"
+   ],
+   "assumptions": [
+    "printed +-0.5 mm on spot-face, pillar height and pocket depth (hardware.json general rule: +-0.5 % with a +-0.5 mm floor)",
+    "screw length +-0.4 mm EST",
+    "nylock fully engaged needs >= 2 pitches past the nut (cad/params.mjs rev E rule)"
+   ],
+   "inputs": {
+    "pillarSpot_mm": 2.0,
+    "wingBoltL_mm": 25.0,
+    "pillarH_mm": 29.489,
+    "pillarNutDepth_mm": 11.0,
+    "N02_h_mm": 5.0,
+    "tolerances_mm": [
+     0.5,
+     0.4,
+     0.5,
+     0.5
+    ],
+    "required_min_mm": 1.6
+   },
+   "tool": "cad/params.mjs J10 rule (rev E) + check_struct.py stack",
+   "evidence": [
+    {
+     "file": "cad/params.txt",
+     "what": "pillarH 0.029489, pillarSpot 0.002, pillarNutDepth 0.011, wingBoltL 0.025"
+    },
+    {
+     "file": "cad/params.built.txt",
+     "what": "as-built CAD: pillarH 0.029381, pillarNutDepth 0.0109 -> 3.519 mm"
+    },
+    {
+     "file": "cad/verification.txt",
+     "what": "F09_M5x25_BHCS instances in the assembly"
+    }
+   ],
+   "ran_evidence": "cad/verification.txt written by cad/BuildVtol.cs 2026-11-01 21:38 (SOLIDWORKS 33.4.0) from cad/params.built.txt; drawings cad/drawings/* 2026-11-01 22:00.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines MFG-09, MFG-09b and MFG-09c must print PASS.",
+    "Open cad/params.txt:150 (wingBoltL 0.025), cad/params.txt:148 (pillarSpot 0.002), cad/params.txt:144 (pillarH 0.029489), cad/params.txt:147 (pillarNutDepth 0.011); cad/hardware.json N02 h_mm 5.0.",
+    "protrusion = (2.0 + 25) - (29.489 - 11.0 + 5.0) = 3.511 mm.",
+    "Worst case: 0.5 + 0.4 + 0.5 + 0.5 = 1.9 mm -> 1.611 mm >= 1.6 mm. Inside the skin: 29.489 - 2.0 - 25 = 2.489 mm nominal, 1.089 mm WC (>= 0).",
+    "As-built CAD (params.built.txt): (2.0 + 25) - (29.381 - 10.9 + 5.0) = 3.519 mm (MFG-09b, within 1 %)."
+   ],
+   "reproduced": {
+    "done": true,
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Lines MFG-09, MFG-09b and MFG-09c must print PASS. (2) Open cad/params.txt:150 (wingBoltL 0.025), cad/params.txt:148 (pillarSpot 0.002), cad/params.txt:144 (pillarH 0.029489), cad/params.txt:147 (pillarNutDepth 0.011); cad/hardware.json N02 h_mm 5.0. (3) protrusion = (2.0 + 25) - (29.489 - 11.0 + 5.0) = 3.511 mm. (4) Worst case: 0.5 + 0.4 + 0.5 + 0.5 = 1.9 mm -> 1.611 mm >= 1.6 mm. Inside the skin: 29.489 - 2.0 - 25 = 2.489 mm nominal, 1.089 mm WC (>= 0). (5) As-built CAD (params.built.txt): (2.0 + 25) - (29.381 - 10.9 + 5.0) = 3.519 mm (MFG-09b, within 1 %).",
+    "matches": true
+   },
+   "independent_check": {
+    "method": "same stack on the as-built CAD parameters (params.built.txt), tolerance 1 %",
+    "value": 3.519,
+    "repo_value": 3.511,
+    "delta_pct": 0.23,
+    "script": "analysis/validation/check_struct.py#MFG-STACKS"
+   },
+   "status": "Verified",
+   "status_reason": "Root cause of the old failure: the rev D rule put the screw end 0.5 mm past the nut, inside the +-1.9 mm print stack. Rev E (cad/params.mjs, 2026-11-01) chose M5 x 25 and an 11.0 mm pocket so the worst case keeps two threads engaged; the stack on both params.txt and the as-built CAD confirms it (1.61 mm >= 1.6 mm WC, 1.09 mm inside the skin).",
+   "limitations": [
+    "Margin to the 1.6 mm rule is 0.01 mm in the worst case; it relies on the printed tolerances holding (C01).",
+    "Screw length tolerance +-0.4 mm is EST (not cited).",
+    "An M5 x 20 (what the spec order table still lists, MFG-04) gives -1.49 mm: the nylock would not engage."
+   ],
+   "next_step": "First article: count the threads past the nylon ring on both bolts (add to C16 or the S01 pre-check); buy M5 x 25.",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Failed",
+     "to": "Verified",
+     "why": "Design changed in rev E (M5 x 25, 11.0 mm pocket); worst-case stack now >= two pitches on both the current and the as-built parameters."
+    }
+   ]
   },
   {
-   "value": null,
-   "units": "",
+   "id": "MFG-10",
+   "component": "aircraft",
+   "discipline": "manufacturing",
+   "claim": "Every fastener type in cad/hardware.json (13) has a torque (0.15-1.0 N m), applied by hanging a known mass from the hex key (T = m g L; 0.5 N m = 0.85 kg at 60 mm). 11 of the 13 are estimates gated on the insert torque-out coupon (C02) and the motor-floor relaxation test (C04).",
+   "value": 13,
+   "units": "fastener types with a torque",
    "equations": [
     "T = m g L"
    ],
    "assumptions": [
-    "all torques EST; insert torque-out —"
+    "all EST torques per hardware.json torque_basis; insert torque-out —"
    ],
-   "inputs": {},
-   "tool": "hardware.json torque_basis / hardware-spec §2d",
+   "inputs": {
+    "sourced": [
+     "F12",
+     "F13"
+    ]
+   },
+   "tool": "cad/hardware.json fasteners",
    "evidence": [
     {
      "file": "cad/hardware.json",
-     "what": "general_tolerances.torque_method: no torque driver on hand"
-    },
-    {
-     "file": "docs/research/hardware-spec.md",
-     "what": "M3 insert torque-out coupon"
+     "what": "fasteners[].torque_Nm and torque_basis; general_tolerances.torque_method"
     }
    ],
    "ran_evidence": "—",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). checks_struct.json -> checks.MFG-10.",
+    "Open cad/hardware.json; for each of the 13 fasteners read torque_Nm (all present) and torque_basis (11 start with \"EST\"; F12 and F13 cite Fastenal).",
+    "Hanging mass for 0.5 N m at L = 60 mm: m = 0.5 / (9.81 x 0.060) = 0.85 kg."
+   ],
    "reproduced": {
-    "done": false,
-    "how": "",
-    "matches": null
+    "done": true,
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). checks_struct.json -> checks.MFG-10. (2) Open cad/hardware.json; for each of the 13 fasteners read torque_Nm (all present) and torque_basis (11 start with \"EST\"; F12 and F13 cite Fastenal). (3) Hanging mass for 0.5 N m at L = 60 mm: m = 0.5 / (9.81 x 0.060) = 0.85 kg.",
+    "matches": true
    },
    "independent_check": {
-    "method": "none possible without insert data",
-    "value": null,
-    "repo_value": null,
-    "delta_pct": null,
-    "script": "analysis/validation/check_struct.py#STR-14"
+    "method": "count of fastener types with a torque",
+    "value": 13.0,
+    "repo_value": 13.0,
+    "delta_pct": 0.0,
+    "script": "analysis/validation/check_struct.py#MFG-10"
    },
+   "status": "Partially Verified",
+   "status_reason": "The schedule is complete (13 of 13) and the application method is defined; the values themselves are estimates until C02 and C04 run, and preload (clamp friction, STR-14) is uncertain by about 2x (K 0.16 vs 0.35).",
    "limitations": [],
-   "next_step": "Run M2/M3 coupons; buy a $20-30 torque screwdriver (inside the reserve) rather than hanging masses.",
-   "id": "MFG-10",
-   "component": "aircraft",
-   "discipline": "manufacturing",
-   "claim": "Fastener schedule gives torque for every joint (0.15-1.0 N m) applied by the hanging-mass method.",
-   "status": "Unverified",
-   "status_reason": "Every torque is an estimate gated on the M3 coupon; preload (and therefore clamp friction, STR-14) is uncertain by ~2x (K 0.16 vs 0.35)."
+   "next_step": "Run C02 and C04; a $20-30 torque screwdriver inside the reserve is more repeatable than hanging masses.",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Unverified",
+     "to": "Partially Verified",
+     "why": "Schedule checked complete (13/13 with torque and method); values still EST pending C02/C04."
+    }
+   ]
   },
   {
+   "id": "MFG-11",
+   "component": "aircraft",
+   "discipline": "manufacturing",
+   "claim": "All foam bonds use \"foam-safe glue\" and small structural parts 5-min epoxy.",
    "value": null,
    "units": "",
    "equations": [],
    "assumptions": [],
    "inputs": {},
-   "tool": "build manual / BOM",
+   "tool": "docs/build/BUILD-MANUAL.md / docs/purchasing/C0_BOM.csv",
    "evidence": [
     {
-     "file": "docs/build/BUILD-MANUAL.md",
-     "what": "2.2 \"Foam-safe glue 4 oz\"; 4.7 \"cure 24 h (glue label —)\""
+     "file": "docs/purchasing/C0_BOM.csv",
+     "what": "line 29 \"Foam-safe glue 4 oz\" with no product; line 20 Gorilla 5-min epoxy (B001Z3C3AG)"
     },
     {
-     "file": "docs/research/airframe-materials.md",
-     "what": "WEST 105/205 data present but not the selected adhesive"
+     "file": "docs/build/BUILD-MANUAL.md",
+     "what": "4.7 \"cure 24 h (glue label —)\""
     }
    ],
    "ran_evidence": "—",
+   "check_yourself": [
+    "Open docs/purchasing/C0_BOM.csv line 29: no product or part number for the foam glue.",
+    "Open docs/build/BUILD-MANUAL.md step 4.7: the cure time is \"glue label —\".",
+    "No adhesive strength appears anywhere in the repo (search \"kPa\" in docs/research/airframe-materials.md)."
+   ],
    "reproduced": {
-    "done": false,
-    "how": "",
-    "matches": null
+    "done": true,
+    "how": "(1) Open docs/purchasing/C0_BOM.csv line 29: no product or part number for the foam glue. (2) Open docs/build/BUILD-MANUAL.md step 4.7: the cure time is \"glue label —\". (3) No adhesive strength appears anywhere in the repo (search \"kPa\" in docs/research/airframe-materials.md).",
+    "matches": false
    },
    "independent_check": {
     "method": "none: no adhesive strength in the repo",
@@ -1625,63 +2078,64 @@
     "delta_pct": null,
     "script": "analysis/validation/check_struct.py#STR-10"
    },
-   "limitations": [],
-   "next_step": "Name the adhesive(s), add prep (abrade + IPA) and cure times, and pull-test a bonded hardpoint coupon (STR-10).",
-   "id": "MFG-11",
-   "component": "aircraft",
-   "discipline": "manufacturing",
-   "claim": "All foam bonds use \"foam-safe glue\" and structural small parts 5-min epoxy.",
    "status": "Unverified",
-   "status_reason": "No product, surface prep, cure schedule, or strength is specified for the joints that carry the boom clamp loads (up to 134 N), the spar sockets and the wing tongue. 5-min epoxy is used on aluminium without a stated prep beyond \"abrade\"."
+   "status_reason": "No product, surface prep, cure schedule or strength is specified for the joints that carry the clamp loads (up to 127 N), the spar sockets and the wing tongue.",
+   "limitations": [],
+   "next_step": "Name the adhesive(s), add prep (abrade + IPA) and cure times, and pull-test a bonded hardpoint coupon to >= 1.5 x 127 N (STR-10)."
   },
   {
-   "value": 6.357,
-   "units": "kg",
-   "equations": [],
-   "assumptions": [
-    "densities EST for printed parts"
-   ],
-   "inputs": {
-    "cad_total_kg": 6.357,
-    "sizing_params_kg": 6.551516,
-    "sizing_results_kg": 6.537558,
-    "mount_cad_g": 88.73,
-    "mount_sizing_g": 20.0,
-    "pa6cf_density_cad": 1230,
-    "pa6cf_density_TDS": 1170
-   },
-   "tool": "BuildVtol.cs mass roll-up",
-   "evidence": [
-    {
-     "file": "cad/verification.txt",
-     "what": "TOTAL 6.357 kg"
-    },
-    {
-     "file": "analysis/sizing.mjs",
-     "what": "mMount 0.020 x 4"
-    }
-   ],
-   "ran_evidence": "verification.txt 2026-10-25 13:59.",
-   "reproduced": {
-    "done": true,
-    "how": "compared mount line items",
-    "matches": false
-   },
-   "independent_check": {
-    "method": "line-item comparison of motor mounts",
-    "value": 88.73,
-    "repo_value": 20.0,
-    "delta_pct": 344.0,
-    "script": "analysis/validation/check_struct.py#MFG-MASS"
-   },
-   "limitations": [],
-   "next_step": "Reconcile sizing.mjs items with CAD line items (per-item table).",
    "id": "MFG-12",
    "component": "aircraft",
    "discipline": "cad",
-   "claim": "Modelled mass 6.36 kg is consistent with the 6.55 kg sizing MTOW, which also carries wiring, ESCs, skins, avionics and payload.",
+   "claim": "Bottom-up mass 7.416 kg (analysis/mass/mass_budget.json: CAD geometry x sourced densities + vendor masses + wiring) agrees with the sizing MTOW 7.436 kg (-0.26 %); 1.155 kg (16 %) of it is printed-part and avionics estimates not yet weighed.",
+   "value": 7.4159,
+   "units": "kg",
+   "equations": [
+    "m = sum of group masses"
+   ],
+   "assumptions": [
+    "printed parts: CAD volume x density with print-list walls/infill (EST until weighed)"
+   ],
+   "inputs": {
+    "bottom_up_kg": 7.4159,
+    "sizing_mtow_kg": 7.4355998,
+    "est_share_kg": 1.155
+   },
+   "tool": "analysis/mass/mass_budget.py",
+   "evidence": [
+    {
+     "file": "analysis/mass/mass_budget.json",
+     "what": "total_kg 7.4159, groups, est_share_kg 1.155"
+    },
+    {
+     "file": "cad/verification.txt",
+     "what": "TOTAL modelled mass 6.678 kg (solid parts only)"
+    }
+   ],
+   "ran_evidence": "analysis/mass/mass_budget.py run 2026-11-01 22:15.",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line MFG-12 must print PASS (tolerance 1 %).",
+    "Open analysis/mass/mass_budget.json \"groups\": the 13 bottom_up_g values add to 7415.9 g.",
+    "(7.4159 - 7.4356) / 7.4356 = -0.26 %."
+   ],
+   "reproduced": {
+    "done": true,
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line MFG-12 must print PASS (tolerance 1 %). (2) Open analysis/mass/mass_budget.json \"groups\": the 13 bottom_up_g values add to 7415.9 g. (3) (7.4159 - 7.4356) / 7.4356 = -0.26 %.",
+    "matches": true
+   },
+   "independent_check": {
+    "method": "independent bottom-up roll-up vs sizing MTOW (tolerance 1 %)",
+    "value": 7.4159,
+    "repo_value": 7.4355998,
+    "delta_pct": -0.26,
+    "script": "analysis/validation/check_struct.py#MFG-MASS"
+   },
    "status": "Partially Verified",
-   "status_reason": "Total plausibly below MTOW, but the comparison hides offsetting errors: 4 motor mounts are 355 g in CAD vs 80 g in sizing (+275 g at the boom tips), PA6-CF density 1230 vs TDS 1170 kg/m3, the 0.5 kg payload/ballast and ~0.25 kg wiring are not modelled. The aero agent should confirm the mass budget."
+   "status_reason": "The two roll-ups agree to 0.26 % and the old offsetting errors (motor mounts) are gone, but 16 % of the mass is unweighed; the aero audit (AERO-22) reaches the same status.",
+   "limitations": [
+    "PA6-CF density 1230 (CAD) vs 1170 kg/m3 (TDS)."
+   ],
+   "next_step": "S09: weigh every part as it comes off the bench and the empty airframe."
   }
  ]
 }

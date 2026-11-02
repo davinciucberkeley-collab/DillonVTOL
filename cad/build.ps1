@@ -27,6 +27,10 @@ Build (Join-Path $root 'cad\ListDocs.cs') (Join-Path $root 'cad\ListDocs.exe')
 $exe = Join-Path $root 'cad\BuildVtol.exe'
 Build (Join-Path $root 'cad\BuildVtol.cs') $exe $true
 & $exe (Join-Path $root 'cad\params.txt') (Join-Path $root 'cad\model')
+if ($LASTEXITCODE -ne 0) { throw "BuildVtol failed (exit $LASTEXITCODE): the model, verification.txt and params.built.txt are unchanged" }   # stop: later steps would export the old model
+# the parameters this model was built from (analysis/mass/mass_budget.py reads them with cad/verification.txt and cad/mesh, so the
+# mass and CG calibration never mixes a new params.txt with an older model)
+Copy-Item (Join-Path $root 'cad\params.txt') (Join-Path $root 'cad\params.built.txt') -Force
 # part meshes for the interactive viewer in the review page (cad/mesh/*.STL + meta.json); then rebuild with: node review/build.mjs
 $mx = Join-Path $root 'cad\ExportMesh.exe'
 Build (Join-Path $root 'cad\ExportMesh.cs') $mx

@@ -34,8 +34,8 @@ Incompressible Euler equations.
 Viscous and Inviscid flow: rho_ref, vel_ref, temp_ref, p_ref
 are set to 1.0 in order to perform a dimensional calculation.
 Force coefficients computed using initial values.
-The reference area for force coeffs. is 0.284176 m^2.
-The reference length for force coeffs. is 0.284176 m.
+The reference area for force coeffs. is 0.321941 m^2.
+The reference length for force coeffs. is 0.321941 m.
 The pressure is decomposed into thermodynamic and dynamic components.
 The initial value of the dynamic pressure is 0.
 Mach number: 0.0528684, computed using the Bulk modulus.
@@ -66,25 +66,25 @@ Initial velocity (non-dim): (17.9562, 1.25562). Magnitude: 18
 
 Forces breakdown:
 
-Center of Pressure: X=-0.064281Y+0.094924 m.
+Center of Pressure: X=-0.063769Y+0.108316 m.
 
-NOTE: Multiply forces by the non-dimensional factor: 56.394727, and the reference factor: 1.000000
+NOTE: Multiply forces by the non-dimensional factor: 63.889191, and the reference factor: 1.000000
 to obtain the dimensional force.
 
-Total CL:       0.715090 | Pressure (  100%):    0.715090 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
-Total CD:       0.004019 | Pressure (   99%):    0.004019 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
-Total CL/CD:  177.916130 | Pressure (  100%):  177.916130 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
-Total CMz:      0.059969 | Pressure (   99%):    0.059969 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
-Total CFx:     -0.045873 | Pressure (  100%):   -0.045873 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
-Total CFy:      0.713628 | Pressure (  100%):    0.713628 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CL:       0.729478 | Pressure (   99%):    0.729478 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CD:       0.004472 | Pressure (   99%):    0.004472 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CL/CD:  163.114704 | Pressure (  100%):  163.114704 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMz:      0.062935 | Pressure (   99%):    0.062935 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFx:     -0.046425 | Pressure (  100%):   -0.046425 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFy:      0.728013 | Pressure (  100%):    0.728013 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
 
 
 Surface name: wall
 
-Total CL    (   99%):    0.715090 | Pressure (  100%):    0.715090 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
-Total CD    (   99%):    0.004019 | Pressure (   99%):    0.004019 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
-Total CL/CD (   99%):  177.916130 | Pressure (  100%):  177.916130 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
-Total CMz   (   99%):    0.059969 | Pressure (   99%):    0.059969 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
-Total CFx   (  100%):   -0.045873 | Pressure (  100%):   -0.045873 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
-Total CFy   (   99%):    0.713628 | Pressure (  100%):    0.713628 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CL    (   99%):    0.729478 | Pressure (   99%):    0.729478 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CD    (   99%):    0.004472 | Pressure (   99%):    0.004472 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CL/CD (  100%):  163.114704 | Pressure (  100%):  163.114704 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CMz   (   99%):    0.062935 | Pressure (   99%):    0.062935 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFx   (  100%):   -0.046425 | Pressure (  100%):   -0.046425 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
+Total CFy   (   99%):    0.728013 | Pressure (  100%):    0.728013 | Friction (    0%):    0.000000 | Momentum (    0%):    0.000000
 

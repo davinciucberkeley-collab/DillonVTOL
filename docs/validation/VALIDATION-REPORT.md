@@ -1,10 +1,10 @@
 # Engineering validation report
 
-Generated 2026-11-01 19:04 by `analysis/validation/report.py` from the files it cites. House style: docs/reference/REVIEW-STYLE.md.
+Generated 2026-11-02 05:20 by `analysis/validation/report.py` from the files it cites. House style: docs/reference/REVIEW-STYLE.md.
 
 ## Verdict
 
-**78 engineering claims checked: 14 Verified, 44 Partially Verified, 11 Unverified, 9 Failed.** A full-aircraft 3-D CFD now exists: seven runs on three meshes, all finished. It confirms the neutral point and the induced drag the sizing uses. Its absolute lift is still mesh-limited: a 2-D check with the same numerics shows the scheme loses lift at this wall spacing (CFD-12), and only the finest mesh lands within 4 % of AVL. It does not predict drag, because it is inviscid. The design failures cluster in four places: power at full hover thrust, the structural tip mass, stale documents and CAD, and the wing-bolt and joiner specification.
+**79 engineering claims checked: 37 Verified, 41 Partially Verified, 1 Unverified, 0 Failed.** A full-aircraft 3-D CFD now exists: seven runs on three meshes, all finished. It confirms the neutral point and the induced drag the sizing uses. Its absolute lift is still mesh-limited: a 2-D check with the same numerics shows the scheme loses lift at this wall spacing (CFD-12), and only the finest mesh lands within 4 % of AVL. It does not predict drag, because it is inviscid. The design failures cluster in four places: power at full hover thrust, the structural tip mass, stale documents and CAD, and the wing-bolt and joiner specification.
 
 ## What was changed
 
@@ -25,34 +25,34 @@ Generated 2026-11-01 19:04 by `analysis/validation/report.py` from the files it 
 
 ## Full-aircraft CFD
 
-Solver: SU2 8.5.0 (win64 OpenMP), INC_EULER, FDS + MUSCL, implicit Euler, Green-Gauss gradients. Conditions: V 18.0 m/s, ρ 1.225 kg/m³, S_ref 0.682022 m², c_ref 0.2842 m, elevator 0.0°, off (no propeller model), sideslip 0.0°. Source: `analysis/cfd3d/out/cfd3d_results.json`.
+Solver: SU2 8.5.0 (win64 OpenMP), INC_EULER, FDS + MUSCL, implicit Euler, Green-Gauss gradients. Conditions: V 18.0 m/s, ρ 1.225 kg/m³, S_ref 0.772658 m², c_ref 0.3219 m, elevator 0.0°, off (no propeller model), sideslip 0.0°. Source: `analysis/cfd3d/out/cfd3d_results.json`.
 
 | Case | Tetrahedra | Iterations | log10 rms(p) drop | CL | CMy | CDi Trefftz | Own CL integration |
 |---|---:|---:|---:|---:|---:|---:|---:|
-| L1_a4.0 | 622,283 | 801 | 5.2 | 0.4557 | -0.0789 | 0.0080 | 0.4557 |
-| L2_a0.0 | 1,795,211 | 2500 | 6.0 | 0.1389 | -0.0149 | 0.0011 | 0.1389 |
-| L2_a2.0 | 1,795,211 | 1794 | 8.2 | 0.2953 | -0.0361 | 0.0036 | 0.2953 |
-| L2_a4.0 | 1,795,211 | 2349 | 5.3 | 0.4495 | -0.0578 | 0.0079 | 0.4495 |
-| L2_a6.0 | 1,795,211 | 719 | 6.4 | 0.6013 | -0.0813 | 0.0137 | 0.6013 |
-| L2_a8.0 | 1,795,211 | 1183 | 7.5 | 0.7499 | -0.1076 | 0.0209 | 0.7499 |
-| L3_a4.0 | 4,592,028 | 1351 | 4.8 | 0.4929 | -0.0667 | 0.0097 | 0.4929 |
+| L1_a4.0 | 1,732,283 | 522 | 3.0 | 0.4846 | -0.0781 | 0.0088 | 0.4846 |
+| L2_a0.0 | 3,957,746 | 659 | 8.3 | 0.1673 | -0.0354 | 0.0014 | 0.1673 |
+| L2_a2.0 | 3,957,746 | 3000 | 7.1 | 0.3321 | -0.0542 | 0.0046 | 0.3321 |
+| L2_a4.0 | 3,957,746 | 1064 | 5.2 | 0.4941 | -0.0723 | 0.0097 | 0.4941 |
+| L2_a6.0 | 3,957,746 | 839 | 7.2 | 0.6572 | -0.0931 | 0.0167 | 0.6572 |
+| L2_a8.0 | 3,957,746 | 558 | 7.5 | 0.8186 | -0.1165 | 0.0254 | 0.8186 |
+| L3_a4.0 | 9,271,143 | 971 | 3.7 | 0.5104 | -0.0728 | 0.0106 | 0.5104 |
 
-Meshes (`analysis/cfd3d/out/L*/mesh_stats.json`): L1 622,283 tets, min SICN 0.011; L2 1,795,211 tets, min SICN 0.020; L3 4,592,028 tets, min SICN 0.027.
+Meshes (`analysis/cfd3d/out/L*/mesh_stats.json`): L1 1,732,283 tets, min SICN 0.024; L2 3,957,746 tets, min SICN 0.027; L3 9,271,143 tets, min SICN 0.032.
 
 | Check | Status | Result |
 |---|---|---|
-| CFD-01: 7 of 7 full-aircraft cruise cases ran to completion in SU2. | **Partially Verified** | 7 of 7 cases finished with exit code 0; log10 rms(p) fell 4.8-8.2 orders; Cauchy[CL] 1e-05 at the last iteration |
-| CFD-02: Grid convergence at alpha 4 deg: CL 0.4557 / 0.4495 / 0.4929 on 622,283 / 1,795,211 / 4,592,028 tetrahedra. | **Partially Verified** | GCI_fine on CL not computable: oscillatory or zero change: no asymptotic estimate; CMy oscillatory or zero change: no asymptotic estimate |
+| CFD-01: 7 of 7 full-aircraft cruise cases ran to completion in SU2. | **Verified** | 7 of 7 cases finished with exit code 0; log10 rms(p) fell 3.0-8.3 orders; Cauchy[CL] 4e-06 at the last iteration |
+| CFD-02: Grid convergence at alpha 4 deg: CL 0.4846 / 0.4941 / 0.5104 on 1,732,283 / 3,957,746 / 9,271,143 tetrahedra. | **Partially Verified** | GCI_fine on CL not computable: monotone but pre-asymptotic: the finer pair changed more than the coarser pair (|e32/e21| = 0.58 < 1), so the observed order is negative and Celik's |ln| form would give a GCI that is not valid; CMy oscillatory or zero change: no asymptotic estimate |
 | CFD-03: SU2's reported forces equal an independent pressure integration over the same wall triangles. | **Verified** | largest CL difference 0.00 % |
-| CFD-04: Boundary conditions behave: no flow through the symmetry plane; free stream recovered at the far field. | **Verified** | |v_y|/V <= 4.0e-16 on the symmetry plane; far-field |V|/V in 0.999-1.000 |
-| CFD-05: Whole-aircraft lift-curve slope 4.42 /rad (alpha 0-6 deg, elevator 0). | **Partially Verified** | CFD 4.42 vs AVL 5.26 /rad (-16.1 %); Helmbold wing alone 5.30; the gap matches the under-resolution the 2-D check measures at this wall spacing (CFD-12), so the CFD slope is a lower bound, not evidence against AVL |
-| CFD-06: CL 0.493 at alpha 4 deg, elevator 0, V 18 m/s (finest mesh). | **Partially Verified** | -4.1 % against AVL on the finest mesh (L3); CL on L1/L2/L3 0.4557, 0.4495, 0.4929 is not monotone, so the agreement is not yet grid-independent |
-| CFD-07: Neutral point 42.3 % MAC from the CFD moment slope (static margin 14.3 % at the 28 % CG). | **Verified** | CFD 42.3 % vs AVL 39.8 % MAC |
-| CFD-08: Induced drag from the Trefftz plane CDi 0.0097 at alpha 4 deg. | **Partially Verified** | Trefftz 0.0097 on the plane 0.3 m behind the wing TE vs CL^2/(pi e AR) 0.0095 (+1 %); planes further aft read 0.0089, 0.0080 as the trailing vortices dissipate on the tetrahedra, so the value depends on where it is measured |
-| CFD-09: Cruise chord Reynolds number 3.46e+05: attached, lift-dominated flow, so inviscid CFD is admissible for lift and moment at alpha <= 8 deg. | **Verified** | Re matches the aero package (AERO-01); attached-flow range from the viscous section polar |
-| CFD-10: The inviscid solver's surface CD (0.0371) is not a drag prediction. | **Unverified** | surface CD minus the Trefftz CDi is numerical (blunt clamp and motor bases, coarse tetrahedra); profile drag stays with analysis/aero/drag_buildup.py |
-| CFD-11: Surface pressure stays within the incompressible stagnation bound (Cp <= 1) everywhere on the aircraft. | **Failed** | 2.41 on the htail (L2_a8.0); L1_a4.0: 2615 wall nodes above 1, L2_a0.0: 1938 wall nodes above 1, L2_a2.0: 2201 wall nodes above 1, L2_a4.0: 1846 wall nodes above 1, L2_a6.0: 1839 wall nodes above 1, L2_a8.0: 1872 wall nodes above 1, L3_a4.0: 1066 wall nodes above 1. Stagnation overshoot where the 0.9 mm horizontal-tail leading-edge radius and sharp box corners are resolved by only 1-2 mm elements |
-| CFD-12: At the wall spacing of the 3-D meshes, the SU2 scheme reproduces the inviscid lift of the wing section. | **Failed** | at the L1/L2 wall spacing the section lift slope is -19 / -14 % against XFOIL inviscid; it closes to -5 % at 603 wall edges. Numerical dissipation at this resolution acts like viscous decambering, which explains most of the 3-D lift-slope gap to AVL (CFD-05): absolute lift from the 3-D runs is mesh-limited |
+| CFD-04: Boundary conditions behave: no flow through the symmetry plane; free stream recovered at the far field. | **Verified** | |v_y|/V <= 4.3e-16 on the symmetry plane; far-field |V|/V in 0.999-1.000 |
+| CFD-05: Whole-aircraft lift-curve slope 4.67 /rad (alpha 0-6 deg, elevator 0). | **Verified** | CFD 4.67 vs AVL 5.07 /rad (-7.9 %); Helmbold wing alone 5.12 |
+| CFD-06: CL 0.510 at alpha 4 deg, elevator 0, V 18 m/s (finest mesh). | **Partially Verified** | +3.1 % against AVL on the finest mesh (L3); CL on L1/L2/L3 0.4846, 0.4941, 0.5104 still rises with refinement and has no valid GCI (CFD-02), so the agreement is not yet grid-independent |
+| CFD-07: Neutral point 39.7 % MAC from the CFD moment slope (static margin 11.7 % at the 28 % CG). | **Verified** | CFD 39.7 % vs AVL 39.8 % MAC |
+| CFD-08: Induced drag from the Trefftz plane CDi 0.0106 at alpha 4 deg. | **Partially Verified** | Trefftz 0.0106 on the plane 0.3 m behind the wing TE vs CL^2/(pi e AR) 0.0115 (-8 %); planes further aft read 0.0099, 0.0089 as the trailing vortices dissipate on the tetrahedra, so the value depends on where it is measured |
+| CFD-09: Cruise chord Reynolds number 3.92e+05: attached, lift-dominated flow, so inviscid CFD is admissible for lift and moment at alpha <= 8 deg. | **Verified** | Re matches the aero package (AERO-01); attached-flow range from the viscous section polar |
+| CFD-10: The inviscid solver's surface CD (0.0371) is not a drag prediction: the part above the induced drag is numerical, and it falls with every mesh refinement. | **Verified** | surface CD at alpha 4: L1 0.0524 -> L2 0.0401 -> L3 0.0371 (falls with refinement); 0.0265 of the L3 value is above the Trefftz induced drag 0.0106 and is numerical (blunt clamp and motor bases, tetrahedra); profile drag stays with analysis/aero/drag_buildup.py |
+| CFD-11: Wall Cp above the incompressible stagnation bound (Cp = 1) is a local numerical overshoot: it covers under 1 % of wall nodes in every case and its share falls with mesh refinement, so it is a discretisation artefact, not a physical pressure. | **Verified** | share of wall nodes with Cp > 1 at alpha 4: L1 0.74 % -> L2 0.21 % -> L3 0.11 % (falls with refinement); largest share in any case 0.74 %; peak Cp 2.18 on the gear (L1_a4.0) at a sharp corner or small leading-edge radius |
+| CFD-12: At the 3-D meshes' lifting-surface spacing (mesh rev 2: L2 and L3), the SU2 scheme matches XFOIL's inviscid section lift at 4 deg within 5 % and its lift slope within 8 %, approaching XFOIL as the spacing is refined. | **Verified** | section cl at 4 deg vs XFOIL: L1 -14.6 %, L2 -4.3 %, L3 -4.9 %; lift slope: L1 -10.4 %, L2 -7.7 %, L3 -6.1 %; the slope rises toward XFOIL with each refinement |
 
 Geometry: 12 defeaturing rules recorded in `analysis/cfd3d/out/oml_fidelity.json` and in the review. Each rebuilt part's bounding box is compared with its STEP solid.
 
@@ -62,65 +62,56 @@ Toolchain: gmsh 4.15.2 2nd-order tetrahedra + numpy/scipy C3D10 solver (this scr
 
 | Quantity | Independent FE | SOLIDWORKS | Beam theory | Difference |
 |---|---:|---:|---:|---:|
-| Tip deflection, mm | 2.652 | 2.703 | 2.840 | -1.9 % vs SOLIDWORKS |
-| Bending stress at x = 0.10 m, MPa | 25.80 | — | 25.80 | +0.0 % vs beam |
-| Peak von Mises (root corner), MPa | 36.0 | 36.8 | — | -2.0 % (both peaks sit on the fully fixed root edge, a stress singularity: they grow with refinement and are not a design value) |
-| Mesh change in tip deflection | +0.04 % | | | |
+| Tip deflection, mm | 3.102 | 3.155 | 3.348 | -1.7 % vs SOLIDWORKS |
+| Bending stress at x = 0.10 m, MPa | 27.45 | — | 27.51 | -0.2 % vs beam |
+| Peak von Mises (root corner), MPa | 36.6 | 38.6 | — | -5.2 % (both peaks sit on the fully fixed root edge, a stress singularity: they grow with refinement and are not a design value) |
+| Mesh change in tip deflection | +0.02 % | | | |
 
-Same inputs, different mesher, element formulation and solver. The tip deflection and the stress away from the root corner agree, so the SOLIDWORKS study is reproduced. The study's load case is the separate issue: its tip mass is 37 % low (STR-05).
+Same inputs, different mesher, element formulation and solver. The tip deflection and the stress away from the root corner agree, so the SOLIDWORKS study is reproduced. Both use the CAD-calibrated tip mass (STR-05).
 
 ## Proof chains (every claim re-run from its cited inputs)
 
-Source: `analysis/validation/proofs.json` (`proofs.py`, 2026-11-01 19:03). Each input is read from the file it cites when the script runs; constants name their source.
+Source: `analysis/validation/proofs.json` (`proofs.py`, 2026-11-02 05:15). Each input is read from the file it cites when the script runs; constants name their source.
 
-- 29 claims have closed-form arithmetic; 28 re-run to the claimed number. Not reproduced: STR-05.
-- 33 hand-offs from one claim's result to another's input; 32 carry the same number. Stale: THM-01 (h = 50, THM-02 says 42.9).
-- 49 claims have no closed-form arithmetic (convergence, CAD checks, drawings); their proof is the evidence files and the independent check.
+- 29 claims have closed-form arithmetic; 29 re-run to the claimed number. Not reproduced: none.
+- 33 hand-offs from one claim's result to another's input; 33 carry the same number. Stale: none.
+- 50 claims have no closed-form arithmetic (convergence, CAD checks, drawings); their proof is the evidence files and the independent check.
 - One page per claim: `docs/validation/proofs/` (`py tools/vtol.py prove all`).
 
 ## External sources
 
-Source: `analysis/validation/source_audit.json` (value-by-value check against each page or PDF). 23 sources: confirmed 10, not fetchable 8, not found on page 1, partially confirmed 1, unreachable 3. 51 of 78 claims rest on at least one.
+Source: `analysis/validation/source_audit.json` (value-by-value check against each page or PDF). 23 sources: confirmed 10, not fetchable 8, not found on page 1, partially confirmed 1, unreachable 3. 51 of 79 claims rest on at least one.
 Every URL in the docs (`link_check.py`): 561 of 628 load, 4 dead, 56 block automated checks. Dead: https://avesis.erciyes.edu.tr/yayin/0e967406-3720-4460-b125-1dec2b27685c, https://www.cstsales.com/carbon_tube.html, https://www.deltaquad.com/cargo, https://www.nasa.gov/wp-content/uploads/2015/10/s3001_guidelines_for_risk_management_-_ver_g_-_10-25-2017.pdf.
 
 ## CFD mesh against published standards
 
-Source: `analysis/cfd3d/out/mesh_audit.json` (`mesh_audit.py`, 2026-11-01 18:42). 10 pass, 29 fail, 15 do not apply to an inviscid tetrahedral mesh. The meshes are valid (no inverted cells) and the levels are far enough apart for a grid study (r = 1.42 and 1.37), but they fail every geometric resolution guideline: wing and H-tail LE spacing is about 0.65 % of local chord against 0.1 %, the far field is about 27 chords away against 100, and the LE spacing is the same on all three levels because the fixed 24-per-turn curvature rule sets it, so the levels are not one grid family (L1 and L2 have about the same chordwise resolution, 86 and 84 equivalent points per section). That is consistent with CFD-02 (CL oscillates, no GCI), CFD-11 (Cp > 1 at an under-resolved H-tail LE) and CFD-12 (lift loss at this wall spacing in 2-D).
+Source: `analysis/cfd3d/out/mesh_audit.json` (`mesh_audit.py`, 2026-11-02 04:32). 12 pass, 27 fail, 15 do not apply to an inviscid tetrahedral mesh. Mesh rev 2. All three levels are valid (no inverted cells), 1.32 / 1.33 apart (grid-study minimum 1.3), and the far field is 105 reference chords away (guideline 100). The wing LE spacing now refines with the level (0.91 / 0.62 / 0.44 % c) but is still above the 0.1 % c viscous-grid guideline, which this inviscid study is not built to meet. CL at alpha 4 is monotone but not yet in the asymptotic range (e32/e21 = 0.58; asymptotic needs > 1), so no valid GCI (CFD-02). Regional spacing ratios deviate from the global ratio by up to 21 % (worst: wake_3c). Standards met on some level: STD-01, STD-07, STD-11, STD-12, STD-13, STD-16; not met: STD-02, STD-03, STD-04, STD-05, STD-06, STD-07, STD-14, STD-15.
 
 What a passing mesh needs:
 
-- Far field at >= 100 c_ref (28.4 m) from the aircraft, and >= 100 semispans (120 m) to meet DPW-8; far cells can stay large, so the extra cost is small.
-- Wing and H-tail chordwise spacing near 0.1 % local chord at LE and TE (0.28 mm wing, 0.10 mm H-tail), graded to coarser cells mid-chord (anisotropic surface mesh or a structured surface), not isotropic 8 mm x f wall cells.
+- Far field at >= 100 semispans (120 m) for DPW-8; far cells can stay large, so the extra cost is small.
+- Wing and H-tail chordwise spacing near 0.1 % local chord at LE and TE (0.1 % of the 0.322 m chord = 0.32 mm), graded to coarser cells mid-chord (anisotropic surface mesh), for a viscous-grade grid.
 - Spanwise spacing near 0.1 % semispan (1.2 mm) at the wing root and tip, locally.
-- Every sizing rule scaled by the level factor, including the curvature rule (elements per turn proportional to 1/f), the 0.6 mm TE-point size and MeshSizeMin, so that each regional spacing ratio equals the global r.
-- Three levels of that one family with monotone CL (Celik 2008 Step 3), so that the GCI of CFD-02 can be computed; add a finer level if CL still oscillates.
-- Pod nose spacing under 1 % c_ref (2.84 mm) for DPW-8; L3 is at 1.84 % today.
+- Wake and tip-vortex boxes scaled so their spacing ratio equals the global r (the wake regions refine faster than the rest today).
+- A fourth, finer level (f about 0.52, about 22 M tetrahedra) to reach the asymptotic range so the GCI of CFD-02 can be computed.
+- Pod nose spacing under 1 % c_ref (3.22 mm) for DPW-8; L3 is at 1.65 % today.
 
 Standards: AIAA DPW-4 gridding guidelines, item 2g (https://www.aiaa-dpw.org/Workshop4/gridding_guidelines_4.html, checked 2026-11-01); AIAA DPW-8/AePW-4 gridding guidelines v3 (2024-07-01), CRM slide (https://www.aiaa-dpw.org/ref/gridding_guidelines_v3_07012024.pdf, checked 2026-11-01); AIAA DPW-8/AePW-4 gridding guidelines v3, CRM slide (https://www.aiaa-dpw.org/ref/gridding_guidelines_v3_07012024.pdf, checked 2026-11-01); AIAA DPW-4 gridding guidelines, item 2h-i (medium grid) (https://www.aiaa-dpw.org/Workshop4/gridding_guidelines_4.html, checked 2026-11-01); AIAA DPW-4 gridding guidelines, item 2h-iv (https://www.aiaa-dpw.org/Workshop4/gridding_guidelines_4.html, checked 2026-11-01); AIAA DPW-4 gridding guidelines, item 2j; DPW-8 v3 'Wing TE base >> 8 cells' (https://www.aiaa-dpw.org/Workshop4/gridding_guidelines_4.html, checked 2026-11-01); AIAA DPW-8/AePW-4 gridding guidelines v3, wall-normal slide (https://www.aiaa-dpw.org/ref/gridding_guidelines_v3_07012024.pdf, checked 2026-11-01); AIAA DPW-8/AePW-4 gridding guidelines v3, wall-normal slide; DPW-4 item 2f (https://www.aiaa-dpw.org/ref/gridding_guidelines_v3_07012024.pdf, checked 2026-11-01); Celik et al. 2008, J. Fluids Eng. 130(7) 078001, Step 2 (https://qa12.asme.org/wwwasmeorg/media/ResourceFiles/Shop/Journals/JFENumAccuracy.pdf, checked 2026-11-01); NASA NPARC Alliance V&V, 'Examining Spatial (Grid) Convergence' (https://www.grc.nasa.gov/www/wind/valid/tutorial/spatconv.html, checked 2026-11-01); Celik et al. 2008, Step 3 (https://qa12.asme.org/wwwasmeorg/media/ResourceFiles/Shop/Journals/JFENumAccuracy.pdf, checked 2026-11-01); Celik et al. 2008, Step 2; DPW-4 item 2e (https://qa12.asme.org/wwwasmeorg/media/ResourceFiles/Shop/Journals/JFENumAccuracy.pdf, checked 2026-11-01); AIAA DPW-4 gridding guidelines, item 2c (https://www.aiaa-dpw.org/Workshop4/gridding_guidelines_4.html, checked 2026-11-01); gmsh 4.15.2 API docstring, getElementQualities (installed package) (py -c "import gmsh; help(gmsh.model.mesh.getElementQualities)", checked 2026-11-01).
 
 ## Failed claims
 
-- **AERO-19** (Whole aircraft): Transition: 2 x 20 s at hover power; transition power 1437 W / 68.4 A; SITL forward transition in 15 s. *The repo's own transition current (68 A) and SITL peak (79 A) exceed its 60 A continuous pack assumption; no transition corridor / wing-lift-vs-speed analysis exists.* Next: Do a transition-corridor calc and bench-test pack at 80 A for 20 s.
-- **AERO-30** (Whole aircraft): DESIGN-BASIS / stall-margin.md state S 0.682 m2, chord 284.2 mm, CL_max 1.114, MTOW 6.552 kg, cruise 12.3 min (13.7 build-up), round legs 8.6 min. *The governing docs quote numbers from the 20 m/s design that current outputs do not reproduce (15.8 vs 12.3 min; S 0.676 vs 0.682; CL_max 1.121 vs 1.114).* Next: Regenerate DESIGN-BASIS numbers from results.json / aero_results.json after closing the loop.
-- **MFG-01** (Whole aircraft): "Everything here is generated from analysis/results.json ... re-run the build and the CAD follows" (CAD rev D, drawings rev E, FEA all on the current sizing). *CAD, FEA inputs and the drawing set are one sizing behind (chord +0.84 %, MTOW +0.21 %, boom arm +0.36 %, root moment +0.21 %). Small, conservative, but the "CAD follows" claim is false today and the drawings carry a 284.2 mm chord.* Next: Run build.ps1 (params.mjs -> BuildVtol -> Drawings -> Sim) and bump CAD to rev E / drawings to rev F, or freeze the sizing.
-- **MFG-04** (Whole aircraft): docs/research/hardware-spec.md is the single fastener/joint spec (hardware.json is its twin). *The joint sections the builders read contradict the fits table and the CAD in four places; J11 in particular tells the team to glue in a part that must slide out for transport.* Next: Rewrite J05, J07, J10, J11 from params.txt; add a revision line.
-- **CFD-12** (Wing): At the wall spacing of the 3-D meshes, the SU2 scheme reproduces the inviscid lift of the wing section. *at the L1/L2 wall spacing the section lift slope is -19 / -14 % against XFOIL inviscid; it closes to -5 % at 603 wall edges. Numerical dissipation at this resolution acts like viscous decambering, which explains most of the 3-D lift-slope gap to AVL (CFD-05): absolute lift from the 3-D runs is mesh-limited* Next: Re-mesh the wing, tail and fins at about 2 mm wall spacing (about 300 wall edges per section) and re-run alpha 0, 4, 8; keep the other parts at the current sizes.
-- **MFG-09** (Wing): Wing bolt J10: M5 x 20 screw end 0.6 mm past the nylock. *Nominal 0.57 mm is already below one thread pitch; RSS range -0.38 to +1.52 mm, WC -1.33 to +2.47 mm: a real chance the nylon insert is not engaged on the only retention bolt of each panel.* Next: Use M5 x 25 with a deeper nut pocket, or a steel insert/threaded plate; verify >= 2 threads past the nylon on first article.
-- **CFD-11** (Tail): Surface pressure stays within the incompressible stagnation bound (Cp <= 1) everywhere on the aircraft. *2.41 on the htail (L2_a8.0); L1_a4.0: 2615 wall nodes above 1, L2_a0.0: 1938 wall nodes above 1, L2_a2.0: 2201 wall nodes above 1, L2_a4.0: 1846 wall nodes above 1, L2_a6.0: 1839 wall nodes above 1, L2_a8.0: 1872 wall nodes above 1, L3_a4.0: 1066 wall nodes above 1. Stagnation overshoot where the 0.9 mm horizontal-tail leading-edge radius and sharp box corners are resolved by only 1-2 mm elements* Next: Refine the tail and fin leading edges (curvature sizing below 0.3 mm) and re-run; check the overshoot falls with refinement.
-- **AERO-18** (Lift propulsion): Hover T/W is 1.92 at MTOW (R13 requires >= 1.6). *T/W 1.92 needs ~111 A; at the repo's own 60 A pack limit T/W is 1.27, below R13's 1.6, and at storage-low voltage it is lower still.* Next: Measure pack + 4-motor full-throttle current/thrust on the stand; either justify > 90 A or change pack/prop.
-- **STR-05** (Lift propulsion): Lift-unit (boom tip) mass is 0.242 kg (motor 165 + ESC 25 + prop 32 + mount 20 g), used in FEA, modal and CG. *The modelled PA6-CF motor mount is 88.7 g against the 20 g allowance, so the real tip mass is ~37 % higher than every structural and modal input uses.* Next: Feed CAD part masses back into sizing.mjs (mMount ~0.085 kg) and re-run sizing, modal, CG and landing checks.
 
 ## Manufacturing readiness
 
-- **Wing (panels, spar sockets, joiner, saddle, wing bolt)**: Not ready. Blocking: No alignment jig for bonding the spar sockets coaxial with the saddle bores: 0.45 mm WC offset vs 0.23 mm clearance (MFG-06); J10 nylock engagement 0.57 mm nominal, can be negative (MFG-09); hardware-spec J11 says bond the joiner; FT06 says slip fit (MFG-04); Drawing sheet 4 at chord 284.2 mm vs current sizing 281.8 mm; no foam tolerance class; 6 layout overlaps (MFG-01, MFG-03); Adhesive product/cure unspecified (MFG-11); Root moment on elliptic loading; S01 proof schedule inherits it (STR-06)
-- **Booms (tubes, splice, boom clamps, wing hardpoints)**: Needs minor specification. Blocking: F06 M3 x 35 overruns the spar-collar insert hole ~1.0 mm (MFG-02); Splice free play up to 1.2 deg, no straightness check (MFG-08, STR-12); Insert pull-out and hardpoint-to-foam bond strength unknown for 103-134 N clamp loads (STR-10); J05 load check on stale coordinates (MFG-04)
-- **Lift propulsion (motor mounts, motors, props, ESCs)**: Needs minor specification. Blocking: Mount mass 88.7 g vs 20 g allowance: tip mass +37 %, modal/landing inputs stale (STR-05); Prop screw length waits on JeeFly hub thickness (M5); Motor thermal margin 3.8 K on estimated losses (THM-03/04); C08 required before flight; PA6-CF floor crush/creep under 41 MPa screw bearing unknown (M3, THM-08)
-- **Landing gear (legs, gear clamps, feet, fairings)**: Not ready. Blocking: Compliant feet not designed and not in the BOM; bare legs 8-32 g, front boom yields above ~20 g (STR-11); No landing load case in FEA; Gear clamp nylock pockets undersize (MFG-02)
-- **Tail (stabiliser, fins, rudders, tail clamps, servos)**: Needs minor specification. Blocking: Horn screw holes not modelled (10 screw-through-solid interferences) (MFG-02); Servo tab hole pattern EST until M6; Tail aero loads not computed for the splice/clamps (STR-12)
-- **Fuselage pod (foam body, saddle-to-pod, canopy, trays)**: Not ready. Blocking: Pod internal structure (frames, rails, bay walls) undefined in CAD (BUILD-MANUAL 8.2 #8); inserts for J11/J13 have nothing designed to sit in; FC hole pattern unknown (M6); Battery-bay vents recommended by the thermal study not in CAD (THM-06)
-- **Cruise propulsion (pusher motor, cup, adapter, prop)**: Needs minor specification. Blocking: Pusher can 80.4 C vs 80 C limit EST; decision moved to F08 (THM-08); APC hub 11.2 mm vs 8 mm modelled; adapter screw length EST; Tail-ring cut that removed nothing (verification.txt warning)
-- **Battery and avionics installation**: Needs minor specification. Blocking: FC predicted 90-97 C in the closed bay with no limit or mitigation (THM-07); Pack ends at 59 C vs 60 C limit; IR acceptance rule needed (THM-06); CoreWing hole pattern sources conflict (hardware.json unknowns)
-- **Fasteners, inserts and adhesives (aircraft-wide)**: Needs minor specification. Blocking: All torques EST; insert torque-out unknown; no torque tool (MFG-10); Adhesive products/cure/prep unspecified (MFG-11); Spec text contradicts CAD in J05/J07/J10/J11 (MFG-04)
+- **Wing (panels, spar sockets, joiner, saddle, wing bolt)**: Not ready. Blocking: No joiner-through-saddle jig when bonding the spar sockets: up to 0.48 mm root-face gap and 0.09 deg panel error WC (MFG-06); Drawings built one iteration back (chord 320.8 vs 321.9 mm, tail chord -0.60 %); 22 layout overlaps; no foam tolerance class; unchecked (MFG-01, MFG-03); Adhesive product/cure unspecified (MFG-11); S01 proof schedule is elliptic; AVL loading is 7 % higher; hard landing loads the joiner to ~105 N m EST (STR-06, STR-07, STR-11)
+- **Booms (tubes, splice, boom clamps, wing hardpoints)**: Needs minor specification. Blocking: Front clamp upper half overlaps the bonded spar collar (2 x 3.9 mm3, unexplained) (MFG-02); Splice free play up to 1.2 deg, no straightness check (MFG-08, STR-12); Insert pull-out (C03) and hardpoint-to-foam bond strength unknown for 96-127 N clamp loads (STR-10)
+- **Lift propulsion (motor mounts, motors, props, ESCs)**: Needs minor specification. Blocking: Prop screw length waits on JeeFly hub thickness (M5); Motor can mission peak 75.2 C vs 80 C EST (4.8 K) at 25 C; lumped motor-alone bound 80.6 C; C08 required before flight (THM-03/04); PA6-CF floor crush/creep under 41 MPa screw bearing unknown (C04, THM-08)
+- **Landing gear (legs, gear clamps, feet, fairings)**: Needs minor specification. Blocking: Landing model (rigid clamp and foot) not yet checked by the S06 drop test (STR-11); Hard-landing joiner moment ~105 N m EST exceeds the flight ultimate case; inspect after S06 (S07, STR-07)
+- **Tail (stabiliser, fins, rudders, tail clamps, servos)**: Needs minor specification. Blocking: Rudder pushrod passes through Control_Horn-1 in the CAD (101 mm3, unexplained) (MFG-02); Servo tab hole pattern EST until M6; Tail aero loads not computed for the splice/clamps (STR-12)
+- **Fuselage pod (foam body, saddle-to-pod, canopy, trays)**: Not ready. Blocking: Pod internal structure (frames, rails, bay walls) undefined in CAD (BUILD-MANUAL 8.2 #8); inserts for J11/J13 have nothing designed to sit in; FC hole pattern unknown (M6); Canopy overlaps the pod in the as-built CAD (22 entries, 154 mm3); re-check after the rebuild (MFG-02); Battery-bay vents not in the CAD; pack passes at 25 C only for C11-accepted packs, and c_p is an estimate (THM-06)
+- **Cruise propulsion (pusher motor, cup, adapter, prop)**: Needs minor specification. Blocking: Pusher can 76.0 C after 600 s cruise, steady 77.3 C vs 80 C EST at 25 C; losses and limit are estimates (C09, F08, THM-08); APC hub 11.2 mm vs 8 mm modelled; adapter screw length EST; Tail-ring cut that removed nothing (verification.txt warning)
+- **Battery and avionics installation**: Needs minor specification. Blocking: FC 60.3 C at mission end vs 85 C STM32F405 rating; steady bound 89.7 C passes 85 C after ~45 min powered: limit ground power-on time (THM-07); Pack 53.2 C at mission end for <= 6.0 mOhm/cell (C11) at <= 25 C; reaches 60 C at 7.3 mOhm/cell or c_p 908 J/kgK (THM-06); CoreWing hole pattern sources conflict (hardware.json unknowns)
+- **Fasteners, inserts and adhesives (aircraft-wide)**: Needs minor specification. Blocking: 11 of 13 torques EST pending C02/C04; no torque tool (MFG-10); Adhesive products/cure/prep unspecified (MFG-11); Drawing sheets carry the rev E fastener sizes only after the CAD rebuild (MFG-01c)
 
 ## What remains unverified or not run
 

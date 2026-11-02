@@ -1,69 +1,67 @@
 {
- "generated": "2026-10-29",
+ "generated": "2026-11-02",
  "author": "audit agent (aero)",
  "scope": "aerodynamics, sizing/performance, propulsion/power, mass & CG, static stability, cost (C0 baseline)",
+ "design": "frozen design 2026-11-01 (analysis/results.json generated 2026-11-01; MTOW 7.436 kg)",
  "independent_script": "analysis/validation/check_aero.py -> analysis/validation/checks_aero.json",
  "status_counts": {
-  "Verified": 7,
-  "Partially Verified": 18,
-  "Failed": 4,
-  "Unverified": 2
+  "Verified": 15,
+  "Partially Verified": 17,
+  "Failed": 0,
+  "Unverified": 0
  },
  "claims": [
   {
    "id": "AERO-01",
    "component": "wing",
    "discipline": "aerodynamics",
-   "claim": "Cruise chord Reynolds number is 3.50e5 at 18 m/s (stall 2.34e5).",
-   "value": 350257,
+   "claim": "Cruise chord Reynolds number is 3.94e5 at 18 m/s on the aero-package chord 0.3196 m (3.97e5 on the current sizing chord 0.3219 m); stall 2.63e5 at 12 m/s.",
+   "value": 393864.0,
    "units": "-",
    "equations": [
     "Re = rho V c / mu"
    ],
    "assumptions": [
-    "ISA sea level rho 1.225, mu 1.789e-5"
+    "ISA sea level rho 1.225 kg/m3, mu 1.789e-5 Pa s"
    ],
    "inputs": {
-    "V": "18 m/s (sizing.mjs BASE.Vc)",
-    "c": "0.284176 m (aero_results.json geometry) / 0.28180 m (results.json sized.chord)"
+    "V": "18 m/s (results.json concepts.C0.params.Vc)",
+    "c": "0.319557 m (aero_results.json geometry.chord_m) / 0.32194 m (results.json sized.chord)",
+    "mu": "1.789e-5 Pa s (aero_results.json conditions.cruise.mu)"
    },
    "tool": "analysis/aero/common.py",
    "evidence": [
     {
      "file": "analysis/aero/aero_results.json",
-     "what": "conditions.cruise.Re"
-    },
-    {
-     "file": "analysis/aero/out/su2/L2_SA_ap02.0/case.cfg",
-     "what": "MU_CONSTANT 6.29538554e-05 -> Re 350,256 with c=1, V=18"
+     "what": "conditions.cruise.Re 393864; conditions.stall.Re 262576"
     }
    ],
-   "ran_evidence": "SU2 case.cfg dated 2026-10-26 encodes the same Re",
+   "ran_evidence": "analysis/aero/out/run_all_2026-11-01b.log: xfoil_polars, neuralfoil_polars, avl_run, asb_model, drag_buildup, assemble_results all rc 0 (91 s) on the 2026-11-01 geometry. 2026-11-02 audit re-ran xfoil_polars.py, avl_run.py and drag_buildup.py in a scratch copy against the current results.json: cruise polar max |dCL| 0.0015, |dcd| 0.0004; AVL pod NP 38.42 % MAC, CLa 5.040 /rad, trim alpha 4.14 deg, elevator -4.00 deg; build-up CD0 0.0375 (committed 38.47 / 5.052 / 4.12 / -4.00 / 0.0377).",
    "reproduced": {
     "done": true,
-    "how": "hand formula",
+    "how": "Open analysis/aero/aero_results.json, geometry.chord_m = 0.319557. Re = 1.225 x 18 x 0.319557 / 1.789e-5 = 393,864 (conditions.cruise.Re).",
     "matches": true
    },
    "independent_check": {
-    "method": "Re with current sizing chord 0.2818 m",
-    "value": 347327.816126,
-    "repo_value": 350257.0,
-    "delta_pct": -0.84,
+    "method": "Re with the current sizing chord 0.3219 m (results.json)",
+    "value": 396802.075321,
+    "repo_value": 393864.0,
+    "delta_pct": 0.75,
     "script": "analysis/validation/check_aero.py#AERO-01"
    },
    "status": "Verified",
-   "status_reason": "Formula agrees within 0.8 %; the residual is the aero package using chord 0.2842 m from the previous sizing iteration.",
+   "status_reason": "Hand formula gives the stored 393,864 exactly; with the current sizing chord it is 396,800 (+0.75 %), the aero package being one small iteration behind results.json.",
    "limitations": [
-    "Aero package geometry (S 0.682, chord 0.2842, MTOW 6.5515) is one iteration behind results.json (S 0.676, chord 0.2818, MTOW 6.5376)"
+    "aero package geometry (aero_results.json: MTOW 7.381 kg, chord 0.3196 m) is one small iteration behind results.json (7.436 kg, 0.3219 m); the scratch re-run on the current geometry moves NP and trim by <= 0.06 pt / 0.02 deg"
    ],
-   "next_step": "Re-run analysis/aero/run_all.py --skip-cfd on the current results.json so the sizing/aero loop is closed."
+   "next_step": "Re-run analysis/aero/run_all.py --skip-cfd once results.json is final so the aero geometry matches it exactly."
   },
   {
    "id": "AERO-02",
    "component": "wing",
    "discipline": "aerodynamics",
-   "claim": "XFOIL NACA 2415 at Re 3.5e5 (Ncrit 9): cl_alpha 6.83 /rad, alpha_0L -2.01 deg, Cm_c/4 -0.0535, cd_min 0.0083.",
-   "value": 6.832,
+   "claim": "XFOIL 6.99, NACA 2415 at the cruise Re 3.94e5 (Ncrit 9): cl_alpha 6.81 /rad, alpha_0L -2.00 deg, Cm_c/4 -0.0529, cd_min 0.0080.",
+   "value": 6.81092,
    "units": "1/rad",
    "equations": [
     "thin airfoil: alpha_0L = -(1/pi) int dz/dx (cos th - 1) dth",
@@ -75,59 +73,62 @@
    ],
    "inputs": {
     "foil": "NACA 2415 (analysis/geometry.mjs)",
-    "Re": "350257 (aero_results.json)"
+    "Re": "393864 (aero_results.json conditions.cruise.Re)"
    },
    "tool": "XFOIL 6.99 via analysis/aero/xfoil_polars.py",
    "evidence": [
     {
-     "file": "analysis/aero/out/xfoil_n2415_cruise_ncrit9.log",
-     "what": "XFOIL 6.99 banner, dated 2026-10-26 22:12"
+     "file": "analysis/aero/out/xfoil_n2415_cruise_ncrit9.txt",
+     "what": "polar table, 61 rows (alpha CL CD CDp Cm xtr_top xtr_bot)"
     },
     {
-     "file": "analysis/aero/out/xfoil_n2415_cruise_ncrit9.txt",
-     "what": "polar table, 60 rows"
+     "file": "analysis/aero/aero_results.json",
+     "what": "section_polars.n2415_cruise_ncrit9"
     }
    ],
-   "ran_evidence": "XFOIL session log with version banner; re-run in scratch reproduced the polar",
+   "ran_evidence": "analysis/aero/out/run_all_2026-11-01b.log: xfoil_polars, neuralfoil_polars, avl_run, asb_model, drag_buildup, assemble_results all rc 0 (91 s) on the 2026-11-01 geometry. 2026-11-02 audit re-ran xfoil_polars.py, avl_run.py and drag_buildup.py in a scratch copy against the current results.json: cruise polar max |dCL| 0.0015, |dcd| 0.0004; AVL pod NP 38.42 % MAC, CLa 5.040 /rad, trim alpha 4.14 deg, elevator -4.00 deg; build-up CD0 0.0375 (committed 38.47 / 5.052 / 4.12 / -4.00 / 0.0377).",
    "reproduced": {
     "done": true,
-    "how": "xfoil_polars.py re-run in scratch copy (partial, 280 s timeout; cruise Ncrit9 polar regenerated, 61 vs 60 rows)",
+    "how": "py analysis/aero/xfoil_polars.py (about 1 min, XFOIL in C:\\Users\\dillo\\tools) re-run in a scratch copy 2026-11-02: all 61 rows match the committed polar within |dCL| 0.0015, |dcd| 0.0004.",
     "matches": true
    },
    "independent_check": {
-    "method": "thin-airfoil theory (numpy integral) for alpha_0L, Cm_c/4 and a0",
-    "value": -2.07724,
-    "repo_value": -2.01007,
-    "delta_pct": -3.34,
-    "script": "analysis/validation/check_aero.py#AERO-02,AERO-03,AERO-04"
+    "method": "thin-airfoil theory (numpy integral): a0 2 pi (AERO-02), alpha_0L -2.08 deg (AERO-02b, -4.0 %), Cm_c/4 -0.0531 (AERO-02c, -0.4 %)",
+    "value": 6.283185,
+    "repo_value": 6.81092,
+    "delta_pct": -7.75,
+    "script": "analysis/validation/check_aero.py#AERO-02,AERO-02b,AERO-02c"
    },
    "status": "Verified",
-   "status_reason": "Re-run matches (max |dCL| 0.005); thin-airfoil alpha_0L -2.08 deg (-3.3 %), Cm_c/4 -0.0531 (+0.8 %), a0 2pi within 8 %.",
+   "status_reason": "Re-run reproduces the polar; thin-airfoil theory gives alpha_0L -2.08 deg (-4.0 %) and Cm_c/4 -0.0531 (-0.4 %); 2 pi is 7.8 % under XFOIL's slope, as expected for a 15 % thick section (thickness-corrected 7.01 brackets it from above).",
    "limitations": [
-    "XFOIL is a smooth-surface model; the hot-wired, tape-skinned foam wing will not match Ncrit 9",
-    "re-run stopped at 280 s, not every polar regenerated"
+    "XFOIL is a smooth-surface model; the hot-wired, tape-skinned foam wing will not match Ncrit 9 (an Ncrit 5 polar is in the repo)"
    ],
-   "next_step": "None for the design; validate transition sensitivity with the Ncrit 5 polar already in the repo."
+   "next_step": "None for the design."
   },
   {
    "id": "AERO-03",
    "component": "wing",
    "discipline": "aerodynamics",
-   "claim": "SU2 2-D RANS (SA, fully turbulent) NACA 2415 at Re 3.5e5: cd 0.0155 at alpha 2 deg; XFOIL transitional cd 0.0092.",
+   "claim": "SU2 2-D RANS (SA, fully turbulent) NACA 2415 at Re 3.50e5 (run 2026-10-26 for the previous chord; equal to the current 16 m/s transition-speed Re): cd 0.0155 at alpha 2 deg; XFOIL transitional at the current cruise Re 3.94e5: cd 0.0087.",
    "value": 0.015487,
    "units": "-",
    "equations": [
     "cd ~ 2 Cf FF",
     "Cf_turb = 0.074 Re^-0.2",
+    "Cf composite (laminar run x_tr)",
     "FF = 1 + 2 t/c + 60 (t/c)^4"
    ],
    "assumptions": [
-    "fully turbulent flat plate equivalent",
+    "fully turbulent flat plate equivalent for SU2 SA",
+    "XFOIL transition locations for the composite (shared)",
     "Hoerner form factor"
    ],
    "inputs": {
-    "Re": "350257",
-    "t/c": "0.15"
+    "Re_SU2": "350257 (aero_results.json cfd.Re)",
+    "Re_XFOIL": "393864",
+    "t/c": "0.15",
+    "xtr": "0.574 top / 0.953 bottom at alpha 2 (analysis/aero/out/xfoil_n2415_cruise_ncrit9.txt)"
    },
    "tool": "SU2 8.5.0 INC_RANS via analysis/aero/su2_2d.py; gmsh meshes",
    "evidence": [
@@ -137,40 +138,45 @@
     },
     {
      "file": "analysis/aero/out/su2/L2_SA_ap02.0/su2.log",
-     "what": "Exit Success (SU2_CFD), line 285"
+     "what": "Exit Success (SU2_CFD)"
     },
     {
      "file": "analysis/aero/out/su2/L2_SA_ap02.0/done.txt",
      "what": "rc=0 wall_s=1188.7 cfg_sha + mesh hash"
+    },
+    {
+     "file": "analysis/aero/aero_results.json",
+     "what": "comparison_2D alpha 2: su2_SA_CD 0.015487, xfoil_CD 0.00874"
     }
    ],
-   "ran_evidence": "SU2 history.csv with residual drop of ~5 orders and Exit Success; done.txt records rc and mesh hash",
+   "ran_evidence": "SU2 history.csv with residual drop of ~5 orders and Exit Success; done.txt records rc and mesh hash (2026-10-26). Not re-run: the matrix takes ~4.8 h.",
    "reproduced": {
     "done": false,
-    "how": "SU2 matrix takes ~4-5 h; not re-run (scope limit 5 min)",
+    "how": "SU2 matrix (~4.8 h) not re-run; the XFOIL value is reproduced by the 2026-11-02 scratch re-run (AERO-02).",
     "matches": null
    },
    "independent_check": {
-    "method": "2 Cf_turb FF (fully turbulent) vs SU2 SA; composite laminar/turbulent with XFOIL xtr vs XFOIL",
+    "method": "2 Cf_turb FF vs SU2 SA at Re 3.50e5 (AERO-03, -1.1 %); composite laminar/turbulent with XFOIL xtr vs XFOIL at Re 3.94e5 (AERO-03b, -10.2 %)",
     "value": 0.015324,
     "repo_value": 0.015487,
     "delta_pct": -1.05,
-    "script": "analysis/validation/check_aero.py#AERO-05,AERO-06"
+    "script": "analysis/validation/check_aero.py#AERO-03,AERO-03b"
    },
    "status": "Partially Verified",
-   "status_reason": "Independent flat-plate estimate agrees with SU2 SA to 1.1 % and with XFOIL to 12 %, but SU2 was not re-run.",
+   "status_reason": "Flat-plate estimate agrees with SU2 SA to 1.1 % and the composite estimate with XFOIL to 10 %, but SU2 was not re-run and is at the previous design's Re (3.50e5, now the transition-speed Re).",
    "limitations": [
     "XFOIL comparison uses XFOIL's own transition locations (shared)",
-    "SU2 SA polar is fully turbulent; SST-LM runs at 12/16 deg did not converge"
+    "SU2 SA is fully turbulent; SST-LM runs at 12/16 deg did not converge",
+    "SU2 Re 3.50e5 is 11 % below the current cruise Re; the sizing drag does not use SU2"
    ],
-   "next_step": "Optional: re-run one SU2 case (L2 alpha 2) to confirm reproducibility (~20 min)."
+   "next_step": "Optional: re-run one SU2 case (L2 alpha 2) at Re 3.94e5 (~20 min) when the CFD machine is free."
   },
   {
    "id": "AERO-04",
    "component": "wing",
    "discipline": "aerodynamics",
-   "claim": "SU2 2-D mesh study at alpha 10 deg: GCI_fine 22.5 % on CL (p 0.61), 20.9 % on CD, with the actual refinement ratios (corrected 2026-10-29; the repo previously reported 12.7 % / 15.1 % from an assumed r = sqrt(2)).",
-   "value": 22.524,
+   "claim": "SU2 2-D mesh study at alpha 10 deg (Re 3.50e5): GCI_fine 22.5 % on CL (observed order p 0.61, actual refinement ratios 1.43 / 1.50), so the SU2 CL near stall is not mesh-converged; it is not used for sizing.",
+   "value": 22.5016,
    "units": "%",
    "equations": [
     "Celik 2008: p from e32/e21 with r21, r32 and q(p)",
@@ -180,45 +186,52 @@
     "h ~ N^-1/2 in 2-D"
    ],
    "inputs": {
-    "cells": "58,646 / 131,432 / 267,902 (aero_results.json cfd.meshes)",
-    "CL": "1.04307 / 1.11576 / 1.16663"
+    "cells": "aero_results.json cfd.mesh_study.alpha_10.cells (L1/L2/L3)",
+    "CL": "aero_results.json cfd.mesh_study.alpha_10.CL"
    },
    "tool": "analysis/aero/su2_2d.py gci()",
    "evidence": [
     {
      "file": "analysis/aero/aero_results.json",
-     "what": "cfd.mesh_study.alpha_10"
+     "what": "cfd.mesh_study.alpha_10 (GCI_CL.GCI_fine_pct)"
     },
     {
      "file": "analysis/aero/su2_2d.py",
-     "what": "gci() line 301 assumes constant r = sqrt(2)"
+     "what": "gci(), Celik variable-ratio form (fixed 2026-10-29)"
     }
    ],
-   "ran_evidence": "L1/L2/L3 case folders with history.csv; L1 alpha 2 marked unusable (pressure residual did not drop)",
+   "ran_evidence": "L1/L2/L3 case folders with history.csv (2026-10-26); L1 alpha 2 marked unusable (pressure residual did not drop)",
    "reproduced": {
     "done": true,
-    "how": "su2_2d.gci() fixed to Celik variable-ratio form; GCI recomputed from the stored CL/CD and cell counts (no solver re-run)",
+    "how": "Take the three CL values and cell counts from aero_results.json cfd.mesh_study.alpha_10; h = N^-1/2, r21 = h2/h1 = 1.43, r32 = 1.50; iterate p (Celik eq. 3) -> 0.61; GCI_fine = 1.25 |(CL3 - CL2)/CL3| / (r21^p - 1) = 22.5 %.",
     "matches": true
    },
    "independent_check": {
-    "method": "Celik GCI with the actual refinement ratios r21 1.43, r32 1.50",
+    "method": "own Celik GCI implementation on the stored CL and cell counts",
     "value": 22.501627,
-    "repo_value": 22.524,
+    "repo_value": 22.5016,
     "delta_pct": 0.0,
-    "script": "analysis/validation/check_aero.py#AERO-36"
+    "script": "analysis/validation/check_aero.py#AERO-04"
    },
-   "status": "Partially Verified",
-   "status_reason": "Was Failed (understated uncertainty, fixed 2026-10-29 in analysis/aero/su2_2d.py and docs/research/aerodynamics.md). The corrected GCI matches the independent calculation, but 22.5 % means the 2-D section is not mesh-converged at 10 deg; alpha 2 still has no three-mesh study.",
+   "status": "Verified",
+   "status_reason": "An independent implementation of Celik's GCI on the stored data gives 22.50 % (0.00 %). What is established is the uncertainty itself: SU2 CL at 10 deg is good to about +/-22 %, so SU2 is a cross-check only.",
    "limitations": [
-    "CL changes 4.4 % L2 -> L3 and CD 17 %: the solution is not in the asymptotic range near stall"
+    "CL changes 4.4 % L2 -> L3 and CD 17 %: not in the asymptotic range near stall",
+    "alpha 2 has no three-mesh study"
    ],
-   "next_step": "Add a finer L4 mesh at alpha 10 or treat SU2 CL_max as +/- 20 %; it is not used for sizing, so impact is on credibility only.",
+   "next_step": "If SU2 near-stall values are ever used, add a finer L4 mesh at alpha 10.",
    "history": [
     {
      "date": "2026-10-29",
      "from": "Failed",
      "to": "Partially Verified",
      "why": "GCI formula corrected"
+    },
+    {
+     "date": "2026-11-02",
+     "from": "Partially Verified",
+     "to": "Verified",
+     "why": "re-audit on the frozen 2026-11-01 design: An independent implementation of Celik's GCI on the stored data gives 22.50 % (0.00 %). What is established is the uncertainty itself: SU2 CL at 10 deg is good "
     }
    ]
   },
@@ -226,54 +239,63 @@
    "id": "AERO-05",
    "component": "wing",
    "discipline": "aerodynamics",
-   "claim": "Adopted 2-D CL_max of the NACA 2415 is 1.30 (wind-tunnel, Genc, Lock, Kaynak 2008, Re 2e5).",
+   "claim": "Adopted 2-D CL_max of the NACA 2415 is 1.30 (wind-tunnel abstract, Genc, Lock, Kaynak 2008, Re 2e5); it lies inside the spread of the three repo solvers at the stall Re (XFOIL 1.36, NeuralFoil 1.27, SU2 SA 1.19).",
    "value": 1.3,
    "units": "-",
    "equations": [],
    "assumptions": [
-    "tunnel data at Re 2e5 applies to a hot-wired, tape-skinned foam wing at Re 2.3e5"
+    "tunnel data at Re 2e5 applies to a hot-wired, tape-skinned foam wing at Re 2.6e5"
    ],
    "inputs": {
-    "source": "Genc, Lock, Kaynak, AIAA ATIO 2008, abstract via avesis.erciyes.edu.tr, checked 2026-10-21 (aero_results.json CL_max_2D)"
+    "source": "Genc, Lock, Kaynak, AIAA ATIO 2008, abstract via avesis.erciyes.edu.tr, checked 2026-10-21 (aero_results.json CL_max_2D)",
+    "solvers": "aero_results.json CL_max_2D: xfoil_stall_Re 1.3622, neuralfoil_stall_Re 1.2739, su2_SA_cruise_Re.CL_max 1.1861"
    },
-   "tool": "literature",
+   "tool": "literature; XFOIL / NeuralFoil / SU2 as bracket",
    "evidence": [
     {
      "file": "analysis/aero/aero_results.json",
-     "what": "CL_max_2D.experiment_Genc_Lock_Kaynak_2008_Re2e5"
+     "what": "CL_max_2D (adopted_2D 1.3, solver values)"
     },
     {
      "file": "docs/research/stall-margin.md",
-     "what": "lines 90-92 bracket discussion"
+     "what": "bracket discussion"
     }
    ],
-   "ran_evidence": "n/a (literature value, abstract only)",
+   "ran_evidence": "XFOIL stall-Re polar re-run in scratch 2026-11-02: CL_max 1.364 at 18.5 deg (committed 1.362). Paper not in repo.",
    "reproduced": {
-    "done": false,
-    "how": "source not re-checked (paper not in repo)",
-    "matches": null
+    "done": true,
+    "how": "XFOIL bracket re-run (scratch, 2026-11-02); the tunnel value itself is a literature number (abstract only).",
+    "matches": true
    },
    "independent_check": {
-    "method": "mean of repo solvers XFOIL 1.36 / NeuralFoil 1.28 / SU2 SA 1.19 (not independent; no hand method for CL_max)",
-    "value": 1.274127,
+    "method": "mean of XFOIL / NeuralFoil / SU2 SA (repo solvers, not a hand method; no hand method predicts CL_max)",
+    "value": 1.274083,
     "repo_value": 1.3,
     "delta_pct": -1.99,
-    "script": "analysis/validation/check_aero.py#AERO-07"
+    "script": "analysis/validation/check_aero.py#AERO-05"
    },
-   "status": "Unverified",
-   "status_reason": "Only an abstract is cited; the three repo solvers span 1.19-1.36, so the adopted value is plausible but not demonstrated.",
+   "status": "Partially Verified",
+   "status_reason": "Three solvers bracket 1.30 (mean 1.274, -2.0 %; spread 1.19-1.36) and XFOIL re-runs, but the tunnel source is an abstract only and no hand method or test of the built wing exists.",
    "limitations": [
-    "no hand method predicts 2-D CL_max",
-    "build quality (foam waviness, tape seams) typically lowers CL_max"
+    "build quality (foam waviness, tape seams) typically lowers CL_max",
+    "SU2 near-stall values carry the 22 % GCI of AERO-04"
    ],
-   "next_step": "Obtain the full paper or run a glide/stall test of the built wing (stall-margin flight test DBF-TP-001 F09)."
+   "next_step": "Obtain the full paper, or measure stall of the built aircraft (flight test F09).",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Unverified",
+     "to": "Partially Verified",
+     "why": "re-audit on the frozen 2026-11-01 design: Three solvers bracket 1.30 (mean 1.274, -2.0 %; spread 1.19-1.36) and XFOIL re-runs, but the tunnel source is an abstract only and no hand method or test of the"
+    }
+   ]
   },
   {
    "id": "AERO-06",
    "component": "wing",
    "discipline": "aerodynamics",
-   "claim": "Trimmed 3-D CL_max is 1.121 (critical-section method on AVL strip loads).",
-   "value": 1.121,
+   "claim": "Trimmed 3-D CL_max is 1.116 (critical-section method on AVL strip loads, tail download included); Raymer's 0.9 x 1.30 gives 1.17.",
+   "value": 1.116,
    "units": "-",
    "equations": [
     "aircraft CL at which max strip cl = cl_max_2D",
@@ -285,147 +307,148 @@
     "trim tail download included"
    ],
    "inputs": {
-    "cl_max_2D": "1.30 (aero_results.json)",
+    "cl_max_2D": "1.30 (aero_results.json CL_max_2D.adopted_2D)",
     "AVL geometry": "analysis/aero/out/avl/c0_pod.avl"
    },
    "tool": "AVL 3.52 + analysis/aero/assemble_results.py",
    "evidence": [
     {
-     "file": "analysis/aero/out/avl/avl_pod.log",
-     "what": "AVL 3.52 banner"
-    },
-    {
      "file": "analysis/aero/out/avl/ft_pod_Vstall.txt",
      "what": "strip forces at stall trim"
+    },
+    {
+     "file": "analysis/aero/aero_results.json",
+     "what": "CL_max_3D (critical_section_method 1.1158, adopted 1.116); stall.trim_at_Vstall"
     }
    ],
-   "ran_evidence": "AVL log/strip files present; avl_run.py re-run in scratch copy against current results.json (34 s): pod Xnp 39.9 % MAC, CLa 5.253, trim a 3.92 deg, elev -4.08 deg vs committed 39.84 / 5.242 / 3.90 / -4.06",
+   "ran_evidence": "analysis/aero/out/run_all_2026-11-01b.log: xfoil_polars, neuralfoil_polars, avl_run, asb_model, drag_buildup, assemble_results all rc 0 (91 s) on the 2026-11-01 geometry. 2026-11-02 audit re-ran xfoil_polars.py, avl_run.py and drag_buildup.py in a scratch copy against the current results.json: cruise polar max |dCL| 0.0015, |dcd| 0.0004; AVL pod NP 38.42 % MAC, CLa 5.040 /rad, trim alpha 4.14 deg, elevator -4.00 deg; build-up CD0 0.0375 (committed 38.47 / 5.052 / 4.12 / -4.00 / 0.0377).",
    "reproduced": {
     "done": true,
-    "how": "avl_run.py re-run in scratch copy against current results.json (34 s): pod Xnp 39.9 % MAC, CLa 5.253, trim a 3.92 deg, elev -4.08 deg vs committed 39.84 / 5.242 / 3.90 / -4.06",
+    "how": "scratch re-run 2026-11-02 of xfoil_polars.py / avl_run.py / drag_buildup.py against the current results.json (see ran_evidence): stall trim CL 1.07 at alpha 11.36 deg, elevator -7.82 deg (committed 11.33 / -7.83).",
     "matches": true
    },
    "independent_check": {
-    "method": "Raymer 0.9 x 1.30",
+    "method": "Raymer 0.9 x CL_max_2D",
     "value": 1.17,
-    "repo_value": 1.121,
-    "delta_pct": 4.37,
-    "script": "analysis/validation/check_aero.py#AERO-08"
+    "repo_value": 1.116,
+    "delta_pct": 4.84,
+    "script": "analysis/validation/check_aero.py#AERO-06"
    },
    "status": "Partially Verified",
-   "status_reason": "Independent Raymer estimate 1.17 is 4.4 % higher (repo is the conservative one), but both rest on the unverified 2-D value 1.30.",
+   "status_reason": "AVL re-runs and Raymer gives 1.17 (+4.8 %, the repo value is the conservative one), but both rest on the 2-D 1.30 of AERO-05.",
    "limitations": [
     "shares cl_max_2D with AERO-05",
     "boom clamps / pod junction separation not modelled"
    ],
-   "next_step": "Measure stall speed in flight test; R11 fails if true CL_max_3D < 1.075."
+   "next_step": "Measure stall speed in flight (F09); R11 fails if the true CL_max_3D < 1.070."
   },
   {
    "id": "AERO-07",
    "component": "wing",
    "discipline": "performance",
-   "claim": "Stall speed at MTOW is 11.75 m/s, meeting R11 (<= 12 m/s) with a 4.1 % CL_max margin.",
+   "claim": "Stall speed at MTOW 7.436 kg is 11.75 m/s, meeting R11 (<= 12 m/s) with a 4.1 % CL_max margin (R11 is lost below CL_max 1.070 or above 7.755 kg).",
    "value": 11.75,
    "units": "m/s",
    "equations": [
     "V_s = sqrt(2 W / (rho S CL_max))"
    ],
    "assumptions": [
-    "sea level",
-    "MTOW 6.538 kg",
-    "CL_max 1.121"
+    "sea level, ISA",
+    "CL_max 1.116"
    ],
    "inputs": {
-    "W": "64.11 N (results.json sized.W)",
-    "S": "0.6763 m2",
-    "CL_max": "1.121 (aero_results.json CL_max_3D.adopted)"
+    "W": "72.918 N (results.json sized.W)",
+    "S": "0.77266 m2 (sized.S)",
+    "CL_max": "1.116 (aero_results.json CL_max_3D.adopted = params.CLmax)"
    },
    "tool": "analysis/model.js F4 (wing sized to this value)",
    "evidence": [
     {
      "file": "analysis/results.json",
-     "what": "base.Vs 11.75, sized.S"
+     "what": "concepts.C0.params.Vs 11.75, sized.S, sized.W"
     },
     {
-     "file": "docs/research/stall-margin.md",
-     "what": "margin trade"
+     "file": "analysis/aero/aero_results.json",
+     "what": "stall.V_stall_mps 11.75, margin_to_R11_pct 2.08"
     }
    ],
-   "ran_evidence": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+   "ran_evidence": "analysis/results.json concepts.C0 written 2026-11-01 by analysis/sizing.mjs (not re-run in this audit; sizing.mjs is off-limits while long jobs run). The value is re-derived by hand below and by analysis/validation/proofs.py from the stored inputs.",
    "reproduced": {
     "done": true,
-    "how": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+    "how": "V_s = sqrt(2 x 72.918 / (1.225 x 0.77266 x 1.116)) = 11.75 m/s. Margin: CL_max for 12 m/s = 2 x 72.918 / (1.225 x 0.77266 x 144) = 1.070 (-4.1 %); mass for 12 m/s = 0.5 x 1.225 x 0.77266 x 144 x 1.116 / 9.80665 = 7.755 kg (+0.32 kg).",
     "matches": true
    },
    "independent_check": {
     "method": "V_s with Raymer CL_max 1.17",
-    "value": 11.501272,
+    "value": 11.475693,
     "repo_value": 11.75,
-    "delta_pct": -2.12,
-    "script": "analysis/validation/check_aero.py#AERO-09"
+    "delta_pct": -2.33,
+    "script": "analysis/validation/check_aero.py#AERO-07"
    },
    "status": "Partially Verified",
-   "status_reason": "Arithmetic reproduces and the independent estimate gives 11.50 m/s (-2.1 %), but V_s is set by construction from an unverified CL_max; R11 fails if CL_max_3D < 1.075 (-4.1 %) or mass grows ~0.28 kg.",
+   "status_reason": "Arithmetic reproduces and Raymer's CL_max gives 11.48 m/s (-2.3 %), but V_s is set by construction from the unverified CL_max; R11 is lost if CL_max_3D < 1.070 or MTOW grows 0.32 kg.",
    "limitations": [
     "tautological: S is sized from V_s",
     "hot day (lower rho) raises V_s",
-    "margin only 4 %"
+    "margin only 4 % in CL_max / 0.32 kg in mass"
    ],
-   "next_step": "Weigh the aircraft and measure stall in flight; re-size if CL_max_3D < 1.075."
+   "next_step": "Weigh the aircraft (M-items) and measure stall in flight (F09); re-size if CL_max_3D < 1.070."
   },
   {
    "id": "AERO-08",
    "component": "wing",
    "discipline": "performance",
-   "claim": "Wing: S 0.676 m2, chord 0.282 m, AR 8.52 on a 2.4 m span.",
-   "value": 0.67632,
+   "claim": "Wing: S 0.773 m2, chord 0.322 m, AR 7.45 on a 2.4 m span.",
+   "value": 0.772657,
    "units": "m^2",
    "equations": [
     "S = 2 W / (rho V_s^2 CL_max)",
+    "c = S / b",
     "AR = b^2 / S"
    ],
    "assumptions": [
     "as AERO-07"
    ],
    "inputs": {
-    "m": "6.5376 kg",
-    "V_s": "11.75 m/s",
-    "CL_max": "1.121"
+    "m": "7.4356 kg (sized.m)",
+    "V_s": "11.75 m/s (params.Vs)",
+    "CL_max": "1.116 (params.CLmax)",
+    "b": "2.4 m (params.span)"
    },
    "tool": "analysis/sizing.mjs + model.js",
    "evidence": [
     {
      "file": "analysis/results.json",
-     "what": "concepts.C0.sized.S/chord/AR"
+     "what": "concepts.C0.sized.S / chord / AR"
     }
    ],
-   "ran_evidence": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+   "ran_evidence": "analysis/results.json concepts.C0 written 2026-11-01 by analysis/sizing.mjs (not re-run in this audit; sizing.mjs is off-limits while long jobs run). The value is re-derived by hand below and by analysis/validation/proofs.py from the stored inputs.",
    "reproduced": {
     "done": true,
-    "how": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+    "how": "S = 2 x 7.4356 x 9.80665 / (1.225 x 11.75^2 x 1.116) = 0.7727 m2; c = 0.7727 / 2.4 = 0.3219 m; AR = 2.4^2 / 0.7727 = 7.455 (results.json sized.S, chord, AR).",
     "matches": true
    },
    "independent_check": {
     "method": "same formula recomputed in numpy (arithmetic only, not independent)",
-    "value": 0.676315,
-    "repo_value": 0.67632,
-    "delta_pct": -0.0,
-    "script": "analysis/validation/check_aero.py#AERO-10"
+    "value": 0.772664,
+    "repo_value": 0.772657,
+    "delta_pct": 0.0,
+    "script": "analysis/validation/check_aero.py#AERO-08"
    },
    "status": "Verified",
-   "status_reason": "Byte-identical re-run and 0.00 % arithmetic delta; note docs (DESIGN-BASIS, stall-margin.md) still quote S 0.682 / chord 284.2 mm.",
+   "status_reason": "Recomputed to 0.00 % from the stored inputs; the proof chain (proofs.py) closes with the MTOW, V_s and CL_max claims.",
    "limitations": [
     "same formula: arithmetic check only",
-    "inherits CL_max uncertainty"
+    "inherits the CL_max uncertainty of AERO-05/06"
    ],
-   "next_step": "Update the docs to the current 0.676 m2 / 281.8 mm or re-close the loop."
+   "next_step": "\u2014"
   },
   {
    "id": "AERO-09",
    "component": "wing",
    "discipline": "aerodynamics",
-   "claim": "Cruise CL is 0.478 at 18 m/s.",
-   "value": 0.47768,
+   "claim": "Cruise CL is 0.476 at 18 m/s.",
+   "value": 0.475549,
    "units": "-",
    "equations": [
     "CL = 2 W / (rho V^2 S)"
@@ -434,32 +457,32 @@
     "level flight, sea level"
    ],
    "inputs": {
-    "W": "64.11 N",
+    "W": "72.918 N",
     "V": "18 m/s",
-    "S": "0.6763 m2"
+    "S": "0.77266 m2"
    },
    "tool": "model.js F5",
    "evidence": [
     {
      "file": "analysis/results.json",
-     "what": "sized.CL"
+     "what": "concepts.C0.sized.CL"
     }
    ],
-   "ran_evidence": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+   "ran_evidence": "analysis/results.json concepts.C0 written 2026-11-01 by analysis/sizing.mjs (not re-run in this audit; sizing.mjs is off-limits while long jobs run). The value is re-derived by hand below and by analysis/validation/proofs.py from the stored inputs.",
    "reproduced": {
     "done": true,
-    "how": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+    "how": "CL = 2 x 72.918 / (1.225 x 18^2 x 0.77266) = 0.4755 (results.json sized.CL).",
     "matches": true
    },
    "independent_check": {
     "method": "same formula",
-    "value": 0.477675,
-    "repo_value": 0.477679,
-    "delta_pct": -0.0,
-    "script": "analysis/validation/check_aero.py#AERO-11"
+    "value": 0.475553,
+    "repo_value": 0.475549,
+    "delta_pct": 0.0,
+    "script": "analysis/validation/check_aero.py#AERO-09"
    },
    "status": "Verified",
-   "status_reason": "Recomputed exactly.",
+   "status_reason": "Recomputed exactly (0.00 %).",
    "limitations": [
     "arithmetic only"
    ],
@@ -469,8 +492,8 @@
    "id": "AERO-10",
    "component": "aircraft",
    "discipline": "aerodynamics",
-   "claim": "Lift-curve slopes: wing VLM 4.71 /rad (vlm.mjs), aircraft AVL 5.03 (no pod) / 5.24 (pod).",
-   "value": 5.24114,
+   "claim": "Lift-curve slopes: wing VLM 4.55 /rad (analysis/aero.json), aircraft AVL 4.88 (no pod) / 5.05 (pod).",
+   "value": 5.05228,
    "units": "1/rad",
    "equations": [
     "a = a0 / (1 + a0 (1+tau) / (pi AR))",
@@ -483,38 +506,42 @@
     "eta_t 0.9"
    ],
    "inputs": {
-    "AR": "8.52",
-    "AR_t": "8.67",
-    "S_h/S": "0.128 (results.json geo)"
+    "AR": "7.455 (sized.AR)",
+    "AR_t": "6.95 (geo.hSpan^2 / geo.Sh)",
+    "S_h/S": "0.140 (results.json geo)"
    },
    "tool": "AVL 3.52; analysis/vlm.mjs",
    "evidence": [
     {
      "file": "analysis/aero/out/avl/st_pod_trim.txt",
-     "what": "stability derivatives"
+     "what": "stability derivatives (CLa 5.049 at trim)"
+    },
+    {
+     "file": "analysis/aero/aero_results.json",
+     "what": "lift_curve.CL_alpha_per_rad"
     },
     {
      "file": "analysis/aero.json",
-     "what": "wing_CLa_per_rad 4.70577"
+     "what": "wing_CLa_per_rad 4.54695 (AR 7.45479)"
     }
    ],
-   "ran_evidence": "avl_run.py re-run in scratch copy against current results.json (34 s): pod Xnp 39.9 % MAC, CLa 5.253, trim a 3.92 deg, elev -4.08 deg vs committed 39.84 / 5.242 / 3.90 / -4.06; node analysis/vlm.mjs re-run in scratch: aero.json byte-identical",
+   "ran_evidence": "analysis/aero/out/run_all_2026-11-01b.log: xfoil_polars, neuralfoil_polars, avl_run, asb_model, drag_buildup, assemble_results all rc 0 (91 s) on the 2026-11-01 geometry. 2026-11-02 audit re-ran xfoil_polars.py, avl_run.py and drag_buildup.py in a scratch copy against the current results.json: cruise polar max |dCL| 0.0015, |dcd| 0.0004; AVL pod NP 38.42 % MAC, CLa 5.040 /rad, trim alpha 4.14 deg, elevator -4.00 deg; build-up CD0 0.0375 (committed 38.47 / 5.052 / 4.12 / -4.00 / 0.0377).",
    "reproduced": {
     "done": true,
-    "how": "AVL and vlm.mjs re-run in scratch",
+    "how": "scratch re-run 2026-11-02 of xfoil_polars.py / avl_run.py / drag_buildup.py against the current results.json (see ran_evidence): pod CLa 5.040 (fit) vs 5.052; no pod 4.873 vs 4.883.",
     "matches": true
    },
    "independent_check": {
-    "method": "lifting-line wing 4.93 and wing+tail 5.29 /rad",
-    "value": 5.289978,
-    "repo_value": 5.03488,
-    "delta_pct": 5.07,
-    "script": "analysis/validation/check_aero.py#AERO-12,AERO-13"
+    "method": "lifting line: wing 4.78 /rad vs VLM 4.55 (AERO-10, +5.2 %); wing + tail 5.13 vs AVL no pod 4.88 (AERO-10b, +5.1 %)",
+    "value": 4.782117,
+    "repo_value": 4.54695,
+    "delta_pct": 5.17,
+    "script": "analysis/validation/check_aero.py#AERO-10,AERO-10b"
    },
    "status": "Verified",
-   "status_reason": "Both re-runs reproduce; hand lifting line within 4.7-5.1 %.",
+   "status_reason": "AVL re-runs within 0.2 %; hand lifting line agrees within 5.2 % (tolerance 7 %).",
    "limitations": [
-    "AeroSandbox VLM gives 5.30 /rad and a very different Cm_alpha (see AERO-25)"
+    "vlm.mjs wing slope is 5 % under both Helmbold (4.82) and lifting line (4.78)"
    ],
    "next_step": "\u2014"
   },
@@ -522,44 +549,45 @@
    "id": "AERO-11",
    "component": "aircraft",
    "discipline": "aerodynamics",
-   "claim": "Sizing uses Oswald e = 0.80 (AVL inviscid 0.94; build-up fit 0.86).",
+   "claim": "Sizing Oswald e 0.80 is at or below Raymer's estimate 0.826 for AR 7.45 (conservative); AVL inviscid 0.947, build-up fit 0.875.",
    "value": 0.8,
    "units": "-",
    "equations": [
-    "e = 1.78 (1 - 0.045 AR^0.68) - 0.64 (Raymer 12.49)"
+    "e = 1.78 (1 - 0.045 AR^0.68) - 0.64 (Raymer 5th ed. eq. 12.49)"
    ],
    "assumptions": [
     "straight wing"
    ],
    "inputs": {
-    "AR": "8.52"
+    "AR": "7.455 (sized.AR)"
    },
    "tool": "EST in sizing.mjs",
    "evidence": [
     {
-     "file": "analysis/sizing.mjs",
-     "what": "BASE.e 0.80 EST"
+     "file": "analysis/results.json",
+     "what": "concepts.C0.params.e 0.8"
     },
     {
      "file": "analysis/aero/aero_results.json",
-     "what": "drag.e_oswald_fit 0.8627"
+     "what": "drag.e_oswald_fit, trim_cruise.e_AVL 0.9467"
     }
    ],
    "ran_evidence": "n/a (assumed input)",
    "reproduced": {
     "done": true,
-    "how": "Raymer formula",
+    "how": "e = 1.78 (1 - 0.045 x 7.455^0.68) - 0.64 = 0.826 >= 0.80.",
     "matches": true
    },
    "independent_check": {
-    "method": "Raymer eq. 12.49",
-    "value": 0.796271,
+    "method": "Raymer eq. 12.49 >= sizing 0.80",
+    "value": 0.82603,
     "repo_value": 0.8,
-    "delta_pct": -0.47,
-    "script": "analysis/validation/check_aero.py#AERO-14"
+    "delta_pct": 3.25,
+    "script": "analysis/validation/check_aero.py#AERO-11",
+    "relation": "ge"
    },
    "status": "Verified",
-   "status_reason": "Raymer gives 0.796 (-0.5 %); assumption is reasonable and slightly conservative vs the build-up fit.",
+   "status_reason": "Raymer gives 0.826 (+3.3 % above the sizing value), the build-up fit 0.875 and AVL 0.947, so 0.80 is a conservative choice.",
    "limitations": [
     "empirical; boom/rotor interference not captured"
    ],
@@ -569,8 +597,8 @@
    "id": "AERO-12",
    "component": "aircraft",
    "discipline": "aerodynamics",
-   "claim": "Zero-lift drag: sizing CD0 0.0447 (0.0266 clean + rotors/booms); component build-up 0.0411.",
-   "value": 0.044727,
+   "claim": "Zero-lift drag: sizing CD0 0.0425 (0.0266 clean + 0.0159 stopped rotors, booms and gear); component build-up 0.0377.",
+   "value": 0.042513,
    "units": "-",
    "equations": [
     "CD0 = sum(Cf FF Q Swet)/S + sum(CdA_bluff)/S",
@@ -580,48 +608,52 @@
    "assumptions": [
     "laminar run 30 % chord (EST)",
     "+10 % interference/leakage (EST)",
-    "bluff items reuse repo Hoerner CdA 0.0157 m2"
+    "bluff items reuse repo Hoerner CdA 0.0158 m2"
    ],
    "inputs": {
-    "S": "0.6763 m2",
-    "pod": "0.85 x 0.16 m (analysis/geometry.mjs)",
-    "booms": "2 x 1.474 m x 25.4 mm (results.json geo)",
-    "tails": "S_h 0.0868, S_v 0.0634 m2"
+    "S": "0.77266 m2",
+    "CdA_extra": "0.01230 m2 (sized.CdA_extra)",
+    "CD0_clean": "0.0266 (params.CD0_clean)",
+    "pod": "0.85 x 0.16 m",
+    "tails": "S_h 0.1082, S_v 0.0692 m2 (results.json geo)"
    },
-   "tool": "analysis/aero/drag_buildup.py (Raymer/Hoerner)",
+   "tool": "analysis/aero/drag_buildup.py (Raymer/Hoerner); sizing.mjs",
    "evidence": [
     {
      "file": "analysis/aero/out/drag_buildup.json",
-     "what": "15 items with sources"
+     "what": "item list with sources"
+    },
+    {
+     "file": "analysis/results.json",
+     "what": "sized.CD0 0.042513"
     }
    ],
-   "ran_evidence": "drag_buildup.py re-run in scratch: CD0 0.0413, L/D 9.49 (committed 0.0411, 9.48; difference = updated AVL geometry)",
+   "ran_evidence": "analysis/aero/out/run_all_2026-11-01b.log: xfoil_polars, neuralfoil_polars, avl_run, asb_model, drag_buildup, assemble_results all rc 0 (91 s) on the 2026-11-01 geometry. 2026-11-02 audit re-ran xfoil_polars.py, avl_run.py and drag_buildup.py in a scratch copy against the current results.json: cruise polar max |dCL| 0.0015, |dcd| 0.0004; AVL pod NP 38.42 % MAC, CLa 5.040 /rad, trim alpha 4.14 deg, elevator -4.00 deg; build-up CD0 0.0375 (committed 38.47 / 5.052 / 4.12 / -4.00 / 0.0377).",
    "reproduced": {
     "done": true,
-    "how": "drag_buildup.py re-run in scratch copy",
+    "how": "scratch re-run 2026-11-02 of xfoil_polars.py / avl_run.py / drag_buildup.py against the current results.json (see ran_evidence): CD0 0.0375 vs 0.0377. Sizing: 0.0266 + 0.012295 / 0.77266 = 0.0425.",
     "matches": true
    },
    "independent_check": {
-    "method": "own build-up (Schlichting Cf, Hoerner FF); fully turbulent bound 0.0502",
-    "value": 0.047015,
-    "repo_value": 0.044727,
-    "delta_pct": 5.11,
-    "script": "analysis/validation/check_aero.py#AERO-15"
+    "method": "own build-up (Schlichting Cf, Hoerner FF), x_tr 0.30; fully turbulent bound 0.0462",
+    "value": 0.042958,
+    "repo_value": 0.042513,
+    "delta_pct": 1.05,
+    "script": "analysis/validation/check_aero.py#AERO-12"
    },
    "status": "Partially Verified",
-   "status_reason": "Independent build-up 0.0470 is 5 % above the sizing value (fully turbulent bound 0.050); 1/3 of CD0 is bluff items whose coefficients are shared Hoerner estimates.",
+   "status_reason": "Independent build-up 0.0430 is 1.0 % above the sizing value (fully turbulent bound 0.046); about 1/3 of CD0 is bluff items (stopped props, clamps, legs) whose coefficients are shared, unmeasured estimates.",
    "limitations": [
-    "stopped props (EST Cd 0.06 planform) and clamps dominate and are unmeasured",
-    "repo applies Raymer's Mach factor 1.34 M^0.18 at M 0.05, giving fin FF < 1 (minor)"
+    "stopped props (EST Cd 0.06 planform) and clamps dominate and are unmeasured"
    ],
-   "next_step": "Measure cruise power vs airspeed in flight (or a car-top test) and back out CD0."
+   "next_step": "Measure cruise power vs airspeed in flight and back out CD0."
   },
   {
    "id": "AERO-13",
    "component": "aircraft",
    "discipline": "aerodynamics",
-   "claim": "Cruise L/D is 8.62 (sizing) / 9.48 (build-up) at 18 m/s.",
-   "value": 8.6243,
+   "claim": "Cruise L/D is 8.71 (sizing polar) / 9.94 (component build-up) at 18 m/s.",
+   "value": 8.712378,
    "units": "-",
    "equations": [
     "L/D = CL / (CD0 + CL^2/(pi e AR))"
@@ -630,8 +662,10 @@
     "as AERO-11, AERO-12"
    ],
    "inputs": {
-    "CL": "0.478",
-    "AR": "8.52"
+    "CL": "0.4755",
+    "CD0": "0.042513",
+    "e": "0.80",
+    "AR": "7.455"
    },
    "tool": "model.js F6; drag_buildup.py",
    "evidence": [
@@ -640,367 +674,428 @@
      "what": "sized.LD"
     },
     {
-     "file": "analysis/aero/aero_results.json",
-     "what": "drag.cruise.LD 9.48"
+     "file": "analysis/aero/out/drag_buildup.json",
+     "what": "cruise.LD 9.94"
     }
    ],
-   "ran_evidence": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+   "ran_evidence": "analysis/results.json concepts.C0 written 2026-11-01 by analysis/sizing.mjs (not re-run in this audit; sizing.mjs is off-limits while long jobs run). The value is re-derived by hand below and by analysis/validation/proofs.py from the stored inputs.",
    "reproduced": {
     "done": true,
-    "how": "sizing and drag build-up re-runs",
+    "how": "CDi = 0.4755^2 / (pi x 0.80 x 7.455) = 0.01207; L/D = 0.4755 / (0.04251 + 0.01207) = 8.71.",
     "matches": true
    },
    "independent_check": {
-    "method": "independent CD0 + Raymer e",
-    "value": 8.275062,
-    "repo_value": 8.624334,
-    "delta_pct": -4.05,
-    "script": "analysis/validation/check_aero.py#AERO-16"
+    "method": "independent CD0 + Raymer e; fully turbulent 8.21",
+    "value": 8.702021,
+    "repo_value": 8.712378,
+    "delta_pct": -0.12,
+    "script": "analysis/validation/check_aero.py#AERO-13"
    },
    "status": "Partially Verified",
-   "status_reason": "Independent L/D 8.28 (-4 %), fully turbulent 7.85 (-9 %); no measured data.",
+   "status_reason": "Independent L/D 8.70 (-0.1 %), fully turbulent 8.21 (-6 %); no measured drag.",
    "limitations": [
-    "no test data"
+    "no test data",
+    "bluff-item drag shared with the repo"
    ],
-   "next_step": "Flight power measurement."
+   "next_step": "Flight power measurement (F08/F12 logs)."
   },
   {
    "id": "AERO-14",
    "component": "cruise_propulsion",
    "discipline": "performance",
-   "claim": "Cruise electrical power is 262 W (11.8 A) at 18 m/s.",
-   "value": 262.37,
+   "claim": "Cruise electrical power is 295 W (13.3 A at 22.2 V) at 18 m/s, computed with etaProp 0.60 (conservative, AERO-15) and etaMEc 0.85 (EST); with the APC maker efficiency 0.737 it would be 241 W.",
+   "value": 295.39188,
    "units": "W",
    "equations": [
     "P = (W / (L/D)) V / (eta_prop eta_mec)"
    ],
    "assumptions": [
-    "eta_prop 0.60 EST",
-    "eta_mec 0.85 EST"
+    "eta_prop 0.60 (EST, conservative)",
+    "eta_mec 0.85 (EST)"
    ],
    "inputs": {
-    "W": "64.11 N",
-    "L/D": "8.62"
+    "W": "72.918 N",
+    "L/D": "8.712",
+    "V": "18 m/s"
    },
    "tool": "model.js F7",
    "evidence": [
     {
      "file": "analysis/results.json",
-     "what": "sized.P_cruise"
+     "what": "sized.P_cruise 295.39, sized.I_cruise 13.31"
     }
    ],
-   "ran_evidence": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+   "ran_evidence": "analysis/results.json concepts.C0 written 2026-11-01 by analysis/sizing.mjs (not re-run in this audit; sizing.mjs is off-limits while long jobs run). The value is re-derived by hand below and by analysis/validation/proofs.py from the stored inputs.",
    "reproduced": {
     "done": true,
-    "how": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+    "how": "D = 72.918 / 8.712 = 8.369 N; P = 8.369 x 18 / (0.60 x 0.85) = 295.4 W; I = 295.4 / 22.2 = 13.3 A.",
     "matches": true
    },
    "independent_check": {
-    "method": "independent drag, same efficiencies",
-    "value": 273.443305,
-    "repo_value": 262.37156,
-    "delta_pct": 4.22,
-    "script": "analysis/validation/check_aero.py#AERO-17"
+    "method": "independent drag, same efficiencies (AERO-14); maker-eta variant in the note: 241 W",
+    "value": 295.746003,
+    "repo_value": 295.39188,
+    "delta_pct": 0.12,
+    "script": "analysis/validation/check_aero.py#AERO-14"
    },
    "status": "Partially Verified",
-   "status_reason": "Independent 273 W (+4 %) but the efficiencies are shared and unmeasured.",
+   "status_reason": "Independent 295.7 W (+0.1 %) but drag and eta_mec are unmeasured; the prop efficiency used is conservative by 19 % against the maker table (241 W with eta 0.737).",
    "limitations": [
-    "eta values shared (not independent)"
+    "eta values shared (not independent)",
+    "drag not measured"
    ],
-   "next_step": "Wattmeter in cruise (test gear in BOM)."
+   "next_step": "Wattmeter log in cruise (F08)."
   },
   {
    "id": "AERO-15",
    "component": "cruise_propulsion",
    "discipline": "propulsion",
-   "claim": "Pusher (X4110S + APC 14x8.5EP) propulsive efficiency 0.60 at cruise.",
+   "claim": "The pusher efficiency 0.60 used in sizing (X4110S + APC 14x8.5EP) is conservative: it is at or below the APC maker value 0.737 at the 18 m/s cruise point (6000 rpm, 8.43 N thrust vs 8.37 N drag).",
    "value": 0.6,
    "units": "-",
    "equations": [
-    "eta_ideal = 2 / (1 + sqrt(1 + T/(q A)))"
+    "eta_ideal = 2 / (1 + sqrt(1 + T/(q A)))",
+    "Pe = T V / P_shaft (APC table, linear in V between rows)"
    ],
    "assumptions": [
-    "real prop ~0.80 of ideal (EST)"
+    "EST: 14x8.5EP = mirrored 14x8.5E geometry, so the E table applies",
+    "real prop ~0.80 of momentum-ideal (EST, for the independent check)",
+    "APC table is APC's computed performance, not a measurement"
    ],
    "inputs": {
-    "T": "7.43 N (sized.D_cruise)",
+    "T": "8.369 N (sized.D_cruise)",
     "D": "14 in",
-    "q": "198.5 Pa"
+    "q": "198.45 Pa",
+    "APC 6000 rpm": "39.49 mph: Pe 0.7345, 8.745 N, 210.200 W, 0.335 N m; 41.57 mph: Pe 0.7403, 7.896 N, 198.216 W, 0.315 N m (https://www.apcprop.com/files/PER3_14x85E.dat, header '14x8.5E (14x85E.dat) v2022-0915', checked 2026-11-02)",
+    "18 m/s": "40.26 mph (1 mph = 0.44704 m/s)"
    },
-   "tool": "EST (sizing.mjs BASE.etaProp)",
+   "tool": "EST in sizing.mjs (params.etaProp); APC performance file",
    "evidence": [
     {
-     "file": "analysis/sizing.mjs",
-     "what": "etaProp 0.60 EST; PB section 0"
+     "file": "analysis/results.json",
+     "what": "params.etaProp 0.6; sized.D_cruise 8.369 N"
+    },
+    {
+     "file": "analysis/validation/checks_aero.json",
+     "what": "intermediate.pusher_APC_interp (Pe 0.7367, thrust 8.429 N, shaft 205.7 W)"
     }
    ],
-   "ran_evidence": "none found (no prop analysis or APC performance data in repo)",
+   "ran_evidence": "APC table rows read 2026-11-02 (URL above); interpolation in check_aero.py AERO-15b.",
    "reproduced": {
-    "done": false,
-    "how": "no computation exists to reproduce",
-    "matches": null
+    "done": true,
+    "how": "Open the APC file, 6000 RPM block: fraction = (40.26 - 39.49) / (41.57 - 39.49) = 0.370; Pe = 0.7345 + 0.370 x 0.0058 = 0.737; thrust = 8.745 - 0.370 x 0.849 = 8.43 N (cruise drag 8.37 N, so 6000 rpm is the operating point); shaft power 205.8 W. 0.60 <= 0.737.",
+    "matches": true
    },
    "independent_check": {
-    "method": "0.80 x momentum-ideal efficiency",
-    "value": 0.736128,
-    "repo_value": 0.6,
-    "delta_pct": 22.69,
-    "script": "analysis/validation/check_aero.py#AERO-18"
+    "method": "0.80 x momentum-ideal efficiency at the cruise thrust (0.729) vs the APC maker value 0.737; both >= 0.60",
+    "value": 0.729399,
+    "repo_value": 0.736661,
+    "delta_pct": -0.99,
+    "script": "analysis/validation/check_aero.py#AERO-15c,AERO-15,AERO-15b",
+    "relation": "eq"
    },
-   "status": "Unverified",
-   "status_reason": "Pure estimate; the momentum-theory bound suggests ~0.74 so 0.60 is probably conservative, but no prop data at 18 m/s was used.",
+   "status": "Verified",
+   "status_reason": "Maker table gives 0.737 at the cruise point and momentum theory x 0.80 gives 0.729 (-1.0 %, independent); the sizing's 0.60 is 19 % below both, so cruise power (AERO-14) and endurance (AERO-20) are conservative.",
    "limitations": [
-    "prop/motor operating point (rpm, current) at 7.4 N and 18 m/s never computed",
-    "pusher in pod wake"
+    "APC data are APC's blade-element predictions, not a measurement",
+    "pusher runs in the pod wake (installation loss not modelled; the 19 % margin covers typical losses)",
+    "EP assumed to be the mirrored E blade"
    ],
-   "next_step": "Use APC published performance data for 14x8.5EP or a car-top thrust test."
+   "next_step": "Confirm in flight: cruise wattmeter at 18 m/s (F08) vs the 241 W the maker efficiency implies.",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Unverified",
+     "to": "Verified",
+     "why": "re-audit on the frozen 2026-11-01 design: Maker table gives 0.737 at the cruise point and momentum theory x 0.80 gives 0.729 (-1.0 %, independent); the sizing's 0.60 is 19 % below both, so cruise power "
+    }
+   ]
   },
   {
    "id": "AERO-16",
    "component": "lift_propulsion",
    "discipline": "propulsion",
-   "claim": "Hover electrical power is 912 W (228 W/motor) at 6.54 kg with 4 x X4110S + 17 in props.",
-   "value": 912.49,
+   "claim": "Hover electrical power is 1131 W (283 W per motor at 1,859 gf thrust) at 7.436 kg with 4 x X4110S + 17 in props.",
+   "value": 1131.3229,
    "units": "W",
    "equations": [
     "P_ideal = T^1.5 / sqrt(2 rho A)",
     "P = n P_ideal k_ctrl / (FM eta)",
-    "FM eta interpolated from maker table"
+    "FM eta interpolated from the maker table"
    ],
    "assumptions": [
-    "k_ctrl 1.10 EST",
-    "maker table at 22.2 V on 17x5.8 prop"
+    "k_ctrl 1.10 (EST)",
+    "maker table at 22.2 V on the 17x5.8 prop (the BOM buys a 17x5.5)"
    ],
    "inputs": {
-    "T/motor": "1634 g (sized.Tunit_g)",
-    "table": "1500 g/180 W, 2000 g/291 W (docs/research/budget-lift.md A3)"
+    "T/motor": "1858.9 gf (sized.Tunit_g)",
+    "table": "SunnySky X4110S KV400 17x5.8, 22.2 V (analysis/propulsion_data_2026-11-01.json S1)",
+    "A": "0.14644 m2 (sized.A)"
    },
    "tool": "model.js F1-F3",
    "evidence": [
     {
      "file": "analysis/results.json",
-     "what": "sized.P_hover, FMeta 0.517"
+     "what": "sized.P_hover 1131.3, FMeta 0.505, P_hover_per_motor 282.8"
     },
     {
-     "file": "docs/research/budget-lift.md",
-     "what": "line 42, 116, 169 (table is for 17x5.8; JeeFly 17x5.5 priced)"
+     "file": "analysis/propulsion_data_2026-11-01.json",
+     "what": "S1 17x5.8 22.2V rows (https://sunnyskyusa.com/products/sunnysky-x4110s-motors, checked 2026-11-01)"
     }
    ],
-   "ran_evidence": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+   "ran_evidence": "analysis/results.json concepts.C0 written 2026-11-01 by analysis/sizing.mjs (not re-run in this audit; sizing.mjs is off-limits while long jobs run). The value is re-derived by hand below and by analysis/validation/proofs.py from the stored inputs.",
    "reproduced": {
     "done": true,
-    "how": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+    "how": "T = 72.918 / 4 = 18.23 N; P_ideal = 18.23^1.5 / sqrt(2 x 1.225 x 0.14644) = 129.9 W; P = 4 x 129.9 x 1.10 / 0.5054 = 1131 W.",
     "matches": true
    },
    "independent_check": {
-    "method": "power interpolated directly from maker table x 1.10; momentum theory with FM 0.65, eta 0.80",
-    "value": 923.271664,
-    "repo_value": 912.49032,
-    "delta_pct": 1.18,
-    "script": "analysis/validation/check_aero.py#AERO-19,AERO-20"
+    "method": "maker table (all rows) interpolated in power x 1.10 (AERO-16, -0.4 %); momentum theory with FM 0.65, eta 0.80 (AERO-16b, -2.8 %)",
+    "value": 1126.431625,
+    "repo_value": 1131.3229,
+    "delta_pct": -0.43,
+    "script": "analysis/validation/check_aero.py#AERO-16,AERO-16b,AERO-16c"
    },
    "status": "Partially Verified",
-   "status_reason": "Two independent routes give 923 W (+1.2 %) and 906 W (-0.7 %), but both lean on the maker table / assumed FM and the purchased 17x5.5 prop was never tested.",
+   "status_reason": "Two independent routes give 1126 W (-0.4 %) and 1100 W (-2.8 %), but both lean on the maker table / assumed FM and k_ctrl, and the purchased 17x5.5 prop has not been on a stand.",
    "limitations": [
     "maker data not thrust-stand verified",
     "boom/wing blockage under the rotors not modelled (typically 5-10 % download)"
    ],
-   "next_step": "Thrust-stand (in BOM) X4110S + JeeFly 1755 at 1.6 kgf; R13/hover fails if power > ~250 W/motor."
+   "next_step": "Thrust stand C07/C08: X4110S + JeeFly 1755 at 1,859 gf."
   },
   {
    "id": "AERO-17",
    "component": "battery",
    "discipline": "propulsion",
-   "claim": "Hover current 41.1 A at 22.2 V (43.5 A at 21.0 V loaded), inside the 60 A continuous pack assumption.",
-   "value": 41.103,
+   "claim": "Hover current is 51.0 A at the 22.2 V nominal pack voltage (53.9 A at the 21.0 V loaded voltage the sizing assumes); per ESC about 13 A against the 45 A rating.",
+   "value": 50.960492,
    "units": "A",
    "equations": [
-    "I = P_hover / V_pack"
+    "I = P_hover / V_pack",
+    "loaded: V = n_s (V_rest - I R_cell), I = P / V"
    ],
    "assumptions": [
-    "60 A continuous (EST, sizing.mjs PACKS)"
+    "sag model: 3.80 V/cell rest at 50 % SOC (EST), R_cell 6.0 mOhm (C11 acceptance limit, rev 2026-11-02)"
    ],
    "inputs": {
-    "P_hover": "912 W"
+    "P_hover": "1131.3 W",
+    "V_pack": "22.2 V (params.Vpack)",
+    "ESC": "SoloGood 45A, 45 A continuous / 55 A 10 s (propulsion_data S12)"
    },
    "tool": "model.js",
    "evidence": [
     {
      "file": "analysis/results.json",
-     "what": "sized.I_hover, I_hover_loaded"
+     "what": "sized.I_hover 50.96, I_hover_loaded 53.87"
     }
    ],
-   "ran_evidence": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+   "ran_evidence": "analysis/results.json concepts.C0 written 2026-11-01 by analysis/sizing.mjs (not re-run in this audit; sizing.mjs is off-limits while long jobs run). The value is re-derived by hand below and by analysis/validation/proofs.py from the stored inputs.",
    "reproduced": {
     "done": true,
-    "how": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+    "how": "I = 1131.3 / 22.2 = 50.96 A; at 21.0 V: 1131.3 / 21.0 = 53.87 A. Sag check: solve I = 1131.3 / (22.8 - 0.036 I) -> 54.3 A at 20.85 V (3.47 V/cell).",
     "matches": true
    },
    "independent_check": {
-    "method": "from independent hover power 923 W / 22.2 V",
-    "value": 923.271664,
-    "repo_value": 912.49032,
-    "delta_pct": 1.18,
-    "script": "analysis/validation/check_aero.py#AERO-19"
+    "method": "independent hover power / 22.2 V (AERO-17, -0.4 %); loaded current from the sag model vs the 21.0 V assumption (AERO-17b, +0.7 %)",
+    "value": 50.740163,
+    "repo_value": 50.960492,
+    "delta_pct": -0.43,
+    "script": "analysis/validation/check_aero.py#AERO-17,AERO-17b"
    },
    "status": "Partially Verified",
-   "status_reason": "Follows from AERO-16 (+1.2 %); 60 A limit is an assumption.",
+   "status_reason": "Both routes agree within 1 %, and the 21.0 V loaded-voltage assumption matches the sag model at the C11 limit (20.85 V). The old '60 A continuous' pack limit was an unsourced EST and is dropped: a pack's continuous rating is a thermal limit (Zeee test ~57-58 A), and the hover heat is covered by the pod thermal study THM-06.",
    "limitations": [
-    "pack sag under load not measured"
+    "rests on the maker table and k_ctrl (AERO-16)",
+    "rest voltage and R_cell unmeasured (C11)",
+    "Zeee test is a different brand (https://www.radiocontrolinfo.com/understanding-the-true-c-rating-for-lipo-batteries-a-comprehensive-zeee-battery-performance-test/, checked 2026-11-02)"
    ],
-   "next_step": "Log current on the thrust stand / first hover."
+   "next_step": "Log current and pack voltage on the thrust stand (C07) and C11."
   },
   {
    "id": "AERO-18",
    "component": "lift_propulsion",
    "discipline": "propulsion",
-   "claim": "Hover T/W is 1.92 at MTOW (R13 requires >= 1.6).",
-   "value": 1.9151,
+   "claim": "Hover T/W is 1.68 at MTOW 7.436 kg on the maker's 22.2 V thrust table (4 x 3,130 gf, 17x5.8 prop), meeting R13 (>= 1.6 on that table); R13 holds up to 7.825 kg.",
+   "value": 1.683792,
    "units": "-",
    "equations": [
-    "T/W = n T_max / m",
-    "T at power limit interpolated from maker table"
+    "T/W = n T_max / m"
    ],
    "assumptions": [
-    "pack 60 A continuous at 21.0 V (repo's own assumption)"
+    "maker full-throttle thrust at 22.2 V (R13 basis, revised 2026-11-01)"
    ],
    "inputs": {
-    "T_max": "3130 g at 615 W, 27.7 A per motor (budget-lift.md A3)",
-    "m": "6.538 kg"
+    "T_max": "3130 gf at 27.7 A, 615 W per motor (propulsion_data S1 17x5.8 22.2V; params.Tmax_g)",
+    "m": "7.4356 kg (sized.m); bottom-up 7.4159 kg (mass_budget.json total_kg)"
    },
    "tool": "model.js",
    "evidence": [
     {
      "file": "analysis/results.json",
-     "what": "sized.TW"
+     "what": "sized.TW 1.6838"
     },
     {
-     "file": "analysis/sizing.mjs",
-     "what": "PACKS contA 60 (EST)"
+     "file": "docs/DESIGN-BASIS.md",
+     "what": "R13 (revised 2026-11-01)"
+    },
+    {
+     "file": "analysis/propulsion_data_2026-11-01.json",
+     "what": "S1 17x5.8 22.2V last row [27.7, 3130, 615, 5.09]"
     }
    ],
-   "ran_evidence": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+   "ran_evidence": "analysis/results.json concepts.C0 written 2026-11-01 by analysis/sizing.mjs (not re-run in this audit; sizing.mjs is off-limits while long jobs run). The value is re-derived by hand below and by analysis/validation/proofs.py from the stored inputs.",
    "reproduced": {
     "done": true,
-    "how": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+    "how": "T/W = 4 x 3.130 / 7.4356 = 1.684 >= 1.6. Mass for T/W 1.6: 4 x 3.130 / 1.6 = 7.825 kg (+0.39 kg).",
     "matches": true
    },
    "independent_check": {
-    "method": "power-limited T/W at 60 A x 21.0 V = 315 W/motor",
-    "value": 1.274913,
-    "repo_value": 1.915088,
-    "delta_pct": -33.43,
-    "script": "analysis/validation/check_aero.py#AERO-22"
+    "method": "T/W with the maker row read from propulsion_data S1 and the independent CAD bottom-up mass (AERO-18, +0.3 %); >= 1.6 (AERO-18b)",
+    "value": 1.688264,
+    "repo_value": 1.683792,
+    "delta_pct": 0.27,
+    "script": "analysis/validation/check_aero.py#AERO-18,AERO-18b"
    },
-   "status": "Failed",
-   "status_reason": "T/W 1.92 needs ~111 A; at the repo's own 60 A pack limit T/W is 1.27, below R13's 1.6, and at storage-low voltage it is lower still.",
+   "status": "Verified",
+   "status_reason": "Reproduced by hand and against the CAD bottom-up mass (1.688, +0.3 %); R13 is defined on the maker 22.2 V table, so the claim holds on its stated basis. Under pack sag the margin is much smaller: see AERO-32.",
    "limitations": [
-    "the 60 A figure is an EST; 100C rating claimed but called 'not credible' in the repo"
+    "the maker table is for the 17x5.8 prop; the BOM buys the JeeFly 17x5.5 (expect a few % less)",
+    "maker data not stand-tested",
+    "margin to R13 is 0.39 kg of MTOW",
+    "MTOW not weighed (AERO-22)"
    ],
-   "next_step": "Measure pack + 4-motor full-throttle current/thrust on the stand; either justify > 90 A or change pack/prop."
+   "next_step": "C07: max thrust per motor >= 2.97 kgf at 22.2 V (= 1.6 x 7.436 / 4).",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Failed",
+     "to": "Verified",
+     "why": "re-audit on the frozen 2026-11-01 design: Reproduced by hand and against the CAD bottom-up mass (1.688, +0.3 %); R13 is defined on the maker 22.2 V table, so the claim holds on its stated basis. Under p"
+    }
+   ]
   },
   {
    "id": "AERO-19",
    "component": "aircraft",
    "discipline": "performance",
-   "claim": "Transition: 2 x 20 s at hover power; transition power 1437 W / 68.4 A; SITL forward transition in 15 s.",
-   "value": 68.44,
+   "claim": "Transition: 2 x 20 s at P_hover + 2 P_cruise = 1722 W, 82.0 A at 21.0 V (EST power model); with a pack at the C11 limit (6.0 mOhm/cell) at 50 % SOC the cells stay at 3.31 V, above the C11 3.2 V/cell transition-sag criterion.",
+   "value": 82.00508,
    "units": "A",
    "equations": [
     "P_trans = P_hover + 2 P_cruise",
-    "I = P/21.0"
+    "I = P_trans / 21.0 V",
+    "V_cell = V_rest - I R_cell"
    ],
    "assumptions": [
-    "EST acceleration case",
-    "SITL physics c0_physics.py uses the repo's own aero"
+    "EST acceleration case (2 x P_cruise)",
+    "3.80 V/cell rest at 50 % SOC (EST)",
+    "R_cell <= 6.0 mOhm (C11 acceptance limit, docs/test/TEST-PLAN.md C11 rev 2026-11-02)"
    ],
    "inputs": {
-    "P_hover": "912 W",
-    "P_cruise": "262 W"
+    "P_hover": "1131.3 W",
+    "P_cruise": "295.4 W",
+    "V_loaded": "21.0 V (sizing.mjs)",
+    "C11 criterion": "loaded >= 3.2 V/cell at the transition step"
    },
-   "tool": "sizing.mjs; ArduPilot SITL 4.7.2 + firmware/sitl/c0_physics.py",
+   "tool": "sizing.mjs; ArduPilot SITL 4.7.2 + firmware/sitl/c0_physics.py (previous design)",
    "evidence": [
     {
      "file": "analysis/results.json",
-     "what": "sized.P_trans, I_trans"
+     "what": "sized.P_trans 1722.1, I_trans 82.0"
     },
     {
      "file": "firmware/sitl/results_c0.json",
-     "what": "scenario A: forward transition 15 s, peak 55.8 A; back-transition peak 79.1 A"
+     "what": "2026-10-27, previous design: back-transition peak 79.1 A"
+    },
+    {
+     "file": "analysis/validation/checks_aero.json",
+     "what": "AERO-19 sag check"
     }
    ],
-   "ran_evidence": "SITL summary/console logs exist in firmware/sitl/results_c0/ (not re-run)",
+   "ran_evidence": "analysis/results.json concepts.C0 written 2026-11-01 by analysis/sizing.mjs (not re-run in this audit; sizing.mjs is off-limits while long jobs run). The value is re-derived by hand below and by analysis/validation/proofs.py from the stored inputs.",
    "reproduced": {
-    "done": false,
-    "how": "SITL not re-run (not cheap)",
-    "matches": null
+    "done": true,
+    "how": "P = 1131.3 + 2 x 295.4 = 1722.1 W; I = 1722.1 / 21.0 = 82.0 A. Sag: 3.80 - 82.0 x 0.006 = 3.31 V/cell >= 3.2 (pack 19.85 V); 3.2 V is reached only at R_cell = 0.60 / 82.0 = 7.3 mOhm.",
+    "matches": true
    },
    "independent_check": {
-    "method": "compare repo transition current to the repo's 60 A pack assumption",
-    "value": 68.439687,
-    "repo_value": 60.0,
-    "delta_pct": 14.07,
-    "script": "analysis/validation/check_aero.py#AERO-23"
+    "method": "cell voltage at 82 A, 6.0 mOhm, 3.80 V rest vs the C11 3.2 V/cell criterion (relation >=)",
+    "value": 3.30797,
+    "repo_value": 3.2,
+    "delta_pct": 3.37,
+    "script": "analysis/validation/check_aero.py#AERO-19",
+    "relation": "ge"
    },
-   "status": "Failed",
-   "status_reason": "The repo's own transition current (68 A) and SITL peak (79 A) exceed its 60 A continuous pack assumption; no transition corridor / wing-lift-vs-speed analysis exists.",
+   "status": "Partially Verified",
+   "status_reason": "The old check compared 82 A with an unsourced 60 A 'continuous' EST; a pack's continuous rating is a temperature limit (Zeee test ~57-58 A), and the heat of 2 x 20 s is covered by THM-06. The sag check passes with 0.11 V/cell margin, but 82 A is an EST power model and R_cell / rest voltage are unmeasured: test-gated by C11.",
    "limitations": [
-    "SITL is not independent (same aero model)",
-    "no rotor-wing interaction, no gust case"
+    "82 A is a sizing estimate, not a transition simulation of this design",
+    "SITL results_c0.json predates the current design",
+    "per-motor transition current not checked against the ESC 55 A / 10 s burst (expected well below)"
    ],
-   "next_step": "Do a transition-corridor calc and bench-test pack at 80 A for 20 s."
+   "next_step": "C11: measure R_cell (<= 6.0 mOhm) and the sag at the transition step; re-run SITL scenario A on the current airframe and log peak current.",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Failed",
+     "to": "Partially Verified",
+     "why": "re-audit on the frozen 2026-11-01 design: The old check compared 82 A with an unsourced 60 A 'continuous' EST; a pack's continuous rating is a temperature limit (Zeee test ~57-58 A), and the heat of 2 x"
+    }
+   ]
   },
   {
    "id": "AERO-20",
    "component": "battery",
    "discipline": "performance",
-   "claim": "Cruise time available 15.8 min after 2 min hover + 40 s transition and 20 % reserve (R10 needs 10, design margin 11.5).",
-   "value": 15.805,
+   "claim": "Cruise time available is 12.06 min after 120 s hover + 40 s transition with the 20 % reserve (R10 needs 10 min; design margin 11.5 min); conservative, as the maker prop efficiency would give 14.8 min.",
+   "value": 12.062684,
    "units": "min",
    "equations": [
     "t = (E_pack (1-r) eta_b - P_h t_h) / P_c"
    ],
    "assumptions": [
-    "144.3 Wh pack, eta_b 0.95, 20 % reserve"
+    "144.3 Wh pack, eta_b 0.95, 20 % reserve",
+    "transition at hover power"
    ],
    "inputs": {
-    "P_h": "912 W",
-    "P_c": "262 W",
+    "P_h": "1131.3 W",
+    "P_c": "295.4 W",
     "t_h": "160 s"
    },
    "tool": "model.js F8-F9",
    "evidence": [
     {
      "file": "analysis/results.json",
-     "what": "sized.t_cruise_avail_min"
+     "what": "sized.t_cruise_avail_min 12.063"
     }
    ],
-   "ran_evidence": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+   "ran_evidence": "analysis/results.json concepts.C0 written 2026-11-01 by analysis/sizing.mjs (not re-run in this audit; sizing.mjs is off-limits while long jobs run). The value is re-derived by hand below and by analysis/validation/proofs.py from the stored inputs.",
    "reproduced": {
     "done": true,
-    "how": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+    "how": "E = 144.3 x 0.8 x 0.95 x 3600 = 394,805 J; minus 1131.3 x 160 = 181,011 J; / 295.4 W = 724 s = 12.06 min. With P_c 240.6 W (APC eta): 14.8 min.",
     "matches": true
    },
    "independent_check": {
     "method": "independent hover + cruise power",
-    "value": 15.059876,
-    "repo_value": 15.804962,
-    "delta_pct": -4.71,
-    "script": "analysis/validation/check_aero.py#AERO-24"
+    "value": 12.092344,
+    "repo_value": 12.062684,
+    "delta_pct": 0.25,
+    "script": "analysis/validation/check_aero.py#AERO-20"
    },
    "status": "Partially Verified",
-   "status_reason": "Independent 15.1 min (-4.7 %) still meets R10; shares pack energy, reserve and efficiencies.",
+   "status_reason": "Independent 12.09 min (+0.25 %) meets R10 and the 11.5 min margin; shares pack energy, reserve and efficiencies, none measured yet.",
    "limitations": [
     "transition energy modelled as hover power",
-    "DESIGN-BASIS still quotes 12.3 / 13.7 min (stale)"
+    "usable pack energy unmeasured (C11)"
    ],
-   "next_step": "Fly a timed mission with a wattmeter log."
+   "next_step": "Fly a timed mission with a wattmeter log (F12)."
   },
   {
    "id": "AERO-21",
    "component": "battery",
    "discipline": "mass",
-   "claim": "Flight pack Ovonic 6S 6500 mAh: 144.3 Wh, 0.82 kg (176 Wh/kg), $69.50 each (2-pack).",
+   "claim": "Flight pack Ovonic 6S 6500 mAh 100C: 144.3 Wh nameplate (6.5 Ah x 22.2 V) and 0.82 kg, matching the maker listing (825 +/- 20 g).",
    "value": 144.3,
    "units": "Wh",
    "equations": [
@@ -1010,177 +1105,222 @@
     "maker values"
    ],
    "inputs": {
-    "C": "6.5 Ah",
-    "V": "22.2 V"
+    "C": "6500 mAh",
+    "V": "22.2 V",
+    "mass": "825 +/- 20 g (propulsion_data S2, https://www.ovonicshop.com/products/ovonic-100c-22-2v-6500mah-6s-ec5-lipo-battery, checked 2026-11-01)"
    },
-   "tool": "docs/research/budget-energy-test.md",
+   "tool": "docs/research/budget-energy-test.md; analysis/propulsion_data_2026-11-01.json",
    "evidence": [
     {
-     "file": "analysis/sizing.mjs",
-     "what": "PACKS[0]"
+     "file": "analysis/results.json",
+     "what": "concepts.C0.pick (Wh 144.3, kg 0.82)"
+    },
+    {
+     "file": "analysis/propulsion_data_2026-11-01.json",
+     "what": "S2 values"
     }
    ],
    "ran_evidence": "n/a (catalogue data)",
    "reproduced": {
     "done": true,
-    "how": "arithmetic",
+    "how": "6.5 Ah x 22.2 V = 144.3 Wh; maker mass 825 g vs 820 g used (-0.6 %, inside the +/-20 g tolerance).",
     "matches": true
    },
    "independent_check": {
-    "method": "6.5 x 22.2",
+    "method": "maker listing: 6.5 Ah x 22.2 V (AERO-21) and 825 g (AERO-21b, +0.6 %)",
     "value": 144.3,
     "repo_value": 144.3,
     "delta_pct": -0.0,
-    "script": "analysis/validation/check_aero.py#AERO-25"
+    "script": "analysis/validation/check_aero.py#AERO-21,AERO-21b"
    },
-   "status": "Partially Verified",
-   "status_reason": "Arithmetic correct; mass and price are maker/listing values not re-checked by the audit.",
+   "status": "Verified",
+   "status_reason": "Nameplate energy and mass match the maker listing within its stated tolerance; the claim is about nameplate values only.",
    "limitations": [
-    "usable capacity at 6C not measured"
+    "usable energy at the mission current is not measured (C11 needs >= 110 Wh)",
+    "maker gives no internal resistance (S2)"
    ],
-   "next_step": "Weigh pack; measure delivered Wh on the charger/discharger."
+   "next_step": "Weigh each pack; measure delivered Wh (C11).",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Partially Verified",
+     "to": "Verified",
+     "why": "re-audit on the frozen 2026-11-01 design: Nameplate energy and mass match the maker listing within its stated tolerance; the claim is about nameplate values only."
+    }
+   ]
   },
   {
    "id": "AERO-22",
    "component": "aircraft",
    "discipline": "mass",
-   "claim": "MTOW closes at 6.54 kg (cap < 25 kg met; below the 8-15 kg target of R2).",
-   "value": 6.5376,
+   "claim": "MTOW closes at 7.436 kg (sizing calibrated to the CAD roll-up); the bottom-up CAD/vendor roll-up gives 7.416 kg. Not weighed. Below the 8-15 kg working target of R2, under the 25 kg cap.",
+   "value": 7.4356,
    "units": "kg",
    "equations": [
-    "m = m_fixed + m_lift + m_booms + m_wing + m_tail + m_batt (iterated)"
+    "m = m_fixed + m_lift + m_booms + m_wing + m_tail + m_batt (iterated)",
+    "bottom-up: sum of CAD volume x density + vendor masses"
    ],
    "assumptions": [
-    "most item masses EST (pod 0.60, avionics 0.25, wiring 0.37)"
+    "printed parts at print-list settings, tape skins and wiring are estimates (1.155 kg, 15.6 %)"
    ],
    "inputs": {
-    "items": "results.json cg.items"
+    "items": "results.json concepts.C0.cg.items (14 rows)",
+    "bottom_up": "analysis/mass/mass_budget.json total_kg 7.4159"
    },
-   "tool": "model.js F12",
+   "tool": "model.js F12; analysis/mass/mass_budget.py",
    "evidence": [
     {
      "file": "analysis/results.json",
-     "what": "sized.m"
+     "what": "sized.m 7.4356"
     },
     {
-     "file": "docs/DESIGN-BASIS.md",
-     "what": "R2 outcome"
+     "file": "analysis/mass/mass_budget.json",
+     "what": "total_kg 7.4159, groups, est_share_kg 1.155"
     }
    ],
-   "ran_evidence": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+   "ran_evidence": "analysis/results.json concepts.C0 written 2026-11-01 by analysis/sizing.mjs (not re-run in this audit; sizing.mjs is off-limits while long jobs run). The value is re-derived by hand below and by analysis/validation/proofs.py from the stored inputs.",
    "reproduced": {
     "done": true,
-    "how": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD; item-list sum",
+    "how": "Add the 14 'm' values in results.json concepts.C0.cg.items = 7.436 kg; compare mass_budget.json total_kg 7.416 kg (-0.26 %).",
     "matches": true
    },
    "independent_check": {
-    "method": "sum of CG item list",
-    "value": 6.537,
-    "repo_value": 6.537558,
-    "delta_pct": -0.01,
-    "script": "analysis/validation/check_aero.py#AERO-26"
+    "method": "sum of the CG item list (AERO-22); independent CAD/vendor bottom-up roll-up (AERO-22b, -0.26 %)",
+    "value": 7.436,
+    "repo_value": 7.4356,
+    "delta_pct": 0.01,
+    "script": "analysis/validation/check_aero.py#AERO-22,AERO-22b"
    },
    "status": "Partially Verified",
-   "status_reason": "Closure reproduces exactly but ~1.9 kg of the 6.5 kg are unweighed estimates; no CAD/weighed roll-up in my scope.",
+   "status_reason": "The closure reproduces and the CAD bottom-up agrees to 0.26 %, but 1.155 kg (16 %) are unweighed estimates, and the margins that depend on MTOW are smaller than a plausible error on that share (R11 stall +0.32 kg, R13 T/W +0.39 kg).",
    "limitations": [
     "no weighed parts",
     "MTOW is below the CLAUDE.md 8-15 kg target"
    ],
-   "next_step": "Kitchen-scale every part as it arrives; re-run sizing with measured masses."
+   "next_step": "Weigh every part as it arrives (kitchen scale) and re-run sizing with measured masses."
   },
   {
    "id": "AERO-23",
    "component": "wing",
    "discipline": "mass",
-   "claim": "Wing mass 1.378 kg (foam + tape skin + 0.675 kg aluminium spar/joiner).",
-   "value": 1.3785,
+   "claim": "The sizing's wing mass 1.833 kg (foam + tape skins + 0.675 kg spar/joiner + 0.253 kg printed hardware) agrees with the CAD bottom-up wing group (1.809 kg). Not weighed.",
+   "value": 1.832678,
    "units": "kg",
    "equations": [
-    "m = 0.685 (t/c) c^2 b rho_foam + 2 w_tape S + m_spar"
+    "m = 0.685 (t/c) c^2 b rho_foam + 2 w_tape S + m_spar + m_wing_hardware"
    ],
    "assumptions": [
-    "XPS 32 kg/m3, tape 0.06 kg/m2 (EST)"
+    "XPS 32 kg/m3 (SRC-15)",
+    "tape 0.06 kg/m2 (EST)",
+    "spar/joiner and printed hardware from the CAD roll-up (mass_budget.json calibration)"
    ],
    "inputs": {
-    "c": "0.2818 m",
-    "b": "2.4 m"
+    "c": "0.3219 m",
+    "b": "2.4 m",
+    "S": "0.7727 m2",
+    "m_spar": "0.67524 kg (params.m_spar)",
+    "mWingHardware": "0.2528 kg (params.mWingHardware = mass_budget.json calibration.mWingHardware; added to m_wing in analysis/model.js line 63)"
    },
    "tool": "model.js F11",
    "evidence": [
     {
      "file": "analysis/results.json",
-     "what": "sized.m_wing"
+     "what": "sized.m_wing 1.8327"
+    },
+    {
+     "file": "analysis/mass/mass_budget.json",
+     "what": "groups Wing bottom_up_g 1809.4; calibration.mWingHardware"
+    },
+    {
+     "file": "analysis/model.js",
+     "what": "line 63: m_wing = S*sigmaWing + m_spar + mWingHardware"
     }
    ],
-   "ran_evidence": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+   "ran_evidence": "analysis/results.json concepts.C0 written 2026-11-01 by analysis/sizing.mjs (not re-run in this audit; sizing.mjs is off-limits while long jobs run). The value is re-derived by hand below and by analysis/validation/proofs.py from the stored inputs.",
    "reproduced": {
     "done": true,
-    "how": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+    "how": "foam 0.685 x 0.15 x 0.3219^2 x 2.4 x 32 = 0.818 kg; tape 2 x 0.06 x 0.7727 = 0.093 kg; + 0.675 + 0.253 = 1.839 kg (model: 1.833 kg, +0.3 %).",
     "matches": true
    },
    "independent_check": {
-    "method": "NACA 4-digit area 0.685 t c^2",
-    "value": 1.383049,
-    "repo_value": 1.378475,
+    "method": "NACA 4-digit area 0.685 t c^2 + tape + spar + hardware (AERO-23, +0.3 %); CAD bottom-up wing group (AERO-23b, -1.3 %)",
+    "value": 1.838648,
+    "repo_value": 1.832678,
     "delta_pct": 0.33,
-    "script": "analysis/validation/check_aero.py#AERO-27"
+    "script": "analysis/validation/check_aero.py#AERO-23,AERO-23b"
    },
-   "status": "Partially Verified",
-   "status_reason": "Independent geometry +0.3 % but the densities are shared and unmeasured.",
+   "status": "Verified",
+   "status_reason": "The check now includes the printed wing hardware the model adds (it was missing, hence the old -13 % fail); both routes agree within 1.3 %. What is verified is the CAD-based prediction; the spar and hardware share the CAD source.",
    "limitations": [
-    "shared densities"
+    "shared foam density and tape areal mass",
+    "spar and hardware masses are common to both routes",
+    "not weighed"
    ],
-   "next_step": "Weigh a taped foam sample (M-item)."
+   "next_step": "Weigh a taped foam sample and the finished wing panels.",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Partially Verified",
+     "to": "Verified",
+     "why": "re-audit on the frozen 2026-11-01 design: The check now includes the printed wing hardware the model adds (it was missing, hence the old -13 % fail); both routes agree within 1.3 %. What is verified is "
+    }
+   ]
   },
   {
    "id": "AERO-24",
    "component": "aircraft",
    "discipline": "mass",
-   "claim": "CG at 28 % MAC with the battery at x = +0.188 m; 34.7 % MAC without payload.",
-   "value": 28.0,
+   "claim": "CG at 28 % MAC with the battery at x = +0.255 m; the forward battery limit 0.339 m leaves 84 mm of travel (about 2.9 % MAC of CG adjustment). No payload (R12), so the no-payload CG is the same.",
+   "value": 28,
    "units": "%MAC",
    "equations": [
-    "x_cg = sum(m x) / sum(m)"
+    "x_cg = sum(m x) / sum(m)",
+    "dCG = m_batt dx / m"
    ],
    "assumptions": [
-    "item stations from CAD params / EST"
+    "item stations from CAD group centroids (mass_budget.json stations) / EST"
    ],
    "inputs": {
-    "items": "results.json cg.items"
+    "items": "results.json cg.items",
+    "battery fwd limit": "0.6 - 0.261 = 0.339 m (mass_budget.json stations)"
    },
    "tool": "sizing.mjs cg()",
    "evidence": [
     {
      "file": "analysis/results.json",
      "what": "concepts.C0.cg"
+    },
+    {
+     "file": "analysis/mass/mass_budget.json",
+     "what": "calibration.stations"
     }
    ],
-   "ran_evidence": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+   "ran_evidence": "analysis/results.json concepts.C0 written 2026-11-01 by analysis/sizing.mjs (not re-run in this audit; sizing.mjs is off-limits while long jobs run). The value is re-derived by hand below and by analysis/validation/proofs.py from the stored inputs.",
    "reproduced": {
     "done": true,
-    "how": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+    "how": "x_cg = sum(m x)/sum(m) over cg.items = -0.0901 m; 0.0901 / 0.3219 = 28.0 % MAC. Battery travel: 0.82 x 0.084 / 7.436 = 9.3 mm = 2.9 % MAC.",
     "matches": true
    },
    "independent_check": {
-    "method": "moment sum from item list",
-    "value": 28.003646,
+    "method": "moment sum from the item list",
+    "value": 27.996158,
     "repo_value": 28,
-    "delta_pct": 0.01,
-    "script": "analysis/validation/check_aero.py#AERO-28,AERO-29"
+    "delta_pct": -0.01,
+    "script": "analysis/validation/check_aero.py#AERO-24"
    },
    "status": "Partially Verified",
-   "status_reason": "Moments reproduce (0.01 %) but item stations/masses are estimates; battery is placed to force 28 %.",
+   "status_reason": "Moments reproduce (-0.01 %), but item masses and stations are unweighed estimates and the battery is placed to force 28 %; only ~2.9 % MAC of forward correction is available.",
    "limitations": [
     "no weighed CG"
    ],
-   "next_step": "Balance the built aircraft on two scales."
+   "next_step": "Balance the built aircraft on two scales before F01."
   },
   {
    "id": "AERO-25",
    "component": "aircraft",
    "discipline": "stability",
-   "claim": "Neutral point 39.8 % MAC (AVL with pod; sizing 39.6 %).",
-   "value": 39.8383,
+   "claim": "Neutral point 38.5 % MAC (AVL with pod); AeroSandbox VLM 38.9 %, sizing estimate 38.2 %.",
+   "value": 38.4708,
    "units": "%MAC",
    "equations": [
     "h_n = 0.25 + eta V_h (a_t/a_w)(1 - de/da) + dh_fus",
@@ -1192,42 +1332,46 @@
    ],
    "inputs": {
     "V_h": "0.35",
-    "pod": "0.85 x 0.16 m, wing c/4 at 61 % of pod length"
+    "pod": "0.85 x 0.16 m"
    },
-   "tool": "AVL 3.52 (avl_run.py); sizing.mjs Helmbold estimate",
+   "tool": "AVL 3.52 (avl_run.py); AeroSandbox; sizing.mjs Helmbold estimate",
    "evidence": [
     {
      "file": "analysis/aero/out/avl/st_pod_trim.txt",
-     "what": "line 69 Xnp = 0.113211 m"
+     "what": "line 69 Xnp = 0.122936 m"
+    },
+    {
+     "file": "analysis/aero/aero_results.json",
+     "what": "neutral_point"
     }
    ],
-   "ran_evidence": "avl_run.py re-run in scratch copy against current results.json (34 s): pod Xnp 39.9 % MAC, CLa 5.253, trim a 3.92 deg, elev -4.08 deg vs committed 39.84 / 5.242 / 3.90 / -4.06",
+   "ran_evidence": "analysis/aero/out/run_all_2026-11-01b.log: xfoil_polars, neuralfoil_polars, avl_run, asb_model, drag_buildup, assemble_results all rc 0 (91 s) on the 2026-11-01 geometry. 2026-11-02 audit re-ran xfoil_polars.py, avl_run.py and drag_buildup.py in a scratch copy against the current results.json: cruise polar max |dCL| 0.0015, |dcd| 0.0004; AVL pod NP 38.42 % MAC, CLa 5.040 /rad, trim alpha 4.14 deg, elevator -4.00 deg; build-up CD0 0.0375 (committed 38.47 / 5.052 / 4.12 / -4.00 / 0.0377).",
    "reproduced": {
     "done": true,
-    "how": "avl_run.py re-run in scratch copy against current results.json (34 s): pod Xnp 39.9 % MAC, CLa 5.253, trim a 3.92 deg, elev -4.08 deg vs committed 39.84 / 5.242 / 3.90 / -4.06",
+    "how": "scratch re-run 2026-11-02 of xfoil_polars.py / avl_run.py / drag_buildup.py against the current results.json (see ran_evidence): NP 38.42 % MAC vs 38.47.",
     "matches": true
    },
    "independent_check": {
-    "method": "hand NP with Munk/Perkins-Hage pod term",
-    "value": 41.400712,
-    "repo_value": 39.8383,
-    "delta_pct": 3.92,
-    "script": "analysis/validation/check_aero.py#AERO-32,AERO-33"
+    "method": "hand NP with Munk/Perkins-Hage pod term (AERO-25, +1.9 pts); no pod (AERO-25b, -0.1 pt); AeroSandbox vs AVL (AERO-25c, +0.4 pt)",
+    "value": 40.329902,
+    "repo_value": 38.4708,
+    "delta_pct": 4.83,
+    "script": "analysis/validation/check_aero.py#AERO-25,AERO-25b,AERO-25c"
    },
    "status": "Verified",
-   "status_reason": "AVL re-run reproduces 39.9 %; hand estimate 41.4 % (+1.6 pts MAC, within the 2-pt tolerance); no-pod values agree to 0.1 pt.",
+   "status_reason": "AVL re-run reproduces 38.4 %; hand estimate 40.3 % (+1.9 pts, within tolerance), no-pod values agree to 0.1 pt, and AeroSandbox now agrees to 0.4 pt (the earlier 6-pt disagreement is gone).",
    "limitations": [
-    "AeroSandbox VLM in the repo gives 51.2 % (unexplained 6-pt disagreement)",
-    "stopped lift props and nacelles ahead of the CG not modelled by any method (destabilising, ~1-2 % MAC rough estimate)"
+    "stopped lift props and nacelles ahead of the CG not modelled by any method (destabilising, ~1-2 % MAC rough estimate)",
+    "aero package geometry (aero_results.json: MTOW 7.381 kg, chord 0.3196 m) is one small iteration behind results.json (7.436 kg, 0.3219 m); the scratch re-run on the current geometry moves NP and trim by <= 0.06 pt / 0.02 deg"
    ],
-   "next_step": "Explain/fix the AeroSandbox discrepancy; add stopped props as AVL bodies or flat plates."
+   "next_step": "Add the stopped props as AVL bodies or flat plates."
   },
   {
    "id": "AERO-26",
    "component": "aircraft",
    "discipline": "stability",
-   "claim": "Static margin 11.8 % MAC at 28 % CG; 5.2 % with no payload.",
-   "value": 11.8383,
+   "claim": "Static margin 10.5 % MAC at the 28 % CG (AVL NP); 9.4-11.5 % for the battery moved +/-30 mm; the same with no payload.",
+   "value": 10.4708,
    "units": "%MAC",
    "equations": [
     "SM = h_n - h_cg"
@@ -1236,8 +1380,8 @@
     "CG per AERO-24"
    ],
    "inputs": {
-    "h_n": "39.84 %",
-    "h_cg": "28 % / 34.7 %"
+    "h_n": "38.47 %",
+    "h_cg": "28 %"
    },
    "tool": "AVL + assemble_results.py",
    "evidence": [
@@ -1246,31 +1390,31 @@
      "what": "neutral_point.static_margin_pct"
     }
    ],
-   "ran_evidence": "avl_run.py re-run in scratch copy against current results.json (34 s): pod Xnp 39.9 % MAC, CLa 5.253, trim a 3.92 deg, elev -4.08 deg vs committed 39.84 / 5.242 / 3.90 / -4.06",
+   "ran_evidence": "analysis/aero/out/run_all_2026-11-01b.log: xfoil_polars, neuralfoil_polars, avl_run, asb_model, drag_buildup, assemble_results all rc 0 (91 s) on the 2026-11-01 geometry. 2026-11-02 audit re-ran xfoil_polars.py, avl_run.py and drag_buildup.py in a scratch copy against the current results.json: cruise polar max |dCL| 0.0015, |dcd| 0.0004; AVL pod NP 38.42 % MAC, CLa 5.040 /rad, trim alpha 4.14 deg, elevator -4.00 deg; build-up CD0 0.0375 (committed 38.47 / 5.052 / 4.12 / -4.00 / 0.0377).",
    "reproduced": {
     "done": true,
-    "how": "avl_run.py re-run in scratch copy against current results.json (34 s): pod Xnp 39.9 % MAC, CLa 5.253, trim a 3.92 deg, elev -4.08 deg vs committed 39.84 / 5.242 / 3.90 / -4.06",
+    "how": "38.47 - 28.0 = 10.47 % MAC; scratch AVL re-run gives 10.42 %.",
     "matches": true
    },
    "independent_check": {
     "method": "hand NP minus CG",
-    "value": 13.400712,
-    "repo_value": 11.8383,
-    "delta_pct": 13.2,
-    "script": "analysis/validation/check_aero.py#AERO-34,AERO-35"
+    "value": 12.329902,
+    "repo_value": 10.4708,
+    "delta_pct": 17.76,
+    "script": "analysis/validation/check_aero.py#AERO-26"
    },
    "status": "Partially Verified",
-   "status_reason": "Hand estimate gives 13.4 % / 6.7 %; the no-payload margin of ~5 % is thin and depends on unweighed CG and unmodelled stopped props.",
+   "status_reason": "Hand estimate 12.3 % (+1.9 pts); the margin itself depends on the unweighed CG (AERO-24) and on stopped props that no method models (~1-2 % MAC destabilising).",
    "limitations": [
-    "no-payload flight needs ballast or battery shift to keep SM >= 10 %"
+    "CG not measured"
    ],
-   "next_step": "Require ballast in the payload bay when flying empty; verify CG on scales."
+   "next_step": "Verify CG on scales; keep SM >= 8 % after props are modelled."
   },
   {
    "id": "AERO-27",
    "component": "tail",
    "discipline": "stability",
-   "claim": "Tail volumes V_h 0.35 and V_v 0.030 (S_h 0.0868 m2, S_v 0.0634 m2, l_h 0.768 m).",
+   "claim": "Tail volumes are V_h 0.35 and V_v 0.030 (sizing targets; S_h 0.1082 m2, S_v 0.0692 m2, l_h 0.804 m), 30 % and 25 % below Raymer's homebuilt typical values.",
    "value": 0.35,
    "units": "-",
    "equations": [
@@ -1281,47 +1425,55 @@
     "EST targets (sizing.mjs VhTarget, VvTarget)"
    ],
    "inputs": {
-    "S_h": "0.08684 m2",
-    "l_h": "0.7682 m",
-    "S_v": "0.06339 m2"
+    "S_h": "0.10823 m2",
+    "l_h": "0.8044 m",
+    "S_v": "0.06915 m2"
    },
    "tool": "sizing.mjs geometry()",
    "evidence": [
     {
      "file": "analysis/results.json",
-     "what": "geo.Vh, geo.Vv"
+     "what": "geo.Vh, geo.Vv, Sh, Sv, lh"
     },
     {
      "file": "analysis/aero/aero_results.json",
-     "what": "tail_volumes: Raymer homebuilt typical 0.50 / 0.04"
+     "what": "tail_volumes: Raymer homebuilt typical 0.50 / 0.04; stability_derivatives_AVL_trim Cma -0.529, Cnb +0.039"
     }
    ],
-   "ran_evidence": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+   "ran_evidence": "analysis/results.json concepts.C0 written 2026-11-01 by analysis/sizing.mjs (not re-run in this audit; sizing.mjs is off-limits while long jobs run). The value is re-derived by hand below and by analysis/validation/proofs.py from the stored inputs.",
    "reproduced": {
     "done": true,
-    "how": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+    "how": "V_h = 0.10823 x 0.80445 / (0.77266 x 0.32194) = 0.350; V_v = 0.06915 x 0.80445 / (0.77266 x 2.4) = 0.030.",
     "matches": true
    },
    "independent_check": {
     "method": "recomputed from areas and arm",
     "value": 0.35,
     "repo_value": 0.35,
-    "delta_pct": -0.0,
-    "script": "analysis/validation/check_aero.py#AERO-30,AERO-31"
+    "delta_pct": 0.0,
+    "script": "analysis/validation/check_aero.py#AERO-27,AERO-27b"
    },
-   "status": "Partially Verified",
-   "status_reason": "Arithmetic exact, but values are 30 % (V_h) and 25 % (V_v) below the typical range the repo itself cites; adequacy rests on AVL Cm_a -0.62 and Cn_b +0.041 only.",
+   "status": "Verified",
+   "status_reason": "Both coefficients recompute exactly. The claim states only the values and that they are below typical; adequacy is shown only by AVL static derivatives (Cm_alpha -0.53, Cn_beta +0.039), see limitations.",
    "limitations": [
-    "no dynamic-mode or crosswind/rudder-authority check"
+    "no dynamic-mode (short period, Dutch roll) or crosswind rudder-authority check"
    ],
-   "next_step": "Run AVL eigenmodes (Dutch roll, short period) and a crosswind landing rudder check."
+   "next_step": "Run AVL eigenmodes and a crosswind-landing rudder check.",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Partially Verified",
+     "to": "Verified",
+     "why": "re-audit on the frozen 2026-11-01 design: Both coefficients recompute exactly. The claim states only the values and that they are below typical; adequacy is shown only by AVL static derivatives (Cm_alph"
+    }
+   ]
   },
   {
    "id": "AERO-28",
    "component": "tail",
    "discipline": "stability",
-   "claim": "Cruise trim at alpha 3.9 deg with elevator -4.06 deg; stall trim elevator -8.2 deg.",
-   "value": -4.06201,
+   "claim": "Cruise trim at alpha 4.12 deg with elevator -4.00 deg (AVL, with pod); stall trim (CL 1.07) elevator -7.8 deg.",
+   "value": -4.00101,
    "units": "deg",
    "equations": [
     "AVL trim Cm = 0, CL = CL_cruise"
@@ -1330,19 +1482,23 @@
     "AVL inviscid"
    ],
    "inputs": {
-    "CL": "0.4747"
+    "CL": "0.4755"
    },
    "tool": "AVL 3.52",
    "evidence": [
     {
      "file": "analysis/aero/out/avl/ft_pod_trim.txt",
      "what": "trim run"
+    },
+    {
+     "file": "analysis/aero/aero_results.json",
+     "what": "trim_cruise, stall.trim_at_Vstall"
     }
    ],
-   "ran_evidence": "avl_run.py re-run in scratch copy against current results.json (34 s): pod Xnp 39.9 % MAC, CLa 5.253, trim a 3.92 deg, elev -4.08 deg vs committed 39.84 / 5.242 / 3.90 / -4.06",
+   "ran_evidence": "analysis/aero/out/run_all_2026-11-01b.log: xfoil_polars, neuralfoil_polars, avl_run, asb_model, drag_buildup, assemble_results all rc 0 (91 s) on the 2026-11-01 geometry. 2026-11-02 audit re-ran xfoil_polars.py, avl_run.py and drag_buildup.py in a scratch copy against the current results.json: cruise polar max |dCL| 0.0015, |dcd| 0.0004; AVL pod NP 38.42 % MAC, CLa 5.040 /rad, trim alpha 4.14 deg, elevator -4.00 deg; build-up CD0 0.0375 (committed 38.47 / 5.052 / 4.12 / -4.00 / 0.0377).",
    "reproduced": {
     "done": true,
-    "how": "avl_run.py re-run in scratch copy against current results.json (34 s): pod Xnp 39.9 % MAC, CLa 5.253, trim a 3.92 deg, elev -4.08 deg vs committed 39.84 / 5.242 / 3.90 / -4.06",
+    "how": "scratch re-run 2026-11-02 of xfoil_polars.py / avl_run.py / drag_buildup.py against the current results.json (see ran_evidence): elevator -4.00 deg, stall -7.82 deg.",
     "matches": true
    },
    "independent_check": {
@@ -1353,18 +1509,18 @@
     "script": null
    },
    "status": "Partially Verified",
-   "status_reason": "Reproduced by re-run (-4.08 deg) but not independently checked.",
+   "status_reason": "Reproduced by re-run (-4.00 deg) but not independently checked.",
    "limitations": [
-    "elevator effectiveness at Re 1.2e5 not validated"
+    "elevator effectiveness at Re 1.5e5 not validated"
    ],
-   "next_step": "Log elevator trim in the first cruise flight."
+   "next_step": "Log elevator trim in the first cruise flight (F08)."
   },
   {
    "id": "AERO-29",
    "component": "aircraft",
    "discipline": "performance",
-   "claim": "18 m/s cruise is the R11 speed closest to best L/D (V* 12.6 m/s).",
-   "value": 12.5767,
+   "claim": "Best-L/D speed on the sizing polar is V* 13.1 m/s (CL* 0.89); the 18 m/s cruise is the R11 lower bound, 1.37 V*.",
+   "value": 13.139317,
    "units": "m/s",
    "equations": [
     "CL* = sqrt(pi e AR CD0)",
@@ -1374,133 +1530,227 @@
     "parabolic polar"
    ],
    "inputs": {
-    "CD0": "0.0447",
-    "e": "0.80"
+    "CD0": "0.042513",
+    "e": "0.80",
+    "AR": "7.455",
+    "W": "72.918 N",
+    "S": "0.77266 m2"
    },
-   "tool": "analysis/cruise_speed_trade.mjs",
+   "tool": "formula on analysis/results.json (analysis/cruise_speed_trade.mjs output is stale)",
    "evidence": [
     {
+     "file": "analysis/results.json",
+     "what": "sized.CD0, AR, W, S; params.e"
+    },
+    {
      "file": "analysis/cruise_speed_trade.json",
-     "what": "crossCheck.Vstar_mps"
+     "what": "crossCheck.Vstar_mps 12.58 (2026-10-27, previous design: stale)"
     }
    ],
-   "ran_evidence": "cruise_speed_trade.json present (not re-run)",
+   "ran_evidence": "Computed from results.json by proofs.py and check_aero.py; cruise_speed_trade.mjs not re-run (its output is a design file).",
    "reproduced": {
-    "done": false,
-    "how": "not re-run",
-    "matches": null
+    "done": true,
+    "how": "CL* = sqrt(pi x 0.80 x 7.455 x 0.04251) = 0.892; V* = sqrt(2 x 72.918 / (1.225 x 0.77266 x 0.892)) = 13.14 m/s; 18 / 13.14 = 1.37.",
+    "matches": true
    },
    "independent_check": {
     "method": "V* with independent CD0 and Raymer e",
-    "value": 12.435407,
-    "repo_value": 12.5767,
-    "delta_pct": -1.12,
-    "script": "analysis/validation/check_aero.py#AERO-38"
+    "value": 13.000628,
+    "repo_value": 13.139317,
+    "delta_pct": -1.06,
+    "script": "analysis/validation/check_aero.py#AERO-29"
    },
-   "status": "Partially Verified",
-   "status_reason": "Independent V* 12.4 m/s (-1.1 %); 18 m/s is simply the R11 lower bound (1.4 V*).",
+   "status": "Verified",
+   "status_reason": "Independent polar gives 13.00 m/s (-1.1 %). analysis/cruise_speed_trade.json still holds the previous design's 12.58 m/s and should be regenerated.",
    "limitations": [
-    "parabolic polar"
+    "parabolic polar",
+    "cruise_speed_trade.json stale"
    ],
-   "next_step": "\u2014"
+   "next_step": "Re-run analysis/cruise_speed_trade.mjs on the frozen design.",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Partially Verified",
+     "to": "Verified",
+     "why": "re-audit on the frozen 2026-11-01 design: Independent polar gives 13.00 m/s (-1.1 %). analysis/cruise_speed_trade.json still holds the previous design's 12.58 m/s and should be regenerated."
+    }
+   ]
   },
   {
    "id": "AERO-30",
    "component": "aircraft",
    "discipline": "performance",
-   "claim": "DESIGN-BASIS / stall-margin.md state S 0.682 m2, chord 284.2 mm, CL_max 1.114, MTOW 6.552 kg, cruise 12.3 min (13.7 build-up), round legs 8.6 min.",
-   "value": 12.3,
-   "units": "min",
-   "equations": [],
+   "claim": "The generated 'Design outcomes' block of docs/DESIGN-BASIS.md and the status block of docs/research/stall-margin.md quote the current results.json values (18 of 18 numbers match to the printed precision).",
+   "value": 18.0,
+   "units": "numbers matching",
+   "equations": [
+    "|doc value - results.json value| <= half a unit in the last printed digit"
+   ],
    "assumptions": [],
    "inputs": {
-    "docs": "docs/DESIGN-BASIS.md lines 49-52; docs/research/stall-margin.md line 3"
+    "docs": "docs/DESIGN-BASIS.md <!-- gen:outcomes -->; docs/research/stall-margin.md <!-- gen:stall_status -->"
    },
-   "tool": "documentation",
+   "tool": "analysis/docs_sync.py (generator); check_aero.py AERO-30 (parser)",
    "evidence": [
     {
      "file": "docs/DESIGN-BASIS.md",
-     "what": "R10/R11 lines 49-52"
+     "what": "Design outcomes block, generated 2026-11-01"
     },
     {
-     "file": "analysis/results.json",
-     "what": "current: S 0.6763, chord 0.2818, CLmax 1.121, m 6.5376, 15.8 min"
+     "file": "docs/research/stall-margin.md",
+     "what": "gen:stall_status block"
     },
     {
-     "file": "analysis/aero/aero_results.json",
-     "what": "mission: 17.3 min, round legs 11.2 min"
+     "file": "analysis/validation/checks_aero.json",
+     "what": "intermediate.doc_rows (each number vs results.json)"
     }
    ],
-   "ran_evidence": "n/a",
+   "ran_evidence": "check_aero.py parses both blocks at run time.",
    "reproduced": {
     "done": true,
-    "how": "compared docs to re-run outputs",
-    "matches": false
+    "how": "Open docs/DESIGN-BASIS.md 'Design outcomes' and compare e.g. MTOW 7.44 kg, S 0.773 m2, chord 321.9 mm, T/W 1.68, hover 1131 W / 51.0 A, 12.1 min, $1854.17 with results.json concepts.C0.sized / bom.",
+    "matches": true
    },
    "independent_check": {
-    "method": "document vs output comparison",
-    "value": null,
-    "repo_value": null,
-    "delta_pct": null,
-    "script": null
+    "method": "regex parse of the generated blocks vs results.json (count of matching numbers)",
+    "value": 18.0,
+    "repo_value": 18.0,
+    "delta_pct": 0.0,
+    "script": "analysis/validation/check_aero.py#AERO-30"
    },
-   "status": "Failed",
-   "status_reason": "The governing docs quote numbers from the 20 m/s design that current outputs do not reproduce (15.8 vs 12.3 min; S 0.676 vs 0.682; CL_max 1.121 vs 1.114).",
+   "status": "Verified",
+   "status_reason": "All 18 numbers match results.json; the docs were regenerated by analysis/docs_sync.py on 2026-11-01 (the old 20 m/s numbers are gone).",
    "limitations": [
-    "discrepancy is conservative for endurance but non-traceable"
+    "outside this claim: docs/test/TEST-PLAN.md still quotes the 6.55 kg design in C07 (2.62 kgf), C08 (1,634 g), C11 (41 A / 76 A / 7.3 mOhm) and the R10 row (414 W from 915.7 W hover); being revised",
+    "NP/SM in DESIGN-BASIS are the sizing estimate (38.2 / 10.2 %), AVL gives 38.5 / 10.5 %"
    ],
-   "next_step": "Regenerate DESIGN-BASIS numbers from results.json / aero_results.json after closing the loop."
+   "next_step": "Regenerate TEST-PLAN numbers from results.json when the C11 revision lands.",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": "Failed",
+     "to": "Verified",
+     "why": "re-audit on the frozen 2026-11-01 design: All 18 numbers match results.json; the docs were regenerated by analysis/docs_sync.py on 2026-11-01 (the old 20 m/s numbers are gone)."
+    }
+   ]
   },
   {
    "id": "AERO-31",
    "component": "aircraft",
    "discipline": "cost",
-   "claim": "C0 committed spend $1,896.79 (goods $1,620.67 + 10.25 % tax + $110 shipping), leaving a $103.21 reserve under the $2,000 cap.",
-   "value": 1896.79,
+   "claim": "C0 committed spend is $1,854.17 (goods $1,598.35 x 1.1025 tax + $91.99 shipping), leaving a $145.83 crash reserve under the $2,000 cap (R7 target >= $100).",
+   "value": 1854.17,
    "units": "USD",
    "equations": [
-    "total = goods x 1.1025 + shipping"
+    "total = goods x 1.1025 + shipping",
+    "reserve = 2000 - total"
    ],
    "assumptions": [
-    "unit prices checked 2026-10-13",
-    "shipping $110 EST",
-    "Berkeley tax 10.25 %"
+    "unit prices from the research files (dated 2026-10-01 to 2026-11-01)",
+    "Berkeley tax 10.25 %",
+    "shipping $91.99 EST"
    ],
    "inputs": {
-    "lines": "51 BOM lines (results.json concepts.C0.bom)"
+    "lines": "50 BOM lines (results.json concepts.C0.bom.lines)"
    },
-   "tool": "sizing.mjs bom(); verify.py",
+   "tool": "sizing.mjs bom()",
    "evidence": [
     {
      "file": "analysis/results.json",
-     "what": "concepts.C0.bom"
+     "what": "concepts.C0.bom (goods 1598.35, shipping 91.99, total 1854.17, crash 145.83)"
     },
     {
-     "file": "analysis/link_status.json",
-     "what": "462 ok / 4 dead / 106 unverified links (reachability only, not price)"
+     "file": "docs/purchasing/C0_BOM.csv",
+     "what": "line sources and check dates"
     }
    ],
-   "ran_evidence": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD",
+   "ran_evidence": "analysis/results.json concepts.C0 written 2026-11-01 by analysis/sizing.mjs (not re-run in this audit; sizing.mjs is off-limits while long jobs run). The value is re-derived by hand below and by analysis/validation/proofs.py from the stored inputs.",
    "reproduced": {
     "done": true,
-    "how": "node analysis/sizing.mjs re-run in scratch copy (2026-10-29): results.json byte-identical; py analysis/verify.py rc 0, 98 OK / 0 BAD; recomputed from lines",
+    "how": "Sum qty x unit over bom.lines = 1598.35; x 1.1025 = 1762.18; + 91.99 = 1854.17; 2000 - 1854.17 = 145.83.",
     "matches": true
    },
    "independent_check": {
-    "method": "sum(qty x unit) x 1.1025 + 110",
-    "value": 1896.788675,
-    "repo_value": 1896.79,
-    "delta_pct": -0.0,
-    "script": "analysis/validation/check_aero.py#AERO-37"
+    "method": "sum(qty x unit) x 1.1025 + shipping (AERO-31); reserve (AERO-31b)",
+    "value": 1854.170875,
+    "repo_value": 1854.17,
+    "delta_pct": 0.0,
+    "script": "analysis/validation/check_aero.py#AERO-31,AERO-31b"
    },
    "status": "Partially Verified",
-   "status_reason": "Arithmetic exact; prices are 16 days old and an audit spot-check (sunnyskyusa.com) was blocked (HTTP 429), so prices are not re-verified; reserve is only 5 % of the cap.",
+   "status_reason": "Arithmetic exact and R7 met, but unit prices and shipping were not re-checked by this audit; a 7.9 % price drift on goods would erase the reserve.",
    "limitations": [
-    "shipping/duty for CN items EST",
-    "hot-wire bow $40 allowance unpriced",
-    "a 7.5 % price drift erases the reserve"
+    "shipping EST",
+    "prices up to a month old"
    ],
    "next_step": "Re-price the BOM within a week of ordering; order long-lead items first."
+  },
+  {
+   "id": "AERO-32",
+   "component": "lift_propulsion",
+   "discipline": "propulsion",
+   "claim": "Hover T/W at mid-pack under load is about 1.45 (pack at the C11 limit 6.0 mOhm/cell, 3.80 V/cell rest), just above the 1.43 that ArduPilot's 70 % hover-throttle limit implies: a marginal pass.",
+   "value": 1.447902,
+   "units": "-",
+   "equations": [
+    "T(V) = 3130 (V/22.2)^kT, kT = ln(3600/3130)/ln(25/22.2)",
+    "I_m(V) = 27.7 (V/22.2)^kI, kI = ln(33.3/27.7)/ln(25/22.2)",
+    "V = 6 x 3.80 - 4 I_m x 6 x 0.006 (iterate)",
+    "T/W = 4 T / m >= 1/0.70"
+   ],
+   "assumptions": [
+    "thrust and current scale as power laws in voltage between the maker's 22.2 V and 25 V full-throttle rows (EST)",
+    "3.80 V/cell rest at 50 % SOC (EST)",
+    "R_cell 6.0 mOhm (C11 acceptance limit, rev 2026-11-02)",
+    "ESC, connector and wire resistance and avionics current ignored (optimistic)"
+   ],
+   "inputs": {
+    "17x5.8 22.2 V": "27.7 A, 3130 gf (propulsion_data S1)",
+    "17x5.8 25 V": "33.3 A, 3600 gf (propulsion_data S1)",
+    "m": "7.4356 kg",
+    "hover-throttle limit": "70 % (ArduPilot QHOVER, propulsion_data S13, https://ardupilot.org/plane/docs/qhover-mode.html, checked 2026-11-01)"
+   },
+   "tool": "analysis/validation/check_aero.py AERO-32",
+   "evidence": [
+    {
+     "file": "analysis/validation/checks_aero.json",
+     "what": "intermediate.TW_sag"
+    },
+    {
+     "file": "analysis/propulsion_data_2026-11-01.json",
+     "what": "S1 17x5.8 rows; S13"
+    }
+   ],
+   "ran_evidence": "check_aero.py 2026-11-02",
+   "reproduced": {
+    "done": true,
+    "how": "kT = ln(3600/3130)/ln(25/22.2) = 1.178; kI = 1.550. Start V = 22.2; repeat: I_m = 27.7 (V/22.2)^kI, V = 22.8 - 0.144 I_m -> V 19.53 V, I_m 22.7 A (pack 91 A). T = 3130 (19.53/22.2)^1.178 = 2692 gf; T/W = 4 x 2.692 / 7.436 = 1.448 >= 1/0.70 = 1.429.",
+    "matches": true
+   },
+   "independent_check": {
+    "method": "sag-aware T/W vs the 1/0.70 ArduPilot bound (relation >=)",
+    "value": 1.447902,
+    "repo_value": 1.428571,
+    "delta_pct": 1.35,
+    "script": "analysis/validation/check_aero.py#AERO-32",
+    "relation": "ge"
+   },
+   "status": "Partially Verified",
+   "status_reason": "Calculation passes by only 1.3 %; it rests on the EST rest voltage, an acceptance limit (not a measured R_cell) and a two-point voltage fit, and ignores ESC/wiring resistance. At 3.70 V/cell rest (EST, later in the flight) T/W is 1.41, below 1.43, so the landing hover may exceed 70 % throttle. Test-gated by C06/C07 at pack voltage.",
+   "limitations": [
+    "two-point power-law fit of maker data",
+    "rest-voltage vs SOC curve not measured",
+    "full-throttle pack current ~91 A"
+   ],
+   "next_step": "C07: measure full-throttle thrust and current on the real pack at ~3.8 and ~3.7 V/cell rest; in F03 check learned Q_M_THST_HOVER <= 0.70 at landing.",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "from": null,
+     "to": "Partially Verified",
+     "why": "new claim: sag-aware companion to AERO-18 (R13 is on the maker 22.2 V table)"
+    }
+   ]
   }
  ]
 }

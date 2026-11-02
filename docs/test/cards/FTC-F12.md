@@ -1,24 +1,24 @@
 # Flight test card FTC-F12 — Full mission (R8, R9, R10)
 
-DBF-TP-001 rev B · Test F12 · Review step: F7 · Requirements: R1, R8, R9, R10, R12, R16
+DBF-TP-001 rev C · Test F12 · Review step: F7 · Requirements: R1, R8, R9, R10, R12, R16
 
 **Prerequisites (signed in test-matrix.csv):** F11 passed twice (review F7 entry: F6 twice -> here F11 twice); leg fairings fitted (F13); both packs balanced and >= 4.18 V/cell; I01-I03 closed; date <= 2027-04-30
 
-**Configuration:** As F11 with 0.5 kg ballast. Fresh pack. BATT_CRT_MAH 1300 (20 % reserve, R10), BATT_LOW_MAH 1950.
+**Configuration:** As F11, no ballast (R12). Fresh pack, C11 R_cell <= 6.0 mOhm/cell. Field air <= 25 degC (R21). BATT_CRT_MAH 1300 (20 % reserve, R10), BATT_LOW_MAH 1625.
 
 **Weather limits:** Steady <= 5 m/s, gusts <= 8 m/s (R16). A flight in 3-5 m/s steady wind closes R16 by demonstration.
 
-**Predicted:** Mission energy 84.3 Wh (88.7 Wh from the pack), landing at ~39 % of nameplate (calc; results.json sized.E_Wh v0.4, base.etaBatt, packs[0].Wh); 15.8 min cruise available at 18 m/s (sized.t_cruise_avail_min) or 17.3 min with the aero build-up drag (aero_results mission.t_cruise_avail_min). Pack temperature at touchdown = start + 3.2 K per mOhm/cell of the C11 R_cell (adiabatic bay, docs/research/thermal.md 5; 24.2 K at 7.5 mOhm/cell); fly only if start <= 60 - 3.2 x R_cell degC (TEST-PLAN.md C11, s6).
+**Predicted:** Mission energy 99.5 Wh (104.8 Wh from the pack), landing at ~27 % of nameplate (calc; results.json sized.E_Wh, base.etaBatt, packs[0].Wh) - above BATT_LOW_MAH 1625 (25 %, rev 2026-11-02), so a mission flown to plan lands without the low-battery RTL; it fires only if the flight overruns its plan by about 2.4 % of the pack; 12.1 min cruise available at 18 m/s (sized.t_cruise_avail_min) or 14.0 min with the aero build-up drag (aero_results mission.t_cruise_avail_min). Pack temperature at touchdown = start + 4.7 K per mOhm/cell of the C11 R_cell (sealed bay, docs/research/thermal.md 6.2; 28.2 K at 6.0 mOhm/cell); fly only if start <= 60 - 4.7 x R_cell degC (TEST-PLAN.md C11, s6).
 
 **Crew:** TD, SO, PIC, GCS · **Duration:** 1 session, 2 packs (one flight per pack)
 
 ## Pre-flight (every flight)
 - [ ] Flight request approved for today and site (R19); Remote ID powered, broadcast seen (E12); registration mark on the pod; PIC TRUST/AMA documents on site (R18).
-- [ ] Weather recorded: wind steady ____ m/s, gusts ____ m/s (limit on this card), temp ____ degC, visibility >= 3 sm, no precipitation.
-- [ ] Weight and CG per G01: take-off mass ____ kg (<= 7.53 kg), CG ____ % MAC (28 +-2, never aft of 31.8), 0.5 kg ballast fitted (mandatory without payload; GA sheet note 5): Y / N; leg fairings on: Y / N.
+- [ ] Weather recorded at the field: wind steady ____ m/s, gusts ____ m/s (limit on this card), air temp ____ degC (F06-F13: <= 25 degC, DESIGN-BASIS R21 / TEST-PLAN.md s4 rule 9), visibility >= 3 sm, no precipitation.
+- [ ] Weight and CG per G01: take-off mass ____ kg (<= 7.82 kg = 4 x 3.130 / 1.6, R13), CG ____ % MAC (28 +-2, never aft of 30.5), pack at its mark (G09); no ballast, nothing in the bay (R12): Y / N; leg fairings on: Y / N.
 - [ ] Props: correct rotation, screws witness-marked, no nicks; pusher spin check.
 - [ ] Witness lines on boom clamps, gear clamps, wing bolts unmoved.
-- [ ] Packs >= 4.15 V/cell; pack strapped (J18); plugged in LAST through the XT90-S.
+- [ ] Packs >= 4.15 V/cell; pack strapped (J18); plugged in LAST through the AS150U.
 - [ ] GCS: firmware hash ____; parameters checked with check_params.py; FENCE_ALT_MAX = site ceiling; FENCE_RADIUS = ____ m; EKF/GPS ok (sats >= 10, HDOP <= 1.5); compass consistent; airspeed 0 +-1 m/s, blow test >= 6 m/s.
 - [ ] RC: arm switch CH5 off, mode CH6 in slot for this card, E-stop CH7 off, Q_ASSIST CH8 auto, RTL CH9 off; LQ >= 90 %.
 - [ ] Range: crew line 30 m crosswind of the take-off point, clear of the transition run (TEST-PLAN §4 rule 6), fire bag + extinguisher + first aid at the line, spectators behind, no people downrange, sky scan.
@@ -40,9 +40,9 @@ In the C0 airframe model the back-transition airbrake pitches the nose to the 30
 4. [ ] Within 30 s: temperatures; then resting pack voltage and the charge-return mAh.
 
 ## Abort criteria (card-specific items first, then the universal list)
-- Remaining capacity reaching BATT_LOW_MAH 1950 before 10 min cruise: the autopilot RTLs; the flight is a FAIL for R10 but the aircraft is kept.
+- Remaining capacity reaching BATT_LOW_MAH 1625 (25 %) before the end of the planned mission: the autopilot RTLs; the flight is a FAIL for R10 but the aircraft is kept.
 - Any failsafe, airspeed fault, or wind above the limit.
-Universal (TEST-PLAN.md s5): VIBE > 30 m/s2 or rising clipping; attitude error > 15 deg; any oscillation; sag-compensated voltage < 21.0 V or < 1,950 mAh remaining (firmware low-battery RTL point; critical 19.8 V / 1,300 mAh -> QLAND); motor can > 80 degC EST after landing; wind above the card limit; LQ < 70 % EST or any failsafe message; EKF/GPS/compass warning; people or animals inside the range; manned aircraft converging.
+Universal (TEST-PLAN.md s5): VIBE > 30 m/s2 or rising clipping; attitude error > 15 deg; any oscillation; sag-compensated voltage < 21.0 V or < 1,625 mAh remaining (firmware low-battery RTL point; critical 19.8 V / 1,300 mAh -> QLAND); motor can > 80 degC EST after landing; wind above the card limit; LQ < 70 % EST or any failsafe message; EKF/GPS/compass warning; people or animals inside the range; manned aircraft converging.
 
 ## Data to record
 BAT EnrgTot, CurrTot, Volt (min, at landing); MODE timeline (phase durations); ARSP mean/min/max in cruise; RCOU C5-C8 in cruise (R1); VIBE; ATT; post-flight temperatures; charge-return mAh.
@@ -52,8 +52,8 @@ BAT EnrgTot, CurrTot, Volt (min, at landing); MODE timeline (phase durations); A
 - [ ] Cruise >= 600 s at 18-22 m/s calibrated; total hover >= 120 s (R10).
 - [ ] Energy remaining at landing >= 20 % of the C11 usable energy, and >= 1,300 mAh remaining by BAT.CurrTot vs the C11 capacity; charge-return mAh <= 0.8 x C11 Ah (R10 reserve).
 - [ ] Lift outputs at minimum for >= 95 % of cruise (R1).
-- [ ] Cruise electrical power <= 414 W (R10 threshold; predicted 239-262 W at 18 m/s).
-- [ ] Date <= 2027-04-30 (R8). Ballast 0.5 kg carried (R12).
+- [ ] Cruise electrical power <= 356 W (R10 threshold; predicted 257-295 W at 18 m/s).
+- [ ] Date <= 2027-04-30 (R8). No ballast or payload carried (R12).
 
 ## Run log
 

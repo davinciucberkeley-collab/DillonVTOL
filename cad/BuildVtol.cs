@@ -604,7 +604,9 @@ class BuildVtol
     {   // HS J05a (C5): PETG block 32 x 46 around the spar socket, bottom flush with the wing lower surface at 30 % c; 2 inserts from below at (x +-12, z +-17.5) beside the tube
         double yBot = D("yL30") - D("sparY"), yTop = 0.0157;
         ModelDoc2 d = NewPart(); var sm = Sk(d, 0, 0); RoundRect(sm, 0, (yBot + yTop) / 2, 0.032, yTop - yBot, 0.003); sm.CreateCircleByRadius(0, 0, 0, 0.0128); EndSk(d); Ext(d, 0.046, false, true);
-        HolesY(d, new double[,] { { 0.012, 0.0175 }, { -0.012, -0.0175 } }, 0.004, yBot, 0.0075, true, "collar insert holes");
+        // 9.0 deep (rev 2026-11-01; was 7.5): the F06 M3 x 35 tip ran ~1.0 mm past the old hole floor (MFG-02), so the screw bottomed
+        // before it clamped the boom; 9.0 leaves 0.5 mm below the tip and stays ~5 mm under the spar tube at x = +-12
+        HolesY(d, new double[,] { { 0.012, 0.0175 }, { -0.012, -0.0175 } }, 0.004, yBot, 0.0090, true, "collar insert holes");
         Finish(d, "Spar_Collar", PRINT2, "Printed PETG spar collar 32 x 46 bonded around the spar socket at the boom station (front wing hardpoint): 2 x RX-M3x5.7 inserts facing down for the F06 clamp screws", "PETG");
     }
     static void RearHardpoint()
@@ -672,7 +674,7 @@ class BuildVtol
         sm = Sk(d, 1, cy); sm.CreateEllipse(cx, 0, 0, cx + ca, 0, 0, cx, cr, 0); EndSk(d); CutD(d, 0.10, true, "canopy pocket");
         sm = Sk(d, 1, cy); Rect(sm, 1, D("canopyX0") + ox - 0.020, -0.020, D("canopyX0") + ox + 0.005, 0.020); EndSk(d); CutD(d, 0.10, true, "hatch flange slot");
         sm = Sk(d, 1, cy); Rect(sm, 1, D("canopyX1") + ox - 0.005, -0.020, D("canopyX1") + ox + 0.020, 0.020); EndSk(d); CutD(d, 0.0022, true, "hatch tongue slot");
-        HolesY(d, new double[,] { { 0.06 + ox, 0.015 }, { 0.06 + ox, -0.015 } }, 0.004, cy, 0.007, false, "hatch insert holes");
+        HolesY(d, new double[,] { { D("canopyX0") - 0.010 + ox, 0.015 }, { D("canopyX0") - 0.010 + ox, -0.015 } }, 0.004, cy, 0.007, false, "hatch insert holes");   // under the canopy's rear flange holes
         // pusher cup bore (FT11) and 4 radial 3.6 holes at 15 mm from the tail face (J12)
         sm = Sk(d, 2, -L); Circle(sm, 2, 0, 0, 0.056); EndSk(d); CutD(d, 0.030, true, "tail ring bore");
         sm = Sk(d, 1, 0.035); Circle(sm, 1, -L + 0.015, 0, 0.0036); EndSk(d); CutD(d, 0.010, false, "tail ring radial hole top");
@@ -681,7 +683,7 @@ class BuildVtol
         // saddle-tab insert holes (J11): radial along Z at y = -0.030 (pod centre height), x = -0.10 c and -0.30 c, 7 deep from each side
         foreach (double sgn in new[] { 1.0, -1.0 })
         { sm = Sk(d, 0, sgn * 0.080); Circle(sm, 0, -0.10 * D("chord") + ox, 0, 0.004); Circle(sm, 0, -0.30 * D("chord") + ox, 0, 0.004); EndSk(d); CutD(d, 0.007, sgn < 0, "saddle insert holes"); }
-        Finish(d, "Fuselage_Pod", POD, "Fuselage pod 0.85 x 0.16 m, foam + PETG frames + tape (EST): wing-root slot, battery and avionics bays, canopy pocket, tail ring bore 56 x 30 with 4 radial holes, insert holes for the saddle tabs (frame rails in reality)", "XPS");
+        Finish(d, "Fuselage_Pod", POD, "Fuselage pod " + D("fusL").ToString("0.00", IC) + " x " + (2 * D("fusR")).ToString("0.00", IC) + " m, foam + PETG frames + tape (EST): wing-root slot, battery and avionics bays, canopy pocket, tail ring bore 56 x 30 with 4 radial holes, insert holes for the saddle tabs (frame rails in reality)", "XPS");
     }
     // full section outline translated by (ox, oy) in the sketch (model X = -x c + ox, Y = y c + oy)
     static void SectionPartAt(SketchManager sm, List<double[]> foil, double c, double ox, double oy)
@@ -694,7 +696,7 @@ class BuildVtol
     static void Canopy()
     {   // avionics hatch blister (half-ellipsoid about X) with a 2 mm rear flange (2 x 3.6 holes for F07, J13) and a 2 mm front tongue under the pod skin
         ModelDoc2 d = NewPart(); var sm = Sk(d, 0, 0);
-        int N = 20; double L = 0.26, r = 0.055; var pts = new List<double>();
+        int N = 20; double L = D("canopyX1") - D("canopyX0"), r = D("canopyR"); var pts = new List<double>();   // rev 2026-11-01: from params (was 0.26 / 0.055)
         for (int i = 0; i <= N; i++) { double s = L * i / N; pts.Add(-s); pts.Add(r * Math.Sqrt(Math.Max(0, 1 - Math.Pow((2 * s - L) / L, 2)))); pts.Add(0); }
         sm.CreateSpline2(pts.ToArray(), true);
         sm.CreateLine(-L, 0, 0, 0, 0, 0);

@@ -1,0 +1,12 @@
+# Regenerable bulk (about 1.6 GB): meshes, flow fields, sampled grids and per-case viewer intermediates.
+# Rebuild with `py tools/vtol.py geometry`, `mesh --level N`, `cfd run <case>`, `cfd post <case>`.
+# Kept: run configs, solver logs, residual histories, mesh stats, results and checks JSON, the packed viewer data.
+*.su2
+*.npz
+*.brep
+restart_flow.csv
+solution_flow.csv
+surface_flow.csv
+*.vtu
+*.vtk
+post/*_viz.json

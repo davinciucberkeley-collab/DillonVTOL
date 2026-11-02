@@ -16,6 +16,7 @@ import csv, json, math, os, subprocess, sys, time
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
+ROOT = HERE.parents[1]
 OUT = HERE / "out"
 SU2 = Path(os.environ.get("SU2_CFD", r"C:\Users\dillo\tools\su2\bin\bin\SU2_CFD.exe"))
 THREADS = int(os.environ.get("SU2_THREADS", "20"))
@@ -25,9 +26,9 @@ import geom  # noqa: E402
 P = geom.PARAMS
 V = 18.0                      # cruise, analysis/results.json base.Vc
 RHO = 1.225                   # analysis/results.json base.rho
-S_REF = P["chord"] * 2 * (P["panelLen"] + P["fusR"])   # CAD wing 0.284176 x 2.4 = 0.68202 m^2 (full aircraft)
+S_REF = P["chord"] * 2 * (P["panelLen"] + P["fusR"])   # CAD wing chord x 2.4 m span (frozen design: 0.321941 x 2.4 = 0.77266 m^2, full aircraft)
 C_REF = P["chord"]
-X_CG = -0.078904058           # analysis/results.json concepts.C0.cg.target (m from the wing LE, CAD frame, + forward)
+X_CG = json.loads((ROOT / "analysis/results.json").read_text(encoding="utf-8"))["concepts"]["C0"]["cg"]["target"]   # m from the wing LE, CAD frame, + forward
 MARKERS = ["wing", "htail", "fins", "pod", "booms", "motors", "gear"]
 CASES = {f"L{lv}_a4.0": (lv, 4.0) for lv in (1, 2, 3)}
 CASES.update({f"L2_a{a:.1f}": (2, a) for a in (0.0, 2.0, 6.0, 8.0)})

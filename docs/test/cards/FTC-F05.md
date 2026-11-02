@@ -1,6 +1,6 @@
 # Flight test card FTC-F05 — Hover failsafes and R20 demonstration
 
-DBF-TP-001 rev B · Test F05 · Review step: not in the review matrix; required by R20 · Requirements: R20
+DBF-TP-001 rev C · Test F05 · Review step: not in the review matrix; required by R20 · Requirements: R20
 
 **Prerequisites (signed in test-matrix.csv):** F04 passed; E05 bench failsafes passed; both pilots rehearsed these in SITL (E06 C, F)
 
@@ -14,11 +14,11 @@ DBF-TP-001 rev B · Test F05 · Review step: not in the review matrix; required 
 
 ## Pre-flight (every flight)
 - [ ] Flight request approved for today and site (R19); Remote ID powered, broadcast seen (E12); registration mark on the pod; PIC TRUST/AMA documents on site (R18).
-- [ ] Weather recorded: wind steady ____ m/s, gusts ____ m/s (limit on this card), temp ____ degC, visibility >= 3 sm, no precipitation.
-- [ ] Weight and CG per G01: take-off mass ____ kg (<= 7.53 kg), CG ____ % MAC (28 +-2, never aft of 31.8), 0.5 kg ballast fitted (mandatory without payload; GA sheet note 5): Y / N; leg fairings on: Y / N.
+- [ ] Weather recorded at the field: wind steady ____ m/s, gusts ____ m/s (limit on this card), air temp ____ degC (F06-F13: <= 25 degC, DESIGN-BASIS R21 / TEST-PLAN.md s4 rule 9), visibility >= 3 sm, no precipitation.
+- [ ] Weight and CG per G01: take-off mass ____ kg (<= 7.82 kg = 4 x 3.130 / 1.6, R13), CG ____ % MAC (28 +-2, never aft of 30.5), pack at its mark (G09); no ballast, nothing in the bay (R12): Y / N; leg fairings on: Y / N.
 - [ ] Props: correct rotation, screws witness-marked, no nicks; pusher spin check.
 - [ ] Witness lines on boom clamps, gear clamps, wing bolts unmoved.
-- [ ] Packs >= 4.15 V/cell; pack strapped (J18); plugged in LAST through the XT90-S.
+- [ ] Packs >= 4.15 V/cell; pack strapped (J18); plugged in LAST through the AS150U.
 - [ ] GCS: firmware hash ____; parameters checked with check_params.py; FENCE_ALT_MAX = site ceiling; FENCE_RADIUS = ____ m; EKF/GPS ok (sats >= 10, HDOP <= 1.5); compass consistent; airspeed 0 +-1 m/s, blow test >= 6 m/s.
 - [ ] RC: arm switch CH5 off, mode CH6 in slot for this card, E-stop CH7 off, Q_ASSIST CH8 auto, RTL CH9 off; LQ >= 90 %.
 - [ ] Range: crew line 30 m upwind, fire bag + extinguisher + first aid at the line, spectators behind, no people downrange, sky scan.
@@ -33,14 +33,14 @@ Start every transition at the upwind field edge and turn as soon as 'Transition 
 ## Build-up points (in order; stop and review the log between points when the card says so)
 1. [ ] RC loss in hover: QLOITER at 20 m AGL EST over the pad (accepted exposure, TEST-PLAN.md s12 item 3); transmitter power off; expect QLAND and touchdown; transmitter back on after touchdown.
 2. [ ] Fence: QLOITER, climb through 25 m; expect fence breach -> RTL (FENCE_ACTION 1), which in Q modes lands via QRTL/QLAND; take control after the action is seen.
-3. [ ] Battery low: with BATT_LOW_MAH set above the remaining mAh, arm and hover at 10 m; expect the RTL action (BATT_FS_LOW_ACT 1; SITL E) then vertical landing. Restore BATT_LOW_MAH 1950. Then raise BATT_CRT_MAH the same way at 5 m: expect QLAND in place (BATT_FS_CRT_ACT 4). Restore 1300.
+3. [ ] Battery low: with BATT_LOW_MAH set above the remaining mAh, arm and hover at 10 m; expect the RTL action (BATT_FS_LOW_ACT 1; SITL E) then vertical landing. Restore BATT_LOW_MAH 1625. Then raise BATT_CRT_MAH the same way at 5 m: expect QLAND in place (BATT_FS_CRT_ACT 4). Restore 1300.
 4. [ ] E-stop: on the ground armed at idle, CH7 -> all motors stop.
-5. [ ] XT90-S: after disarm, pull the plug under the idle load; no arc.
+5. [ ] AS150U: after disarm, pull the plug under the idle load; no arc.
 
 ## Abort criteria (card-specific items first, then the universal list)
 - Failsafe action not seen within 10 s: PIC retakes control (transmitter on / mode switch) and lands; card fails.
 - Aircraft drifting beyond 10 m from the pad during a failsafe descent.
-Universal (TEST-PLAN.md s5): VIBE > 30 m/s2 or rising clipping; attitude error > 15 deg; any oscillation; sag-compensated voltage < 21.0 V or < 1,950 mAh remaining (firmware low-battery RTL point; critical 19.8 V / 1,300 mAh -> QLAND); motor can > 80 degC EST after landing; wind above the card limit; LQ < 70 % EST or any failsafe message; EKF/GPS/compass warning; people or animals inside the range; manned aircraft converging.
+Universal (TEST-PLAN.md s5): VIBE > 30 m/s2 or rising clipping; attitude error > 15 deg; any oscillation; sag-compensated voltage < 21.0 V or < 1,625 mAh remaining (firmware low-battery RTL point; critical 19.8 V / 1,300 mAh -> QLAND); motor can > 80 degC EST after landing; wind above the card limit; LQ < 70 % EST or any failsafe message; EKF/GPS/compass warning; people or animals inside the range; manned aircraft converging.
 
 ## Data to record
 MODE and EV messages with timestamps; descent rate in QLAND (QTUN.CRt); touchdown position vs home (GPS); BAT.
@@ -48,8 +48,8 @@ MODE and EV messages with timestamps; descent rate in QLAND (QTUN.CRt); touchdow
 ## Pass criteria
 - [ ] RC loss -> QLAND within FS_LONG_TIMEOUT 5 s + 1.5 s short EST; touchdown within 5 m of the pad EST.
 - [ ] Fence breach at 25 m -> RTL action logged within 3 s EST of crossing (FENCE_MARGIN 2 m).
-- [ ] Battery low -> RTL action and landing (21.0 V / 1,950 mAh thresholds); critical -> QLAND (19.8 V / 1,300 mAh).
-- [ ] E-stop stops all motors < 1 s; XT90-S disconnect clean.
+- [ ] Battery low -> RTL action and landing (21.0 V / 1,625 mAh thresholds); critical -> QLAND (19.8 V / 1,300 mAh).
+- [ ] E-stop stops all motors < 1 s; AS150U disconnect clean.
 - [ ] All temporary parameters restored (check_params.py zero mismatches).
 
 ## Run log

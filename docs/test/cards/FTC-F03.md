@@ -1,6 +1,6 @@
 # Flight test card FTC-F03 — QLOITER free hover, 3 x 60 s, thermal and endurance point
 
-DBF-TP-001 rev B · Test F03 · Review step: F3 · Requirements: R9, R13
+DBF-TP-001 rev C · Test F03 · Review step: F3 · Requirements: R9, R13
 
 **Prerequisites (signed in test-matrix.csv):** F02 passed; notch filter set from the F02 FFT (INS_HNTCH_ENABLE 1) and verified on a short hover
 
@@ -8,17 +8,17 @@ DBF-TP-001 rev B · Test F03 · Review step: F3 · Requirements: R9, R13
 
 **Weather limits:** Steady <= 3 m/s EST, gusts <= 5 m/s EST.
 
-**Predicted:** Hover electrical power 912 W total (results.json sized.P_hover v0.4); lift-unit thermal model (docs/research/thermal.md 6.1, 20 % loss EST): motor can +28 K and ESC +21 K over ambient after a 60 s hover (63 / 56 degC on a 35 degC day), 74 / 63 degC at 90 s; motor-only lumped check 76 degC at 90 s (cad/README.md). Hot day (ambient >= 25 degC EST): TEST-PLAN.md s6 hot-day rules apply; the 60 s hover limit stays.
+**Predicted:** Hover electrical power 1,131 W total (results.json sized.P_hover); lift-unit thermal model (docs/research/thermal.md 6.1, 20 % loss EST, run 2026-11-02): motor can +34 K and ESC +25 K over ambient after a 60 s hover (59 / 50 degC at 25 degC), 73 / 60 degC at 90 s (cad/sim/thermal/results.txt lift_hover60/90). Hover-only flights may fly up to 30 degC (TEST-PLAN.md s6); the 60 s hover limit stays.
 
 **Crew:** TD, SO, PIC, GCS · **Duration:** 1 session, 2 packs
 
 ## Pre-flight (every flight)
 - [ ] Flight request approved for today and site (R19); Remote ID powered, broadcast seen (E12); registration mark on the pod; PIC TRUST/AMA documents on site (R18).
-- [ ] Weather recorded: wind steady ____ m/s, gusts ____ m/s (limit on this card), temp ____ degC, visibility >= 3 sm, no precipitation.
-- [ ] Weight and CG per G01: take-off mass ____ kg (<= 7.53 kg), CG ____ % MAC (28 +-2, never aft of 31.8), 0.5 kg ballast fitted (mandatory without payload; GA sheet note 5): Y / N; leg fairings on: Y / N.
+- [ ] Weather recorded at the field: wind steady ____ m/s, gusts ____ m/s (limit on this card), air temp ____ degC (F06-F13: <= 25 degC, DESIGN-BASIS R21 / TEST-PLAN.md s4 rule 9), visibility >= 3 sm, no precipitation.
+- [ ] Weight and CG per G01: take-off mass ____ kg (<= 7.82 kg = 4 x 3.130 / 1.6, R13), CG ____ % MAC (28 +-2, never aft of 30.5), pack at its mark (G09); no ballast, nothing in the bay (R12): Y / N; leg fairings on: Y / N.
 - [ ] Props: correct rotation, screws witness-marked, no nicks; pusher spin check.
 - [ ] Witness lines on boom clamps, gear clamps, wing bolts unmoved.
-- [ ] Packs >= 4.15 V/cell; pack strapped (J18); plugged in LAST through the XT90-S.
+- [ ] Packs >= 4.15 V/cell; pack strapped (J18); plugged in LAST through the AS150U.
 - [ ] GCS: firmware hash ____; parameters checked with check_params.py; FENCE_ALT_MAX = site ceiling; FENCE_RADIUS = ____ m; EKF/GPS ok (sats >= 10, HDOP <= 1.5); compass consistent; airspeed 0 +-1 m/s, blow test >= 6 m/s.
 - [ ] RC: arm switch CH5 off, mode CH6 in slot for this card, E-stop CH7 off, Q_ASSIST CH8 auto, RTL CH9 off; LQ >= 90 %.
 - [ ] Range: crew line 30 m upwind, fire bag + extinguisher + first aid at the line, spectators behind, no people downrange, sky scan.
@@ -38,7 +38,7 @@ Start every transition at the upwind field edge and turn as soon as 'Transition 
 
 ## Abort criteria (card-specific items first, then the universal list)
 - Position drift > 3 m in QLOITER (EKF/GPS issue); toilet-bowling (compass); motor > 80 degC after any hover.
-Universal (TEST-PLAN.md s5): VIBE > 30 m/s2 or rising clipping; attitude error > 15 deg; any oscillation; sag-compensated voltage < 21.0 V or < 1,950 mAh remaining (firmware low-battery RTL point; critical 19.8 V / 1,300 mAh -> QLAND); motor can > 80 degC EST after landing; wind above the card limit; LQ < 70 % EST or any failsafe message; EKF/GPS/compass warning; people or animals inside the range; manned aircraft converging.
+Universal (TEST-PLAN.md s5): VIBE > 30 m/s2 or rising clipping; attitude error > 15 deg; any oscillation; sag-compensated voltage < 21.0 V or < 1,625 mAh remaining (firmware low-battery RTL point; critical 19.8 V / 1,300 mAh -> QLAND); motor can > 80 degC EST after landing; wind above the card limit; LQ < 70 % EST or any failsafe message; EKF/GPS/compass warning; people or animals inside the range; manned aircraft converging.
 
 ## Data to record
 QTUN.ThO; POS/GPS position hold error; BAT Curr mean per hover; IR temperatures vs time; VIBE; RCOU.
@@ -46,8 +46,8 @@ QTUN.ThO; POS/GPS position hold error; BAT Curr mean per hover; IR temperatures 
 ## Pass criteria
 - [ ] 3 x 60 s at <= 5 m AGL with motors cooled below 45 degC between (review F3).
 - [ ] Position held within 2 m EST in QLOITER; attitude error < 15 deg.
-- [ ] Motors <= 80 degC EST after each hover (review F3 abort; C08 prediction 74 degC at 90 s on a 35 degC day, thermal.md 6.1).
-- [ ] Hover current 41.1 A +-15 % EST (results.json sized.I_hover); sag-compensated voltage >= 21.0 V.
+- [ ] Motors <= 80 degC EST after each hover (review F3 abort; C08 prediction 73 degC at 90 s at 25 degC, thermal.md 6.1).
+- [ ] Hover current 51.0 A +-15 % EST at 22.2 V (results.json sized.I_hover); sag-compensated voltage >= 21.0 V.
 
 ## Run log
 

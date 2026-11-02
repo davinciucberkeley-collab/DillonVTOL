@@ -79,6 +79,35 @@ const Proofs = (() => {
       bits.push(`<span class="pf-src" title="${esc(so.title || '')}"><span class="chip ${k[0]}">${esc(s.src_id)}</span></span>`); }
     return bits.join(' '); }
 
+  // ---- "check it yourself": the proof as steps a student can follow with the repo open and a calculator ----
+  function where(src) { if (!src) return '';
+    if (src.kind === 'file') { const [f, path] = src.ref.split('#'); if (path) return `open <code>${esc(f)}</code> and follow ${path.split('.').map(k => `<b>${esc(k)}</b>`).join(' → ')}`;
+      const m = /^(.*):(\d+)$/.exec(src.ref); return m ? `open <code>${esc(m[1])}</code> at line ${m[2]}` : `open <code>${esc(src.ref)}</code>`; }
+    if (src.kind === 'checker') { const [f, k] = src.ref.split(' '); return `open <code>${esc(f)}</code>, claim ${esc((k || '').split('.inputs.')[0])}, input <b>${esc((k || '').split('.inputs.')[1] || '')}</b> (the checker read it from the evidence file)`; }
+    if (src.kind === 'constant') return `a fixed value: ${esc(src.ref)}`;
+    return ''; }
+  function calcLine(expr, vals) {   // the step's own expression with the numbers put in, as you would type it into a calculator
+    let e = expr; Object.keys(vals).sort((a, b) => b.length - a.length).forEach(k => { e = e.replace(new RegExp('(?<![A-Za-z_.])' + k.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(?![A-Za-z0-9_])', 'g'), '(' + (+vals[k].toPrecision(6)) + ')'); });
+    return e.replace(/math\.sqrt/g, 'sqrt').replace(/math\.pi/g, 'π').replace(/\*\*/g, '^').replace(/\(\((-?[\d.e+-]+)\)\)/g, '($1)').replace(/\((\d[\d.e+]*)\)/g, '$1'); }
+  function guideHtml(id, p, c) {
+    const run = `<code>py tools/vtol.py trace ${esc(id)}</code> (or option 3 in <code>VTOL.bat</code>) prints all of this in a terminal; <code>py tools/vtol.py prove ${esc(id)}</code> writes it as a one-page sheet.`;
+    const ic = p.check || {}, icLine = ic.method ? `<li><b>Independent check.</b> ${esc(ic.method)}${ic.script ? `: run <code>py ${esc(ic.script.split('#')[0])}</code> and find <b>${esc(ic.script.split('#')[1] || id)}</b> in its printout` : ''}${ic.delta_pct != null ? `; it should differ from the claim by about ${(+ic.delta_pct).toFixed(1)} %` : ''}.</li>` : '';
+    if (p.kind !== 'computed') {
+      const ev = (p.evidence || []).map(e => `<li>Open <code>${esc(e.file)}</code> and look for: ${esc(e.what)}.</li>`).join('');
+      return `<details class="pf-guide"><summary>Check it yourself</summary><ol>${ev}${icLine}<li>Compare what you found with the claim above and the reason for its status.</li></ol><p class="pf-mute">${run}</p></details>`; }
+    const vals = {}; (p.vars || []).forEach(v => { if (typeof v.value === 'number') vals[v.sym] = v.value; });
+    const inputs = (p.vars || []).map(v => `<li>${esc(v.desc)} (${math(mml(v.tex))}): ${where(v.src)}. You should read <b>${Array.isArray(v.value) ? v.value.length + ' items' : sig(v.value)}</b>${v.unit && v.unit !== '-' ? ' ' + esc(v.unit) : ''}${v.src && v.src.scaled ? ` (×${v.src.scaled} to convert units)` : ''}.</li>`).join('');
+    const steps = (p.steps || []).map(st => { const line = calcLine(st.expr, vals); vals[st.out] = st.value;
+      const how = /_vars|for/.test(st.expr) ? 'add up the input values listed above' : `type <code>${esc(line)}</code> into a calculator`;
+      return `<li>${esc(st.desc || 'Compute')}: ${how}. You should get <b>${sig(st.value)}</b>${st.unit && st.unit !== '-' ? ' ' + esc(st.unit) : ''}.</li>`; }).join('');
+    const r = p.result, rel = r.relation === 'ge' ? 'at least' : r.relation === 'le' ? 'at most' : `within ±${r.tol_pct} % of`;
+    return `<details class="pf-guide"><summary>Check it yourself (about 5 minutes)</summary>
+      <p><b>1. Read the inputs</b> from the repository:</p><ol>${inputs}</ol>
+      <p><b>2. Do the arithmetic.</b></p><ol>${steps}</ol>
+      <p><b>3. Compare.</b> The claim says <b>${sig(r.claim_value)}</b> ${esc(r.claim_units || '')}; your result should be ${rel} that number. ${r.reproduced === false ? 'It is not, which is why this claim is marked as it is.' : ''}</p>
+      ${icLine ? `<p><b>4. The independent check</b> uses a different method on the same question:</p><ol>${icLine}</ol>` : ''}
+      <p class="pf-mute">${run}</p></details>`; }
+
   // ---- the proof card ----
   function card(id) { if (!load()) return ''; const c = C[id], p = P.claims[id]; if (!c || !p) return `<p>No record for ${esc(id)}.</p>`;
     const ch = CHIP[c.status]; let body = '';
@@ -106,6 +135,7 @@ const Proofs = (() => {
       <p class="vm-claim">${esc(c.claim)}</p>${body}
       <div class="pf-links">${chips('Uses', p.upstream)} ${chips('Used by', p.downstream)} ${ext ? `<span class="pf-lk">Sources</span> ${ext}` : ''}</div>
       <p class="vm-why"><b>Why ${esc(c.status.toLowerCase())}:</b> ${esc(c.status_reason)}</p>
+      ${guideHtml(id, p, c)}
       <details><summary>Independent check, evidence files, assumptions</summary>
         <h5>Independent check</h5><p>${esc(ic.method || '—')}${ic.delta_pct != null ? ` (Δ ${(+ic.delta_pct).toFixed(1)} %)` : ''}${ic.script ? ` <code>${esc(ic.script)}</code>` : ''}</p>
         ${(p.evidence || []).length ? `<h5>Evidence files</h5><ul class="vm-ev">${p.evidence.map(e => `<li><code>${esc(e.file)}</code> ${esc(e.what)}</li>`).join('')}</ul>` : ''}

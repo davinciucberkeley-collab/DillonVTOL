@@ -1,5 +1,5 @@
 {
- "generated": "2026-10-29 02:47",
+ "generated": "2026-11-02 05:07",
  "author": "analysis/validation/xtool_boom_fea.py",
  "claims": [
   {
@@ -7,7 +7,7 @@
    "component": "booms",
    "discipline": "structures",
    "claim": "The SOLIDWORKS boom study (cad/Sim.cs Boom) is reproduced by an independent mesher and solver.",
-   "value": 2.70274,
+   "value": 3.15517,
    "units": "mm tip deflection (SOLIDWORKS)",
    "equations": [
     "K u = f, 10-node tetrahedra, 4-point Gauss, isotropic linear elasticity",
@@ -18,15 +18,15 @@
     "half model with u_z = 0 on the symmetry plane"
    ],
    "inputs": {
-    "L_m": 0.461982,
+    "L_m": 0.488039,
     "OD_m": 0.0254,
     "ID_m": 0.023622,
     "E_Pa": 69000000000.0,
     "nu": 0.33,
     "rho": 2700.0,
-    "m_tip_kg": 0.242,
+    "m_tip_kg": 0.3255,
     "F_N": 30.694814,
-    "r_block_m": 0.02133128873006061
+    "r_block_m": 0.024739157619859085
    },
    "tool": "gmsh 4.15.2 2nd-order tetrahedra + numpy/scipy C3D10 solver (this script); SuperLU direct solve",
    "evidence": [
@@ -39,7 +39,7 @@
      "what": "SOLIDWORKS values"
     }
    ],
-   "ran_evidence": "solved here: 69654 DOF in 22.0 s, 190569 DOF in 777.9 s",
+   "ran_evidence": "solved here: 77622 DOF in 15.8 s, 216816 DOF in 339.5 s",
    "reproduced": {
     "done": true,
     "how": "py analysis/validation/xtool_boom_fea.py",
@@ -47,15 +47,15 @@
    },
    "independent_check": {
     "method": "gmsh + own C3D10 solver (no SOLIDWORKS code)",
-    "value": 2.6519867144792593,
-    "repo_value": 2.70274,
-    "delta_pct": -1.8778456499974343,
+    "value": 3.10212207183359,
+    "repo_value": 3.15517,
+    "delta_pct": -1.681301741789198,
     "script": "analysis/validation/xtool_boom_fea.py"
    },
    "status": "Verified",
-   "status_reason": "tip deflection 2.652 vs 2.703 mm (-1.9 %); bending stress at x 0.10 m 25.80 vs beam 25.80 MPa (+0.03 %); root-corner peak -2.0 % (singular, not a design value); mesh change +0.04 %",
+   "status_reason": "tip deflection 3.102 vs 3.155 mm (-1.7 %); bending stress at x 0.10 m 27.45 vs beam 27.51 MPa (-0.22 %); root-corner peak -5.2 % (singular, not a design value); mesh change +0.02 %",
    "limitations": [
-    "verifies the computation, not the load case: the tip mass is 37 % low (STR-05) and no landing case exists (STR-11)",
+    "verifies the computation on the CAD-calibrated tip mass (STR-05); the landing case is analysed separately (STR-11, analysis/structures/landing.py)",
     "same idealised fixed root as SOLIDWORKS; clamp compliance is not modelled by either"
    ],
    "next_step": "Re-run both solvers with the CAD lift-unit mass and a clamp-compliant root; add a landing case."
