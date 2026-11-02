@@ -103,7 +103,7 @@ const html = `<title>Lift + Cruise VTOL Review</title>
 ${r('./src/style.css')}
 </style>
 ${FLOW2 ? `<script type="application/json" id="flow2dData">${JSON.stringify(FLOW2).replace(/</g, '\\u003c')}</script>` : ''}
-${FLOW3 ? `<script type="application/json" id="flow3dData">${JSON.stringify(FLOW3).replace(/</g, '\\u003c')}</script>` : ''}
+${FLOW3 ? `<script type="application/json" id="vlmData">${js({ tool: FLOW3.tool, script: FLOW3.script, model: FLOW3.model, condition: FLOW3.condition, downwash_deg: FLOW3.downwash_at_htail && FLOW3.downwash_at_htail.epsilon_deg_mean })}</script>` : ''}
 ${THERM ? `<script type="application/json" id="thermData">${js(THERM)}</script>` : ''}
 ${SOURCES ? `<script type="application/json" id="sourcesData">${js(SOURCES)}</script>` : ''}
 ${FEA ? `<script type="application/json" id="feaData">${js(FEA)}</script>` : ''}

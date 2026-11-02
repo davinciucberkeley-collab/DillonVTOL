@@ -257,6 +257,10 @@ const CfdViz = (() => {
   const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
   function tables() {
     const R = D.results; if (!R) return;
+    const ve = document.getElementById('vlmData'), vp = $('#cfVlm');   // independent lower-fidelity check: AeroSandbox vortex lattice at cruise trim
+    if (ve && vp) { const L = JSON.parse(ve.textContent), c = L.condition, a2 = R.cases['L2_a4.0'], a3 = R.cases['L3_a4.0'], t2 = D.post && D.post['L2_a4.0'] && D.post['L2_a4.0'].trefftz;
+      vp.innerHTML = `<b>Cross-check with a vortex-lattice model</b> (${esc(L.tool.split(' (')[0])}; wing, tail and fins as lifting surfaces, no pod, booms or gear): CL ${c.CL_vlm.toFixed(3)} and induced drag ${c.CDi_vlm.toFixed(4)} at α ${c.alpha_deg.toFixed(2)}° (cruise trim). `
+        + `This CFD at α 4°: CL ${a2 ? a2.CL.toFixed(3) : '—'} (L2) and ${a3 ? a3.CL.toFixed(3) : '—'} (L3), Trefftz induced drag ${t2 ? t2.CDi.toFixed(4) : '—'} (L2). <span class="src">${esc(L.script)} → analysis/aero/out/flowviz/flow3d.json</span>`; }
     $('#cfMeshTable tbody').innerHTML = Object.entries(D.levels).map(([lv, s]) => `<tr><td>L${lv}</td><td class="n">${s.tetrahedra.toLocaleString()}</td><td class="n">${s.nodes.toLocaleString()}</td><td class="n">${(s.surface_triangles.wing || 0).toLocaleString()}</td><td class="n">${(s.sizes_m.wall_default * 1000).toFixed(1)}</td><td class="n">${(s.sizes_m.trailing_edges * 1000).toFixed(1)}</td><td class="n">${s.quality_minSICN.min.toFixed(3)}</td><td class="n">${s.quality_minSICN.p01.toFixed(3)}</td><td class="n">${s.quality_minSICN.mean.toFixed(2)}</td></tr>`).join('');
     const rows = Object.entries(R.cases).sort((a, b) => a[1].level - b[1].level || a[1].alpha_deg - b[1].alpha_deg);
     $('#cfCaseTable tbody').innerHTML = rows.map(([n, c]) => { const p = D.post && D.post[n];

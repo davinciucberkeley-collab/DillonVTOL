@@ -364,20 +364,18 @@
   <div class="tbl"><table id="cfdTable"><thead><tr><th class="n">α</th><th class="n">XFOIL CL</th><th class="n">SU2 SA CL</th><th class="n">SU2 SST-LM CL</th><th class="n">XFOIL CD</th><th class="n">SU2 SA CD</th><th class="n">SU2 SST-LM CD</th></tr></thead><tbody></tbody></table></div>
   </details>
 
-  <h4 id="ae-flow">How the air moves over the wing</h4>
-  <p id="flowNote">Section view: white particles move with the SU2 velocity field around the NACA 2415, over a background coloured by speed or pressure. Aircraft view: streamlines through the vortex-lattice model of wing, tail and fins at cruise trim.</p>
+  <h4 id="ae-flow">How the air moves over the wing section</h4>
+  <p id="flowNote">White particles move with the SU2 velocity field around the NACA 2415, over a background coloured by speed or pressure. The whole-aircraft flow is in the 3-D CFD tab.</p>
   <figure class="flowviz" id="flowViz">
     <div class="fv-bar">
-      <div class="seg" role="group" aria-label="Flow view"><button type="button" data-fv="2d">Wing section, 2-D CFD</button><button type="button" data-fv="3d">Whole aircraft, 3-D</button></div>
       <div class="seg fv-2d" id="fvAlpha" role="group" aria-label="Angle of attack"></div>
       <div class="seg fv-2d" role="group" aria-label="Colour by"><button type="button" data-ff="speed">Speed</button><button type="button" data-ff="cp">Pressure</button></div>
-      <div class="seg fv-3d" role="group" aria-label="Camera" hidden><button type="button" data-fcam="iso">Three-quarter</button><button type="button" data-fcam="rear">From behind</button><button type="button" data-fcam="top">Top</button></div>
       <button type="button" class="fv-play" id="fvPause" aria-pressed="false">Pause</button>
     </div>
     <canvas id="fvCanvas" class="fv-canvas" tabindex="0" role="img" aria-label="Flow visualisation"></canvas>
     <div class="fv-foot"><div class="fv-legend" id="fvLegend"></div><p class="fv-read" id="fvRead" aria-live="polite"></p></div>
   </figure>
-  <p class="src">2-D: analysis/aero/flowfield_2d.py → out/flowviz/flow2d.json (SU2 8.5.0 incompressible RANS, Spalart–Allmaras fully turbulent, fine mesh unless labelled; field resampled to a 220 × 128 grid; motion slowed for viewing). 3-D: analysis/aero/flowfield_3d.py → out/flowviz/flow3d.json (AeroSandbox 4.2.10 vortex lattice, 120 streamlines, RK4). Static renders: analysis/aero/plots/flow_*.png. Method, convergence and limits: docs/research/aerodynamics.md §11</p>
+  <p class="src">2-D: analysis/aero/flowfield_2d.py → out/flowviz/flow2d.json (SU2 8.5.0 incompressible RANS, Spalart–Allmaras fully turbulent, fine mesh unless labelled; field resampled to a 220 × 128 grid; motion slowed for viewing). Static renders: analysis/aero/plots/flow_*.png. Method, convergence and limits: docs/research/aerodynamics.md §11</p>
 
   <h3 id="ae-cfd3d">3-D CFD</h3>
   <p class="verdict" id="cfVerdict"></p>
@@ -419,6 +417,7 @@
   <figure class="chart"><figcaption>Solver history for the selected case: pressure residual and lift coefficient</figcaption><div class="svgwrap"><svg id="cfHist" viewBox="0 0 640 220" role="img" aria-label="Residual and CL history"></svg></div></figure>
   <h4 id="ae-cfd3d-results">Results, convergence and checks</h4>
   <div class="tbl"><table id="cfCaseTable"><thead><tr><th>Case</th><th class="n">α</th><th class="n">Tets</th><th class="n">CL</th><th class="n">CMy</th><th class="n">CDi Trefftz</th><th class="n">Own CL integration</th><th class="n">Iterations</th><th class="n">rms p drop</th></tr></thead><tbody></tbody></table></div>
+  <p id="cfVlm"></p>
   <div class="tbl"><table id="cfCheckTable"><thead><tr><th>Check</th><th>Status</th><th>Result</th></tr></thead><tbody></tbody></table></div>
   <h4 id="ae-cfd3d-mesh">Computational mesh</h4>
   <div class="tbl"><table id="cfMeshTable"><thead><tr><th>Level</th><th class="n">Tetrahedra</th><th class="n">Nodes</th><th class="n">Wing triangles</th><th class="n">Wall size mm</th><th class="n">TE size mm</th><th class="n">min SICN</th><th class="n">1 % SICN</th><th class="n">mean SICN</th></tr></thead><tbody></tbody></table></div>
