@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-03 12:22",
+ "generated": "2026-11-03 12:36",
  "script": "analysis/validation/check_struct.py",
  "design": "analysis/results.json generated 2026-11-01, MTOW 7.4380 kg",
  "material": {
@@ -78,8 +78,8 @@
    "peak_fine_MPa": 38.633,
    "peak_change_coarse_to_fine_pct": 8.97,
    "elements": {
-    "coarse_3mm": null,
-    "fine_1.5mm": null,
+    "coarse_3mm": 59124,
+    "fine_1.5mm": 304036,
     "src": "cad/sim/*.LOG (UTF-16)"
    },
    "note": "peak grows 9 % on mesh halving at the fixed root face: restraint singularity, not converged; nominal stress away from the root is the comparable quantity"
@@ -278,8 +278,8 @@
    "max_abs_slice_delta_pct": 2.75,
    "stiffness_ratio_fea_over_true_joiner": 1.0964877097918475,
    "elements": {
-    "coarse_3mm": null,
-    "fine_2mm": null
+    "coarse_3mm": 55584,
+    "fine_2mm": 147172
    }
   },
   "STR-09": {
@@ -1004,7 +1004,7 @@
    "sheets": 9,
    "revision": "F",
    "checked_by": "\u2014",
-   "drawing_pdf_mtime": "2026-11-03 12:19"
+   "drawing_pdf_mtime": "2026-11-03 12:35"
   },
   "MFG-10": {
    "fasteners": 13,
@@ -1658,5 +1658,5 @@
    "note": ""
   }
  ],
- "runtime_s": 0.6
+ "runtime_s": 0.64
 }
