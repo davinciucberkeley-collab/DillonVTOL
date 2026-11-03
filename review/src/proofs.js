@@ -22,7 +22,9 @@ const Proofs = (() => {
 
   // ---- TeX subset -> MathML. Variables are swapped for placeholders first (longest first, on symbol boundaries), so a
   // variable written as "L/D" or "C_{L,\max}" is one hoverable unit, or its number in the substituted line ----
-  const GREEK = { rho: 'ρ', mu: 'μ', eta: 'η', pi: 'π', sigma: 'σ', delta: 'δ', Delta: 'Δ', omega: 'ω', alpha: 'α', tau: 'τ', theta: 'θ', lambda: 'λ', epsilon: 'ε' };
+  const GREEK = { rho: 'ρ', mu: 'μ', eta: 'η', pi: 'π', sigma: 'σ', delta: 'δ', Delta: 'Δ', omega: 'ω', alpha: 'α', tau: 'τ', theta: 'θ', lambda: 'λ', epsilon: 'ε', nu: 'ν', phi: 'φ', beta: 'β', gamma: 'γ', kappa: 'κ' };
+  const OPS = { int: '∫', iint: '∬', le: '≤', ge: '≥', approx: '≈', to: '→', infty: '∞', cdot: '·', times: '×', sum: '∑' };   // rev 2026-11-03: claim equations
+  const FN = ['max', 'min', 'ln', 'exp', 'cos', 'sin', 'log'];
   function bounded(s, t, rep) { let out = '', i = 0;
     while (i < s.length) { const k = s.indexOf(t, i); if (k < 0) { out += s.slice(i); break; }
       const b = k ? s[k - 1] : ' ', a = s[k + t.length] || ' ';
@@ -34,7 +36,7 @@ const Proofs = (() => {
     if (ctx) ctx.vars.map((v, i) => [v.tex, i]).filter(x => x[0]).sort((a, b) => b[0].length - a[0].length).forEach(([t, i]) => { s = bounded(s, t, `\\v{${i}}`); });
     let i = 0;
     const isNum = a => /^(<msup>|<msub>|<msubsup>)?(<mrow class="pf-n"|<mn)/.test(a);
-    const seq = stop => { let out = '', last = false; while (i < s.length && !(stop && s[i] === '}')) { if (!stop && s[i] === '}') { i++; continue; } const a = atom(); if (!a) continue;
+    const seq = (stop, toRight) => { let out = '', last = false; while (i < s.length && !(stop && s[i] === '}') && !(toRight && s.startsWith('\\right', i))) { if (!stop && s[i] === '}') { i++; continue; } const a = atom(); if (!a) continue;
         if (a.startsWith('<mspace')) { out += a; continue; } const num = isNum(a); if (num && last) out += '<mo>×</mo>'; out += a; last = num || a === '<mo>)</mo>'; }
       return out; };
     const group = () => seq(true);
@@ -48,17 +50,21 @@ const Proofs = (() => {
       if (c === ' ') { i++; return ''; }
       if (c === '{') { i++; const g = group(); i++; return `<mrow>${g}</mrow>`; }
       if (c === '\\') { i++; let n = ''; while (i < s.length && /[A-Za-z]/.test(s[i])) n += s[i++];
-        if (!n) { const ch = s[i++]; return ch === ',' || ch === ';' ? '<mspace width="0.18em"/>' : `<mo>${esc(ch)}</mo>`; }
+        if (!n) { const ch = s[i++]; return ch === ',' || ch === ';' ? '<mspace width="0.18em"/>' : ch === ' ' ? '<mspace width="0.3em"/>' : `<mo>${esc(ch)}</mo>`; }
         if (n === 'frac' || n === 'tfrac') { const a = arg(); return `<mfrac>${a}${arg()}</mfrac>`; }
         if (n === 'sqrt') return `<msqrt>${arg()}</msqrt>`;
+        if (n === 'left') { const d = s[i++], inner = seq(false, true); i += 6; const e = s[i++] || '';   // own mrow, so the delimiters stretch to the content
+          return `<mrow><mo fence="true" stretchy="true">${esc(d)}</mo>${inner}<mo fence="true" stretchy="true">${esc(e)}</mo></mrow>`; }
+        if (n === 'quad') return '<mspace width="1em"/>';
+        if (n === 'text') return `<mtext>${esc(raw()).replace(/^ | $/g, ' ')}</mtext>`;
+        if (n === 'mathrm') return `<mi mathvariant="normal">${esc(raw())}</mi>`;
+        if (n === 'bar') return `<mover accent="true">${arg()}<mo>¯</mo></mover>`;
         if (n === 'v') { const k = +raw(), v = ctx.vars[k];
           return ctx.mode === 'num' && typeof v.value === 'number' ? `<mrow class="pf-n" data-i="${k}">${mn(v.value)}</mrow>` : `<mrow class="pf-v" data-i="${k}">${mml(v.tex)}</mrow>`; }
         if (GREEK[n]) return `<mi>${GREEK[n]}</mi>`;
-        if (n === 'max' || n === 'min') return `<mi mathvariant="normal">${n}</mi>`;
-        if (n === 'sum') return '<mo>∑</mo>';
-        if (n === 'cdot') return '<mo>·</mo>';
-        if (n === 'times') return '<mo>×</mo>';
-        return '';
+        if (FN.includes(n)) return `<mi mathvariant="normal">${n}</mi>`;
+        if (OPS[n]) return `<mo>${OPS[n]}</mo>`;
+        return '';   // \left, \right and unknown commands draw nothing
       }
       if (/[0-9.]/.test(c)) { let n = ''; while (i < s.length && /[0-9.]/.test(s[i])) n += s[i++]; return `<mn>${n}</mn>`; }
       if (/[A-Za-z]/.test(c)) { i++; return `<mi>${c}</mi>`; }
@@ -67,6 +73,11 @@ const Proofs = (() => {
     return seq(false); }
   const pct = (d, k = 2) => { const t = (+d).toFixed(k); return (/^-0\.0*$/.test(t) ? t.slice(1) : (d > 0 ? '+' : '') + t).replace('-', '−'); };
   const math = (inner, block) => `<math${block ? ' display="block"' : ''}>${inner}</math>`;
+  // a claim's equation list: typeset where equations_tex.json has a form (proofs.json equation_tex), else the plain text
+  const eqList = list => { if (!list || !list.length) return ''; load(); const T = (P && P.equation_tex) || {};
+    return `<ul class="vm-eq">${list.map(e => { const t = T[e];
+      if (!t) return `<li><code>${esc(e)}</code></li>`;
+      return t.tex ? `<li>${math(mml(t.tex), true)}${t.note ? `<span class="pf-mute">${esc(t.note)}</span>` : ''}</li>` : `<li class="vm-eqt">${esc(t.note)}</li>`; }).join('')}</ul>`; };
 
   // ---- where a value comes from ----
   function origin(v) { const s = v.src || {}, bits = [];
@@ -125,7 +136,7 @@ const Proofs = (() => {
         <div class="tbl pf-vt"><table><thead><tr><th>Symbol</th><th class="n">Value</th><th>Meaning</th><th>Comes from</th></tr></thead><tbody>${rows}</tbody></table></div>${p.note ? `<p class="pf-note">${esc(p.note)}</p>` : ''}`;
     } else {
       body = `<div class="pf-verdict pf-ev">No closed-form arithmetic to re-run. The proof is the evidence and the independent check below.</div>`
-        + (p.equations && p.equations.length ? `<ul class="vm-eq">${p.equations.map(e => `<li><code>${esc(e)}</code></li>`).join('')}</ul>` : '');
+        + eqList(p.equations);
     }
     const chips = (h, a) => a && a.length ? `<span class="pf-lk">${h}</span> ${a.map(x => `<button type="button" class="pf-chip" data-claim="${esc(x)}">${esc(x)}</button>`).join(' ')}` : '';
     const ext = (p.external || []).map(s => { const so = P.sources[s] || {}, k = SRCST[so.status] || ['open', so.status]; return `<button type="button" class="pf-chip pf-srcb" data-src="${esc(s)}" title="${esc(so.title || '')}"><span class="chip ${k[0]}">${esc(s)}</span> ${esc((so.title || '').split(/[,(]/)[0].slice(0, 36))}</button>`; }).join(' ');
@@ -236,7 +247,7 @@ const Proofs = (() => {
       + `Of ${so.length} external sources, ${conf} were confirmed value by value and ${bad} contradict the repo; the rest are books, standards or sites that block automated reading.`; }
 
   return {
-    card, open, wire, load,
+    card, open, wire, load, eqList,
     redraw(sec) { if (!load()) return; const vis = id => { const e = document.getElementById(id); return e && !e.closest('[hidden]'); };
       if (vis('vmVerdict')) verdict(); if (vis('pfGraph')) graph(); if (vis('srcTable')) sources(); if (vis('maTable')) meshAudit(); }
   };

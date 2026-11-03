@@ -323,6 +323,12 @@ def main():
         out["link_check"] = {"n": lc.get("n"), "ok": cn.get("ok", 0), "dead": cn.get("dead", 0), "blocked": cn.get("blocked", 0),
                              "other": sum(v for k, v in cn.items() if k not in ("ok", "dead", "blocked")), "generated": lc.get("generated"),
                              "dead_urls": [l["url"] for l in lc.get("links", []) if l.get("status") == "dead" or (l.get("status_code") in (404, 410))][:20]}
+    # typeset form of each plain-text equation (equations_tex.json, keyed by the exact text); the page falls back to the text
+    eqt = json.loads((VAL / "equations_tex.json").read_text(encoding="utf-8"))["equations"]
+    used = {e for p in out["claims"].values() for e in p["equations"]}
+    out["equation_tex"] = {e: eqt[e] for e in sorted(used) if e in eqt}
+    for e in sorted(used - set(eqt)):
+        print(f"no typeset form in equations_tex.json: {e!r}")
     comp = [p for p in out["claims"].values() if p["kind"] == "computed"]
     links = [v["link"] for p in comp for v in p["vars"] if "link" in v]
     out["summary"] = {"claims": len(out["claims"]), "computed": len(comp), "evidence_only": len(out["claims"]) - len(comp),

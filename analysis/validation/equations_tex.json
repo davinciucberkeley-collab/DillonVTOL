@@ -1,0 +1,641 @@
+{
+ "_about": "Typeset form of every plain-text claim equation (claims_*.json 'equations'), keyed by the exact text. tex: proofs.js TeX subset; note: plain text shown after it; tex null: the line is a description. analysis/validation/proofs.py copies this into proofs.json and lists any equation without an entry.",
+ "equations": {
+  "A = pi D H + 2 pi D^2 / 4 = 0.008445 m^2": {
+   "tex": "A = \\pi D H + 2\\,\\frac{\\pi D^2}{4} = 0.008445\\,\\mathrm{m}^2",
+   "note": ""
+  },
+  "AR = b^2 / S": {
+   "tex": "\\mathrm{AR} = \\frac{b^2}{S}",
+   "note": ""
+  },
+  "AVL trim Cm = 0, CL = CL_cruise": {
+   "tex": "C_m = 0,\\quad C_L = C_{L,\\mathrm{cruise}}",
+   "note": "AVL trim"
+  },
+  "Bernoulli, incompressible: Cp = 1 - (V/V_inf)^2 <= 1": {
+   "tex": "C_p = 1 - \\left(\\frac{V}{V_\\infty}\\right)^2 \\le 1",
+   "note": "Bernoulli, incompressible"
+  },
+  "CD0 = sum(Cf FF Q Swet)/S + sum(CdA_bluff)/S": {
+   "tex": "C_{D0} = \\frac{\\sum C_f\\,\\mathrm{FF}\\,Q\\,S_{\\mathrm{wet}}}{S} + \\frac{\\sum (C_D A)_{\\mathrm{bluff}}}{S}",
+   "note": ""
+  },
+  "CD_spurious = CD_surface - CD_i,Trefftz": {
+   "tex": "C_{D,\\mathrm{spurious}} = C_{D,\\mathrm{surface}} - C_{D_i,\\mathrm{Trefftz}}",
+   "note": ""
+  },
+  "CD_surface = CD_induced + CD_spurious(numerical)": {
+   "tex": "C_{D,\\mathrm{surface}} = C_{D,\\mathrm{induced}} + C_{D,\\mathrm{spurious}}",
+   "note": "the spurious part is numerical"
+  },
+  "CDi = (2/(q S)) * integral of 1/2 rho (v^2 + w^2) dA over the half plane": {
+   "tex": "C_{D_i} = \\frac{2}{q S}\\int \\tfrac{1}{2}\\,\\rho\\,(v^2 + w^2)\\,dA",
+   "note": "over the half Trefftz plane"
+  },
+  "CDi = CL^2 / (pi e AR)": {
+   "tex": "C_{D_i} = \\frac{C_L^2}{\\pi e\\,\\mathrm{AR}}",
+   "note": ""
+  },
+  "CL = 2 W / (rho V^2 S)": {
+   "tex": "C_L = \\frac{2W}{\\rho V^2 S}",
+   "note": ""
+  },
+  "CL = CL0 + CL_alpha alpha (least squares, |alpha| <= 6 deg)": {
+   "tex": "C_L = C_{L0} + C_{L_\\alpha}\\,\\alpha",
+   "note": "least squares, |alpha| <= 6 deg"
+  },
+  "CL = F.l / (q S_ref/2)": {
+   "tex": "C_L = \\frac{F \\cdot l}{q\\,S_{\\mathrm{ref}}/2}",
+   "note": ""
+  },
+  "CL = L / (q S_ref)": {
+   "tex": "C_L = \\frac{L}{q\\,S_{\\mathrm{ref}}}",
+   "note": ""
+  },
+  "CL* = sqrt(pi e AR CD0)": {
+   "tex": "C_L^* = \\sqrt{\\pi e\\,\\mathrm{AR}\\,C_{D0}}",
+   "note": ""
+  },
+  "CL_a = a_w + eta a_t (S_h/S)(1 - de/da)": {
+   "tex": "C_{L_\\alpha} = a_w + \\eta\\,a_t\\,\\frac{S_h}{S}\\left(1 - \\frac{d\\epsilon}{d\\alpha}\\right)",
+   "note": ""
+  },
+  "Cauchy criterion on CL, CD, CMy over 200 iterations, eps 1e-6": {
+   "tex": null,
+   "note": "Cauchy convergence criterion on CL, CD and CMy over 200 iterations, eps 1e-6"
+  },
+  "Celik 2008: p from e32/e21 with r21, r32 and q(p)": {
+   "tex": "p = f\\left(\\frac{e_{32}}{e_{21}},\\ r_{21},\\ r_{32}\\right)",
+   "note": "Celik 2008, solved with the correction term q(p)"
+  },
+  "Cf composite (Prandtl/Schlichting)": {
+   "tex": null,
+   "note": "Skin friction C_f: laminar + turbulent composite (Prandtl / Schlichting)"
+  },
+  "Cf composite (laminar run x_tr)": {
+   "tex": null,
+   "note": "Skin friction C_f: composite, laminar up to the transition point x_tr"
+  },
+  "Cf_turb = 0.074 Re^-0.2": {
+   "tex": "C_{f,\\mathrm{turb}} = 0.074\\,\\mathrm{Re}^{-0.2}",
+   "note": ""
+  },
+  "Churchill-Bernstein: Nu = 0.3 + 0.62 Re^0.5 Pr^(1/3) / (1 + (0.4/Pr)^(2/3))^0.25 (1 + (Re/282000)^(5/8))^(4/5)": {
+   "tex": "\\mathrm{Nu} = 0.3 + \\frac{0.62\\,\\mathrm{Re}^{1/2}\\,\\mathrm{Pr}^{1/3}}{\\left[1 + (0.4/\\mathrm{Pr})^{2/3}\\right]^{1/4}}\\left[1 + \\left(\\frac{\\mathrm{Re}}{282000}\\right)^{5/8}\\right]^{4/5}",
+   "note": "Churchill-Bernstein"
+  },
+  "Cm_a,fus = K_f W_f^2 L_f / (c S) per deg": {
+   "tex": "C_{m_\\alpha,\\mathrm{fus}} = \\frac{K_f\\,W_f^2\\,L_f}{c S}",
+   "note": "per degree"
+  },
+  "Cm_c/4 = pi/4 (A2 - A1)": {
+   "tex": "C_{m,c/4} = \\frac{\\pi}{4}\\,(A_2 - A_1)",
+   "note": ""
+  },
+  "E = C V": {
+   "tex": "E = C V",
+   "note": ""
+  },
+  "F = -sum_i p_i n_i A_i (n into the fluid, from the owning tetrahedron)": {
+   "tex": "F = -\\sum_i p_i\\,n_i\\,A_i",
+   "note": "n points into the fluid, from the owning tetrahedron"
+  },
+  "F = M / 0.036 m": {
+   "tex": "F = \\frac{M}{0.036\\,\\mathrm{m}}",
+   "note": ""
+  },
+  "F = T / ((0.70 - 0.30) c)": {
+   "tex": "F = \\frac{T}{(0.70 - 0.30)\\,c}",
+   "note": ""
+  },
+  "F = T / (K d)": {
+   "tex": "F = \\frac{T}{K d}",
+   "note": ""
+  },
+  "F = k d": {
+   "tex": "F = k d",
+   "note": ""
+  },
+  "F09 length = params wingBoltL; F09 nut pocket = params pillarNutDepth": {
+   "tex": "L_{\\mathrm{F09}} = \\text{wingBoltL},\\quad d_{\\mathrm{pocket}} = \\text{pillarNutDepth}",
+   "note": "both read from params"
+  },
+  "FF = 1 + 2 t/c + 60 (t/c)^4": {
+   "tex": "\\mathrm{FF} = 1 + 2\\,\\frac{t}{c} + 60\\left(\\frac{t}{c}\\right)^4",
+   "note": ""
+  },
+  "FM eta interpolated from the maker table": {
+   "tex": "\\mathrm{FM}\\,\\eta",
+   "note": "interpolated from the maker's table"
+  },
+  "F_pre = T_q / (K d)": {
+   "tex": "F_{\\mathrm{pre}} = \\frac{T_q}{K d}",
+   "note": ""
+  },
+  "GCI_fine = 1.25 e_a21 / (r21^p - 1)": {
+   "tex": "\\mathrm{GCI}_{\\mathrm{fine}} = \\frac{1.25\\,e_a^{21}}{r_{21}^p - 1}",
+   "note": ""
+  },
+  "GCI_fine = 1.25 |(f1-f2)/f1| / (r21^p - 1)": {
+   "tex": "\\mathrm{GCI}_{\\mathrm{fine}} = \\frac{1.25\\left|\\frac{f_1 - f_2}{f_1}\\right|}{r_{21}^p - 1}",
+   "note": ""
+  },
+  "Helmbold: a = a0 / (sqrt(1 + (a0/(pi AR))^2) + a0/(pi AR))": {
+   "tex": "a = \\frac{a_0}{\\sqrt{1 + \\left(\\frac{a_0}{\\pi\\,\\mathrm{AR}}\\right)^2} + \\frac{a_0}{\\pi\\,\\mathrm{AR}}}",
+   "note": "Helmbold"
+  },
+  "Hilpert: Nu = 0.193 Re^0.618 Pr^(1/3)": {
+   "tex": "\\mathrm{Nu} = 0.193\\,\\mathrm{Re}^{0.618}\\,\\mathrm{Pr}^{1/3}",
+   "note": "Hilpert"
+  },
+  "I = P_hover / V_pack": {
+   "tex": "I = \\frac{P_{\\mathrm{hover}}}{V_{\\mathrm{pack}}}",
+   "note": ""
+  },
+  "I = P_in / 21 V": {
+   "tex": "I = \\frac{P_{\\mathrm{in}}}{21\\,\\mathrm{V}}",
+   "note": ""
+  },
+  "I = P_trans / 21.0 V": {
+   "tex": "I = \\frac{P_{\\mathrm{trans}}}{21.0\\,\\mathrm{V}}",
+   "note": ""
+  },
+  "I = pi/64 (D^4 - d^4)": {
+   "tex": "I = \\frac{\\pi}{64}\\,(D^4 - d^4)",
+   "note": ""
+  },
+  "I = pi/64 (D^4 - d^4) = 5195 mm^4": {
+   "tex": "I = \\frac{\\pi}{64}\\,(D^4 - d^4) = 5195\\,\\mathrm{mm}^4",
+   "note": ""
+  },
+  "I_m(V) = 27.7 (V/22.2)^kI, kI = ln(33.3/27.7)/ln(25/22.2)": {
+   "tex": "I_m(V) = 27.7\\left(\\frac{V}{22.2}\\right)^{k_I},\\quad k_I = \\frac{\\ln(33.3/27.7)}{\\ln(25/22.2)}",
+   "note": ""
+  },
+  "K u = f, 10-node tetrahedra, 4-point Gauss, isotropic linear elasticity": {
+   "tex": "K u = f",
+   "note": "10-node tetrahedra, 4-point Gauss, isotropic linear elasticity"
+  },
+  "L/D = CL / (CD0 + CL^2/(pi e AR))": {
+   "tex": "\\frac{L}{D} = \\frac{C_L}{C_{D0} + \\frac{C_L^2}{\\pi e\\,\\mathrm{AR}}}",
+   "note": ""
+  },
+  "L_half = m g n / 2": {
+   "tex": "L_{\\mathrm{half}} = \\frac{m g n}{2}",
+   "note": ""
+  },
+  "M = L_half y_bar": {
+   "tex": "M = L_{\\mathrm{half}}\\,\\bar{y}",
+   "note": ""
+  },
+  "M = m_tail g n arm": {
+   "tex": "M = m_{\\mathrm{tail}}\\,g\\,n\\,l_{\\mathrm{arm}}",
+   "note": ""
+  },
+  "M(z) from uniform w = F / L_spar on [fusR, fusR + L_spar]": {
+   "tex": "w = \\frac{F}{L_{\\mathrm{spar}}} \\text{ on } [\\,r_{\\mathrm{fus}},\\ r_{\\mathrm{fus}} + L_{\\mathrm{spar}}\\,]",
+   "note": "uniform load; M(z) follows from it"
+  },
+  "P = (W / (L/D)) V / (eta_prop eta_mec)": {
+   "tex": "P = \\frac{W}{L/D}\\,\\frac{V}{\\eta_{\\mathrm{prop}}\\,\\eta_{\\mathrm{mec}}}",
+   "note": ""
+  },
+  "P = n P_ideal k_ctrl / (FM eta)": {
+   "tex": "P = \\frac{n\\,P_{\\mathrm{ideal}}\\,k_{\\mathrm{ctrl}}}{\\mathrm{FM}\\,\\eta}",
+   "note": ""
+  },
+  "P_ideal = T^1.5 / sqrt(2 rho A)": {
+   "tex": "P_{\\mathrm{ideal}} = \\frac{T^{1.5}}{\\sqrt{2\\rho A}}",
+   "note": ""
+  },
+  "P_trans = P_hover + 2 P_cruise": {
+   "tex": "P_{\\mathrm{trans}} = P_{\\mathrm{hover}} + 2\\,P_{\\mathrm{cruise}}",
+   "note": ""
+  },
+  "Pe = T V / P_shaft (APC table, linear in V between rows)": {
+   "tex": "\\eta_p = \\frac{T V}{P_{\\mathrm{shaft}}}",
+   "note": "APC table, linear in V between rows"
+  },
+  "Q = I^2 R + I0 V_bemf": {
+   "tex": "Q = I^2 R + I_0\\,V_{\\mathrm{bemf}}",
+   "note": ""
+  },
+  "Q = I^2 R_pack": {
+   "tex": "Q = I^2 R_{\\mathrm{pack}}",
+   "note": ""
+  },
+  "Q = eta P / omega": {
+   "tex": "Q = \\frac{\\eta P}{\\omega}",
+   "note": ""
+  },
+  "Q_rule = 0.2 P_in": {
+   "tex": "Q_{\\mathrm{rule}} = 0.2\\,P_{\\mathrm{in}}",
+   "note": ""
+  },
+  "RF = sigma_y / sigma": {
+   "tex": "\\mathrm{RF} = \\frac{\\sigma_y}{\\sigma}",
+   "note": ""
+  },
+  "RF = sigma_y,min / sigma": {
+   "tex": "\\mathrm{RF} = \\frac{\\sigma_{y,\\min}}{\\sigma}",
+   "note": ""
+  },
+  "RSS = sqrt(sum t_i^2)": {
+   "tex": "\\mathrm{RSS} = \\sqrt{\\sum t_i^2}",
+   "note": ""
+  },
+  "R_front = T + R_rear": {
+   "tex": "R_{\\mathrm{front}} = T + R_{\\mathrm{rear}}",
+   "note": ""
+  },
+  "R_rear = T a / s": {
+   "tex": "R_{\\mathrm{rear}} = \\frac{T a}{s}",
+   "note": ""
+  },
+  "Raymer: CLmax_3D ~ 0.9 cl_max_2D (unswept)": {
+   "tex": "C_{L,\\max} \\approx 0.9\\,c_{l,\\max}",
+   "note": "Raymer, unswept wing"
+  },
+  "Re = V D / nu": {
+   "tex": "\\mathrm{Re} = \\frac{V D}{\\nu}",
+   "note": ""
+  },
+  "Re = V c / nu": {
+   "tex": "\\mathrm{Re} = \\frac{V c}{\\nu}",
+   "note": ""
+  },
+  "Re = rho V c / mu": {
+   "tex": "\\mathrm{Re} = \\frac{\\rho V c}{\\mu}",
+   "note": ""
+  },
+  "S = 2 W / (rho V_s^2 CL_max)": {
+   "tex": "S = \\frac{2W}{\\rho V_s^2 C_{L,\\max}}",
+   "note": ""
+  },
+  "SM = h_n - h_cg": {
+   "tex": "\\mathrm{SM} = h_n - h_{\\mathrm{cg}}",
+   "note": ""
+  },
+  "Schrenk: M = (M_ell + M_uni)/2, M_ell = L_half 4 b_s/(3 pi), M_uni = L_half b_s/2": {
+   "tex": "M = \\frac{M_{\\mathrm{ell}} + M_{\\mathrm{uni}}}{2},\\quad M_{\\mathrm{ell}} = L_{\\mathrm{half}}\\,\\frac{4\\,b_s}{3\\pi},\\quad M_{\\mathrm{uni}} = L_{\\mathrm{half}}\\,\\frac{b_s}{2}",
+   "note": "Schrenk"
+  },
+  "T = L_half (0.30 - 0.25) c": {
+   "tex": "T = L_{\\mathrm{half}}\\,(0.30 - 0.25)\\,c",
+   "note": ""
+  },
+  "T = T_amb + Q / (h A)": {
+   "tex": "T = T_{\\mathrm{amb}} + \\frac{Q}{h A}",
+   "note": ""
+  },
+  "T = m g L": {
+   "tex": "T = m g L",
+   "note": ""
+  },
+  "T(V) = 3130 (V/22.2)^kT, kT = ln(3600/3130)/ln(25/22.2)": {
+   "tex": "T(V) = 3130\\left(\\frac{V}{22.2}\\right)^{k_T},\\quad k_T = \\frac{\\ln(3600/3130)}{\\ln(25/22.2)}",
+   "note": ""
+  },
+  "T(t) = T_inf + (T0 - T_inf) exp(-t / tau)": {
+   "tex": "T(t) = T_\\infty + (T_0 - T_\\infty)\\,e^{-t/\\tau}",
+   "note": ""
+  },
+  "T/W = 4 T / m >= 1/0.70": {
+   "tex": "\\frac{T}{W} = \\frac{4T}{m} \\ge \\frac{1}{0.70}",
+   "note": ""
+  },
+  "T/W = n T_max / m": {
+   "tex": "\\frac{T}{W} = \\frac{n\\,T_{\\max}}{m}",
+   "note": ""
+  },
+  "T_inf = T_amb + Q / (h A)": {
+   "tex": "T_\\infty = T_{\\mathrm{amb}} + \\frac{Q}{h A}",
+   "note": ""
+  },
+  "T_slip = mu n F r": {
+   "tex": "T_{\\mathrm{slip}} = \\mu\\,n\\,F\\,r",
+   "note": ""
+  },
+  "V = 6 x 3.80 - 4 I_m x 6 x 0.006 (iterate)": {
+   "tex": "V = 6 \\times 3.80 - 4\\,I_m \\times 6 \\times 0.006",
+   "note": "iterated"
+  },
+  "V* = sqrt(2 W / (rho S CL*))": {
+   "tex": "V^* = \\sqrt{\\frac{2W}{\\rho S C_L^*}}",
+   "note": ""
+  },
+  "V_bemf = rpm_hover / KV": {
+   "tex": "V_{\\mathrm{bemf}} = \\frac{\\mathrm{rpm}_{\\mathrm{hover}}}{K_V}",
+   "note": ""
+  },
+  "V_cell = V_rest - I R_cell": {
+   "tex": "V_{\\mathrm{cell}} = V_{\\mathrm{rest}} - I R_{\\mathrm{cell}}",
+   "note": ""
+  },
+  "V_h = S_h l_h / (S c)": {
+   "tex": "V_h = \\frac{S_h\\,l_h}{S c}",
+   "note": ""
+  },
+  "V_s = sqrt(2 W / (rho S CL_max))": {
+   "tex": "V_s = \\sqrt{\\frac{2W}{\\rho S C_{L,\\max}}}",
+   "note": ""
+  },
+  "V_v = S_v l_h / (S b)": {
+   "tex": "V_v = \\frac{S_v\\,l_h}{S b}",
+   "note": ""
+  },
+  "WC = sum |t_i|": {
+   "tex": "\\mathrm{WC} = \\sum |t_i|",
+   "note": "worst case"
+  },
+  "a = a0 / (1 + a0 (1+tau) / (pi AR))": {
+   "tex": "a = \\frac{a_0}{1 + \\frac{a_0\\,(1 + \\tau)}{\\pi\\,\\mathrm{AR}}}",
+   "note": ""
+  },
+  "a0 = 2 pi": {
+   "tex": "a_0 = 2\\pi",
+   "note": ""
+  },
+  "aircraft CL at which max strip cl = cl_max_2D": {
+   "tex": "\\max_{\\mathrm{strips}} c_l = c_{l,\\max}",
+   "note": "C_L,max is the aircraft C_L at which this first holds"
+  },
+  "beam check: sigma = M c / I, delta(x) = P x^2 (3a - x) / (6 E I)": {
+   "tex": "\\sigma = \\frac{M c}{I},\\quad \\delta(x) = \\frac{P x^2\\,(3a - x)}{6 E I}",
+   "note": "beam check"
+  },
+  "body FF = 1 + 1.5/f^1.5 + 7/f^3": {
+   "tex": "\\mathrm{FF}_{\\mathrm{body}} = 1 + \\frac{1.5}{f^{1.5}} + \\frac{7}{f^3}",
+   "note": ""
+  },
+  "bottom-up: sum of CAD volume x density + vendor masses": {
+   "tex": "m = \\sum \\rho\\,V_{\\mathrm{CAD}} + \\sum m_{\\mathrm{vendor}}",
+   "note": "bottom-up"
+  },
+  "c = ID_socket - OD_joiner": {
+   "tex": "c = \\mathrm{ID}_{\\mathrm{socket}} - \\mathrm{OD}_{\\mathrm{joiner}}",
+   "note": ""
+  },
+  "c = S / b": {
+   "tex": "c = \\frac{S}{b}",
+   "note": ""
+  },
+  "c_max = (25.6 + 0.2) - (25.4 - 0.102)": {
+   "tex": "c_{\\max} = (25.6 + 0.2) - (25.4 - 0.102)",
+   "note": ""
+  },
+  "cd ~ 2 Cf FF": {
+   "tex": "c_d \\approx 2\\,C_f\\,\\mathrm{FF}",
+   "note": ""
+  },
+  "check: R_front = T (a + s) / s": {
+   "tex": "R_{\\mathrm{front}} = \\frac{T\\,(a + s)}{s}",
+   "note": "check"
+  },
+  "cl_alpha = (cl(4) - cl(0)) / 4 deg": {
+   "tex": "c_{l_\\alpha} = \\frac{c_l(4°) - c_l(0°)}{4°}",
+   "note": ""
+  },
+  "coaxiality allowance <= FT01 + FT06 nominal diametral clearance = (22.454 - 22.225) + (22.455 - 22.225) = 0.46 mm (calc, cad/hardware.json); 0.4 adopted (EST)": {
+   "tex": "c_{\\mathrm{coax}} \\le (22.454 - 22.225) + (22.455 - 22.225) = 0.46\\,\\mathrm{mm}",
+   "note": "FT01 + FT06 nominal diametral clearance (calc, cad/hardware.json); 0.4 mm adopted (EST)"
+  },
+  "crescent volume of an offset coaxial cut ~ 2 R e L (R 12.7 mm, e 4 um, L 0.8 m -> ~81 mm3 per socket before the fix, calc)": {
+   "tex": "V_{\\mathrm{crescent}} \\approx 2 R e L",
+   "note": "offset coaxial cut; R 12.7 mm, e 4 um, L 0.8 m gives about 81 mm3 per socket before the fix (calc)"
+  },
+  "d = (m g + sqrt((m g)^2 + k m v^2)) / k": {
+   "tex": "d = \\frac{m g + \\sqrt{(m g)^2 + k m v^2}}{k}",
+   "note": ""
+  },
+  "dCG = m_batt dx / m": {
+   "tex": "\\Delta x_{\\mathrm{cg}} = \\frac{m_{\\mathrm{batt}}\\,\\Delta x}{m}",
+   "note": ""
+  },
+  "dT = sum(Q t) / (m c_p)": {
+   "tex": "\\Delta T = \\frac{\\sum Q\\,t}{m\\,c_p}",
+   "note": ""
+  },
+  "de/da = 2 a_w / (pi AR)": {
+   "tex": "\\frac{d\\epsilon}{d\\alpha} = \\frac{2\\,a_w}{\\pi\\,\\mathrm{AR}}",
+   "note": ""
+  },
+  "delta = (x_file - x_results) / x_results": {
+   "tex": "\\delta = \\frac{x_{\\mathrm{file}} - x_{\\mathrm{results}}}{x_{\\mathrm{results}}}",
+   "note": ""
+  },
+  "delta = P L^3 / (3 E I) (load at the end)": {
+   "tex": "\\delta = \\frac{P L^3}{3 E I}",
+   "note": "load at the end"
+  },
+  "delta = double integral of M(z) / (E I(z)) dz dz over the stepped section": {
+   "tex": "\\delta = \\iint \\frac{M(z)}{E\\,I(z)}\\,dz\\,dz",
+   "note": "over the stepped section"
+  },
+  "delta_tip = P a^2 (3L - a) / (6 E I) (load at a = L - r_block)": {
+   "tex": "\\delta_{\\mathrm{tip}} = \\frac{P a^2\\,(3L - a)}{6 E I},\\quad a = L - r_{\\mathrm{block}}",
+   "note": ""
+  },
+  "e = 1.78 (1 - 0.045 AR^0.68) - 0.64 (Raymer 5th ed. eq. 12.49)": {
+   "tex": "e = 1.78\\,(1 - 0.045\\,\\mathrm{AR}^{0.68}) - 0.64",
+   "note": "Raymer 5th ed. eq. 12.49"
+  },
+  "eta_ideal = 2 / (1 + sqrt(1 + T/(q A)))": {
+   "tex": "\\eta_{\\mathrm{ideal}} = \\frac{2}{1 + \\sqrt{1 + \\frac{T}{q A}}}",
+   "note": ""
+  },
+  "f1 = 1/(2 pi) sqrt(3 E I / ((m_tip + 0.24 m_beam) a^3))": {
+   "tex": "f_1 = \\frac{1}{2\\pi}\\sqrt{\\frac{3 E I}{(m_{\\mathrm{tip}} + 0.24\\,m_{\\mathrm{beam}})\\,a^3}}",
+   "note": ""
+  },
+  "f_ext = (r21^p f1 - f2)/(r21^p - 1)": {
+   "tex": "f_{\\mathrm{ext}} = \\frac{r_{21}^p f_1 - f_2}{r_{21}^p - 1}",
+   "note": ""
+  },
+  "far field: |V|/V_inf -> 1": {
+   "tex": "\\frac{|V|}{V_\\infty} \\to 1",
+   "note": "far field"
+  },
+  "for each Bolt Depot fastener in hardware.json: order row with its part number contains 'M<d> × <L>'": {
+   "tex": null,
+   "note": "For each Bolt Depot fastener in hardware.json, the order row with its part number contains 'M<d> × <L>'"
+  },
+  "gap = theta x chord": {
+   "tex": "g = \\theta \\times c",
+   "note": "c = chord"
+  },
+  "grip if c_max < split gap": {
+   "tex": "c_{\\max} < g_{\\mathrm{split}}",
+   "note": "the clamp grips when this holds"
+  },
+  "h = Nu k / D": {
+   "tex": "h = \\frac{\\mathrm{Nu}\\,k}{D}",
+   "note": ""
+  },
+  "h_n = 0.25 + eta V_h (a_t/a_w)(1 - de/da) + dh_fus": {
+   "tex": "h_n = 0.25 + \\eta\\,V_h\\,\\frac{a_t}{a_w}\\left(1 - \\frac{d\\epsilon}{d\\alpha}\\right) + \\Delta h_{\\mathrm{fus}}",
+   "note": ""
+  },
+  "joiner tilt = FT01 clearance / 300 mm": {
+   "tex": "\\theta_{\\mathrm{joiner}} = \\frac{c_{\\mathrm{FT01}}}{300\\,\\mathrm{mm}}",
+   "note": ""
+  },
+  "k = 3 E I / a^3 (boom cantilevered from its clamp)": {
+   "tex": "k = \\frac{3 E I}{a^3}",
+   "note": "boom cantilevered from its clamp"
+  },
+  "loaded: V = n_s (V_rest - I R_cell), I = P / V": {
+   "tex": "V = n_s\\,(V_{\\mathrm{rest}} - I R_{\\mathrm{cell}}),\\quad I = \\frac{P}{V}",
+   "note": "under load"
+  },
+  "lumped exposed can (lower bound)": {
+   "tex": null,
+   "note": "Lumped model of the exposed motor can (lower bound):"
+  },
+  "lumped, Q = 4 % of unit input = 11.3 W": {
+   "tex": "Q = 0.04\\,P_{\\mathrm{in}} = 11.3\\,\\mathrm{W}",
+   "note": "lumped; 4 % of the unit's input power"
+  },
+  "m = 0.685 (t/c) c^2 b rho_foam + 2 w_tape S + m_spar + m_wing_hardware": {
+   "tex": "m = 0.685\\,\\frac{t}{c}\\,c^2 b\\,\\rho_{\\mathrm{foam}} + 2\\,w_{\\mathrm{tape}} S + m_{\\mathrm{spar}} + m_{\\mathrm{hardware}}",
+   "note": ""
+  },
+  "m = m_fixed + m_lift + m_booms + m_wing + m_tail + m_batt (iterated)": {
+   "tex": "m = m_{\\mathrm{fixed}} + m_{\\mathrm{lift}} + m_{\\mathrm{booms}} + m_{\\mathrm{wing}} + m_{\\mathrm{tail}} + m_{\\mathrm{batt}}",
+   "note": "iterated"
+  },
+  "m = sum of group masses": {
+   "tex": "m = \\sum m_{\\mathrm{group}}",
+   "note": ""
+  },
+  "m_unit = m_motor + m_esc + m_prop + m_mount": {
+   "tex": "m_{\\mathrm{unit}} = m_{\\mathrm{motor}} + m_{\\mathrm{esc}} + m_{\\mathrm{prop}} + m_{\\mathrm{mount}}",
+   "note": ""
+  },
+  "n_stall = (V / V_s)^2": {
+   "tex": "n_{\\mathrm{stall}} = \\left(\\frac{V}{V_s}\\right)^2",
+   "note": ""
+  },
+  "nu = mu/rho, mu 1.81e-5 Pa s (ISA 15 C)": {
+   "tex": "\\nu = \\frac{\\mu}{\\rho},\\quad \\mu = 1.81 \\times 10^{-5}\\,\\mathrm{Pa}\\,\\mathrm{s}",
+   "note": "ISA, 15 C"
+  },
+  "p from |e32/e21| (Celik 2008, fixed-point)": {
+   "tex": "p \\text{ from } \\left|\\frac{e_{32}}{e_{21}}\\right|",
+   "note": "Celik 2008, fixed-point iteration"
+  },
+  "protrusion = (spot + L_screw) - (H_pillar - pocket + h_nut)": {
+   "tex": "p = (s + L_{\\mathrm{screw}}) - (H_{\\mathrm{pillar}} - d_{\\mathrm{pocket}} + h_{\\mathrm{nut}})",
+   "note": "s = spot-face depth"
+  },
+  "r = (N_fine/N_coarse)^(1/3)": {
+   "tex": "r = \\left(\\frac{N_{\\mathrm{fine}}}{N_{\\mathrm{coarse}}}\\right)^{1/3}",
+   "note": ""
+  },
+  "reference: XFOIL 6.99 inviscid panel method": {
+   "tex": null,
+   "note": "Reference: XFOIL 6.99 inviscid panel method"
+  },
+  "reserve = 2000 - total": {
+   "tex": "\\text{reserve} = 2000 - \\text{total}",
+   "note": ""
+  },
+  "rod length = |pin - arm| (cad/params.mjs; both rudders 88.4 mm after the left servo moved 2 x shaftX = 19 mm aft)": {
+   "tex": "L_{\\mathrm{rod}} = \\left|x_{\\mathrm{pin}} - x_{\\mathrm{arm}}\\right|",
+   "note": "cad/params.mjs; both rudders 88.4 mm after the left servo moved 2 x shaftX = 19 mm aft"
+  },
+  "rotation = clearance / 40 mm": {
+   "tex": "\\theta = \\frac{\\text{clearance}}{40\\,\\mathrm{mm}}",
+   "note": ""
+  },
+  "rpm_hover = rpm_max sqrt(T_hover / T_max)": {
+   "tex": "\\mathrm{rpm}_{\\mathrm{hover}} = \\mathrm{rpm}_{\\max}\\sqrt{\\frac{T_{\\mathrm{hover}}}{T_{\\max}}}",
+   "note": ""
+  },
+  "same SU2 INC_EULER numerics as run_cases.CFG on a 2-D gmsh mesh of the same NACA 2415 section": {
+   "tex": null,
+   "note": "Same SU2 INC_EULER numerics as run_cases.CFG, on a 2-D gmsh mesh of the same NACA 2415 section"
+  },
+  "share = nodes with Cp > 1 / wall nodes of the listed parts": {
+   "tex": "\\text{share} = \\frac{\\text{nodes with } C_p > 1}{\\text{wall nodes of the listed parts}}",
+   "note": ""
+  },
+  "sigma = F a (D/2) / I": {
+   "tex": "\\sigma = \\frac{F a\\,(D/2)}{I}",
+   "note": ""
+  },
+  "sigma = M (D/2) / I": {
+   "tex": "\\sigma = \\frac{M\\,(D/2)}{I}",
+   "note": ""
+  },
+  "sigma = M c / I per zone (joiner, overlap, spar)": {
+   "tex": "\\sigma = \\frac{M c}{I}",
+   "note": "per zone: joiner, overlap, spar"
+  },
+  "sigma = P L (D/2) / I": {
+   "tex": "\\sigma = \\frac{P L\\,(D/2)}{I}",
+   "note": ""
+  },
+  "sigma(x) = P (a - x) (D/2) / I, a = L - r_block": {
+   "tex": "\\sigma(x) = \\frac{P\\,(a - x)\\,(D/2)}{I},\\quad a = L - r_{\\mathrm{block}}",
+   "note": ""
+  },
+  "sigma_br = F / (2 d t)": {
+   "tex": "\\sigma_{\\mathrm{br}} = \\frac{F}{2 d t}",
+   "note": ""
+  },
+  "symmetry: v . n = 0": {
+   "tex": "v \\cdot n = 0",
+   "note": "symmetry plane"
+  },
+  "t = (E_pack (1-r) eta_b - P_h t_h) / P_c": {
+   "tex": "t = \\frac{E_{\\mathrm{pack}}\\,(1 - r)\\,\\eta_b - P_h t_h}{P_c}",
+   "note": ""
+  },
+  "tau = F / (2 A_s)": {
+   "tex": "\\tau = \\frac{F}{2 A_s}",
+   "note": ""
+  },
+  "tau = m c_p / (h A)": {
+   "tex": "\\tau = \\frac{m\\,c_p}{h A}",
+   "note": ""
+  },
+  "theta = channel clearance / 800 mm": {
+   "tex": "\\theta = \\frac{\\text{channel clearance}}{800\\,\\mathrm{mm}}",
+   "note": ""
+  },
+  "thin airfoil: alpha_0L = -(1/pi) int dz/dx (cos th - 1) dth": {
+   "tex": "\\alpha_{0L} = -\\frac{1}{\\pi}\\int \\frac{dz}{dx}\\,(\\cos\\theta - 1)\\,d\\theta",
+   "note": "thin-airfoil theory"
+  },
+  "tip = theta x 1120 mm": {
+   "tex": "\\delta_{\\mathrm{tip}} = \\theta \\times 1120\\,\\mathrm{mm}",
+   "note": ""
+  },
+  "total = goods x 1.1025 + shipping": {
+   "tex": "\\text{total} = \\text{goods} \\times 1.1025 + \\text{shipping}",
+   "note": ""
+  },
+  "v_i = sqrt(T / (2 rho A))": {
+   "tex": "v_i = \\sqrt{\\frac{T}{2\\rho A}}",
+   "note": ""
+  },
+  "x_cg = sum(m x) / sum(m)": {
+   "tex": "x_{\\mathrm{cg}} = \\frac{\\sum m\\,x}{\\sum m}",
+   "note": ""
+  },
+  "x_np = x_cg - c (dCm/dalpha)/(dCL/dalpha)": {
+   "tex": "x_{\\mathrm{np}} = x_{\\mathrm{cg}} - c\\,\\frac{dC_m/d\\alpha}{dC_L/d\\alpha}",
+   "note": ""
+  },
+  "y_bar = sum(c_cl dy y) / sum(c_cl dy) over the AVL strips": {
+   "tex": "\\bar{y} = \\frac{\\sum c\\,c_l\\,\\Delta y\\,y}{\\sum c\\,c_l\\,\\Delta y}",
+   "note": "over the AVL strips"
+  },
+  "|doc value - results.json value| <= half a unit in the last printed digit": {
+   "tex": "\\left|x_{\\mathrm{doc}} - x_{\\mathrm{results}}\\right| \\le \\tfrac{1}{2}\\,\\text{unit in the last printed digit}",
+   "note": ""
+  }
+ }
+}
