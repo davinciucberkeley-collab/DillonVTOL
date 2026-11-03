@@ -14,6 +14,7 @@ function inline(t) {
   t = esc(t);
   t = t.replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+|[^)\s]+\.(?:html|md|csv|svg|param|py|pdf)[^)\s]*)\)/g, (_, txt, url) => {
     const ext = /^https?:/.test(url);
+    if (!ext) url = url.replace(/^\.\.\//, '');   // sources sit one folder down (firmware/, docs/...); the pages sit at the root
     return `<a href="${url}"${ext ? ' rel="noopener" target="_blank"' : ''}>${txt}</a>`;
   });
   t = t.replace(/(^|[\s(])(https?:\/\/[^\s<)]+[^\s<).,;:])/g, (_, pre, url) => `${pre}<a href="${url}" rel="noopener" target="_blank">${url.replace(/^https?:\/\/(www\.)?/, '').replace(/\/$/, '')}</a>`);

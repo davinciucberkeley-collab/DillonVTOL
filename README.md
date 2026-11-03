@@ -2,34 +2,40 @@
 
 A hybrid VTOL with four vertical lift rotors for takeoff and landing, and a pusher prop and fixed wing for cruise. The lift rotors stop in cruise. The aircraft is built and flight-tested on a **fixed $2,000 budget** (hardware, spares, test gear, tax and shipping) by **2027-04-30**.
 
-**Open the design review:** double-click [`VTOL-Review.html`](VTOL-Review.html). It is one self-contained report in three parts (the decision, the design, build and fly), with interactive charts, a rotatable SOLIDWORKS model and links to the companion documents:
+## ▶ View the design review online
 
-| Document | Open |
-|---|---|
-| Design review DBF-RPT-001, issue 3 | [`VTOL-Review.html`](VTOL-Review.html) |
-| Build manual DBF-MAN-001 (14 work packages, step by step) | [`build-manual.html`](build-manual.html) · source [`docs/build/BUILD-MANUAL.md`](docs/build/BUILD-MANUAL.md) |
-| Test and evaluation plan DBF-TP-001 | [`test-plan.html`](test-plan.html) · source [`docs/test/TEST-PLAN.md`](docs/test/TEST-PLAN.md) |
-| Flight software setup DBF-SW-001 | [`flight-software.html`](flight-software.html) · source [`firmware/README.md`](firmware/README.md) |
-| Hot-wire templates (1:1) | [`templates.html`](templates.html) |
-| Drawing set DBF-DRW-001 rev E (9 sheets) | [`cad/drawings/DBF-DRW-001.PDF`](cad/drawings/DBF-DRW-001.PDF) |
+**[davinciucberkeley-collab.github.io/DillonVTOL](https://davinciucberkeley-collab.github.io/DillonVTOL/)**: opens in any browser, with no download and no sign-in.
 
-## Current design (v0.4.0, 2026-10-21)
+GitHub's file view can't display the review: at 29 MB it only shows the raw source. Use the link above, or download the repository and double-click `VTOL-Review.html`. The review is one self-contained report: the decision, the design, build and fly, and proof and validation. It includes interactive charts, a rotatable SOLIDWORKS model, the 3-D CFD and a claims map with a proof for each of its 79 claims.
+
+| Document | View online | File in this repository |
+|---|---|---|
+| Design review DBF-RPT-001, issue 6 | [open](https://davinciucberkeley-collab.github.io/DillonVTOL/VTOL-Review.html) | [`VTOL-Review.html`](VTOL-Review.html) |
+| Build manual DBF-MAN-001 (14 work packages, step by step) | [open](https://davinciucberkeley-collab.github.io/DillonVTOL/build-manual.html) | [`build-manual.html`](build-manual.html) · source [`docs/build/BUILD-MANUAL.md`](docs/build/BUILD-MANUAL.md) |
+| Test and evaluation plan DBF-TP-001 | [open](https://davinciucberkeley-collab.github.io/DillonVTOL/test-plan.html) | [`test-plan.html`](test-plan.html) · source [`docs/test/TEST-PLAN.md`](docs/test/TEST-PLAN.md) |
+| Flight software setup DBF-SW-001 | [open](https://davinciucberkeley-collab.github.io/DillonVTOL/flight-software.html) | [`flight-software.html`](flight-software.html) · source [`firmware/README.md`](firmware/README.md) |
+| Hot-wire templates (1:1) | [open](https://davinciucberkeley-collab.github.io/DillonVTOL/templates.html) | [`templates.html`](templates.html) |
+| Drawing set DBF-DRW-001 rev F (9 sheets) | [open](https://davinciucberkeley-collab.github.io/DillonVTOL/cad/drawings/DBF-DRW-001.PDF) | [`cad/drawings/DBF-DRW-001.PDF`](cad/drawings/DBF-DRW-001.PDF) (GitHub shows it directly) |
+
+## Current design (v0.4.0, resized 2026-11-02)
 
 The numbers below come from `analysis/results.json` (sizing) and `analysis/aero/aero_results.json` (aerodynamics).
 
 | | |
 |---|---|
 | Layout | C0: 4-lift twin-boom quadplane, H-tail with twin rudders on the booms, pusher on the pod; best of 29 configurations that keep the lift rotors stopped in cruise (`analysis/tradestudy.json`) |
-| Span / wing | 2.4 m, 0.682 m² (chord 284.2 mm, AR 8.45; CAD rev D, `cad/params.txt` chord, `analysis/aero/aero_results.json` `geometry`), NACA 2415, XPS foam core with packing-tape skin; re-sizing at the adopted CL_max 1.121 would give 0.676 m² (chord 281.8 mm, `analysis/results.json` C0 `sized`), the CAD keeps the slightly larger wing |
-| MTOW | 6.54 kg sizing (`analysis/results.json` C0 `sized.m`; CAD rev D built to 6.55 kg, `cad/params.txt` mtow) (hard cap 25 kg; below the 8–15 kg working target, pending sign-off) |
-| Lift / pusher | 5 × SunnySky X4110S 400KV; 17 in lift props; APC 14×8.5EP pusher |
-| Hover / cruise | 912 W / 262 W at 18 m/s (aero build-up 239 W); hover T/W 1.92 on maker data (`analysis/results.json` `sized`, `analysis/aero/aero_results.json` `drag.cruise`) |
-| Energy | 2 × Ovonic 6S 6500 mAh LiPo; 15.8 min cruise available at 18 m/s after 2 min hover + 20 % reserve (needs the printed leg fairings) |
-| Aerodynamics | CD0 0.0411, L/D 9.5 at 18 m/s cruise; stall 11.71 m/s predicted at the adopted CL_max 1.121 (design target 11.75 m/s; R11 ≤ 12, margin 2.4 %; `aero_results.json` `stall`); neutral point 39.8 % MAC with the pod (AVL, `aero_results.json` `neutral_point`; static margin 11.8 % at the 28 % CG) |
-| Structure | 6061-T6 booms, spar sockets and a 0.76 m slip-fit joiner; joiner reserve factor 1.75 on yield at 4.5 g (275 / 157.1 MPa, `analysis/results.json` C0 `struct.MS_J`, `struct.sigJ`) |
-| CAD | SOLIDWORKS model rev D (drawing set DBF-DRW-001 rev E): 75 part files (`cad/model/*.SLDPRT` in git), 397 components including every screw, nut, washer and insert; interference-checked (`cad/README.md`) |
-| Avionics | CoreWing F405 Wing V2 + ArduPlane 4.7.2 stable QuadPlane; parameter file `firmware/vtol_c0.param` checked, SITL scenarios A–G pass |
-| Budget | **$1,896.79 committed** (goods $1,620.67 + 10.25 % tax + $110 shipping estimate); **$103.21 reserve** |
+| Span / wing | 2.4 m, 0.774 m² (chord 322.3 mm, AR 7.45; `analysis/results.json` C0 `sized.S`, `sized.chord`, `sized.AR`), NACA 2415, XPS foam core with packing-tape skin |
+| MTOW | 7.438 kg (`analysis/results.json` C0 `sized.m`); bottom-up 7.416 kg (`analysis/mass/mass_budget.json`); hard cap 25 kg |
+| Lift / pusher | 5 × SunnySky X4110S 400KV; 17 × 5.5 in lift props; APC 14×8.5EP pusher (`analysis/results.json` C0 `params.name`) |
+| Hover / cruise | 1132 W hover (51.0 A at 22.2 V); 296 W at 18 m/s cruise by the sizing, 258 W by the aero build-up; hover T/W 1.68 on maker data (`analysis/results.json` `sized.P_hover`, `I_hover`, `P_cruise`, `TW`; `analysis/aero/aero_results.json` `drag.cruise.P_elec_W`) |
+| Energy | 1 × Ovonic 6S 6500 mAh LiPo, 144.3 Wh; 12.0 min cruise available at 18 m/s after 2 min hover + 40 s transition, with a 20 % reserve (`sized.t_cruise_avail_min`, `params.EBattFixed`) |
+| Aerodynamics | CD0 0.0425 (0.0266 clean + stopped rotors, booms and gear), L/D 8.71 at 18 m/s (9.97 by the component build-up); stall 11.75 m/s at CL_max 1.115 (R11 ≤ 12 m/s, margin 2.1 %; `aero_results.json` `stall`); neutral point 38.4 % MAC with the pod (AVL), static margin 10.4 % at the 28 % CG (`aero_results.json` `neutral_point`) |
+| CFD | Full-aircraft SU2 (inviscid) on four meshes up to 23.3 M cells: CL 0.523 at 4°, grid uncertainty ±6.8 % (GCI); neutral point 39.7 % MAC, within 1.3 points of AVL (`analysis/cfd3d/out/cfd3d_results.json`) |
+| Structure | 6061-T6 booms, spar sockets and a 0.76 m slip-fit joiner; joiner reserve factor 1.41 on yield at 4.5 g with the Schrenk root moment 91.0 N·m (275 / 194.7 MPa, `analysis/results.json` C0 `struct.MS_J`, `struct.sigJ`, `struct.Mroot`) |
+| CAD | SOLIDWORKS model with drawing set DBF-DRW-001 rev F: 75 part files (`cad/model/*.SLDPRT` in git), 397 components including every screw, nut, washer and insert; 0 unexplained interferences and 0 drawing overlaps (`cad/verification.txt`, `cad/drawings/layout-check.txt`) |
+| Avionics | CoreWing F405 Wing V2 + ArduPlane 4.7.2 stable QuadPlane; parameter file `firmware/vtol_c0.param` checked; SITL scenarios A–G passed on the earlier sizing, re-run on the current sizing pending |
+| Validation | 79 claims, each with its equations, inputs and sources: 40 Verified, 38 Partially Verified, 1 Unverified, 0 Failed (`analysis/validation/validation_matrix.json`); the 29 with arithmetic re-run to the same number (`analysis/validation/proofs.json`) |
+| Budget | **$1,854.55 committed** (goods $1,598.69 × 1.1025 tax + $91.99 shipping); **$145.45 reserve** (`analysis/results.json` C0 `bom`) |
 
 ## Repository layout
 
