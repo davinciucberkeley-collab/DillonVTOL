@@ -15,7 +15,7 @@ object, so an AI agent can act on the result. Exit code 0 = success, 1 = a step 
     py tools/vtol.py sources [--recheck]           external sources checked against the repo; --recheck re-tests every URL
   CFD and structures
     py tools/vtol.py mesh-audit                    score the CFD meshes against published standards
-    py tools/vtol.py geometry | mesh --level 2     CFD geometry from the CAD parameters; tetrahedral mesh (levels 1-3)
+    py tools/vtol.py geometry | mesh --level 2     CFD geometry from the CAD parameters; tetrahedral mesh (levels 1-4)
     py tools/vtol.py cfd run L2_a4.0 [--restart-from L2_a4.0] [--iters 2500]
     py tools/vtol.py cfd summary | post <case>... | pack | verify
     py tools/vtol.py xtool boom                    independent boom FEA (gmsh + own solver) against SOLIDWORKS
@@ -340,7 +340,7 @@ def sources(recheck):
 def mesh_audit():
     rc = run([PY, CFD / "mesh_audit.py"])
     a = load("analysis/cfd3d/out/mesh_audit.json")
-    return rc, {"summary": a["summary"], "scorecard": [{"criterion": r["metric"], "threshold": r["threshold_text"], **{L: (r.get(L) or {}).get("result") for L in ("L1", "L2", "L3")}} for r in a["scorecard"]]}
+    return rc, {"summary": a["summary"], "scorecard": [{"criterion": r["metric"], "threshold": r["threshold_text"], **{L: (r.get(L) or {}).get("result") for L in ("L1", "L2", "L3", "L4")}} for r in a["scorecard"]]}
 
 
 # ---------------------------------------------------------------- menu for people who do not use the command line
@@ -393,7 +393,7 @@ def main():
     sub = ap.add_subparsers(dest="cmd", required=True)
     for name in ("status", "geometry", "validate", "check", "strict", "mesh-audit", "report", "open"):
         sub.add_parser(name)
-    m = sub.add_parser("mesh"); m.add_argument("--level", type=int, choices=(1, 2, 3), default=2)
+    m = sub.add_parser("mesh"); m.add_argument("--level", type=int, choices=(1, 2, 3, 4), default=2)
     c = sub.add_parser("cfd"); c.add_argument("action", choices=("run", "summary", "post", "pack", "verify")); c.add_argument("cases", nargs="*")
     c.add_argument("--restart-from"); c.add_argument("--iters", type=int)
     x = sub.add_parser("xtool"); x.add_argument("what", choices=("boom",))
@@ -470,7 +470,7 @@ def main():
         if not a.json:
             s = payload["summary"]; print(f"\n  Mesh scorecard: {s['passes']} pass, {s['fails']} fail, {s['not_applicable']} do not apply.\n  {s['verdict']}\n")
             for r in payload["scorecard"]:
-                print(f"     {r['criterion']:34s} {r['threshold']:22s} L1 {r['L1'] or '-':5s} L2 {r['L2'] or '-':5s} L3 {r['L3'] or '-'}")
+                print(f"     {r['criterion']:34s} {r['threshold']:22s} L1 {r['L1'] or '-':5s} L2 {r['L2'] or '-':5s} L3 {r['L3'] or '-':5s} L4 {r['L4'] or '-'}")
             printed = True
     elif a.cmd == "xtool":
         rc = run([PY, VAL / "xtool_boom_fea.py"])

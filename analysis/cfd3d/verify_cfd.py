@@ -8,7 +8,7 @@ Checks (each one says whether it shares inputs with the CFD, so agreement is not
   CFD-04 boundary conditions: symmetry-plane normal velocity, free stream recovered at the far field
   CFD-05 lift-curve slope against (a) lifting-line theory with the XFOIL section slope (Helmbold), (b) AVL with pod
   CFD-06 CL at alpha 4 and elevator 0 against AVL (pod) and the AeroSandbox VLM; zero-lift angle against the section
-  CFD-07 pitching moment slope -> neutral point against AVL (39.8 % MAC)
+  CFD-07 pitching moment slope -> neutral point against AVL (aero_results.json neutral_point.AVL_pod_pct_MAC)
   CFD-08 induced drag: Trefftz-plane estimate against CL^2 / (pi e AR) with AVL's e
   CFD-09 Reynolds number and why an inviscid solver is admissible for lift at cruise (attached flow, Re 3.5e5)
   CFD-10 drag: what the inviscid run can and cannot say (spurious drag vs the viscous build-up)
@@ -53,6 +53,9 @@ def main():
     aero = json.loads((ROOT / "analysis/aero/aero_results.json").read_text(encoding="utf-8"))
     avl_pod = {round(s["Alpha"], 1): s for s in avl["pod"]["sweep"]}
     claims = []
+    # grid levels that finished at alpha 4 (rev 2026-11-02: L4 added; the grid study uses the three finest, the mesh-dependent checks the finest)
+    LV = [k for k in (1, 2, 3, 4) if (C.get(f"L{k}_a4.0") or {}).get("returncode") == 0]
+    FINEST = f"L{LV[-1]}_a4.0" if LV else None
 
     def claim(**k):
         k.setdefault("component", "aircraft"); k.setdefault("discipline", "aerodynamics")
@@ -77,18 +80,26 @@ def main():
           limitations=["residual drop is modest; convergence is judged on the integral quantities"], next_step="—")
 
     # ---- CFD-02 grid convergence
-    g = [C.get(f"L{k}_a4.0") for k in (3, 2, 1)]
-    if all(g):
+    trip = LV[-3:]                       # the three finest levels, coarse -> fine
+    g = [C.get(f"L{k}_a4.0") for k in trip[::-1]]
+    if len(trip) == 3 and all(g):
+        tn = "-".join(f"L{k}" for k in trip)
         N = [x["tets"] for x in g]
         r21, r32 = (N[0] / N[1]) ** (1 / 3), (N[1] / N[2]) ** (1 / 3)
         gl = gci(g[0]["CL"], g[1]["CL"], g[2]["CL"], r21, r32)
         gm = gci(g[0]["CMy"], g[1]["CMy"], g[2]["CMy"], r21, r32)
-        claim(id="CFD-02", claim=f"Grid convergence at alpha 4 deg: CL {g[2]['CL']:.4f} / {g[1]['CL']:.4f} / {g[0]['CL']:.4f} on {N[2]:,} / {N[1]:,} / {N[0]:,} tetrahedra.",
+        prev = None
+        if trip[0] > 1:                  # the next-coarser triplet, kept so the trend of the observed order is visible
+            h = [C[f"L{k}_a4.0"] for k in (trip[0] + 1, trip[0], trip[0] - 1)]
+            Nh = [x["tets"] for x in h]
+            prev = {"levels": f"L{trip[0] - 1}-L{trip[0]}-L{trip[0] + 1}", **gci(h[0]["CL"], h[1]["CL"], h[2]["CL"], (Nh[0] / Nh[1]) ** (1 / 3), (Nh[1] / Nh[2]) ** (1 / 3))}
+        claim(id="CFD-02", claim=f"Grid convergence at alpha 4 deg ({tn}): CL {g[2]['CL']:.4f} / {g[1]['CL']:.4f} / {g[0]['CL']:.4f} on {N[2]:,} / {N[1]:,} / {N[0]:,} tetrahedra.",
               value=gl.get("gci_fine_pct"), units="% GCI_fine on CL",
               equations=["r = (N_fine/N_coarse)^(1/3)", "p from |e32/e21| (Celik 2008, fixed-point)", "f_ext = (r21^p f1 - f2)/(r21^p - 1)", "GCI_fine = 1.25 |(f1-f2)/f1| / (r21^p - 1)"],
               assumptions=["the three meshes share every sizing rule (one scale factor; mesh rev 2)", "monotone convergence in the asymptotic range (|e32/e21| > 1)"],
-              inputs={"r21": round(r21, 3), "r32": round(r32, 3), "CL": [g[2]["CL"], g[1]["CL"], g[0]["CL"]], "CMy": [g[2]["CMy"], g[1]["CMy"], g[0]["CMy"]]},
-              evidence=[{"file": "analysis/cfd3d/out/cfd3d_results.json", "what": "cases L1_a4.0, L2_a4.0, L3_a4.0"}, {"file": "analysis/cfd3d/out/L1..L3/mesh_stats.json", "what": "cell counts"}],
+              inputs={"levels": tn, "r21": round(r21, 3), "r32": round(r32, 3), "CL": [g[2]["CL"], g[1]["CL"], g[0]["CL"]], "CMy": [g[2]["CMy"], g[1]["CMy"], g[0]["CMy"]],
+                      "CL_all_levels": {f"L{k}": C[f"L{k}_a4.0"]["CL"] for k in LV}, "coarser_triplet": prev},
+              evidence=[{"file": "analysis/cfd3d/out/cfd3d_results.json", "what": "cases " + ", ".join(f"L{k}_a4.0" for k in LV)}, {"file": f"analysis/cfd3d/out/L{LV[0]}..L{LV[-1]}/mesh_stats.json", "what": "cell counts"}],
               ran_evidence="three separate SU2 runs (CFD-01)",
               reproduced={"done": True, "how": "computed here from the stored coefficients", "matches": None},
               independent_check={"method": "Richardson extrapolation", "value": gl.get("f_ext"), "repo_value": g[0]["CL"], "delta_pct": None if gl.get("f_ext") is None else 100 * (g[0]["CL"] - gl["f_ext"]) / gl["f_ext"], "script": "analysis/cfd3d/verify_cfd.py#CFD-02",
@@ -96,8 +107,13 @@ def main():
               status="Verified" if gl.get("gci_fine_pct") is not None and gl["gci_fine_pct"] < 3 else "Partially Verified",
               status_reason=("GCI_fine on CL " + (f"{gl['gci_fine_pct']:.2f} % (p {gl['p']:.2f})" if gl.get("gci_fine_pct") is not None else "not computable: " + gl.get("note", "")) +
                              "; CMy " + (f"{gm['gci_fine_pct']:.1f} %" if gm.get("gci_fine_pct") is not None else gm.get("note", "—"))),
-              limitations=["discretisation error only; model error (inviscid) is separate"],
-              next_step="—" if gl.get("gci_fine_pct") is not None else "A fourth, finer level (f about 0.52, about 22 M tetrahedra, about 4 h on this PC) to reach the asymptotic range; until then the 3-D lift magnitude carries a band of at least the L2-L3 change (" + f"{100 * abs(g[0]['CL'] - g[1]['CL']) / g[0]['CL']:.1f} %)." )
+              limitations=["discretisation error only; model error (inviscid) is separate"]
+                          + ([f"observed order p {gl['p']:.2f} is below the scheme's formal order 2, so the grids are only just inside the asymptotic range"] if gl.get("p") is not None and gl["p"] < 2 else [])
+                          + ([f"pitching moment is not grid-converged (CMy {g[2]['CMy']:.4f} / {g[1]['CMy']:.4f} / {g[0]['CMy']:.4f}, oscillatory); stability numbers come from AVL and the neutral-point check CFD-07"] if gm.get("gci_fine_pct") is None else []),
+              # rev 2026-11-03: a computed GCI above the 3 % bar still has a next step (it was "—")
+              next_step=(f"Use CL with a +-{gl['gci_fine_pct']:.1f} % grid band. A GCI under 3 % needs a level finer than L4 (estimate: 23.3 M x the 2.5 level-to-level ratio = about 58 M tetrahedra, about 100 GB), which does not fit this PC's 64 GB RAM; "
+                         "a cluster run or a prism-layer mesh would be the route") if gl.get("gci_fine_pct") is not None else ("A fourth, finer level (f about 0.52, about 22 M tetrahedra, about 4 h on this PC) to reach the asymptotic range" if len(LV) < 4 else
+                        "No finer level fits this PC (L4: 23 M tetrahedra, about 40 GB of the 64 GB RAM)") + f"; until then the 3-D lift magnitude carries a band of at least the L{trip[1]}-L{trip[2]} change ({100 * abs(g[0]['CL'] - g[1]['CL']) / g[0]['CL']:.1f} %).")
 
     # ---- CFD-03 force bookkeeping
     rows = {}
@@ -153,7 +169,7 @@ def main():
               status_reason=f"CFD {cla:.2f} vs AVL {avl_cla:.2f} /rad ({100 * (cla - avl_cla) / avl_cla:+.1f} %); Helmbold wing alone {helm:.2f}" + ("; the gap matches the under-resolution the 2-D check measures at this wall spacing (CFD-12), so the CFD slope is a lower bound, not evidence against AVL" if abs(cla - avl_cla) / avl_cla > 0.08 else ""),
               limitations=["AVL and CFD share the planform and CG but not the solver or the body model; AVL geometry is one sizing pass older (chord 281.8 vs 284.2 mm)"], next_step="—")
         # ---- CFD-06 CL at 4 deg
-        c4 = C.get("L3_a4.0") or C.get("L2_a4.0")
+        c4 = C.get(FINEST)
         avl4 = avl_pod.get(4.0, {}).get("CLtot")
         if c4 and avl4:
             claim(id="CFD-06", claim=f"CL {c4['CL']:.3f} at alpha 4 deg, elevator 0, V 18 m/s (finest mesh).", value=c4["CL"], units="-",
@@ -164,23 +180,25 @@ def main():
                   independent_check={"method": "AVL 3.52 with pod at the same alpha and elevator", "value": avl4, "repo_value": c4["CL"], "delta_pct": 100 * (c4["CL"] - avl4) / avl4, "script": "analysis/cfd3d/verify_cfd.py#CFD-06"},
                   # agreement on one mesh is not enough: Verified also needs a computable grid-convergence estimate (CFD-02)
                   status="Verified" if abs(c4["CL"] - avl4) / avl4 < 0.08 and any(c["id"] == "CFD-02" and c["value"] is not None for c in claims) else "Partially Verified",
-                  status_reason=f"{100 * (c4['CL'] - avl4) / avl4:+.1f} % against AVL on the finest mesh (L3); CL on L1/L2/L3 " + ", ".join(f"{C[k]['CL']:.4f}" for k in ("L1_a4.0", "L2_a4.0", "L3_a4.0") if k in C) + " still rises with refinement and has no valid GCI (CFD-02), so the agreement is not yet grid-independent" + ("; lift rises with refinement (CFD-02) and the 2-D check shows the scheme under-predicts lift at this spacing (CFD-12)" if abs(c4["CL"] - avl4) / avl4 > 0.08 else ""),
+                  status_reason=f"{100 * (c4['CL'] - avl4) / avl4:+.1f} % against AVL on the finest mesh ({FINEST[:2]}); CL on " + "/".join(f"L{k}" for k in LV) + " " + ", ".join(f"{C[f'L{k}_a4.0']['CL']:.4f}" for k in LV) + (" still rises with refinement and has no valid GCI (CFD-02), so the agreement is not yet grid-independent" if not any(c["id"] == "CFD-02" and c["value"] is not None for c in claims) else " with a valid GCI (CFD-02)") + ("; lift rises with refinement (CFD-02) and the 2-D check shows the scheme under-predicts lift at this spacing (CFD-12)" if abs(c4["CL"] - avl4) / avl4 > 0.08 else ""),
                   limitations=["both inviscid", "3-D lift magnitude not mesh-converged"], next_step="Finer wing/tail wall spacing (CFD-12).")
         # ---- CFD-07 neutral point
         cma = float(np.polyfit(a[lin], cm[lin], 1)[0])
         xnp = 28.0 - 100 * cma / cla   # % MAC: CG at 28 % MAC; dCm/dCL = -(x_np - x_cg)/c
+        # AVL with pod from the current aero package (rev 2026-11-03: was a hard-coded 39.84 from the 2026-10-29 aero run)
+        np_avl = float(aero["neutral_point"]["AVL_pod_pct_MAC"])
         claim(id="CFD-07", component="tail", discipline="stability", claim=f"Neutral point {xnp:.1f} % MAC from the CFD moment slope (static margin {xnp - 28:.1f} % at the 28 % CG).",
               value=xnp, units="% MAC", equations=["x_np = x_cg - c (dCm/dalpha)/(dCL/dalpha)"], assumptions=["moment centre at the design CG on the chord line"],
               inputs={"Cm_alpha_per_rad": cma, "CL_alpha_per_rad": float(cla)},
               evidence=[{"file": "analysis/aero/aero_results.json", "what": "neutral_point (AVL with pod)"}],
               ran_evidence="SU2 runs (CFD-01)", reproduced={"done": True, "how": "fit here", "matches": None},
-              independent_check={"method": "AVL neutral point with pod", "value": 39.84, "repo_value": xnp, "delta_pct": 100 * (xnp - 39.84) / 39.84, "script": "analysis/cfd3d/verify_cfd.py#CFD-07"},
-              status="Verified" if abs(xnp - 39.84) < 3 else ("Failed" if xnp < 30 else "Partially Verified"),
-              status_reason=f"CFD {xnp:.1f} % vs AVL 39.8 % MAC", limitations=["power-off; propeller normal force and slipstream not modelled"], next_step="Flight: trim-elevator-vs-speed test for the stick-fixed neutral point (test plan).")
+              independent_check={"method": "AVL neutral point with pod", "value": np_avl, "repo_value": xnp, "delta_pct": 100 * (xnp - np_avl) / np_avl, "script": "analysis/cfd3d/verify_cfd.py#CFD-07"},
+              status="Verified" if abs(xnp - np_avl) < 3 else ("Failed" if xnp < 30 else "Partially Verified"),
+              status_reason=f"CFD {xnp:.1f} % vs AVL {np_avl:.1f} % MAC ({xnp - np_avl:+.1f} pt; band 3 pt)", limitations=["power-off; propeller normal force and slipstream not modelled"], next_step="Flight: trim-elevator-vs-speed test for the stick-fixed neutral point (test plan).")
 
     # ---- CFD-08 induced drag
-    p4 = post.get("L3_a4.0") or post.get("L2_a4.0")
-    c4 = C.get("L3_a4.0") or C.get("L2_a4.0")
+    p4 = post.get(FINEST) if FINEST else None
+    c4 = C.get(FINEST) if FINEST else None
     if p4 and c4:
         e = avl_pod.get(4.0, {}).get("e") or aero["trim_cruise"]["e_AVL"]
         cdi_th = c4["CL"] ** 2 / (math.pi * e * AR)
@@ -196,18 +214,18 @@ def main():
               limitations=["numerical dissipation of the trailing vortices before the plane", "plane truncated at 4 m x 4 m"], next_step="—")
         # ---- CFD-10 drag (rev 2026-11-02: tested by refinement, like CFD-11; an Euler run has no friction, so surface drag above the
         # induced drag must be numerical, and numerical drag falls as the mesh is refined)
-        cdl = [C[k]["CD"] for k in ("L1_a4.0", "L2_a4.0", "L3_a4.0") if k in C]
-        falls = len(cdl) == 3 and cdl[0] > cdl[1] > cdl[2]
+        cdl = [C[f"L{k}_a4.0"]["CD"] for k in LV]
+        falls = len(cdl) >= 3 and all(x > y for x, y in zip(cdl, cdl[1:]))
         above = cdi is not None and c4["CD"] > cdi
         claim(id="CFD-10", claim=f"The inviscid solver's surface CD ({c4['CD']:.4f}) is not a drag prediction: the part above the induced drag is numerical, and it falls with every mesh refinement.", value=c4["CD"], units="-",
               equations=["CD_surface = CD_induced + CD_spurious(numerical)", "CD_spurious = CD_surface - CD_i,Trefftz"], assumptions=["no skin friction, no physical separation in an Euler run"],
-              inputs={"components": {k: round(v["CD"], 4) for k, v in c4["components"].items()}, "CD_L1_L2_L3": [round(x, 4) for x in cdl], "CDi_trefftz": None if cdi is None else round(cdi, 4)},
-              evidence=[{"file": "analysis/cfd3d/out/cfd3d_results.json", "what": "CD on L1/L2/L3 at alpha 4"}, {"file": "analysis/aero/drag_buildup.json", "what": "the viscous drag the sizing uses"}], ran_evidence="SU2 runs (CFD-01)",
+              inputs={"components": {k: round(v["CD"], 4) for k, v in c4["components"].items()}, "CD_by_level": {f"L{k}": round(x, 4) for k, x in zip(LV, cdl)}, "CDi_trefftz": None if cdi is None else round(cdi, 4)},
+              evidence=[{"file": "analysis/cfd3d/out/cfd3d_results.json", "what": "CD on " + "/".join(f"L{k}" for k in LV) + " at alpha 4"}, {"file": "analysis/aero/drag_buildup.json", "what": "the viscous drag the sizing uses"}], ran_evidence="SU2 runs (CFD-01)",
               reproduced={"done": True, "how": "read from cfd3d_results.json", "matches": bool(falls and above)},
-              independent_check={"method": "Trefftz induced drag (CFD-08) and CD on three levels", "value": cdi, "repo_value": c4["CD"], "delta_pct": None, "script": "analysis/cfd3d/verify_cfd.py#CFD-10"},
+              independent_check={"method": "Trefftz induced drag (CFD-08) and CD on every level", "value": cdi, "repo_value": c4["CD"], "delta_pct": None, "script": "analysis/cfd3d/verify_cfd.py#CFD-10"},
               status="Verified" if falls and above else "Partially Verified",
-              status_reason=(f"surface CD at alpha 4: L1 {cdl[0]:.4f} -> L2 {cdl[1]:.4f} -> L3 {cdl[2]:.4f} ({'falls' if falls else 'does not fall'} with refinement); "
-                             f"{c4['CD'] - cdi:.4f} of the L3 value is above the Trefftz induced drag {cdi:.4f} and is numerical (blunt clamp and motor bases, tetrahedra); profile drag stays with analysis/aero/drag_buildup.py") if len(cdl) == 3 and cdi is not None else "levels or Trefftz value missing",
+              status_reason=("surface CD at alpha 4: " + " -> ".join(f"L{k} {x:.4f}" for k, x in zip(LV, cdl)) + f" ({'falls' if falls else 'does not fall'} with refinement); "
+                             f"{c4['CD'] - cdi:.4f} of the {FINEST[:2]} value is above the Trefftz induced drag {cdi:.4f} and is numerical (blunt clamp and motor bases, tetrahedra); profile drag stays with analysis/aero/drag_buildup.py") if len(cdl) >= 3 and cdi is not None else "levels or Trefftz value missing",
               limitations=["a viscous (RANS) full-aircraft run with prism layers would be needed for a CFD drag number"], next_step="Car-roof / flight power test (aero M1, mass M3) remains the drag evidence.")
 
     # ---- CFD-11 surface Cp above the stagnation bound (rev 2026-11-02: the old claim "Cp <= 1 everywhere" is false on these meshes;
@@ -219,38 +237,52 @@ def main():
         den = {n: sum(v["of_nodes"] for v in r.values()) for n, r in rows.items()}   # wall nodes of the parts listed: a lower bound, so the share is conservative
         share = {n: 100 * tot[n] / den[n] for n in rows if den[n]}
         cpmax = {n: max(v["cp_max"] for v in r.values()) for n, r in rows.items()}
-        lv = [k for k in ("L1_a4.0", "L2_a4.0", "L3_a4.0") if k in share]
-        falls = len(lv) == 3 and share[lv[0]] > share[lv[1]] > share[lv[2]]
+        lv = [f"L{k}_a4.0" for k in LV if f"L{k}_a4.0" in share]
+        falls = len(lv) >= 3 and all(share[x] > share[y] for x, y in zip(lv, lv[1:]))
         small = all(v < 1.0 for v in share.values())
+        # rev 2026-11-03 (L4): when the share does not fall on every step, name the part whose count grew most on the step that rose
+        rose = [(x, y) for x, y in zip(lv, lv[1:]) if share[y] >= share[x]]
+        grow = None
+        if rose:
+            x, y = rose[-1]
+            tag = max(rows[y], key=lambda t: rows[y][t]["nodes_cp_gt_1"] / rows[y][t]["of_nodes"] - rows[x][t]["nodes_cp_gt_1"] / rows[x][t]["of_nodes"])
+            grow = (x[:2], y[:2], tag, rows[x][tag], rows[y][tag])
+        trend = ("its share falls with mesh refinement" if falls else
+                 f"its share falls {share[lv[0]] / share[lv[-1]]:.0f}-fold from {lv[0][:2]} to {lv[-1][:2]} but not on every step" if len(lv) >= 2 and share[lv[-1]] < share[lv[0]] else "its share does not fall with refinement")
         claim(id="CFD-11", component="aircraft",
-              claim="Wall Cp above the incompressible stagnation bound (Cp = 1) is a local numerical overshoot: it covers under 1 % of wall nodes in every case and its share falls with mesh refinement, so it is a discretisation artefact, not a physical pressure.",
-              value=share.get("L3_a4.0"), units="% of wall nodes with Cp > 1 (L3, alpha 4)",
+              claim=f"Wall Cp above the incompressible stagnation bound (Cp = 1) is a local numerical overshoot: it covers under 1 % of wall nodes in every case and {trend}, so it is a discretisation artefact, not a physical pressure.",
+              value=share.get(lv[-1]) if lv else None, units=f"% of wall nodes with Cp > 1 ({lv[-1][:2] if lv else '—'}, alpha 4)",
               equations=["Bernoulli, incompressible: Cp = 1 - (V/V_inf)^2 <= 1", "share = nodes with Cp > 1 / wall nodes of the listed parts"],
               assumptions=["nodal values from the restart file", "a physical feature would not shrink with refinement; a discretisation overshoot does"],
               inputs={n: {"share_pct": round(share[n], 3), "cp_max": round(cpmax[n], 2), **{tag: f"{v['nodes_cp_gt_1']}/{v['of_nodes']} nodes, max {v['cp_max']:.2f} at {v['at_su2_m']}" for tag, v in r.items()}} for n, r in rows.items()},
               evidence=[{"file": "analysis/cfd3d/out/post/<case>.json", "what": "cp_above_stagnation"}], ran_evidence="read from the SU2 restart files",
               reproduced={"done": True, "how": "py analysis/cfd3d/postprocess.py <case>", "matches": True},
-              independent_check={"method": "share of Cp > 1 nodes on L1 -> L2 -> L3 at alpha 4 (must fall) and Bernoulli bound", "value": [round(share[k], 3) for k in lv], "repo_value": share.get("L3_a4.0"), "delta_pct": None, "script": "analysis/cfd3d/verify_cfd.py#CFD-11"},
+              independent_check={"method": "share of Cp > 1 nodes on " + " -> ".join(k[:2] for k in lv) + " at alpha 4 (must fall) and Bernoulli bound", "value": [round(share[k], 3) for k in lv], "repo_value": share.get(lv[-1]) if lv else None, "delta_pct": None, "script": "analysis/cfd3d/verify_cfd.py#CFD-11"},
               status="Verified" if falls and small else "Partially Verified",
               status_reason=("share of wall nodes with Cp > 1 at alpha 4: " + " -> ".join(f"{k[:2]} {share[k]:.2f} %" for k in lv) + (" (falls with refinement)" if falls else " (does not fall monotonically)")
+                             + (f"; the {grow[0]} -> {grow[1]} rise is the {grow[2]} ({grow[3]['nodes_cp_gt_1']} -> {grow[4]['nodes_cp_gt_1']} nodes, peak Cp {grow[3]['cp_max']:.2f} -> {grow[4]['cp_max']:.2f})" if grow else "")
                              + f"; largest share in any case {max(share.values()):.2f} %; peak Cp {worst[2]['cp_max']:.2f} on the {worst[1]} ({worst[0]}) at a sharp corner or small leading-edge radius"),
               limitations=["local surface pressures at leading edges and box corners from these runs are not usable; no design number in the repo takes CFD surface pressure (structural loads come from cad/Sim.cs load cases, sizing from analysis/sizing.mjs)"],
-              next_step="—")
+              next_step="—" if falls else (f"Refine the {grow[2]} leading edge (mesh audit STD-04: H-tail LE spacing is above 0.1 % local chord on every level) and re-check the share; "
+                                         "no design number depends on it" if grow and grow[2] == "htail" else "Local refinement where the share grew; no design number depends on it"))
 
     # ---- CFD-12 scheme and resolution on the 2-D section (scheme_check_2d.py)
     sc = json.loads((OUT / "scheme_check_2d.json").read_text(encoding="utf-8")) if (OUT / "scheme_check_2d.json").exists() else None
     if sc:
         xf = sc["xfoil_cl_alpha_per_rad"]; L = sc["levels"]
         row = {k: f"{v['wall_edges']} wall edges: cl_alpha {v['cl_alpha_per_rad']:.2f} /rad, cl(4 deg) {v['cl4_vs_xfoil_pct']:+.1f} %" for k, v in L.items()}
-        l2 = L.get("3D-L2"); l3 = L.get("3D-L3"); l1 = L.get("3D-L1")
-        e4 = {k: L[k]["cl4_vs_xfoil_pct"] for k in ("3D-L1", "3D-L2", "3D-L3") if k in L}
-        es = {k: 100 * (L[k]["cl_alpha_per_rad"] - xf) / xf for k in ("3D-L1", "3D-L2", "3D-L3") if k in L}
-        rising = l1 and l2 and l3 and l1["cl_alpha_per_rad"] < l2["cl_alpha_per_rad"] < l3["cl_alpha_per_rad"] < xf
-        ok = rising and all(abs(e4[k]) <= 5.0 for k in ("3D-L2", "3D-L3")) and all(abs(es[k]) <= 8.0 for k in ("3D-L2", "3D-L3"))
+        # every 3-D level present in the 2-D check (rev 2026-11-03: L4 added); L1 is the coarse reference, L2 and finer are judged
+        lk = [f"3D-L{k}" for k in (1, 2, 3, 4) if f"3D-L{k}" in L]
+        l2 = L.get("3D-L2")
+        e4 = {k: L[k]["cl4_vs_xfoil_pct"] for k in lk}
+        es = {k: 100 * (L[k]["cl_alpha_per_rad"] - xf) / xf for k in lk}
+        sl = [L[k]["cl_alpha_per_rad"] for k in lk]
+        rising = len(lk) >= 3 and all(x < y for x, y in zip(sl, sl[1:])) and sl[-1] < xf
+        ok = rising and all(abs(e4[k]) <= 5.0 for k in lk[1:]) and all(abs(es[k]) <= 8.0 for k in lk[1:])
         # rev 2026-11-02: re-run at the mesh rev 2 lifting-surface spacing (2.2 mm x f, curvature 24/f); the rev 1 claim ("reproduces the
         # section lift") failed at the old 8 mm x f spacing (-14 % slope) and is kept in analysis/cfd3d/out_rev1/scheme_check_2d_rev1.json
         claim(id="CFD-12", component="wing",
-              claim="At the 3-D meshes' lifting-surface spacing (mesh rev 2: L2 and L3), the SU2 scheme matches XFOIL's inviscid section lift at 4 deg within 5 % and its lift slope within 8 %, approaching XFOIL as the spacing is refined.",
+              claim="At the 3-D meshes' lifting-surface spacing (mesh rev 2: " + ", ".join(k[3:] for k in lk[1:]) + "), the SU2 scheme matches XFOIL's inviscid section lift at 4 deg within 5 % and its lift slope within 8 %, approaching XFOIL as the spacing is refined.",
               value=e4.get("3D-L2"), units="% section cl at 4 deg vs XFOIL inviscid, L2 spacing",
               equations=["same SU2 INC_EULER numerics as run_cases.CFG on a 2-D gmsh mesh of the same NACA 2415 section", "reference: XFOIL 6.99 inviscid panel method", "cl_alpha = (cl(4) - cl(0)) / 4 deg"],
               assumptions=["2-D section behaviour carries over to the 3-D wing's chordwise resolution", "wall size, TE size and curvature rule copied from build_mesh.py at each level"],

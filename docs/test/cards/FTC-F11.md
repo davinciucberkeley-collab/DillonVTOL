@@ -8,7 +8,7 @@ DBF-TP-001 rev C · Test F11 · Review step: F7 preparation · Requirements: R9,
 
 **Weather limits:** Steady <= 5 m/s, gusts <= 8 m/s.
 
-**Predicted:** 74.9 Wh for the half mission at 18 m/s ((1,131.3 x 160 + 295.4 x 300) / 3600, calc; transitions at hover power as in the sizing); full mission 99.5 Wh delivered = 104.8 Wh from the pack at 95 % efficiency (results.json sized.E_Wh, base.etaBatt).
+**Predicted:** 74.9 Wh for the half mission at 18 m/s ((1,131.9 x 160 + 295.6 x 300) / 3600, calc; transitions at hover power as in the sizing); full mission 99.6 Wh delivered = 104.8 Wh from the pack at 95 % efficiency (results.json sized.E_Wh, base.etaBatt).
 
 **Crew:** TD, SO, PIC, GCS · **Duration:** 1 session, 2 packs
 
@@ -49,7 +49,7 @@ BAT EnrgTot/CurrTot per phase (log_summary.py phase table); MODE timeline; ARSP 
 
 ## Pass criteria
 - [ ] All phases present in the MODE timeline in order; no failsafe.
-- [ ] Projected full mission fits: energy used in F11 + the energy of its 300 s cruise segment <= 0.8 x C11 delivered Wh (predicted 74.9 + 24.6 = 99.5 Wh = 91 % of 109.7 Wh, calc; TEST-PLAN.md F11). The rev B line "<= 60 %" is withdrawn: the frozen design predicts 68 %.
+- [ ] Projected full mission fits: energy used in F11 + the energy of its 300 s cruise segment <= 0.8 x C11 delivered Wh (predicted 74.9 + 24.6 = 99.6 Wh, exact sum 99.58, = 91 % of 109.7 Wh, calc; TEST-PLAN.md F11). The rev B line "<= 60 %" is withdrawn: the frozen design predicts 68 %.
 - [ ] Hover and cruise currents within +-15 % of F03/F08 values.
 
 ## Run log

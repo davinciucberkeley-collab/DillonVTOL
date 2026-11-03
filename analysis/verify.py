@@ -62,7 +62,8 @@ for k, c in R['concepts'].items():
     chk('BOM reserve $ (2000 - total)', 2000 - total, b['crash'], 1e-4)
     print(f"    within $2,000 cap? {'yes' if total <= 2000 else 'NO'} (spend {total:.2f}, reserve {2000 - total:.2f})")
     st = c['struct']
-    Mroot = st['nUlt'] * W * p['span'] / (3 * math.pi); chk('Spar root moment N m', Mroot, st['Mroot'])
+    s_ = p['span'] / 2; Lh = st['nUlt'] * W / 2   # Schrenk span loading: mean of elliptic (4 s / 3 pi) and uniform (s / 2) lift centroids (rev 2026-11-02)
+    Mroot = Lh * 0.5 * (4 * s_ / (3 * math.pi) + s_ / 2); chk('Spar root moment N m', Mroot, st['Mroot'])
     # v0.3 tubes, 6061-T6 (docs/research/budget-airframe.md): joiner 0.875 x 0.058 in, boom 1.000 x 0.035 in; E = 69 GPa
     Do, Di = 0.875 * 0.0254, (0.875 - 0.116) * 0.0254; I = math.pi / 64 * (Do**4 - Di**4)  # joiner
     chk('Joiner stress MPa', Mroot * Do / 2 / I / 1e6, st['sigJ'] / 1e6)

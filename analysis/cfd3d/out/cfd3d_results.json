@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-02 04:12",
+ "generated": "2026-11-03 01:06",
  "script": "analysis/cfd3d/run_cases.py",
  "solver": "SU2 8.5.0 (win64 OpenMP), INC_EULER, FDS + MUSCL, implicit Euler, Green-Gauss gradients",
  "conditions": {
@@ -175,6 +175,59 @@
     }
    },
    "wall_s": 5668.1,
+   "returncode": 0
+  },
+  "L4_a4.0": {
+   "level": 4,
+   "alpha_deg": 4.0,
+   "iterations": 2517,
+   "warm_start": "L4_a4.0",
+   "CL": 0.5228598096,
+   "CD": 0.03454399821,
+   "CMy": -0.06684860269,
+   "rms_p_first": -5.183182271,
+   "rms_p_last": -9.285448529,
+   "cauchy_CL": 1.331793835e-06,
+   "tets": 23261119,
+   "nodes": 4370499,
+   "components": {
+    "wing": {
+     "CL": 0.481849,
+     "CD": 0.012376,
+     "CMy": -0.030071
+    },
+    "htail": {
+     "CL": 0.016091,
+     "CD": 0.001429,
+     "CMy": -0.040408
+    },
+    "fins": {
+     "CL": 0.003288,
+     "CD": 0.004457,
+     "CMy": -0.008381
+    },
+    "pod": {
+     "CL": 0.022542,
+     "CD": 0.001642,
+     "CMy": 0.012306
+    },
+    "booms": {
+     "CL": -0.001189,
+     "CD": 0.006896,
+     "CMy": -0.000129
+    },
+    "motors": {
+     "CL": 0.002427,
+     "CD": 0.000129,
+     "CMy": 0.002069
+    },
+    "gear": {
+     "CL": -0.002149,
+     "CD": 0.007615,
+     "CMy": -0.002235
+    }
+   },
+   "wall_s": 8277.9,
    "returncode": 0
   },
   "L2_a0.0": {

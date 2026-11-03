@@ -25,7 +25,7 @@ ALPHAS = (0.0, 4.0)
 # wall size (m), TE size and curvature elements per 2 pi. Mesh rev 2 (2026-11-02): the 3-D L1/L2/L3 lifting-surface wall size is
 # build_mesh.LIFT_WALL x f = 2.2 mm x f, which also governs the mid-span TE (the TE-line field is coarser, 2.5 mm x f), and the
 # curvature rule is 24 / f; two finer reference levels kept from rev 1. Rev 1 levels were 8 mm x f with a fixed 24 per turn.
-F = {1: 1.5, 2: 1.0, 3: 0.72}   # build_mesh.LEVELS
+F = {1: 1.5, 2: 1.0, 3: 0.72, 4: 0.52}   # build_mesh.LEVELS (L4 added 2026-11-03)
 LEVELS = {**{f"3D-L{k}": (0.0022 * f, 0.0022 * f, int(round(24 / f))) for k, f in F.items()}, "fine": (0.002, 0.0006, 24), "finest": (0.001, 0.0003, 24)}
 
 

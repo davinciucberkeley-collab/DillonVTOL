@@ -1,102 +1,102 @@
 {
   "generated": {
-    "results_json": "2026-10-25",
-    "aero_results_json": "2026-10-25"
+    "results_json": "2026-11-01",
+    "aero_results_json": "2026-11-02"
   },
-  "mass_kg": 6.5515159,
+  "mass_kg": 7.4379985,
   "inertia_kg_m2": {
-    "xx": 1.095790694384,
-    "yy": 0.7652459453133893,
-    "zz": 1.8325384531493356
+    "xx": 1.4173327905573332,
+    "yy": 1.0904342245762113,
+    "zz": 2.470726043225102
   },
   "rotors": [
     {
       "n": 1,
       "pos": [
-        0.470507013,
+        0.497979905,
         0.4337,
-        -0.023
+        -0.02006
       ],
       "dir": 1
     },
     {
       "n": 2,
       "pos": [
-        -0.47050700700000003,
+        -0.497979905,
         -0.4337,
-        -0.023
+        -0.02006
       ],
       "dir": 1
     },
     {
       "n": 3,
       "pos": [
-        0.470507013,
+        0.497979905,
         -0.4337,
-        -0.023
+        -0.02006
       ],
       "dir": -1
     },
     {
       "n": 4,
       "pos": [
-        -0.47050700700000003,
+        -0.497979905,
         0.4337,
-        -0.023
+        -0.02006
       ],
       "dir": -1
     }
   ],
   "contacts": [
     [
-      0.380509393,
+      0.407983295,
       0.4337,
       0.25
     ],
     [
-      0.380509393,
+      0.407983295,
       -0.4337,
       0.25
     ],
     [
-      -0.380510607,
+      -0.407976705,
       0.4337,
       0.25
     ],
     [
-      -0.380510607,
+      -0.407976705,
       -0.4337,
       0.25
     ]
   ],
   "controls_per_deg": {
-    "CLde": 0.007386,
-    "Cmde": -0.018412,
-    "Clda": 0.006722,
-    "Cnda": -0.000287,
-    "CYda": -0.00028,
-    "CYdr": -0.002116,
-    "Cndr": 0.000736,
-    "Cldr": -5.6e-05,
+    "CLde": 0.007652,
+    "Cmde": -0.017564,
+    "Clda": 0.006323,
+    "Cnda": -0.000386,
+    "CYda": -0.000287,
+    "CYdr": -0.002026,
+    "Cndr": 0.000732,
+    "Cldr": -4.3e-05,
     "rudder_source": "AVL st_pod_trim.txt Cnd03/CYd03/Cld03"
   },
   "pusher_pos": [
-    -0.357430607,
+    -0.346746705,
     0.0,
     0.03
   ],
   "checks": [
     {
       "check": "hover thrust fraction (AP throttle) @22.2V",
-      "model": 0.523284017571885,
-      "predicted": 0.5232885942492013,
+      "model": 0.5940893370607029,
+      "predicted": 0.5940841533546326,
       "unit": "-",
-      "dev_pct": -0.0008745990962794611,
+      "dev_pct": 0.0008725541728400817,
       "note": "TEST-PLAN C07 0.52 = Tunit_g/Tmax_g at 22.2 V"
     },
     {
       "check": "hover PWM fraction (expo 0.72) @22.2V",
-      "model": 0.6799650704363338,
+      "model": 0.7344972766695794,
       "predicted": null,
       "unit": "-",
       "dev_pct": null,
@@ -104,7 +104,7 @@
     },
     {
       "check": "hover thrust fraction (AP throttle) @25.2V",
-      "model": 0.45076283959111463,
+      "model": 0.5117553518773345,
       "predicted": null,
       "unit": "-",
       "dev_pct": null,
@@ -112,7 +112,7 @@
     },
     {
       "check": "hover PWM fraction (expo 0.72) @25.2V",
-      "model": 0.6203365944901962,
+      "model": 0.6707607127449716,
       "predicted": null,
       "unit": "-",
       "dev_pct": null,
@@ -120,55 +120,55 @@
     },
     {
       "check": "hover electrical power, 4 motors",
-      "model": 842.4365298,
-      "predicted": 915.72292,
+      "model": 1039.235667,
+      "predicted": 1131.9372,
       "unit": "W",
-      "dev_pct": -8.003118476056056,
+      "dev_pct": -8.189635697104057,
       "note": "maker table interp vs sizing FM*eta model"
     },
     {
       "check": "hover current at 22.2 V",
-      "model": 37.94759143243243,
-      "predicted": 41.24878,
+      "model": 46.81241743243243,
+      "predicted": 50.988162,
       "unit": "A",
-      "dev_pct": -8.003118074201382,
+      "dev_pct": -8.189635405111424,
       "note": ""
     },
     {
       "check": "alpha",
-      "model": 2.8415650716525755,
-      "predicted": 2.86416,
+      "model": 4.120060923597859,
+      "predicted": 4.13612,
       "unit": "deg",
-      "dev_pct": -0.7888849906228875,
+      "dev_pct": -0.3882642767168477,
       "note": "AVL trim"
     },
     {
       "check": "elevator (AVL sign, + TE down)",
-      "model": -3.448586950003653,
-      "predicted": -3.45415,
+      "model": -4.006836455041115,
+      "predicted": -3.99756,
       "unit": "deg",
-      "dev_pct": 0.16105409424451883,
+      "dev_pct": -0.23205292831414287,
       "note": "AVL trim"
     },
     {
       "check": "CL",
-      "model": 0.3822181627142447,
-      "predicted": 0.3845,
+      "model": 0.4717054117497298,
+      "predicted": 0.4751,
       "unit": "-",
-      "dev_pct": -0.5934557310156872,
+      "dev_pct": -0.7144997369543727,
       "note": ""
     },
     {
       "check": "drag / pusher thrust",
-      "model": 7.694238747671386,
-      "predicted": 7.69869,
+      "model": 7.310000406428052,
+      "predicted": 7.31556,
       "unit": "N",
-      "dev_pct": -0.05781830842149027,
+      "dev_pct": -0.07599682829404594,
       "note": "aero build-up D_N"
     },
     {
       "check": "pusher throttle (PWM fraction)",
-      "model": 0.7484187933791873,
+      "model": 0.6981986860714642,
       "predicted": null,
       "unit": "-",
       "dev_pct": null,
@@ -176,7 +176,7 @@
     },
     {
       "check": "pusher rpm",
-      "model": 6197.914508807313,
+      "model": 5785.651950746179,
       "predicted": null,
       "unit": "rpm",
       "dev_pct": null,
@@ -184,23 +184,31 @@
     },
     {
       "check": "pusher electrical power",
-      "model": 232.63160189858027,
-      "predicted": 301.909,
+      "model": 200.70207506477323,
+      "predicted": 258.196,
       "unit": "W",
-      "dev_pct": -22.94645012285812,
+      "dev_pct": -22.26755059537204,
       "note": "build-up assumes etaProp 0.60; APC data gives ~0.74 at this J"
     },
     {
-      "check": "pusher current at 22.2 V",
-      "model": 14.001386762495937,
-      "predicted": 13.599504504504505,
+      "check": "pusher battery current at 22.2 V",
+      "model": 9.040634011926723,
+      "predicted": 11.630450450450452,
       "unit": "A",
-      "dev_pct": 2.955124268375496,
-      "note": ""
+      "dev_pct": -22.26755059537203,
+      "note": "= power / 22.2 V; sizing is conservative (etaProp 0.60)"
+    },
+    {
+      "check": "pusher motor (phase) current",
+      "model": 12.948511924013228,
+      "predicted": null,
+      "unit": "A",
+      "dev_pct": null,
+      "note": "EST motor model; the ESC rating applies to this"
     },
     {
       "check": "pusher advance ratio J",
-      "model": 0.5444699459685135,
+      "model": 0.5249400388772619,
       "predicted": null,
       "unit": "-",
       "dev_pct": null,
@@ -224,34 +232,34 @@
     },
     {
       "check": "stall speed",
-      "model": 11.749951802828317,
-      "predicted": 11.7499,
+      "model": 11.750048798610603,
+      "predicted": 11.7501,
       "unit": "m/s",
-      "dev_pct": 0.00044087888677127643,
+      "dev_pct": -0.00043575279696970916,
       "note": "R11 12.0"
     },
     {
       "check": "alpha at stall",
-      "model": 11.213492517883534,
-      "predicted": 10.8217,
+      "model": 11.788823630760897,
+      "predicted": 11.3512,
       "unit": "deg",
-      "dev_pct": 3.6204341081672378,
+      "dev_pct": 3.8553071988943572,
       "note": ""
     },
     {
       "check": "elevator at stall (AVL sign)",
-      "model": -8.371067788175617,
-      "predicted": -8.19608,
+      "model": -7.9987584095230595,
+      "predicted": -7.80731,
       "unit": "deg",
-      "dev_pct": -2.135018059555507,
+      "dev_pct": -2.4521686665837437,
       "note": ""
     },
     {
       "check": "static margin Cma/CLa",
-      "model": 11.798995242524715,
-      "predicted": 11.7992,
+      "model": 10.405146112408827,
+      "predicted": 10.404,
       "unit": "%MAC",
-      "dev_pct": -0.0017353504922888298,
+      "dev_pct": 0.011016074671544106,
       "note": "aero_results static_margin CG_28pct"
     }
   ],

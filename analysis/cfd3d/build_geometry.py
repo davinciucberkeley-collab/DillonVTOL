@@ -330,6 +330,10 @@ def main():
             "bbox_m": [round(v, 5) for v in bbox_of(vols)], "defeaturing": [dict(zip(("cad_parts", "cfd_representation", "differences"), r)) for r in DEFEATURING],
             "fidelity": fidelity, "wall_s": round(time.time() - t0, 1)}
     (OUT / "oml_fidelity.json").write_text(json.dumps(info, indent=1))
+    # reference values for run_cases.py, frozen with this geometry (rev 2026-11-02)
+    R = json.loads((ROOT / "analysis/results.json").read_text(encoding="utf-8"))
+    (OUT / "reference.json").write_text(json.dumps({"generated": info["generated"], "source": "cad/params.txt chord, panelLen, fusR; analysis/results.json concepts.C0.cg.target",
+        "chord_m": P["chord"], "span_m": 2 * (P["panelLen"] + P["fusR"]), "x_cg_m": R["concepts"]["C0"]["cg"]["target"]}, indent=1))
     print(json.dumps({k: v for k, v in info.items() if k not in ("defeaturing",)}, indent=1))
     gmsh.finalize()
 

@@ -54,12 +54,12 @@ Object.assign(P, { sparX: xs, sparY: ys, sparOD: 1.000*IN, sparID: (1.000-2*0.05
   pitotD: 0.006, pitotL: 0.25,
   xFront: g.xFront, xRear: g.xRear, xStub0: g.booms[0].x0, yIn: g.yIn });
 // ---- FEA / thermal load cases (analysis/sizing.mjs structures()) ----
-const st = c.struct, half_ = R.base.span/2;
-const Fhalf = st.nUlt*s.m*9.80665/2;                 // half-wing lift at ultimate load factor
-const zc = 4*half_/(3*Math.PI);                      // elliptic-lift centroid from centreline
+const st = c.struct;
 const zSparMid = fusR + P.sparLen/2;                 // uniform load on the spar outer face acts here
 Object.assign(P, { feaBoomL: st.Lb, feaTipForce: st.Tmax, feaTipMass: st.mTip, feaNult: st.nUlt,
-  feaWingForce: Fhalf*zc/zSparMid,                   // scaled so root moment = n W b/(3 pi)
+  // scaled so root moment = struct.Mroot (Schrenk, sizing.mjs); rev 2026-11-02: was re-derived here from the elliptic centroid,
+  // so the FEA stayed at the elliptic 83.6 N m after the sizing moved to Schrenk
+  feaWingForce: st.Mroot/zSparMid,
   feaRootMomentTarget: st.Mroot, feaHandSigJ: st.sigJ, feaHandSigB: st.sigB, feaHandDefl: st.defl_max, feaHandFn: st.fn,
   thermQ: 0.20*s.P_hover_per_motor,   // EST: 80 % motor+ESC efficiency -> 20 % of hover input becomes heat in the unit
   // thermH (rev 2026-11-01): the motor film coefficient computed by analysis/thermal/thermal_inputs.py (Hilpert cylinder in the hover

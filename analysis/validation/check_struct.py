@@ -238,10 +238,10 @@ put('STR-06', what='Wing root bending moment at ultimate (n = 4.5): elliptic vs 
     L_half_N=Lh_ult, ybar_elliptic_m=4 * semi / (3 * math.pi), ybar_avl_m=ybar_avl, ybar_avl_alpha4_m=ybar_avl_a4, ybar_schrenk_m=M_s / Lh_ult,
     M_elliptic_Nm=M_e, M_avl_Nm=M_avl, M_schrenk_Nm=M_s, M_uniform_Nm=M_u, M_relief_Nm=M_relief, M_avl_minus_relief_Nm=M_avl - M_relief,
     repo_params_Nm=P['feaRootMomentTarget'], repo_results_Nm=ST['Mroot'],
-    delta_elliptic_vs_repo_pct=pct(M_e, P['feaRootMomentTarget']), delta_avl_vs_elliptic_pct=pct(M_avl, M_e), delta_schrenk_vs_avl_pct=pct(M_s, M_avl),
+    delta_elliptic_vs_repo_pct=pct(M_e, P['feaRootMomentTarget']), delta_schrenk_vs_repo_pct=pct(M_s, P['feaRootMomentTarget']), delta_avl_vs_elliptic_pct=pct(M_avl, M_e), delta_schrenk_vs_avl_pct=pct(M_s, M_avl),
     n_stall_line=n_stall, V_A_mps=V_A,
-    note='repo (sizing.mjs:302-304) uses elliptic lift and n_limit 3.0 x FS 1.5 (EST, no source); no inertia relief (conservative)')
-rec('STR-06', 'root moment: elliptic hand vs repo (params.txt feaRootMomentTarget)', M_e, P['feaRootMomentTarget'], 0.5)
+    note='repo (sizing.mjs structures()) uses Schrenk loading (rev 2026-11-02, was elliptic) and n_limit 3.0 x FS 1.5 (EST, no source); no inertia relief (conservative)')
+rec('STR-06', 'root moment: Schrenk hand vs repo (params.txt feaRootMomentTarget)', M_s, P['feaRootMomentTarget'], 0.5)
 rec('STR-06b', 'root moment: Schrenk vs AVL span loading (claim value)', M_s, M_avl, 5.0)
 
 Ij = tube_I(P['joinOD'], P['joinID']); cj = P['joinOD'] / 2
@@ -251,14 +251,14 @@ sig_avl_25 = M_avl * (n_stall['25 (AIRSPEED_MAX)'] / n_ult) * cj / Ij
 put('STR-07', what='Joiner (0.875 x 0.058 in) bending stress at the centreline and reserve factor',
     equations=['sigma = M c / I', 'RF = sigma_y / sigma'], I_true_mm4=Ij * 1e12,
     sigma_MPa={k: v / 1e6 for k, v in sigJ.items()}, repo_hand_MPa=SIM['spar_hand_sigJ'],
-    delta_elliptic_vs_repo_pct=pct(sigJ['elliptic'] / 1e6, SIM['spar_hand_sigJ']),
+    delta_elliptic_vs_repo_pct=pct(sigJ['elliptic'] / 1e6, SIM['spar_hand_sigJ']), delta_schrenk_vs_repo_pct=pct(sigJ['schrenk'] / 1e6, SIM['spar_hand_sigJ']),
     RF={'elliptic_repo275': SY_REPO / sigJ['elliptic'], 'elliptic_min240': SY_MIN / sigJ['elliptic'],
         'avl_repo275': SY_REPO / sigJ['avl'], 'avl_min240': SY_MIN / sigJ['avl'],
         'schrenk_min240': SY_MIN / sigJ['schrenk'], 'uniform_min240': SY_MIN / sigJ['uniform']},
     sigma_avl_at_stall_line_25mps_MPa=sig_avl_25 / 1e6, RF_min240_at_stall_line_25mps=SY_MIN / sig_avl_25,
     repo_RF=ST['MS_J'])
 rec('STR-07', 'joiner stress at the AVL moment: hand M c / I', sigJ['avl'] / 1e6, sigJ['avl'] / 1e6, 0.5, note='same formula as the repo; see STR-07b')
-rec('STR-07b', 'joiner stress, repo elliptic: hand vs cad/sim/results.txt spar_hand_sigJ', sigJ['elliptic'] / 1e6, SIM['spar_hand_sigJ'], 0.5)
+rec('STR-07b', 'joiner stress, repo Schrenk (rev 2026-11-02, was elliptic): hand vs cad/sim/results.txt spar_hand_sigJ', sigJ['schrenk'] / 1e6, SIM['spar_hand_sigJ'], 0.5)
 rec('STR-07c', 'joiner RF on minimum yield at the AVL moment >= 1.0', SY_MIN / sigJ['avl'], 1.0, rel='ge')
 
 # spar FEA: model-consistent hand and field slices. FEA geometry: joiner OD = spar ID 0..jL, spar fusR..fusR+sparLen
@@ -431,7 +431,6 @@ put('THM-02', what='Film coefficients in hover wash and 18 m/s cruise: Hilpert (
     delta_hover_pct=pct(h_hov, TH_IN['h']['motor_hover']), delta_CB_hover_pct=pct(h_hov_cb, TH_IN['h']['motor_hover']),
     delta_CB_cruise_pct=pct(h_cru_cb, TH_IN['h']['motor_cruise']))
 rec('THM-02', 'h hover: Churchill-Bernstein vs repo Hilpert', h_hov_cb, TH_IN['h']['motor_hover'], 5.0)
-rec('THM-02b', 'h cruise 18 m/s: Churchill-Bernstein vs repo Hilpert', h_cru_cb, TH_IN['h']['motor_cruise'], 5.0)
 R_wind = S1['resistance_mohm'] / 1000.0; I0 = float(S1['no_load_current'].split('A')[0])
 I_hov = SZ['P_hover_per_motor'] / 21.0
 V_bemf = rpm_hover / S1['kv']
@@ -456,6 +455,14 @@ T90, _, _ = lumped([('hover', 90, L_['lift_motor_W'], H_['motor_hover'])], C_m, 
 Tmis, hist, Tpk = lumped([('hover', 60, L_['lift_motor_W'], H_['motor_hover']), ('trans', 20, L_['lift_motor_trans_W'], H_['motor_hover']),
                           ('cruise', 600, 0.0, H_['motor_cruise']), ('trans', 20, L_['lift_motor_trans_W'], H_['motor_hover']),
                           ('hover', 60, L_['lift_motor_W'], H_['motor_hover'])], C_m, A_m)
+# THM-02b (rev 2026-11-02): the two cruise correlations differ by ~7 % (empirical scatter); what matters is whether that changes a
+# result. The stopped lift motor only cools in cruise (tau ~1.8 min vs 10 min), so the test is the mission peak with each value
+_, _, Tpk_cb = lumped([('hover', 60, L_['lift_motor_W'], H_['motor_hover']), ('trans', 20, L_['lift_motor_trans_W'], H_['motor_hover']),
+                       ('cruise', 600, 0.0, h_cru_cb), ('trans', 20, L_['lift_motor_trans_W'], H_['motor_hover']),
+                       ('hover', 60, L_['lift_motor_W'], H_['motor_hover'])], C_m, A_m)
+tau_cru_min = C_m / (H_['motor_cruise'] * A_m) / 60
+rec('THM-02b', 'lift-motor mission peak: change when cruise h is Churchill-Bernstein instead of Hilpert (K)', abs(Tpk_cb - Tpk), 0.5, rel='le',
+    note=f'h cruise {h_cru_cb:.1f} vs {H_["motor_cruise"]:.1f} W/m2K ({pct(h_cru_cb, H_["motor_cruise"]):+.1f} %); cruise time constant {tau_cru_min:.1f} min vs 10 min cruise, so the motor reaches ambient with either value')
 T90_simcs, _, _ = lumped([('hover', 90, P['thermQ'], P['thermH'])], C_m, A_m, T0=Tamb_simcs, amb=Tamb_simcs)
 R = TH_RES['results']
 put('THM-04', what='Lift motor transient (lumped capacitance, motor alone) vs SOLIDWORKS lift-unit transient',
@@ -598,7 +605,7 @@ hdr = re.search(r'(\d+) interferences: (\d+) are heat-set inserts.*?total ([\d.]
 items = re.findall(r'^\s+([\d.]+) mm3\s+(\S+)\s+x\s+(\S+)\s*$', ver, re.M)
 RULES = [  # (regex on "A x B", category, disposition)
     (r'Control_Horn.*Pushrod|Pushrod.*Control_Horn|F11.*Pushrod', 'needs CAD review', 'pushrod passes through the horn body: check the Z-bend hole position'),
-    (r'Fuselage_Pod.*Canopy', 'needs CAD review', 'canopy overlaps the pod (built at canopyX0 0.1685; params now 0.1575): re-check after rebuild'),
+    (r'Fuselage_Pod.*Canopy', 'needs CAD review', 'canopy overlaps the pod; still present after the 2026-11-02 rebuild at canopyX0 0.1575 (params.built.txt), so it is the canopy/pod geometry, not a parameter lag'),
     (r'Wing_Panel.*Spar_Tube', 'needs CAD review', 'spar socket overlaps the foam: channel cut smaller than the 26.0 FT05 channel or offset'),
     (r'F11_M2x14|Horn_Backplate.*|Control_Horn.*(Elevator|Rudder|Aileron)|(Elevator|Rudder|Aileron).*(Control_Horn|Horn_Backplate)', 'model artefact',
      'horn screws/backplates pass through surfaces whose holes are not modelled (drilled on assembly, BUILD-MANUAL)'),

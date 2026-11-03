@@ -1,7 +1,7 @@
 #
 # vtol_c0.param  -  ArduPlane QuadPlane parameters for the C0 lift + cruise VTOL
 #
-# Aircraft : C0 4-lift twin boom, MTOW 7.44 kg (est.), 6S 6500 mAh LiPo, no payload/ballast  [RJ concepts.C0.sized.m 7.4356 (2026-11-01); BOM; DB R12]
+# Aircraft : C0 4-lift twin boom, MTOW 7.44 kg (est.), 6S 6500 mAh LiPo, no payload/ballast  [RJ concepts.C0.sized.m 7.4380 (2026-11-02); BOM; DB R12]
 # Board    : CoreWing F405 Wing APP V2  (firmware target CoreWingF405WingV2)     [BOM; HW]
 # Firmware : ArduPlane 4.7.2 stable (firmware.ardupilot.org/Plane/stable/CoreWingF405WingV2, checked 2026-10-21)
 # Status   : STARTING VALUES for bench work, SITL and the first hover. Not a flight-proven tune.
@@ -31,7 +31,7 @@
 # ---------------------------------------------------------------------------------------------
 Q_ENABLE,1                # enable QuadPlane [PD]. REBOOT and load this file a second time.
 Q_FRAME_CLASS,1           # Quad, 4 lift motors; Quad is included in F405 builds [PD; RV; HW minimize_fpv_osd.inc]
-Q_FRAME_TYPE,1            # X. Lift rotor rectangle 0.995 m long x 0.867 m wide (ratio 1.15, close to square) [RJ C0.geo xFront-xRear = 0.4076+0.5878, 2*yIn]
+Q_FRAME_TYPE,1            # X. Lift rotor rectangle 0.996 m long x 0.867 m wide (ratio 1.15, close to square) [RJ C0.geo xFront-xRear = 0.4077+0.5882, 2*yIn]
 #
 # ---------------------------------------------------------------------------------------------
 # 2. Output map (SERVOn_FUNCTION). Timer groups: S1-2 | S3-4 | S5-7 | S8-10 | S11-12 [HW; BP].
@@ -124,7 +124,7 @@ Q_TRANS_DECEL,2.0         # (default) back-transition stopping-distance decel: 1
 Q_BACKTRANS_MS,3000       # (default) pitch-limit ramp entering VTOL position modes [PD]
 Q_TRAN_PIT_MAX,3          # (default) max pitch during AUTO forward transition [PD]
 TKOFF_THR_MAX,75          # AUTO forward transitions run the pusher at TKOFF_THR_MAX [TR]; 75 % trims the 82.0 A transition peak (EST, 2026-11-01 sizing) until bench test M4 [RJ I_trans]
-THR_MAX,85                # pusher cap: C0 SITL model gives ~890 W at 100 % on a full 25.2 V pack (firmware/sitl/validation_c0.json, EST motor model) vs the X4110S 615 W rating [SunnySky spec]; power ~ throttle^3 so 85 % ~ 0.85^3 x 890 = 547 W (est.). Cruise needs 257-295 W at 18 m/s (aero build-up / sizing) [analysis/aero/aero_results.json drag.cruise.P_elec_W; RJ sized.P_cruise]. Re-set from bench test M1 (pusher power at full pack).
+THR_MAX,85                # pusher cap: C0 SITL model gives ~890 W at 100 % on a full 25.2 V pack (firmware/sitl/validation_c0.json, EST motor model) vs the X4110S 615 W rating [SunnySky spec]; power ~ throttle^3 so 85 % ~ 0.85^3 x 890 = 547 W (est.). Cruise needs 258-296 W at 18 m/s (aero build-up / sizing) [analysis/aero/aero_results.json drag.cruise.P_elec_W; RJ sized.P_cruise]. Re-set from bench test M1 (pusher power at full pack).
 #
 # ---------------------------------------------------------------------------------------------
 # 7. Return, VTOL land, arming

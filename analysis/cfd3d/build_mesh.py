@@ -19,7 +19,7 @@ HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
 import build_geometry as bg  # noqa: E402
 
-LEVELS = {1: 1.5, 2: 1.0, 3: 0.72}
+LEVELS = {1: 1.5, 2: 1.0, 3: 0.72, 4: 0.52}   # L4 (2026-11-02): same refinement ratio as L2->L3 (1.39), for a valid three-grid GCI on L2-L3-L4
 # half-model domain in the CAD frame (aircraft spans X -1.04..0.45, Y -0.25..0.20, Z 0..1.2 on the starboard side)
 # mesh rev 2 (2026-11-01), from the mesh audit (analysis/cfd3d/mesh_audit.py): far field at >= 100 reference chords (AIAA DPW-4
 # gridding guideline 2g; c_ref 0.317 m -> 31.7 m), lifting-surface wall size 2.2 mm x f (the 2-D scheme check gives -8 % section lift at

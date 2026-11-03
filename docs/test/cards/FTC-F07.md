@@ -8,7 +8,7 @@ DBF-TP-001 rev C · Test F07 · Review step: F6 · Requirements: R1, R9, R11, R1
 
 **Weather limits:** Steady <= 5 m/s, gusts <= 8 m/s; into wind; one flight in 3-5 m/s steady wind if available counts for R16.
 
-**Predicted:** Cruise thrust 8.4 N at L/D 8.7 at 18 m/s (results.json sized.D_cruise, LD) or 7.3 N at L/D 9.9 (aero_results drag.cruise); cruise power 295 W sizing / 257 W aero (13.3 / 11.6 A at 22.2 V); C0 flight model 200 W in level cruise (eta_prop ~0.74 from the APC data vs 0.60 assumed; c0_physics.py --validate 2026-11-02); back-transition stop distance 81 m from 18 m/s (vtol_c0.param Q_TRANS_DECEL comment).
+**Predicted:** Cruise thrust 8.4 N at L/D 8.7 at 18 m/s (results.json sized.D_cruise, LD) or 7.3 N at L/D 10.0 (aero_results drag.cruise); cruise power 296 W sizing / 258 W aero (13.3 / 11.6 A at 22.2 V); C0 flight model 200 W in level cruise (eta_prop ~0.74 from the APC data vs 0.60 assumed; c0_physics.py --validate 2026-11-02); back-transition stop distance 81 m from 18 m/s (vtol_c0.param Q_TRANS_DECEL comment).
 
 **Crew:** TD, SO, PIC, GCS · **Duration:** 1 session (2 flights), 2 packs
 
@@ -51,7 +51,7 @@ QTUN.TrnMs; ARSP; GPS track (transition distance from mode change to AIRSPEED_MI
 ## Pass criteria
 - [ ] Transition time <= 15 s and distance <= 100 m (review 10 M2); SITL 10-11 s on the generic model, 13-14 s on the C0 airframe model (firmware/sitl/results_c0.json). Turn started <= 3 s after Transition done (log: roll command vs the message time).
 - [ ] Lift outputs RCOU C5-C8 at Q_M_PWM_MIN (1000) for >= 95 % of the fixed-wing segment (R1 'lift rotors stopped in cruise').
-- [ ] Level flight at 18 m/s with pusher throttle <= 70 % EST; cruise current near 11.6-13.3 A (aero 257 W / sizing 295 W).
+- [ ] Level flight at 18 m/s with pusher throttle <= 70 % EST; cruise current near 11.6-13.3 A (aero 258 W / sizing 296 W).
 - [ ] Back-transition and QLAND with touchdown <= 1 m/s EST and no yaw departure.
 - [ ] If flown in 3-5 m/s wind: attitude error < 15 deg throughout (R16).
 

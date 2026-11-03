@@ -14,7 +14,7 @@ Outputs (stdout, and --json <file>):
   * FM*eta at hover = P_ideal / P_elec, with P_ideal = T^1.5 / sqrt(2 rho A) (analysis/sizing.mjs
     hover model; A = 0.14643846 m2 for the 17 in disc, results.json sized.A), compared with the
     sizing value 0.505 (results.json sized.FMeta)
-  * pass/fail against the C07 criteria: max thrust >= 2974 g (R13: 1.6 x 7.4356 kg / 4), P_elec at hover <= 339 W,
+  * pass/fail against the C07 criteria: max thrust >= 2975 g (R13: 1.6 x 7.438 kg / 4), P_elec at hover <= 339 W,
     max current <= 36 A (EST)
   * comparison with the maker table (SunnySky X4110S 17x5.8, 22.2 V, docs/research/budget-lift.md A3)
 
@@ -28,7 +28,7 @@ MAKER_TABLE = [(1250, 6.1, 135), (1500, 8.1, 180), (2000, 13.1, 291), (3130, 27.
 FMETA_SIZING = 0.50537633   # results.json concepts.C0.sized.FMeta (generated 2026-11-01)
 HOVER_G_DEFAULT = 1858.8839 # results.json concepts.C0.sized.Tunit_g (generated 2026-11-01)
 P_HOVER_MAX_W = 339.0       # TEST-PLAN.md C07: (0.8 x 144.3 x 0.95 - 295.4 x 600/3600) x 3600/160 = 1360 W / 4, rounded down (calc)
-T_MAX_PASS_G = 2974.0       # R13 at MTOW 7.4356 kg: 1.6 x 7435.6 / 4 (TEST-PLAN.md C07); review T2 said 2400
+T_MAX_PASS_G = 2975.0       # R13 at MTOW 7.438 kg: 1.6 x 7438.0 / 4 = 2975.2 (TEST-PLAN.md C07, rev 2026-11-02; was 2974 at 7.4356 kg); review T2 said 2400
 I_MAX_PASS_A = 36.0         # EST, 80 % of the 45 A ESC rating
 G = 9.80665
 

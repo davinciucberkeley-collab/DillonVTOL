@@ -3,7 +3,7 @@
 | Field | Value |
 |---|---|
 | Document | DBF-MAN-001 |
-| Revision | **B, 2026-10-21** (Rev A same day; Rev B folds in design v0.4 / drawing DBF-DRW-001 rev B: wing 0.632 m², chord 263 mm; booms 960.8 + 485.9 mm; slip-fit joiner with stops; leg fairings; rudders; F05 M3 × 30; Ø7.5 motor counterbores; BOM v0.4; firmware output map; ballast rule). **2026-10-25: values re-based on the R11 wing re-size, chord 266.6 mm, MTOW 6.45 kg** (wing 0.640 m², front boom 965.7 mm; CAD model rev C, drawing DBF-DRW-001 rev D). **2026-10-25: re-based on the 11.75 m/s design stall target, chord 284.2 mm, MTOW 6.55 kg, CAD model rev D, drawing DBF-DRW-001 rev E** (`docs/research/stall-margin.md`; wing 0.682 m², front boom 991.0 mm; thermal build steps from `docs/research/thermal.md` §6.4 added in WP2 2.7, WP7 7.8, WP8 8.2a/8.3 and WP10 10.1); the Rev B history in §8 keeps its old numbers. **2026-10-26: 27 step figures added to §4, rendered from the CAD model (`cad/BuildFigs.cs`, `docs/build/figs.txt`, `docs/build/img/`); print list P03 no longer calls for vent slots (step 2.7)**. **2026-11-02: re-based on the frozen 2026-11-01 design** (`analysis/results.json` generated 2026-11-01: MTOW 7.44 kg, chord 321.9 mm, wing 0.773 m²; front boom 1045.4 mm, pod 1.000 m; **no payload and no ballast**, DESIGN-BASIS R12 revised 2026-11-01; BOM rev 2026-11-01 parts: LANRC BLHeli_S 45A ESCs, RMRC SAM-M10Q-5883 GPS, RMRC MS4525DO airspeed, Amass AS150U battery plug, M5 × 25 wing bolts; 25 °C design ambient, DESIGN-BASIS R21; thermal re-run 2026-11-02, `cad/sim/thermal/results.txt`). Dated history entries keep their old numbers. |
+| Revision | **B, 2026-10-21** (Rev A same day; Rev B folds in design v0.4 / drawing DBF-DRW-001 rev B: wing 0.632 m², chord 263 mm; booms 960.8 + 485.9 mm; slip-fit joiner with stops; leg fairings; rudders; F05 M3 × 30; Ø7.5 motor counterbores; BOM v0.4; firmware output map; ballast rule). **2026-10-25: values re-based on the R11 wing re-size, chord 266.6 mm, MTOW 6.45 kg** (wing 0.640 m², front boom 965.7 mm; CAD model rev C, drawing DBF-DRW-001 rev D). **2026-10-25: re-based on the 11.75 m/s design stall target, chord 284.2 mm, MTOW 6.55 kg, CAD model rev D, drawing DBF-DRW-001 rev E** (`docs/research/stall-margin.md`; wing 0.682 m², front boom 991.0 mm; thermal build steps from `docs/research/thermal.md` §6.4 added in WP2 2.7, WP7 7.8, WP8 8.2a/8.3 and WP10 10.1); the Rev B history in §8 keeps its old numbers. **2026-10-26: 27 step figures added to §4, rendered from the CAD model (`cad/BuildFigs.cs`, `docs/build/figs.txt`, `docs/build/img/`); print list P03 no longer calls for vent slots (step 2.7)**. **2026-11-02: re-based on the frozen 2026-11-01 design** (`analysis/results.json` generated 2026-11-01: MTOW 7.44 kg, chord 322.3 mm, wing 0.774 m²; front boom 1046.0 mm, pod 1.000 m; **no payload and no ballast**, DESIGN-BASIS R12 revised 2026-11-01; BOM rev 2026-11-01 parts: LANRC BLHeli_S 45A ESCs, RMRC SAM-M10Q-5883 GPS, RMRC MS4525DO airspeed, Amass AS150U battery plug, M5 × 25 wing bolts; 25 °C design ambient, DESIGN-BASIS R21; thermal re-run 2026-11-02, `cad/sim/thermal/results.txt`). Dated history entries keep their old numbers. |
 | Design baseline | C0 4-lift twin boom, 2026-11-01 sizing (`analysis/results.json`, `cad/README.md` "Model content"; CAD built 2026-11-01, `cad/verification.txt`), hardware rev B (`cad/hardware.json`, `docs/research/hardware-spec.md` incl. "CAD implementation notes (rev B)"), drawing set DBF-DRW-001 rev E, 9 sheets (`cad/drawings/`, regenerated 2026-11-01 from the current `params.txt`; the title block still reads rev E and GA note 4 still prints the superseded ballast rule, §8.2 item 15), aero inputs `docs/research/aerodynamics.md`, firmware package `firmware/` (`README.md`, `vtol_c0.param`). |
 | Scope | Everything from opening the boxes to a flight-ready aircraft on the bench: receiving, printing, tube work, foam cores, skins and control surfaces, tail, booms, pod, electrical, avionics, firmware hand-off, weight and balance, final inspection, transport breakdown. Flight testing is in review §[flighttest] and `firmware/checklists.md` and is not repeated. |
 | Companion files | `docs/build/cut-list.csv`, `docs/build/print-list.csv`, `docs/build/wiring.csv`, `docs/build/templates/*.svg` (1:1 hot-wire templates from `docs/build/templates/make_templates.py`, which reads `cad/params.txt`), `cad/hardware.json` (fastener IDs F01–F13, N01–N04, W01, I01, fits FT01–FT11), `cad/verification.txt` (part masses). |
@@ -60,7 +60,7 @@ Read before the first work session. Initial the WP1 traveler to confirm.
 ### 1.5 Soldering
 - 10 AWG battery leads and the AS150U need a ≥ 60 W iron with a chisel tip (makerspace, §2.1). Fume extraction or a fan; wash hands after.
 - Never solder a connector while the other half is on a live pack. Heat-shrink every joint before the next one.
-- Tin, then join: a cold joint on an 82.0 A transition lead (`analysis/results.json` C0.sized.I_trans 82.0 A, EST, 20 s) is a fire.
+- Tin, then join: a cold joint on an 82.1 A transition lead (`analysis/results.json` C0.sized.I_trans 82.1 A, EST, 20 s) is a fire.
 
 ### 1.6 Hand and power tools
 - Deburr every tube end immediately (WP3). Drill press: no gloves, clamp the work (printed clamp as the jig), eye protection. Carbon prop balancing and sanding: mask.
@@ -78,7 +78,7 @@ Read before the first work session. Initial the WP1 traveler to confirm.
 
 | # | Tool / machine | Needed for | Status | $0 fallback |
 |---|---|---|---|---|
-| K1 | FDM printer, 0.4 mm nozzle, 300 °C hot end. **Bed for the saddle root plate P13** (321.9 mm long = `cad/params.txt` chord 0.321941; footprint 320.8 × 70.2 mm, `cad/mesh/Wing_Saddle.STL` bounding box, 2026-11-01): flat needs **≥ 324 × 200 mm** *(calc: c + 1.4 = 323.3 mm, `docs/research/stall-margin.md` §2 P13 rule)*; diagonal needs a bed **≥ 279 × 279 mm** *(calc: (c + 70.2)/√2 + 1.4 = 278.7 mm, same rule)*. Fairing P25 is 170 mm tall | WP2 | on hand (R6); model and bed size — (M8) | bed too small for either: print P13 in **two halves** split across the chord with a **20 mm half-lap** (each half 171.0 mm long *(calc: 321.9 / 2 + 10)*, the lap at 46–54 % c, clear of the joiner bore at 30 % c and the tab holes at 10 % and 30 % c; lap 3 mm deep in the 6 mm plate, EST); bond the lap with 5-min epoxy on the flat table, profile against the `wing_saddle` template, before 5.6; print P25 lying on its side with supports |
+| K1 | FDM printer, 0.4 mm nozzle, 300 °C hot end. **Bed for the saddle root plate P13** (322.3 mm long = `cad/params.txt` chord 0.322333; footprint 320.8 × 70.2 mm, `cad/mesh/Wing_Saddle.STL` bounding box, 2026-11-01): flat needs **≥ 324 × 200 mm** *(calc: c + 1.4 = 323.7 mm, `docs/research/stall-margin.md` §2 P13 rule)*; diagonal needs a bed **≥ 279 × 279 mm** *(calc: (c + 70.2)/√2 + 1.4 = 279.0 mm, same rule)*. Fairing P25 is 170 mm tall | WP2 | on hand (R6); model and bed size — (M8) | bed too small for either: print P13 in **two halves** split across the chord with a **20 mm half-lap** (each half 171.2 mm long *(calc: 322.3 / 2 + 10)*, the lap at 46–54 % c, clear of the joiner bore at 30 % c and the tab holes at 10 % and 30 % c; lap 3 mm deep in the 6 mm plate, EST); bond the lap with 5-min epoxy on the flat table, profile against the `wing_saddle` template, before 5.6; print P25 lying on its side with supports |
 | K2 | Hardened-steel 0.4 mm nozzle | PA6-CF (TDS) | **makerspace (assumed)** or team-owned (—) | none; brass fails in ≈ 9 h (TDS). If none: print the mounts in PETG and measure the motor case temperature (budget-airframe M3: PETG fails above ≈ 60 °C) |
 | K3 | Filament dryer or oven that holds 100 °C | PA6-CF drying 100 °C/10 h, anneal 100 °C/16 h (TDS) | **makerspace (assumed)** | kitchen oven at its lowest setting with an oven thermometer |
 | K4 | Soldering station ≥ 60 W, chisel tip 3–5 mm, + conical tip for inserts | WP2 inserts, WP9 | **makerspace (assumed)** | no $0 fallback exists |
@@ -394,12 +394,12 @@ Mass EST = CAD volume (`cad/verification.txt`, PETG 1.27 / PA6-CF 1.23 g/cm³) �
 
 ### WP3 — Tube cutting and drilling
 
-Owner: structures lead. Cut list: `docs/build/cut-list.csv` (T01–T05); drawing sheet 7. Tolerances: length ± 0.8 mm (400–1000 mm; also applied to the 1045.4 mm front boom, which is above that band; ISO 2768-m allows ± 1.2 mm over 1000–2000 mm (amesweb.info ISO 2768 table, checked 2026-11-02), and cutting to the tighter ± 0.8 is kept as the shop target) and ± 0.5 mm (legs), end squareness 0.5 mm, cross-hole position ± 0.3 mm (ISO 2768-m, hardware-spec 5c).
+Owner: structures lead. Cut list: `docs/build/cut-list.csv` (T01–T05); drawing sheet 7. Tolerances: length ± 0.8 mm (400–1000 mm; also applied to the 1046.0 mm front boom, which is above that band; ISO 2768-m allows ± 1.2 mm over 1000–2000 mm (amesweb.info ISO 2768 table, checked 2026-11-02), and cutting to the tighter ± 0.8 is kept as the shop target) and ± 0.5 mm (legs), end squareness 0.5 mm, cross-hole position ± 0.3 mm (ISO 2768-m, hardware-spec 5c).
 
 **3.1 Lay out the 72 in boom tubes.**
 - Parts: 2 × 1.000 × 0.035 in × 72 in.
 - Tools: 1 m rule, square, scriber, masking tape.
-- Procedure: square and deburr one end; mark 1045.4 (front boom, `cad/params.txt` segF), 1.5 kerf, 485.9 (stub, segR) → 1532.8 total; 296.0 mm remains per tube *(calc: 1828.8 − 1532.8)* as coupon stock (review M[structures].5 boom deflection; thrust-stand arm).
+- Procedure: square and deburr one end; mark 1046.0 (front boom, `cad/params.txt` segF), 1.5 kerf, 485.9 (stub, segR) → 1533.4 total; 295.4 mm remains per tube *(calc: 1828.8 − 1533.4)* as coupon stock (review M[structures].5 boom deflection; thrust-stand arm).
 - Check: marks ± 0.3 mm; both tubes identical to ± 0.5.
 - Time: 1 × 0.3 h.
 
@@ -408,7 +408,7 @@ Owner: structures lead. Cut list: `docs/build/cut-list.csv` (T01–T05); drawing
 **3.2 Cut T01 and T02 (4 cuts).**
 - Tools: hacksaw 32 TPI in the mitre box (K7) or tube cutter; file; deburring tool.
 - Procedure: rotate the tube a quarter turn every 10 strokes; file the end flat; deburr inside and out; wipe.
-- Check: 1045.4 ± 0.8 and 485.9 ± 0.8; squareness gap ≤ 0.5 mm against the square; the splice plug P04 enters each butt end by hand.
+- Check: 1046.0 ± 0.8 and 485.9 ± 0.8; squareness gap ≤ 0.5 mm against the square; the splice plug P04 enters each butt end by hand.
 - Time: 1 × 1 h.
 
 ![**Figure 3.2.** Cut T01 and T02 (4 cuts): render from the CAD model (tools and shop items illustrative).](img/b_3_2.svg)
@@ -430,8 +430,8 @@ Owner: structures lead. Cut list: `docs/build/cut-list.csv` (T01–T05); drawing
 **3.5 Mark the station lines on both front booms and stubs (permanent).**
 - Parts: 2 front booms, 2 stubs.
 - Tools: rule, scriber, paint pen, two V-blocks.
-- Procedure: from the **front** end of each front boom (x = +0.45755 m, `analysis/results.json` geo booms x1) scribe *(calc: x1 − x)*: front motor-mount centre **50.0** (xFront 0.40755); front gear clamp **140.0** (x +0.31755 = xFront − 0.09, `cad/params.txt` comp Gear_Clamp_Upper); front wing clamp **554.1** (x −0.09658, `cad/params.txt` sparX); rear wing clamp **715.1** (x −0.25755 = −0.8 c, comp Boom_Clamp_R_Upper); rear gear clamp **955.4** (x −0.49784 = xRear + 0.09); aft end 1045.4 = rear motor centre / splice (xRear −0.58784). On each stub from its **forward** (butt) end: tail clamp centre **299.8** (x −0.88764, `cad/params.txt` xTC), fin LE 265.9 (xFinLE −0.85374), aft end 485.9. Scribe a straight **top** generator line along each tube (tube in the V-blocks, rule along it): the clocking reference for every clamp.
-- Check: stations ± 0.5 mm; clamp spacing 715.1 − 554.1 = 161.0 = 0.5 c *(calc: 0.5 × 321.9)*; top line straight within 0.5 mm.
+- Procedure: from the **front** end of each front boom (x = +0.45773 m, `analysis/results.json` geo booms x1) scribe *(calc: x1 − x)*: front motor-mount centre **50.0** (xFront 0.40773); front gear clamp **140.0** (x +0.31773 = xFront − 0.09, `cad/params.txt` comp Gear_Clamp_Upper); front wing clamp **554.4** (x −0.09670, `cad/params.txt` sparX); rear wing clamp **715.6** (x −0.25787 = −0.8 c, comp Boom_Clamp_R_Upper); rear gear clamp **956.0** (x −0.49823 = xRear + 0.09); aft end 1046.0 = rear motor centre / splice (xRear −0.58823). On each stub from its **forward** (butt) end: tail clamp centre **299.8** (x −0.88803, `cad/params.txt` xTC), fin LE 265.9 (xFinLE −0.85413), aft end 485.9. Scribe a straight **top** generator line along each tube (tube in the V-blocks, rule along it): the clocking reference for every clamp.
+- Check: stations ± 0.5 mm; clamp spacing 715.6 − 554.4 = 161.2 = 0.5 c *(calc: 0.5 × 322.3)*; top line straight within 0.5 mm.
 - Time: 1 × 0.8 h.
 
 ![**Figure 3.5.** Mark the station lines on both front booms and stubs (permanent): render from the CAD model (tools and shop items illustrative).](img/b_3_5.svg)
@@ -469,19 +469,19 @@ Owner: structures lead. Cut list: `docs/build/cut-list.csv` (T01–T05); drawing
 
 | # | Item | Measured | Spec | Pass | Done | Checked | Date |
 |---|---|---|---|---|---|---|---|
-| 3.2 | Front boom L/R | | 1045.4 ± 0.8 | ☐ | | | |
+| 3.2 | Front boom L/R | | 1046.0 ± 0.8 | ☐ | | | |
 | 3.2 | Stub L/R | | 485.9 ± 0.8 | ☐ | | | |
 | 3.3 | Sockets ×2 | | 800 ± 0.8 | ☐ | | | |
 | 3.3 | Legs ×4 | | 205 ± 0.5 | ☐ | | | |
 | 3.4 | Joiner | | 760 ± 0.8 | ☐ | | | |
-| 3.5 | Stations and top line scribed; clamp spacing | | ± 0.5; 161.0 | ☐ | | | |
+| 3.5 | Stations and top line scribed; clamp spacing | | ± 0.5; 161.2 | ☐ | | | |
 | 3.9 | Masses g: boom __ __ stub __ __ socket __ __ leg __ __ __ __ joiner __ | | | ☐ | | | |
 
 ---
 
 ### WP4 — Foam wing cores, spar sockets, joiner stops, hardpoint pockets
 
-Owner: structures lead, 2 people at the bow. Section NACA 2415, **chord 321.941 mm**, panel 1120 mm, constant chord (`cad/params.txt`); spar socket Ø25.4 × 800 bored from the root at 30 % c on the camber line (sparX 96.58 mm aft of the LE, sparY +6.04 mm), leaving ≈ 11.4 mm of foam above and below *(calc: upper +30.19, lower −18.12 at 30 % c from `cad/params.txt` yL30 + thick30; tube ± 12.7 about +6.04)*. Drawing sheet 4.
+Owner: structures lead, 2 people at the bow. Section NACA 2415, **chord 322.333 mm**, panel 1120 mm, constant chord (`cad/params.txt`); spar socket Ø25.4 × 800 bored from the root at 30 % c on the camber line (sparX 96.70 mm aft of the LE, sparY +6.04 mm), leaving ≈ 11.5 mm of foam above and below *(calc: upper +30.23, lower −18.14 at 30 % c from `cad/params.txt` yL30 + thick30; tube ± 12.7 about +6.04)*. Drawing sheet 4.
 
 **4.1 Make the templates.**
 - Parts: `docs/build/templates/wing_root_naca2415.svg`, `wing_tip_naca2415.svg` (generated from `cad/params.txt`; sheets are 300 mm wide, so print the `_A` and `_B` half sheets on Letter/A4 at 100 % and join at the red crosses, or the full sheet on Tabloid/Legal), backing (3 mm ply / 1.5 mm Al, §6 G1, or printed P29).
@@ -511,7 +511,7 @@ Owner: structures lead, 2 people at the bow. Section NACA 2415, **chord 321.941 
 **4.4 Cut the core blocks F01 × 2 and F02 × 1.**
 - Parts: FOAMULAR NGX F-250 2 in sheet (Home Depot 52DDNGX).
 - Tools: straight edge, hand saw or long knife.
-- Procedure: on the 2438 × 1219 sheet cut two 1140 × 341.9 × 50.8 panel blocks end to end along the length (2280, 158 spare) in one 341.9 mm strip (341.9 = chord 321.9 + 2 × 10 lead-in *(calc, cut-list F01)*); the 160 × 341.9 saddle block and test scrap from a second strip (2 strips × 341.9 = 683.8 < 1219 ✓; at most 3 strips fit, 1025.7 mm *(calc)*: measure the sheet width first (1.9) and cut the strips with the knife, not a saw); mark the extrusion skin so both panels are cut in the same orientation.
+- Procedure: on the 2438 × 1219 sheet cut two 1140 × 342.3 × 50.8 panel blocks end to end along the length (2280, 158 spare) in one 342.3 mm strip (342.3 = chord 322.3 + 2 × 10 lead-in *(calc, cut-list F01)*); the 160 × 342.3 saddle block and test scrap from a second strip (2 strips × 342.3 = 684.6 < 1219 ✓; at most 3 strips fit, 1026.9 mm *(calc)*: measure the sheet width first (1.9) and cut the strips with the knife, not a saw); mark the extrusion skin so both panels are cut in the same orientation.
 - Check: block faces square ± 1 mm.
 - Time: 1 × 0.5 h.
 
@@ -519,8 +519,8 @@ Owner: structures lead, 2 people at the bow. Section NACA 2415, **chord 321.941 
 
 **4.5 Pin the templates and cut the panels (2 people).**
 - Parts: F01 blocks, templates.
-- Procedure: pin root and tip templates on the block ends with the chord lines parallel to the block edge and the LE circles both 20 mm from the block front face (0° twist: the panel is a straight extrusion, `cad/params.mjs`); enter at the TE lead-in; trace lower surface → LE → upper surface → TE lead-out, both operators calling stations 0…10; feed ≈ 5 mm/s EST, never stop inside the foam; then cut the **72 %** line (fixed panel) and the aileron blank along 74–100 % (2 % = 6.4 mm hinge gap *(calc: 0.02 × 321.9)*, `cad/BuildVtol.cs` Aileron).
-- Check: chord 321.9 ± 1.0 root and tip; thickness at 30 % c 48.3 ± 0.7 (`cad/params.txt` thick30 48.31); span 1120 ± 2 after trimming; twist ≤ 1 mm tip-TE rise on the table; no steps > 0.3 mm (sand with the 600 mm board, 240 grit, chordwise only).
+- Procedure: pin root and tip templates on the block ends with the chord lines parallel to the block edge and the LE circles both 20 mm from the block front face (0° twist: the panel is a straight extrusion, `cad/params.mjs`); enter at the TE lead-in; trace lower surface → LE → upper surface → TE lead-out, both operators calling stations 0…10; feed ≈ 5 mm/s EST, never stop inside the foam; then cut the **72 %** line (fixed panel) and the aileron blank along 74–100 % (2 % = 6.4 mm hinge gap *(calc: 0.02 × 322.3)*, `cad/BuildVtol.cs` Aileron).
+- Check: chord 322.3 ± 1.0 root and tip; thickness at 30 % c 48.4 ± 0.7 (`cad/params.txt` thick30 48.36); span 1120 ± 2 after trimming; twist ≤ 1 mm tip-TE rise on the table; no steps > 0.3 mm (sand with the 600 mm board, 240 grit, chordwise only).
 - Time: 2 × 2 h for both panels and the saddle block.
 
 ![**Figure 4.5.** Pin the templates and cut the panels (2 people): render from the CAD model (tools and shop items illustrative).](img/b_4_5.svg)
@@ -546,8 +546,8 @@ Owner: structures lead, 2 people at the bow. Section NACA 2415, **chord 321.941 
 **4.8 Spar collar P11 and rear hardpoint P12 (C5; sheet 9).**
 - Parts: P11 × 2, P12 × 2, foam-safe glue, epoxy (tube side only).
 - Tools: knife, scriber, calipers.
-- Procedure: at the boom station **353.7 mm** from the panel root face *(calc: yIn 0.4337 − fusR 0.08; params zBoomPanel)* cut the lower-surface foam away over the socket, 46 mm wide along the span, down to the tube; bond P11 around the socket (epoxy on the abraded tube, foam-safe glue on the foam) with its two insert bosses on the **diagonal** beside the tube (rev B: never over the tube) flush with the lower surface; cut a 60 × 46 × 10 pocket flush in the lower surface centred at 80 % c (257.6 mm aft of the LE, `cad/params.txt` comp Rear_Hardpoint x −0.25755) at the same station and bond P12 flush with its inserts on the matching diagonal.
-- Check: insert faces flush with the lower surface ± 0.3; the clamp uppers P05/P06 seat without rock; boss pairs 161.0 ± 0.5 mm apart along the chord *(calc: 0.5 c = 0.5 × 321.9)*; a boom laid on both clamp tops is parallel to the root face ± 0.5 over 300 mm.
+- Procedure: at the boom station **353.7 mm** from the panel root face *(calc: yIn 0.4337 − fusR 0.08; params zBoomPanel)* cut the lower-surface foam away over the socket, 46 mm wide along the span, down to the tube; bond P11 around the socket (epoxy on the abraded tube, foam-safe glue on the foam) with its two insert bosses on the **diagonal** beside the tube (rev B: never over the tube) flush with the lower surface; cut a 60 × 46 × 10 pocket flush in the lower surface centred at 80 % c (257.9 mm aft of the LE, `cad/params.txt` comp Rear_Hardpoint x −0.25787) at the same station and bond P12 flush with its inserts on the matching diagonal.
+- Check: insert faces flush with the lower surface ± 0.3; the clamp uppers P05/P06 seat without rock; boss pairs 161.2 ± 0.5 mm apart along the chord *(calc: 0.5 c = 0.5 × 322.3)*; a boom laid on both clamp tops is parallel to the root face ± 0.5 over 300 mm.
 - Time: 2 × 1.5 h for both panels + cure.
 
 ![**Figure 4.8.** Left panel at the boom station, 353.7 mm from the root face: spar collar P11 bonded around the socket, rear hardpoint P12 aft of it. Panel drawn translucent.](img/fig04_hardpoints.jpg)
@@ -566,12 +566,12 @@ Owner: structures lead, 2 people at the bow. Section NACA 2415, **chord 321.941 
 |---|---|---|---|---|---|---|---|---|
 | 4.1 | Template 100 mm line | | | 100.0 ± 0.3 | ☐ | | | |
 | 4.3 | Kerf ___ mm; templates offset ___ | | | — | ☐ | | | |
-| 4.5 | Chord root / tip | | | 321.9 ± 1.0 | ☐ | | | |
+| 4.5 | Chord root / tip | | | 322.3 ± 1.0 | ☐ | | | |
 | 4.5 | Thickness at 30 % c | | | 48.3 ± 0.7 | ☐ | | | |
 | 4.5 | Span / twist | | | 1120 ± 2 / ≤ 1 mm | ☐ | | | |
 | 4.6 | Channel aft of LE / above chord | | | 96.6 ± 1 / 6.0 ± 1 | ☐ | | | |
 | 4.7 | Stop face from root; socket flush; joiner bottoms on the stop | | | 300 ± 1; ± 0.5; yes | ☐ | | | |
-| 4.8 | Hardpoint spacing | | | 161.0 ± 0.5 | ☐ | | | |
+| 4.8 | Hardpoint spacing | | | 161.2 ± 0.5 | ☐ | | | |
 | 4.9 | Tongue at 70 % c; pockets | | | 225.4 ± 0.5; ± 1 | ☐ | | | |
 | — | Core mass bare g (expect 32 kg/m³ × 10.45 L = 334 g *(calc: `cad/verification.txt` Wing_Panel_L 10,449 cm³, 334.4 g)*) | | | log | ☐ | | | |
 
@@ -606,7 +606,7 @@ Owner: structures lead. Skin: Scotch heavy-duty packing tape, chordwise strips a
 ![**Figure 5.3.** Skin the panels: render from the CAD model (tools and shop items illustrative).](img/b_5_3.svg)
 
 **5.4 Ailerons with tape hinges (J17).**
-- Parts: aileron blanks (74–100 % c, chord 83.7 *(calc: 0.26 × 321.9)*, 612 mm long, 4 mm tip clearance, `cad/BuildVtol.cs` Aileron), P16 horn hardpoints, 2 horn sets (kit item 7).
+- Parts: aileron blanks (74–100 % c, chord 83.8 *(calc: 0.26 × 322.3)*, 612 mm long, 4 mm tip clearance, `cad/BuildVtol.cs` Aileron), P16 horn hardpoints, 2 horn sets (kit item 7).
 - Fasteners: F11 M2 × 14 × 2 per horn into N03 nuts captive in the P16 pockets, 0.15 N·m EST (snug).
 - Tools: knife, tape, straight edge.
 - Procedure: bond P16 flush into the aileron lower surface pocket (4.9) so the horn's first hole is over the hinge line; skin the aileron as 5.3 but leave the hinge-side edges bare; **hinge:** lay the aileron against the panel's 72 % cut face with the 6.4 mm gap (2 % c) set by a spacer, upper surfaces flush; run one continuous strip of packing tape along the upper surface across the gap, 20 mm onto each part, rubbed down hard; fold the aileron fully down (upper surfaces touching) and run the second strip along the lower surface across the gap so the two strips pull against each other; cut the tape at the tip and root; fit the horn.
@@ -635,10 +635,10 @@ Owner: structures lead. Skin: Scotch heavy-duty packing tape, chordwise strips a
 ![**Figure 5.6.** Centre-section saddle with the two P14 bolt pillars, between the panel roots on the T05 joiner.](img/fig05_saddle.jpg)
 
 **5.7 Wing bolts (J10).**
-- Fasteners: F09 ISO 7380 **M5 × 25** button (`cad/params.txt` fast_F09, wingBoltL 0.025; DESIGN-BASIS rev 2026-11-01) + N02 M5 nylock, 1 per side, **1.0 N·m EST**.
+- Fasteners: F09 ISO 7380 **M5 × 25** button (`cad/params.txt` fast_F09, wingBoltL 0.025; DESIGN-BASIS rev 2026-11-01) + N02 M5 nylock, 1 per side, **0.5 N·m EST** (rev 2026-11-02, was 1.0: 13 MPa under the head instead of 27 MPa on PETG, STR-13; the bolt works in shear, the nylock keeps it).
 - Tools: 3 mm hex, 8 mm spinner.
 - Procedure: fit; torque; paint witness.
-- Check: head seats in the Ø10.3 × **2.0** spot-face (`cad/params.txt` pillarSpot 0.002; the 2.75 mm button head stands 0.75 mm proud, near-flush *(calc)*); nut in the 8.2 AF × **11.0** pocket from the lower surface (`cad/params.txt` pillarNutDepth 0.011); screw end 3.5 mm past the nut, so the nylon insert is fully engaged (≥ 2 threads past the nylock, DESIGN-BASIS rev 2026-11-01), and 2.5 mm inside the lower surface *(calc: pillar 29.5 (pillarH) − 2.0 − 25 = 2.5; nut outer face 29.5 − 11.0 + 5.0 = 23.5 below the top vs screw end 27.0)*; nylock drags ≥ 1 turn before seating (replace after 5 cycles EST).
+- Check: head seats in the Ø10.3 × **2.0** spot-face (`cad/params.txt` pillarSpot 0.002; the 2.75 mm button head stands 0.75 mm proud, near-flush *(calc)*); nut in the 8.2 AF × **11.1** pocket from the lower surface (`cad/params.txt` pillarNutDepth 0.0111); screw end 3.6 mm past the nut, so the nylon insert is fully engaged (≥ 2 threads past the nylock, DESIGN-BASIS rev 2026-11-01), and 2.5 mm inside the lower surface *(calc: pillar 29.5 (pillarH) − 2.0 − 25 = 2.5; nut outer face 29.5 − 11.1 + 5.0 = 23.4 below the top vs screw end 27.0)*; nylock drags ≥ 1 turn before seating (replace after 5 cycles EST).
 - Time: 1 × 0.2 h.
 
 ![**Figure 5.7.** Wing bolts: render from the CAD model (tools and shop items illustrative).](img/b_5_7.svg)
@@ -646,7 +646,7 @@ Owner: structures lead. Skin: Scotch heavy-duty packing tape, chordwise strips a
 **5.8 Pitot clamp P19 (J16) — after M10.**
 - Parts: P19, pitot tube (RMRC kit).
 - Fasteners: F07 ISO 7380 M3 × 8 pinch screw into I01, 0.4 N·m EST.
-- Procedure: bond P19 into the left-tip pocket (50 mm aft of the LE = 15.5 % c *(calc: 50 / 321.9)*, tube centre 9.5 below the lower surface); pitot tube forward, tubing into the channel with a disconnect loop at the root.
+- Procedure: bond P19 into the left-tip pocket (50 mm aft of the LE = 15.5 % c *(calc: 50 / 322.3)*, tube centre 9.5 below the lower surface); pitot tube forward, tubing into the channel with a disconnect loop at the root.
 - Check: tube parallel to the chord line ± 1° both planes; tip ≥ 1 chord ahead of the LE EST (pitotL 0.25).
 - Time: 1 × 0.5 h.
 
@@ -668,7 +668,7 @@ Owner: structures lead. Skin: Scotch heavy-duty packing tape, chordwise strips a
 
 ### WP6 — Tail: stabiliser, elevator, fins, rudders, shoes, tail servos
 
-Owner: structures lead. Stabiliser NACA 0009, chord **124.77** (`cad/params.txt` hC), span **917.4** (boom spacing + 50 mm for the shoe flanges), 11.2 thick (`cad/params.txt` tailT); elevator 70–100 % c (37.4 *(calc: 0.3 × 124.77)*), span 845.8 (4 mm from each fin); fins NACA 0009 root **166.32** (vC) / tip **108.11** *(calc: 0.65 × 166.32)*, height **207.9** (vH); rudders 30 % of the local chord from 22 mm above the fin root to the tip, 2 % gap (`cad/params.txt`; `cad/mesh/meta.json`; hardware-spec CAD notes). Templates `tail_naca0009.svg`, `fin_root_naca0009.svg`, `fin_tip_naca0009.svg`. Sheets 6 (tail clamp), 9 (fin shoe).
+Owner: structures lead. Stabiliser NACA 0009, chord **125.02** (`cad/params.txt` hC), span **917.4** (boom spacing + 50 mm for the shoe flanges), 11.3 thick (`cad/params.txt` tailT); elevator 70–100 % c (37.5 *(calc: 0.3 × 125.02)*), span 845.8 (4 mm from each fin); fins NACA 0009 root **166.38** (vC) / tip **108.15** *(calc: 0.65 × 166.38)*, height **208.0** (vH); rudders 30 % of the local chord from 22 mm above the fin root to the tip, 2 % gap (`cad/params.txt`; `cad/mesh/meta.json`; hardware-spec CAD notes). Templates `tail_naca0009.svg`, `fin_root_naca0009.svg`, `fin_tip_naca0009.svg`. Sheets 6 (tail clamp), 9 (fin shoe).
 
 **6.1 Templates.**
 - Procedure: as 4.1 (these sheets fit Letter directly).
@@ -678,17 +678,17 @@ Owner: structures lead. Stabiliser NACA 0009, chord **124.77** (`cad/params.txt`
 ![**Figure 6.1.** Templates: render from the CAD model (tools and shop items illustrative).](img/b_6_1.svg)
 
 **6.2 Cut the stabiliser and elevator from F-150 1 in.**
-- Parts: block 935 × 145 × 25.4 *(calc: chord 124.8 + 2 × 10 = 144.8 lead-in)*.
-- Procedure: cut the full section at the lowest heat that cuts, ≈ 3 mm/s EST (11.2 mm section, `cad/params.txt` tailT); split at 68 % (stab) and 70 % (elevator); drill the 4 × Ø7.2 crush-sleeve holes at z ± 416.2 and ± 451.2, 33.9 mm aft of the stabiliser LE (comp Crush_Sleeve x −0.88764 vs stab LE −0.85374 *(calc)*).
-- Check: chord 124.8 ± 0.5; thickness 11.2 ± 0.3; stab span 917.4 ± 1; elevator span 845.8 ± 1; TE straight ± 0.5; sleeve holes ± 0.5.
+- Parts: block 935 × 145 × 25.4 *(calc: chord 125.0 + 2 × 10 = 145.0 lead-in)*.
+- Procedure: cut the full section at the lowest heat that cuts, ≈ 3 mm/s EST (11.3 mm section, `cad/params.txt` tailT); split at 68 % (stab) and 70 % (elevator); drill the 4 × Ø7.2 crush-sleeve holes at z ± 416.2 and ± 451.2, 33.9 mm aft of the stabiliser LE (comp Crush_Sleeve x −0.88803 vs stab LE −0.85413 *(calc)*).
+- Check: chord 125.0 ± 0.5; thickness 11.3 ± 0.3; stab span 917.4 ± 1; elevator span 845.8 ± 1; TE straight ± 0.5; sleeve holes ± 0.5.
 - Time: 2 × 1 h.
 
 ![**Figure 6.2.** Stabiliser and elevator with the four P10 crush sleeves at z ± 416.2 and ± 451.2 mm.](img/fig06_stabiliser.jpg)
 
 **6.3 Cut the fins and rudders.**
-- Parts: 2 blocks 220 × 180 × 25.4 *(calc: height 207.9 and root chord 166.3 + 10 lead-in, rounded up; EST)*.
-- Procedure: pin the root template on one end and the tip template on the other with the tip LE **58.2 mm** aft of the root LE *(calc: 0.35 × 166.32)* and the TEs on one line (swept LE, straight TE, `cad/BuildVtol.cs` Fin); both operators count stations as the wire tilts; split each fin at the 68 % line → rudder (70–100 %), and cut the rudder root 22 mm above the fin root so it clears the shoe wall.
-- Check: root 166.3 ± 0.5, tip 108.1 ± 0.5, height 207.9 ± 1; rudder height 185.9 ± 1 *(calc: 207.9 − 22)*, root chord 48.0 ± 0.5 *(calc: 0.3 × local chord 160.2 at 22 mm = 166.32 − 58.21 × 22 / 207.9)*.
+- Parts: 2 blocks 220 × 180 × 25.4 *(calc: height 208.0 and root chord 166.4 + 10 lead-in, rounded up; EST)*.
+- Procedure: pin the root template on one end and the tip template on the other with the tip LE **58.2 mm** aft of the root LE *(calc: 0.35 × 166.38)* and the TEs on one line (swept LE, straight TE, `cad/BuildVtol.cs` Fin); both operators count stations as the wire tilts; split each fin at the 68 % line → rudder (70–100 %), and cut the rudder root 22 mm above the fin root so it clears the shoe wall.
+- Check: root 166.4 ± 0.5, tip 108.1 ± 0.5, height 208.0 ± 1; rudder height 186.0 ± 1 *(calc: 208.0 − 22)*, root chord 48.1 ± 0.5 *(calc: 0.3 × local chord 160.2 at 22 mm = 166.38 − 58.23 × 22 / 207.98)*.
 - Time: 2 × 1.5 h.
 
 ![**Figure 6.3.** Fins, rudders and P09 root shoes added to the stabiliser.](img/fig06_fins.jpg)
@@ -701,7 +701,7 @@ Owner: structures lead. Stabiliser NACA 0009, chord **124.77** (`cad/params.txt`
 ![**Figure 6.4.** Skin: render from the CAD model (tools and shop items illustrative).](img/b_6_4.svg)
 
 **6.5 Tape-hinge the elevator and rudders.**
-- Procedure: as 5.4 with a 2.5 mm gap (2 % of 124.8) for the elevator and 2 % of the local chord (3.2 root → 2.2 tip *(calc: 0.02 × 160.2, 0.02 × 108.1)*) for the rudders: upper/outboard strip first, surface folded fully, then the opposing strip.
+- Procedure: as 5.4 with a 2.5 mm gap (2 % of 125.0) for the elevator and 2 % of the local chord (3.2 root → 2.2 tip *(calc: 0.02 × 160.2, 0.02 × 108.1)*) for the rudders: upper/outboard strip first, surface folded fully, then the opposing strip.
 - Check: elevator ± 25°, rudders ± 25° free (EST travel), spring back, no binding at the shoe wall or the fins.
 - Time: 1 × 1 h.
 
@@ -710,7 +710,7 @@ Owner: structures lead. Stabiliser NACA 0009, chord **124.77** (`cad/params.txt`
 **6.6 Horns (J17).**
 - Parts: 3 horns + kit backplates (20 × 11 × 1.5 EST).
 - Fasteners: F11 M2 × 14 × 2 per horn + N03 × 2, 0.15 N·m EST.
-- Procedure: elevator horn on the **top** surface at z +21 mm (comp Control_Horn x −0.8880, z 0.0211), through-bolted to the backplate below (6.9 mm section *(calc: NACA 0009 at 70 % c, 0.0551 × 124.8)*); rudder horns on the inboard face of each rudder 29 mm above the fin root (comp y +0.0267 vs fin root −0.0022 *(calc)*), through-bolted to the backplate outboard.
+- Procedure: elevator horn on the **top** surface at z +21 mm (comp Control_Horn x −0.94265, z 0.0211), through-bolted to the backplate below (6.9 mm section *(calc: NACA 0009 at 70 % c, 0.0551 × 125.0)*); rudder horns on the inboard face of each rudder 29 mm above the fin root (comp y +0.0267 vs fin root −0.0022 *(calc)*), through-bolted to the backplate outboard.
 - Check: horns perpendicular ± 2°; first hole over the hinge line ± 1 mm.
 - Time: 1 × 1 h.
 
@@ -748,8 +748,8 @@ Owner: structures lead. Stabiliser NACA 0009, chord **124.77** (`cad/params.txt`
 
 | # | Item | Measured | Spec | Pass | Done | Checked | Date |
 |---|---|---|---|---|---|---|---|
-| 6.2 | Stab chord / thickness / span; sleeve holes | | 124.8 ± 0.5 / 11.2 ± 0.3 / 917.4 ± 1; ± 0.5 | ☐ | | | |
-| 6.3 | Fin root / tip / height ×2; rudder height | | 166.3 / 108.1 ± 0.5 / 207.9 ± 1; 185.9 ± 1 | ☐ | | | |
+| 6.2 | Stab chord / thickness / span; sleeve holes | | 125.0 ± 0.5 / 11.3 ± 0.3 / 917.4 ± 1; ± 0.5 | ☐ | | | |
+| 6.3 | Fin root / tip / height ×2; rudder height | | 166.4 / 108.1 ± 0.5 / 208.0 ± 1; 186.0 ± 1 | ☐ | | | |
 | 6.5 | Surface travel, free | | ± 25° | ☐ | | | |
 | 6.7 | Fin squareness ×2 | | 90 ± 0.5° | ☐ | | | |
 | 6.9 | Diagonals; elevator-fin gap | | ± 2 mm; 4 ± 1.5 | ☐ | | | |
@@ -783,11 +783,11 @@ Owner: structures lead + electrical lead (ESC placement). Joints J01–J04, J06;
 **7.3 Gear clamps P07 on the booms (J06).**
 - Parts: 4 × P07 sets.
 - Fasteners: F03 ISO 4762 M3 × 20 × 4 per clamp into I01, **0.5 N·m EST**, cross pattern, witness.
-- Procedure: front at 140.0 and rear at 955.4 mm from the front end (3.5), socket down, clocked to the top line.
+- Procedure: front at 140.0 and rear at 956.0 mm from the front end (3.5), socket down, clocked to the top line.
 - Check: split gap 0.4–0.8 mm each side (1.2 total, FT02); cannot be rotated by hand; socket axis vertical ± 1°.
 - Time: 1 × 0.3 h per clamp (1.2 h).
 
-![**Figure 7.3.** Right boom: gear clamps P07 at 140.0 mm and 955.4 mm from the front end, socket down.](img/fig07_gear_clamps.jpg)
+![**Figure 7.3.** Right boom: gear clamps P07 at 140.0 mm and 956.0 mm from the front end, socket down.](img/fig07_gear_clamps.jpg)
 
 **7.4 Front motor mounts on the front booms (J02).**
 - Parts: 2 × P01 (with motors) + 2 × P02.
@@ -802,7 +802,7 @@ Owner: structures lead + electrical lead (ESC placement). Joints J01–J04, J06;
 - Parts: 2 × P01 + P02 (rear), 2 × P04 splice plugs, front booms, stubs.
 - Fasteners: F02 × 4 per mount, 0.5 N·m EST.
 - Procedure: slide the plug 40 mm into the front boom's aft end (mark its mid-line); slide the stub on until the tubes **butt**; align both top lines; set the upper mount over the joint centred on the butt (35 mm each side); fit the cap.
-- Check: butt gap ≤ 0.3 mm (feeler); top lines aligned ± 0.5; the tail-clamp station lands at 1045.4 + 299.8 = **1345.2 mm** from the front end ± 1 *(calc)*.
+- Check: butt gap ≤ 0.3 mm (feeler); top lines aligned ± 0.5; the tail-clamp station lands at 1046.0 + 299.8 = **1345.8 mm** from the front end ± 1 *(calc)*.
 - Time: 2 × 0.5 h per side.
 
 ![**Figure 7.5.** Rear motor mounts and the splice: render from the CAD model (tools and shop items illustrative).](img/b_7_5.svg)
@@ -819,7 +819,7 @@ Owner: structures lead + electrical lead (ESC placement). Joints J01–J04, J06;
 
 **7.7 Boom natural frequency (review M[structures].2).**
 - Tools: vice, P05 pair, phone spectrum app.
-- Procedure: clamp at the front wing-clamp station (554.1); tap the front motor; record.
+- Procedure: clamp at the front wing-clamp station (554.4); tap the front motor; record.
 - Check: first bending mode within ± 25 % of the hand calc **25.9 Hz** (`cad/params.txt` feaHandFn 25.88; FEA 27.75 Hz, `cad/sim/results.txt` boom_f1, 2026-11-02) and not within ± 15 % of the hover rotor frequency (EST 70–90 Hz; set after T2) or twice it.
 - Time: 1 × 0.5 h.
 
@@ -827,7 +827,7 @@ Owner: structures lead + electrical lead (ESC placement). Joints J01–J04, J06;
 
 **7.8 ESC placement and foam pads (J15).**
 - Parts: 4 × LANRC BLHeli_S 45A (heat-shrunk), 3 mm foam pads (F-150 offcut), 2 zip ties each (kit item 11).
-- Procedure: ESCs go **in the prop wash on the boom side or top face**, not the underside (`docs/research/thermal.md` §6.4 item 4: the model's 43 W/m²K prop-wash film assumes the ESC sees the wash; under the boom it sits in the boom's wake). Front ESC on the outboard side (or top) face between the front gear clamp and the front wing clamp, 180–240 mm from the tip, inside the 216 mm disc radius of the front rotor *(calc: liftProp 431.8 / 2; rotor at 50.0)*; rear ESC likewise between the rear wing clamp and the rear gear clamp, 835–895 mm EST (rear rotor at 1045.4, disc from 829.5 mm; rear gear clamp front face at 932.4 mm *(calc: 955.4 − 23)*); heat-shrink face to the flow, on its 3 mm foam pad (the pad isolates it from the warm mount; the boom stays near ambient, thermal.md §6.1); label FR/RL/FL/RR; extend the motor leads with 14 AWG if the supplied leads (length —) do not reach.
+- Procedure: ESCs go **in the prop wash on the boom side or top face**, not the underside (`docs/research/thermal.md` §6.4 item 4: the model's 43 W/m²K prop-wash film assumes the ESC sees the wash; under the boom it sits in the boom's wake). Front ESC on the outboard side (or top) face between the front gear clamp and the front wing clamp, 180–240 mm from the tip, inside the 216 mm disc radius of the front rotor *(calc: liftProp 431.8 / 2; rotor at 50.0)*; rear ESC likewise between the rear wing clamp and the rear gear clamp, 835–895 mm EST (rear rotor at 1046.0, disc from 830.1 mm; rear gear clamp front face at 933.0 mm *(calc: 956.0 − 23)*); heat-shrink face to the flow, on its 3 mm foam pad (the pad isolates it from the warm mount; the boom stays near ambient, thermal.md §6.1); label FR/RL/FL/RR; extend the motor leads with 14 AWG if the supplied leads (length —) do not reach.
 - Check: ESC on the side/top face inside the disc radius and not in the wake of a clamp or mount; not touching a clamp or mount; leads not in tension; zip ties over the shrink. Expected in service (`cad/sim/thermal/results.txt`, 2026-11-02, 25 °C design ambient, DESIGN-BASIS R21; ESC loss 11.3 W EST at hover, `analysis/thermal/thermal_results.json`): 50 °C after a 60 s hover, 60 °C after 90 s, mission peak 62 °C; limit 70 °C EST. No full mission above 25 °C ambient, measured at the field before each flight (R21).
 - Time: 1 × 0.5 h.
 
@@ -861,7 +861,7 @@ Owner: integration lead. The CAD pod is one solid body 1000 × 160 (`cad/params.
 **8.1 Pod core F07.**
 - Parts: 7 layers of F-150 1 in, 1000 × 170 (178 mm stack *(calc: 160 / 25.4 = 6.3)*), foam-safe glue.
 - Tools: bow, two pod-profile end templates (radius every 50 mm sliced from `cad/mesh/Fuselage_Pod.STL`), 600 mm sanding board.
-- Procedure: cut the battery bay (tray 165 × 56 centred at x +0.255, `cad/params.txt` battX; pack 155 × 50 × 48) and the avionics bay (floor at y −20 from x +0.30 to +0.45, bayX0 / bayX1, for the FC tray at x +0.375) out of the middle layers before lamination; laminate; hot-wire to an octagon on the templates; sand round; cut the wing-root slot for the saddle (322 × 71 at the LE station; `cad/mesh/Wing_Saddle.STL` 320.8 × 70.2, chord 321.9) and the canopy pocket (x +0.158 to +0.480, canopyX0 / canopyX1); bore the tail ring seat Ø56 × 30 (params tailR).
+- Procedure: cut the battery bay (tray 165 × 56 centred at x +0.255, `cad/params.txt` battX; pack 155 × 50 × 48) and the avionics bay (floor at y −20 from x +0.30 to +0.45, bayX0 / bayX1, for the FC tray at x +0.375) out of the middle layers before lamination; laminate; hot-wire to an octagon on the templates; sand round; cut the wing-root slot for the saddle (322 × 71 at the LE station; `cad/mesh/Wing_Saddle.STL` 320.8 × 70.2, chord 322.3) and the canopy pocket (x +0.158 to +0.480, canopyX0 / canopyX1); bore the tail ring seat Ø56 × 30 (params tailR).
 - Check: diameter 160 ± 2 at the parallel section; length 1000 ± 3; bays within ± 1 mm of the stations above.
 - Time: 2 × 4 h + cure.
 
@@ -904,7 +904,7 @@ Owner: integration lead. The CAD pod is one solid body 1000 × 160 (`cad/params.
 
 **8.5 Battery tray P21 and straps (J18).**
 - Parts: P21, 2 × ShareGoo straps.
-- Procedure: bond P21 to the bay floor with the pack centre at x = **+0.255 m** (`cad/params.txt` battX 0.255; `analysis/results.json` cg.xb 0.2549) and ± 30 mm fore-aft marks; fit the straps through the 22 × 3 slots. **No ballast and no payload station** (DESIGN-BASIS R12, revised 2026-11-01): with the lengthened pod nose this pack position alone puts the CG at 28 % MAC (cg.pct.noPayload 28; static margin 10.5 % by AVL, `analysis/aero/aero_results.json` static_margin_pct.CG_28pct, and 10.2 % by the sizing, cg.SM_noPayload).
+- Procedure: bond P21 to the bay floor with the pack centre at x = **+0.255 m** (`cad/params.txt` battX 0.255; `analysis/results.json` cg.xb 0.2550) and ± 30 mm fore-aft marks; fit the straps through the 22 × 3 slots. **No ballast and no payload station** (DESIGN-BASIS R12, revised 2026-11-01): with the lengthened pod nose this pack position alone puts the CG at 28 % MAC (cg.pct.noPayload 28; static margin 10.4 % by AVL, `analysis/aero/aero_results.json` static_margin_pct.CG_28pct, and 10.2 % by the sizing, cg.SM_noPayload).
 - Check: pack cannot move > 1 mm under a 5 kg push; the AS150U pigtail reaches the hatch opening (else cut a 60 × 40 side door, EST).
 - Time: 1 × 1 h.
 
@@ -949,7 +949,7 @@ Owner: integration lead. The CAD pod is one solid body 1000 × 160 (`cad/params.
 
 Owner: electrical lead. Harness table: `docs/build/wiring.csv` (W01–W07 power, S01–S11 servos, M01–M05 DShot, A01–A08 avionics). Output map **exactly** `firmware/vtol_c0.param` §2 / `firmware/README.md` §4.4: S1/S2 ailerons L/R, S3 elevator, S4 rudder L, S5 Motor1 front-right CCW, S6 Motor2 rear-left CCW, S7 Motor3 front-left CW, S8 Motor4 rear-right CW (DShot150), S9 pusher (DShot150), S10 empty, S11 rudder R, S12/LED spare.
 
-Power path: pack → Amass AS150U (R20) → CoreWing PDB (90 A cont, 215 A peak; ardupilot.org board page, checked 2026-10-21) with the included 470 µF capacitor → 4 × 12 AWG lift ESC feeds, one XT60H per lift ESC at the boom disconnect (C0_BOM.csv XT60H line) + 1 × 14 AWG pusher feed. Currents (`analysis/results.json` C0.sized, 2026-11-01): hover 51.0 A total at 22.2 V (I_hover) and 53.9 A at 21.0 V (I_hover_loaded), i.e. 12.7–13.5 A per lift ESC *(calc: / 4)*; transition 82.0 A EST for 20 s (I_trans = P_trans 1722 W / 21.0 V), ≈ 20.5 A per lift ESC *(calc)*; one X4110S max 27.7 A at 22.2 V (budget-lift A3). `Q_M_BAT_CURR_MAX 85` caps the lift motors below the 90 A sensor; it sits only 3 A above the 82.0 A transition estimate (§8.2 item 16).
+Power path: pack → Amass AS150U (R20) → CoreWing PDB (90 A cont, 215 A peak; ardupilot.org board page, checked 2026-10-21) with the included 470 µF capacitor → 4 × 12 AWG lift ESC feeds, one XT60H per lift ESC at the boom disconnect (C0_BOM.csv XT60H line) + 1 × 14 AWG pusher feed. Currents (`analysis/results.json` C0.sized, 2026-11-01): hover 51.0 A total at 22.2 V (I_hover) and 53.9 A at 21.0 V (I_hover_loaded), i.e. 12.7–13.5 A per lift ESC *(calc: / 4)*; transition 82.1 A EST for 20 s (I_trans = P_trans 1723 W / 21.0 V), ≈ 20.5 A per lift ESC *(calc)*; one X4110S max 27.7 A at 22.2 V (budget-lift A3). `Q_M_BAT_CURR_MAX 85` caps the lift motors below the 90 A sensor; it sits only 3 A above the 82.1 A transition estimate (§8.2 item 16).
 
 **9.1 Harness lengths and labels.**
 - Procedure: cut every conductor per wiring.csv (+ 50 mm service loop); label both ends with masking tape before soldering.
@@ -1139,7 +1139,7 @@ Owner: electrical lead. **Programming steps are in `firmware/README.md`** (§1 t
 **11.4 Thrust stand T1–T4 (review §[testing]).**
 - Parts: 20 kg load cell + HX711 + Nano, watt meter, IR thermometer, one lift motor + ESC + prop on the 296 mm boom offcut (3.1) in a P05 pair.
 - Procedure: T1 calibrate 0–10 kg (≤ 2 % FS); T2 thrust curve 5 steps per motor; T3 hover-duty heat 1.86 kg × 90 s × 3 (sized Tunit_g 1858.9; expected hover throttle ≈ 0.59 *(calc: 1858.9 / 3130 g, C0 params.Tmax_g)*); T4 pusher curve, then bench M1: pusher power at 100 % for ≤ 3 s and at 85 % for 10 s on a full pack (≥ 25.0 V) — `THR_MAX` 85 caps the pusher because the C0 SITL model gives ≈ 890 W at 100 % on 25.2 V vs the X4110S 615 W rating (`firmware/vtol_c0.param` THR_MAX comment; TEST-PLAN C09).
-- Check: T2 max ≥ 2.97 kgf (R13: 1.6 × 7.436 / 4 *(calc, `analysis/results.json` sized.m)*, TEST-PLAN C07; recompute with the WP12 weighed take-off mass, ≥ 1.6 × m / 4; the maker's 3.13 kgf gives T/W 1.68, sized.TW); T3 can ≤ 80 °C EST (model 73 °C after 90 s from 25 °C, `cad/sim/thermal/results.txt` lift_hover90_Motor); M1 pusher power at 85 % on a full pack ≤ 615 W (else lower `THR_MAX`); T4 ≥ 1.5 kgf at 60 %; fit `Q_M_THST_EXPO` from T2 (README).
+- Check: T2 max ≥ 2.98 kgf (R13: 1.6 × 7.438 / 4 = 2.975 *(calc, `analysis/results.json` sized.m)*, TEST-PLAN C07; recompute with the WP12 weighed take-off mass, ≥ 1.6 × m / 4; the maker's 3.13 kgf gives T/W 1.68, sized.TW); T3 can ≤ 80 °C EST (model 73 °C after 90 s from 25 °C, `cad/sim/thermal/results.txt` lift_hover90_Motor); M1 pusher power at 85 % on a full pack ≤ 615 W (else lower `THR_MAX`); T4 ≥ 1.5 kgf at 60 %; fit `Q_M_THST_EXPO` from T2 (README).
 - Time: 2 × 4 h.
 
 ![**Figure 11.4.** Thrust stand T1–T4: render from the CAD model (tools and shop items illustrative).](img/b_11_4.svg)
@@ -1169,21 +1169,21 @@ Owner: electrical lead. **Programming steps are in `firmware/README.md`** (§1 t
 
 ### WP12 — CG and the weight-and-balance record
 
-Owner: structures lead. Target CG: **90.1 mm aft of the wing LE** (`analysis/results.json` cg.target −0.0901 m = 28 % MAC *(calc: 0.28 × 321.9 = 90.1)*), acceptable **86.8–93.5 mm** (26.97–29.03 % MAC: battery ± 30 mm sweep, cg.cgBattFwd −0.0868 / cg.cgBattAft −0.0935, cg.pctFwd / pctAft). **No payload and no ballast** (DESIGN-BASIS R12, revised 2026-11-01): the lengthened pod nose puts the CG at 28 % MAC with the pack centred at x = +0.255 m (cg.xb 0.2549; the bay allows up to +0.339, cg.xbMax). Static margin at the 28 % CG: 10.5 % by AVL with the pod (`analysis/aero/aero_results.json` static_margin_pct.CG_28pct, NP 38.47 % MAC) and 10.2 % by the sizing (cg.SM_noPayload, NP 38.2 % MAC). Any added mass (a payload, a sensor, ballast) is a design change and needs the sizing re-run (R12). Lateral CG on the centreline ± 5 mm EST.
+Owner: structures lead. Target CG: **90.3 mm aft of the wing LE** (`analysis/results.json` cg.target −0.0903 m = 28 % MAC *(calc: 0.28 × 322.3 = 90.3)*), acceptable **86.9–93.6 mm** (26.97–29.03 % MAC: battery ± 30 mm sweep, cg.cgBattFwd −0.0869 / cg.cgBattAft −0.0936, cg.pctFwd / pctAft). **No payload and no ballast** (DESIGN-BASIS R12, revised 2026-11-01): the lengthened pod nose puts the CG at 28 % MAC with the pack centred at x = +0.255 m (cg.xb 0.2550; the bay allows up to +0.339, cg.xbMax). Static margin at the 28 % CG: 10.4 % by AVL with the pod (`analysis/aero/aero_results.json` static_margin_pct.CG_28pct, NP 38.40 % MAC) and 10.2 % by the sizing (cg.SM_noPayload, NP 38.2 % MAC). Any added mass (a payload, a sensor, ballast) is a design change and needs the sizing re-run (R12). Lateral CG on the centreline ± 5 mm EST.
 
 **12.1 Weigh every assembly.**
 - Tools: kitchen scale.
 - Procedure: weigh each piece of §5; sum.
-- Check: empty without battery **≤ 7.00 kg** and take-off with the pack **≤ 7.82 kg** *(calc: R13 mass ceiling on the maker's 3.130 kgf per motor = 4 × 3.130 / 1.6 = 7.825 → 7.82 kg; − 0.82 kg pack (`analysis/results.json` pick.kg) = 7.00 kg; DESIGN-BASIS R13)*; sizing estimate 6.616 kg empty *(calc: sized.m 7.436 − 0.82)*. Over the ceiling → hover T/W < 1.6 on the maker's table: do not fly; re-run `analysis/sizing.mjs` (review M[model3d].1).
+- Check: empty without battery **≤ 7.00 kg** and take-off with the pack **≤ 7.82 kg** *(calc: R13 mass ceiling on the maker's 3.130 kgf per motor = 4 × 3.130 / 1.6 = 7.825 → 7.82 kg; − 0.82 kg pack (`analysis/results.json` pick.kg) = 7.00 kg; DESIGN-BASIS R13)*; sizing estimate 6.618 kg empty *(calc: sized.m 7.438 − 0.82)*. Over the ceiling → hover T/W < 1.6 on the maker's table: do not fly; re-run `analysis/sizing.mjs` (review M[model3d].1).
 - Time: 2 × 1 h.
 
 ![**Figure 12.1.** Weigh every assembly: render from the CAD model (tools and shop items illustrative).](img/b_12_1.svg)
 
 **12.2 Longitudinal CG.**
 - Parts: full aircraft, battery at its 8.5 marks, props, hatch (no ballast, R12).
-- Tools: tape marks at 90.1 mm aft of the LE on both lower surfaces at z ± 0.3 m, or two kitchen scales under the front and rear legs.
-- Procedure: balance on fingertips at the marks, moving in 5 mm steps; or x_cg = x_front − W_rear × L / (W_front + W_rear) with L = **0.815 m** between leg stations *(calc: 0.31755 − (−0.49784), `cad/params.txt` Gear_Clamp_Upper comps)* and x_front = 0.318 m ahead of the LE.
-- Check: 86.8–93.5 mm aft of the LE; adjust by sliding the battery (± 30 mm moves the CG ± 3.3 mm *(calc: 0.82 / 7.436 × 30)*); out of range at the stops → stop and report to the structures lead (move ESCs/avionics only with a re-run of `analysis/results.json` cg; no ballast, R12).
+- Tools: tape marks at 90.3 mm aft of the LE on both lower surfaces at z ± 0.3 m, or two kitchen scales under the front and rear legs.
+- Procedure: balance on fingertips at the marks, moving in 5 mm steps; or x_cg = x_front − W_rear × L / (W_front + W_rear) with L = **0.816 m** between leg stations *(calc: 0.31773 − (−0.49823), `cad/params.txt` Gear_Clamp_Upper comps)* and x_front = 0.318 m ahead of the LE.
+- Check: 86.9–93.6 mm aft of the LE; adjust by sliding the battery (± 30 mm moves the CG ± 3.3 mm *(calc: 0.82 / 7.438 × 30)*); out of range at the stops → stop and report to the structures lead (move ESCs/avionics only with a re-run of `analysis/results.json` cg; no ballast, R12).
 - Time: 2 × 1 h.
 
 ![**Figure 12.2.** Weighing for the CG: the front legs and the rear legs each on a board across one kitchen scale.](img/fig12_cg_weigh.svg)
@@ -1228,7 +1228,7 @@ Owner: integration lead with the structures lead; a second person repeats every 
 | 13.11 | GPS 3D fix, HDOP < 1.5 outdoors; compass heading ± 10° of a phone | yes | ☐ | |
 | 13.12 | RID broadcasting; registration number marked on the airframe (R18) | yes | ☐ | |
 | 13.13 | Battery: both packs charged, cells ± 0.02 V, labelled; LiPo bag + ammo can + extinguisher packed | yes | ☐ | |
-| 13.14 | Pack centred at x +0.255 on its marks; **no ballast, no payload** (R12); CG 86.8–93.5 mm aft of the LE; take-off mass ≤ 7.82 kg; W&B form signed | yes | ☐ | |
+| 13.14 | Pack centred at x +0.255 on its marks; **no ballast, no payload** (R12); CG 86.9–93.6 mm aft of the LE; take-off mass ≤ 7.82 kg; W&B form signed | yes | ☐ | |
 | 13.15 | Leg fairings taped, TE aft; no contact with the props | yes | ☐ | |
 | 13.15a | Thermal provisions: battery-bay inlet and exit open (8.2a), canopy Ø8 vents open (8.3), FC on standoffs (10.1), lift ESCs on the boom side/top face in the prop wash (7.8); each pack's C11 resistance written on its label; a pack above **6.0 mΩ/cell** fails acceptance and does not fly (TEST-PLAN C11); no full mission above **25 °C** ambient, measured at the field before each flight (DESIGN-BASIS R21) | all | ☐ | |
 | 13.16 | Geofence and site parameters loaded (`vtol_c0_hover_phase.param` for hover sessions) | yes | ☐ | |
@@ -1244,10 +1244,10 @@ Pieces (drawing sheet 1 breakdown note; `cad/README.md` wing root and joiner): t
 
 | Piece | Qty | Size m EST | Fits 1.5 × 0.5 × 0.4 m (R4, EST)? |
 |---|---|---|---|
-| Boom unit: front boom + stub, 2 motor mounts, 2 motors + props, 2 gear clamps + legs + fairings, 2 ESCs | 2 | 1.53 × 0.43 (prop) × 0.25 (leg) *(calc: 1045.4 + 485.9 mm)* | **no: 31 mm over the 1.5 m estimate** *(calc)*; measure the real car (M11, §8.2 item 13) |
-| Wing panel with aileron, servo, spar socket, hardpoints (left with pitot) | 2 | 1.12 × 0.32 × 0.05 *(calc: panelLen, chord 321.9, 0.15 c)* | yes |
+| Boom unit: front boom + stub, 2 motor mounts, 2 motors + props, 2 gear clamps + legs + fairings, 2 ESCs | 2 | 1.53 × 0.43 (prop) × 0.25 (leg) *(calc: 1046.0 + 485.9 mm)* | **no: 32 mm over the 1.5 m estimate** *(calc)*; measure the real car (M11, §8.2 item 13) |
+| Wing panel with aileron, servo, spar socket, hardpoints (left with pitot) | 2 | 1.12 × 0.32 × 0.05 *(calc: panelLen, chord 322.3, 0.15 c)* | yes |
 | Joiner (0.76 m), always carried loose in its own sleeve, never left in a panel | 1 | 0.76 × 0.022 | yes (left in a panel it would make a 1.58 m piece *(calc)*, over the R4 1.5 m estimate) |
-| Tail unit: stabiliser + elevator + 2 fins/rudders/shoes + 3 servos | 1 | 0.92 × 0.21 × 0.17 *(calc: hSpan 917.4, vH 207.9, vC 166.3)* | width over 0.5: lies flat on a seat (as the review notes) |
+| Tail unit: stabiliser + elevator + 2 fins/rudders/shoes + 3 servos | 1 | 0.92 × 0.21 × 0.17 *(calc: hSpan 917.4, vH 208.0, vC 166.4)* | width over 0.5: lies flat on a seat (as the review notes) |
 | Pod + saddle + avionics + pusher + battery tray | 1 | 1.00 × 0.16 × 0.16 (fusL 1.000) | yes (rev B: joiner removed) |
 | 2 packs, charger, tools, ammo can | — | — | yes |
 
@@ -1259,7 +1259,7 @@ Pieces (drawing sheet 1 breakdown note; `cad/README.md` wing root and joiner): t
 ![**Figure 14.1.** Transport breakdown (exploded assembly, `cad/model/VTOL_Exploded.SLDASM`): tail unit, booms, wing panels and joiner, pod.](img/fig14_exploded.jpg)
 
 **14.2 Assembly (car → flight-ready), 2 people, stopwatch.**
-- Procedure: booms on the ground on their legs 0.867 m apart (yIn ± 0.4337), noses forward; slide the joiner through the saddle; slide the wing panels on until they bottom on the stops and the tongues enter the pillars; 2 × F09 M5 × 25 at **1.0 N·m** (torque driver, or the 1.70 kg hanging mass; not "by feel"); lift wing + pod onto the booms, clamp uppers on the hardpoints, 8 × M3 (F06 × 4, F04 × 4) at 0.5 N·m with witness lines matching; tail unit on the tail clamps, 4 × F02 at 0.5 N·m through the fin shoes; plug 3 tail servo leads, 4 × XT60H, 2 aileron leads, pitot tubes; walk-around per WP13 13.7–13.10; CG touch check at the marks; battery in and strapped at its marks (no ballast, R12); transmitter on; props clear; AS150U **last**.
+- Procedure: booms on the ground on their legs 0.867 m apart (yIn ± 0.4337), noses forward; slide the joiner through the saddle; slide the wing panels on until they bottom on the stops and the tongues enter the pillars; 2 × F09 M5 × 25 at **0.5 N·m** (torque driver, or the 0.85 kg hanging mass at 60 mm; not "by feel"); lift wing + pod onto the booms, clamp uppers on the hardpoints, 8 × M3 (F06 × 4, F04 × 4) at 0.5 N·m with witness lines matching; tail unit on the tail clamps, 4 × F02 at 0.5 N·m through the fin shoes; plug 3 tail servo leads, 4 × XT60H, 2 aileron leads, pitot tubes; walk-around per WP13 13.7–13.10; CG touch check at the marks; battery in and strapped at its marks (no ballast, R12); transmitter on; props clear; AS150U **last**.
 - Check: total ≤ 15 min median over three timed runs (review M[model3d].3; R5); every witness line matched; no connector open; pack on its marks.
 - Time: 3 runs × 2 × 0.5 h.
 
@@ -1292,8 +1292,8 @@ Reference masses and arms from `analysis/results.json` concepts.C0.cg.items (gen
 | Lift units, front (2 motors + ESCs + props + mounts) | 0.651 | −408 (ahead of LE) | −265.6 | | | |
 | Lift units, rear | 0.651 | +588 | +382.8 | | | |
 | Booms + clamps + stubs + splice | 0.745 | +308 | +229.5 | | | |
-| Wing (2 panels + sockets + stops + saddle + skins + hardpoints) | 1.833 | +124 | +227.3 | | | |
-| Tail unit (servos booked below) | 0.177 | +904 | +160.0 | | | |
+| Wing (2 panels + sockets + stops + saddle + skins + hardpoints) | 1.835 | +124 | +227.5 | | | |
+| Tail unit (servos booked below) | 0.178 | +904 | +160.9 | | | |
 | Fuselage pod (frames, skin, hatch, pusher cup, trays) | 0.567 | −164 | −93.0 | | | |
 | Landing gear (4 legs, clamps, feet, **fairings**) | 0.517 | +92 | +47.6 | | | |
 | Avionics (FC, GPS, RX, RID, airspeed) | 0.418 | −375 | −156.8 | | | |
@@ -1301,13 +1301,13 @@ Reference masses and arms from `analysis/results.json` concepts.C0.cg.items (gen
 | Pusher set (motor, ESC, prop, adapter) | 0.257 | +418 | +107.4 | | | |
 | Servos (5; sizing counts them at the tail-weighted mean) | 0.266 | +599 | +159.3 | | | |
 | Wiring (EST) | 0.370 | +100 | +37.0 | | | |
-| **Empty, no battery** (sum) | **6.616** *(calc)* | **+132.9** *(calc)* | +879.3 | | | |
+| **Empty, no battery** (sum) | **6.619** *(calc)* | **+133.0** *(calc)* | +880.4 | | | |
 | Battery (placed for CG) | 0.820 | −255 | −209.1 | | | |
 | Payload / ballast | none (R12, revised 2026-11-01) | — | — | — | — | — |
-| **Flight mass** | **7.436** *(calc; sized MTOW 7.4356)* | | **+670.2** | | | |
-| **CG = Σ moment / Σ mass** | | **90.1** *(calc: 670.2 / 7.436; target 28 % MAC)* | | | | |
+| **Flight mass** | **7.439** *(calc; sized MTOW 7.4380; +0.001 kg from rounding the item masses)* | | **+671.3** | | | |
+| **CG = Σ moment / Σ mass** | | **90.2** *(calc: 671.3 / 7.439; target 28 % MAC = 90.3; arms rounded to whole mm)* | | | | |
 
-Acceptance: CG 86.8–93.5 mm aft of the LE (26.97–29.03 % MAC, `analysis/results.json` cg.cgBattFwd / cgBattAft) with **no ballast and no payload** (R12); empty ≤ 7.00 kg and take-off ≤ 7.82 kg *(calc: 4 × 3.130 / 1.6 = 7.825 → 7.82; − 0.82; DESIGN-BASIS R13)*; lateral within ± 5 mm. Joiner captured (bolts on). Signed: structures lead ______ date ______; second check ______.
+Acceptance: CG 86.9–93.6 mm aft of the LE (26.97–29.03 % MAC, `analysis/results.json` cg.cgBattFwd / cgBattAft) with **no ballast and no payload** (R12); empty ≤ 7.00 kg and take-off ≤ 7.82 kg *(calc: 4 × 3.130 / 1.6 = 7.825 → 7.82; − 0.82; DESIGN-BASIS R13)*; lateral within ± 5 mm. Joiner captured (bolts on). Signed: structures lead ______ date ______; second check ______.
 
 ---
 

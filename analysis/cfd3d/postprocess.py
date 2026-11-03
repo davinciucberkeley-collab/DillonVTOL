@@ -414,12 +414,12 @@ def pack(level=2):
            "surf": {"lo": lo.tolist(), "hi": hi.tolist(), "pos": b64gz(qP), "idx": b64gz(remap[tris].astype(np.uint32)), "nv": int(len(used)), "groups": groups},
            "symmesh": {"pos": b64gz(pts[su].astype(np.float32)), "idx": b64gz(np.vectorize(smap.get)(st).astype(np.uint32)), "n": int(len(st))},
            "levels": {}, "cases": {}, "results": json.loads((OUT / "cfd3d_results.json").read_text(encoding="utf-8")) if (OUT / "cfd3d_results.json").exists() else None}
-    for lv in (1, 2, 3):
+    for lv in (1, 2, 3, 4):
         f = OUT / f"L{lv}" / "mesh_stats.json"
         if f.exists():
             viz["levels"][lv] = json.loads(f.read_text(encoding="utf-8"))
     # wing-tip patch of every level's wall mesh, for the side-by-side resolution comparison
-    for lv in (1, 2, 3):
+    for lv in (1, 2, 3, 4):
         f = OUT / f"L{lv}" / "mesh.su2"
         if not f.exists():
             continue

@@ -1,7 +1,7 @@
 {
- "generated": "2026-11-02 05:15",
+ "generated": "2026-11-03 01:43",
  "script": "analysis/validation/check_struct.py",
- "design": "analysis/results.json generated 2026-11-01, MTOW 7.4356 kg",
+ "design": "analysis/results.json generated 2026-11-01, MTOW 7.4380 kg",
  "material": {
   "E_Pa": 69000000000.0,
   "yield_min_Pa": 240000000.0,
@@ -17,23 +17,23 @@
     "sigma = P L c / I"
    ],
    "inputs": {
-    "L_m": 0.488039,
+    "L_m": 0.48831,
     "P_N": 30.694814,
     "D_m": 0.0254,
     "d_m": 0.023622,
     "I_mm4": 5147.728852770955,
-    "a_load_m (Sim.cs block centroid)": 0.46329984238014094
+    "a_load_m (Sim.cs block centroid)": 0.46357084238014096
    },
-   "hand_sigma_MPa": 36.95792607362477,
-   "hand_sigma_FEAgeom_MPa": 35.084493912591526,
-   "repo_hand_MPa": 36.9579,
-   "fea_coarse_MPa": 35.4333,
-   "fea_fine_MPa": 38.6358,
-   "delta_fine_vs_hand_pct": 4.54,
+   "hand_sigma_MPa": 36.97844819986048,
+   "hand_sigma_FEAgeom_MPa": 35.10501603882724,
+   "repo_hand_MPa": 36.9784,
+   "fea_coarse_MPa": 35.4514,
+   "fea_fine_MPa": 38.633,
+   "delta_fine_vs_hand_pct": 4.47,
    "delta_coarse_vs_FEAgeom_hand_pct": 0.99,
-   "RF_yield_min": 6.493870882307905,
-   "RF_yield_repo": 7.117750894248339,
-   "fatigue_ratio": 0.3810095471507708,
+   "RF_yield_min": 6.490266944217132,
+   "RF_yield_repo": 7.118266766753812,
+   "fatigue_ratio": 0.3812211154624792,
    "P_from": "3.13 kgf maker maximum thrust x 9.80665 (results.json struct.Tmax)"
   },
   "STR-02": {
@@ -45,41 +45,41 @@
     {
      "station_m": 0.05,
      "n_nodes": 976,
-     "fea_max_vm_MPa": 31.52,
-     "hand_MPa": 31.3,
+     "fea_max_vm_MPa": 31.54,
+     "hand_MPa": 31.32,
      "delta_pct": 0.7
     },
     {
      "station_m": 0.1,
      "n_nodes": 976,
      "fea_max_vm_MPa": 27.73,
-     "hand_MPa": 27.51,
-     "delta_pct": 0.78
+     "hand_MPa": 27.53,
+     "delta_pct": 0.71
     },
     {
      "station_m": 0.2,
      "n_nodes": 976,
-     "fea_max_vm_MPa": 20.16,
-     "hand_MPa": 19.94,
-     "delta_pct": 1.1
+     "fea_max_vm_MPa": 20.18,
+     "hand_MPa": 19.96,
+     "delta_pct": 1.11
     },
     {
      "station_m": 0.3,
      "n_nodes": 976,
-     "fea_max_vm_MPa": 12.58,
-     "hand_MPa": 12.37,
-     "delta_pct": 1.74
+     "fea_max_vm_MPa": 12.6,
+     "hand_MPa": 12.39,
+     "delta_pct": 1.68
     }
    ],
-   "field_nodes": 493648,
-   "mean_abs_delta_pct": 1.08,
-   "max_abs_delta_pct": 1.74,
-   "peak_coarse_MPa": 35.4333,
-   "peak_fine_MPa": 38.6358,
-   "peak_change_coarse_to_fine_pct": 9.04,
+   "field_nodes": 492700,
+   "mean_abs_delta_pct": 1.05,
+   "max_abs_delta_pct": 1.68,
+   "peak_coarse_MPa": 35.4514,
+   "peak_fine_MPa": 38.633,
+   "peak_change_coarse_to_fine_pct": 8.97,
    "elements": {
-    "coarse_3mm": 59045,
-    "fine_1.5mm": 304844,
+    "coarse_3mm": 59124,
+    "fine_1.5mm": 304036,
     "src": "cad/sim/*.LOG (UTF-16)"
    },
    "note": "peak grows 9 % on mesh halving at the fixed root face: restraint singularity, not converged; nominal stress away from the root is the comparable quantity"
@@ -90,12 +90,12 @@
     "delta = P L^3 / (3 E I)",
     "delta_tip (load at a) = P a^2 (3L - a) / (6 E I)"
    ],
-   "hand_tip_load_at_L_mm": 3.348440476849013,
-   "hand_tip_load_at_block_mm": 3.0940551377064667,
-   "hand_at_load_mm": 2.8646096776037666,
-   "repo_hand_mm": 3.348,
-   "fea_mm": 3.15517,
-   "delta_fea_vs_FEAgeom_hand_pct": 1.98,
+   "hand_tip_load_at_L_mm": 3.354021575953364,
+   "hand_tip_load_at_block_mm": 3.0993534041620645,
+   "hand_at_load_mm": 2.8696394444851117,
+   "repo_hand_mm": 3.354,
+   "fea_mm": 3.1605,
+   "delta_fea_vs_FEAgeom_hand_pct": 1.97,
    "note": "FEA root is rigid (fixed face); real root is a printed PETG split clamp bonded to a foam hardpoint, so real deflection is larger (compliance \u2014)"
   },
   "STR-04": {
@@ -103,19 +103,19 @@
    "equations": [
     "f = 1/(2 pi) sqrt(3 E I / ((m_tip + 0.24 m_beam) L^3))"
    ],
-   "m_beam_kg": 0.0902050717651912,
-   "k_N_per_m": 9166.89850460916,
-   "f_repo_tipmass_Hz": 25.862663422639987,
-   "f_load_at_block_centroid_Hz": 27.961586699850194,
-   "f_cad_tipmass_Hz": 25.678036577242185,
-   "repo_hand_Hz": 25.8754,
-   "fea_Hz": 27.7504,
+   "m_beam_kg": 0.09025516115240896,
+   "k_N_per_m": 9151.644765813755,
+   "f_repo_tipmass_Hz": 25.840689284463096,
+   "f_load_at_block_centroid_Hz": 27.93658738146539,
+   "f_cad_tipmass_Hz": 25.65622562630317,
+   "repo_hand_Hz": 25.8534,
+   "fea_Hz": 27.726,
    "delta_fea_vs_hand_pct": 7.3,
-   "delta_fea_vs_blockgeom_hand_pct": -0.76,
-   "rotor_1P_hover_Hz_EST": 91.19290875218176,
-   "rotor_2P_hover_Hz_EST": 182.38581750436353,
+   "delta_fea_vs_blockgeom_hand_pct": -0.75,
+   "rotor_1P_hover_Hz_EST": 91.20761245023932,
+   "rotor_2P_hover_Hz_EST": 182.41522490047865,
    "rotor_1P_max_Hz_EST": 118.33333333333333,
-   "ratio_1P_hover_over_f1": 3.2861835776126385,
+   "ratio_1P_hover_over_f1": 3.289605873556926,
    "note": "rigid root in both hand and FEA; clamp compliance lowers f1 further (\u2014), i.e. away from 1P. rpm from firmware/sitl/c0_physics.py EST"
   },
   "STR-05": {
@@ -153,8 +153,8 @@
     "n_stall = (V / V_s)^2"
    ],
    "inputs": {
-    "mtow_params_kg": 7.4356,
-    "mtow_results_kg": 7.4355998,
+    "mtow_params_kg": 7.437998,
+    "mtow_results_kg": 7.4379985,
     "n_ult": 4.5,
     "n_limit": 3,
     "FS": 1.5,
@@ -164,29 +164,30 @@
     "y_boom_m": 0.4337,
     "m_outboard_per_side_kg": 1.2652
    },
-   "L_half_N": 164.122281,
+   "L_half_N": 164.17521085500002,
    "ybar_elliptic_m": 0.5092958178940651,
-   "ybar_avl_m": 0.5457667945654925,
-   "ybar_avl_alpha4_m": 0.545715525717082,
+   "ybar_avl_m": 0.5451652816104983,
+   "ybar_avl_alpha4_m": 0.5451685477879283,
    "ybar_schrenk_m": 0.5546479089470325,
-   "M_elliptic_Nm": 83.58679133653457,
-   "M_avl_Nm": 89.57249121814702,
-   "M_schrenk_Nm": 91.03007996826727,
-   "M_uniform_Nm": 98.47336859999999,
+   "M_elliptic_Nm": 83.61374829032782,
+   "M_avl_Nm": 89.50262505922902,
+   "M_schrenk_Nm": 91.05943740166391,
+   "M_uniform_Nm": 98.50512651300001,
    "M_relief_Nm": 24.223122559800004,
-   "M_avl_minus_relief_Nm": 65.34936865834702,
-   "repo_params_Nm": 83.558246,
-   "repo_results_Nm": 83.558246,
-   "delta_elliptic_vs_repo_pct": 0.03,
-   "delta_avl_vs_elliptic_pct": 7.16,
-   "delta_schrenk_vs_avl_pct": 1.63,
+   "M_avl_minus_relief_Nm": 65.27950249942901,
+   "repo_params_Nm": 91.028347,
+   "repo_results_Nm": 91.028347,
+   "delta_elliptic_vs_repo_pct": -8.15,
+   "delta_schrenk_vs_repo_pct": 0.03,
+   "delta_avl_vs_elliptic_pct": 7.04,
+   "delta_schrenk_vs_avl_pct": 1.74,
    "n_stall_line": {
     "18 (cruise)": 2.3467632412856494,
     "22 (R11 top)": 3.5056586690810323,
     "25 (AIRSPEED_MAX)": 4.526935264825712
    },
    "V_A_mps": 20.351596988934308,
-   "note": "repo (sizing.mjs:302-304) uses elliptic lift and n_limit 3.0 x FS 1.5 (EST, no source); no inertia relief (conservative)"
+   "note": "repo (sizing.mjs structures()) uses Schrenk loading (rev 2026-11-02, was elliptic) and n_limit 3.0 x FS 1.5 (EST, no source); no inertia relief (conservative)"
   },
   "STR-07": {
    "what": "Joiner (0.875 x 0.058 in) bending stress at the centreline and reserve factor",
@@ -196,24 +197,25 @@
    ],
    "I_true_mm4": 5195.473436722815,
    "sigma_MPa": {
-    "elliptic": 178.78220917498192,
-    "avl": 191.58490959190007,
-    "schrenk": 194.70251863811788,
-    "uniform": 210.62282810125384
+    "elliptic": 178.83986689427852,
+    "avl": 191.4354741842453,
+    "schrenk": 194.76531069789715,
+    "uniform": 210.6907545015157
    },
-   "repo_hand_MPa": 178.702,
-   "delta_elliptic_vs_repo_pct": 0.04,
+   "repo_hand_MPa": 194.678,
+   "delta_elliptic_vs_repo_pct": -8.14,
+   "delta_schrenk_vs_repo_pct": 0.04,
    "RF": {
-    "elliptic_repo275": 1.5381843711912382,
-    "elliptic_min240": 1.3424154512214443,
-    "avl_repo275": 1.4353948888030093,
-    "avl_min240": 1.252708266591717,
-    "schrenk_min240": 1.2326496938957112,
-    "uniform_min240": 1.13947762530576
+    "elliptic_repo275": 1.5376884627327905,
+    "elliptic_min240": 1.3419826583849808,
+    "avl_repo275": 1.4365153646253088,
+    "avl_min240": 1.2536861364002694,
+    "schrenk_min240": 1.2322522893836416,
+    "uniform_min240": 1.1391102593363842
    },
-   "sigma_avl_at_stall_line_25mps_MPa": 192.73166298667073,
-   "RF_min240_at_stall_line_25mps": 1.2452546524054968,
-   "repo_RF": 1.5388765
+   "sigma_avl_at_stall_line_25mps_MPa": 192.58133311628714,
+   "RF_min240_at_stall_line_25mps": 1.2462267038886883,
+   "repo_RF": 1.412591
   },
   "STR-08": {
    "what": "Spar+joiner FEA vs beam theory on the FEA geometry (joiner OD = socket ID, bonded)",
@@ -221,54 +223,54 @@
     "M(z) from uniform w on [fusR, fusR + sparLen]",
     "sigma = M c / I (section per zone)"
    ],
-   "M_centreline_Nm": 83.55824496000001,
-   "hand_root_FEAgeom_MPa": 164.6736589389465,
+   "M_centreline_Nm": 91.02834720000001,
+   "hand_root_FEAgeom_MPa": 179.3954744713059,
    "I_fea_joiner_mm4": 5696.772769916578,
-   "fea_coarse_MPa": 166.366,
-   "fea_fine_MPa": 175.54,
+   "fea_coarse_MPa": 181.239,
+   "fea_fine_MPa": 191.233,
    "delta_coarse_pct": 1.03,
    "delta_fine_pct": 6.6,
    "slices": [
     {
      "station_m": 0.03,
      "n_nodes": 477,
-     "fea_max_vm_MPa": 155.33,
-     "hand_MPa": 154.38,
-     "delta_pct": 0.61
+     "fea_max_vm_MPa": 169.22,
+     "hand_MPa": 168.18,
+     "delta_pct": 0.62
     },
     {
      "station_m": 0.06,
      "n_nodes": 488,
-     "fea_max_vm_MPa": 144.99,
-     "hand_MPa": 144.09,
+     "fea_max_vm_MPa": 157.95,
+     "hand_MPa": 156.97,
      "delta_pct": 0.62
     },
     {
      "station_m": 0.2,
      "n_nodes": 506,
-     "fea_max_vm_MPa": 47.14,
-     "hand_MPa": 46.81,
+     "fea_max_vm_MPa": 51.35,
+     "hand_MPa": 50.99,
      "delta_pct": 0.71
     },
     {
      "station_m": 0.3,
      "n_nodes": 506,
-     "fea_max_vm_MPa": 34.33,
-     "hand_MPa": 34.05,
+     "fea_max_vm_MPa": 37.4,
+     "hand_MPa": 37.1,
      "delta_pct": 0.82
     },
     {
      "station_m": 0.5,
      "n_nodes": 506,
-     "fea_max_vm_MPa": 25.39,
-     "hand_MPa": 25.09,
+     "fea_max_vm_MPa": 27.65,
+     "hand_MPa": 27.33,
      "delta_pct": 1.19
     },
     {
      "station_m": 0.7,
      "n_nodes": 506,
-     "fea_max_vm_MPa": 5.78,
-     "hand_MPa": 5.63,
+     "fea_max_vm_MPa": 6.3,
+     "hand_MPa": 6.13,
      "delta_pct": 2.75
     }
    ],
@@ -282,8 +284,8 @@
   },
   "STR-09": {
    "what": "Spar tip deflection, FEA geometry, numerical double integration of M/EI",
-   "hand_tip_mm": 26.236867617458888,
-   "fea_tip_mm": 26.3462,
+   "hand_tip_mm": 28.582442056624966,
+   "fea_tip_mm": 28.7016,
    "delta_pct": 0.42,
    "note": "FEA joiner is 9.6 % stiffer than the real joiner; real joiner + 0.23 mm slip-fit clearance + foam add rotation (\u2014)"
   },
@@ -295,24 +297,24 @@
     "check: R_front = T (a + s) / s (moments about the rear clamp)"
    ],
    "inputs": {
-    "x_front_motor": 0.40755,
-    "x_front_clamp": -0.09658,
-    "x_rear_clamp": -0.25755,
-    "arm_m": 0.50413,
-    "spacing_m": 0.16097,
+    "x_front_motor": 0.40773,
+    "x_front_clamp": -0.0967,
+    "x_rear_clamp": -0.25787,
+    "arm_m": 0.5044299999999999,
+    "spacing_m": 0.16116999999999998,
     "T_N": 30.694814
    },
-   "rear_clamp_tension_N": 96.1308105971299,
-   "per_screw_N": 48.06540529856495,
-   "front_clamp_N": 126.82562459712989,
-   "front_clamp_by_moments_N": 126.8256245971299,
+   "rear_clamp_tension_N": 96.06865437748961,
+   "per_screw_N": 48.034327188744804,
+   "front_clamp_N": 126.7634683774896,
+   "front_clamp_by_moments_N": 126.76346837748962,
    "repo_spec_value_N": 96.1,
-   "delta_pct": 0.03,
+   "delta_pct": -0.03,
    "rear_plate_bond_area_mm2": 2760,
-   "rear_plate_bond_stress_kPa": 34.83000383953981,
-   "m3_bolt_tension_util": 0.02123030269371243,
+   "rear_plate_bond_stress_kPa": 34.807483470104934,
+   "m3_bolt_tension_util": 0.02121657561340318,
    "test_plan_C03_pass_N_PETG": 300.0,
-   "C03_margin_if_passed": 6.241495273711067,
+   "C03_margin_if_passed": 6.245533508176101,
    "insert_pullout_N": null,
    "xps_bond_strength_kPa": null,
    "note": "docs/research/hardware-spec.md J05 load check is generated from params.txt by analysis/docs_sync.py; insert pull-out (C03) and XPS bond strength: \u2014"
@@ -336,69 +338,69 @@
    "corners": {
     "front_normal": {
      "v_mps": 0.3,
-     "F_ode_N": 71.65127639482712,
-     "F_repo_N": 71.65127643500963,
+     "F_ode_N": 71.50699343778454,
+     "F_repo_N": 71.50699345416801,
      "delta_F_pct": -0.0,
-     "k_hand_N_per_m": 15096.781448897249,
-     "k_repo_N_per_m": 15096.781448897249,
-     "sigma_hand_MPa": 73.0543143978602,
-     "sigma_repo_MPa": 73.05431443882954,
-     "RF_min240": 3.2852269161399414
+     "k_hand_N_per_m": 14970.367133285656,
+     "k_repo_N_per_m": 14970.367133285656,
+     "sigma_hand_MPa": 73.11184806980609,
+     "sigma_repo_MPa": 73.11184808655726,
+     "RF_min240": 3.282641683066904
     },
     "front_hard": {
      "v_mps": 0.6,
-     "F_ode_N": 120.32487916922858,
-     "F_repo_N": 120.32487931477827,
+     "F_ode_N": 119.98946389710048,
+     "F_repo_N": 119.98946407747596,
      "delta_F_pct": -0.0,
-     "k_hand_N_per_m": 15096.781448897249,
-     "k_repo_N_per_m": 15096.781448897249,
-     "sigma_hand_MPa": 122.68101832932565,
-     "sigma_repo_MPa": 122.68101847772543,
-     "RF_min240": 1.956292858245948
+     "k_hand_N_per_m": 14970.367133285656,
+     "k_repo_N_per_m": 14970.367133285656,
+     "sigma_hand_MPa": 122.68242632876232,
+     "sigma_repo_MPa": 122.68242651318602,
+     "RF_min240": 1.9562704062996927
     },
     "rear_normal": {
      "v_mps": 0.3,
-     "F_ode_N": 133.2636897403056,
-     "F_repo_N": 133.2636909947868,
+     "F_ode_N": 133.017139583211,
+     "F_repo_N": 133.01713960525518,
      "delta_F_pct": -0.0,
-     "k_hand_N_per_m": 77024.09483834005,
-     "k_repo_N_per_m": 77024.09483834005,
-     "sigma_hand_MPa": 78.92592731284464,
-     "sigma_repo_MPa": 78.9259280558159,
-     "RF_min240": 3.0408258498971312
+     "k_hand_N_per_m": 76736.04691427501,
+     "k_repo_N_per_m": 76736.04691427501,
+     "sigma_hand_MPa": 78.8783573154272,
+     "sigma_repo_MPa": 78.87835732849928,
+     "RF_min240": 3.0426597126035775
     },
     "rear_hard": {
      "v_mps": 0.6,
-     "F_ode_N": 246.1023291854164,
-     "F_repo_N": 246.1023293840666,
+     "F_ode_N": 245.61543756435415,
+     "F_repo_N": 245.615437939563,
      "delta_F_pct": -0.0,
-     "k_hand_N_per_m": 77024.09483834005,
-     "k_repo_N_per_m": 77024.09483834005,
-     "sigma_hand_MPa": 145.7550408716861,
-     "sigma_repo_MPa": 145.75504098933743,
-     "RF_min240": 1.6465982827398844
+     "k_hand_N_per_m": 76736.04691427501,
+     "k_repo_N_per_m": 76736.04691427501,
+     "sigma_hand_MPa": 145.64846535635036,
+     "sigma_repo_MPa": 145.64846557884692,
+     "RF_min240": 1.6478031499529002
     }
    },
-   "joiner_moment_hard_Nm_EST": 104.8342609130902,
-   "joiner_sigma_hard_MPa_EST": 224.2280205231021,
-   "joiner_RF_min240_hard_EST": 1.0703390211450978,
-   "joiner_moment_normal_Nm_EST": 58.62481738784028,
+   "joiner_moment_hard_Nm_EST": 104.60163950769618,
+   "joiner_sigma_hard_MPa_EST": 223.7304709929342,
+   "joiner_RF_min240_hard_EST": 1.0727193257800796,
+   "joiner_moment_normal_Nm_EST": 58.515505941692766,
    "superseded_drop_0p30m_v_mps": 2.4261079942986874,
    "note": "landing.py treats the wing clamp as rigid and the dome foot as rigid, so it over-predicts force (conservative); S06 measures"
   },
   "STR-12": {
    "what": "Boom splice (J04): 2 x M3 cross-bolts at x +-18 mm carrying vertical bending as a shear couple",
    "inputs": {
-    "m_tail_side_kg (EST roll-up)": 0.31656148000000006,
-    "arm_m (EST)": 0.26215999999999995,
+    "m_tail_side_kg (EST roll-up)": 0.3166388,
+    "arm_m (EST)": 0.26176999999999995,
     "n": 4.5,
     "bolt_pitch_m": 0.036
    },
-   "M_splice_Nm": 3.6635828491107363,
-   "F_per_bolt_N": 101.76619025307602,
-   "bolt_double_shear_MPa": 10.115923484401193,
-   "bolt_shear_util": 0.024078693510570705,
-   "tube_bearing_MPa": 19.078775825473585,
+   "M_splice_Nm": 3.6590262498520194,
+   "F_per_bolt_N": 101.639618051445,
+   "bolt_double_shear_MPa": 10.103341754616798,
+   "bolt_shear_util": 0.02404874551662053,
+   "tube_bearing_MPa": 19.055046503832976,
    "free_play_rotation_deg_WC": 1.2732395447351628,
    "tail_aero_load_N": null,
    "note": "tail aerodynamic load: \u2014 (not in repo); clamp friction of the 70 mm motor mount around the splice also carries load (\u2014)"
@@ -410,17 +412,17 @@
     "F = T / ((0.70 - 0.30) c)",
     "F_pre = T_q / (K d)"
    ],
-   "T_panel_Nm": 2.641884563371049,
-   "F_bolt_N": 20.515285124999995,
-   "tau_bolt_MPa": 1.4447383890845067,
-   "shear_util": 0.003444011067183722,
-   "bearing_on_6p4mm_PETG_tongue_MPa": 0.6411026601562498,
+   "T_panel_Nm": 2.6459544120262355,
+   "F_bolt_N": 20.521901356875002,
+   "tau_bolt_MPa": 1.4452043209066903,
+   "shear_util": 0.0034451217695532837,
+   "bearing_on_6p4mm_PETG_tongue_MPa": 0.6413094174023438,
    "PETG_yield_proxy_MPa": 39.0,
-   "RF_tongue_bearing_vs_PETG_proxy": 60.83269096168607,
+   "RF_tongue_bearing_vs_PETG_proxy": 60.81307858844716,
    "Cm0": null,
-   "preload_N_repo": 1250.0,
-   "preload_bearing_MPa_repo": 26.595744680851062,
-   "preload_bearing_over_PETG_yield": 0.6819421713038734,
+   "preload_N_repo": 625.0,
+   "preload_bearing_MPa_repo": 13.297872340425531,
+   "preload_bearing_over_PETG_yield": 0.3409710856519367,
    "note": "EST aerodynamic centre at 25 % c; NACA 2415 Cm0 not read from the repo (\u2014); PETG strength from a proxy datasheet (EST); head bearing 47 mm2 and K 0.16 from hardware.json F09 torque_basis"
   },
   "STR-14": {
@@ -453,13 +455,13 @@
     "A = pi D H + 2 pi D^2/4"
    ],
    "A_m2": 0.008444601052849363,
-   "T_simcs_hand_C": 185.0320126774513,
-   "fea_simcs_C": 185.604,
+   "T_simcs_hand_C": 185.113476301248,
+   "fea_simcs_C": 185.686,
    "delta_pct_on_rise": 0.38,
    "T_amb_simcs_C": 35.0,
-   "T_corr_hand_C": 175.03201259791595,
+   "T_corr_hand_C": 175.01706466045962,
    "fea_corr_C": 178.209,
-   "delta_corr_pct_on_rise": 2.12,
+   "delta_corr_pct_on_rise": 2.13,
    "T_amb_design_C": 25.0
   },
   "THM-02": {
@@ -471,18 +473,18 @@
     "Churchill-Bernstein: Nu = 0.3 + 0.62 Re^0.5 Pr^(1/3) / (1 + (0.4/Pr)^(2/3))^0.25 (1 + (Re/282000)^(5/8))^(4/5)",
     "h = Nu k / D"
    ],
-   "v_i_mps": 7.128133986509248,
+   "v_i_mps": 7.129283307561568,
    "rho_used": 1.225,
-   "Re_hover": 20736.38977893599,
+   "Re_hover": 20739.733258360928,
    "Re_cruise": 52363.63636363636,
-   "h_motor_hover": 44.64712702366844,
-   "h_motor_hover_CB": 45.11599827573888,
+   "h_motor_hover": 44.651575733979264,
+   "h_motor_hover_CB": 45.120214890225256,
    "repo_h_motor_hover": 44.64712702366844,
    "h_motor_cruise": 84.46521180455152,
    "h_motor_cruise_CB": 78.83836781933972,
    "repo_h_motor_cruise": 84.46521180455152,
-   "delta_hover_pct": 0.0,
-   "delta_CB_hover_pct": 1.05,
+   "delta_hover_pct": 0.01,
+   "delta_CB_hover_pct": 1.06,
    "delta_CB_cruise_pct": -6.66
   },
   "THM-03": {
@@ -493,15 +495,15 @@
     "I = P_in / 21 V",
     "V_bemf = rpm_hover / KV"
    ],
-   "Q_rule_W": 56.566146,
-   "I_hover_A": 13.46813,
+   "Q_rule_W": 56.59686000000001,
+   "I_hover_A": 13.475442857142857,
    "R_ohm": 0.107,
    "I0_A": 0.6,
-   "rpm_hover_EST": 5471.574525130906,
-   "V_bemf_V": 13.678936312827267,
-   "Q_I2R_W": 19.4087862495683,
-   "Q_no_load_W_EST": 8.20736178769636,
-   "Q_model_W": 27.61614803726466,
+   "rpm_hover_EST": 5472.456747014359,
+   "V_bemf_V": 13.681141867535898,
+   "Q_I2R_W": 19.429868940985102,
+   "Q_no_load_W_EST": 8.208685120521539,
+   "Q_model_W": 27.63855406150664,
    "repo_Q_W": 56.566146,
    "note": "R 107 mOhm and I0 0.6 A at 10 V from the maker (propulsion_data S1); I0 taken constant with speed (EST); PWM/eddy losses not modelled (\u2014)"
   },
@@ -543,7 +545,7 @@
      78.92
     ]
    ],
-   "simcs_90s_hand_C": 88.16946176267264,
+   "simcs_90s_hand_C": 88.19833144823647,
    "simcs_90s_fea_C": 88.4055,
    "delta_60_pct_on_rise": -9.79,
    "delta_mission_pct_on_rise": -8.48,
@@ -570,12 +572,12 @@
     "dT = sum(Q t) / (m c_p)"
    ],
    "I_A": {
-    "hover": 53.87252,
-    "trans": 82.00508,
-    "cruise": 13.305941
+    "hover": 53.901771,
+    "trans": 82.056919,
+    "cruise": 13.316624
    },
    "R_pack_ohm": 0.036000000000000004,
-   "Q_hover_W": 104.48094280141441,
+   "Q_hover_W": 104.59443300971188,
    "E_J": 26045.71108947334,
    "mcp_J_per_K": 902.0,
    "hand_end_C": 53.87551118566889,
@@ -690,14 +692,14 @@
     "nominal_joiner_clearance_mm": 0.22899999999999565,
     "joiner_free_tilt_mrad": 0.7633333333333189,
     "panel_angle_error_deg_wc": 0.08608690871840631,
-    "root_face_gap_over_chord_mm_wc": 0.4837163525000006,
+    "root_face_gap_over_chord_mm_wc": 0.48430533250000063,
     "tip_offset_mm_wc": 1.6828000000000025
    },
    "J10_inputs": {
     "pillarSpot_mm": 2.0,
     "wingBoltL_mm": 25.0,
-    "pillarH_mm": 29.489,
-    "pillarNutDepth_mm": 11.0,
+    "pillarH_mm": 29.525,
+    "pillarNutDepth_mm": 11.1,
     "N02_h_mm": 5.0,
     "tolerances_mm": [
      0.5,
@@ -708,47 +710,47 @@
     "required_min_mm": 1.6
    },
    "J10_protrusion": {
-    "nominal": 3.5109999999999992,
+    "nominal": 3.575000000000003,
     "worst_case": [
-     1.6109999999999993,
-     5.411
+     1.675000000000003,
+     5.475000000000003
     ],
     "rss": [
-     2.557060798583054,
-     4.464939201416945
+     2.6210607985830574,
+     4.528939201416948
     ],
     "wc_half": 1.9,
     "rss_half": 0.9539392014169457
    },
    "J10_protrusion_as_built_CAD": {
-    "nominal": 3.5189999999999984,
+    "nominal": 3.575000000000003,
     "worst_case": [
-     1.6189999999999984,
-     5.418999999999999
+     1.675000000000003,
+     5.475000000000003
     ],
     "rss": [
-     2.565060798583053,
-     4.472939201416944
+     2.6210607985830574,
+     4.528939201416948
     ],
     "wc_half": 1.9,
     "rss_half": 0.9539392014169457
    },
    "J10_protrusion_if_M5x20": {
-    "nominal": -1.4890000000000008,
+    "nominal": -1.4249999999999972,
     "worst_case": [
-     -3.3890000000000007,
-     0.41099999999999914
+     -3.324999999999997,
+     0.47500000000000275
     ],
     "rss": [
-     -2.442939201416946,
-     -0.5350607985830551
+     -2.3789392014169426,
+     -0.4710607985830515
     ],
     "wc_half": 1.9,
     "rss_half": 0.9539392014169457
    },
    "J10_screw_end_above_lower_skin_mm": {
-    "nominal": 2.4890000000000008,
-    "worst_case_min": 1.0890000000000009
+    "nominal": 2.5249999999999986,
+    "worst_case_min": 1.1249999999999987
    },
    "wingtip_play_mm": {
     "nominal": 0.8549333333333172,
@@ -761,32 +763,32 @@
    "results_generated": "2026-11-01",
    "pairs": {
     "chord": {
-     "results_json": 0.32194055,
-     "params_txt": 0.321941,
-     "params_built": 0.320765,
-     "d_params_pct": 0.0,
-     "d_built_pct": -0.37
+     "results_json": 0.3223332,
+     "params_txt": 0.322333,
+     "params_built": 0.322333,
+     "d_params_pct": -0.0,
+     "d_built_pct": -0.0
     },
     "mtow": {
-     "results_json": 7.4355998,
-     "params_txt": 7.4356,
-     "params_built": 7.408452,
-     "d_params_pct": 0.0,
-     "d_built_pct": -0.37
+     "results_json": 7.4379985,
+     "params_txt": 7.437998,
+     "params_built": 7.437998,
+     "d_params_pct": -0.0,
+     "d_built_pct": -0.0
     },
     "feaBoomL": {
-     "results_json": 0.48803898,
-     "params_txt": 0.488039,
-     "params_built": 0.487228,
+     "results_json": 0.48830991,
+     "params_txt": 0.48831,
+     "params_built": 0.48831,
      "d_params_pct": 0.0,
-     "d_built_pct": -0.17
+     "d_built_pct": 0.0
     },
     "feaRootMomentTarget": {
-     "results_json": 83.558246,
-     "params_txt": 83.558246,
-     "params_built": 83.253174,
+     "results_json": 91.028347,
+     "params_txt": 91.028347,
+     "params_built": 91.028347,
      "d_params_pct": 0.0,
-     "d_built_pct": -0.37
+     "d_built_pct": 0.0
     },
     "feaTipMass": {
      "results_json": 0.3255,
@@ -803,344 +805,26 @@
      "d_built_pct": 0.0
     },
     "thermQ": {
-     "results_json": 56.566146,
-     "params_txt": 56.566146,
-     "params_built": 56.219036,
-     "d_params_pct": 0.0,
-     "d_built_pct": -0.61
+     "results_json": 56.59686000000001,
+     "params_txt": 56.59686,
+     "params_built": 56.59686,
+     "d_params_pct": -0.0,
+     "d_built_pct": -0.0
     }
    },
    "params_txt_max_abs_pct": 0.0,
-   "built_global_max_abs_pct": 0.37,
+   "built_global_max_abs_pct": 0.0,
    "params_vs_built_all_differences": [
     {
-     "key": "canopyX0",
-     "params_txt": 0.1575,
-     "params_built": 0.1685,
-     "d_pct": 6.98
-    },
-    {
-     "key": "battX",
-     "params_txt": 0.255,
-     "params_built": 0.266,
-     "d_pct": 4.31
-    },
-    {
-     "key": "yServo",
-     "params_txt": -0.001893,
-     "params_built": -0.001843,
-     "d_pct": -2.64
-    },
-    {
-     "key": "discClear",
-     "params_txt": 0.106051,
-     "params_built": 0.10499,
-     "d_pct": -1.0
-    },
-    {
-     "key": "rodElevator",
-     "params_txt": 0.055424,
-     "params_built": 0.054913,
-     "d_pct": -0.92
-    },
-    {
-     "key": "pillarNutDepth",
-     "params_txt": 0.011,
-     "params_built": 0.0109,
-     "d_pct": -0.91
-    },
-    {
-     "key": "thermQ",
-     "params_txt": 56.566146,
-     "params_built": 56.219036,
-     "d_pct": -0.61
-    },
-    {
-     "key": "hC",
-     "params_txt": 0.124771,
-     "params_built": 0.124026,
-     "d_pct": -0.6
-    },
-    {
-     "key": "tailT",
-     "params_txt": 0.011229,
-     "params_built": 0.011162,
-     "d_pct": -0.6
-    },
-    {
-     "key": "yMotor",
-     "params_txt": -0.011916,
-     "params_built": -0.01185,
-     "d_pct": -0.55
-    },
-    {
-     "key": "feaHandDefl",
-     "params_txt": 0.003348,
-     "params_built": 0.003332,
-     "d_pct": -0.48
-    },
-    {
-     "key": "pillarSlotFloor",
-     "params_txt": 0.011345,
-     "params_built": 0.011291,
-     "d_pct": -0.48
-    },
-    {
-     "key": "rodAileron",
-     "params_txt": 0.055937,
-     "params_built": 0.055702,
-     "d_pct": -0.42
-    },
-    {
-     "key": "yStabBot",
-     "params_txt": -0.017216,
-     "params_built": -0.01715,
-     "d_pct": -0.38
-    },
-    {
-     "key": "chord",
-     "params_txt": 0.321941,
-     "params_built": 0.320765,
-     "d_pct": -0.37
-    },
-    {
      "key": "feaWingForce",
-     "params_txt": 174.079677,
-     "params_built": 173.444112,
-     "d_pct": -0.37
-    },
-    {
-     "key": "feaRootMomentTarget",
-     "params_txt": 83.558246,
-     "params_built": 83.253174,
-     "d_pct": -0.37
-    },
-    {
-     "key": "feaHandSigJ",
-     "params_txt": 178701800.0,
-     "params_built": 178049350.0,
-     "d_pct": -0.37
-    },
-    {
-     "key": "yU70",
-     "params_txt": 0.019574,
-     "params_built": 0.019502,
-     "d_pct": -0.37
-    },
-    {
-     "key": "yMid70",
-     "params_txt": 0.004829,
-     "params_built": 0.004811,
-     "d_pct": -0.37
-    },
-    {
-     "key": "yL78",
-     "params_txt": -0.007581,
-     "params_built": -0.007553,
-     "d_pct": -0.37
-    },
-    {
-     "key": "yL21",
-     "params_txt": -0.018321,
-     "params_built": -0.018254,
-     "d_pct": -0.37
-    },
-    {
-     "key": "mtow",
-     "params_txt": 7.4356,
-     "params_built": 7.408452,
-     "d_pct": -0.37
-    },
-    {
-     "key": "pillarH",
-     "params_txt": 0.029489,
-     "params_built": 0.029381,
-     "d_pct": -0.37
-    },
-    {
-     "key": "sparX",
-     "params_txt": -0.096582,
-     "params_built": -0.09623,
-     "d_pct": -0.36
-    },
-    {
-     "key": "sparY",
-     "params_txt": 0.006036,
-     "params_built": 0.006014,
-     "d_pct": -0.36
-    },
-    {
-     "key": "boltX",
-     "params_txt": -0.225358,
-     "params_built": -0.224536,
-     "d_pct": -0.36
-    },
-    {
-     "key": "yL70",
-     "params_txt": -0.009915,
-     "params_built": -0.009879,
-     "d_pct": -0.36
-    },
-    {
-     "key": "yL30",
-     "params_txt": -0.018116,
-     "params_built": -0.01805,
-     "d_pct": -0.36
-    },
-    {
-     "key": "yL80",
-     "params_txt": -0.006979,
-     "params_built": -0.006954,
-     "d_pct": -0.36
-    },
-    {
-     "key": "yL55",
-     "params_txt": -0.013893,
-     "params_built": -0.013843,
-     "d_pct": -0.36
-    },
-    {
-     "key": "xServo",
-     "params_txt": -0.177067,
-     "params_built": -0.176421,
-     "d_pct": -0.36
-    },
-    {
-     "key": "hornHpX",
-     "params_txt": -0.241455,
-     "params_built": -0.240574,
-     "d_pct": -0.36
-    },
-    {
-     "key": "thick30",
-     "params_txt": 0.048305,
-     "params_built": 0.048129,
-     "d_pct": -0.36
-    },
-    {
-     "key": "yProp",
-     "params_txt": 0.024084,
-     "params_built": 0.02415,
-     "d_pct": 0.27
-    },
-    {
-     "key": "feaHandFn",
-     "params_txt": 25.875393,
-     "params_built": 25.941341,
-     "d_pct": 0.25
-    },
-    {
-     "key": "pitotY",
-     "params_txt": -0.027821,
-     "params_built": -0.027754,
-     "d_pct": -0.24
-    },
-    {
-     "key": "thermH",
-     "params_txt": 44.647127,
-     "params_built": 44.54471,
-     "d_pct": -0.23
-    },
-    {
-     "key": "xRear",
-     "params_txt": -0.587841,
-     "params_built": -0.586665,
-     "d_pct": -0.2
-    },
-    {
-     "key": "yB",
-     "params_txt": -0.032916,
-     "params_built": -0.03285,
-     "d_pct": -0.2
-    },
-    {
-     "key": "feaBoomL",
-     "params_txt": 0.488039,
-     "params_built": 0.487228,
-     "d_pct": -0.17
-    },
-    {
-     "key": "feaHandSigB",
-     "params_txt": 36957925.0,
-     "params_built": 36896518.0,
-     "d_pct": -0.17
-    },
-    {
-     "key": "segF",
-     "params_txt": 1.045394,
-     "params_built": 1.043702,
-     "d_pct": -0.16
-    },
-    {
-     "key": "clampTopR",
-     "params_txt": 0.025937,
-     "params_built": 0.025896,
-     "d_pct": -0.16
-    },
-    {
-     "key": "xFinLE",
-     "params_txt": -0.853741,
-     "params_built": -0.852565,
-     "d_pct": -0.14
-    },
-    {
-     "key": "xFront",
-     "params_txt": 0.407554,
-     "params_built": 0.407037,
-     "d_pct": -0.13
-    },
-    {
-     "key": "xTC",
-     "params_txt": -0.887641,
-     "params_built": -0.886465,
-     "d_pct": -0.13
-    },
-    {
-     "key": "rodRudder",
-     "params_txt": 0.106963,
-     "params_built": 0.106829,
-     "d_pct": -0.13
-    },
-    {
-     "key": "vH",
-     "params_txt": 0.207898,
-     "params_built": 0.207656,
-     "d_pct": -0.12
-    },
-    {
-     "key": "vC",
-     "params_txt": 0.166319,
-     "params_built": 0.166125,
-     "d_pct": -0.12
-    },
-    {
-     "key": "xStub0",
-     "params_txt": -1.07374,
-     "params_built": -1.072565,
-     "d_pct": -0.11
-    },
-    {
-     "key": "yGround",
-     "params_txt": -0.252616,
-     "params_built": -0.25255,
-     "d_pct": -0.03
-    },
-    {
-     "key": "yFin",
-     "params_txt": -0.002987,
-     "params_built": -0.002988,
-     "d_pct": 0.03
-    },
-    {
-     "key": "yStabTop",
-     "params_txt": -0.005987,
-     "params_built": -0.005988,
-     "d_pct": 0.02
+     "params_txt": 189.64239,
+     "params_built": 174.135835,
+     "d_pct": -8.18
     }
    ],
    "n_params": 151,
-   "n_differ": 54,
-   "built_header": "# CAD verification log, generated by cad/BuildVtol.cs on 2026-11-01 21:38 (SOLIDWORKS 33.4.0)"
+   "n_differ": 1,
+   "built_header": "# CAD verification log, generated by cad/BuildVtol.cs on 2026-11-02 09:52 (SOLIDWORKS 33.4.0)"
   },
   "MFG-04": {
    "what": "hardware-spec section 6 order table and summary vs cad/hardware.json and params.txt",
@@ -1149,27 +833,27 @@
   },
   "MFG-INTF": {
    "header": {
-    "total": 304,
-    "inserts": 189,
-    "insert_mm3": 1422.2,
-    "other": 115,
-    "other_mm3": 646.9
+    "total": 303,
+    "inserts": 193,
+    "insert_mm3": 1423.0,
+    "other": 110,
+    "other_mm3": 643.2
    },
-   "listed": 115,
+   "listed": 110,
    "by_pair": {
     "Control_Horn x Pushrod_Rudder": {
      "category": "needs CAD review",
      "why": "pushrod passes through the horn body: check the Z-bend hole position",
      "count": 3,
-     "total_mm3": 104.89999999999999,
-     "max_mm3": 100.99
+     "total_mm3": 104.83,
+     "max_mm3": 100.96
     },
     "Fuselage_Pod x Canopy": {
      "category": "needs CAD review",
-     "why": "canopy overlaps the pod (built at canopyX0 0.1685; params now 0.1575): re-check after rebuild",
-     "count": 22,
-     "total_mm3": 153.78000000000006,
-     "max_mm3": 32.22
+     "why": "canopy overlaps the pod; still present after the 2026-11-02 rebuild at canopyX0 0.1575 (params.built.txt), so it is the canopy/pod geometry, not a parameter lag",
+     "count": 21,
+     "total_mm3": 167.84000000000006,
+     "max_mm3": 35.04
     },
     "Wing_Panel_L x Spar_Tube": {
      "category": "needs CAD review",
@@ -1189,50 +873,36 @@
      "category": "model artefact",
      "why": "horn screws/backplates pass through surfaces whose holes are not modelled (drilled on assembly, BUILD-MANUAL)",
      "count": 2,
-     "total_mm3": 32.04,
-     "max_mm3": 18.08
-    },
-    "Elevator x Horn_Backplate": {
-     "category": "model artefact",
-     "why": "horn screws/backplates pass through surfaces whose holes are not modelled (drilled on assembly, BUILD-MANUAL)",
-     "count": 1,
-     "total_mm3": 17.74,
-     "max_mm3": 17.74
+     "total_mm3": 32.37,
+     "max_mm3": 18.24
     },
     "Elevator x Control_Horn": {
      "category": "model artefact",
      "why": "horn screws/backplates pass through surfaces whose holes are not modelled (drilled on assembly, BUILD-MANUAL)",
      "count": 1,
-     "total_mm3": 17.74,
-     "max_mm3": 17.74
+     "total_mm3": 18.17,
+     "max_mm3": 18.17
     },
-    "Wing_Panel_R x Rear_Hardpoint": {
+    "Elevator x Horn_Backplate": {
      "category": "model artefact",
-     "why": "printed hardpoint/clamp sits in a foam pocket cut slightly undersize (foam is cut to fit)",
-     "count": 2,
-     "total_mm3": 10.350000000000001,
-     "max_mm3": 9.97
-    },
-    "Wing_Panel_L x Rear_Hardpoint": {
-     "category": "model artefact",
-     "why": "printed hardpoint/clamp sits in a foam pocket cut slightly undersize (foam is cut to fit)",
-     "count": 2,
-     "total_mm3": 10.350000000000001,
-     "max_mm3": 9.97
+     "why": "horn screws/backplates pass through surfaces whose holes are not modelled (drilled on assembly, BUILD-MANUAL)",
+     "count": 1,
+     "total_mm3": 17.49,
+     "max_mm3": 17.49
     },
     "Wing_Panel_R x Boom_Clamp_F_Upper": {
      "category": "model artefact",
      "why": "printed hardpoint/clamp sits in a foam pocket cut slightly undersize (foam is cut to fit)",
      "count": 1,
-     "total_mm3": 9.87,
-     "max_mm3": 9.87
+     "total_mm3": 9.84,
+     "max_mm3": 9.84
     },
     "Wing_Panel_L x Boom_Clamp_F_Upper": {
      "category": "model artefact",
      "why": "printed hardpoint/clamp sits in a foam pocket cut slightly undersize (foam is cut to fit)",
      "count": 1,
-     "total_mm3": 9.87,
-     "max_mm3": 9.87
+     "total_mm3": 9.84,
+     "max_mm3": 9.84
     },
     "Control_Horn x F11_M2x14_PAN": {
      "category": "model artefact",
@@ -1245,15 +915,15 @@
      "category": "model artefact",
      "why": "horn screws/backplates pass through surfaces whose holes are not modelled (drilled on assembly, BUILD-MANUAL)",
      "count": 2,
-     "total_mm3": 12.58,
-     "max_mm3": 6.29
+     "total_mm3": 12.56,
+     "max_mm3": 6.28
     },
     "Aileron_L x F11_M2x14_PAN": {
      "category": "model artefact",
      "why": "horn screws/backplates pass through surfaces whose holes are not modelled (drilled on assembly, BUILD-MANUAL)",
      "count": 2,
-     "total_mm3": 12.58,
-     "max_mm3": 6.29
+     "total_mm3": 12.56,
+     "max_mm3": 6.28
     },
     "Fuselage_Pod x F07_M3x8_BHCS": {
      "category": "model artefact",
@@ -1262,47 +932,61 @@
      "total_mm3": 21.68,
      "max_mm3": 5.42
     },
-    "Boom_Clamp_F_Upper x Spar_Collar": {
-     "category": "needs CAD review",
-     "why": "clamp upper half overlaps the bonded spar collar (3.9 mm3 each)",
-     "count": 2,
-     "total_mm3": 7.86,
-     "max_mm3": 3.93
-    },
     "Rudder x Horn_Backplate": {
      "category": "model artefact",
      "why": "horn screws/backplates pass through surfaces whose holes are not modelled (drilled on assembly, BUILD-MANUAL)",
      "count": 2,
-     "total_mm3": 5.78,
-     "max_mm3": 2.89
+     "total_mm3": 6.16,
+     "max_mm3": 3.08
     },
     "Rudder x Control_Horn": {
      "category": "model artefact",
      "why": "horn screws/backplates pass through surfaces whose holes are not modelled (drilled on assembly, BUILD-MANUAL)",
      "count": 2,
-     "total_mm3": 5.78,
-     "max_mm3": 2.89
+     "total_mm3": 6.16,
+     "max_mm3": 3.08
+    },
+    "Boom_Clamp_F_Upper x Spar_Collar": {
+     "category": "needs CAD review",
+     "why": "clamp upper half overlaps the bonded spar collar (3.9 mm3 each)",
+     "count": 2,
+     "total_mm3": 3.92,
+     "max_mm3": 1.96
     },
     "F11_M2x14_PAN x Pushrod_Rudder": {
      "category": "needs CAD review",
      "why": "pushrod passes through the horn body: check the Z-bend hole position",
      "count": 1,
-     "total_mm3": 1.69,
-     "max_mm3": 1.69
+     "total_mm3": 1.66,
+     "max_mm3": 1.66
     },
-    "Aileron_R x Horn_Hardpoint": {
+    "Boom_Clamp_R_Upper x Rear_Hardpoint": {
+     "category": "model artefact",
+     "why": "printed hardpoint/clamp sits in a foam pocket cut slightly undersize (foam is cut to fit)",
+     "count": 2,
+     "total_mm3": 2.54,
+     "max_mm3": 1.27
+    },
+    "Fin_Shoe x H_Tail": {
+     "category": "model artefact",
+     "why": "< 0.2 mm3 coincident-face slivers",
+     "count": 2,
+     "total_mm3": 2.02,
+     "max_mm3": 1.01
+    },
+    "Wing_Panel_R x Rear_Hardpoint": {
      "category": "model artefact",
      "why": "printed hardpoint/clamp sits in a foam pocket cut slightly undersize (foam is cut to fit)",
      "count": 1,
-     "total_mm3": 0.56,
-     "max_mm3": 0.56
+     "total_mm3": 0.69,
+     "max_mm3": 0.69
     },
-    "Aileron_L x Horn_Hardpoint": {
+    "Wing_Panel_L x Rear_Hardpoint": {
      "category": "model artefact",
      "why": "printed hardpoint/clamp sits in a foam pocket cut slightly undersize (foam is cut to fit)",
      "count": 1,
-     "total_mm3": 0.56,
-     "max_mm3": 0.56
+     "total_mm3": 0.69,
+     "max_mm3": 0.69
     },
     "Gear_Clamp_Lower x N01_M3_Nylock": {
      "category": "model artefact",
@@ -1311,19 +995,26 @@
      "total_mm3": 11.360000000000003,
      "max_mm3": 0.48
     },
-    "Tail_Clamp_Upper x H_Tail": {
+    "Fuselage_Pod x Wing_Saddle": {
      "category": "model artefact",
      "why": "< 0.2 mm3 coincident-face slivers",
-     "count": 2,
-     "total_mm3": 0.36,
-     "max_mm3": 0.18
+     "count": 3,
+     "total_mm3": 0.84,
+     "max_mm3": 0.36
     },
-    "Fin_Shoe x H_Tail": {
+    "Servo_Tray x H_Tail": {
      "category": "model artefact",
      "why": "< 0.2 mm3 coincident-face slivers",
      "count": 2,
-     "total_mm3": 0.28,
-     "max_mm3": 0.14
+     "total_mm3": 0.7,
+     "max_mm3": 0.35
+    },
+    "H_Tail x Servo_Tray": {
+     "category": "model artefact",
+     "why": "< 0.2 mm3 coincident-face slivers",
+     "count": 1,
+     "total_mm3": 0.35,
+     "max_mm3": 0.35
     },
     "Fin_Shoe x Fin": {
      "category": "model artefact",
@@ -1339,35 +1030,7 @@
      "total_mm3": 0.24,
      "max_mm3": 0.06
     },
-    "Servo_Tray x H_Tail": {
-     "category": "model artefact",
-     "why": "< 0.2 mm3 coincident-face slivers",
-     "count": 2,
-     "total_mm3": 0.1,
-     "max_mm3": 0.05
-    },
-    "H_Tail x Servo_Tray": {
-     "category": "model artefact",
-     "why": "< 0.2 mm3 coincident-face slivers",
-     "count": 1,
-     "total_mm3": 0.05,
-     "max_mm3": 0.05
-    },
-    "Bolt_Pillar x F09_M5x25_BHCS": {
-     "category": "model artefact",
-     "why": "< 0.2 mm3 coincident-face slivers",
-     "count": 2,
-     "total_mm3": 0.1,
-     "max_mm3": 0.05
-    },
     "Servo x Pushrod_Aileron": {
-     "category": "model artefact",
-     "why": "< 0.2 mm3 coincident-face slivers",
-     "count": 1,
-     "total_mm3": 0.0,
-     "max_mm3": 0.0
-    },
-    "Fuselage_Pod x Wing_Saddle": {
      "category": "model artefact",
      "why": "< 0.2 mm3 coincident-face slivers",
      "count": 1,
@@ -1384,12 +1047,12 @@
    },
    "by_category": {
     "needs CAD review": {
-     "count": 32,
-     "mm3": 382.7400000000001
+     "count": 31,
+     "mm3": 392.76000000000016
     },
     "model artefact": {
-     "count": 83,
-     "mm3": 264.1900000000001
+     "count": 79,
+     "mm3": 250.48000000000002
     }
    },
    "F06_spar_collar_overrun_present": false,
@@ -1397,11 +1060,11 @@
    "note": "disposition by part-pair rule in this script (audit judgement); \"needs CAD review\" items are not proven clashes, only unexplained"
   },
   "MFG-03": {
-   "overlaps": 22,
+   "overlaps": 23,
    "sheets": 9,
    "revision": "E",
    "checked_by": "\u2014",
-   "drawing_pdf_mtime": "2026-11-01 22:00"
+   "drawing_pdf_mtime": "2026-11-02 11:46"
   },
   "MFG-10": {
    "fasteners": 13,
@@ -1413,7 +1076,7 @@
    ],
    "range_Nm": [
     0.15,
-    1.0
+    0.8
    ],
    "hanging_mass_example": {
     "T_Nm": 0.5,
@@ -1424,8 +1087,8 @@
   "MFG-MASS": {
    "bottom_up_kg": 7.4159,
    "sizing_mtow_mass_budget_kg": 7.4084524,
-   "results_mtow_kg": 7.4355998,
-   "delta_vs_results_pct": -0.26,
+   "results_mtow_kg": 7.4379985,
+   "delta_vs_results_pct": -0.3,
    "est_share_kg": 1.155,
    "groups": [
     {
@@ -1507,7 +1170,7 @@
      "delta_g": 0
     }
    ],
-   "cad_modelled_kg": 6.678,
+   "cad_modelled_kg": 6.688,
    "mount_cad_g": 88.73,
    "mount_sizing_g": 103.5,
    "pa6cf_density_cad": 1230,
@@ -1518,8 +1181,8 @@
   {
    "id": "STR-01",
    "check": "boom root stress: hand M c / I vs repo hand (cad/sim/results.txt)",
-   "independent": 36.95792607362477,
-   "repo": 36.9579,
+   "independent": 36.97844819986048,
+   "repo": 36.9784,
    "delta_pct": 0.0,
    "tolerance_pct": 0.5,
    "relation": "eq",
@@ -1529,8 +1192,8 @@
   {
    "id": "STR-01b",
    "check": "boom root stress: FEA coarse (3 mm) vs hand on the FEA load position",
-   "independent": 35.4333,
-   "repo": 35.084493912591526,
+   "independent": 35.4514,
+   "repo": 35.10501603882724,
    "delta_pct": 0.99,
    "tolerance_pct": 5.0,
    "relation": "eq",
@@ -1540,7 +1203,7 @@
   {
    "id": "STR-02",
    "check": "boom FEA field vs beam theory, worst |delta| of 4 stations (fine mesh)",
-   "independent": 1.74,
+   "independent": 1.68,
    "repo": 5.0,
    "delta_pct": null,
    "tolerance_pct": null,
@@ -1551,9 +1214,9 @@
   {
    "id": "STR-03",
    "check": "boom tip deflection: FEA vs hand with the FEA load position",
-   "independent": 3.15517,
-   "repo": 3.0940551377064667,
-   "delta_pct": 1.98,
+   "independent": 3.1605,
+   "repo": 3.0993534041620645,
+   "delta_pct": 1.97,
    "tolerance_pct": 5.0,
    "relation": "eq",
    "pass": true,
@@ -1562,9 +1225,9 @@
   {
    "id": "STR-04",
    "check": "boom f1: FEA vs hand with the FEA tip-block centroid",
-   "independent": 27.7504,
-   "repo": 27.961586699850194,
-   "delta_pct": -0.76,
+   "independent": 27.726,
+   "repo": 27.93658738146539,
+   "delta_pct": -0.75,
    "tolerance_pct": 5.0,
    "relation": "eq",
    "pass": true,
@@ -1573,9 +1236,9 @@
   {
    "id": "STR-04b",
    "check": "hover 1P (EST) / f1 >= 2 (separation)",
-   "independent": 3.2861835776126385,
+   "independent": 3.289605873556926,
    "repo": 2.0,
-   "delta_pct": 64.31,
+   "delta_pct": 64.48,
    "tolerance_pct": null,
    "relation": "ge",
    "pass": true,
@@ -1594,9 +1257,9 @@
   },
   {
    "id": "STR-06",
-   "check": "root moment: elliptic hand vs repo (params.txt feaRootMomentTarget)",
-   "independent": 83.58679133653457,
-   "repo": 83.558246,
+   "check": "root moment: Schrenk hand vs repo (params.txt feaRootMomentTarget)",
+   "independent": 91.05943740166391,
+   "repo": 91.028347,
    "delta_pct": 0.03,
    "tolerance_pct": 0.5,
    "relation": "eq",
@@ -1606,9 +1269,9 @@
   {
    "id": "STR-06b",
    "check": "root moment: Schrenk vs AVL span loading (claim value)",
-   "independent": 91.03007996826727,
-   "repo": 89.57249121814702,
-   "delta_pct": 1.63,
+   "independent": 91.05943740166391,
+   "repo": 89.50262505922902,
+   "delta_pct": 1.74,
    "tolerance_pct": 5.0,
    "relation": "eq",
    "pass": true,
@@ -1617,8 +1280,8 @@
   {
    "id": "STR-07",
    "check": "joiner stress at the AVL moment: hand M c / I",
-   "independent": 191.58490959190007,
-   "repo": 191.58490959190007,
+   "independent": 191.4354741842453,
+   "repo": 191.4354741842453,
    "delta_pct": 0.0,
    "tolerance_pct": 0.5,
    "relation": "eq",
@@ -1627,9 +1290,9 @@
   },
   {
    "id": "STR-07b",
-   "check": "joiner stress, repo elliptic: hand vs cad/sim/results.txt spar_hand_sigJ",
-   "independent": 178.78220917498192,
-   "repo": 178.702,
+   "check": "joiner stress, repo Schrenk (rev 2026-11-02, was elliptic): hand vs cad/sim/results.txt spar_hand_sigJ",
+   "independent": 194.76531069789715,
+   "repo": 194.678,
    "delta_pct": 0.04,
    "tolerance_pct": 0.5,
    "relation": "eq",
@@ -1639,9 +1302,9 @@
   {
    "id": "STR-07c",
    "check": "joiner RF on minimum yield at the AVL moment >= 1.0",
-   "independent": 1.252708266591717,
+   "independent": 1.2536861364002694,
    "repo": 1.0,
-   "delta_pct": 25.27,
+   "delta_pct": 25.37,
    "tolerance_pct": null,
    "relation": "ge",
    "pass": true,
@@ -1650,8 +1313,8 @@
   {
    "id": "STR-08",
    "check": "spar FEA coarse peak vs hand on the FEA geometry",
-   "independent": 166.366,
-   "repo": 164.6736589389465,
+   "independent": 181.239,
+   "repo": 179.3954744713059,
    "delta_pct": 1.03,
    "tolerance_pct": 5.0,
    "relation": "eq",
@@ -1672,8 +1335,8 @@
   {
    "id": "STR-09",
    "check": "spar tip deflection: FEA vs double integration on the FEA geometry",
-   "independent": 26.3462,
-   "repo": 26.236867617458888,
+   "independent": 28.7016,
+   "repo": 28.582442056624966,
    "delta_pct": 0.42,
    "tolerance_pct": 5.0,
    "relation": "eq",
@@ -1683,9 +1346,9 @@
   {
    "id": "STR-10",
    "check": "rear clamp tension: hand vs hardware-spec J05 (generated)",
-   "independent": 96.1308105971299,
+   "independent": 96.06865437748961,
    "repo": 96.1,
-   "delta_pct": 0.03,
+   "delta_pct": -0.03,
    "tolerance_pct": 0.5,
    "relation": "eq",
    "pass": true,
@@ -1694,8 +1357,8 @@
   {
    "id": "STR-10b",
    "check": "front clamp reaction: force balance vs moment balance",
-   "independent": 126.82562459712989,
-   "repo": 126.8256245971299,
+   "independent": 126.7634683774896,
+   "repo": 126.76346837748962,
    "delta_pct": -0.0,
    "tolerance_pct": 0.1,
    "relation": "eq",
@@ -1705,8 +1368,8 @@
   {
    "id": "STR-11",
    "check": "landing front_normal: peak force ODE vs landing.json closed form",
-   "independent": 71.65127639482712,
-   "repo": 71.65127643500963,
+   "independent": 71.50699343778454,
+   "repo": 71.50699345416801,
    "delta_pct": -0.0,
    "tolerance_pct": 0.5,
    "relation": "eq",
@@ -1716,8 +1379,8 @@
   {
    "id": "STR-11",
    "check": "landing front_hard: peak force ODE vs landing.json closed form",
-   "independent": 120.32487916922858,
-   "repo": 120.32487931477827,
+   "independent": 119.98946389710048,
+   "repo": 119.98946407747596,
    "delta_pct": -0.0,
    "tolerance_pct": 0.5,
    "relation": "eq",
@@ -1727,8 +1390,8 @@
   {
    "id": "STR-11",
    "check": "landing rear_normal: peak force ODE vs landing.json closed form",
-   "independent": 133.2636897403056,
-   "repo": 133.2636909947868,
+   "independent": 133.017139583211,
+   "repo": 133.01713960525518,
    "delta_pct": -0.0,
    "tolerance_pct": 0.5,
    "relation": "eq",
@@ -1738,8 +1401,8 @@
   {
    "id": "STR-11",
    "check": "landing rear_hard: peak force ODE vs landing.json closed form",
-   "independent": 246.1023291854164,
-   "repo": 246.1023293840666,
+   "independent": 245.61543756435415,
+   "repo": 245.615437939563,
    "delta_pct": -0.0,
    "tolerance_pct": 0.5,
    "relation": "eq",
@@ -1749,9 +1412,9 @@
   {
    "id": "STR-11b",
    "check": "landing worst corner RF on minimum yield (rear hard) >= 1.0",
-   "independent": 1.6465982827398844,
+   "independent": 1.6478031499529002,
    "repo": 1.0,
-   "delta_pct": 64.66,
+   "delta_pct": 64.78,
    "tolerance_pct": null,
    "relation": "ge",
    "pass": true,
@@ -1760,9 +1423,9 @@
   {
    "id": "STR-12",
    "check": "splice bolt shear utilisation (inertial load, n 4.5) <= 1",
-   "independent": 0.024078693510570705,
+   "independent": 0.02404874551662053,
    "repo": 1.0,
-   "delta_pct": -97.59,
+   "delta_pct": -97.6,
    "tolerance_pct": null,
    "relation": "le",
    "pass": true,
@@ -1771,9 +1434,9 @@
   {
    "id": "STR-13",
    "check": "J10 tongue bearing vs PETG proxy yield, RF >= 1.5",
-   "independent": 60.83269096168607,
+   "independent": 60.81307858844716,
    "repo": 1.5,
-   "delta_pct": 3955.51,
+   "delta_pct": 3954.21,
    "tolerance_pct": null,
    "relation": "ge",
    "pass": true,
@@ -1793,8 +1456,8 @@
   {
    "id": "THM-01",
    "check": "motor-only steady, Sim.cs case: FEA rise vs hand rise",
-   "independent": 150.604,
-   "repo": 150.0320126774513,
+   "independent": 150.686,
+   "repo": 150.113476301248,
    "delta_pct": 0.38,
    "tolerance_pct": 2.0,
    "relation": "eq",
@@ -1805,8 +1468,8 @@
    "id": "THM-01b",
    "check": "motor-only steady, 25 C design ambient: FEA rise vs hand rise",
    "independent": 153.209,
-   "repo": 150.03201259791595,
-   "delta_pct": 2.12,
+   "repo": 150.01706466045962,
+   "delta_pct": 2.13,
    "tolerance_pct": 5.0,
    "relation": "eq",
    "pass": true,
@@ -1815,42 +1478,42 @@
   {
    "id": "THM-02",
    "check": "h hover: Churchill-Bernstein vs repo Hilpert",
-   "independent": 45.11599827573888,
+   "independent": 45.120214890225256,
    "repo": 44.64712702366844,
-   "delta_pct": 1.05,
+   "delta_pct": 1.06,
    "tolerance_pct": 5.0,
    "relation": "eq",
    "pass": true,
    "note": ""
   },
   {
-   "id": "THM-02b",
-   "check": "h cruise 18 m/s: Churchill-Bernstein vs repo Hilpert",
-   "independent": 78.83836781933972,
-   "repo": 84.46521180455152,
-   "delta_pct": -6.66,
-   "tolerance_pct": 5.0,
-   "relation": "eq",
-   "pass": false,
-   "note": ""
-  },
-  {
    "id": "THM-03",
    "check": "lift motor heat: maker-data model <= 20 % rule (rule is an upper estimate)",
-   "independent": 27.61614803726466,
+   "independent": 27.63855406150664,
    "repo": 56.566146,
-   "delta_pct": -51.18,
+   "delta_pct": -51.14,
    "tolerance_pct": null,
    "relation": "le",
    "pass": true,
    "note": ""
   },
   {
+   "id": "THM-02b",
+   "check": "lift-motor mission peak: change when cruise h is Churchill-Bernstein instead of Hilpert (K)",
+   "independent": 0.0,
+   "repo": 0.5,
+   "delta_pct": -100.0,
+   "tolerance_pct": null,
+   "relation": "le",
+   "pass": true,
+   "note": "h cruise 78.8 vs 84.5 W/m2K (-6.7 %); cruise time constant 1.8 min vs 10 min cruise, so the motor reaches ambient with either value"
+  },
+  {
    "id": "THM-04",
    "check": "Sim.cs 90 s validation: FEA rise vs lumped rise",
    "independent": 53.4055,
-   "repo": 53.16946176267264,
-   "delta_pct": 0.44,
+   "repo": 53.19833144823647,
+   "delta_pct": 0.39,
    "tolerance_pct": 2.0,
    "relation": "eq",
    "pass": true,
@@ -1958,9 +1621,9 @@
   {
    "id": "MFG-09",
    "check": "J10 worst-case screw end past the nylock >= 1.6 mm (two pitches)",
-   "independent": 1.6109999999999993,
+   "independent": 1.675000000000003,
    "repo": 1.6,
-   "delta_pct": 0.69,
+   "delta_pct": 4.69,
    "tolerance_pct": null,
    "relation": "ge",
    "pass": true,
@@ -1969,9 +1632,9 @@
   {
    "id": "MFG-09b",
    "check": "J10 protrusion: params.txt vs as-built CAD (params.built.txt)",
-   "independent": 3.5109999999999992,
-   "repo": 3.5189999999999984,
-   "delta_pct": -0.23,
+   "independent": 3.575000000000003,
+   "repo": 3.575000000000003,
+   "delta_pct": 0.0,
    "tolerance_pct": 1.0,
    "relation": "eq",
    "pass": true,
@@ -1980,7 +1643,7 @@
   {
    "id": "MFG-09c",
    "check": "J10 worst-case screw end stays inside the lower skin (>= 0 mm)",
-   "independent": 1.0890000000000009,
+   "independent": 1.1249999999999987,
    "repo": 0.0,
    "delta_pct": null,
    "tolerance_pct": null,
@@ -2002,9 +1665,9 @@
   {
    "id": "MFG-01b",
    "check": "CAD as built: max |params.built - results.json| on 6 global sizing keys <= 0.5 %",
-   "independent": 0.37,
+   "independent": 0.0,
    "repo": 0.5,
-   "delta_pct": -26.0,
+   "delta_pct": -100.0,
    "tolerance_pct": null,
    "relation": "le",
    "pass": true,
@@ -2013,12 +1676,12 @@
   {
    "id": "MFG-01c",
    "check": "CAD as built: tail chord hC vs current params",
-   "independent": 0.124026,
-   "repo": 0.124771,
-   "delta_pct": -0.6,
+   "independent": 0.12502,
+   "repo": 0.12502,
+   "delta_pct": 0.0,
    "tolerance_pct": 0.5,
    "relation": "eq",
-   "pass": false,
+   "pass": true,
    "note": ""
   },
   {
@@ -2035,8 +1698,8 @@
   {
    "id": "MFG-02",
    "check": "non-insert interferences listed = header count",
-   "independent": 115.0,
-   "repo": 115.0,
+   "independent": 110.0,
+   "repo": 110.0,
    "delta_pct": 0.0,
    "tolerance_pct": 0.0,
    "relation": "eq",
@@ -2047,13 +1710,13 @@
    "id": "MFG-12",
    "check": "bottom-up mass (mass_budget.json) vs sizing MTOW (results.json)",
    "independent": 7.4159,
-   "repo": 7.4355998,
-   "delta_pct": -0.26,
+   "repo": 7.4379985,
+   "delta_pct": -0.3,
    "tolerance_pct": 1.0,
    "relation": "eq",
    "pass": true,
    "note": ""
   }
  ],
- "runtime_s": 0.63
+ "runtime_s": 0.62
 }

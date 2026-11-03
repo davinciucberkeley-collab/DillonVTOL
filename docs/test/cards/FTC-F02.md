@@ -8,7 +8,7 @@ DBF-TP-001 rev C · Test F02 · Review step: F3; ArduPilot tuning steps 7 and 9 
 
 **Weather limits:** Steady <= 3 m/s EST, gusts <= 5 m/s EST.
 
-**Predicted:** Learned hover throttle ~0.59 (1,859 / 3,130 g, calc); front/rear split ~0 (CG at the thrust centroid x = -0.0901 m from the LE, results.json cg.thrustCentroid).
+**Predicted:** Learned hover throttle ~0.59 (1,859 / 3,130 g, calc); front/rear split ~0 (CG at the thrust centroid x = -0.0903 m from the LE, results.json cg.thrustCentroid).
 
 **Crew:** TD, SO, PIC, GCS · **Duration:** 1 session, 2 packs
 

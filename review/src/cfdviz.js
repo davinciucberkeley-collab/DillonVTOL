@@ -257,10 +257,11 @@ const CfdViz = (() => {
   const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
   function tables() {
     const R = D.results; if (!R) return;
+    const fk = [4, 3, 2, 1].map(k => `L${k}_a4.0`).find(k => R.cases[k] && R.cases[k].returncode === 0), nLv = Object.keys(D.levels).length;   // finest solved alpha-4 case
     const ve = document.getElementById('vlmData'), vp = $('#cfVlm');   // independent lower-fidelity check: AeroSandbox vortex lattice at cruise trim
-    if (ve && vp) { const L = JSON.parse(ve.textContent), c = L.condition, a2 = R.cases['L2_a4.0'], a3 = R.cases['L3_a4.0'], t2 = D.post && D.post['L2_a4.0'] && D.post['L2_a4.0'].trefftz;
+    if (ve && vp) { const L = JSON.parse(ve.textContent), c = L.condition, a2 = R.cases['L2_a4.0'], a3 = fk && fk !== 'L2_a4.0' ? R.cases[fk] : null, t2 = D.post && D.post['L2_a4.0'] && D.post['L2_a4.0'].trefftz;
       vp.innerHTML = `<b>Cross-check with a vortex-lattice model</b> (${esc(L.tool.split(' (')[0])}; wing, tail and fins as lifting surfaces, no pod, booms or gear): CL ${c.CL_vlm.toFixed(3)} and induced drag ${c.CDi_vlm.toFixed(4)} at α ${c.alpha_deg.toFixed(2)}° (cruise trim). `
-        + `This CFD at α 4°: CL ${a2 ? a2.CL.toFixed(3) : '—'} (L2) and ${a3 ? a3.CL.toFixed(3) : '—'} (L3), Trefftz induced drag ${t2 ? t2.CDi.toFixed(4) : '—'} (L2). <span class="src">${esc(L.script)} → analysis/aero/out/flowviz/flow3d.json</span>`; }
+        + `This CFD at α 4°: CL ${a2 ? a2.CL.toFixed(3) : '—'} (L2) and ${a3 ? a3.CL.toFixed(3) : '—'} (${fk ? fk.slice(0, 2) : '—'}), Trefftz induced drag ${t2 ? t2.CDi.toFixed(4) : '—'} (L2). <span class="src">${esc(L.script)} → analysis/aero/out/flowviz/flow3d.json</span>`; }
     $('#cfMeshTable tbody').innerHTML = Object.entries(D.levels).map(([lv, s]) => `<tr><td>L${lv}</td><td class="n">${s.tetrahedra.toLocaleString()}</td><td class="n">${s.nodes.toLocaleString()}</td><td class="n">${(s.surface_triangles.wing || 0).toLocaleString()}</td><td class="n">${(s.sizes_m.wall_default * 1000).toFixed(1)}</td><td class="n">${(s.sizes_m.trailing_edges * 1000).toFixed(1)}</td><td class="n">${s.quality_minSICN.min.toFixed(3)}</td><td class="n">${s.quality_minSICN.p01.toFixed(3)}</td><td class="n">${s.quality_minSICN.mean.toFixed(2)}</td></tr>`).join('');
     const rows = Object.entries(R.cases).sort((a, b) => a[1].level - b[1].level || a[1].alpha_deg - b[1].alpha_deg);
     $('#cfCaseTable tbody').innerHTML = rows.map(([n, c]) => { const p = D.post && D.post[n];
@@ -268,9 +269,10 @@ const CfdViz = (() => {
     if (D.checks) $('#cfCheckTable tbody').innerHTML = D.checks.map(c => `<tr><td><b>${c.id}</b> ${esc(c.claim)}</td><td><span class="chip ${CHIP[c.status]}">${c.status}</span></td><td>${esc(c.status_reason)}</td></tr>`).join('');
     if (D.geometry) { $('#cfGeoTable tbody').innerHTML = D.geometry.defeaturing.map(r => `<tr><td>${esc(r.cad_parts)}</td><td>${esc(r.cfd_representation)}</td><td>${esc(r.differences)}</td></tr>`).join('');
       $('#cfFidTable tbody').innerHTML = D.geometry.fidelity.map(r => `<tr><td>${esc(r.part)}</td><td class="n">${r.n_step}</td><td class="n">${r.max_bbox_dev_mm.toFixed(1)}</td><td>${esc(r.note || '')}</td></tr>`).join(''); }
-    const g = R.cases['L3_a4.0'] || R.cases['L2_a4.0'], ck = id => D.checks && D.checks.find(c => c.id === id), gc = ck('CFD-02'), sl = ck('CFD-05'), np = ck('CFD-07');
+    const g = fk && R.cases[fk], ck = id => D.checks && D.checks.find(c => c.id === id), gc = ck('CFD-02'), sl = ck('CFD-05'), np = ck('CFD-07');
     const sc = ck('CFD-12'), cp1 = ck('CFD-11');
-    if (g) $('#cfVerdict').innerHTML = `<b>The whole-aircraft CFD ran on three meshes: CL ${g.CL.toFixed(3)} at α 4° with the elevator at 0° on the finest. It confirms the neutral point${np ? ` (${np.value.toFixed(1)} % MAC against AVL 39.8 %)` : ''} and the induced drag, but its absolute lift is mesh-limited.</b> `
+    if (g) $('#cfVerdict').innerHTML = `<b>The whole-aircraft CFD ran on ${['no', 'one', 'two', 'three', 'four'][nLv] || nLv} meshes: CL ${g.CL.toFixed(3)} at α 4° with the elevator at 0° on the finest. It confirms the neutral point${np ? ` (${np.value.toFixed(1)} % MAC against AVL ${np.independent_check.value.toFixed(1)} %)` : ''} and the induced drag; `
+      + (gc && gc.value != null ? `its absolute lift carries a grid uncertainty of ±${gc.value.toFixed(1)} % (GCI, CFD-02).</b> ` : 'its absolute lift is mesh-limited.</b> ')
       + (sl ? `The lift slope is ${sl.value.toFixed(2)} /rad against AVL ${sl.independent_check.value.toFixed(2)}, and a 2-D check with the same numerics shows the scheme loses lift at this wall spacing (${sc ? sc.status : '—'}, CFD-12). ` : '')
       + (cp1 && cp1.status === 'Failed' ? 'Local Cp at the tail leading edge overshoots the stagnation value (CFD-11). ' : '') + 'The run is inviscid, so it predicts no profile drag or stall.';
   }

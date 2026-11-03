@@ -752,7 +752,10 @@ def validate(d: C0Data, out_json=None):
     row("pusher rpm", n * 60, None, "rpm", "EST motor model (R, I0)")
     row("pusher electrical power", x * 22.2 * I, d.pred["P_cruise_W"], "W",
         "build-up assumes etaProp 0.60; APC data gives ~0.74 at this J")
-    row("pusher current at 22.2 V", I, d.pred["P_cruise_W"] / 22.2, "A", "")
+    # battery-side current = PWM duty x motor current (ESC energy balance); rev 2026-11-02: this row printed the motor current I,
+    # which is not comparable with the battery-side prediction P / 22.2 V
+    row("pusher battery current at 22.2 V", x * I, d.pred["P_cruise_W"] / 22.2, "A", "= power / 22.2 V; sizing is conservative (etaProp 0.60)")
+    row("pusher motor (phase) current", I, None, "A", "EST motor model; the ESC rating applies to this")
     J = V / (n * d.pusher_D)
     row("pusher advance ratio J", J, None, "-", "")
     # static pusher

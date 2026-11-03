@@ -301,7 +301,9 @@ function structures(res){
   const s = res.sized, g = res.geo, p = res.params;
   const nLimit = 3.0, FS = 1.5, nUlt = nLimit*FS;            // EST limit load factor; 1.5 factor of safety
   const W = s.m*M.G, b = BASE.span;
-  const Mroot = nUlt*W*b/(3*Math.PI);                         // elliptic lift, half-wing root moment
+  // half-wing root moment with the Schrenk span loading (mean of elliptic and uniform; rev 2026-11-02, was elliptic): for this rectangular
+  // wing the AVL strip loading puts the lift centroid 7 % further out than elliptic, and Schrenk is 1.6 % above AVL (check_struct.py STR-06b)
+  const Mroot = nUlt*(W/2)*0.5*(4*(b/2)/(3*Math.PI) + (b/2)/2);
   const Ij = tubeI(TUBE.joiner.Do, TUBE.joiner.Di), cj = TUBE.joiner.Do/2;
   const sigJ = Mroot*cj/Ij;
   const Is = tubeI(TUBE.spar.Do, TUBE.spar.Di);

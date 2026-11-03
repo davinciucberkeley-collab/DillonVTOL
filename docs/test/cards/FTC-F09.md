@@ -8,7 +8,7 @@ DBF-TP-001 rev C · Test F09 · Review step: not in the review matrix; docs/rese
 
 **Weather limits:** Steady <= 4 m/s EST, gusts <= 6 m/s EST; smooth air; morning preferred.
 
-**Predicted:** Vs 11.75 m/s at 7.44 kg with CL_max,3D 1.116 (aero_results stall.V_stall_mps; critical-section method on the AVL loading; 2-D CL_max 1.30 adopted from experiment at Re 2e5); the sizing uses the same CL_max at the 11.75 m/s design stall target (results.json base.Vs, sized.S 0.773 m2, W 72.9 N; docs/research/stall-margin.md); margin to R11 2.1 % on speed. Pitch at the break ~11.3 deg (stall.trim_at_Vstall.alpha_deg). C0 flight model: 11.79 m/s, alpha 11.8 deg / elevator -8.0 deg at the break (c0_physics.py --validate, 2026-11-02).
+**Predicted:** Vs 11.75 m/s at 7.44 kg with CL_max,3D 1.115 (aero_results stall.V_stall_mps; critical-section method on the AVL loading; 2-D CL_max 1.30 adopted from experiment at Re 2e5); the sizing uses the same CL_max at the 11.75 m/s design stall target (results.json base.Vs, sized.S 0.774 m2, W 72.9 N; docs/research/stall-margin.md); margin to R11 2.1 % on speed. Pitch at the break ~11.4 deg (stall.trim_at_Vstall.alpha_deg). C0 flight model: 11.75 m/s, alpha 11.8 deg / elevator -8.0 deg at the break (c0_physics.py --validate, 2026-11-02).
 
 **Crew:** TD, SO, PIC, GCS · **Duration:** 1 session (3 runs), 2 packs
 
@@ -49,7 +49,7 @@ Universal (TEST-PLAN.md s5): VIBE > 30 m/s2 or rising clipping; attitude error >
 ARSP.Airspeed (calibrated) and CTUN.As at the pitch break for each run; ATT pitch/roll time history; RCOU elevator (C3) at the break vs the throw limit; BARO/GPS altitude loss per run; MSG (assist engage in point 2); wind at the time.
 
 ## Pass criteria
-- [ ] Measured Vs (mean of three runs, calibrated airspeed, corrected to MTOW 7.436 kg by Vs_MTOW = Vs_test x sqrt(7.436 / m_test)) <= 12.0 m/s = PASS (R11). Record the margin used against the 11.75 m/s design target; set AIRSPEED_STALL = measured Vs and AIRSPEED_MIN = max(16, 1.3 x Vs rounded up) (docs/research/stall-margin.md 5).
+- [ ] Measured Vs (mean of three runs, calibrated airspeed, corrected to MTOW 7.438 kg by Vs_MTOW = Vs_test x sqrt(7.438 / m_test)) <= 12.0 m/s = PASS (R11). Record the margin used against the 11.75 m/s design target; set AIRSPEED_STALL = measured Vs and AIRSPEED_MIN = max(16, 1.3 x Vs rounded up) (docs/research/stall-margin.md 5).
 - [ ] 12.0 < Vs <= 12.5 m/s = team decision: accept (R11 is an assumed value) or add 5 % wing area (docs/research/aerodynamics.md 9 item 3); > 12.5 m/s = FAIL (aerodynamics.md M2).
 - [ ] AIRSPEED_MIN 16 >= 1.3 x measured Vs, i.e. Vs <= 12.3 m/s; otherwise raise AIRSPEED_MIN to 1.3 x Vs and Q_ASSIST_SPEED to AIRSPEED_MIN - 3.
 - [ ] Elevator at the break < the full throw (reserve present; prediction -8.2 deg at Vs, aero_results stall.trim_at_Vstall.elevator_deg; the tail section stalls near 8 deg local incidence, aerodynamics.md 5).

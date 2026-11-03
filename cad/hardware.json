@@ -425,12 +425,12 @@
         "af_mm": 8.0,
         "h_mm": 5.0,
         "pocket_af_mm": 8.2,
-        "pocket_depth_mm": 11.0
+        "pocket_depth_mm": 11.1
       },
       "washer": null,
       "threadlocker": "none (nylock)",
-      "torque_Nm": 1.0,
-      "torque_basis": "EST: PETG pillar bearing (F = 1.0/(0.16 x 0.005) = 1250 N on 47 mm2 = 27 MPa)",
+      "torque_Nm": 0.5,
+      "torque_basis": "EST: PETG pillar bearing (F = 0.5/(0.16 x 0.005) = 625 N on 47 mm2 = 13 MPa); rev 2026-11-02 halved from 1.0 N m (27 MPa = 0.68 of the PETG proxy yield, creep risk, STR-13): the bolt carries panel torsion in shear and needs no clamp load; the nylock holds it",
       "qty": 2,
       "order_qty": 6,
       "joints": [
@@ -441,7 +441,7 @@
       "url": "https://boltdepot.com/Product-Details?product=6636",
       "unit_usd": 0.21,
       "checked": "2026-11-02",
-      "cad_change": "rev E (2026-11-01): M5 x 25 with the nut pocket 11.0 mm deep (cad/params.txt pillarNutDepth, computed by cad/params.mjs; pocket_depth_mm above is not used for J10). Bolt Depot 6635 is M5 x 20 and never reaches the nylock in the 11.0 mm pocket: do not order it."
+      "cad_change": "rev E (2026-11-01): M5 x 25 with the nut pocket 11.1 mm deep (cad/params.txt pillarNutDepth, computed by cad/params.mjs from the wing thickness, 11.0 before the 2026-11-02 aero/sizing loop closure; pocket_depth_mm above mirrors it and is checked by MFG-04). Bolt Depot 6635 is M5 x 20 and never reaches the nylock in the 11.1 mm pocket: do not order it."
     },
     {
       "id": "F10",

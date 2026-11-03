@@ -1,0 +1,7 @@
+{
+ "generated": "2026-11-01 (backfilled 2026-11-02 from the L1-L3 case.cfg REF_LENGTH / REF_ORIGIN_MOMENT_X and commit 4f139f9 cad/params.txt)",
+ "source": "cad/params.txt chord, panelLen, fusR; analysis/results.json concepts.C0.cg.target",
+ "chord_m": 0.321941,
+ "span_m": 2.4000000000000004,
+ "x_cg_m": -0.090143353
+}

@@ -8,7 +8,7 @@ DBF-TP-001 rev C · Test F12 · Review step: F7 · Requirements: R1, R8, R9, R10
 
 **Weather limits:** Steady <= 5 m/s, gusts <= 8 m/s (R16). A flight in 3-5 m/s steady wind closes R16 by demonstration.
 
-**Predicted:** Mission energy 99.5 Wh (104.8 Wh from the pack), landing at ~27 % of nameplate (calc; results.json sized.E_Wh, base.etaBatt, packs[0].Wh) - above BATT_LOW_MAH 1625 (25 %, rev 2026-11-02), so a mission flown to plan lands without the low-battery RTL; it fires only if the flight overruns its plan by about 2.4 % of the pack; 12.1 min cruise available at 18 m/s (sized.t_cruise_avail_min) or 14.0 min with the aero build-up drag (aero_results mission.t_cruise_avail_min). Pack temperature at touchdown = start + 4.7 K per mOhm/cell of the C11 R_cell (sealed bay, docs/research/thermal.md 6.2; 28.2 K at 6.0 mOhm/cell); fly only if start <= 60 - 4.7 x R_cell degC (TEST-PLAN.md C11, s6).
+**Predicted:** Mission energy 99.6 Wh (104.8 Wh from the pack), landing at ~27 % of nameplate (calc; results.json sized.E_Wh, base.etaBatt, packs[0].Wh) - above BATT_LOW_MAH 1625 (25 %, rev 2026-11-02), so a mission flown to plan lands without the low-battery RTL; it fires only if the flight overruns its plan by about 2.4 % of the pack; 12.0 min cruise available at 18 m/s (sized.t_cruise_avail_min) or 13.8 min with the aero build-up drag (aero_results mission.t_cruise_avail_min). Pack temperature at touchdown = start + 4.7 K per mOhm/cell of the C11 R_cell (sealed bay, docs/research/thermal.md 6.2; 28.2 K at 6.0 mOhm/cell); fly only if start <= 60 - 4.7 x R_cell degC (TEST-PLAN.md C11, s6).
 
 **Crew:** TD, SO, PIC, GCS · **Duration:** 1 session, 2 packs (one flight per pack)
 
@@ -52,7 +52,7 @@ BAT EnrgTot, CurrTot, Volt (min, at landing); MODE timeline (phase durations); A
 - [ ] Cruise >= 600 s at 18-22 m/s calibrated; total hover >= 120 s (R10).
 - [ ] Energy remaining at landing >= 20 % of the C11 usable energy, and >= 1,300 mAh remaining by BAT.CurrTot vs the C11 capacity; charge-return mAh <= 0.8 x C11 Ah (R10 reserve).
 - [ ] Lift outputs at minimum for >= 95 % of cruise (R1).
-- [ ] Cruise electrical power <= 356 W (R10 threshold; predicted 257-295 W at 18 m/s).
+- [ ] Cruise electrical power <= 356 W (R10 threshold; predicted 258-296 W at 18 m/s).
 - [ ] Date <= 2027-04-30 (R8). No ballast or payload carried (R12).
 
 ## Run log

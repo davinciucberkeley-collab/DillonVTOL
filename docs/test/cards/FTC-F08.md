@@ -8,7 +8,7 @@ DBF-TP-001 rev C · Test F08 · Review step: F6 follow-on; review 10 M1, 4 M2 ·
 
 **Weather limits:** Steady <= 5 m/s, gusts <= 8 m/s; calm air preferred for the power legs (still-air drag back-out, review 4 M2).
 
-**Predicted:** at 18 m/s, P_cruise 295 W / 13.3 A (results.json sized, 2026-11-01) or 257 W / 11.6 A (aero_results mission); CD0 0.0425 / 0.0377; L/D 8.7 / 9.9; drag 8.4 / 7.3 N. Cruise available 12.1 min (sizing) / 14.0 min (aero). Pusher can 76 degC after 600 s of cruise at 25 degC in the closed PA6-CF cup, 4 K under its 80 degC EST limit (docs/research/thermal.md 6.3, estimated 33.2 W loss); model rise over ambient 17 / 28 K after 60 / 120 s.
+**Predicted:** at 18 m/s, P_cruise 296 W / 13.3 A (results.json sized, 2026-11-01) or 258 W / 11.6 A (aero_results mission); CD0 0.0425 / 0.0375; L/D 8.7 / 10.0; drag 8.4 / 7.3 N. Cruise available 12.0 min (sizing) / 13.8 min (aero). Pusher can 76 degC after 600 s of cruise at 25 degC in the closed PA6-CF cup, 4 K under its 80 degC EST limit (docs/research/thermal.md 6.3, estimated 33.2 W loss); model rise over ambient 17 / 28 K after 60 / 120 s.
 
 **Crew:** TD, SO, PIC, GCS · **Duration:** 1 session (2 flights), 2 packs
 

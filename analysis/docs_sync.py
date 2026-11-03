@@ -51,7 +51,7 @@ def blocks():
         f"{P['reserve']*100:.0f} % reserve (design margin 11.5 min).",
         f"- CG and stability: battery at x = {CG['xb']:.3f} m (fits: furthest forward station {CG['xbMax']:.3f} m) puts the CG at "
         f"{CG['pct']['target']:.0f} % MAC with no ballast; neutral point {CG['pct']['np']:.1f} % MAC; static margin {G['SM']*100:.1f} %.",
-        f"- Structure: joiner {ST['sigJ']/1e6:.0f} MPa at {ST['nUlt']} g ultimate (elliptic root moment {ST['Mroot']:.1f} N·m): reserve factor "
+        f"- Structure: joiner {ST['sigJ']/1e6:.0f} MPa at {ST['nUlt']} g ultimate (Schrenk root moment {ST['Mroot']:.1f} N·m): reserve factor "
         f"{ST['MS_J']:.2f} on the 275 MPa library yield, {rf_min:.2f} on the 240 MPa minimum. Boom first mode {ST['fn']:.1f} Hz with the "
         f"{ST['mTip']*1000:.0f} g lift unit." + (f" FEA (cad/sim/results.txt): boom {sim.get('boom_vm_max_fine', '—')} MPa, spar {sim.get('spar_vm_max_fine', '—')} MPa." if sim else ""),
         land,

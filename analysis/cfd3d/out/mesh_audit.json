@@ -1,9 +1,9 @@
 {
- "generated": "2026-11-02 04:32",
+ "generated": "2026-11-03 01:24",
  "script": "analysis/cfd3d/mesh_audit.py",
  "inputs": [
-  "analysis/cfd3d/out/L1..L3/mesh.su2 (via mesh.npz cache)",
-  "analysis/cfd3d/out/L1..L3/mesh_stats.json",
+  "analysis/cfd3d/out/L1..L4/mesh.su2 (via mesh.npz cache)",
+  "analysis/cfd3d/out/L1..L4/mesh_stats.json",
   "analysis/cfd3d/out/cfd3d_results.json",
   "analysis/cfd3d/build_mesh.py"
  ],
@@ -781,7 +781,7 @@
    },
    "wake_1c_pct_c": 13.385,
    "wake_3c_pct_c": 21.217,
-   "time_s": 6.8
+   "time_s": 7.0
   },
   "L2": {
    "level": 2,
@@ -1389,7 +1389,7 @@
    },
    "wake_1c_pct_c": 9.3038,
    "wake_3c_pct_c": 13.276,
-   "time_s": 16.2
+   "time_s": 16.9
   },
   "L3": {
    "level": 3,
@@ -1997,24 +1997,637 @@
    },
    "wake_1c_pct_c": 6.3532,
    "wake_3c_pct_c": 9.315,
-   "time_s": 40.3
+   "time_s": 42.1
+  },
+  "L4": {
+   "level": 4,
+   "scale_f": 0.52,
+   "nodes": 4370499,
+   "tets": 23261119,
+   "wall_triangles": {
+    "wing": 1559796,
+    "htail": 264599,
+    "fins": 177966,
+    "pod": 36817,
+    "booms": 144835,
+    "motors": 4340,
+    "gear": 51292,
+    "symmetry": 89699,
+    "farfield": 42442
+   },
+   "quality": {
+    "signed_volume": {
+     "positive": 23261119,
+     "negative": 0,
+     "zero": 0,
+     "note": "one consistent sign = no inverted elements (orientation convention only)"
+    },
+    "min_dihedral_deg": {
+     "min": 0.51753,
+     "p0_1": 14.804,
+     "p01": 19.232,
+     "median": 45.196,
+     "count_below_5deg": 670,
+     "count_below_10deg": 5420
+    },
+    "max_dihedral_deg": {
+     "max": 178.37,
+     "p99": 146.34,
+     "p99_9": 150.31,
+     "count_above_170deg": 443,
+     "count_above_175deg": 194
+    },
+    "radius_ratio_3rin_over_Rcirc": {
+     "min": 0.00034215,
+     "p01": 0.3243,
+     "mean": 0.74603
+    },
+    "edge_ratio_max_over_min": {
+     "median": 1.6508,
+     "p99": 3.6583,
+     "max": 52.4
+    },
+    "gmsh_reported": {
+     "source": "analysis/cfd3d/out/L4/mesh_stats.json",
+     "minSICN": {
+      "min": 0.012635,
+      "p01": 0.38659,
+      "mean": 0.77939
+     },
+     "gamma": {
+      "min": 0.00034215,
+      "p01": 0.3243,
+      "mean": 0.74603
+     }
+    }
+   },
+   "domain_volume_m3": 196000.0,
+   "celik_h_m": 0.20349,
+   "growth": {
+    "adjacent_size_ratio": {
+     "interior_faces": 45336345,
+     "median": 1.066,
+     "p95": 1.2532,
+     "p99": 1.5302,
+     "p99_9": 2.1698,
+     "max": 6.8533
+    },
+    "size_measure": "rms edge length of each tet",
+    "size_vs_distance_above_wing": [
+     {
+      "d_m": [
+       0,
+       0.005
+      ],
+      "n": 476915,
+      "h_median_mm": 1.6793
+     },
+     {
+      "d_m": [
+       0.005,
+       0.01
+      ],
+      "n": 34059,
+      "h_median_mm": 5.7784,
+      "dh_dd": 0.81982
+     },
+     {
+      "d_m": [
+       0.01,
+       0.02
+      ],
+      "n": 38572,
+      "h_median_mm": 7.5011,
+      "dh_dd": 0.22969
+     },
+     {
+      "d_m": [
+       0.02,
+       0.04
+      ],
+      "n": 63100,
+      "h_median_mm": 8.7194,
+      "dh_dd": 0.08122
+     },
+     {
+      "d_m": [
+       0.04,
+       0.08
+      ],
+      "n": 58469,
+      "h_median_mm": 11.244,
+      "dh_dd": 0.084162
+     },
+     {
+      "d_m": [
+       0.08,
+       0.16
+      ],
+      "n": 53564,
+      "h_median_mm": 14.811,
+      "dh_dd": 0.059452
+     },
+     {
+      "d_m": [
+       0.16,
+       0.32
+      ],
+      "n": 50650,
+      "h_median_mm": 15.434,
+      "dh_dd": 0.005191
+     },
+     {
+      "d_m": [
+       0.32,
+       0.6
+      ],
+      "n": 5043,
+      "h_median_mm": 45.42,
+      "dh_dd": 0.1363
+     }
+    ],
+    "normal_gradation_max_dh_dd": 0.81982,
+    "note": "for isotropic cells the cell-to-cell growth along the normal is about 1 + dh/dd"
+   },
+   "first_cell_height_pct_c": {
+    "all_walls": {
+     "n": 2239645,
+     "min": 0.0029039,
+     "p05": 0.30261,
+     "median": 0.38854,
+     "p95": 0.9211,
+     "max": 2.8227
+    },
+    "wing": {
+     "n": 1559796,
+     "min": 0.0041119,
+     "p05": 0.31228,
+     "median": 0.38298,
+     "p95": 0.54719,
+     "max": 1.3533
+    },
+    "htail": {
+     "n": 264599,
+     "min": 0.014952,
+     "p05": 0.17296,
+     "median": 0.36854,
+     "p95": 0.54192,
+     "max": 0.80196
+    },
+    "fins": {
+     "n": 177966,
+     "min": 0.01328,
+     "p05": 0.20142,
+     "median": 0.37081,
+     "p95": 0.54519,
+     "max": 0.76948
+    },
+    "pod": {
+     "n": 36817,
+     "min": 0.031285,
+     "p05": 0.15293,
+     "median": 1.3454,
+     "p95": 1.9798,
+     "max": 2.8227
+    },
+    "booms": {
+     "n": 144835,
+     "min": 0.0050428,
+     "p05": 0.33065,
+     "median": 0.86379,
+     "p95": 1.6092,
+     "max": 2.6565
+    },
+    "motors": {
+     "n": 4340,
+     "min": 0.0029039,
+     "p05": 0.017429,
+     "median": 1.126,
+     "p95": 1.8237,
+     "max": 2.4645
+    },
+    "gear": {
+     "n": 51292,
+     "min": 0.0036425,
+     "p05": 0.10178,
+     "median": 0.67246,
+     "p95": 1.6931,
+     "max": 2.7475
+    },
+    "definition": "3 V / A of the tet owning each wall triangle, % c_ref"
+   },
+   "first_cell_height_mm_wing_median": 1.233,
+   "wing_extent_m": {
+    "x_le": -4.1768e-05,
+    "x_te": 0.32194,
+    "chord": 0.32198,
+    "y_min": 0.018261,
+    "y_tip": 1.2,
+    "z": [
+     -0.02026,
+     0.030306
+    ]
+   },
+   "wing_stations": [
+    {
+     "y_m": 0.15,
+     "section_perimeter_m": 0.6629,
+     "equiv_points_per_section": 619.07,
+     "le_edge_pct_c": {
+      "n": 1931,
+      "min": 0.20266,
+      "p05": 0.25289,
+      "median": 0.32794,
+      "p95": 0.42549,
+      "max": 0.50985
+     },
+     "te_chordwise_edge_pct_c": {
+      "n": 153,
+      "min": 0.25512,
+      "p05": 0.26254,
+      "median": 0.35025,
+      "p95": 0.45782,
+      "max": 0.50099
+     },
+     "te_line_spacing_pct_c": {
+      "n": 87,
+      "min": 0.35534,
+      "p05": 0.35534,
+      "median": 0.35534,
+      "p95": 0.35534,
+      "max": 0.35534
+     },
+     "section_points": 1385,
+     "points_per_chord_upper_lower_avg": 692.5,
+     "section_clean": true
+    },
+    {
+     "y_m": 0.35,
+     "section_perimeter_m": 0.6629,
+     "equiv_points_per_section": 618.07,
+     "le_edge_pct_c": {
+      "n": 1957,
+      "min": 0.20728,
+      "p05": 0.25302,
+      "median": 0.32347,
+      "p95": 0.42528,
+      "max": 0.50541
+     },
+     "te_chordwise_edge_pct_c": {
+      "n": 150,
+      "min": 0.24343,
+      "p05": 0.25386,
+      "median": 0.34632,
+      "p95": 0.44706,
+      "max": 0.48734
+     },
+     "te_line_spacing_pct_c": {
+      "n": 87,
+      "min": 0.35534,
+      "p05": 0.35534,
+      "median": 0.35534,
+      "p95": 0.35534,
+      "max": 0.35534
+     },
+     "section_points": 1375,
+     "points_per_chord_upper_lower_avg": 687.5,
+     "section_clean": true
+    },
+    {
+     "y_m": 0.55,
+     "section_perimeter_m": 0.6629,
+     "equiv_points_per_section": 619.17,
+     "le_edge_pct_c": {
+      "n": 1937,
+      "min": 0.21244,
+      "p05": 0.25675,
+      "median": 0.32637,
+      "p95": 0.42136,
+      "max": 0.50477
+     },
+     "te_chordwise_edge_pct_c": {
+      "n": 151,
+      "min": 0.24317,
+      "p05": 0.26262,
+      "median": 0.34916,
+      "p95": 0.45551,
+      "max": 0.49387
+     },
+     "te_line_spacing_pct_c": {
+      "n": 87,
+      "min": 0.35534,
+      "p05": 0.35534,
+      "median": 0.35534,
+      "p95": 0.35534,
+      "max": 0.35534
+     },
+     "section_points": 1378,
+     "points_per_chord_upper_lower_avg": 689.0,
+     "section_clean": true
+    },
+    {
+     "y_m": 0.75,
+     "section_perimeter_m": 0.6629,
+     "equiv_points_per_section": 621.66,
+     "le_edge_pct_c": {
+      "n": 1974,
+      "min": 0.20672,
+      "p05": 0.24982,
+      "median": 0.32187,
+      "p95": 0.41956,
+      "max": 0.50987
+     },
+     "te_chordwise_edge_pct_c": {
+      "n": 155,
+      "min": 0.24231,
+      "p05": 0.25912,
+      "median": 0.34577,
+      "p95": 0.44721,
+      "max": 0.48797
+     },
+     "te_line_spacing_pct_c": {
+      "n": 88,
+      "min": 0.35534,
+      "p05": 0.35534,
+      "median": 0.35534,
+      "p95": 0.35534,
+      "max": 0.35534
+     },
+     "section_points": 1383,
+     "points_per_chord_upper_lower_avg": 691.5,
+     "section_clean": true
+    },
+    {
+     "y_m": 0.95,
+     "section_perimeter_m": 0.6629,
+     "equiv_points_per_section": 616.56,
+     "le_edge_pct_c": {
+      "n": 1973,
+      "min": 0.19405,
+      "p05": 0.24937,
+      "median": 0.32465,
+      "p95": 0.41846,
+      "max": 0.49846
+     },
+     "te_chordwise_edge_pct_c": {
+      "n": 151,
+      "min": 0.24258,
+      "p05": 0.25952,
+      "median": 0.33714,
+      "p95": 0.44391,
+      "max": 0.47622
+     },
+     "te_line_spacing_pct_c": {
+      "n": 88,
+      "min": 0.35534,
+      "p05": 0.35534,
+      "median": 0.35534,
+      "p95": 0.35534,
+      "max": 0.35534
+     },
+     "section_points": 1397,
+     "points_per_chord_upper_lower_avg": 698.5,
+     "section_clean": true
+    },
+    {
+     "y_m": 1.1,
+     "section_perimeter_m": 0.6629,
+     "equiv_points_per_section": 619.25,
+     "le_edge_pct_c": {
+      "n": 1977,
+      "min": 0.20101,
+      "p05": 0.25108,
+      "median": 0.32302,
+      "p95": 0.42131,
+      "max": 0.49393
+     },
+     "te_chordwise_edge_pct_c": {
+      "n": 147,
+      "min": 0.24417,
+      "p05": 0.25828,
+      "median": 0.34996,
+      "p95": 0.45255,
+      "max": 0.48998
+     },
+     "te_line_spacing_pct_c": {
+      "n": 88,
+      "min": 0.35534,
+      "p05": 0.35534,
+      "median": 0.35534,
+      "p95": 0.35534,
+      "max": 0.35534
+     },
+     "section_points": 1369,
+     "points_per_chord_upper_lower_avg": 684.5,
+     "section_clean": true
+    }
+   ],
+   "wing_le_spacing_pct_c": {
+    "median_over_stations": 0.32406,
+    "min_over_stations": 0.32187,
+    "max_over_stations": 0.32794
+   },
+   "wing_le_spacing_min_edge_pct_c": 0.19405,
+   "wing_te_spacing_pct_c": {
+    "median_over_stations": 0.34774,
+    "min_over_stations": 0.33714,
+    "max_over_stations": 0.35025
+   },
+   "wing_te_line_spacing_pct_c": {
+    "median_over_stations": 0.35534,
+    "min_over_stations": 0.35534,
+    "max_over_stations": 0.35534
+   },
+   "wing_section_points": {
+    "median": 1380.5,
+    "per_station": [
+     1385,
+     1375,
+     1378,
+     1383,
+     1397,
+     1369
+    ],
+    "equiv_median": 619.12,
+    "note": "section_points = edges crossed by the plane y = station (upper + lower); equiv = perimeter / median local edge, comparable with the 2-D 'wall edges' in scheme_check_2d.json (CFD-12)"
+   },
+   "wing_tip_spanwise_spacing": {
+    "edge_pct_semispan": {
+     "n": 47292,
+     "min": 0.054899,
+     "p05": 0.069582,
+     "median": 0.089174,
+     "p95": 0.11413,
+     "max": 0.1456
+    },
+    "edge_mm_median": 1.0701,
+    "dy_projection_pct_semispan_median": 0.061779
+   },
+   "wing_root_spanwise_spacing": {
+    "edge_pct_semispan": {
+     "n": 6690,
+     "min": 0.02878,
+     "p05": 0.069057,
+     "median": 0.089703,
+     "p95": 0.11608,
+     "max": 0.1352
+    },
+    "edge_mm_median": 1.0764,
+    "y_root_m": 0.018261
+   },
+   "wing_surface_edge_median_mm": 1.0698,
+   "htail": {
+    "x_le": 0.85374,
+    "x_te": 0.97851,
+    "chord_m": 0.12477,
+    "y_max": 0.4587,
+    "le_edge_pct_local_c": {
+     "n": 57605,
+     "min": 0.14708,
+     "p05": 0.19049,
+     "median": 0.24992,
+     "p95": 0.43812,
+     "max": 0.83799
+    },
+    "le_edge_pct_cref": {
+     "n": 57605,
+     "min": 0.057002,
+     "p05": 0.073825,
+     "median": 0.096859,
+     "p95": 0.1698,
+     "max": 0.32477
+    },
+    "te_chordwise_edge_pct_local_c": {
+     "n": 1811,
+     "min": 0.17663,
+     "p05": 0.27086,
+     "median": 0.87784,
+     "p95": 1.1445,
+     "max": 1.3227
+    },
+    "note": "H-tail marker also includes nothing else (build_mesh.GROUPS htail = H_Tail)"
+   },
+   "pod_nose_spacing_pct_cref": {
+    "n": 285,
+    "min": 0.42208,
+    "p05": 0.61606,
+    "median": 1.1358,
+    "p95": 1.621,
+    "max": 1.8644
+   },
+   "pod_aft_spacing_pct_cref": {
+    "n": 504,
+    "min": 0.5018,
+    "p05": 0.7128,
+    "median": 0.99791,
+    "p95": 1.3385,
+    "max": 1.5819
+   },
+   "pod_aft_note": "pod marker includes Canopy and Pusher_Motor; the aft end is the pusher motor",
+   "farfield": {
+    "box_m": {
+     "x": [
+      -35.0,
+      45.0
+     ],
+     "y": [
+      -1.1668e-14,
+      35.0
+     ],
+     "z": [
+      -35.0,
+      35.0
+     ]
+    },
+    "min_distance_m": 33.801,
+    "by_direction_m": {
+     "upstream_from_nose": 34.4,
+     "downstream_from_tail": 43.926,
+     "outboard_from_tip": 33.8,
+     "below": 34.747,
+     "above": 34.795,
+     "upstream_from_wing_le": 35.0
+    },
+    "by_direction_chords": {
+     "upstream_from_nose": 106.85,
+     "downstream_from_tail": 136.44,
+     "outboard_from_tip": 104.99,
+     "below": 107.93,
+     "above": 108.08,
+     "upstream_from_wing_le": 108.72
+    }
+   },
+   "farfield_chords": 104.99,
+   "farfield_semispans": 28.167,
+   "wake": {
+    "1c": {
+     "points": [
+      {
+       "y_m": 0.3,
+       "x_m": 0.64388,
+       "cell_size_pct_c": 4.438
+      },
+      {
+       "y_m": 0.6,
+       "x_m": 0.64388,
+       "cell_size_pct_c": 4.078
+      },
+      {
+       "y_m": 0.9,
+       "x_m": 0.64388,
+       "cell_size_pct_c": 5.045
+      }
+     ],
+     "median_pct_c": 4.438
+    },
+    "3c": {
+     "points": [
+      {
+       "y_m": 0.3,
+       "x_m": 1.2878,
+       "cell_size_pct_c": 7.3542
+      },
+      {
+       "y_m": 0.6,
+       "x_m": 1.2878,
+       "cell_size_pct_c": 6.5537
+      },
+      {
+       "y_m": 0.9,
+       "x_m": 1.2878,
+       "cell_size_pct_c": 6.3964
+      }
+     ],
+     "median_pct_c": 6.5537
+    },
+    "z_te_m": -1.1432e-16,
+    "size_measure": "median rms edge length of the 8 tets nearest the probe"
+   },
+   "wake_1c_pct_c": 4.438,
+   "wake_3c_pct_c": 6.5537,
+   "time_s": 112.3
   }
  },
  "convergence": {
   "refinement": {
-   "r_L1_L2": 1.3171,
-   "r_L2_L3": 1.3281,
-   "N_ratio_L1_L2": 2.2847,
-   "N_ratio_L2_L3": 2.3425,
    "celik_h_m": {
     "L1": 0.48367,
     "L2": 0.36723,
-    "L3": 0.27651
+    "L3": 0.27651,
+    "L4": 0.20349
    },
+   "r_L1_L2": 1.3171,
+   "N_ratio_L1_L2": 2.2847,
    "r_celik_h_L1_L2": 1.3171,
-   "r_celik_h_L2_L3": 1.3281,
    "f_ratio_L1_L2": 1.5,
-   "f_ratio_L2_L3": 1.3889
+   "r_L2_L3": 1.3281,
+   "N_ratio_L2_L3": 2.3425,
+   "r_celik_h_L2_L3": 1.3281,
+   "f_ratio_L2_L3": 1.3889,
+   "r_L3_L4": 1.3588,
+   "N_ratio_L3_L4": 2.509,
+   "r_celik_h_L3_L4": 1.3588,
+   "f_ratio_L3_L4": 1.3846
   },
   "family": {
    "L1_L2": {
@@ -2050,43 +2663,61 @@
     },
     "worst": "htail_le",
     "worst_dev": 0.15977
+   },
+   "L3_L4": {
+    "global_r": 1.3588,
+    "regional_ratio": {
+     "wing_le_spacing": 1.3641,
+     "wing_te_chordwise": 1.3815,
+     "wing_te_line": 1.383,
+     "wing_first_cell_height": 1.3697,
+     "wing_surface_edge": 1.3816,
+     "wing_tip_spanwise": 1.3893,
+     "htail_le": 1.4612,
+     "wake_1c": 1.4315,
+     "wake_3c": 1.4213,
+     "section_points_equiv": 1.3805
+    },
+    "worst": "htail_le",
+    "worst_dev": 0.075345
    }
   },
   "monotone": {
    "CL": {
     "fine_to_coarse": [
+     0.52286,
      0.51039,
-     0.49405,
-     0.48456
+     0.49405
     ],
-    "e21": -0.016339,
-    "e32": -0.0094883,
-    "e32_over_e21": 0.5807,
+    "e21": -0.012469,
+    "e32": -0.016339,
+    "e32_over_e21": 1.3104,
     "convergence": "monotone"
    },
    "CD": {
     "fine_to_coarse": [
+     0.034544,
      0.037102,
-     0.040111,
-     0.052379
+     0.040111
     ],
-    "e21": 0.0030082,
-    "e32": 0.012268,
-    "e32_over_e21": 4.0782,
+    "e21": 0.0025585,
+    "e32": 0.0030082,
+    "e32_over_e21": 1.1758,
     "convergence": "monotone"
    },
    "CMy": {
     "fine_to_coarse": [
+     -0.066849,
      -0.072769,
-     -0.072309,
-     -0.078053
+     -0.072309
     ],
-    "e21": 0.00046034,
-    "e32": -0.0057444,
-    "e32_over_e21": -12.479,
+    "e21": -0.0059208,
+    "e32": 0.00046034,
+    "e32_over_e21": -0.077749,
     "convergence": "oscillatory"
    },
-   "source": "analysis/cfd3d/out/cfd3d_results.json cases L1/L2/L3_a4.0"
+   "levels": "L2-L3-L4",
+   "source": "analysis/cfd3d/out/cfd3d_results.json cases L2/L3/L4_a4.0"
   }
  },
  "scorecard": [
@@ -2103,6 +2734,10 @@
     "result": "pass"
    },
    "L3": {
+    "value": 105.0,
+    "result": "pass"
+   },
+   "L4": {
     "value": 105.0,
     "result": "pass"
    },
@@ -2124,6 +2759,10 @@
     "value": 28.17,
     "result": "fail"
    },
+   "L4": {
+    "value": 28.17,
+    "result": "fail"
+   },
    "note": ""
   },
   {
@@ -2140,6 +2779,10 @@
    },
    "L3": {
     "value": 0.4421,
+    "result": "fail"
+   },
+   "L4": {
+    "value": 0.3241,
     "result": "fail"
    },
    "note": "Edges with midpoint within 1 % c of the LE, 6 stations. Set by the curvature rule (24/f per turn) and the 2.2 mm x f lifting-surface size."
@@ -2160,6 +2803,10 @@
     "value": 0.4804,
     "result": "fail"
    },
+   "L4": {
+    "value": 0.3477,
+    "result": "fail"
+   },
    "note": "Chordwise edges touching the sharp TE line."
   },
   {
@@ -2176,6 +2823,10 @@
    },
    "L3": {
     "value": 0.3652,
+    "result": "fail"
+   },
+   "L4": {
+    "value": 0.2499,
     "result": "fail"
    },
    "note": "Relevant to CFD-11 (Cp > 1 at the H-tail LE): the LE is resolved by only a few edges."
@@ -2196,6 +2847,10 @@
     "value": 0.1239,
     "result": "fail"
    },
+   "L4": {
+    "value": 0.08917,
+    "result": "pass"
+   },
    "note": "Wing triangles within 15 mm of the tip, 10-90 % chord, tip cap excluded."
   },
   {
@@ -2214,6 +2869,10 @@
     "value": 0.1246,
     "result": "fail"
    },
+   "L4": {
+    "value": 0.0897,
+    "result": "pass"
+   },
    "note": "Wing triangles within 15 mm of the wing-pod junction, 10-90 % chord."
   },
   {
@@ -2230,6 +2889,10 @@
    },
    "L3": {
     "value": 1.654,
+    "result": "fail"
+   },
+   "L4": {
+    "value": 1.136,
     "result": "fail"
    },
    "note": "Pod edges within 10 mm of the nose."
@@ -2250,6 +2913,10 @@
     "value": 1.654,
     "result": "pass"
    },
+   "L4": {
+    "value": 1.136,
+    "result": "pass"
+   },
    "note": "'~2 %' tested as <= 2 %."
   },
   {
@@ -2268,7 +2935,11 @@
     "value": null,
     "result": "n/a"
    },
-   "note": "Closed TE. TE line node spacing (% c, median): L1 1.02, L2 0.683, L3 0.491"
+   "L4": {
+    "value": null,
+    "result": "n/a"
+   },
+   "note": "Closed TE. TE line node spacing (% c, median): L1 1.02, L2 0.683, L3 0.491, L4 0.355"
   },
   {
    "standard": "STD-09",
@@ -2284,6 +2955,10 @@
    },
    "L3": {
     "value": 0.5246,
+    "result": "n/a"
+   },
+   "L4": {
+    "value": 0.383,
     "result": "n/a"
    },
    "note": "Inviscid mesh: reported only."
@@ -2304,6 +2979,10 @@
     "value": 1.641,
     "result": "n/a"
    },
+   "L4": {
+    "value": 1.53,
+    "result": "n/a"
+   },
    "note": "No viscous layer; isotropic gradation reported only."
   },
   {
@@ -2322,7 +3001,11 @@
     "value": 1.328,
     "result": "pass"
    },
-   "note": "Value listed on the finer level of each pair (L2 = L1->L2, L3 = L2->L3)."
+   "L4": {
+    "value": 1.359,
+    "result": "pass"
+   },
+   "note": "Value listed on the finer level of each pair (L2 = L1->L2, L3 = L2->L3, L4 = L3->L4)."
   },
   {
    "standard": "STD-12",
@@ -2340,7 +3023,11 @@
     "value": 1.328,
     "result": "pass"
    },
-   "note": "Value listed on the finer level of each pair (L2 = L1->L2, L3 = L2->L3)."
+   "L4": {
+    "value": 1.359,
+    "result": "pass"
+   },
+   "note": "Value listed on the finer level of each pair (L2 = L1->L2, L3 = L2->L3, L4 = L3->L4)."
   },
   {
    "standard": "STD-13",
@@ -2355,10 +3042,14 @@
     "result": "n/a"
    },
    "L3": {
-    "value": 0.5807,
+    "value": null,
+    "result": "n/a"
+   },
+   "L4": {
+    "value": 1.31,
     "result": "pass"
    },
-   "note": "Three-level property, listed on L3. A positive ratio is monotone; the asymptotic range also needs e32/e21 > 1 (CFD-02)."
+   "note": "Three-level property of the finest triplet (L2-L3-L4), listed on L4. A positive ratio is monotone; the asymptotic range also needs e32/e21 > 1 (CFD-02)."
   },
   {
    "standard": "STD-14",
@@ -2375,6 +3066,10 @@
    "L3": {
     "value": 0.1598,
     "result": "fail"
+   },
+   "L4": {
+    "value": 0.07534,
+    "result": "pass"
    },
    "note": "Relative deviation of each regional ratio from the global r; pass if all within 10 % (audit assumption). Mesh rev 2 scales every size rule with f; the wake and tip-vortex boxes still refine faster than the global ratio."
   },
@@ -2394,6 +3089,10 @@
     "value": 2.343,
     "result": "fail"
    },
+   "L4": {
+    "value": 2.509,
+    "result": "pass"
+   },
    "note": "+-20 % band is an audit assumption."
   },
   {
@@ -2412,16 +3111,20 @@
     "value": 0,
     "result": "pass"
    },
+   "L4": {
+    "value": 0,
+    "result": "pass"
+   },
    "note": "Count of tets with the minority (or zero) volume sign."
   }
  ],
  "strategy": [
   {
    "name": "Refinement levels",
-   "what": "Three meshes share every rule; one length factor f scales most sizes (L1 1.5, L2 1.0, L3 0.72).",
+   "what": "4 meshes share every rule; one length factor f scales most sizes (L1 1.5, L2 1, L3 0.72, L4 0.52).",
    "code_ref": "analysis/cfd3d/build_mesh.py:22",
    "parameters": {
-    "f": "1.5 / 1.0 / 0.72"
+    "f": "1.5 / 1 / 0.72 / 0.52"
    }
   },
   {
@@ -2615,17 +3318,14 @@
   }
  ],
  "summary": {
-  "passes": 12,
-  "fails": 27,
-  "not_applicable": 15,
-  "verdict": "Mesh rev 2. All three levels are valid (no inverted cells), 1.32 / 1.33 apart (grid-study minimum 1.3), and the far field is 105 reference chords away (guideline 100). The wing LE spacing now refines with the level (0.91 / 0.62 / 0.44 % c) but is still above the 0.1 % c viscous-grid guideline, which this inviscid study is not built to meet. CL at alpha 4 is monotone but not yet in the asymptotic range (e32/e21 = 0.58; asymptotic needs > 1), so no valid GCI (CFD-02). Regional spacing ratios deviate from the global ratio by up to 21 % (worst: wake_3c). Standards met on some level: STD-01, STD-07, STD-11, STD-12, STD-13, STD-16; not met: STD-02, STD-03, STD-04, STD-05, STD-06, STD-07, STD-14, STD-15.",
+  "passes": 21,
+  "fails": 32,
+  "not_applicable": 19,
+  "verdict": "Mesh rev 2. All 4 levels are valid (no inverted cells), 1.32 / 1.33 / 1.36 apart (grid-study minimum 1.3), and the far field is 105 reference chords away (guideline 100). The wing LE spacing refines with the level (0.91 / 0.62 / 0.44 / 0.32 % c) but is still above the 0.1 % c viscous-grid guideline, which this inviscid study is not built to meet. CL at alpha 4 on L2-L3-L4 is in the asymptotic range (e32/e21 = 1.31 > 1), so CFD-02 has a valid GCI. Regional spacing ratios deviate from the global ratio by up to 21 % (worst: wake_3c, L1->L2). Standards met on some level: STD-01, STD-05, STD-07, STD-11, STD-12, STD-13, STD-14, STD-15, STD-16; not met: STD-02, STD-03, STD-04, STD-05, STD-06, STD-07, STD-14, STD-15.",
   "what_a_passing_mesh_needs": [
    "Far field at >= 100 semispans (120 m) for DPW-8; far cells can stay large, so the extra cost is small.",
    "Wing and H-tail chordwise spacing near 0.1 % local chord at LE and TE (0.1 % of the 0.322 m chord = 0.32 mm), graded to coarser cells mid-chord (anisotropic surface mesh), for a viscous-grade grid.",
-   "Spanwise spacing near 0.1 % semispan (1.2 mm) at the wing root and tip, locally.",
-   "Wake and tip-vortex boxes scaled so their spacing ratio equals the global r (the wake regions refine faster than the rest today).",
-   "A fourth, finer level (f about 0.52, about 22 M tetrahedra) to reach the asymptotic range so the GCI of CFD-02 can be computed.",
-   "Pod nose spacing under 1 % c_ref (3.22 mm) for DPW-8; L3 is at 1.65 % today."
+   "Pod nose spacing under 1 % c_ref (3.22 mm) for DPW-8; L4 is at 1.14 % today."
   ]
  }
 }

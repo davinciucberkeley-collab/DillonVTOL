@@ -1,23 +1,23 @@
-# SOLIDWORKS Simulation results, key=value|unit|note  (generated 2026-11-02 01:10)
-boom_vm_max=35.4333|MPa|von Mises max, FEA
-boom_RF_yield=7.76106|-|yield / FEA von Mises at full thrust
-boom_disp_max=3.15517|mm|resultant displacement max, FEA
-boom_hand_sigma=36.9579|MPa|hand calc M c / I
-boom_hand_defl=3.348|mm|hand calc P L^3 / 3EI
-boom_model_mass=0.411488|kg|FEA model (tube + tip block) = volume x density
+# SOLIDWORKS Simulation results, key=value|unit|note  (generated 2026-11-02 13:19)
+boom_vm_max=35.4514|MPa|von Mises max, FEA
+boom_RF_yield=7.7571|-|yield / FEA von Mises at full thrust
+boom_disp_max=3.1605|mm|resultant displacement max, FEA
+boom_hand_sigma=36.9784|MPa|hand calc M c / I
+boom_hand_defl=3.354|mm|hand calc P L^3 / 3EI
+boom_model_mass=0.411538|kg|FEA model (tube + tip block) = volume x density
 boom_tip_mass_target=0.3255|kg|lift unit: motor + ESC + prop + mount
-boom_vm_max_fine=38.6358|MPa|von Mises max, 1.5 mm mesh (convergence check)
-# raw GetResonantFrequencies: 1,174.361,27.7504,0.0360355,2,1782.05,283.622,0.00352582,3,2078.5,330.803,0.00302295
-boom_f1=27.7504|Hz|first mode, FEA (tip mass = lift unit)
-boom_hand_fn=25.8754|Hz|hand calc, massless beam + tip mass
-spar_vm_max=166.366|MPa|von Mises max (joiner/spar), FEA
-spar_RF_yield=1.65299|-|yield / FEA von Mises at ultimate load
-spar_tip_disp=26.3462|mm|max displacement at spar tip, FEA
-spar_hand_sigJ=178.702|MPa|hand calc joiner stress at centreline
-spar_load_N=174.08|N|uniform on spar, scaled to root moment 83.558246 N m
+boom_vm_max_fine=38.633|MPa|von Mises max, 1.5 mm mesh (convergence check)
+# raw GetResonantFrequencies: 1,174.208,27.726,0.0360672,2,1781.41,283.52,0.00352709,3,2077.23,330.602,0.00302478
+boom_f1=27.726|Hz|first mode, FEA (tip mass = lift unit)
+boom_hand_fn=25.8534|Hz|hand calc, massless beam + tip mass
+spar_vm_max=181.239|MPa|von Mises max (joiner/spar), FEA
+spar_RF_yield=1.51734|-|yield / FEA von Mises at ultimate load
+spar_tip_disp=28.7016|mm|max displacement at spar tip, FEA
+spar_hand_sigJ=194.678|MPa|hand calc joiner stress at centreline
+spar_load_N=189.642|N|uniform on spar, scaled to root moment 91.028347 N m
 spar_note=0|-|joiner modelled with OD = socket ID (bonded); hand calc on the true 0.875 in joiner governs
-spar_vm_max_fine=175.54|MPa|von Mises max, 2 mm mesh (convergence check)
-motor_T_steady=185.604|degC|steady-state upper bound, FEA
-motor_Q=56.5661|W|heat into lift unit (EST)
+spar_vm_max_fine=191.233|MPa|von Mises max, 2 mm mesh (convergence check)
+motor_T_steady=185.686|degC|steady-state upper bound, FEA
+motor_Q=56.5969|W|heat into lift unit (EST)
 motor_h=44.6471|W/m2K|convection in prop wash (EST)
-motor_T_steady_hand=185.032|degC|hand: T_amb + Q/(h A)
+motor_T_steady_hand=185.113|degC|hand: T_amb + Q/(h A)

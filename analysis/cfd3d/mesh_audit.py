@@ -1,4 +1,4 @@
-"""Audit the three full-aircraft CFD meshes (out/L1..L3/mesh.su2) against published CFD gridding guidelines.
+"""Audit the full-aircraft CFD meshes (out/L1..L4/mesh.su2; every level whose mesh exists; L4 added 2026-11-03) against published CFD gridding guidelines.
 
 Everything in "metrics" is measured from the mesh files themselves (via postprocess.read_su2 and its mesh.npz cache);
 every threshold in "standards" was read at the cited URL on the date given. The output is out/mesh_audit.json.
@@ -34,11 +34,11 @@ from postprocess import read_su2  # noqa: E402  (reuses the mesh.npz cache)
 
 sys.path.insert(0, str(HERE.parent))
 import geom  # noqa: E402
-C_REF = geom.PARAMS["chord"]   # m, wing chord = reference chord (run_cases.C_REF; cad/params.txt chord, rev 2026-11-02: was the hard-coded 0.284176 of the old wing)
+C_REF = json.loads((HERE / "out" / "reference.json").read_text(encoding="utf-8"))["chord_m"]   # m, reference chord of the meshed geometry (run_cases.C_REF; rev 2026-11-02: was the hard-coded 0.284176 of the old wing)
 SEMISPAN = 1.2              # m, wing tip at y = 1.2 (wing marker y-extent, measured below and reported)
 WALLS = ["wing", "htail", "fins", "pod", "booms", "motors", "gear"]
 STATIONS = [0.15, 0.35, 0.55, 0.75, 0.95, 1.10]    # wing spanwise stations, m (clear of the root junction and tip box)
-LEVELS = {1: 1.5, 2: 1.0, 3: 0.72}                  # build_mesh.LEVELS (scale factor f)
+LEVELS = {1: 1.5, 2: 1.0, 3: 0.72, 4: 0.52}         # build_mesh.LEVELS (scale factor f)
 CHECKED = "2026-11-01"
 
 
@@ -377,8 +377,8 @@ def strategy():
         la = ln(a); lb = ln(b, la - 1) if b else la
         return f"analysis/cfd3d/build_mesh.py:{la}" + (f"-{lb}" if lb != la else "")
     S = [
-        ("Refinement levels", "Three meshes share every rule; one length factor f scales most sizes (L1 1.5, L2 1.0, L3 0.72).",
-         ref("LEVELS = {1: 1.5"), {"f": "1.5 / 1.0 / 0.72"}),
+        ("Refinement levels", f"{len(LEVELS)} meshes share every rule; one length factor f scales most sizes (" + ", ".join(f"L{k} {v:g}" for k, v in LEVELS.items()) + ").",
+         ref("LEVELS = {1: 1.5"), {"f": " / ".join(f"{v:g}" for v in LEVELS.values())}),
         ("Domain box", "Half-model box cut around the aircraft; mesh rev 2 puts the far boundary at least 33.8 m (Z: 35 m box top minus 1.2 m wing tip; 100 reference chords of 0.317 m = 31.7 m) from the aircraft, meeting the 100-chord guideline.",
          ref("DOMAIN = dict"), {"CAD frame": "X -45..35, Y -35..35, Z 0..35 m", "nearest far face": "33.8 m (above the tip)"}),
         ("Fluid volume", "The box minus the closed outer surface; only the largest volume is kept.",
@@ -428,7 +428,9 @@ def scorecard(M, conv):
         rows.append({"standard": std, "metric": metric, "threshold_text": thr, **{f"L{k}": v for k, v in vals.items()}, "note": note})
     def cmp(v, ok):
         return {"value": rnd(v), "result": "n/a" if v is None else ("pass" if ok(v) else "fail")}
-    lv = (1, 2, 3)
+    lv = tuple(sorted(M))
+    na = {"value": None, "result": "n/a"}
+    fin = f"L{lv[-1]}"
     row("STD-01", "farfield_chords", "~100 c_ref", {k: cmp(M[k]["farfield_chords"], lambda v: v >= 100) for k in lv},
         "Nearest far-field node to any wall node. '~100' tested as >= 100.")
     row("STD-02", "farfield_semispans", "> 100 semispans", {k: cmp(M[k]["farfield_semispans"], lambda v: v > 100) for k in lv}, "")
@@ -449,7 +451,6 @@ def scorecard(M, conv):
         {k: cmp(M[k]["pod_nose_spacing_pct_cref"]["median"], lambda v: v < 1.0) for k in lv}, "Pod edges within 10 mm of the nose.")
     row("STD-07", "pod_nose_spacing_pct_cref (median)", "~2.0 % c_ref",
         {k: cmp(M[k]["pod_nose_spacing_pct_cref"]["median"], lambda v: v <= 2.0) for k in lv}, "'~2 %' tested as <= 2 %.")
-    na = {"value": None, "result": "n/a"}
     row("STD-08", "TE base cells", ">= 8 / 12 / 16", {k: {"value": None, "result": "n/a"} for k in lv},
         "Closed TE. TE line node spacing (% c, median): " + ", ".join(f"L{k} {rnd(M[k]['wing_te_line_spacing_pct_c']['median_over_stations'], 3)}" for k in lv))
     row("STD-09", "first_cell_height_pct_c (wing median)", "y+ criterion (viscous)", {k: {"value": rnd(M[k]["first_cell_height_pct_c"]["wing"]["median"]), "result": "n/a"} for k in lv},
@@ -457,26 +458,22 @@ def scorecard(M, conv):
     row("STD-10", "adjacent_size_ratio p99", "< 1.2 (viscous layer)", {k: {"value": rnd(M[k]["growth"]["adjacent_size_ratio"]["p99"]), "result": "n/a"} for k in lv},
         "No viscous layer; isotropic gradation reported only.")
     R = conv["refinement"]
+    pairs = list(zip(lv, lv[1:]))      # each pair's value is listed on its finer level
+    def pair_row(std, metric, thr, val, ok, note):
+        rows.append({"standard": std, "metric": metric, "threshold_text": thr, f"L{lv[0]}": na,
+                     **{f"L{b}": {"value": rnd(val(a, b)), "result": "pass" if ok(val(a, b)) else "fail"} for a, b in pairs}, "note": note})
     for std, thr, ok in (("STD-11", "> 1.3", lambda v: v > 1.3), ("STD-12", ">= 1.1", lambda v: v >= 1.1)):
-        rows.append({"standard": std, "metric": "r = (N_fine / N_coarse)^(1/3)", "threshold_text": thr,
-                     "L1": {"value": None, "result": "n/a"},
-                     "L2": {"value": rnd(R["r_L1_L2"]), "result": "pass" if ok(R["r_L1_L2"]) else "fail"},
-                     "L3": {"value": rnd(R["r_L2_L3"]), "result": "pass" if ok(R["r_L2_L3"]) else "fail"},
-                     "note": "Value listed on the finer level of each pair (L2 = L1->L2, L3 = L2->L3)."})
+        pair_row(std, "r = (N_fine / N_coarse)^(1/3)", thr, lambda a, b: R[f"r_L{a}_L{b}"], ok,
+                 "Value listed on the finer level of each pair (" + ", ".join(f"L{b} = L{a}->L{b}" for a, b in pairs) + ").")
     c = conv["monotone"]["CL"]
     rows.append({"standard": "STD-13", "metric": "CL at alpha 4 deg: e32/e21", "threshold_text": "> 0",
-                 "L1": na, "L2": na, "L3": {"value": rnd(c["e32_over_e21"]), "result": "pass" if c["e32_over_e21"] > 0 else "fail"},
-                 "note": "Three-level property, listed on L3. A positive ratio is monotone; the asymptotic range also needs e32/e21 > 1 (CFD-02)."})
+                 **{f"L{k}": na for k in lv[:-1]}, fin: {"value": rnd(c["e32_over_e21"]), "result": "pass" if c["e32_over_e21"] > 0 else "fail"},
+                 "note": f"Three-level property of the finest triplet ({conv['monotone']['levels']}), listed on {fin}. A positive ratio is monotone; the asymptotic range also needs e32/e21 > 1 (CFD-02)."})
     fam = conv["family"]
-    rows.append({"standard": "STD-14", "metric": "worst regional spacing ratio / global r", "threshold_text": "same family (ratios equal)",
-                 "L1": na, "L2": {"value": rnd(fam["L1_L2"]["worst_dev"]), "result": "pass" if fam["L1_L2"]["worst_dev"] <= 0.1 else "fail"},
-                 "L3": {"value": rnd(fam["L2_L3"]["worst_dev"]), "result": "pass" if fam["L2_L3"]["worst_dev"] <= 0.1 else "fail"},
-                 "note": "Relative deviation of each regional ratio from the global r; pass if all within 10 % (audit assumption). Mesh rev 2 scales every size rule with f; the wake and tip-vortex boxes still refine faster than the global ratio."})
-    g = conv["refinement"]
-    rows.append({"standard": "STD-15", "metric": "N_tets ratio between levels", "threshold_text": "~3x",
-                 "L1": na, "L2": {"value": rnd(g["N_ratio_L1_L2"]), "result": "pass" if 2.4 <= g["N_ratio_L1_L2"] <= 3.6 else "fail"},
-                 "L3": {"value": rnd(g["N_ratio_L2_L3"]), "result": "pass" if 2.4 <= g["N_ratio_L2_L3"] <= 3.6 else "fail"},
-                 "note": "+-20 % band is an audit assumption."})
+    pair_row("STD-14", "worst regional spacing ratio / global r", "same family (ratios equal)", lambda a, b: fam[f"L{a}_L{b}"]["worst_dev"], lambda v: v <= 0.1,
+             "Relative deviation of each regional ratio from the global r; pass if all within 10 % (audit assumption). Mesh rev 2 scales every size rule with f; the wake and tip-vortex boxes still refine faster than the global ratio.")
+    pair_row("STD-15", "N_tets ratio between levels", "~3x", lambda a, b: R[f"N_ratio_L{a}_L{b}"], lambda v: 2.4 <= v <= 3.6,
+             "+-20 % band is an audit assumption.")
     row("STD-16", "inverted tets (one volume sign)", "0 inverted",
         {k: {"value": min(M[k]["quality"]["signed_volume"]["positive"], M[k]["quality"]["signed_volume"]["negative"]) + M[k]["quality"]["signed_volume"]["zero"],
              "result": "pass" if min(M[k]["quality"]["signed_volume"]["positive"], M[k]["quality"]["signed_volume"]["negative"]) + M[k]["quality"]["signed_volume"]["zero"] == 0 else "fail"} for k in lv},
@@ -486,11 +483,11 @@ def scorecard(M, conv):
 
 def convergence(M):
     N = {k: M[k]["tets"] for k in M}
-    r12 = (N[2] / N[1]) ** (1 / 3); r23 = (N[3] / N[2]) ** (1 / 3)
-    ref = {"r_L1_L2": r12, "r_L2_L3": r23, "N_ratio_L1_L2": N[2] / N[1], "N_ratio_L2_L3": N[3] / N[2],
-           "celik_h_m": {f"L{k}": M[k]["celik_h_m"] for k in M},
-           "r_celik_h_L1_L2": M[1]["celik_h_m"] / M[2]["celik_h_m"], "r_celik_h_L2_L3": M[2]["celik_h_m"] / M[3]["celik_h_m"],
-           "f_ratio_L1_L2": LEVELS[1] / LEVELS[2], "f_ratio_L2_L3": LEVELS[2] / LEVELS[3]}
+    lv = sorted(M); pairs = list(zip(lv, lv[1:]))
+    ref = {"celik_h_m": {f"L{k}": M[k]["celik_h_m"] for k in M}}
+    for a, b in pairs:
+        ref.update({f"r_L{a}_L{b}": (N[b] / N[a]) ** (1 / 3), f"N_ratio_L{a}_L{b}": N[b] / N[a],
+                    f"r_celik_h_L{a}_L{b}": M[a]["celik_h_m"] / M[b]["celik_h_m"], f"f_ratio_L{a}_L{b}": LEVELS[a] / LEVELS[b]})
     regional = {
         "wing_le_spacing": lambda m: m["wing_le_spacing_pct_c"]["median_over_stations"],
         "wing_te_chordwise": lambda m: m["wing_te_spacing_pct_c"]["median_over_stations"],
@@ -504,19 +501,21 @@ def convergence(M):
         "section_points_equiv": lambda m: 1 / m["wing_section_points"]["equiv_median"],
     }
     fam = {}
-    for a, b, r in ((1, 2, r12), (2, 3, r23)):
+    for a, b in pairs:
+        r = ref[f"r_L{a}_L{b}"]
         rat = {k: fn(M[a]) / fn(M[b]) for k, fn in regional.items()}
         dev = {k: abs(v / r - 1) for k, v in rat.items()}
         fam[f"L{a}_L{b}"] = {"global_r": r, "regional_ratio": rat, "worst": max(dev, key=dev.get), "worst_dev": max(dev.values())}
     res = json.loads((OUT / "cfd3d_results.json").read_text(encoding="utf-8"))["cases"]
     mono = {}
+    trip = [k for k in lv if (res.get(f"L{k}_a4.0") or {}).get("returncode") == 0][-3:]   # finest three solved levels
     for q in ("CL", "CD", "CMy"):
-        f1, f2, f3 = res["L3_a4.0"][q], res["L2_a4.0"][q], res["L1_a4.0"][q]     # Celik: 1 = finest
+        f1, f2, f3 = (res[f"L{k}_a4.0"][q] for k in trip[::-1])     # Celik: 1 = finest
         e21, e32 = f2 - f1, f3 - f2
         mono[q] = {"fine_to_coarse": [f1, f2, f3], "e21": e21, "e32": e32, "e32_over_e21": e32 / e21,
                    "convergence": "monotone" if e32 / e21 > 0 else "oscillatory"}
     return {"refinement": ref, "family": fam,
-            "monotone": {**mono, "source": "analysis/cfd3d/out/cfd3d_results.json cases L1/L2/L3_a4.0"}}
+            "monotone": {**mono, "levels": "-".join(f"L{k}" for k in trip), "source": "analysis/cfd3d/out/cfd3d_results.json cases " + "/".join(f"L{k}" for k in trip) + "_a4.0"}}
 
 
 def _row(sc, std, metric_start=""):
@@ -526,50 +525,56 @@ def _row(sc, std, metric_start=""):
 def verdict(sc, M, conv):
     """Summary text built from the scorecard (rev 2026-11-02: was hard-coded for the rev 1 meshes and went stale)"""
     R = conv["refinement"]; c = conv["monotone"]["CL"]; fam = conv["family"]
-    passed = sorted({r["standard"] for r in sc if any(r[k]["result"] == "pass" for k in ("L1", "L2", "L3"))})
-    failed = sorted({r["standard"] for r in sc if any(r[k]["result"] == "fail" for k in ("L1", "L2", "L3"))})
+    L = [f"L{k}" for k in sorted(M)]; fin = L[-1]
+    passed = sorted({r["standard"] for r in sc if any(r[k]["result"] == "pass" for k in L)})
+    failed = sorted({r["standard"] for r in sc if any(r[k]["result"] == "fail" for k in L)})
     le = _row(sc, "STD-03", "wing_le"); ff = _row(sc, "STD-01")
-    t = (f"Mesh rev 2. All three levels are valid (no inverted cells), {R['r_L1_L2']:.2f} / {R['r_L2_L3']:.2f} apart (grid-study minimum 1.3), "
-         f"and the far field is {ff['L3']['value']:.0f} reference chords away (guideline 100). "
-         f"The wing LE spacing now refines with the level ({le['L1']['value']:.2f} / {le['L2']['value']:.2f} / {le['L3']['value']:.2f} % c) but is still above the 0.1 % c "
-         f"viscous-grid guideline, which this inviscid study is not built to meet. CL at alpha 4 is monotone but not yet in the asymptotic range "
-         f"(e32/e21 = {c['e32_over_e21']:.2f}; asymptotic needs > 1), so no valid GCI (CFD-02). Regional spacing ratios deviate from the global ratio by up to "
-         f"{100 * max(fam['L1_L2']['worst_dev'], fam['L2_L3']['worst_dev']):.0f} % (worst: {fam['L1_L2']['worst']}). "
+    worst = max(fam, key=lambda k: fam[k]["worst_dev"])
+    e = c["e32_over_e21"]
+    asym = (f"CL at alpha 4 on {conv['monotone']['levels']} is in the asymptotic range (e32/e21 = {e:.2f} > 1), so CFD-02 has a valid GCI. " if e > 1 else
+            f"CL at alpha 4 on {conv['monotone']['levels']} is {'monotone' if e > 0 else 'oscillatory'} but not in the asymptotic range (e32/e21 = {e:.2f}; asymptotic needs > 1), so no valid GCI (CFD-02). ")
+    t = (f"Mesh rev 2. All {len(L)} levels are valid (no inverted cells), " + " / ".join(f"{R[f'r_{a}_{b}']:.2f}" for a, b in zip(L, L[1:])) + " apart (grid-study minimum 1.3), "
+         f"and the far field is {ff[fin]['value']:.0f} reference chords away (guideline 100). "
+         f"The wing LE spacing refines with the level (" + " / ".join(f"{le[k]['value']:.2f}" for k in L) + " % c) but is still above the 0.1 % c "
+         f"viscous-grid guideline, which this inviscid study is not built to meet. " + asym +
+         f"Regional spacing ratios deviate from the global ratio by up to {100 * fam[worst]['worst_dev']:.0f} % (worst: {fam[worst]['worst']}, {worst.replace('_', '->')}). "
          f"Standards met on some level: {', '.join(passed) or 'none'}; not met: {', '.join(failed) or 'none'}.")
     return t
 
 
 def needs(sc, M, conv):
     out = []
-    if _row(sc, "STD-02")["L3"]["result"] == "fail":
+    fin = f"L{max(M)}"
+    if _row(sc, "STD-02")[fin]["result"] == "fail":
         out.append("Far field at >= 100 semispans (120 m) for DPW-8; far cells can stay large, so the extra cost is small.")
-    if _row(sc, "STD-03", "wing_le")["L3"]["result"] == "fail":
+    if _row(sc, "STD-03", "wing_le")[fin]["result"] == "fail":
         out.append(f"Wing and H-tail chordwise spacing near 0.1 % local chord at LE and TE (0.1 % of the {C_REF:.3f} m chord = {C_REF:.2f} mm), graded to coarser cells mid-chord (anisotropic surface mesh), for a viscous-grade grid.")
-    if _row(sc, "STD-05", "wing_tip")["L3"]["result"] == "fail":
+    if _row(sc, "STD-05", "wing_tip")[fin]["result"] == "fail":
         out.append("Spanwise spacing near 0.1 % semispan (1.2 mm) at the wing root and tip, locally.")
-    if _row(sc, "STD-14")["L3"]["result"] == "fail":
+    if _row(sc, "STD-14")[fin]["result"] == "fail":
         out.append("Wake and tip-vortex boxes scaled so their spacing ratio equals the global r (the wake regions refine faster than the rest today).")
     if not conv["monotone"]["CL"]["e32_over_e21"] > 1:   # STD-13 tests only the sign; the asymptotic range needs e32/e21 > 1
-        out.append("A fourth, finer level (f about 0.52, about 22 M tetrahedra) to reach the asymptotic range so the GCI of CFD-02 can be computed.")
-    if _row(sc, "STD-06")["L3"]["result"] == "fail":
-        out.append(f"Pod nose spacing under 1 % c_ref ({10 * C_REF:.2f} mm) for DPW-8; L3 is at {_row(sc, 'STD-06')['L3']['value']:.2f} % today.")
+        out.append("A finer level to reach the asymptotic range so the GCI of CFD-02 can be computed." if max(M) < 4 else
+                   "The asymptotic range on a finer level; L4 (23 M tetrahedra, about 40 GB) is the largest that fits this PC.")
+    if _row(sc, "STD-06")[fin]["result"] == "fail":
+        out.append(f"Pod nose spacing under 1 % c_ref ({10 * C_REF:.2f} mm) for DPW-8; {fin} is at {_row(sc, 'STD-06')[fin]['value']:.2f} % today.")
     return out
 
 
 
 def main():
     t0 = time.time()
-    M = {k: audit(k) for k in (1, 2, 3)}
+    M = {k: audit(k) for k in LEVELS if (OUT / f"L{k}" / "mesh.su2").exists()}
     conv = convergence(M)
     sc = scorecard(M, conv)
     cnt = {"pass": 0, "fail": 0, "n/a": 0}
     for r in sc:
-        for k in ("L1", "L2", "L3"):
-            cnt[r[k]["result"]] += 1
+        for k in M:
+            cnt[r[f"L{k}"]["result"]] += 1
     out = {
         "generated": time.strftime("%Y-%m-%d %H:%M"),
         "script": "analysis/cfd3d/mesh_audit.py",
-        "inputs": ["analysis/cfd3d/out/L1..L3/mesh.su2 (via mesh.npz cache)", "analysis/cfd3d/out/L1..L3/mesh_stats.json",
+        "inputs": [f"analysis/cfd3d/out/L1..L{max(M)}/mesh.su2 (via mesh.npz cache)", f"analysis/cfd3d/out/L1..L{max(M)}/mesh_stats.json",
                    "analysis/cfd3d/out/cfd3d_results.json", "analysis/cfd3d/build_mesh.py"],
         "reference_lengths": {"c_ref_m": C_REF, "semispan_m": SEMISPAN, "source": "run_cases.C_REF; wing marker extents (metrics.Ln.wing_extent_m)"},
         "standards": standards(),

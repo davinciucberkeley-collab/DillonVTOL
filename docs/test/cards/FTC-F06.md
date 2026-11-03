@@ -8,7 +8,7 @@ DBF-TP-001 rev C · Test F06 · Review step: F5 · Requirements: R9, R11
 
 **Weather limits:** Steady <= 5 m/s (R16), gusts <= 8 m/s; into wind only.
 
-**Predicted:** Transition power 1,722 W / 82.0 A at 21 V EST (results.json sized.P_trans, I_trans, 2026-11-01; 3 A under Q_M_BAT_CURR_MAX 85); C0 SITL model (firmware/sitl/README.md C0 section, results_c0.json scenario A): 16 m/s reached 10 s after the start, Transition done at 15 s / 166 m, peak 55.8 A (re-run 2026-10-27 at AIRSPEED_CRUISE 18 on the 6.55 kg model; not yet re-run at 7.44 kg, TEST-PLAN.md s12 item 20); the generic SITL model reached 16.0 in 5 s.
+**Predicted:** Transition power 1,723 W / 82.1 A at 21 V EST (results.json sized.P_trans, I_trans, 2026-11-01; 3 A under Q_M_BAT_CURR_MAX 85); C0 SITL model (firmware/sitl/README.md C0 section, results_c0.json scenario A): 16 m/s reached 10 s after the start, Transition done at 15 s / 166 m, peak 55.8 A (re-run 2026-10-27 at AIRSPEED_CRUISE 18 on the 6.55 kg model; not yet re-run at 7.44 kg, TEST-PLAN.md s12 item 20); the generic SITL model reached 16.0 in 5 s.
 
 **Crew:** TD, SO, PIC, GCS · **Duration:** 1 session (3 flights), 2 packs
 

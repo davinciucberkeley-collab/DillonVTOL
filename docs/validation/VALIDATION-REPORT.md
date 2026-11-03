@@ -1,10 +1,10 @@
 # Engineering validation report
 
-Generated 2026-11-02 05:20 by `analysis/validation/report.py` from the files it cites. House style: docs/reference/REVIEW-STYLE.md.
+Generated 2026-11-03 01:43 by `analysis/validation/report.py` from the files it cites. House style: docs/reference/REVIEW-STYLE.md.
 
 ## Verdict
 
-**79 engineering claims checked: 37 Verified, 41 Partially Verified, 1 Unverified, 0 Failed.** A full-aircraft 3-D CFD now exists: seven runs on three meshes, all finished. It confirms the neutral point and the induced drag the sizing uses. Its absolute lift is still mesh-limited: a 2-D check with the same numerics shows the scheme loses lift at this wall spacing (CFD-12), and only the finest mesh lands within 4 % of AVL. It does not predict drag, because it is inviscid. The design failures cluster in four places: power at full hover thrust, the structural tip mass, stale documents and CAD, and the wing-bolt and joiner specification.
+**79 engineering claims checked: 38 Verified, 40 Partially Verified, 1 Unverified, 0 Failed.** A full-aircraft 3-D CFD now exists: seven runs on three meshes, all finished. It confirms the neutral point and the induced drag the sizing uses. Its absolute lift is still mesh-limited: a 2-D check with the same numerics shows the scheme loses lift at this wall spacing (CFD-12), and only the finest mesh lands within 4 % of AVL. It does not predict drag, because it is inviscid. The design failures cluster in four places: power at full hover thrust, the structural tip mass, stale documents and CAD, and the wing-bolt and joiner specification.
 
 ## What was changed
 
@@ -36,23 +36,24 @@ Solver: SU2 8.5.0 (win64 OpenMP), INC_EULER, FDS + MUSCL, implicit Euler, Green-
 | L2_a6.0 | 3,957,746 | 839 | 7.2 | 0.6572 | -0.0931 | 0.0167 | 0.6572 |
 | L2_a8.0 | 3,957,746 | 558 | 7.5 | 0.8186 | -0.1165 | 0.0254 | 0.8186 |
 | L3_a4.0 | 9,271,143 | 971 | 3.7 | 0.5104 | -0.0728 | 0.0106 | 0.5104 |
+| L4_a4.0 | 23,261,119 | 2517 | 4.1 | 0.5229 | -0.0668 | 0.0115 | 0.5229 |
 
 Meshes (`analysis/cfd3d/out/L*/mesh_stats.json`): L1 1,732,283 tets, min SICN 0.024; L2 3,957,746 tets, min SICN 0.027; L3 9,271,143 tets, min SICN 0.032.
 
 | Check | Status | Result |
 |---|---|---|
-| CFD-01: 7 of 7 full-aircraft cruise cases ran to completion in SU2. | **Verified** | 7 of 7 cases finished with exit code 0; log10 rms(p) fell 3.0-8.3 orders; Cauchy[CL] 4e-06 at the last iteration |
-| CFD-02: Grid convergence at alpha 4 deg: CL 0.4846 / 0.4941 / 0.5104 on 1,732,283 / 3,957,746 / 9,271,143 tetrahedra. | **Partially Verified** | GCI_fine on CL not computable: monotone but pre-asymptotic: the finer pair changed more than the coarser pair (|e32/e21| = 0.58 < 1), so the observed order is negative and Celik's |ln| form would give a GCI that is not valid; CMy oscillatory or zero change: no asymptotic estimate |
+| CFD-01: 8 of 8 full-aircraft cruise cases ran to completion in SU2. | **Verified** | 8 of 8 cases finished with exit code 0; log10 rms(p) fell 3.0-8.3 orders; Cauchy[CL] 4e-06 at the last iteration |
+| CFD-02: Grid convergence at alpha 4 deg (L2-L3-L4): CL 0.4941 / 0.5104 / 0.5229 on 3,957,746 / 9,271,143 / 23,261,119 tetrahedra. | **Partially Verified** | GCI_fine on CL 6.83 % (p 1.18); CMy oscillatory or zero change: no asymptotic estimate |
 | CFD-03: SU2's reported forces equal an independent pressure integration over the same wall triangles. | **Verified** | largest CL difference 0.00 % |
-| CFD-04: Boundary conditions behave: no flow through the symmetry plane; free stream recovered at the far field. | **Verified** | |v_y|/V <= 4.3e-16 on the symmetry plane; far-field |V|/V in 0.999-1.000 |
-| CFD-05: Whole-aircraft lift-curve slope 4.67 /rad (alpha 0-6 deg, elevator 0). | **Verified** | CFD 4.67 vs AVL 5.07 /rad (-7.9 %); Helmbold wing alone 5.12 |
-| CFD-06: CL 0.510 at alpha 4 deg, elevator 0, V 18 m/s (finest mesh). | **Partially Verified** | +3.1 % against AVL on the finest mesh (L3); CL on L1/L2/L3 0.4846, 0.4941, 0.5104 still rises with refinement and has no valid GCI (CFD-02), so the agreement is not yet grid-independent |
-| CFD-07: Neutral point 39.7 % MAC from the CFD moment slope (static margin 11.7 % at the 28 % CG). | **Verified** | CFD 39.7 % vs AVL 39.8 % MAC |
-| CFD-08: Induced drag from the Trefftz plane CDi 0.0106 at alpha 4 deg. | **Partially Verified** | Trefftz 0.0106 on the plane 0.3 m behind the wing TE vs CL^2/(pi e AR) 0.0115 (-8 %); planes further aft read 0.0099, 0.0089 as the trailing vortices dissipate on the tetrahedra, so the value depends on where it is measured |
+| CFD-04: Boundary conditions behave: no flow through the symmetry plane; free stream recovered at the far field. | **Verified** | |v_y|/V <= 6.2e-16 on the symmetry plane; far-field |V|/V in 0.999-1.000 |
+| CFD-05: Whole-aircraft lift-curve slope 4.67 /rad (alpha 0-6 deg, elevator 0). | **Verified** | CFD 4.67 vs AVL 5.06 /rad (-7.6 %); Helmbold wing alone 5.12 |
+| CFD-06: CL 0.523 at alpha 4 deg, elevator 0, V 18 m/s (finest mesh). | **Verified** | +5.9 % against AVL on the finest mesh (L4); CL on L1/L2/L3/L4 0.4846, 0.4941, 0.5104, 0.5229 with a valid GCI (CFD-02) |
+| CFD-07: Neutral point 39.7 % MAC from the CFD moment slope (static margin 11.7 % at the 28 % CG). | **Verified** | CFD 39.7 % vs AVL 38.4 % MAC (+1.3 pt; band 3 pt) |
+| CFD-08: Induced drag from the Trefftz plane CDi 0.0115 at alpha 4 deg. | **Partially Verified** | Trefftz 0.0115 on the plane 0.3 m behind the wing TE vs CL^2/(pi e AR) 0.0121 (-5 %); planes further aft read 0.0108, 0.0099 as the trailing vortices dissipate on the tetrahedra, so the value depends on where it is measured |
 | CFD-09: Cruise chord Reynolds number 3.92e+05: attached, lift-dominated flow, so inviscid CFD is admissible for lift and moment at alpha <= 8 deg. | **Verified** | Re matches the aero package (AERO-01); attached-flow range from the viscous section polar |
-| CFD-10: The inviscid solver's surface CD (0.0371) is not a drag prediction: the part above the induced drag is numerical, and it falls with every mesh refinement. | **Verified** | surface CD at alpha 4: L1 0.0524 -> L2 0.0401 -> L3 0.0371 (falls with refinement); 0.0265 of the L3 value is above the Trefftz induced drag 0.0106 and is numerical (blunt clamp and motor bases, tetrahedra); profile drag stays with analysis/aero/drag_buildup.py |
-| CFD-11: Wall Cp above the incompressible stagnation bound (Cp = 1) is a local numerical overshoot: it covers under 1 % of wall nodes in every case and its share falls with mesh refinement, so it is a discretisation artefact, not a physical pressure. | **Verified** | share of wall nodes with Cp > 1 at alpha 4: L1 0.74 % -> L2 0.21 % -> L3 0.11 % (falls with refinement); largest share in any case 0.74 %; peak Cp 2.18 on the gear (L1_a4.0) at a sharp corner or small leading-edge radius |
-| CFD-12: At the 3-D meshes' lifting-surface spacing (mesh rev 2: L2 and L3), the SU2 scheme matches XFOIL's inviscid section lift at 4 deg within 5 % and its lift slope within 8 %, approaching XFOIL as the spacing is refined. | **Verified** | section cl at 4 deg vs XFOIL: L1 -14.6 %, L2 -4.3 %, L3 -4.9 %; lift slope: L1 -10.4 %, L2 -7.7 %, L3 -6.1 %; the slope rises toward XFOIL with each refinement |
+| CFD-10: The inviscid solver's surface CD (0.0345) is not a drag prediction: the part above the induced drag is numerical, and it falls with every mesh refinement. | **Verified** | surface CD at alpha 4: L1 0.0524 -> L2 0.0401 -> L3 0.0371 -> L4 0.0345 (falls with refinement); 0.0230 of the L4 value is above the Trefftz induced drag 0.0115 and is numerical (blunt clamp and motor bases, tetrahedra); profile drag stays with analysis/aero/drag_buildup.py |
+| CFD-11: Wall Cp above the incompressible stagnation bound (Cp = 1) is a local numerical overshoot: it covers under 1 % of wall nodes in every case and its share falls 6-fold from L1 to L4 but not on every step, so it is a discretisation artefact, not a physical pressure. | **Partially Verified** | share of wall nodes with Cp > 1 at alpha 4: L1 0.74 % -> L2 0.21 % -> L3 0.11 % -> L4 0.13 % (does not fall monotonically); the L3 -> L4 rise is the htail (219 -> 761 nodes, peak Cp 1.54 -> 1.47); largest share in any case 0.74 %; peak Cp 2.18 on the gear (L1_a4.0) at a sharp corner or small leading-edge radius |
+| CFD-12: At the 3-D meshes' lifting-surface spacing (mesh rev 2: L2, L3, L4), the SU2 scheme matches XFOIL's inviscid section lift at 4 deg within 5 % and its lift slope within 8 %, approaching XFOIL as the spacing is refined. | **Verified** | section cl at 4 deg vs XFOIL: L1 -14.6 %, L2 -4.3 %, L3 -4.9 %, L4 -2.9 %; lift slope: L1 -10.4 %, L2 -7.7 %, L3 -6.1 %, L4 -4.9 %; the slope rises toward XFOIL with each refinement |
 
 Geometry: 12 defeaturing rules recorded in `analysis/cfd3d/out/oml_fidelity.json` and in the review. Each rebuilt part's bounding box is compared with its STEP solid.
 
@@ -71,7 +72,7 @@ Same inputs, different mesher, element formulation and solver. The tip deflectio
 
 ## Proof chains (every claim re-run from its cited inputs)
 
-Source: `analysis/validation/proofs.json` (`proofs.py`, 2026-11-02 05:15). Each input is read from the file it cites when the script runs; constants name their source.
+Source: `analysis/validation/proofs.json` (`proofs.py`, 2026-11-03 01:43). Each input is read from the file it cites when the script runs; constants name their source.
 
 - 29 claims have closed-form arithmetic; 29 re-run to the claimed number. Not reproduced: none.
 - 33 hand-offs from one claim's result to another's input; 33 carry the same number. Stale: none.
@@ -81,20 +82,17 @@ Source: `analysis/validation/proofs.json` (`proofs.py`, 2026-11-02 05:15). Each 
 ## External sources
 
 Source: `analysis/validation/source_audit.json` (value-by-value check against each page or PDF). 23 sources: confirmed 10, not fetchable 8, not found on page 1, partially confirmed 1, unreachable 3. 51 of 79 claims rest on at least one.
-Every URL in the docs (`link_check.py`): 561 of 628 load, 4 dead, 56 block automated checks. Dead: https://avesis.erciyes.edu.tr/yayin/0e967406-3720-4460-b125-1dec2b27685c, https://www.cstsales.com/carbon_tube.html, https://www.deltaquad.com/cargo, https://www.nasa.gov/wp-content/uploads/2015/10/s3001_guidelines_for_risk_management_-_ver_g_-_10-25-2017.pdf.
+Every URL in the docs (`link_check.py`): 599 of 691 load, 4 dead, 72 block automated checks. Dead: https://avesis.erciyes.edu.tr/yayin/0e967406-3720-4460-b125-1dec2b27685c, https://www.cstsales.com/carbon_tube.html, https://www.deltaquad.com/cargo, https://www.nasa.gov/wp-content/uploads/2015/10/s3001_guidelines_for_risk_management_-_ver_g_-_10-25-2017.pdf.
 
 ## CFD mesh against published standards
 
-Source: `analysis/cfd3d/out/mesh_audit.json` (`mesh_audit.py`, 2026-11-02 04:32). 12 pass, 27 fail, 15 do not apply to an inviscid tetrahedral mesh. Mesh rev 2. All three levels are valid (no inverted cells), 1.32 / 1.33 apart (grid-study minimum 1.3), and the far field is 105 reference chords away (guideline 100). The wing LE spacing now refines with the level (0.91 / 0.62 / 0.44 % c) but is still above the 0.1 % c viscous-grid guideline, which this inviscid study is not built to meet. CL at alpha 4 is monotone but not yet in the asymptotic range (e32/e21 = 0.58; asymptotic needs > 1), so no valid GCI (CFD-02). Regional spacing ratios deviate from the global ratio by up to 21 % (worst: wake_3c). Standards met on some level: STD-01, STD-07, STD-11, STD-12, STD-13, STD-16; not met: STD-02, STD-03, STD-04, STD-05, STD-06, STD-07, STD-14, STD-15.
+Source: `analysis/cfd3d/out/mesh_audit.json` (`mesh_audit.py`, 2026-11-03 01:24). 21 pass, 32 fail, 19 do not apply to an inviscid tetrahedral mesh. Mesh rev 2. All 4 levels are valid (no inverted cells), 1.32 / 1.33 / 1.36 apart (grid-study minimum 1.3), and the far field is 105 reference chords away (guideline 100). The wing LE spacing refines with the level (0.91 / 0.62 / 0.44 / 0.32 % c) but is still above the 0.1 % c viscous-grid guideline, which this inviscid study is not built to meet. CL at alpha 4 on L2-L3-L4 is in the asymptotic range (e32/e21 = 1.31 > 1), so CFD-02 has a valid GCI. Regional spacing ratios deviate from the global ratio by up to 21 % (worst: wake_3c, L1->L2). Standards met on some level: STD-01, STD-05, STD-07, STD-11, STD-12, STD-13, STD-14, STD-15, STD-16; not met: STD-02, STD-03, STD-04, STD-05, STD-06, STD-07, STD-14, STD-15.
 
 What a passing mesh needs:
 
 - Far field at >= 100 semispans (120 m) for DPW-8; far cells can stay large, so the extra cost is small.
 - Wing and H-tail chordwise spacing near 0.1 % local chord at LE and TE (0.1 % of the 0.322 m chord = 0.32 mm), graded to coarser cells mid-chord (anisotropic surface mesh), for a viscous-grade grid.
-- Spanwise spacing near 0.1 % semispan (1.2 mm) at the wing root and tip, locally.
-- Wake and tip-vortex boxes scaled so their spacing ratio equals the global r (the wake regions refine faster than the rest today).
-- A fourth, finer level (f about 0.52, about 22 M tetrahedra) to reach the asymptotic range so the GCI of CFD-02 can be computed.
-- Pod nose spacing under 1 % c_ref (3.22 mm) for DPW-8; L3 is at 1.65 % today.
+- Pod nose spacing under 1 % c_ref (3.22 mm) for DPW-8; L4 is at 1.14 % today.
 
 Standards: AIAA DPW-4 gridding guidelines, item 2g (https://www.aiaa-dpw.org/Workshop4/gridding_guidelines_4.html, checked 2026-11-01); AIAA DPW-8/AePW-4 gridding guidelines v3 (2024-07-01), CRM slide (https://www.aiaa-dpw.org/ref/gridding_guidelines_v3_07012024.pdf, checked 2026-11-01); AIAA DPW-8/AePW-4 gridding guidelines v3, CRM slide (https://www.aiaa-dpw.org/ref/gridding_guidelines_v3_07012024.pdf, checked 2026-11-01); AIAA DPW-4 gridding guidelines, item 2h-i (medium grid) (https://www.aiaa-dpw.org/Workshop4/gridding_guidelines_4.html, checked 2026-11-01); AIAA DPW-4 gridding guidelines, item 2h-iv (https://www.aiaa-dpw.org/Workshop4/gridding_guidelines_4.html, checked 2026-11-01); AIAA DPW-4 gridding guidelines, item 2j; DPW-8 v3 'Wing TE base >> 8 cells' (https://www.aiaa-dpw.org/Workshop4/gridding_guidelines_4.html, checked 2026-11-01); AIAA DPW-8/AePW-4 gridding guidelines v3, wall-normal slide (https://www.aiaa-dpw.org/ref/gridding_guidelines_v3_07012024.pdf, checked 2026-11-01); AIAA DPW-8/AePW-4 gridding guidelines v3, wall-normal slide; DPW-4 item 2f (https://www.aiaa-dpw.org/ref/gridding_guidelines_v3_07012024.pdf, checked 2026-11-01); Celik et al. 2008, J. Fluids Eng. 130(7) 078001, Step 2 (https://qa12.asme.org/wwwasmeorg/media/ResourceFiles/Shop/Journals/JFENumAccuracy.pdf, checked 2026-11-01); NASA NPARC Alliance V&V, 'Examining Spatial (Grid) Convergence' (https://www.grc.nasa.gov/www/wind/valid/tutorial/spatconv.html, checked 2026-11-01); Celik et al. 2008, Step 3 (https://qa12.asme.org/wwwasmeorg/media/ResourceFiles/Shop/Journals/JFENumAccuracy.pdf, checked 2026-11-01); Celik et al. 2008, Step 2; DPW-4 item 2e (https://qa12.asme.org/wwwasmeorg/media/ResourceFiles/Shop/Journals/JFENumAccuracy.pdf, checked 2026-11-01); AIAA DPW-4 gridding guidelines, item 2c (https://www.aiaa-dpw.org/Workshop4/gridding_guidelines_4.html, checked 2026-11-01); gmsh 4.15.2 API docstring, getElementQualities (installed package) (py -c "import gmsh; help(gmsh.model.mesh.getElementQualities)", checked 2026-11-01).
 

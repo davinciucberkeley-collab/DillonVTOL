@@ -1,13 +1,13 @@
 {
- "generated": "2026-11-02 05:19",
+ "generated": "2026-11-03 01:20",
  "script": "analysis/validation/link_check.py",
  "n": 691,
  "counts": {
-  "blocked": 68,
+  "blocked": 72,
   "dead": 4,
-  "error": 9,
-  "ok": 608,
-  "server_error": 2
+  "error": 11,
+  "ok": 599,
+  "server_error": 5
  },
  "links": [
   {
@@ -228,10 +228,10 @@
   },
   {
    "url": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.1016/j.ast.2020.106429?fields=title",
-   "status": "ok",
-   "status_code": 200,
-   "error": null,
-   "ok": true,
+   "status": "blocked",
+   "status_code": 429,
+   "error": "HTTP 429 ",
+   "ok": false,
    "found_in": [
     "analysis/link_status.json:83",
     "analysis/sources.json:1527"
@@ -239,10 +239,10 @@
   },
   {
    "url": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.1016/j.ast.2020.106429?fields=title,abstract",
-   "status": "ok",
-   "status_code": 200,
-   "error": null,
-   "ok": true,
+   "status": "blocked",
+   "status_code": 429,
+   "error": "HTTP 429 ",
+   "ok": false,
    "found_in": [
     "analysis/tradestudy.json:855",
     "analysis/tradestudy.mjs:46"
@@ -250,10 +250,10 @@
   },
   {
    "url": "https://api.semanticscholar.org/graph/v1/paper/DOI:10.1016/j.ast.2020.106429?fields=title,abstract,authors,year,venue",
-   "status": "ok",
-   "status_code": 200,
-   "error": null,
-   "ok": true,
+   "status": "blocked",
+   "status_code": 429,
+   "error": "HTTP 429 ",
+   "ok": false,
    "found_in": [
     "docs/research/configurations.md:290"
    ]
@@ -951,12 +951,12 @@
     "analysis/sources.json:1279",
     "analysis/sources.json:1289",
     "docs/research/aerodynamics.md:88",
-    "docs/validation/VALIDATION-REPORT.md:84",
+    "docs/validation/VALIDATION-REPORT.md:85",
     "docs/validation/proofs/AERO-05.md:18",
     "docs/validation/proofs/AERO-06.md:26",
     "docs/validation/proofs/AERO-07.md:36",
     "docs/validation/proofs/AERO-08.md:43",
-    "docs/validation/proofs/AERO-30.md:19"
+    "docs/validation/proofs/AERO-30.md:21"
    ]
   },
   {
@@ -1381,10 +1381,10 @@
   },
   {
    "url": "https://chinahobbyline.com/pages/shipping-policy",
-   "status": "blocked",
-   "status_code": 429,
-   "error": "HTTP 429 Too Many Requests",
-   "ok": false,
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
    "found_in": [
     "analysis/link_status.json:474",
     "analysis/sources.json:5366",
@@ -2014,7 +2014,7 @@
     "analysis/sources.json:4013",
     "docs/research/budget-airframe.md:22",
     "docs/validation/proofs/AERO-22.md:35",
-    "docs/validation/proofs/AERO-23.md:39",
+    "docs/validation/proofs/AERO-23.md:40",
     "docs/validation/proofs/STR-04.md:51",
     "docs/validation/proofs/XT-01.md:21"
    ]
@@ -2104,10 +2104,10 @@
   },
   {
    "url": "https://extremeflightrc.com/products/savox-sv1270tgp-servo",
-   "status": "ok",
-   "status_code": 200,
-   "error": null,
-   "ok": true,
+   "status": "blocked",
+   "status_code": 429,
+   "error": "HTTP 429 Too Many Requests",
+   "ok": false,
    "found_in": [
     "analysis/link_status.json:730",
     "analysis/sources.json:5434",
@@ -2163,7 +2163,7 @@
     "docs/build/BUILD-MANUAL.md:55",
     "docs/build/BUILD-MANUAL.md:1348",
     "docs/research/airframe-materials.md:139",
-    "docs/validation/proofs/MFG-12.md:18",
+    "docs/validation/proofs/MFG-12.md:20",
     "docs/validation/proofs/THM-08.md:19"
    ]
   },
@@ -2750,10 +2750,10 @@
   },
   {
    "url": "https://ir.unikl.edu.my/xmlui/handle/123456789/26065?show=full",
-   "status": "ok",
-   "status_code": 200,
-   "error": null,
-   "ok": true,
+   "status": "error",
+   "status_code": null,
+   "error": "ConnectionResetError: [WinError 10054] An existing connection was forcibly closed by the remote host",
+   "ok": false,
    "found_in": [
     "analysis/link_status.json:982",
     "analysis/sources.json:778"
@@ -3322,7 +3322,7 @@
    "error": null,
    "ok": true,
    "found_in": [
-    "docs/validation/VALIDATION-REPORT.md:99"
+    "docs/validation/VALIDATION-REPORT.md:97"
    ]
   },
   {
@@ -3339,10 +3339,10 @@
   },
   {
    "url": "https://racedayquads.com/products/hota-d6-pro-325w-15a-1-6s-dual-channel-ac-dc-smart-charger-w-wireless-charging-xt60",
-   "status": "ok",
-   "status_code": 200,
-   "error": null,
-   "ok": true,
+   "status": "blocked",
+   "status_code": 429,
+   "error": "HTTP 429 Too Many Requests",
+   "ok": false,
    "found_in": [
     "analysis/link_status.json:1207",
     "analysis/sources.json:6030",
@@ -3895,13 +3895,13 @@
     "docs/validation/proofs/AERO-19.md:41",
     "docs/validation/proofs/AERO-20.md:39",
     "docs/validation/proofs/AERO-22.md:33",
-    "docs/validation/proofs/AERO-24.md:19",
+    "docs/validation/proofs/AERO-24.md:20",
     "docs/validation/proofs/AERO-31.md:20",
     "docs/validation/proofs/STR-01.md:38",
     "docs/validation/proofs/STR-02.md:20",
     "docs/validation/proofs/STR-03.md:39",
     "docs/validation/proofs/STR-04.md:50",
-    "docs/validation/proofs/STR-05.md:41",
+    "docs/validation/proofs/STR-05.md:38",
     "docs/validation/proofs/STR-10.md:20",
     "docs/validation/proofs/STR-14.md:19",
     "docs/validation/proofs/THM-01.md:43",
@@ -3946,10 +3946,10 @@
   },
   {
    "url": "https://sunnyskyusa.com/products/eolo-carbon-fiber-uav-propellers-18x6-5-inch.js",
-   "status": "blocked",
-   "status_code": 429,
-   "error": "HTTP 429 Too Many Requests",
-   "ok": false,
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
    "found_in": [
     "analysis/propulsion_data_2026-11-01.json:327",
     "docs/research/propulsion-margin-data.md:122"
@@ -4048,10 +4048,10 @@
   },
   {
    "url": "https://uasdoc.faa.gov/api/v1/publicDOCRev?pageIndex=0&itemsPerPage=5000",
-   "status": "ok",
-   "status_code": 200,
-   "error": null,
-   "ok": true,
+   "status": "error",
+   "status_code": null,
+   "error": "TimeoutError: The read operation timed out",
+   "ok": false,
    "found_in": [
     "analysis/link_status.json:1431",
     "analysis/sources.json:9303",
@@ -4273,10 +4273,10 @@
   },
   {
    "url": "https://wrekd.com/products/6s4p-21-6v-molicel-p50b-20000mah-li-ion-battery-pack",
-   "status": "blocked",
-   "status_code": 429,
-   "error": "HTTP 429 Too Many Requests",
-   "ok": false,
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
    "found_in": [
     "analysis/link_status.json:1522",
     "analysis/sources.json:6680",
@@ -4431,7 +4431,7 @@
    "error": null,
    "ok": true,
    "found_in": [
-    "docs/validation/VALIDATION-REPORT.md:99"
+    "docs/validation/VALIDATION-REPORT.md:97"
    ]
   },
   {
@@ -4441,7 +4441,7 @@
    "error": null,
    "ok": true,
    "found_in": [
-    "docs/validation/VALIDATION-REPORT.md:99"
+    "docs/validation/VALIDATION-REPORT.md:97"
    ]
   },
   {
@@ -4455,8 +4455,8 @@
     "analysis/sources.json:2651",
     "docs/research/airframe-materials.md:98",
     "docs/validation/proofs/AERO-22.md:38",
-    "docs/validation/proofs/AERO-23.md:40",
-    "docs/validation/proofs/AERO-24.md:22"
+    "docs/validation/proofs/AERO-23.md:41",
+    "docs/validation/proofs/AERO-24.md:23"
    ]
   },
   {
@@ -5039,7 +5039,7 @@
     "docs/validation/proofs/AERO-20.md:40",
     "docs/validation/proofs/AERO-21.md:34",
     "docs/validation/proofs/AERO-22.md:34",
-    "docs/validation/proofs/AERO-24.md:20",
+    "docs/validation/proofs/AERO-24.md:21",
     "docs/validation/proofs/AERO-31.md:21",
     "docs/validation/proofs/THM-06.md:20"
    ]
@@ -5464,10 +5464,10 @@
   },
   {
    "url": "https://www.amazon.com/s?k=6061+aluminum+round+tube+1+inch+OD",
-   "status": "ok",
-   "status_code": 200,
-   "error": null,
-   "ok": true,
+   "status": "server_error",
+   "status_code": 503,
+   "error": "HTTP 503 Service Unavailable",
+   "ok": false,
    "found_in": [
     "analysis/link_status.json:1973",
     "analysis/sources.json:3758",
@@ -5508,10 +5508,10 @@
   },
   {
    "url": "https://www.andymark.com/products/1-2-in-id-1-1-8-in-od-sealed-flanged-bearing-fr82rs",
-   "status": "blocked",
-   "status_code": 429,
-   "error": "HTTP 429 Too Many Requests",
-   "ok": false,
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
    "found_in": [
     "analysis/link_status.json:1983",
     "analysis/sources.json:1458",
@@ -5619,7 +5619,7 @@
     "docs/research/pusher-battery-servo.md:58",
     "docs/validation/proofs/AERO-15.md:50",
     "docs/validation/proofs/AERO-22.md:37",
-    "docs/validation/proofs/AERO-24.md:21",
+    "docs/validation/proofs/AERO-24.md:22",
     "docs/validation/proofs/AERO-31.md:25"
    ]
   },
@@ -5864,7 +5864,7 @@
     "analysis/link_status.json:2087",
     "analysis/sources.json:3860",
     "docs/research/budget-airframe.md:156",
-    "docs/validation/VALIDATION-REPORT.md:84"
+    "docs/validation/VALIDATION-REPORT.md:85"
    ]
   },
   {
@@ -5900,7 +5900,7 @@
    "found_in": [
     "analysis/link_status.json:2097",
     "analysis/sources.json:424",
-    "docs/validation/VALIDATION-REPORT.md:84"
+    "docs/validation/VALIDATION-REPORT.md:85"
    ]
   },
   {
@@ -6448,7 +6448,7 @@
    "error": "URLError: [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate in certificate chain (_ssl.c:1081)",
    "ok": false,
    "found_in": [
-    "docs/validation/VALIDATION-REPORT.md:99"
+    "docs/validation/VALIDATION-REPORT.md:97"
    ]
   },
   {
@@ -6967,10 +6967,10 @@
   },
   {
    "url": "https://www.modelaircraft.org/join",
-   "status": "ok",
-   "status_code": 200,
-   "error": null,
-   "ok": true,
+   "status": "server_error",
+   "status_code": 503,
+   "error": "HTTP 503 Service Unavailable",
+   "ok": false,
    "found_in": [
     "analysis/link_status.json:2465",
     "analysis/sources.json:8410",
@@ -6979,10 +6979,10 @@
   },
   {
    "url": "https://www.modelaircraft.org/membership-options",
-   "status": "ok",
-   "status_code": 200,
-   "error": null,
-   "ok": true,
+   "status": "server_error",
+   "status_code": 503,
+   "error": "HTTP 503 Service Unavailable",
+   "ok": false,
    "found_in": [
     "analysis/link_status.json:2470",
     "analysis/sources.json:8427",
@@ -7091,7 +7091,7 @@
     "analysis/link_status.json:2501",
     "analysis/sources.json:987",
     "docs/research/review-formats.md:16",
-    "docs/validation/VALIDATION-REPORT.md:84"
+    "docs/validation/VALIDATION-REPORT.md:85"
    ]
   },
   {
@@ -7232,10 +7232,10 @@
   },
   {
    "url": "https://www.ovonicshop.com/products/ovonic-100c-22-2v-6500mah-6s-ec5-lipo-battery.js",
-   "status": "blocked",
-   "status_code": 429,
-   "error": "HTTP 429 Too Many Requests",
-   "ok": false,
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
    "found_in": [
     "analysis/propulsion_data_2026-11-01.json:57"
    ]
@@ -7360,10 +7360,10 @@
   },
   {
    "url": "https://www.racedayquads.com/products/auline-18650-v45-6s2p-6000mah-22-2v-90a-li-ion-battery-xt60",
-   "status": "ok",
-   "status_code": 200,
-   "error": null,
-   "ok": true,
+   "status": "blocked",
+   "status_code": 429,
+   "error": "HTTP 429 Too Many Requests",
+   "ok": false,
    "found_in": [
     "analysis/link_status.json:2597",
     "analysis/sources.json:2388",
@@ -7468,10 +7468,10 @@
   },
   {
    "url": "https://www.racedayquads.com/products/matek-f405-wte-wing-flight-controller",
-   "status": "ok",
-   "status_code": 200,
-   "error": null,
-   "ok": true,
+   "status": "blocked",
+   "status_code": 429,
+   "error": "HTTP 429 Too Many Requests",
+   "ok": false,
    "found_in": [
     "analysis/link_status.json:2632",
     "analysis/sources.json:8854",
@@ -7610,10 +7610,10 @@
   },
   {
    "url": "https://www.radiomasterrc.com/products/pocket-radio-controller-m2",
-   "status": "ok",
-   "status_code": 200,
-   "error": null,
-   "ok": true,
+   "status": "blocked",
+   "status_code": 429,
+   "error": "HTTP 429 Too Many Requests",
+   "ok": false,
    "found_in": [
     "analysis/link_status.json:2677",
     "analysis/sources.json:9026",
@@ -7810,10 +7810,10 @@
   },
   {
    "url": "https://www.readymaderc.com/search?q=es3005",
-   "status": "error",
-   "status_code": null,
-   "error": "TimeoutError: The read operation timed out",
-   "ok": false,
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
    "found_in": [
     "analysis/bom_savings_2026-11-01.json:267"
    ]
@@ -7830,10 +7830,10 @@
   },
   {
    "url": "https://www.readymaderc.com/search?q=rp3",
-   "status": "ok",
-   "status_code": 200,
-   "error": null,
-   "ok": true,
+   "status": "error",
+   "status_code": null,
+   "error": "TimeoutError: The read operation timed out",
+   "ok": false,
    "found_in": [
     "analysis/bom_savings_2026-11-01.json:212"
    ]
@@ -8133,10 +8133,10 @@
   },
   {
    "url": "https://www.tytorobotics.com/pages/series-1580-1585",
-   "status": "ok",
-   "status_code": 200,
-   "error": null,
-   "ok": true,
+   "status": "blocked",
+   "status_code": 429,
+   "error": "HTTP 429 Too Many Requests",
+   "ok": false,
    "found_in": [
     "analysis/link_status.json:2844",
     "analysis/sources.json:9252",
@@ -8157,10 +8157,10 @@
   },
   {
    "url": "https://www.tytorobotics.com/products/series-1580-test-stand-bundle",
-   "status": "ok",
-   "status_code": 200,
-   "error": null,
-   "ok": true,
+   "status": "blocked",
+   "status_code": 429,
+   "error": "HTTP 429 Too Many Requests",
+   "ok": false,
    "found_in": [
     "analysis/link_status.json:2854",
     "analysis/sources.json:9286",
@@ -8323,10 +8323,10 @@
   },
   {
    "url": "https://zeeebattery.com/pages/shipping-policy",
-   "status": "blocked",
-   "status_code": 429,
-   "error": "HTTP 429 Too Many Requests",
-   "ok": false,
+   "status": "ok",
+   "status_code": 200,
+   "error": null,
+   "ok": true,
    "found_in": [
     "analysis/link_status.json:2916",
     "analysis/sources.json:6714",

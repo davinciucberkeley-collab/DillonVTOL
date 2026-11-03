@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-02 04:25",
+ "generated": "2026-11-03 01:10",
  "script": "analysis/cfd3d/scheme_check_2d.py",
  "xfoil_inviscid": {
   "0.0": 0.2676,
@@ -74,6 +74,29 @@
    },
    "cl_alpha_per_rad": 6.630226518450398,
    "cl4_vs_xfoil_pct": -4.901160570602166
+  },
+  "3D-L4": {
+   "wall_size_m": 0.001144,
+   "te_size_m": 0.001144,
+   "curvature_per_2pi": 46,
+   "triangles": 13195,
+   "wall_edges": 580,
+   "su2": {
+    "0.0": {
+     "rc": 0,
+     "iters": 2001,
+     "CL": 0.2693860523,
+     "CD": -0.0002176108896
+    },
+    "4.0": {
+     "rc": 0,
+     "iters": 2001,
+     "CL": 0.7382072763,
+     "CD": 0.00297518128
+    }
+   },
+   "cl_alpha_per_rad": 6.715369370339345,
+   "cl4_vs_xfoil_pct": -2.9440867341572448
   },
   "fine": {
    "wall_size_m": 0.002,
