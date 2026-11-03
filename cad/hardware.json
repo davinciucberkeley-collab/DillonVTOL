@@ -1008,7 +1008,11 @@
       "cross_hole_position_from_end_mm": 0.3,
       "source": "ISO 2768-1 m column (https://amesweb.info/fits-tolerances/iso-2768-linear-dimensions-tolerances.aspx, checked 2026-10-21); squareness EST"
     },
-    "torque_method": "No torque driver on hand: hang a known mass from a hex key, T = m g L (e.g. 0.6 N*m = 1.02 kg at L 60 mm). Makerspace torque driver is an assumption."
+    "torque_method": "No torque driver on hand: hang a known mass from a hex key, T = m g L (e.g. 0.6 N*m = 1.02 kg at L 60 mm). Makerspace torque driver is an assumption.",
+    "hot_wired_foam": {
+      "rule": "+-0.5 mm on hot-wired XPS sections, pockets and channels (EST, hand hot-wire); spar channel FT05 26.0 +-0.5",
+      "source": "same basis as FT05 (channel tolerance EST, hand hot-wire); no measured hot-wire data (—); drawing DBF-DRW-001 rev F tolerance table (added 2026-11-03)"
+    }
   },
   "unknowns": [
     "JeeFly 1755 hub thickness (sets F12 length)",

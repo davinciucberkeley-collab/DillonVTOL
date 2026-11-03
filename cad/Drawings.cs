@@ -1,4 +1,4 @@
-﻿// Builds the SOLIDWORKS drawing set DBF-DRW-001 rev E for the model (one .SLDDRW, nine ANSI B sheets):
+﻿// Builds the SOLIDWORKS drawing set DBF-DRW-001 rev F for the model (one .SLDDRW, nine ANSI B sheets):
 //   1 General arrangement (GA): front elevation, plan, side elevation, isometric; overall dimensions; revision table
 //   2 Exploded assembly with one balloon per major part (VTOL_Exploded.SLDASM, offsets from cad/params.mjs)
 //   3 Parts list (parts-only bill of materials of the assembly: fasteners grouped by type with quantities)
@@ -19,6 +19,8 @@
 // Rev D: every size that follows the sizing (chord, stations, section heights, tube lengths, fairing, gear socket) is read
 // from cad/params.txt, in the dimensions and in the note text; only purchased-hardware sizes stay as literals.
 // Rev E: wing re-sized to the 11.75 m/s design stall (docs/research/stall-margin.md); sizes follow params.txt as in rev D.
+// Rev F (2026-11-03): CAD interference fixes (canopy slots, rudder clevis, spar channel Ø26.0 FT05); hot-wired foam tolerance row; joiner-bore
+// coaxiality (sheet 4 note 7); front boom ±1.2 (ISO 2768-m over 1000); layout overlaps cleared (sheets 1, 4, 7, 9).
 // Exports DBF-DRW-001.SLDDRW, DBF-DRW-001.PDF (all sheets) and a PNG per sheet.
 // Usage: Drawings.exe <cad/model dir> <cad/drawings dir> <cad/params.txt> [sheets]
 //   [sheets] = comma list such as 2,3 builds only those sheets as probe_sheetN.png / probe.SLDDRW (layout iteration).
@@ -44,7 +46,7 @@ class Drawings
     static string Mm(double v, string fmt) { return (v * 1000).ToString(fmt, IC); }
     static StringBuilder LogText = new StringBuilder();
     static void Log(string s) { Console.WriteLine(s); LogText.AppendLine(s); }
-    const string REV = "E", DATE = "2026-10-25";
+    const string REV = "F", DATE = "2026-11-03";
     static bool Probe = false; static HashSet<int> Only = new HashSet<int>();
     static List<string[]> Titles = new List<string[]>(); static List<double> SheetScales = new List<double>();
     static int SheetCount = 0;
@@ -420,8 +422,10 @@ class Drawings
             new[] { "PRINTED PARTS (DESKTOP FDM)", "±0.5 % OF SIZE, MIN ±0.5" },
             new[] { "CONTROLLED BORES, INSERT HOLES", "FIT TABLE FT02 / FT03 / FT08 (hardware.json)" },
             new[] { "HOLE POSITION", "Ø0.4; MOTOR PATTERN Ø0.2" },
-            new[] { "CUT TUBES (ISO 2768-m), ANGLES", "±0.5 (120–400), ±0.8 (400–1000); ±1°" } };
-        Table("tolerance table", 0.018, 0.039, rows, new[] { 0.062, 0.092 }, NOTE_H, 0.0045);
+            new[] { "CUT TUBES (ISO 2768-m), ANGLES", "±0.5 (120–400), ±0.8 (400–1000), ±1.2 (>1000); ±1°" },
+            new[] { "HOT-WIRED FOAM (XPS), EST", "±0.5 SECTIONS, POCKETS, CHANNELS (FT05)" } };
+        // rev F: six rows at 2.2 mm text (rows 4.2 mm) fit the same space as the five rows at 2.5 mm, under every notes block
+        Table("tolerance table", 0.018, 0.0392, rows, new[] { 0.062, 0.092 }, 0.0022, 0.00418);
         Check();
     }
     static string Part(string n) { return Path.Combine(ModelDir, n + ".SLDPRT"); }
@@ -463,7 +467,7 @@ class Drawings
         Doc.ClearSelection2(true); Doc.Extension.SelectByID2(front.V.Name, "DRAWINGVIEW", 0, 0, 0, false, 0, null, 0);
         View planV = Dwg.CreateUnfoldedViewAt3(0.128, 0.196, 0, false);
         Doc.ClearSelection2(true); Doc.Extension.SelectByID2(front.V.Name, "DRAWINGVIEW", 0, 0, 0, false, 0, null, 0);
-        View sideV = Dwg.CreateUnfoldedViewAt3(0.290, 0.100, 0, false);
+        View sideV = Dwg.CreateUnfoldedViewAt3(0.294, 0.100, 0, false);   // rev F: 4 mm right, clear of the PUSHER PROP callout
         Doc.EditRebuild3();
         VI plan = new VI { V = planV, Name = "plan", G = Outline(planV) }; Views.Add(plan);
         VI side = new VI { V = sideV, Name = "side elevation", G = Outline(sideV) }; Views.Add(side);
@@ -475,8 +479,9 @@ class Drawings
             new[] { "B", "2026-10-21", "HARDWARE SPEC APPLIED: SPLIT MOUNTS AND CLAMPS, BOOM\nSPLICE, M5 WING BOLTS, RUDDERS, ALL FASTENERS,\nTOLERANCES, FASTENER SCHEDULE; 9 SHEETS", "DBF" },
             new[] { "C", "2026-10-23", "DRAWING LAYOUT AND BALLOONING CORRECTED", "DBF" },
             new[] { "D", "2026-10-25", "WING RESIZED FOR R11 STALL (CHORD 266.6, S 0.640 M2);\nSIZES FROM PARAMS", "DBF" },
-            new[] { "E", DATE, "WING RESIZED TO 11.75 M/S DESIGN STALL (CHORD " + Mm("chord", "0.0") + ", S " + (D("chord") * span).ToString("0.000", IC) + " M2)", "DBF" } };
-        Table("revision table", 0.245, 0.262, rev, new[] { 0.012, 0.024, 0.118, 0.012 }, NOTE_H, 0.0045);
+            new[] { "E", "2026-10-25", "WING RESIZED TO 11.75 M/S DESIGN STALL (CHORD " + Mm("chord", "0.0") + ", S " + (D("chord") * span).ToString("0.000", IC) + " M2)", "DBF" },
+            new[] { "F", DATE, "CAD CLASHES CLEARED (CANOPY SLOTS, RUDDER CLEVIS, SPAR\nCHANNEL Ø26.0 FT05); FOAM TOLERANCE; JOINER COAXIALITY", "DBF" } };
+        Table("revision table", 0.248, 0.262, rev, new[] { 0.012, 0.024, 0.118, 0.012 }, NOTE_H, 0.0045);
         double revBottom = Boxes[Boxes.Count - 1].Y0;
         VI iso = Place("isometric", asm, "*Isometric", 0.322, 0.185, 20, false);
         Fit(iso, 0.240, 0.142, 0.412, revBottom - 0.004, new[] { 20.0, 25, 30, 40 });
@@ -668,25 +673,26 @@ class Drawings
         BeginSheet("WING", 10, "WING PANEL, SADDLE", "AND WING BOLT");
         double c = D("chord"), L = D("panelLen"), Lin = L - D("ailSpan"), sx = D("sparX"), sy = D("sparY"), r = D("sparOD") / 2, w = 2 * D("fusR");
         string wp = Part("Wing_Panel_R"); Open(wp, (int)swDocumentTypes_e.swDocPART);
-        VI plan = Place("wing panel plan", wp, "*Top", 0.094, 0.170, 10, true);
-        VI sec = Place("root section", wp, "*Front", 0.262, 0.228, 2, true);
+        VI plan = Place("wing panel plan", wp, "*Top", 0.097, 0.170, 10, true);   // rev F: 3 mm right (left border)
+        VI sec = Place("root section", wp, "*Front", 0.248, 0.226, 2.5, true);   // rev F: 1:2.5 (chord 322), clear of the bolt pillar
         Dim(plan, new[] { 0.0, 0, 0 }, new[] { 0.0, 0, L }, 'L', null, 0, 0, 0, null, "PANEL");
         Dim(plan, new[] { 0.0, 0, 0 }, new[] { 0.0, 0, D("zBoomPanel") }, 'L');   // boom station from the root (note 1)
         Dim(plan, new[] { -c, 0, Lin }, new[] { -c, 0, L }, 'R', null, 0, 0, 0, null, null, -0.006);   // aileron span (note 1); text 6 mm toward the tip, clear of the spar-socket extension line (rev E)
         Dim(plan, new[] { sx, sy, 0 }, new[] { sx, sy, D("sparLen") }, 'R');   // spar socket (note 2)
         Dim(plan, new[] { 0.0, 0, 0 }, new[] { sx, sy, 0 }, 'T', null, 0, 0, 0, " SPAR AT 30 % CHORD");   // on the value line: a callout above it sat in the chord dimension's extension lines (rev E)
         Dim(plan, new[] { 0.0, 0, 0 }, new[] { -c, 0, 0 }, 'T', null, 0, 0, 0, " CHORD");
-        Dim(sec, new[] { sx - r, sy, 0 }, new[] { sx + r, sy, 0 }, 'T', "<MOD-DIAM>", 1, -0.0001, 0.0001, null, "SPAR SOCKET = TUBE OD, BONDED FT05");
+        double rc = D("sparChanD") / 2;
+        Dim(sec, new[] { sx - rc, sy, 0 }, new[] { sx + rc, sy, 0 }, 'T', "<MOD-DIAM>", 1, -0.0005, 0.0005, null, "SPAR CHANNEL, HOT-WIRED, FT05");
         Dim(sec, new[] { 0.0, NacaY(0, false), 0 }, new[] { -c, 0, 0 }, 'B', null, 0, 0, 0, null, "CHORD");
         Dim(sec, new[] { -0.30 * c, NacaY(0.30, false), 0 }, new[] { -0.30 * c, NacaY(0.30, true), 0 }, 'R');   // thickness at 30 % chord (note 1)
         string sd = Part("Wing_Saddle"); Open(sd, (int)swDocumentTypes_e.swDocPART);
-        VI sp = Place("saddle plan", sd, "*Top", 0.215, 0.150, 5, true);   // between the panel plan dims and the saddle section (checked visually at chord 266.6)
-        VI ss = Place("saddle section", sd, "*Front", 0.337, 0.121, 2, true);   // rev E: 5 mm left, 7 mm down for chord 284.2 (border, bolt-pillar label)
+        VI sp = Place("saddle plan", sd, "*Top", 0.214, 0.143, 10, true);   // rev F: 1:10 under the root section, above the notes   // between the panel plan dims and the saddle section (checked visually at chord 266.6)
+        VI ss = Place("saddle section", sd, "*Front", 0.342, 0.115, 2.5, true);   // rev F: 1:2.5, inside the border   // rev E: 5 mm left, 7 mm down for chord 284.2 (border, bolt-pillar label)
         Dim(sp, new[] { 0.0, 0, -w / 2 }, new[] { 0.0, 0, w / 2 }, 'L');
         Dim(sp, new[] { 0.0, 0, -w / 2 }, new[] { -c, 0, -w / 2 }, 'B', null, 0, 0, 0, null, "CHORD");
         Dim(sp, new[] { D("boltX"), 0, -D("boltZ") }, new[] { D("boltX"), 0, D("boltZ") }, 'R');
         double rj = D("joinBoreD") / 2;
-        Dim(ss, new[] { sx - rj, sy, 0 }, new[] { sx + rj, sy, 0 }, 'T', "<MOD-DIAM>", 2, -0.0002, 0.0002, null, "JOINER BORE, SLIP FIT FT06");
+        Dim(ss, new[] { sx - rj, sy, 0 }, new[] { sx + rj, sy, 0 }, 'T', "<MOD-DIAM>", 2, -0.0002, 0.0002, null, "FT06; COAXIAL Ø0.4 TO SOCKETS (NOTE 7)");
         Dim(ss, new[] { 0.0, sy, 0 }, new[] { sx, sy, 0 }, 'B', null, 0, 0, 0, null, "JOINER AT 30 % CHORD");
         string bp = Part("Bolt_Pillar"); Open(bp, (int)swDocumentTypes_e.swDocPART);
         VI pv = Place("bolt pillar", bp, "*Front", 0.375, 0.223, 1, true);   // rev E: 5 mm down (26.0 pillar), top callout inside the border
@@ -697,7 +703,7 @@ class Drawings
         Dim(pv, new[] { -0.00285, h, 0 }, new[] { 0.00285, h, 0 }, 'T', "<MOD-DIAM>", 1, -0.0002, 0.0002, null, "THRU, M5 CLEARANCE (PRINT 5.7)");
         LabelBelow(plan, "WING PANEL, RIGHT (LEFT IS MIRROR)"); LabelBelow(sec, "ROOT SECTION");
         LabelBelow(sp, "WING SADDLE"); LabelBelow(ss, "SADDLE SECTION"); LabelBelow(pv, "BOLT PILLAR");
-        Notes(0.018, 0.092, "1. NACA 2415, XPS CORE, PACKING-TAPE SKIN. AILERON 26 % CHORD, 2 % HINGE GAP, OUTER " + (D("ailFrac") * 100).ToString("0", IC) + " % OF SPAN (" + Mm("ailSpan", "0") + " DIM). SPAR SOCKET " + Mm("sparLen", "0") + " DIM, BOOM STATION " + Mm("zBoomPanel", "0.0") + " FROM THE ROOT, ROOT THICKNESS " + Mm("thick30", "0.0") + " AT 30 % CHORD. SADDLE: 2X BOLT PILLARS <MOD-DIAM>" + Mm("pillarD", "0.#") + " IN <MOD-DIAM>" + Mm("pillarBoreD", "0.0") + " BORES AT " + Mm(2 * D("boltZ"), "0") + " (DIM), 70 % CHORD.\n2. SPAR SOCKET 1.000 x 0.058 in 6061-T6 BONDED " + Mm("sparLen", "0") + " mm INTO THE ROOT AT 30 % CHORD (FT05, FOAM-SAFE GLUE).\n3. JOINER 0.875 x 0.058 in, " + Mm("joinLen", "0") + " mm: SLIP FIT IN THE SOCKETS (FT01, -0.08/+0.53 DIAMETRAL, MEASURE M1) AND THE SADDLE (FT06); NOT BONDED, CAPTURED BY TWO PRINTED STOPS " + Mm(D("joinLen") / 2 - D("fusR"), "0") + " mm INSIDE THE SOCKETS.\n4. WING BOLT J10: F09 ISO 7380 M5 x " + Mm("wingBoltL", "0") + " THROUGH THE PILLAR AND THE ROOT TONGUE (SHEET 9) INTO N02 M5 NYLOCK, 1.0 N·m EST; HEAD IN A <MOD-DIAM>10.3 x " + Mm("pillarSpot", "0.0") + " SPOT-FACE; NUT POCKET 8.2 AF x " + Mm("pillarNutDepth", "0.0") + " FROM THE LOWER SURFACE (SCREW END 3.5 PAST THE NUT NOMINAL, >= 2 THREADS WORST CASE; POCKET NOT ABOVE THE TONGUE-SLOT FLOOR).\n5. PANEL POCKETS (SPAR COLLAR, REAR HARDPOINT, SERVO TRAY, TONGUE, PITOT CLAMP) CUT TO THE PART OUTLINES OF SHEET 9, BONDED WITH FOAM-SAFE GLUE.\n6. SADDLE TABS: 2 x F08 M3 x 12 PER SIDE INTO RX-M3x5.7 INSERTS IN THE POD FRAME RAILS (J11).", NOTES_W);
+        Notes(0.018, 0.099, "1. NACA 2415, XPS CORE, PACKING-TAPE SKIN. AILERON 26 % CHORD, 2 % HINGE GAP, OUTER " + (D("ailFrac") * 100).ToString("0", IC) + " % OF SPAN (" + Mm("ailSpan", "0") + " DIM). SPAR SOCKET " + Mm("sparLen", "0") + " DIM, BOOM STATION " + Mm("zBoomPanel", "0.0") + " FROM THE ROOT, ROOT THICKNESS " + Mm("thick30", "0.0") + " AT 30 % CHORD. SADDLE: 2X BOLT PILLARS <MOD-DIAM>" + Mm("pillarD", "0.#") + " IN <MOD-DIAM>" + Mm("pillarBoreD", "0.0") + " BORES AT " + Mm(2 * D("boltZ"), "0") + " (DIM), 70 % CHORD.\n2. SPAR SOCKET 1.000 x 0.058 in 6061-T6 BONDED " + Mm("sparLen", "0") + " mm INTO THE ROOT AT 30 % CHORD IN A <MOD-DIAM>" + Mm("sparChanD", "0.0") + " ±0.5 HOT-WIRED CHANNEL (FT05, FOAM-SAFE GLUE).\n3. JOINER 0.875 x 0.058 in, " + Mm("joinLen", "0") + " mm: SLIP FIT IN THE SOCKETS (FT01, -0.08/+0.53 DIAMETRAL, MEASURE M1) AND THE SADDLE (FT06); NOT BONDED, CAPTURED BY TWO PRINTED STOPS " + Mm(D("joinLen") / 2 - D("fusR"), "0") + " mm INSIDE THE SOCKETS.\n4. WING BOLT J10: F09 ISO 7380 M5 x " + Mm("wingBoltL", "0") + " THROUGH THE PILLAR AND THE ROOT TONGUE (SHEET 9) INTO N02 M5 NYLOCK, 1.0 N·m EST; HEAD IN A <MOD-DIAM>10.3 x " + Mm("pillarSpot", "0.0") + " SPOT-FACE; NUT POCKET 8.2 AF x " + Mm("pillarNutDepth", "0.0") + " FROM THE LOWER SURFACE (SCREW END 3.5 PAST THE NUT NOMINAL, >= 2 THREADS WORST CASE; POCKET NOT ABOVE THE TONGUE-SLOT FLOOR).\n5. PANEL POCKETS (SPAR COLLAR, REAR HARDPOINT, SERVO TRAY, TONGUE, PITOT CLAMP) CUT TO THE PART OUTLINES OF SHEET 9, BONDED WITH FOAM-SAFE GLUE.\n6. SADDLE TABS: 2 x F08 M3 x 12 PER SIDE INTO RX-M3x5.7 INSERTS IN THE POD FRAME RAILS (J11).\n7. JOINER BORE COAXIAL TO BOTH SPAR SOCKETS <MOD-DIAM>0.4 (EST, < FT01 + FT06 NOMINAL CLEARANCE 0.46): DRY-FIT THE JOINER THROUGH SADDLE AND SOCKETS BEFORE BONDING.", NOTES_W);
         EndSheet();
     }
 
@@ -772,7 +778,7 @@ class Drawings
         PairLabel(b, "FRONT / REAR BOOM CLAMP, LOWER (PETG) QTY 2 + 2"); PairLabel(a, "FRONT BOOM CLAMP, UPPER (PETG) QTY 2");
         PairLabel(e, "GEAR CLAMP, LOWER (PETG) QTY 4"); PairLabel(d, "GEAR CLAMP, UPPER (PETG) QTY 4");
         PairLabel(g, "TAIL CLAMP, CAP (PETG) QTY 2"); PairLabel(f, "TAIL CLAMP, UPPER (PETG) QTY 2");
-        Notes(0.018, 0.063, "1. EACH PAIR: SECTION THROUGH THE BORE (LEFT), SIDE ALONG THE BOOM (RIGHT). ALL CLAMPS 46 WIDE, BORE <MOD-DIAM>25.6 ±0.2 (FT02) PRINTED 0.2 UNDER AND REAMED, SPLIT GAP 1.2; BOOM AND GEAR CLAMPS 34 LONG, TAIL CLAMPS 50.\n2. REAR BOOM CLAMP UPPER = FRONT UPPER, TOP AT " + (D("clampTopR") * 1000).ToString("0.0", IC) + "; REAR LOWER = FRONT LOWER WITH THE DEEPER COUNTERBORE.\n3. SCREWS, TORQUES, THREADLOCKER: SHEET 8 (J05 F06 / F04 ON A DIAGONAL INTO THE WING INSERTS, FIELD BREAKDOWN; J06 F03; J08 F02). LEG SOCKET AND J07 CROSS-BOLT: SHEET 7.", NOTES_W);
+        Notes(0.018, 0.0645, "1. EACH PAIR: SECTION THROUGH THE BORE (LEFT), SIDE ALONG THE BOOM (RIGHT). ALL CLAMPS 46 WIDE, BORE <MOD-DIAM>25.6 ±0.2 (FT02) PRINTED 0.2 UNDER AND REAMED, SPLIT GAP 1.2; BOOM AND GEAR CLAMPS 34 LONG, TAIL CLAMPS 50.\n2. REAR BOOM CLAMP UPPER = FRONT UPPER, TOP AT " + (D("clampTopR") * 1000).ToString("0.0", IC) + "; REAR LOWER = FRONT LOWER WITH THE DEEPER COUNTERBORE.\n3. SCREWS, TORQUES, THREADLOCKER: SHEET 8 (J05 F06 / F04 ON A DIAGONAL INTO THE WING INSERTS, FIELD BREAKDOWN; J06 F03; J08 F02). LEG SOCKET AND J07 CROSS-BOLT: SHEET 7.", NOTES_W);
         EndSheet();
     }
 
@@ -787,19 +793,19 @@ class Drawings
             new[] { "ITEM", "PART", "STOCK (6061-T6)", "CUT LENGTH mm", "TOL mm (ISO 2768-m)", "QTY", "HOLES" },
             new[] { "T01", "Wing spar socket", "1.000 x 0.058 in", string.Format(IC, mm, D("sparLen") * 1000), "±0.8", "2", "none; bonded in the panel (FT05)" },
             new[] { "T02", "Wing joiner", "0.875 x 0.058 in", string.Format(IC, mm, D("joinLen") * 1000), "±0.8", "1", "none; slip fit FT01/FT06, lap if tight" },
-            new[] { "T03", "Front boom", "1.000 x 0.035 in", string.Format(IC, mm, D("segF") * 1000), "±0.8", "2", "1 x Ø3.4 cross hole (Z) 18 ±0.3 from the splice end, drilled through the mount" },
+            new[] { "T03", "Front boom", "1.000 x 0.035 in", string.Format(IC, mm, D("segF") * 1000), "±1.2", "2", "1 x Ø3.4 cross hole (Z) 18 ±0.3 from the splice end, drilled through the mount" },
             new[] { "T04", "Rear boom stub", "1.000 x 0.035 in", string.Format(IC, mm, D("segR") * 1000), "±0.8", "2", "1 x Ø3.4 cross hole (Z) 18 ±0.3 from the splice end" },
             new[] { "T05", "Landing leg", "1.000 x 0.058 in", string.Format(IC, mm, D("legLen") * 1000), "±0.5", "4", "1 x Ø3.4 cross hole (X) " + Mm(legHole, "0.#") + " ±0.3 from the top end, drilled through the gear clamp" } };
         Table("tube cut list", 0.018, 0.262, rows, new[] { 0.012, 0.034, 0.034, 0.030, 0.040, 0.012, 0.170 }, NOTE_H, 0.0045);
         string leg = Part("Landing_Leg"); Open(leg, (int)swDocumentTypes_e.swDocPART);
-        VI lv = Place("landing leg", leg, "*Front", 0.360, 0.150, 2, true);
+        VI lv = Place("landing leg", leg, "*Front", 0.360, 0.180, 5, true);   // rev F: 1:5 above the gear-socket view (was 1:2 beside it, overlapping)
         double R = D("legOD") / 2, Ll = D("legLen");
         Dim(lv, new[] { R, 0.0, 0 }, new[] { R, Ll, 0 }, 'R', null, 0, -0.0005, 0.0005);
         Dim(lv, new[] { -R, Ll, 0 }, new[] { R, Ll, 0 }, 'T', "<MOD-DIAM>", 1, -0.0001, 0.0001);
         Dim(lv, new[] { -R, Ll - legHole, 0 }, new[] { -R, Ll, 0 }, 'L', null, 1, -0.0003, 0.0003, null, "<MOD-DIAM>3.4 THRU (X)");
         string bf = Part("Boom_Front"); Open(bf, (int)swDocumentTypes_e.swDocPART);
         VI bv = Place("front boom", bf, "*Top", 0.150, 0.182, 5, true);
-        Dim(bv, new[] { 0.0, 0, 0.0127 }, new[] { D("segF"), 0, 0.0127 }, 'T', null, 1, -0.0008, 0.0008);
+        Dim(bv, new[] { 0.0, 0, 0.0127 }, new[] { D("segF"), 0, 0.0127 }, 'T', null, 1, -0.0012, 0.0012);   // ISO 2768-m over 1000 (hardware.json cut_tubes)
         Dim(bv, new[] { 0.0, 0, -0.0127 }, new[] { 0.018, 0, -0.0127 }, 'B', null, 0, -0.0003, 0.0003, null, "<MOD-DIAM>3.4 THRU (Z), SPLICE BOLT");
         string gf = Part("Gear_Fairing"); Open(gf, (int)swDocumentTypes_e.swDocPART);
         VI fv = Place("leg fairing", gf, "*Top", 0.085, 0.124, 1, true);
@@ -838,7 +844,7 @@ class Drawings
     {
         BeginSheet("HARDPOINTS", 1, "PRINTED PARTS", "HARDPOINTS AND TRAYS");
         string fs = Part("Fin_Shoe"); Open(fs, (int)swDocumentTypes_e.swDocPART);
-        VI fv = Place("fin shoe", fs, "*Top", 0.105, 0.222, 1, true);
+        VI fv = Place("fin shoe", fs, "*Top", 0.066, 0.224, 2, true);   // rev F: 1:2, inside the border, clear of the spar collar
         double xc = D("xTC") - D("xFinLE");
         Dim(fv, new[] { xc - D("shoeFlangeX") / 2, 0.0, 0.023 }, new[] { xc + D("shoeFlangeX") / 2, 0.0, 0.023 }, 'T', null, 0, 0, 0, " FLANGE");
         Dim(fv, new[] { xc, 0, -0.0175 }, new[] { xc, 0, 0.0175 }, 'R', null, 0, 0, 0, null, "2X <MOD-DIAM>3.4 THRU");
@@ -862,7 +868,7 @@ class Drawings
         Dim(sv, new[] { -0.025, 0, 0 }, new[] { 0.025, 0, 0 }, 'T');
         Dim(sv, new[] { -0.023, D("trayBodyY"), 0 }, new[] { 0.023, D("trayBodyY"), 0 }, 'B', null, 0, 0, 0, null, "4X <MOD-DIAM>2.6 + M2 NUT POCKET 4.2 AF x 2");
         string rt = Part("Root_Tongue"); Open(rt, (int)swDocumentTypes_e.swDocPART);
-        VI tv = Place("root tongue", rt, "*Top", 0.330, 0.130, 1, true);
+        VI tv = Place("root tongue", rt, "*Top", 0.330, 0.123, 1, true);   // rev F: 7 mm down, clear of the spar-collar label
         Dim(tv, new[] { -0.010, 0, 0 }, new[] { -0.010, 0, 0.050 }, 'L');
         Dim(tv, new[] { -0.010, 0, 0.050 }, new[] { 0.010, 0, 0.050 }, 'T');
         Dim(tv, new[] { 0.010, 0, 0 }, new[] { 0.010, 0, 0.010 }, 'R', null, 0, -0.0002, 0.0002, null, "WING BOLT <MOD-DIAM>5.7");

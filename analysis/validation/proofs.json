@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-03 01:43",
+ "generated": "2026-11-03 12:21",
  "script": "analysis/validation/proofs.py",
  "rules": "Inputs are read from the cited files at run time; constants name their source; links to other claims are value-checked.",
  "claims": {
@@ -709,54 +709,6 @@
    "upstream": [],
    "downstream": []
   },
-  "MFG-02": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [
-    "screw overrun = V / (pi d^2 / 4)"
-   ],
-   "evidence": [
-    {
-     "file": "cad/verification.txt",
-     "what": "Interference detection section"
-    }
-   ],
-   "check": {
-    "method": "per-entry disposition (count of unexplained entries)",
-    "value": 32.0,
-    "repo_value": 0.0,
-    "delta_pct": null,
-    "script": "analysis/validation/check_struct.py#MFG-INTF"
-   },
-   "external": [],
-   "upstream": [],
-   "downstream": []
-  },
-  "MFG-03": {
-   "kind": "evidence",
-   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
-   "equations": [],
-   "evidence": [
-    {
-     "file": "cad/drawings/layout-check.txt",
-     "what": "22 OVERLAP lines on sheets 1, 4, 7, 9"
-    },
-    {
-     "file": "cad/Drawings.cs",
-     "what": "REV \"E\", put(\"CheckedBy\", \"\u2014\")"
-    }
-   ],
-   "check": {
-    "method": "count OVERLAP records",
-    "value": 22.0,
-    "repo_value": 0.0,
-    "delta_pct": null,
-    "script": "analysis/validation/check_struct.py#MFG-03"
-   },
-   "external": [],
-   "upstream": [],
-   "downstream": []
-  },
   "MFG-10": {
    "kind": "evidence",
    "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
@@ -1356,6 +1308,61 @@
    "upstream": [],
    "downstream": []
   },
+  "MFG-02": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "crescent volume of an offset coaxial cut ~ 2 R e L (R 12.7 mm, e 4 um, L 0.8 m -> ~81 mm3 per socket before the fix, calc)",
+    "rod length = |pin - arm| (cad/params.mjs; both rudders 88.4 mm after the left servo moved 2 x shaftX = 19 mm aft)"
+   ],
+   "evidence": [
+    {
+     "file": "cad/verification.txt",
+     "what": "Interference detection section"
+    }
+   ],
+   "check": {
+    "method": "per-entry disposition (count of unexplained entries)",
+    "value": 0.0,
+    "repo_value": 0.0,
+    "delta_pct": 0.0,
+    "script": "analysis/validation/check_struct.py#MFG-INTF"
+   },
+   "external": [],
+   "upstream": [],
+   "downstream": []
+  },
+  "MFG-03": {
+   "kind": "evidence",
+   "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
+   "equations": [
+    "coaxiality allowance <= FT01 + FT06 nominal diametral clearance = (22.454 - 22.225) + (22.455 - 22.225) = 0.46 mm (calc, cad/hardware.json); 0.4 adopted (EST)"
+   ],
+   "evidence": [
+    {
+     "file": "cad/drawings/layout-check.txt",
+     "what": "0 OVERLAP lines; every sheet \"0 layout problems\""
+    },
+    {
+     "file": "cad/Drawings.cs",
+     "what": "REV \"F\"; tolerance-table row HOT-WIRED FOAM; sheet 4 note 7 and callout COAXIAL \u00d80.4; put(\"CheckedBy\", \"\u2014\")"
+    },
+    {
+     "file": "cad/hardware.json",
+     "what": "general_tolerances.hot_wired_foam; fits FT01, FT05, FT06"
+    }
+   ],
+   "check": {
+    "method": "count OVERLAP records",
+    "value": 0.0,
+    "repo_value": 0.0,
+    "delta_pct": 0.0,
+    "script": "analysis/validation/check_struct.py#MFG-03"
+   },
+   "external": [],
+   "upstream": [],
+   "downstream": []
+  },
   "MFG-04": {
    "kind": "evidence",
    "note": "No closed-form arithmetic to re-run: the evidence files and the independent check below are the proof.",
@@ -1640,7 +1647,7 @@
      "desc": "joiner OD",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:15",
+      "ref": "cad/params.txt:16",
       "scaled": 1000.0
      }
     }
@@ -1751,7 +1758,7 @@
      "desc": "joiner OD (0.875 in)",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:15"
+      "ref": "cad/params.txt:16"
      }
     },
     {
@@ -1762,7 +1769,7 @@
      "desc": "joiner ID",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:16"
+      "ref": "cad/params.txt:17"
      }
     }
    ],
@@ -2588,7 +2595,7 @@
      "desc": "MTOW in cad/params.txt",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:140"
+      "ref": "cad/params.txt:141"
      },
      "from_claim": "AERO-22",
      "link": {
@@ -2617,7 +2624,7 @@
      "desc": "ultimate load factor (3 x 1.5, team-set estimate)",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:53"
+      "ref": "cad/params.txt:54"
      }
     },
     {
@@ -3060,7 +3067,7 @@
      "desc": "maximum thrust of one lift unit (maker 3.13 kgf, results.json struct.Tmax)",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:51"
+      "ref": "cad/params.txt:52"
      }
     },
     {
@@ -3071,7 +3078,7 @@
      "desc": "boom cantilever length",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:50"
+      "ref": "cad/params.txt:51"
      }
     },
     {
@@ -3082,7 +3089,7 @@
      "desc": "boom OD (1.000 in)",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:18"
+      "ref": "cad/params.txt:19"
      }
     },
     {
@@ -3093,7 +3100,7 @@
      "desc": "boom ID",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:19"
+      "ref": "cad/params.txt:20"
      }
     }
    ],
@@ -3197,7 +3204,7 @@
      "desc": "maximum thrust of one lift unit",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:51"
+      "ref": "cad/params.txt:52"
      }
     },
     {
@@ -3208,7 +3215,7 @@
      "desc": "boom length",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:50"
+      "ref": "cad/params.txt:51"
      }
     },
     {
@@ -3219,7 +3226,7 @@
      "desc": "boom OD",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:18"
+      "ref": "cad/params.txt:19"
      }
     },
     {
@@ -3230,7 +3237,7 @@
      "desc": "boom ID",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:19"
+      "ref": "cad/params.txt:20"
      }
     },
     {
@@ -3241,7 +3248,7 @@
      "desc": "Young's modulus, 6061-T6",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:65",
+      "ref": "cad/params.txt:66",
       "src_id": "SRC-09"
      }
     }
@@ -3311,7 +3318,7 @@
      "desc": "lift-unit mass at the tip",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:52"
+      "ref": "cad/params.txt:53"
      },
      "from_claim": "STR-05",
      "link": {
@@ -3329,7 +3336,7 @@
      "desc": "boom length",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:50"
+      "ref": "cad/params.txt:51"
      }
     },
     {
@@ -3340,7 +3347,7 @@
      "desc": "OD",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:18"
+      "ref": "cad/params.txt:19"
      }
     },
     {
@@ -3351,7 +3358,7 @@
      "desc": "ID",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:19"
+      "ref": "cad/params.txt:20"
      }
     },
     {
@@ -3362,7 +3369,7 @@
      "desc": "Young's modulus, 6061-T6",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:65",
+      "ref": "cad/params.txt:66",
       "src_id": "SRC-09"
      }
     },
@@ -3374,7 +3381,7 @@
      "desc": "6061 density",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:67",
+      "ref": "cad/params.txt:68",
       "src_id": "SRC-09"
      }
     }
@@ -4028,7 +4035,7 @@
      "desc": "heat into the motor",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:60"
+      "ref": "cad/params.txt:61"
      },
      "from_claim": "THM-03",
      "link": {
@@ -4046,7 +4053,7 @@
      "desc": "convection coefficient (estimate)",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:61"
+      "ref": "cad/params.txt:62"
      },
      "from_claim": "THM-02",
      "link": {
@@ -4064,7 +4071,7 @@
      "desc": "motor diameter",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:25"
+      "ref": "cad/params.txt:26"
      }
     },
     {
@@ -4075,7 +4082,7 @@
      "desc": "motor height",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:26"
+      "ref": "cad/params.txt:27"
      }
     }
    ],
@@ -4346,7 +4353,7 @@
      "desc": "pusher propeller diameter (14 in)",
      "src": {
       "kind": "file",
-      "ref": "cad/params.txt:32",
+      "ref": "cad/params.txt:33",
       "src_id": "SRC-14"
      }
     }

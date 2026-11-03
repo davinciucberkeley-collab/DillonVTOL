@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-03 01:43",
+ "generated": "2026-11-03 12:21",
  "script": "analysis/validation/build_matrix.py",
  "sources": {
   "claims_aero.json": {
@@ -55,14 +55,14 @@
  },
  "counts": {
   "Unverified": 1,
-  "Partially Verified": 40,
-  "Verified": 38
+  "Partially Verified": 38,
+  "Verified": 40
  },
  "by_component": {
   "aircraft": {
    "Unverified": 1,
-   "Partially Verified": 14,
-   "Verified": 13
+   "Partially Verified": 12,
+   "Verified": 15
   },
   "avionics": {
    "Partially Verified": 1
@@ -101,8 +101,8 @@
    "Verified": 14
   },
   "cad": {
-   "Partially Verified": 3,
-   "Verified": 2
+   "Partially Verified": 1,
+   "Verified": 4
   },
   "cost": {
    "Partially Verified": 1
@@ -875,119 +875,6 @@
    "discipline": "aerodynamics",
    "tool": "SU2 8.5.0 INC_EULER on gmsh 4.15.2 tetrahedra (analysis/cfd3d/)",
    "source_file": "analysis/validation/claims_cfd.json"
-  },
-  {
-   "id": "MFG-02",
-   "component": "aircraft",
-   "discipline": "cad",
-   "claim": "Interference check (CAD rebuilt 2026-11-02): 303 interferences = 193 intended heat-set insert press fits + 110 others (643.2 mm3). Audit disposition of the 110: 79 model artefacts (250.5 mm3: horn screws through undrilled surfaces, nylock-pocket slivers, foam pockets, screw tips) and 31 not explained that need a CAD review (392.8 mm3): Fuselage_Pod x Canopy (21 x, 168 mm3); Control_Horn x Pushrod_Rudder (3 x, 105 mm3); Wing_Panel_L x Spar_Tube (2 x, 58 mm3); Wing_Panel_R x Spar_Tube (2 x, 57 mm3); Boom_Clamp_F_Upper x Spar_Collar (2 x, 4 mm3); F11_M2x14_PAN x Pushrod_Rudder (1 x, 2 mm3). The rev D spar-collar screw overrun is gone.",
-   "value": 110,
-   "units": "non-insert interferences",
-   "equations": [
-    "screw overrun = V / (pi d^2 / 4)"
-   ],
-   "assumptions": [
-    "disposition by part-pair rule (audit judgement, listed in check_struct.py RULES)"
-   ],
-   "inputs": {
-    "header": {
-     "total": 303,
-     "inserts": 193,
-     "insert_mm3": 1423.0,
-     "other": 110,
-     "other_mm3": 643.2
-    }
-   },
-   "tool": "SOLIDWORKS InterferenceDetectionMgr (cad/BuildVtol.cs)",
-   "evidence": [
-    {
-     "file": "cad/verification.txt",
-     "what": "Interference detection section"
-    }
-   ],
-   "ran_evidence": "cad/verification.txt written by cad/BuildVtol.cs 2026-11-01 21:38 (SOLIDWORKS 33.4.0) from cad/params.built.txt; drawings cad/drawings/* 2026-11-01 22:00.",
-   "check_yourself": [
-    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line MFG-02 must print PASS (110 items read = header count).",
-    "Open cad/verification.txt, section \"## Interference detection\": header line \"303 interferences: 193 are heat-set inserts ..., 110 other (total 643.2 mm3)\".",
-    "checks_struct.json -> checks.MFG-INTF.by_pair groups the 110 lines by part pair, with category and reason.",
-    "Largest: Control_Horn x Pushrod_Rudder 100.96 mm3 (a 1.5 mm wire through a horn would be < 10 mm3, so this is a real placement error in the model)."
-   ],
-   "reproduced": {
-    "done": true,
-    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). Line MFG-02 must print PASS (110 items read = header count). (2) Open cad/verification.txt, section \"## Interference detection\": header line \"303 interferences: 193 are heat-set inserts ..., 110 other (total 643.2 mm3)\". (3) checks_struct.json -> checks.MFG-INTF.by_pair groups the 110 lines by part pair, with category and reason. (4) Largest: Control_Horn x Pushrod_Rudder 100.96 mm3 (a 1.5 mm wire through a horn would be < 10 mm3, so this is a real placement error in the model).",
-    "matches": true
-   },
-   "independent_check": {
-    "method": "per-entry disposition (count of unexplained entries)",
-    "value": 32.0,
-    "repo_value": 0.0,
-    "delta_pct": null,
-    "script": "analysis/validation/check_struct.py#MFG-INTF"
-   },
-   "status": "Partially Verified",
-   "status_reason": "Every entry has a disposition, but 31 entries (393 mm3) are unexplained and could be real clashes (rudder pushrod/horn, canopy/pod, spar socket/foam, clamp/spar collar). The canopy/pod overlap survived the 2026-11-02 rebuild at the current canopyX0, so it is geometry, not a parameter lag. \"No real clashes\" is not yet shown.",
-   "limitations": [
-    "WARNING in verification.txt: cut \"tail ring radial hole bottom\" removed nothing (still present)."
-   ],
-   "next_step": "CAD fixes in cad/BuildVtol.cs: rudder horn/pushrod Z-bend position, canopy lip vs pod opening, spar-socket channel in the foam, clamp upper vs spar collar; rebuild; target 0 unexplained.",
-   "history": [
-    {
-     "date": "2026-11-02",
-     "change": "Re-audited on the rebuilt CAD: 304 -> 303 (189 -> 193 inserts, 115 -> 110 others); unexplained 32 -> 31 (383 -> 393 mm3). Canopy/pod persists after the rebuild."
-    }
-   ],
-   "source_file": "analysis/validation/claims_struct.json"
-  },
-  {
-   "id": "MFG-03",
-   "component": "aircraft",
-   "discipline": "cad",
-   "claim": "Drawing DBF-DRW-001 rev E (9 sheets, generated from the CAD by cad/Drawings.cs, regenerated 2026-11-02 on the current params) carries fits and tolerances from params.txt and hardware.json; its layout self-check logs 23 label/view overlaps, and nobody has checked or approved it (CheckedBy \"\u2014\").",
-   "value": 23,
-   "units": "overlaps logged",
-   "equations": [],
-   "assumptions": [],
-   "inputs": {},
-   "tool": "cad/Drawings.cs",
-   "evidence": [
-    {
-     "file": "cad/drawings/layout-check.txt",
-     "what": "22 OVERLAP lines on sheets 1, 4, 7, 9"
-    },
-    {
-     "file": "cad/Drawings.cs",
-     "what": "REV \"E\", put(\"CheckedBy\", \"\u2014\")"
-    }
-   ],
-   "ran_evidence": "Drawing files written 2026-11-01 22:00.",
-   "check_yourself": [
-    "Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). checks_struct.json -> checks.MFG-03 gives the overlap count, revision and checker.",
-    "Open cad/drawings/layout-check.txt and count the lines starting \"  OVERLAP\" (23).",
-    "Open cad/drawings/DBF-DRW-001.PDF: the title block CHECKED field is \"\u2014\"."
-   ],
-   "reproduced": {
-    "done": true,
-    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s, numpy only). checks_struct.json -> checks.MFG-03 gives the overlap count, revision and checker. (2) Open cad/drawings/layout-check.txt and count the lines starting \"  OVERLAP\" (23). (3) Open cad/drawings/DBF-DRW-001.PDF: the title block CHECKED field is \"\u2014\".",
-    "matches": true
-   },
-   "independent_check": {
-    "method": "count OVERLAP records",
-    "value": 22.0,
-    "repo_value": 0.0,
-    "delta_pct": null,
-    "script": "analysis/validation/check_struct.py#MFG-03"
-   },
-   "status": "Partially Verified",
-   "status_reason": "The drawings exist, follow the current geometry and carry the fits, but 23 overlaps are unresolved (one new on sheet 1: the front- and side-elevation boxes touch by < 1 mm after the 0.4 mm chord change, no drawn geometry overlaps), the set has not been checked by a person, there is no tolerance class for hot-wired foam parts, and joiner-bore coaxiality between the saddle and the sockets is not toleranced.",
-   "limitations": [],
-   "next_step": "Clear the overlaps in cad/Drawings.cs, add a foam tolerance row and a saddle/socket coaxiality callout, have one team member check and sign.",
-   "history": [
-    {
-     "date": "2026-11-02",
-     "change": "Drawings regenerated on the 2026-11-02 params (chord 322.3 mm): overlaps 22 -> 23; no longer one iteration behind (MFG-01)."
-    }
-   ],
-   "source_file": "analysis/validation/claims_struct.json"
   },
   {
    "id": "MFG-10",
@@ -1929,6 +1816,140 @@
     {
      "date": "2026-11-02",
      "change": "CAD rebuilt on the 2026-11-02 params (chord 322.3 mm, MTOW 7.438 kg): built lag 0.37 % -> 0.000 %, tail chord -0.60 % -> 0.000 %. Partially Verified -> Verified."
+    }
+   ],
+   "source_file": "analysis/validation/claims_struct.json"
+  },
+  {
+   "id": "MFG-02",
+   "component": "aircraft",
+   "discipline": "cad",
+   "claim": "Interference check (CAD rebuilt 2026-11-03): 263 interferences = 189 intended heat-set insert press fits (1423.0 mm3) + 74 others (244.0 mm3), and every one of the 74 has a model-artefact disposition: horn screws and backplates through surfaces drilled on assembly, nylock-pocket corner slivers, F07 screw tips, foam pockets cut to fit, and < 1 mm3 numerical slivers on coincident faces (largest 18.25 mm3, Elevator x F11 horn screw). No entry is unexplained. The 31 unexplained entries of 2026-11-02 (392.8 mm3) were real model errors and are fixed: canopy flange/tongue 5 mm longer than the pod slots and a spline dome bulging past the pocket; rudder clevis fork turned 90 deg to the horn and the right rudder rod built at the left rod's 107 mm; component positions written at 5 decimals (4 um offsets at the spar socket and spar collar).",
+   "value": 0,
+   "units": "unexplained interferences",
+   "equations": [
+    "crescent volume of an offset coaxial cut ~ 2 R e L (R 12.7 mm, e 4 um, L 0.8 m -> ~81 mm3 per socket before the fix, calc)",
+    "rod length = |pin - arm| (cad/params.mjs; both rudders 88.4 mm after the left servo moved 2 x shaftX = 19 mm aft)"
+   ],
+   "assumptions": [
+    "disposition by part-pair rule (audit judgement, listed in check_struct.py RULES); the four former \"needs CAD review\" rules are kept and now report a REGRESSION if they match again"
+   ],
+   "inputs": {
+    "header": {
+     "total": 263,
+     "inserts": 189,
+     "insert_mm3": 1423.0,
+     "other": 74,
+     "other_mm3": 244.0
+    }
+   },
+   "tool": "SOLIDWORKS InterferenceDetectionMgr (cad/BuildVtol.cs)",
+   "evidence": [
+    {
+     "file": "cad/verification.txt",
+     "what": "Interference detection section"
+    }
+   ],
+   "ran_evidence": "cad/verification.txt written by cad/BuildVtol.cs 2026-11-03 11:00 (SOLIDWORKS 33.4.0) from cad/params.txt (build log cad/build_2026-11-03.log).",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s). Line MFG-02 must print PASS (74 items read = header count).",
+    "Open cad/verification.txt, section \"## Interference detection\": header line \"263 interferences: 189 are heat-set inserts ..., 74 other (total 244.0 mm3)\".",
+    "checks_struct.json -> checks.MFG-INTF.by_category has only \"model artefact\" (74, 244.1 mm3); no \"needs CAD review\" group.",
+    "Search the interference list for Canopy, Spar_Tube, Spar_Collar and Pushrod_Rudder: none appear above 0.1 mm3."
+   ],
+   "reproduced": {
+    "done": true,
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s). Line MFG-02 must print PASS (74 items read = header count). (2) Open cad/verification.txt, section \"## Interference detection\": header line \"263 interferences: 189 are heat-set inserts ..., 74 other (total 244.0 mm3)\". (3) checks_struct.json -> checks.MFG-INTF.by_category has only \"model artefact\" (74, 244.1 mm3); no \"needs CAD review\" group. (4) Search the interference list for Canopy, Spar_Tube, Spar_Collar and Pushrod_Rudder: none appear above 0.1 mm3.",
+    "matches": true
+   },
+   "independent_check": {
+    "method": "per-entry disposition (count of unexplained entries)",
+    "value": 0.0,
+    "repo_value": 0.0,
+    "delta_pct": 0.0,
+    "script": "analysis/validation/check_struct.py#MFG-INTF"
+   },
+   "status": "Verified",
+   "status_reason": "Every non-insert interference has a written disposition and none is unexplained (0 of 74). The four clash groups found on 2026-11-02 were traced to model errors and fixed in cad/BuildVtol.cs and cad/params.mjs; the model was rebuilt and re-checked.",
+   "limitations": [
+    "WARNING in verification.txt: cut \"tail ring radial hole bottom\" removed nothing (still present; it creates no interference).",
+    "The 74 artefacts are judged by part-pair rule, not inspected one by one; horn-screw holes are not modelled (drilled on assembly)."
+   ],
+   "next_step": "None for the model. On the real parts: dry-fit the canopy hatch and both rudder linkages at first assembly.",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "change": "Re-audited on the rebuilt CAD: 304 -> 303 (189 -> 193 inserts, 115 -> 110 others); unexplained 32 -> 31 (383 -> 393 mm3). Canopy/pod persists after the rebuild."
+    },
+    {
+     "date": "2026-11-03",
+     "change": "CAD fixes and rebuild: 303 -> 263 interferences (193 -> 189 inserts, 110 -> 74 others, 643.2 -> 244.0 mm3); unexplained 31 -> 0 (392.8 -> 0 mm3). Fixes: pod hatch slots 25 -> 30 mm and a true half-ellipse canopy; clevis fork along the horn pin axis; left rudder servo 19 mm aft (rods 107/88 -> 88.4/88.4 mm, one part); spar channel cut at FT05 26.0; comp positions at 6 decimals; clamp tops from yL30/yL80 - yB."
+    }
+   ],
+   "source_file": "analysis/validation/claims_struct.json"
+  },
+  {
+   "id": "MFG-03",
+   "component": "aircraft",
+   "discipline": "cad",
+   "claim": "Drawing DBF-DRW-001 rev F (9 sheets, generated from the CAD by cad/Drawings.cs on 2026-11-03 from the current params) carries fits and tolerances from params.txt and hardware.json, including a hot-wired foam tolerance row (+-0.5 EST) and a joiner-bore coaxiality callout (diameter 0.4 to the spar sockets, sheet 4 note 7, EST); its layout self-check logs 0 label/view overlaps.",
+   "value": 0,
+   "units": "overlaps logged",
+   "equations": [
+    "coaxiality allowance <= FT01 + FT06 nominal diametral clearance = (22.454 - 22.225) + (22.455 - 22.225) = 0.46 mm (calc, cad/hardware.json); 0.4 adopted (EST)"
+   ],
+   "assumptions": [
+    "hot-wired foam +-0.5 mm is an estimate (cad/hardware.json general_tolerances.hot_wired_foam, same basis as FT05); no measured hot-wire data"
+   ],
+   "inputs": {},
+   "tool": "cad/Drawings.cs",
+   "evidence": [
+    {
+     "file": "cad/drawings/layout-check.txt",
+     "what": "0 OVERLAP lines; every sheet \"0 layout problems\""
+    },
+    {
+     "file": "cad/Drawings.cs",
+     "what": "REV \"F\"; tolerance-table row HOT-WIRED FOAM; sheet 4 note 7 and callout COAXIAL \u00d80.4; put(\"CheckedBy\", \"\u2014\")"
+    },
+    {
+     "file": "cad/hardware.json",
+     "what": "general_tolerances.hot_wired_foam; fits FT01, FT05, FT06"
+    }
+   ],
+   "ran_evidence": "Drawing files written 2026-11-03 12:19 (cad/drawings/DBF-DRW-001.PDF).",
+   "check_yourself": [
+    "Run `py analysis/validation/check_struct.py` (about 1 s). checks_struct.json -> checks.MFG-03 gives overlaps 0, revision F.",
+    "Open cad/drawings/layout-check.txt and count the lines starting \"  OVERLAP\" (0).",
+    "Open cad/drawings/DBF-DRW-001.PDF sheet 4: root section dimension \u00d826.0 \u00b10.5 \"SPAR CHANNEL, HOT-WIRED, FT05\"; saddle section callout \"FT06; COAXIAL \u00d80.4 TO SOCKETS (NOTE 7)\"; tolerance-table row \"HOT-WIRED FOAM (XPS), EST\"."
+   ],
+   "reproduced": {
+    "done": true,
+    "how": "(1) Run `py analysis/validation/check_struct.py` (about 1 s). checks_struct.json -> checks.MFG-03 gives overlaps 0, revision F. (2) Open cad/drawings/layout-check.txt and count the lines starting \"  OVERLAP\" (0). (3) Open cad/drawings/DBF-DRW-001.PDF sheet 4: root section dimension \u00d826.0 \u00b10.5 \"SPAR CHANNEL, HOT-WIRED, FT05\"; saddle section callout \"FT06; COAXIAL \u00d80.4 TO SOCKETS (NOTE 7)\"; tolerance-table row \"HOT-WIRED FOAM (XPS), EST\".",
+    "matches": true
+   },
+   "independent_check": {
+    "method": "count OVERLAP records",
+    "value": 0.0,
+    "repo_value": 0.0,
+    "delta_pct": 0.0,
+    "script": "analysis/validation/check_struct.py#MFG-03"
+   },
+   "status": "Verified",
+   "status_reason": "The drawings follow the current geometry and carry the fits, the foam tolerance class and the joiner coaxiality callout; the layout self-check reports 0 overlaps on all 9 sheets (re-read from layout-check.txt by check_struct.py).",
+   "limitations": [
+    "Not yet checked or signed by a team member (title block CHECKED \"\u2014\"); the automated check covers layout, not engineering content.",
+    "The foam tolerance (+-0.5) and the coaxiality value (0.4) are estimates (EST)."
+   ],
+   "next_step": "One team member checks the PDF against the CAD and signs the CHECKED field (put(\"CheckedBy\", ...) in cad/Drawings.cs).",
+   "history": [
+    {
+     "date": "2026-11-02",
+     "change": "Drawings regenerated on the 2026-11-02 params (chord 322.3 mm): overlaps 22 -> 23; no longer one iteration behind (MFG-01)."
+    },
+    {
+     "date": "2026-11-03",
+     "change": "Rev F: overlaps 23 -> 0 (sheet 1 revision table and side elevation moved; sheet 4 sections 1:2 -> 1:2.5, saddle plan 1:5 -> 1:10; sheet 7 landing leg 1:2 -> 1:5; sheet 9 fin shoe 1:1 -> 1:2); hot-wired foam tolerance row; joiner coaxiality callout; spar channel dimensioned \u00d826.0 \u00b10.5 (FT05); front boom tolerance \u00b10.8 -> \u00b11.2 (ISO 2768-m over 1000 mm, hardware.json)."
     }
    ],
    "source_file": "analysis/validation/claims_struct.json"

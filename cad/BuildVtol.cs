@@ -95,9 +95,9 @@ class BuildVtol
         B("Lift_Prop", LiftProp); B("Prop_Plate", PropPlate); B("Pusher_Prop_14in", PusherProp); B("Pusher_Adapter", PusherAdapter); B("Prop_Washer", PropWasher);
         B("Motor_Mount_Upper", MotorMountUpper); B("Motor_Mount_Cap", MotorMountCap);
         B("Tail_Clamp_Upper", TailClampUpper); B("Tail_Clamp_Cap", TailClampCap);
-        B("Boom_Clamp_F_Upper", () => BoomClampUpper("Boom_Clamp_F_Upper", D("clampTopF"), "Printed PETG front boom clamp, upper half: bonded to the spar collar; 2 x F06 pass through to the collar inserts (J05a)"));
+        B("Boom_Clamp_F_Upper", () => BoomClampUpper("Boom_Clamp_F_Upper", D("yL30") - D("yB"), "Printed PETG front boom clamp, upper half: bonded to the spar collar; 2 x F06 pass through to the collar inserts (J05a)"));
         B("Boom_Clamp_F_Lower", () => BoomClampLower("Boom_Clamp_F_Lower", 0.0043, "Printed PETG front boom clamp, lower half: counterbores 6.5 x 4.3 for F06 (J05a)"));
-        B("Boom_Clamp_R_Upper", () => BoomClampUpper("Boom_Clamp_R_Upper", D("clampTopR"), "Printed PETG rear boom clamp, upper half: bonded to the rear hardpoint; 2 x F04 pass through (J05b)"));
+        B("Boom_Clamp_R_Upper", () => BoomClampUpper("Boom_Clamp_R_Upper", D("yL80") - D("yB"), "Printed PETG rear boom clamp, upper half: bonded to the rear hardpoint; 2 x F04 pass through (J05b)"));
         B("Boom_Clamp_R_Lower", () => BoomClampLower("Boom_Clamp_R_Lower", 0.0075, "Printed PETG rear boom clamp, lower half: counterbores 6.5 x 7.5 for F04 (J05b)"));
         B("Gear_Clamp_Upper", GearClampUpper); B("Gear_Clamp_Lower", GearClampLower);
         B("Landing_Leg", Leg); B("Gear_Fairing", GearFairing);
@@ -546,6 +546,8 @@ class BuildVtol
         HolesY(d, Grid(0.018, 0.0175), 0.0065, -0.015, 0.0056, true, "cap counterbores");
         Finish(d, "Tail_Clamp_Cap", PRINT, "Printed PETG tail clamp, lower cap -15.0..-0.6: 4 x 3.4 with 6.5 x 5.6 counterbores for F02", "PETG");
     }
+    // top = yL30 - yB (front) / yL80 - yB (rear) from the rounded params, not clampTopF/R: with the comp placed at yB the top lands exactly on
+    // the collar / hardpoint bottom (placed at sparY / yL80), so the bonded faces are coincident instead of a 1-4 um overlap (MFG-02, rev 2026-11-03)
     static void BoomClampUpper(string name, double top, string desc)
     {
         ModelDoc2 d = BlockBody(0.034, 0.0006, top, 0.046, 0.004, true);
@@ -672,8 +674,8 @@ class BuildVtol
         // canopy pocket: the blister's base ellipse from y = canopyY up through the top skin; hatch flange and front tongue slots
         double cx = (D("canopyX0") + D("canopyX1")) / 2 + ox, ca = (D("canopyX1") - D("canopyX0")) / 2, cr = D("canopyR"), cy = D("canopyY") + oy;
         sm = Sk(d, 1, cy); sm.CreateEllipse(cx, 0, 0, cx + ca, 0, 0, cx, cr, 0); EndSk(d); CutD(d, 0.10, true, "canopy pocket");
-        sm = Sk(d, 1, cy); Rect(sm, 1, D("canopyX0") + ox - 0.020, -0.020, D("canopyX0") + ox + 0.005, 0.020); EndSk(d); CutD(d, 0.10, true, "hatch flange slot");
-        sm = Sk(d, 1, cy); Rect(sm, 1, D("canopyX1") + ox - 0.005, -0.020, D("canopyX1") + ox + 0.020, 0.020); EndSk(d); CutD(d, 0.0022, true, "hatch tongue slot");
+        sm = Sk(d, 1, cy); Rect(sm, 1, D("canopyX0") + ox - 0.020, -0.020, D("canopyX0") + ox + 0.010, 0.020); EndSk(d); CutD(d, 0.10, true, "hatch flange slot");
+        sm = Sk(d, 1, cy); Rect(sm, 1, D("canopyX1") + ox - 0.010, -0.020, D("canopyX1") + ox + 0.020, 0.020); EndSk(d); CutD(d, 0.0022, true, "hatch tongue slot");   // rev 2026-11-03: slots = the canopy's 30 mm flange and tongue (were 25 mm: MFG-02 canopy x pod)
         HolesY(d, new double[,] { { D("canopyX0") - 0.010 + ox, 0.015 }, { D("canopyX0") - 0.010 + ox, -0.015 } }, 0.004, cy, 0.007, false, "hatch insert holes");   // under the canopy's rear flange holes
         // pusher cup bore (FT11) and 4 radial 3.6 holes at 15 mm from the tail face (J12)
         sm = Sk(d, 2, -L); Circle(sm, 2, 0, 0, 0.056); EndSk(d); CutD(d, 0.030, true, "tail ring bore");
@@ -696,9 +698,9 @@ class BuildVtol
     static void Canopy()
     {   // avionics hatch blister (half-ellipsoid about X) with a 2 mm rear flange (2 x 3.6 holes for F07, J13) and a 2 mm front tongue under the pod skin
         ModelDoc2 d = NewPart(); var sm = Sk(d, 0, 0);
-        int N = 20; double L = D("canopyX1") - D("canopyX0"), r = D("canopyR"); var pts = new List<double>();   // rev 2026-11-01: from params (was 0.26 / 0.055)
-        for (int i = 0; i <= N; i++) { double s = L * i / N; pts.Add(-s); pts.Add(r * Math.Sqrt(Math.Max(0, 1 - Math.Pow((2 * s - L) / L, 2)))); pts.Add(0); }
-        sm.CreateSpline2(pts.ToArray(), true);
+        double L = D("canopyX1") - D("canopyX0"), r = D("canopyR");   // rev 2026-11-01: from params (was 0.26 / 0.055)
+        // rev 2026-11-03: a true half-ellipse (was a 21-point spline that bulged past the pod's elliptic pocket near both ends, MFG-02)
+        sm.CreateEllipticalArc(-L / 2, 0, 0, 0, 0, 0, -L / 2, r, 0, 0, 0, 0, -L, 0, 0, 1);
         sm.CreateLine(-L, 0, 0, 0, 0, 0);
         sm.CreateCenterLine(0.01, 0, 0, -L - 0.01, 0, 0);
         EndSk(d); Rev(d);
@@ -796,7 +798,7 @@ class BuildVtol
         Ext(d, L, left, false);
         sm = Sk(d, 0, 0); SectionPart(sm, foil, c, 0.72, 1.0); EndSk(d);
         Ext(d, Lin, left, false);
-        sm = Sk(d, 0, 0); sm.CreateCircleByRadius(D("sparX"), D("sparY"), 0, D("sparOD") / 2); EndSk(d); CutD(d, D("sparLen") + 0.001, !left, "spar socket");
+        sm = Sk(d, 0, 0); sm.CreateCircleByRadius(D("sparX"), D("sparY"), 0, D("sparChanD") / 2); EndSk(d); CutD(d, D("sparLen") + 0.001, !left, "spar socket");   // hot-wired channel at the FT05 hole (26.0), tube bonded in it (rev 2026-11-03; was line-on-line with the tube OD)
         double zb = D("zBoomPanel"), sx = D("sparX"), sy = D("sparY");
         PocketZ(d, sx - 0.016, D("yL30") - 0.001, sx + 0.016, sy + 0.0157, s * zb - 0.023, s * zb + 0.023, "collar pocket");
         PocketZ(d, -0.8 * c - 0.030, D("yL80") - 0.002, -0.8 * c + 0.030, D("yL80") + 0.010, s * zb - 0.023, s * zb + 0.023, "rear hardpoint pocket");

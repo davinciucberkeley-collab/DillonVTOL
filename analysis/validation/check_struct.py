@@ -604,16 +604,16 @@ rec('MFG-04', 'order table / hardware.json / params.txt contradictions (count)',
 hdr = re.search(r'(\d+) interferences: (\d+) are heat-set inserts.*?total ([\d.]+) mm3\), (\d+) other \(total ([\d.]+) mm3\)', ver)
 items = re.findall(r'^\s+([\d.]+) mm3\s+(\S+)\s+x\s+(\S+)\s*$', ver, re.M)
 RULES = [  # (regex on "A x B", category, disposition)
-    (r'Control_Horn.*Pushrod|Pushrod.*Control_Horn|F11.*Pushrod', 'needs CAD review', 'pushrod passes through the horn body: check the Z-bend hole position'),
-    (r'Fuselage_Pod.*Canopy', 'needs CAD review', 'canopy overlaps the pod; still present after the 2026-11-02 rebuild at canopyX0 0.1575 (params.built.txt), so it is the canopy/pod geometry, not a parameter lag'),
-    (r'Wing_Panel.*Spar_Tube', 'needs CAD review', 'spar socket overlaps the foam: channel cut smaller than the 26.0 FT05 channel or offset'),
+    (r'Control_Horn.*Pushrod|Pushrod.*Control_Horn|F11.*Pushrod', 'needs CAD review', 'REGRESSION: rudder clevis vs horn was fixed 2026-11-03 (fork set along the horn pin axis; left rudder servo 19 mm aft so both rods are 88.4 mm, one part)'),
+    (r'Fuselage_Pod.*Canopy', 'needs CAD review', 'REGRESSION: canopy vs pod was fixed 2026-11-03 (pod slots = the 30 mm canopy flange/tongue; dome a true half-ellipse)'),
+    (r'Wing_Panel.*Spar_Tube', 'needs CAD review', 'REGRESSION: spar socket vs foam was fixed 2026-11-03 (channel cut at the FT05 hole 26.0; comp positions at 6 decimals)'),
     (r'F11_M2x14|Horn_Backplate.*|Control_Horn.*(Elevator|Rudder|Aileron)|(Elevator|Rudder|Aileron).*(Control_Horn|Horn_Backplate)', 'model artefact',
      'horn screws/backplates pass through surfaces whose holes are not modelled (drilled on assembly, BUILD-MANUAL)'),
     (r'Gear_Clamp_Lower.*N01', 'model artefact', 'nylock collar vs 5.7 AF pocket corners: 0.5 mm3 slivers'),
     (r'Rear_Hardpoint|Horn_Hardpoint|Boom_Clamp_F_Upper.*Wing_Panel|Wing_Panel.*Boom_Clamp', 'model artefact', 'printed hardpoint/clamp sits in a foam pocket cut slightly undersize (foam is cut to fit)'),
-    (r'Boom_Clamp_F_Upper.*Spar_Collar', 'needs CAD review', 'clamp upper half overlaps the bonded spar collar (3.9 mm3 each)'),
+    (r'Boom_Clamp_F_Upper.*Spar_Collar', 'needs CAD review', 'REGRESSION: clamp vs collar was fixed 2026-11-03 (clamp top = yL30 - yB from the rounded params, coincident with the collar bottom)'),
     (r'F07.*Fuselage_Pod|Fuselage_Pod.*F07', 'model artefact', 'F07 M3x8 tips 0.8 mm into the pod wall beyond the insert hole (holes drilled on assembly)'),
-    (r'Fin_Shoe|Tail_Clamp|Servo_Tray|H_Tail|Crush_Sleeve|Bolt_Pillar.*F09|Fuselage_Pod.*(Wing_Saddle|F08)|Servo.*Pushrod', 'model artefact', '< 0.2 mm3 coincident-face slivers'),
+    (r'Fin_Shoe|Tail_Clamp|Servo_Tray|H_Tail|Crush_Sleeve|Bolt_Pillar.*F09|Fuselage_Pod.*(Wing_Saddle|F08)|Servo.*Pushrod', 'model artefact', '< 1 mm3 numerical slivers on coincident faces (same spline section or flat seat on both parts)'),
 ]
 disp = {}
 for vol, a, b in items:

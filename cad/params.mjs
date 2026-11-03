@@ -41,6 +41,7 @@ P.tc = t; P.sparXfrac = xSp;
 // C2 (HS §3): front boom and rear stub butt at the rear motor centre; no overlap
 const segF = g.booms[0].x1 - g.xRear, segR = g.xRear - g.booms[0].x0;
 Object.assign(P, { sparX: xs, sparY: ys, sparOD: 1.000*IN, sparID: (1.000-2*0.058)*IN, sparLen: 0.8,
+  sparChanD: HW.fits.find(f => f.id === 'FT05').hole.nominal_mm/1000,   // hot-wired foam channel for the bonded socket (FT05 hole 26.0 +-0.5)
   joinOD: 0.875*IN, joinID: (0.875-2*0.058)*IN, joinLen: 0.76,   // 0.30 m engagement per side (review finding citations-2)
   boomOD: 1.000*IN, boomID: (1.000-2*0.035)*IN,
   segF, segR, fusL, fusR, tailR: POD.tailR,
@@ -147,10 +148,13 @@ const apply = (v, Rm) => [0,1,2].map(j => v[0]*Rm[0][j] + v[1]*Rm[1][j] + v[2]*R
 const addv = (a, b) => a.map((v, i) => v + b[i]);
 const scale = (a, k) => a.map(v => v*k);
 const dirOf = Rm => scale(Rm[1], -1);        // where the part's -Y axis points (screw insertion direction)
-// rotation that maps the part's +X axis onto unit vector u (pushrods)
-function alongX(u) { const n = Math.hypot(...u); u = scale(u, 1/n); let w = Math.abs(u[1]) < 0.9 ? [0,1,0] : [0,0,1];
+// rotation that maps the part's +X axis onto unit vector u (pushrods). pin = the horn's pin axis (horn part +Z in the assembly): the
+// clevis fork gap (pushrod part Z) is set along it so the fork straddles the horn upright (rev 2026-11-03: without it the rudder
+// clevises were turned 90 deg and cut through the horn, MFG-02 Control_Horn x Pushrod_Rudder 101 mm3)
+function alongX(u, pin) { const n = Math.hypot(...u); u = scale(u, 1/n);
   const cr = (a, b) => [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
-  let Z = cr(u, w); const nz = Math.hypot(...Z); Z = scale(Z, 1/nz); const Y = cr(Z, u); return [u, Y, Z]; }
+  const d = pin[0]*u[0] + pin[1]*u[1] + pin[2]*u[2];
+  let Z = addv(pin, scale(u, -d)); const nz = Math.hypot(...Z); Z = scale(Z, 1/nz); const Y = cr(Z, u); return [u, Y, Z]; }
 
 // ---------------- fastener parts from hardware.json ----------------
 // part name, geometry type and dimensions (mm). Head and nut dimensions are the vendor maxima quoted in the spec.
@@ -258,7 +262,10 @@ for (const sz of [1, -1]) {
   for (const sz2 of [1, -1]) { add('Crush_Sleeve', [xTC, yStabBot, z + sz2*0.0175], ID, 'stab'); screw('F02', [xTC, yStabTop + 0.003, z + sz2*0.0175], ID, 'fin', { insert: 0.0098 }); }
   // J14/J17 rudder servo on the stabiliser top (shaft outboard, arm up) and horn on the rudder's inboard face
   {
-    const rotT = sz > 0 ? ROLL180 : YFLIP, trayPos = [xFinLE - 0.026, yStabTop + 0.003, sz*(g.yIn - 0.0521)];   // foot (3) bonded on the stabiliser top
+    // the left servo sits 2 x shaftX (19 mm) further aft: the two servos are not mirror images (ROLL180 / YFLIP put the shaft on opposite
+    // sides), so this puts both arms at the same x and both rods at one length, the one Pushrod_Rudder part (rev 2026-11-03: the right rod
+    // was built at the left rod's 107 mm and ran 19 mm past its horn pin, MFG-02 Control_Horn x Pushrod_Rudder)
+    const rotT = sz > 0 ? ROLL180 : YFLIP, trayPos = [xFinLE - 0.026 - (sz > 0 ? 0 : 2*SERVO.shaftX), yStabTop + 0.003, sz*(g.yIn - 0.0521)];   // foot (3) bonded on the stabiliser top
     const servoPos = addv(trayPos, apply([0, TRAY.bodyY, -TRAY.plateZ], rotT));
     add('Servo_Tray', trayPos, rotT, 'stab'); add('Servo', servoPos, rotT, 'stab');
     for (const sx of [1, -1]) for (const sy of [1, -1]) {
@@ -272,7 +279,7 @@ for (const sz of [1, -1]) {
     add('Control_Horn', hornPos, hornRot, 'rudder'); add('Horn_Backplate', [hornPos[0], hornPos[1], sz*(g.yIn + 0.0040)], sz > 0 ? YtoNZ : YtoZ, 'rudder');
     for (const xx of [-0.006, -0.014]) screw('F11', [hornPos[0] + xx, hornPos[1], zFace - sz*0.002], sz > 0 ? YtoNZ : YtoZ, 'rudder', { nut: 0.002 + 0.0080 + 0.0015, nutId: 'N03' });
     const pinPt = addv(hornPos, apply([-0.001, -0.0085, 0], hornRot));
-    add('Pushrod_Rudder', arm, alongX(addv(pinPt, scale(arm, -1))), 'stab'); P.rodRudder = Math.hypot(...addv(pinPt, scale(arm, -1)));
+    add('Pushrod_Rudder', arm, alongX(addv(pinPt, scale(arm, -1)), hornRot[2]), 'stab'); P.rodRudder = Math.hypot(...addv(pinPt, scale(arm, -1)));
   }
   // J14 aileron servo in the wing (foot on the pocket roof, arm down through the open pocket), horn on a bonded hardpoint (J17)
   {
@@ -289,7 +296,7 @@ for (const sz of [1, -1]) {
     add('Horn_Hardpoint', [P.hornHpX - 0.010, yL78, zH], ID, grpA); add('Control_Horn', hornPos, ID, grpA);
     for (const xx of [-0.006, -0.014]) screw('F11', [P.hornHpX + xx, yL78 - 0.002, zH], YFLIP, grpA, { nut: 0.010, nutId: 'N03' });   // nut pocket ceiling 8.0 above the hardpoint bottom
     const pinPt = addv(hornPos, [-0.001, -0.0085, 0]);
-    add('Pushrod_Aileron', arm, alongX(addv(pinPt, scale(arm, -1))), grp); P.rodAileron = Math.hypot(...addv(pinPt, scale(arm, -1)));
+    add('Pushrod_Aileron', arm, alongX(addv(pinPt, scale(arm, -1)), ID[2]), grp); P.rodAileron = Math.hypot(...addv(pinPt, scale(arm, -1)));
   }
 }
 add('H_Tail', [xFinLE, yStabMid, 0], ID, 'stab');      // seated on the tail clamp tops
@@ -308,7 +315,7 @@ add('Elevator', [xFinLE, yStabMid, 0], ID, 'elev');
   add('Control_Horn', hornPos, YFLIP, 'elev'); add('Horn_Backplate', [xH, yBot, arm[2]], ID, 'elev');
   for (const xx of [-0.006, -0.014]) screw('F11', [xH + xx, yTop + 0.002, arm[2]], ID, 'elev', { nut: 0.002 + (yTop - yBot) + 0.0015, nutId: 'N03' });
   const pinPt = addv(hornPos, apply([-0.001, -0.0085, 0], YFLIP));
-  add('Pushrod_Elevator', arm, alongX(addv(pinPt, scale(arm, -1))), 'stab'); P.rodElevator = Math.hypot(...addv(pinPt, scale(arm, -1)));
+  add('Pushrod_Elevator', arm, alongX(addv(pinPt, scale(arm, -1)), YFLIP[2]), 'stab'); P.rodElevator = Math.hypot(...addv(pinPt, scale(arm, -1)));
 }
 // J12 pusher: cup in the pod tail ring (4 radial F07 into inserts), motor on the cup floor (4 x F01 + washers from inside), bolt-on M6 adapter, prop, washer, bullet nut
 add('Pusher_Cup', [tailX, yPod, 0], ID, 'cup');
@@ -343,7 +350,8 @@ const xcomps = comps.map(cc => {
   if (cc.kind === 'nut' || cc.kind === 'insert') off = addv(off, scale(dirOf(cc.rot), 0.05));
   return { ...cc, pos: addv(cc.pos, off) };
 });
-const fmt = (k, cc) => k + '=' + [cc.part, ...cc.pos.map(v => v.toFixed(5)), cc.rot.flat().map(v => (+v.toFixed(6)).toString()).join(',')].join('|');
+// positions at 6 decimals, as the parameters (rev 2026-11-03; at 5 a part placed at sparY sat 4 um off the socket cut from sparY, MFG-02)
+const fmt = (k, cc) => k + '=' + [cc.part, ...cc.pos.map(v => v.toFixed(6)), cc.rot.flat().map(v => (+v.toFixed(6)).toString()).join(',')].join('|');
 const lines = Object.entries(P).map(([k, v]) => `${k}=${typeof v === 'number' ? v.toFixed(6) : v}`)
   .concat(comps.map(cc => fmt('comp', cc))).concat(xcomps.map(cc => fmt('xcomp', cc)));
 writeFileSync(new URL('./params.txt', import.meta.url), lines.join('\n') + '\n');
