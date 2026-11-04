@@ -668,8 +668,13 @@ class BuildVtol
         var foil = Geom.WingSection(D("tc"), 40);
         sm = Sk(d, 0, 0); SectionPartAt(sm, foil, D("chord"), ox, oy); EndSk(d); CutBoth(d, "wing root slot");
         // battery bay (J18) and avionics bay under the canopy (J15)
-        double bx = D("battX") + ox, bl = D("battL") / 2 + 0.005;
+        // rev 2026-11-03 (team cross-check X1): bay = pack + 2 x (30 mm CG slide + 5 mm), so the build-manual 12.2 CG trim works
+        // (was pack + 2 x 5 mm); access well from the bay ceiling up into the canopy pocket over the pack at its nominal station, so
+        // the pack lifts out through the hatch (it was sealed under 35 mm of foam). Well 52 mm wide: the pocket ellipse is 53 mm wide
+        // at the pack's rear face. The FC tray sits ahead of the bay (cad/params.mjs xFC).
+        double bx = D("battX") + ox, bl = D("battL") / 2 + 0.035, wl = D("battL") / 2 + 0.005;
         sm = Sk(d, 1, -0.080 + oy); Rect(sm, 1, bx - bl, -0.030, bx + bl, 0.030); EndSk(d); CutD(d, 0.060, true, "battery bay");
+        sm = Sk(d, 1, -0.020 + oy); Rect(sm, 1, bx - wl, -0.026, bx + wl, 0.026); EndSk(d); CutD(d, D("canopyY") + 0.020 + 0.001, true, "battery access well");
         sm = Sk(d, 1, D("bayY0") + oy); Rect(sm, 1, D("bayX0") + ox, -D("bayZ"), D("bayX1") + ox, D("bayZ")); EndSk(d); CutD(d, D("bayY1") - D("bayY0"), true, "avionics bay");
         // canopy pocket: the blister's base ellipse from y = canopyY up through the top skin; hatch flange and front tongue slots
         double cx = (D("canopyX0") + D("canopyX1")) / 2 + ox, ca = (D("canopyX1") - D("canopyX0")) / 2, cr = D("canopyR"), cy = D("canopyY") + oy;
@@ -710,10 +715,10 @@ class BuildVtol
         Finish(d, "Canopy", CANOPY, "Avionics hatch blister (EST): foam shell with a 2 mm PETG rear flange (2 x F07 into inserts) and a front tongue under the pod skin (J13)", "XPS");
     }
     static void BatteryTray()
-    {   // J18: printed tray 165 x 3 x 56 with two 22 x 3 strap slots
-        ModelDoc2 d = NewPart(); var sm = Sk(d, 1, 0); RoundRect(sm, 0, 0, 0.165, 0.056, 0.004); EndSk(d); Ext(d, 0.003, false, false);
+    {   // J18: printed tray 220 x 3 x 56 with two 22 x 3 strap slots (rev 2026-11-03: was 165; spans the +-30 mm CG slide, 2.5 mm short of the 225 mm bay at each end)
+        ModelDoc2 d = NewPart(); var sm = Sk(d, 1, 0); RoundRect(sm, 0, 0, 0.220, 0.056, 0.004); EndSk(d); Ext(d, 0.003, false, false);
         sm = Sk(d, 1, 0); Rect(sm, 1, -0.045, -0.011, -0.042, 0.011); Rect(sm, 1, 0.042, -0.011, 0.045, 0.011); EndSk(d); CutBoth(d, "strap slots");
-        Finish(d, "Battery_Tray", PRINT2, "Printed PETG battery tray 165 x 56 x 3 bonded in the battery bay, two 22 x 3 slots for the ShareGoo straps (J18, no fasteners)", "PETG");
+        Finish(d, "Battery_Tray", PRINT2, "Printed PETG battery tray 220 x 56 x 3 bonded in the battery bay, two 22 x 3 slots for the ShareGoo straps (J18, no fasteners)", "PETG");
     }
     static void FcTray()
     {   // J15 provisional: 60 x 44 x 3 plate with 4 bosses dia 8 x 8 at 45 x 25 (EST pattern) and RX-M3x5.7 insert holes

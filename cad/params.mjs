@@ -204,7 +204,10 @@ add('Canopy', [P.canopyX1, 0.015, 0], ID, 'canopy');
 for (const sz of [1, -1]) screw('F07', [P.canopyX0 - 0.010, 0.017, sz*0.015], ID, 'canopy', { insert: 0.002 });   // J13 hatch flange 2.0 to inserts in the pod (frame rail in reality)
 add('Battery_Tray', [cg.x, -0.080, 0], ID, 'batt');
 add('Battery_6S_LiPo', [cg.x, -0.052, 0], ID, 'batt');
-const xFC = (P.bayX0 + P.bayX1) / 2;
+// rev 2026-11-03 (team cross-check X1): the battery bay is battL + 2 x (30 mm CG slide + 5 mm), so the FC tray sits with its
+// rear edge 10 mm ahead of the bay's front end (on the foam floor), but never past the avionics bay's front end
+const BAY_SLIDE = 0.030, BAY_CLEAR = 0.005, FC_TRAY_L = 0.060;
+const xFC = Math.min(P.bayX1 - FC_TRAY_L / 2, cg.x + P.battL / 2 + BAY_SLIDE + BAY_CLEAR + 0.010 + FC_TRAY_L / 2);
 add('FC_Tray', [xFC, -0.020, 0], ID, 'fc');   // avionics bay floor 7 mm above the battery
 add('Flight_Controller', [xFC, -0.009, 0], ID, 'fc');
 for (const sx of [1, -1]) for (const sz of [1, -1]) screw('F07', [xFC + sx*0.0225, -0.0074, sz*0.0125], ID, 'fc', { insert: 0.0016 });   // J15 provisional 45 x 25 pattern (EST)

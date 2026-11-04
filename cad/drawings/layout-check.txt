@@ -2,9 +2,9 @@
   view front elevation scale 1:20 outline [0.062,0.083]-[0.194,0.117]
   view plan outline [0.062,0.148]-[0.194,0.244]
   view side outline [0.246,0.083]-[0.342,0.117]
-  table revision table 7 rows [0.248,0.213]-[0.414,0.262]
+  table revision table 8 rows [0.248,0.212]-[0.414,0.262]
   view isometric scale 1:20 outline [0.244,0.128]-[0.400,0.242]
-  fit isometric scale 1:40 outline [0.284,0.144]-[0.368,0.207]
+  fit isometric scale 1:40 outline [0.284,0.144]-[0.368,0.206]
   dim plan 867.4 (LIFT MOTOR SPACING) = 867.4 mm at (0.128,0.254) span 0.043
   dim front elevation 2400.0 (SPAN) = 2400 mm at (0.128,0.127) span 0.120
   dim plan 1674.1 (OVERALL LENGTH) = 1674.133 mm at (0.208,0.197) span 0.084
@@ -20,8 +20,8 @@
   table tolerance table 6 rows [0.018,0.014]-[0.172,0.039]
 sheet GA: 32 items registered, 0 layout problems
 === sheet 2 EXPLODED
-  view exploded isometric scale 1:10 outline [0.031,0.024]-[0.403,0.312]
-  fit exploded isometric scale 1:20 outline [0.122,0.094]-[0.313,0.244]
+  view exploded isometric scale 1:10 outline [0.030,0.023]-[0.404,0.313]
+  fit exploded isometric scale 1:20 outline [0.121,0.094]-[0.314,0.244]
   note exploded isometric label [0.121,0.087]-[0.173,0.091] 1 lines
   note notes [0.018,0.051]-[0.211,0.072] 6 lines
 === sheet 3 PARTS
@@ -36,30 +36,30 @@ sheet GA: 32 items registered, 0 layout problems
   table tolerance table 6 rows [0.018,0.014]-[0.172,0.039]
 sheet PARTS: 7 items registered, 0 layout problems
   visible components 294
-  balloon 1 Fuselage_Pod at (0.090,0.228) attached at (0.218,0.174)
-  balloon 51 Fin at (0.090,0.216) attached at (0.223,0.172)
-  balloon 16 Wing_Saddle at (0.090,0.204) attached at (0.216,0.172)
-  balloon 2 Canopy at (0.090,0.192) attached at (0.221,0.168)
-  balloon 65 Elevator at (0.090,0.180) attached at (0.224,0.167)
-  balloon 64 H_Tail at (0.090,0.168) attached at (0.224,0.167)
-  balloon 11 Aileron_R at (0.090,0.156) attached at (0.208,0.164)
-  balloon 9 Wing_Panel_R at (0.090,0.144) attached at (0.190,0.154)
-  balloon 14 Wing_Joiner at (0.090,0.132) attached at (0.201,0.150)
-  balloon 13 Spar_Tube at (0.090,0.120) attached at (0.200,0.149)
-  balloon 10 Wing_Panel_L at (0.345,0.252) attached at (0.248,0.187)
-  balloon 44 Landing_Leg at (0.345,0.240) attached at (0.227,0.173)
-  balloon 45 Gear_Fairing at (0.345,0.228) attached at (0.225,0.170)
-  balloon 71 Pusher_Prop_14in at (0.345,0.216) attached at (0.227,0.169)
-  balloon 30 Lift_Motor at (0.345,0.204) attached at (0.228,0.167)
-  balloon 6 Battery_6S_LiPo at (0.345,0.192) attached at (0.226,0.166)
-  balloon 28 Motor_Mount_Upper at (0.345,0.180) attached at (0.227,0.166)
-  balloon 42 Gear_Clamp_Upper at (0.345,0.168) attached at (0.228,0.166)
-  balloon 23 Boom_Rear_Stub at (0.345,0.156) attached at (0.228,0.166)
-  balloon 22 Boom_Front at (0.345,0.144) attached at (0.228,0.166)
-  balloon 48 Tail_Clamp_Upper at (0.345,0.132) attached at (0.227,0.165)
-  balloon 55 Servo at (0.345,0.120) attached at (0.226,0.165)
-  balloon 68 Pusher_Motor at (0.345,0.108) attached at (0.227,0.165)
-  balloon 31 Lift_Prop at (0.345,0.096) attached at (0.231,0.163)
+  balloon 1 Fuselage_Pod at (0.089,0.228) attached at (0.218,0.174)
+  balloon 51 Fin at (0.089,0.216) attached at (0.222,0.173)
+  balloon 16 Wing_Saddle at (0.089,0.204) attached at (0.215,0.172)
+  balloon 45 Gear_Fairing at (0.089,0.192) attached at (0.225,0.170)
+  balloon 2 Canopy at (0.089,0.180) attached at (0.220,0.168)
+  balloon 65 Elevator at (0.089,0.168) attached at (0.224,0.168)
+  balloon 64 H_Tail at (0.089,0.156) attached at (0.224,0.167)
+  balloon 11 Aileron_R at (0.089,0.144) attached at (0.208,0.164)
+  balloon 9 Wing_Panel_R at (0.089,0.132) attached at (0.190,0.155)
+  balloon 13 Spar_Tube at (0.089,0.120) attached at (0.199,0.149)
+  balloon 10 Wing_Panel_L at (0.346,0.252) attached at (0.247,0.188)
+  balloon 44 Landing_Leg at (0.346,0.240) attached at (0.226,0.174)
+  balloon 71 Pusher_Prop_14in at (0.346,0.228) attached at (0.226,0.170)
+  balloon 30 Lift_Motor at (0.346,0.216) attached at (0.228,0.167)
+  balloon 6 Battery_6S_LiPo at (0.346,0.204) attached at (0.226,0.166)
+  balloon 28 Motor_Mount_Upper at (0.346,0.192) attached at (0.226,0.166)
+  balloon 42 Gear_Clamp_Upper at (0.346,0.180) attached at (0.227,0.166)
+  balloon 22 Boom_Front at (0.346,0.168) attached at (0.227,0.166)
+  balloon 23 Boom_Rear_Stub at (0.346,0.156) attached at (0.227,0.166)
+  balloon 48 Tail_Clamp_Upper at (0.346,0.144) attached at (0.226,0.166)
+  balloon 14 Wing_Joiner at (0.346,0.132) attached at (0.227,0.165)
+  balloon 55 Servo at (0.346,0.120) attached at (0.226,0.165)
+  balloon 68 Pusher_Motor at (0.346,0.108) attached at (0.226,0.165)
+  balloon 31 Lift_Prop at (0.346,0.096) attached at (0.231,0.163)
 balloons 24 (left 10, right 14)
   table tolerance table 6 rows [0.018,0.014]-[0.172,0.039]
 sheet EXPLODED: 28 items registered, 0 layout problems
@@ -223,13 +223,13 @@ sheet FASTENERS: 3 items registered, 0 layout problems
   note notes [0.018,0.044]-[0.207,0.075] 9 lines
   table tolerance table 6 rows [0.018,0.014]-[0.172,0.039]
 sheet HARDPOINTS: 50 items registered, 0 layout problems
-png DBF-DRW-001_sheet1.png 30962
-png DBF-DRW-001_sheet2.png 34672
-png DBF-DRW-001_sheet3.png 52156
-png DBF-DRW-001_sheet4.png 34472
-png DBF-DRW-001_sheet5.png 31236
-png DBF-DRW-001_sheet6.png 29179
-png DBF-DRW-001_sheet7.png 30748
-png DBF-DRW-001_sheet8.png 40649
-png DBF-DRW-001_sheet9.png 27902
-saved C:\Users\dillo\Downloads\Berkeley\Fall\Capstone\Claude\Initial Drone Analysis\.claude\worktrees\sleepy-jackson-4a3ba7\cad\drawings\DBF-DRW-001.SLDDRW
+png DBF-DRW-001_sheet1.png 31344
+png DBF-DRW-001_sheet2.png 34611
+png DBF-DRW-001_sheet3.png 52204
+png DBF-DRW-001_sheet4.png 34499
+png DBF-DRW-001_sheet5.png 31263
+png DBF-DRW-001_sheet6.png 29206
+png DBF-DRW-001_sheet7.png 30775
+png DBF-DRW-001_sheet8.png 40675
+png DBF-DRW-001_sheet9.png 27930
+saved C:\Users\dillo\Downloads\Berkeley\Fall\Capstone\Claude\Initial Drone Analysis\cad\drawings\DBF-DRW-001.SLDDRW
