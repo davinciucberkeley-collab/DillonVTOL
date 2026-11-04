@@ -1,4 +1,4 @@
-﻿// Builds the SOLIDWORKS drawing set DBF-DRW-001 rev F for the model (one .SLDDRW, nine ANSI B sheets):
+﻿// Builds the SOLIDWORKS drawing set DBF-DRW-001 rev G for the model (one .SLDDRW, nine ANSI B sheets):
 //   1 General arrangement (GA): front elevation, plan, side elevation, isometric; overall dimensions; revision table
 //   2 Exploded assembly with one balloon per major part (VTOL_Exploded.SLDASM, offsets from cad/params.mjs)
 //   3 Parts list (parts-only bill of materials of the assembly: fasteners grouped by type with quantities)
@@ -46,7 +46,7 @@ class Drawings
     static string Mm(double v, string fmt) { return (v * 1000).ToString(fmt, IC); }
     static StringBuilder LogText = new StringBuilder();
     static void Log(string s) { Console.WriteLine(s); LogText.AppendLine(s); }
-    const string REV = "F", DATE = "2026-11-03";
+    const string REV = "G", DATE = "2026-11-03";
     static bool Probe = false; static HashSet<int> Only = new HashSet<int>();
     static List<string[]> Titles = new List<string[]>(); static List<double> SheetScales = new List<double>();
     static int SheetCount = 0;
@@ -476,11 +476,12 @@ class Drawings
         double span = 2 * (D("panelLen") + D("fusR"));
         var rev = new List<string[]> { new[] { "REV", "DATE", "DESCRIPTION", "BY" },
             new[] { "A", "2026-10-18", "CONCEPT GEOMETRY FOR DESIGN REVIEW (v0.3.1), 5 SHEETS", "DBF" },
-            new[] { "B", "2026-10-21", "HARDWARE SPEC APPLIED: SPLIT MOUNTS AND CLAMPS, BOOM\nSPLICE, M5 WING BOLTS, RUDDERS, ALL FASTENERS,\nTOLERANCES, FASTENER SCHEDULE; 9 SHEETS", "DBF" },
+            new[] { "B", "2026-10-21", "HARDWARE SPEC: SPLIT MOUNTS, CLAMPS, SPLICE, M5 BOLTS,\nRUDDERS, FASTENERS, TOLERANCES, SCHEDULE; 9 SHEETS", "DBF" },
             new[] { "C", "2026-10-23", "DRAWING LAYOUT AND BALLOONING CORRECTED", "DBF" },
             new[] { "D", "2026-10-25", "WING RESIZED FOR R11 STALL (CHORD 266.6, S 0.640 M2);\nSIZES FROM PARAMS", "DBF" },
             new[] { "E", "2026-10-25", "WING RESIZED TO 11.75 M/S DESIGN STALL (CHORD " + Mm("chord", "0.0") + ", S " + (D("chord") * span).ToString("0.000", IC) + " M2)", "DBF" },
-            new[] { "F", DATE, "CAD CLASHES CLEARED (CANOPY SLOTS, RUDDER CLEVIS, SPAR\nCHANNEL Ø26.0 FT05); FOAM TOLERANCE; JOINER COAXIALITY", "DBF" } };
+            new[] { "F", "2026-11-03", "CAD CLASHES CLEARED (CANOPY SLOTS, RUDDER CLEVIS, SPAR\nCHANNEL Ø26.0 FT05); FOAM TOLERANCE; JOINER COAXIALITY", "DBF" },
+            new[] { "G", DATE, "BATTERY WELL; BAY 225 (±30 CG SLIDE); TRAY 220; FC FWD", "DBF" } };
         Table("revision table", 0.248, 0.262, rev, new[] { 0.012, 0.024, 0.118, 0.012 }, NOTE_H, 0.0045);
         double revBottom = Boxes[Boxes.Count - 1].Y0;
         VI iso = Place("isometric", asm, "*Isometric", 0.322, 0.185, 20, false);

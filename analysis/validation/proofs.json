@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-03 13:23",
+ "generated": "2026-11-03 15:35",
  "script": "analysis/validation/proofs.py",
  "rules": "Inputs are read from the cited files at run time; constants name their source; links to other claims are value-checked.",
  "claims": {

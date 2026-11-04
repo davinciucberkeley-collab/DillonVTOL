@@ -15,7 +15,7 @@ GitHub's file view can't display the review: at 29 MB it only shows the raw sour
 | Test and evaluation plan DBF-TP-001 | [open](https://davinciucberkeley-collab.github.io/DillonVTOL/test-plan.html) | [`test-plan.html`](test-plan.html) · source [`docs/test/TEST-PLAN.md`](docs/test/TEST-PLAN.md) |
 | Flight software setup DBF-SW-001 | [open](https://davinciucberkeley-collab.github.io/DillonVTOL/flight-software.html) | [`flight-software.html`](flight-software.html) · source [`firmware/README.md`](firmware/README.md) |
 | Hot-wire templates (1:1) | [open](https://davinciucberkeley-collab.github.io/DillonVTOL/templates.html) | [`templates.html`](templates.html) |
-| Drawing set DBF-DRW-001 rev F (9 sheets) | [open](https://davinciucberkeley-collab.github.io/DillonVTOL/cad/drawings/DBF-DRW-001.PDF) | [`cad/drawings/DBF-DRW-001.PDF`](cad/drawings/DBF-DRW-001.PDF) (GitHub shows it directly) |
+| Drawing set DBF-DRW-001 rev G (9 sheets) | [open](https://davinciucberkeley-collab.github.io/DillonVTOL/cad/drawings/DBF-DRW-001.PDF) | [`cad/drawings/DBF-DRW-001.PDF`](cad/drawings/DBF-DRW-001.PDF) (GitHub shows it directly) |
 
 ## Current design (v0.4.0, resized 2026-11-02)
 
@@ -32,7 +32,7 @@ The numbers below come from `analysis/results.json` (sizing) and `analysis/aero/
 | Aerodynamics | CD0 0.0425 (0.0266 clean + stopped rotors, booms and gear), L/D 8.71 at 18 m/s (9.97 by the component build-up); stall 11.75 m/s at CL_max 1.115 (R11 ≤ 12 m/s, margin 2.1 %; `aero_results.json` `stall`); neutral point 38.4 % MAC with the pod (AVL), static margin 10.4 % at the 28 % CG (`aero_results.json` `neutral_point`) |
 | CFD | Full-aircraft SU2 (inviscid) on four meshes up to 23.3 M cells: CL 0.523 at 4°, grid uncertainty ±6.8 % (GCI); neutral point 39.7 % MAC, within 1.3 points of AVL (`analysis/cfd3d/out/cfd3d_results.json`) |
 | Structure | 6061-T6 booms, spar sockets and a 0.76 m slip-fit joiner; joiner reserve factor 1.41 on yield at 4.5 g with the Schrenk root moment 91.0 N·m (275 / 194.7 MPa, `analysis/results.json` C0 `struct.MS_J`, `struct.sigJ`, `struct.Mroot`) |
-| CAD | SOLIDWORKS model with drawing set DBF-DRW-001 rev F: 75 part files (`cad/model/*.SLDPRT` in git), 397 components including every screw, nut, washer and insert; 0 unexplained interferences and 0 drawing overlaps (`cad/verification.txt`, `cad/drawings/layout-check.txt`) |
+| CAD | SOLIDWORKS model with drawing set DBF-DRW-001 rev G: 75 part files (`cad/model/*.SLDPRT` in git), 397 components including every screw, nut, washer and insert; 0 unexplained interferences and 0 drawing overlaps (`cad/verification.txt`, `cad/drawings/layout-check.txt`) |
 | Avionics | CoreWing F405 Wing V2 + ArduPlane 4.7.2 stable QuadPlane; parameter file `firmware/vtol_c0.param` checked; SITL scenarios A–G passed on the earlier sizing, re-run on the current sizing pending |
 | Validation | 79 claims, each with its equations, inputs and sources: 40 Verified, 38 Partially Verified, 1 Unverified, 0 Failed (`analysis/validation/validation_matrix.json`); the 29 with arithmetic re-run to the same number (`analysis/validation/proofs.json`) |
 | Budget | **$1,854.55 committed** (goods $1,598.69 × 1.1025 tax + $91.99 shipping); **$145.45 reserve** (`analysis/results.json` C0 `bom`) |
@@ -84,3 +84,10 @@ cad/Sim.exe cad/params.txt cad/sim                      # FEA + modal + thermal 
 2. **Flying site and legal path.** Ask UCPD/Risk Services by 2026-11-06 and request Richmond Field Station.
 3. **Thrust stand first.** Qualify every motor and ESC before any flight; C0 has no hover motor-out tolerance.
 4. **Measure.** Each chapter of the review lists what the team still has to measure; the overview gathers them in one list.
+5. **Battery access.** The pod as modelled seals the pack under 35 mm of foam, and its bay allows only ± 5 mm of CG slide. Cut the access well before skinning and settle the bay length (build manual §8.2 items 18–21; [`docs/research/team-crosscheck.md`](docs/research/team-crosscheck.md)).
+6. **Bench checks from the team cross-check.** Servo rail with all five servos stalled (12.5 A against the 8 A BEC), per-motor current cap at 26 A, clamp re-torque after 24 h, and the compass interference test (firmware guide 6.3a).
+7. **Nautical Wings props.** A sponsorship offer for carbon props was reported by the team in October 2026. If it is confirmed in writing, the reserve rises from $145.45 to about $229.43 (EST). The retail props stay in the BOM until then.
+
+## Team repositories
+
+[DBF-VTOL](https://github.com/davinciucberkeley-collab/DBF-VTOL) holds the team's inventory and electrical overview ([view online](https://claude.ai/artifact/C6JEuXWN4B4Aoay5zHU3Pg)), the Fusion model, the concept models and the Nautical Wings prop spec sheet. It is built on the earlier v0.3.1 sizing. [`docs/research/team-crosscheck.md`](docs/research/team-crosscheck.md) records which of its findings apply to this v0.4.0 design and what was done about each one.
