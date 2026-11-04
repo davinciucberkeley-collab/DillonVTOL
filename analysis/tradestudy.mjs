@@ -211,7 +211,7 @@ const tiltCommon = (nTilt, nLift, nStoppedInCruise) => ({
 });
 V.push({ id:'TR-tri', label:'Tilt-tricopter: 2 front tilting X4110S + 1 rear fixed (stopped in cruise), twin boom, no pusher', family:'Tiltrotor', meetsR1:false, geo:'twin',
   p:{ ...tiltCommon(2,3,1), mWirePerLift:0.03 }, extras:[{ item:'2 tilt axes (servo+ServoBlock+yoke)', kg:2*TILT_AXIS_KG, src:'S7, S8, yoke EST' }],
-  bom: api => { api.qty(/^SunnySky X4110S 400KV$/, 3); api.remove(/X4110S 400KV \(pusher\)/); api.remove(/APC 14x8.5EP/); api.qty(/SoloGood 45A/, 1);
+  bom: api => { api.qty(/^SunnySky X4110S 400KV$/, 3); api.remove(/X4110S 400KV \(pusher\)/); api.remove(/APC 14x8.5EP/); api.qty(/LANRC BLHeli_S 45A ESC/, 1);   // one 4-pack: 3 rotors + 1 spare (BOM rev 2026-11-01, docs/research/bom-savings.md)
     api.add('Tilt','goBILDA 2000-25-2 servo (tilt), +1 spare', 3, 36.99, 'S7'); api.add('Tilt','ServoCity Compact ServoBlock H25T', 2, 29.99, 'S8');},
   newVendors:1, pieces:6, build:{ motors:3, servos:7, tiltAxes:2, wingPivot:0, wingPanels:2, boomSegs:4, special:0 },
   ctl:5, ctlWhy:'Supported (Q_TILT_TYPE/Q_TILT_MASK, vectored yaw; PX4 reference E-flite Convergence) (S15, S19); forum crashes from Q_TILT_MASK errors and tilt-servo stripping (S26).',
@@ -238,7 +238,7 @@ V.push({ id:'TR-bi', label:'Bicopter tiltrotor: 2 x X4120 15x8 on wing nacelles,
   p:{ ...X4120, noPusher:true, mPusherSet:0, nLift:2, nBooms:1, boomTotalLen:1.6, tailAreaRatio:BASEP.tailAreaRatio, CdA_rotor:0, mGear: BASEP.mGear },
   extras:[{ item:'2 tilt axes (pitch control by tilt: must be fast)', kg:2*TILT_AXIS_KG, src:'S7, S8, yoke EST' }],
   bom: api => { api.remove(/^SunnySky X4110S 400KV$/); api.remove(/X4110S 400KV \(pusher\)/); api.remove(/APC 14x8.5EP/); api.remove(/JeeFly 1755 carbon prop/); api.remove(/JeeFly 1755 spare/);
-    api.remove(/SoloGood 45A/); api.remove(/X4110S spare motor/);
+    api.remove(/LANRC BLHeli_S 45A ESC/);   // BOM rev 2026-11-01: LANRC replaced SoloGood; the X4110S spare is reserve cash (sizing.mjs)
     api.add('Lift propulsion','SunnySky X4120 V3 480KV', 3, 105.99, 'S6', '2 + 1 spare'); api.add('Lift propulsion','Hobbywing Skywalker 100A V2 ESC', 3, 49.99, 'S10', '2 + 1 spare');
     api.add('Lift propulsion','APC 15x8E prop', 4, 8.05, 'S11', 'needs CW/CCW pair: APC E props are one rotation (check) — —');
     api.qty(/6061-T6 tube 1.000 x 0.035/, 1);
@@ -277,7 +277,7 @@ V.push({ id:'TS-duo', label:'Twin-motor tailsitter: 2 x X4120 15x8 on the wing, 
   p:{ ...X4120, noPusher:true, mPusherSet:0, nLift:2, nBooms:0, boomTotalLen:0, tailAreaRatio:0.06, CdA_rotor:0, CLmax:BASEP.CLmax*TS_CLMAX_RATIO, CD0_clean:BASEP.CD0_clean-TS_DCD0, mGear:0.08, mServos:2*0.0432 },
   extras:[],
   bom: api => { api.remove(/^SunnySky X4110S 400KV$/); api.remove(/X4110S 400KV \(pusher\)/); api.remove(/APC 14x8.5EP/); api.remove(/JeeFly 1755 carbon prop/); api.remove(/JeeFly 1755 spare/);
-    api.remove(/SoloGood 45A/); api.remove(/X4110S spare motor/); api.remove(/6061-T6 tube 1.000 x 0.035/); api.qty(/EMAX ES3005HV servo$/, 2);
+    api.remove(/LANRC BLHeli_S 45A ESC/); api.remove(/6061-T6 tube 1.000 x 0.035/); api.qty(/EMAX ES3005HV servo$/, 2);   // BOM rev 2026-11-01: LANRC replaced SoloGood; the X4110S spare is reserve cash (sizing.mjs)
     api.add('Lift propulsion','SunnySky X4120 V3 480KV', 3, 105.99, 'S6', '2 + 1 spare'); api.add('Lift propulsion','Hobbywing Skywalker 100A V2 ESC', 3, 49.99, 'S10', '2 + 1 spare');
     api.add('Lift propulsion','APC 15x8E prop', 4, 8.05, 'S11'); },
   newVendors:1, pieces:3, build:{ motors:2, servos:2, tiltAxes:0, wingPivot:0, wingPanels:2, boomSegs:0, special:0 },
