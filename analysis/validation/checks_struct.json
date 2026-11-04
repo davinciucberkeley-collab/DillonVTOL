@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-03 15:35",
+ "generated": "2026-11-03 18:28",
  "script": "analysis/validation/check_struct.py",
  "design": "analysis/results.json generated 2026-11-01, MTOW 7.4380 kg",
  "material": {
@@ -1658,5 +1658,5 @@
    "note": ""
   }
  ],
- "runtime_s": 0.62
+ "runtime_s": 0.67
 }

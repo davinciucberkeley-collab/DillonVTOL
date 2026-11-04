@@ -1,5 +1,5 @@
 {
- "generated": "2026-11-03 15:35",
+ "generated": "2026-11-03 18:28",
  "script": "analysis/validation/proofs.py",
  "rules": "Inputs are read from the cited files at run time; constants name their source; links to other claims are value-checked.",
  "claims": {
@@ -780,14 +780,14 @@
     },
     {
      "file": "analysis/aero.json",
-     "what": "wing_CLa_per_rad 4.54695 (AR 7.45479)"
+     "what": "wing_CLa_per_rad 4.54544 (AR 7.44571)"
     }
    ],
    "check": {
-    "method": "lifting line: wing 4.78 /rad vs VLM 4.55 (AERO-10, +5.1 %); wing + tail 5.13 vs AVL no pod 4.87 (AERO-10b, +5.3 %)",
+    "method": "lifting line: wing 4.78 /rad vs VLM 4.55 (AERO-10, +5.2 %); wing + tail 5.13 vs AVL no pod 4.87 (AERO-10b, +5.3 %)",
     "value": 4.780724,
-    "repo_value": 4.54695,
-    "delta_pct": 5.14,
+    "repo_value": 4.54544,
+    "delta_pct": 5.18,
     "script": "analysis/validation/check_aero.py#AERO-10,AERO-10b"
    },
    "external": [
